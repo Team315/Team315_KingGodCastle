@@ -28,6 +28,7 @@ public:
 		int textSize = 25);
 
 	void SetButtonSize(float sizeX, float sizeY);
+	bool CollideTest(Vector2f pos);
 	Color GetBaseColor() { return baseColor; }
 	Color GetHoverColor() { return hoverColor; }
 };

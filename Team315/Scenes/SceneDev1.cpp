@@ -20,7 +20,7 @@ void SceneDev1::Init()
 	button->SetButton(
 		*RESOURCE_MGR->GetTexture("graphics/UIBackground.png"),
 		*RESOURCE_MGR->GetFont("fonts/DNFBitBitTTF.ttf"), "button",
-		10, 10, 100, 100, 2.f, 2.f, Color::Blue, Color::Cyan);
+		10, 10, 100, 100, 2.f, 2.f);
 	objList.push_back(button);
 
 	for (auto obj : objList)
@@ -59,10 +59,14 @@ void SceneDev1::Update(float dt)
 	// dev input end
 
 	// game input
-	if (button->GetHitbox().getGlobalBounds().contains(ScreenToUiPos(Vector2i(InputMgr::GetMousePos()))))
+	if (button->CollideTest(ScreenToUiPos(InputMgr::GetMousePosI())))
 	{
-		CLOG::Print3String("contain");
 		button->SetColor(button->GetHoverColor());
+		if (InputMgr::GetMouseDown(Mouse::Left))
+			CLOG::Print3String("Left");
+		
+		if (InputMgr::GetMouseDown(Mouse::Right))
+			CLOG::Print3String("Right");
 	}
 	else
 	{

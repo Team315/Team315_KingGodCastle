@@ -48,3 +48,12 @@ void Button::SetButtonSize(float sizeX, float sizeY)
 {
 	sprite.setScale(sizeX, sizeY);
 }
+
+bool Button::CollideTest(Vector2f pos)
+{
+	if (hitbox.getGlobalBounds().contains(pos))
+	{
+		return true;
+	}
+	return false;
+}

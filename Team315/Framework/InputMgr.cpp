@@ -139,9 +139,14 @@ float InputMgr::GetAxisRaw(Axis axis)
     return 0;
 }
 
-const Vector2f& InputMgr::GetMousePos()
+const Vector2f& InputMgr::GetMousePosF()
 {
     return mousePos;
+}
+
+const Vector2i& InputMgr::GetMousePosI()
+{
+    return (Vector2i)mousePos;
 }
 
 bool InputMgr::GetMouseDown(Mouse::Button key)
