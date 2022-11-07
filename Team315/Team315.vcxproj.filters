@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="DataTable\DataTable.h">
+      <Filter>DataTable</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTable\DataTableMgr.h">
+      <Filter>DataTable</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Framework.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\InputMgr.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTable\StringTable.h">
+      <Filter>DataTable</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utils.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\ResourceMgr.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="3rd\SingleTon.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="3rd\rapidcsv.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\Scene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\SceneDev1.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\SceneDev2.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\SceneMgr.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\TextObj.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\Object.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject\SpriteObj.h">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\SoundMgr.h">
+      <Filter>Frameworks</Filter>
+    </ClInclude>
+    <ClInclude Include="3rd\OBB.h" />
+    <ClInclude Include="3rd\ObjectPool.h" />
+    <ClInclude Include="Framework\ConsoleLogger.h" />
+    <ClInclude Include="Framework\AnimationClip.h" />
+    <ClInclude Include="Framework\Animator.h" />
+    <ClInclude Include="GameObject\VertexArrayObj.h" />
+    <ClInclude Include="Frameworks.h" />
+    <ClInclude Include="UI\UIMgr.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DataTable\DataTable.cpp">
+      <Filter>DataTable</Filter>
+    </ClCompile>
+    <ClCompile Include="DataTable\DataTableMgr.cpp">
+      <Filter>DataTable</Filter>
+    </ClCompile>
+    <ClCompile Include="DataTable\StringTable.cpp">
+      <Filter>DataTable</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utils.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\ResourceMgr.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\InputMgr.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Framework.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\Scene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\SceneDev1.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\SceneDev2.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\SceneMgr.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\Object.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\SpriteObj.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject\TextObj.cpp">
+      <Filter>GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\SoundMgr.cpp">
+      <Filter>Frameworks</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\ConsoleLogger.cpp" />
+    <ClCompile Include="Framework\AnimationClip.cpp" />
+    <ClCompile Include="Framework\Animator.cpp" />
+    <ClCompile Include="GameObject\VertexArrayObj.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="UI\UIMgr.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DataTable">
+      <UniqueIdentifier>{e6c2f8b2-5344-49c1-91f3-3ec50ad99541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{9af66f21-85f3-4ded-a0a8-5443fcb65d51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Frameworks">
+      <UniqueIdentifier>{612e23f2-6159-4547-9909-3f129904672f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd">
+      <UniqueIdentifier>{26316097-a026-463e-bd2a-91197fc49f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{e0c6f671-82c5-4272-8ee2-eaf24843cb3d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
