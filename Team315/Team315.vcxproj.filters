@@ -60,6 +60,9 @@
     <ClInclude Include="GameObject\VertexArrayObj.h" />
     <ClInclude Include="Frameworks.h" />
     <ClInclude Include="UI\UIMgr.h" />
+    <ClInclude Include="GameObject\Button.h" />
+    <ClInclude Include="GameObject\FloatingObj.h" />
+    <ClInclude Include="GameObject\RectangleObj.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataTable\DataTable.cpp">
@@ -113,6 +116,9 @@
     <ClCompile Include="GameObject\VertexArrayObj.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="UI\UIMgr.cpp" />
+    <ClCompile Include="GameObject\Button.cpp" />
+    <ClCompile Include="GameObject\FloatingObj.cpp" />
+    <ClCompile Include="GameObject\RectangleObj.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">

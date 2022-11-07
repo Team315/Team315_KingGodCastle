@@ -23,5 +23,5 @@ public:
 	Vector2f GetSize()const;
 	FloatRect GetGlobalBounds() const;
 
-	void SetPos(const Vector2f& pos) override;
+	virtual void SetPos(const Vector2f& pos) override;
 };

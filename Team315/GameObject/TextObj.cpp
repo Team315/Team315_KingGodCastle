@@ -5,10 +5,9 @@ TextObj::TextObj(Font& font, string textString,
 {
     text.setFont(font);
     text.setString(textString);
-    text.setPosition(posX, posY);
-    position = { posX, posY };
     text.setFillColor(textColor);
     text.setCharacterSize(textSize);
+    SetPos(Vector2f(posX, posY));
 }
 
 TextObj::TextObj(Font& font,  wstring textString,
@@ -16,10 +15,9 @@ TextObj::TextObj(Font& font,  wstring textString,
 {
     text.setFont(font);
     text.setString(textString);
-    text.setPosition(posX, posY);
-    position = { posX, posY };
     text.setFillColor(textColor);
     text.setCharacterSize(textSize);
+    SetPos(Vector2f(posX, posY));
 }
 
 TextObj::~TextObj()

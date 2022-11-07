@@ -1,9 +1,12 @@
 #pragma once
 #include "Scene.h"
 
+class Button;
+
 class SceneDev1 : public Scene
 {
 protected:
+	Button* button;
 
 public:
 	SceneDev1();

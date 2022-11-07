@@ -10,6 +10,7 @@ class ConsoleLogger
 public:
 	static void PrintVectorState(Vector2f vec, string name = "");
 	static void PrintVectorState(Vector2i vec, string name = "");
+	static void PrintVectorState(Vector2u vec, string name = "");
 	static void PrintRectState(FloatRect fr, string name = "");
 
 	static void Print3String(

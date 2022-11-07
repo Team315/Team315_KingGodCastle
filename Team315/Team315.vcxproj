@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="3rd\OBB.h" />
     <ClInclude Include="3rd\ObjectPool.h" />
+    <ClInclude Include="GameObject\Button.h" />
     <ClInclude Include="DataTable\DataTable.h" />
     <ClInclude Include="DataTable\DataTableMgr.h" />
     <ClInclude Include="DataTable\StringTable.h" />
@@ -162,7 +163,9 @@
     <ClInclude Include="Framework\ResourceMgr.h" />
     <ClInclude Include="3rd\SingleTon.h" />
     <ClInclude Include="Framework\Utils.h" />
+    <ClInclude Include="GameObject\FloatingObj.h" />
     <ClInclude Include="GameObject\Object.h" />
+    <ClInclude Include="GameObject\RectangleObj.h" />
     <ClInclude Include="GameObject\VertexArrayObj.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneDev1.h" />
@@ -174,6 +177,7 @@
     <ClInclude Include="UI\UIMgr.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject\Button.cpp" />
     <ClCompile Include="DataTable\DataTable.cpp" />
     <ClCompile Include="DataTable\DataTableMgr.cpp" />
     <ClCompile Include="DataTable\StringTable.cpp" />
@@ -184,7 +188,9 @@
     <ClCompile Include="Framework\InputMgr.cpp" />
     <ClCompile Include="Framework\ResourceMgr.cpp" />
     <ClCompile Include="Framework\Utils.cpp" />
+    <ClCompile Include="GameObject\FloatingObj.cpp" />
     <ClCompile Include="GameObject\Object.cpp" />
+    <ClCompile Include="GameObject\RectangleObj.cpp" />
     <ClCompile Include="GameObject\VertexArrayObj.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
