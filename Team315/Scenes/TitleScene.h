@@ -1,9 +1,13 @@
 #pragma once
 #include "Scene.h"
+#include "../GameObject/SpriteObj.h"
+#include "../GameObject/TextObj.h"
 
 class TitleScene : public Scene
 {
 protected:
+	SpriteObj* background;
+	TextObj* titleText;
 
 public:
 	TitleScene();

@@ -5,6 +5,17 @@ TitleScene::TitleScene()
 	: Scene(Scenes::Title)
 {
 	CLOG::Print3String("title create");
+	background = new SpriteObj();
+	background->SetTexture(*RESOURCE_MGR->GetTexture("graphics/titleBackground.png"));
+	objList.push_back(background);
+
+	Vector2i wSize = FRAMEWORK->GetWindowSize();
+	titleText = new TextObj(
+		*RESOURCE_MGR->GetFont("fonts/DNFBitBitTTF.ttf"),
+		"Press Space bar to start!",
+		wSize.x * 0.4f, wSize.y * 0.7f, Color::Black, 50.f);
+	titleText->SetOrigin(Origins::MC);
+	objList.push_back(titleText);
 }
 
 TitleScene::~TitleScene()
