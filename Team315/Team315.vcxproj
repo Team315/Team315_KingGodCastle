@@ -183,6 +183,8 @@
     <ClInclude Include="05.Scenes\TitleScene.h" />
     <ClInclude Include="05.Scenes\ToolScene.h" />
     <ClInclude Include="01.Manager\UIMgr.h" />
+    <ClInclude Include="03.GameObject\Player\Evan.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="05.Scenes\BattleScene.cpp" />
@@ -202,6 +204,8 @@
     <ClCompile Include="02.Object\RectangleObj.cpp" />
     <ClCompile Include="02.Object\VertexArrayObj.cpp" />
     <ClCompile Include="03.GameObject\Charactor.cpp" />
+    <ClCompile Include="03.GameObject\Player\Evan.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="05.Scenes\MainScene.cpp" />
     <ClCompile Include="05.Scenes\Scene.cpp" />
