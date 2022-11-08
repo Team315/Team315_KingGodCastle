@@ -119,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./00.Framework;./01.Manager;./02.Object;./03.GameObject;04.UiObject;./05.Scenes;./06.DataTable;./97.DataTable;./98.3rd;./99.Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./00.Framework;./01.Manager;./02.Object;./03.GameObject;./04.UiObject;./05.ToolObject;./06.Scenes;./97.DataTable;./98.3rd;./99.Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,6 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./00.Framework;./01.Manager;./02.Object;./03.GameObject;./04.UiObject;./05.ToolObject;./06.Scenes;./97.DataTable;./98.3rd;./99.Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,7 +150,7 @@
   <ItemGroup>
     <ClInclude Include="98.3rd\OBB.h" />
     <ClInclude Include="98.3rd\ObjectPool.h" />
-    <ClInclude Include="05.Scenes\BattleScene.h" />
+    <ClInclude Include="06.Scenes\BattleScene.h" />
     <ClInclude Include="04.UiObject\Button.h" />
     <ClInclude Include="97.DataTable\DataTable.h" />
     <ClInclude Include="97.DataTable\DataTableMgr.h" />
@@ -174,20 +175,20 @@
     <ClInclude Include="02.Object\Object.h" />
     <ClInclude Include="02.Object\RectangleObj.h" />
     <ClInclude Include="02.Object\VertexArrayObj.h" />
-    <ClInclude Include="05.Scenes\MainScene.h" />
-    <ClInclude Include="05.Scenes\Scene.h" />
+    <ClInclude Include="06.Scenes\MainScene.h" />
+    <ClInclude Include="06.Scenes\Scene.h" />
     <ClInclude Include="01.Manager\SceneMgr.h" />
     <ClInclude Include="02.Object\SpriteObj.h" />
     <ClInclude Include="02.Object\TextObj.h" />
     <ClInclude Include="01.Manager\SoundMgr.h" />
-    <ClInclude Include="05.Scenes\TitleScene.h" />
-    <ClInclude Include="05.Scenes\ToolScene.h" />
+    <ClInclude Include="06.Scenes\TitleScene.h" />
+    <ClInclude Include="06.Scenes\ToolScene.h" />
     <ClInclude Include="01.Manager\UIMgr.h" />
     <ClInclude Include="03.GameObject\Player\Evan.h" />
     <ClInclude Include="03.GameObject\Monster\Goblin.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="05.Scenes\BattleScene.cpp" />
+    <ClCompile Include="06.Scenes\BattleScene.cpp" />
     <ClCompile Include="04.UiObject\Button.cpp" />
     <ClCompile Include="97.DataTable\DataTable.cpp" />
     <ClCompile Include="97.DataTable\DataTableMgr.cpp" />
@@ -207,14 +208,14 @@
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="05.Scenes\MainScene.cpp" />
-    <ClCompile Include="05.Scenes\Scene.cpp" />
+    <ClCompile Include="06.Scenes\MainScene.cpp" />
+    <ClCompile Include="06.Scenes\Scene.cpp" />
     <ClCompile Include="01.Manager\SceneMgr.cpp" />
     <ClCompile Include="02.Object\SpriteObj.cpp" />
     <ClCompile Include="02.Object\TextObj.cpp" />
     <ClCompile Include="01.Manager\SoundMgr.cpp" />
-    <ClCompile Include="05.Scenes\TitleScene.cpp" />
-    <ClCompile Include="05.Scenes\ToolScene.cpp" />
+    <ClCompile Include="06.Scenes\TitleScene.cpp" />
+    <ClCompile Include="06.Scenes\ToolScene.cpp" />
     <ClCompile Include="01.Manager\UIMgr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -28,7 +28,7 @@
     <ClInclude Include="98.3rd\rapidcsv.h">
       <Filter>3rd</Filter>
     </ClInclude>
-    <ClInclude Include="05.Scenes\Scene.h">
+    <ClInclude Include="06.Scenes\Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="01.Manager\SceneMgr.h">
@@ -56,10 +56,10 @@
     <ClInclude Include="04.UiObject\Button.h" />
     <ClInclude Include="02.Object\FloatingObj.h" />
     <ClInclude Include="02.Object\RectangleObj.h" />
-    <ClInclude Include="05.Scenes\TitleScene.h" />
-    <ClInclude Include="05.Scenes\MainScene.h" />
-    <ClInclude Include="05.Scenes\BattleScene.h" />
-    <ClInclude Include="05.Scenes\ToolScene.h" />
+    <ClInclude Include="06.Scenes\TitleScene.h" />
+    <ClInclude Include="06.Scenes\MainScene.h" />
+    <ClInclude Include="06.Scenes\BattleScene.h" />
+    <ClInclude Include="06.Scenes\ToolScene.h" />
     <ClInclude Include="03.GameObject\Charactor.h" />
     <ClInclude Include="99.Include\Include.h" />
     <ClInclude Include="99.Include\Headers.h" />
@@ -92,7 +92,7 @@
     <ClCompile Include="00.Framework\Framework.cpp">
       <Filter>Frameworks</Filter>
     </ClCompile>
-    <ClCompile Include="05.Scenes\Scene.cpp">
+    <ClCompile Include="06.Scenes\Scene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="01.Manager\SceneMgr.cpp">
@@ -119,10 +119,10 @@
     <ClCompile Include="04.UiObject\Button.cpp" />
     <ClCompile Include="02.Object\FloatingObj.cpp" />
     <ClCompile Include="02.Object\RectangleObj.cpp" />
-    <ClCompile Include="05.Scenes\TitleScene.cpp" />
-    <ClCompile Include="05.Scenes\MainScene.cpp" />
-    <ClCompile Include="05.Scenes\BattleScene.cpp" />
-    <ClCompile Include="05.Scenes\ToolScene.cpp" />
+    <ClCompile Include="06.Scenes\TitleScene.cpp" />
+    <ClCompile Include="06.Scenes\MainScene.cpp" />
+    <ClCompile Include="06.Scenes\BattleScene.cpp" />
+    <ClCompile Include="06.Scenes\ToolScene.cpp" />
     <ClCompile Include="03.GameObject\Charactor.cpp" />
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin.cpp" />

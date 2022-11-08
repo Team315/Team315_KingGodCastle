@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
-#include "../02.Object/SpriteObj.h"
-#include "../02.Object/TextObj.h"
+#include "SpriteObj.h"
+#include "TextObj.h"
 
 class TitleScene : public Scene
 {
