@@ -5,6 +5,8 @@ MainScene::MainScene()
 	: Scene(Scenes::Main)
 {
 	CLOG::Print3String("main create");
+	ui = new MainSceneUI(this);
+	worldView.setViewport(FloatRect(0, 0, 1, 1));
 }
 
 MainScene::~MainScene()
@@ -14,6 +16,8 @@ MainScene::~MainScene()
 void MainScene::Init()
 {
 	CLOG::Print3String("main Init");
+
+	objList.push_back(ui);
 
 	for (auto obj : objList)
 	{
@@ -58,5 +62,6 @@ void MainScene::Update(float dt)
 
 void MainScene::Draw(RenderWindow& window)
 {
+	ui->DrawBackground(window);
 	Scene::Draw(window);
 }

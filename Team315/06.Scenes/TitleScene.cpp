@@ -48,6 +48,7 @@ void TitleScene::Exit()
 
 void TitleScene::Update(float dt)
 {
+	// Dev Input
 	if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
 	{
 		SCENE_MGR->ChangeScene(Scenes::Tool);
@@ -64,8 +65,12 @@ void TitleScene::Update(float dt)
 		return;
 	}
 
-
-
+	// Game Input
+	if (InputMgr::GetKeyDown(Keyboard::Key::Space))
+	{
+		SCENE_MGR->ChangeScene(Scenes::Main);
+		return;
+	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 		exit(0);
 

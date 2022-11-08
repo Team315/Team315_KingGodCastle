@@ -1,9 +1,11 @@
 #pragma once
 #include "Scene.h"
+#include "MainSceneUI.h"
 
 class MainScene : public Scene
 {
 protected:
+	MainSceneUI* ui;
 
 public:
 	MainScene();
