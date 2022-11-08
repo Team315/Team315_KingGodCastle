@@ -3,7 +3,7 @@
 
 int main()
 {
-    FRAMEWORK->Init(1280, 720, "this is title");
+    FRAMEWORK->Init(WINDOW_WIDTH, WINDOW_HEIGHT, "King God Castle");
     FRAMEWORK->Do();
 
     return 0;
