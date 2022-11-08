@@ -1,120 +1,127 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="DataTable\DataTable.h">
+    <ClInclude Include="97.DataTable\DataTable.h">
       <Filter>DataTable</Filter>
     </ClInclude>
-    <ClInclude Include="DataTable\DataTableMgr.h">
+    <ClInclude Include="97.DataTable\DataTableMgr.h">
       <Filter>DataTable</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Framework.h">
+    <ClInclude Include="00.Framework\Framework.h">
       <Filter>Frameworks</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\InputMgr.h">
+    <ClInclude Include="01.Manager\InputMgr.h">
       <Filter>Frameworks</Filter>
     </ClInclude>
-    <ClInclude Include="DataTable\StringTable.h">
+    <ClInclude Include="97.DataTable\StringTable.h">
       <Filter>DataTable</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\Utils.h">
+    <ClInclude Include="00.Framework\Utils.h">
       <Filter>Frameworks</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\ResourceMgr.h">
+    <ClInclude Include="01.Manager\ResourceMgr.h">
       <Filter>Frameworks</Filter>
     </ClInclude>
-    <ClInclude Include="3rd\SingleTon.h">
+    <ClInclude Include="98.3rd\SingleTon.h">
       <Filter>3rd</Filter>
     </ClInclude>
-    <ClInclude Include="3rd\rapidcsv.h">
+    <ClInclude Include="98.3rd\rapidcsv.h">
       <Filter>3rd</Filter>
     </ClInclude>
-    <ClInclude Include="Scenes\Scene.h">
+    <ClInclude Include="05.Scenes\Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Scenes\SceneMgr.h">
+    <ClInclude Include="01.Manager\SceneMgr.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\TextObj.h">
+    <ClInclude Include="02.Object\TextObj.h">
       <Filter>GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\Object.h">
+    <ClInclude Include="02.Object\Object.h">
       <Filter>GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject\SpriteObj.h">
+    <ClInclude Include="02.Object\SpriteObj.h">
       <Filter>GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Framework\SoundMgr.h">
+    <ClInclude Include="01.Manager\SoundMgr.h">
       <Filter>Frameworks</Filter>
     </ClInclude>
-    <ClInclude Include="3rd\OBB.h" />
-    <ClInclude Include="3rd\ObjectPool.h" />
-    <ClInclude Include="Framework\ConsoleLogger.h" />
-    <ClInclude Include="Framework\AnimationClip.h" />
-    <ClInclude Include="Framework\Animator.h" />
-    <ClInclude Include="GameObject\VertexArrayObj.h" />
-    <ClInclude Include="Frameworks.h" />
-    <ClInclude Include="UI\UIMgr.h" />
-    <ClInclude Include="GameObject\Button.h" />
-    <ClInclude Include="GameObject\FloatingObj.h" />
-    <ClInclude Include="GameObject\RectangleObj.h" />
-    <ClInclude Include="Scenes\TitleScene.h" />
-    <ClInclude Include="Scenes\MainScene.h" />
-    <ClInclude Include="Scenes\BattleScene.h" />
-    <ClInclude Include="Scenes\ToolScene.h" />
+    <ClInclude Include="98.3rd\OBB.h" />
+    <ClInclude Include="98.3rd\ObjectPool.h" />
+    <ClInclude Include="00.Framework\ConsoleLogger.h" />
+    <ClInclude Include="00.Framework\AnimationClip.h" />
+    <ClInclude Include="00.Framework\Animator.h" />
+    <ClInclude Include="02.Object\VertexArrayObj.h" />
+    <ClInclude Include="01.Manager\UIMgr.h" />
+    <ClInclude Include="04.UiObject\Button.h" />
+    <ClInclude Include="02.Object\FloatingObj.h" />
+    <ClInclude Include="02.Object\RectangleObj.h" />
+    <ClInclude Include="05.Scenes\TitleScene.h" />
+    <ClInclude Include="05.Scenes\MainScene.h" />
+    <ClInclude Include="05.Scenes\BattleScene.h" />
+    <ClInclude Include="05.Scenes\ToolScene.h" />
+    <ClInclude Include="03.GameObject\Charactor.h" />
+    <ClInclude Include="99.Include\Include.h" />
+    <ClInclude Include="99.Include\Headers.h" />
+    <ClInclude Include="99.Include\Constant.h" />
+    <ClInclude Include="99.Include\Define.h" />
+    <ClInclude Include="99.Include\EnumClass.h" />
+    <ClInclude Include="99.Include\Struct.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DataTable\DataTable.cpp">
+    <ClCompile Include="97.DataTable\DataTable.cpp">
       <Filter>DataTable</Filter>
     </ClCompile>
-    <ClCompile Include="DataTable\DataTableMgr.cpp">
+    <ClCompile Include="97.DataTable\DataTableMgr.cpp">
       <Filter>DataTable</Filter>
     </ClCompile>
-    <ClCompile Include="DataTable\StringTable.cpp">
+    <ClCompile Include="97.DataTable\StringTable.cpp">
       <Filter>DataTable</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Utils.cpp">
+    <ClCompile Include="00.Framework\Utils.cpp">
       <Filter>Frameworks</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\ResourceMgr.cpp">
+    <ClCompile Include="01.Manager\ResourceMgr.cpp">
       <Filter>Frameworks</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\InputMgr.cpp">
+    <ClCompile Include="01.Manager\InputMgr.cpp">
       <Filter>Frameworks</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\Framework.cpp">
+    <ClCompile Include="00.Framework\Framework.cpp">
       <Filter>Frameworks</Filter>
     </ClCompile>
-    <ClCompile Include="Scenes\Scene.cpp">
+    <ClCompile Include="05.Scenes\Scene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Scenes\SceneMgr.cpp">
+    <ClCompile Include="01.Manager\SceneMgr.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\Object.cpp">
+    <ClCompile Include="02.Object\Object.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\SpriteObj.cpp">
+    <ClCompile Include="02.Object\SpriteObj.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject\TextObj.cpp">
+    <ClCompile Include="02.Object\TextObj.cpp">
       <Filter>GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\SoundMgr.cpp">
+    <ClCompile Include="01.Manager\SoundMgr.cpp">
       <Filter>Frameworks</Filter>
     </ClCompile>
-    <ClCompile Include="Framework\ConsoleLogger.cpp" />
-    <ClCompile Include="Framework\AnimationClip.cpp" />
-    <ClCompile Include="Framework\Animator.cpp" />
-    <ClCompile Include="GameObject\VertexArrayObj.cpp" />
+    <ClCompile Include="00.Framework\ConsoleLogger.cpp" />
+    <ClCompile Include="00.Framework\AnimationClip.cpp" />
+    <ClCompile Include="00.Framework\Animator.cpp" />
+    <ClCompile Include="02.Object\VertexArrayObj.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="UI\UIMgr.cpp" />
-    <ClCompile Include="GameObject\Button.cpp" />
-    <ClCompile Include="GameObject\FloatingObj.cpp" />
-    <ClCompile Include="GameObject\RectangleObj.cpp" />
-    <ClCompile Include="Scenes\TitleScene.cpp" />
-    <ClCompile Include="Scenes\MainScene.cpp" />
-    <ClCompile Include="Scenes\BattleScene.cpp" />
-    <ClCompile Include="Scenes\ToolScene.cpp" />
+    <ClCompile Include="01.Manager\UIMgr.cpp" />
+    <ClCompile Include="04.UiObject\Button.cpp" />
+    <ClCompile Include="02.Object\FloatingObj.cpp" />
+    <ClCompile Include="02.Object\RectangleObj.cpp" />
+    <ClCompile Include="05.Scenes\TitleScene.cpp" />
+    <ClCompile Include="05.Scenes\MainScene.cpp" />
+    <ClCompile Include="05.Scenes\BattleScene.cpp" />
+    <ClCompile Include="05.Scenes\ToolScene.cpp" />
+    <ClCompile Include="03.GameObject\Charactor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">
