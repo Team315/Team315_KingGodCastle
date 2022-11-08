@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="3rd\OBB.h" />
     <ClInclude Include="3rd\ObjectPool.h" />
+    <ClInclude Include="Scenes\BattleScene.h" />
     <ClInclude Include="GameObject\Button.h" />
     <ClInclude Include="DataTable\DataTable.h" />
     <ClInclude Include="DataTable\DataTableMgr.h" />
@@ -167,16 +168,18 @@
     <ClInclude Include="GameObject\Object.h" />
     <ClInclude Include="GameObject\RectangleObj.h" />
     <ClInclude Include="GameObject\VertexArrayObj.h" />
+    <ClInclude Include="Scenes\MainScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
-    <ClInclude Include="Scenes\SceneDev1.h" />
-    <ClInclude Include="Scenes\SceneDev2.h" />
     <ClInclude Include="Scenes\SceneMgr.h" />
     <ClInclude Include="GameObject\SpriteObj.h" />
     <ClInclude Include="GameObject\TextObj.h" />
     <ClInclude Include="Framework\SoundMgr.h" />
+    <ClInclude Include="Scenes\TitleScene.h" />
+    <ClInclude Include="Scenes\ToolScene.h" />
     <ClInclude Include="UI\UIMgr.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Scenes\BattleScene.cpp" />
     <ClCompile Include="GameObject\Button.cpp" />
     <ClCompile Include="DataTable\DataTable.cpp" />
     <ClCompile Include="DataTable\DataTableMgr.cpp" />
@@ -193,13 +196,14 @@
     <ClCompile Include="GameObject\RectangleObj.cpp" />
     <ClCompile Include="GameObject\VertexArrayObj.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scenes\MainScene.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
-    <ClCompile Include="Scenes\SceneDev1.cpp" />
-    <ClCompile Include="Scenes\SceneDev2.cpp" />
     <ClCompile Include="Scenes\SceneMgr.cpp" />
     <ClCompile Include="GameObject\SpriteObj.cpp" />
     <ClCompile Include="GameObject\TextObj.cpp" />
     <ClCompile Include="Framework\SoundMgr.cpp" />
+    <ClCompile Include="Scenes\TitleScene.cpp" />
+    <ClCompile Include="Scenes\ToolScene.cpp" />
     <ClCompile Include="UI\UIMgr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

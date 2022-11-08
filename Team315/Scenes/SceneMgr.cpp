@@ -1,6 +1,10 @@
 #include "SceneMgr.h"
-#include "SceneDev1.h"
-#include "SceneDev2.h"
+//#include "SceneDev1.h"
+//#include "SceneDev2.h"
+#include "TitleScene.h"
+#include "MainScene.h"
+#include "BattleScene.h"
+#include "ToolScene.h"
 
 Scenes SceneMgr::GetCurrScene() const
 {
@@ -14,13 +18,15 @@ Scene* SceneMgr::GetScene(Scenes scene)
 
 bool SceneMgr::Init()
 {
-	sceneMap[Scenes::Dev1] = new SceneDev1();
-	sceneMap[Scenes::Dev2] = new SceneDev2();
+	sceneMap[Scenes::Title] = new TitleScene();
+	sceneMap[Scenes::Main] = new MainScene();
+	sceneMap[Scenes::Battle] = new BattleScene();
+	sceneMap[Scenes::Tool] = new ToolScene();
 
 	for (auto i : sceneMap)
 		i.second->Init();
 
-	currScene = Scenes::Dev1;
+	currScene = Scenes::Title;
 	sceneMap[currScene]->Enter();
 	return false;
 }

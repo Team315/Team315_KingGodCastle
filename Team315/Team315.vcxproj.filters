@@ -31,12 +31,6 @@
     <ClInclude Include="Scenes\Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Scenes\SceneDev1.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scenes\SceneDev2.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Scenes\SceneMgr.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -63,6 +57,10 @@
     <ClInclude Include="GameObject\Button.h" />
     <ClInclude Include="GameObject\FloatingObj.h" />
     <ClInclude Include="GameObject\RectangleObj.h" />
+    <ClInclude Include="Scenes\TitleScene.h" />
+    <ClInclude Include="Scenes\MainScene.h" />
+    <ClInclude Include="Scenes\BattleScene.h" />
+    <ClInclude Include="Scenes\ToolScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DataTable\DataTable.cpp">
@@ -89,12 +87,6 @@
     <ClCompile Include="Scenes\Scene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Scenes\SceneDev1.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Scenes\SceneDev2.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Scenes\SceneMgr.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -119,6 +111,10 @@
     <ClCompile Include="GameObject\Button.cpp" />
     <ClCompile Include="GameObject\FloatingObj.cpp" />
     <ClCompile Include="GameObject\RectangleObj.cpp" />
+    <ClCompile Include="Scenes\TitleScene.cpp" />
+    <ClCompile Include="Scenes\MainScene.cpp" />
+    <ClCompile Include="Scenes\BattleScene.cpp" />
+    <ClCompile Include="Scenes\ToolScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">
