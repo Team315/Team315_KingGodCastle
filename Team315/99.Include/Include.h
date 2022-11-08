@@ -4,6 +4,7 @@
 #include "SFML/Graphics.hpp"
 #include "Utils.h"
 #include "InputMgr.h"
+
 #include "Headers.h"
 
 #include "Framework.h"
