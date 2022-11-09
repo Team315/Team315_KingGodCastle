@@ -8,6 +8,7 @@ protected:
 
 public:
     RectangleObj();
+    RectangleObj(float x, float y);
     virtual ~RectangleObj() override;
 
 	virtual void Draw(RenderWindow& window) override;

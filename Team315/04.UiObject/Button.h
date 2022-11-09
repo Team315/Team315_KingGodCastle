@@ -5,7 +5,7 @@ class Button : public SpriteObj
 {
 protected:
 	Text buttonText;
-	Vector2f buttonTextDelta;
+	Vector2f buttonTextSpacing;
 	Color baseColor;
 	Color hoverColor;
 
@@ -17,9 +17,11 @@ public:
 
 	virtual void SetPos(const Vector2f& pos) override;
 
-	void SetButton(Texture& texture,
-		Font& font, string textString,
-		float txtDeltaPosX = 0, float txtDeltaPosY = 0,
+	virtual void SetOrigin(Origins origin);
+
+	void SetButton(Texture& backTexture,
+		Font& font, wstring textString,
+		float txtSpacingPosX = 0, float txtSpacingPosY = 0,
 		float posX = 0, float posY = 0,
 		float scaleX = 1.f, float scaleY = 1.f,
 		Color baseColor = Color::White,

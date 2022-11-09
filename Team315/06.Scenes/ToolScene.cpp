@@ -53,7 +53,7 @@ void ToolScene::Update(float dt)
 {
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 	{
-		SCENE_MGR->ChangeScene(Scenes::Main);
+		SCENE_MGR->ChangeScene(Scenes::Loby);
 		return;
 	}
 

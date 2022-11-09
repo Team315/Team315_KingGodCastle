@@ -10,3 +10,6 @@
 #define Tile_WIDTH 11
 #define Tile_HEIGHT 15
 
+// game screen size
+#define GAME_SCREEN_WIDTH 510
+#define GAME_SCREEN_HEIGHT 765

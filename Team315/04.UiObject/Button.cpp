@@ -2,7 +2,7 @@
 #include "Include.h"
 
 Button::Button()
-	: buttonTextDelta(0, 0), baseColor(Color::White), hoverColor(Color::Red)
+	: buttonTextSpacing(0, 0), baseColor(Color::White), hoverColor(Color::Red)
 {
 }
 
@@ -19,24 +19,30 @@ void Button::Draw(RenderWindow& window)
 void Button::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	buttonText.setPosition(pos + buttonTextDelta);
+	buttonText.setPosition(pos + buttonTextSpacing);
 }
 
-void Button::SetButton(Texture& texture,
-	Font& font, string textString,
+void Button::SetOrigin(Origins origin)
+{
+	Utils::SetOrigin(sprite, origin);
+	Utils::SetOrigin(buttonText, origin);
+}
+
+void Button::SetButton(Texture& backTexture,
+	Font& font, wstring textString,
 	float txtDeltaPosX, float txtDeltaPosY, 
 	float posX, float posY,
 	float scaleX, float scaleY,
 	Color baseColor, Color hoverColor,
 	Color textColor, int textSize)
 {
-	sprite.setTexture(texture);
+	sprite.setTexture(backTexture);
 	sprite.setScale(scaleX, scaleY);
 	buttonText.setFont(font);
 	buttonText.setString(textString);
 	buttonText.setFillColor(textColor);
 	buttonText.setCharacterSize(textSize);
-	buttonTextDelta = Vector2f(txtDeltaPosX, txtDeltaPosY);
+	buttonTextSpacing = Vector2f(txtDeltaPosX, txtDeltaPosY);
 	SetPos(Vector2f(posX, posY));
 	Vector2u textureSize = sprite.getTexture()->getSize();
 	SetHitbox(FloatRect(0, 0, textureSize.x * scaleX, textureSize.y * scaleY), Origins::TL);

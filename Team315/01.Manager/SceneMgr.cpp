@@ -2,7 +2,7 @@
 //#include "SceneDev1.h"
 //#include "SceneDev2.h"
 #include "TitleScene.h"
-#include "MainScene.h"
+#include "LobyScene.h"
 #include "BattleScene.h"
 #include "ToolScene.h"
 
@@ -19,7 +19,7 @@ Scene* SceneMgr::GetScene(Scenes scene)
 bool SceneMgr::Init()
 {
 	sceneMap[Scenes::Title] = new TitleScene();
-	sceneMap[Scenes::Main] = new MainScene();
+	sceneMap[Scenes::Loby] = new LobyScene();
 	sceneMap[Scenes::Battle] = new BattleScene();
 	sceneMap[Scenes::Tool] = new ToolScene();
 

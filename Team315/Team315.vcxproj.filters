@@ -57,7 +57,7 @@
     <ClInclude Include="02.Object\FloatingObj.h" />
     <ClInclude Include="02.Object\RectangleObj.h" />
     <ClInclude Include="06.Scenes\TitleScene.h" />
-    <ClInclude Include="06.Scenes\MainScene.h" />
+    <ClInclude Include="06.Scenes\LobyScene.h" />
     <ClInclude Include="06.Scenes\BattleScene.h" />
     <ClInclude Include="06.Scenes\ToolScene.h" />
     <ClInclude Include="03.GameObject\Charactor.h" />
@@ -70,10 +70,11 @@
     <ClInclude Include="03.GameObject\Player\Evan.h" />
     <ClInclude Include="03.GameObject\Monster\Goblin.h" />
     <ClInclude Include="05.ToolObject\TileSet.h" />
-    <ClInclude Include="04.UiObject\MainSceneUI.h" />
+    <ClInclude Include="04.UiObject\LobySceneUI.h" />
     <ClInclude Include="98.3rd\CSVWriter.h" />
     <ClInclude Include="05.ToolObject\UiName.h" />
     <ClInclude Include="05.ToolObject\Theme.h" />
+    <ClInclude Include="04.UiObject\SpriteButton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
@@ -125,7 +126,7 @@
     <ClCompile Include="02.Object\FloatingObj.cpp" />
     <ClCompile Include="02.Object\RectangleObj.cpp" />
     <ClCompile Include="06.Scenes\TitleScene.cpp" />
-    <ClCompile Include="06.Scenes\MainScene.cpp" />
+    <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
     <ClCompile Include="06.Scenes\ToolScene.cpp" />
     <ClCompile Include="03.GameObject\Charactor.cpp" />
@@ -135,6 +136,8 @@
     <ClCompile Include="04.UiObject\MainSceneUI.cpp" />
     <ClCompile Include="05.ToolObject\UiName.cpp" />
     <ClCompile Include="05.ToolObject\Theme.cpp" />
+    <ClCompile Include="04.UiObject\LobySceneUI.cpp" />
+    <ClCompile Include="04.UiObject\SpriteButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">
