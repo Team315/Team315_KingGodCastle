@@ -1,8 +1,8 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
 LeftSkill,0,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Charactor/Player/Evan/Evan.png,0,100,100,100,50,50,0,0
-graphics/Charactor/Player/Evan/Evan.png,100,100,100,100,50,50,0,0
-graphics/Charactor/Player/Evan/Evan.png,200,100,100,100,50,50,0,0
-graphics/Charactor/Player/Evan/Evan.png,300,100,100,100,50,50,0,0
-graphics/Charactor/Player/Evan/Evan.png,400,100,100,100,50,50,0,0
+graphics/Charactor/Player/Evan/EvanSkill.png,0,100,100,100,50,50,0,0
+graphics/Charactor/Player/Evan/EvanSkill.png,100,100,100,100,50,50,0,0
+graphics/Charactor/Player/Evan/EvanSkill.png,200,100,100,100,50,50,0,0
+graphics/Charactor/Player/Evan/EvanSkill.png,300,100,100,100,50,50,0,0
+graphics/Charactor/Player/Evan/EvanSkill.png,400,100,100,100,50,50,0,0

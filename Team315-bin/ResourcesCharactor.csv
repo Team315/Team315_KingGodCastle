@@ -1,12 +1,11 @@
 id,type
-graphics/UIBackground.png,0
-graphics/titleBackground.png,0
-graphics/Charactor/Player/Evan/Evan.png,0
+graphics/Charactor/Player/Evan/EvanAttack.png,0
+graphics/Charactor/Player/Evan/EvanSkill.png,0
 graphics/Charactor/Player/Evan/EvanIdle.png,0
 graphics/Charactor/Player/Evan/EvanMove.png,0
+graphics/Charactor/Player/Evan/EvanIdle2.png,0
 graphics/Charactor/Monster/Chap1/Chap1-1.png,0
 graphics/Charactor/Monster/Chap1/Chap1-1Move.png,0
-fonts/DNFBitBitTTF.ttf,1
 animations/Player/Evan/Attack/DownAttack.csv,3
 animations/Player/Evan/Attack/LeftAttack.csv,3
 animations/Player/Evan/Attack/RightAttack.csv,3
@@ -20,6 +19,10 @@ animations/Player/Evan/Move/LeftMove.csv,3
 animations/Player/Evan/Move/RightMove.csv,3
 animations/Player/Evan/Move/UpMove.csv,3
 animations/Player/Evan/Idle/Idle.csv,3
+animations/Player/Evan/Idle/DownIdle.csv,3
+animations/Player/Evan/Idle/LeftIdle.csv,3
+animations/Player/Evan/Idle/RightIdle.csv,3
+animations/Player/Evan/Idle/UpIdle.csv,3
 animations/Monster/Chap1/Chap1-1/DownMove.csv,3
 animations/Monster/Chap1/Chap1-1/LeftMove.csv,3
 animations/Monster/Chap1/Chap1-1/RightMove.csv,3

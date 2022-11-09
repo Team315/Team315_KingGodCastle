@@ -3,7 +3,7 @@
 
 int main()
 {
-    CLOG::WriteCSV("UpMove", 1, 10, 4, "Charactor/Monster/Chap1/Chap1-1Move", 80, 160, 80, 80, 40, 40, false);
+    //CLOG::WriteCSV("UpIdle", 1, 10, 5, "Charactor/Player/Evan/EvanIdle2", 100, 200, 100, 100, 50, 50, false, 0, 0);
     FRAMEWORK->Init(WINDOW_WIDTH, WINDOW_HEIGHT, "King God Castle");
     FRAMEWORK->Do();
 

@@ -7,6 +7,7 @@ ResourceMgr::ResourceMgr()
 	// 새로 추가한 resourece 파일의 이름을 push back한다
 	filePaths.push_back("ResourcesUI.csv");
 	filePaths.push_back("ResourcesFonts.csv");
+	filePaths.push_back("ResourcesCharactor.csv");
 }
 
 ResourceMgr::~ResourceMgr()
@@ -184,8 +185,7 @@ SoundBuffer* ResourceMgr::GetSoundBuffer(string id)
 }
 
 AnimationClip* ResourceMgr::GetAnimationClip(string id)
-{
-	auto it = animationClipMap.find(id);
+{	auto it = animationClipMap.find(id);
 	if (it == animationClipMap.end())
 		return nullptr;
 	return it->second;

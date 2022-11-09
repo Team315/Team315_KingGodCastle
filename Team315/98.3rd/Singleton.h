@@ -7,7 +7,7 @@ class Singleton
 public:
 
 	static T* GetInstance()
-	{
+  	{
 		if (instance == nullptr)
 		{
 			instance = new T();

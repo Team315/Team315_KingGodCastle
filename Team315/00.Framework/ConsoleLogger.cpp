@@ -47,7 +47,7 @@ void ConsoleLogger::WriteCSV(string id,
 	csv.newRow() << "ID" << "LOOPTYPE (0: Single 1: Move)" << "FPS";
 	csv.newRow() << id << loopType << fps;
 	csv.newRow();
-	csv.newRow() << "TEXTURE ID" << "L" << "T" << "W" << "H" << "W" << "Y" << "FlipX" << "FlipY";
+	csv.newRow() << "TEXTURE ID" << "L" << "T" << "W" << "H" << "X" << "Y" << "FlipX" << "FlipY";
 
 	csv.enableAutoNewRow(9);
 	int leftStart = 0;

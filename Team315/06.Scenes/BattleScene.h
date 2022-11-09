@@ -1,9 +1,14 @@
 #pragma once
 #include "Scene.h"
+#include "Player/Evan.h"
+#include "SpriteObj.h"
+#include <vector>
 
 class BattleScene : public Scene
 {
 protected:
+	SpriteObj* background;
+	Evan* evan;
 
 public:
 	BattleScene();
