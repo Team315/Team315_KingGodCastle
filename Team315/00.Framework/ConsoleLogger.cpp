@@ -36,7 +36,7 @@ void ConsoleLogger::Print3String(string str1, string str2, string str3)
 }
 
 // Main 맨 윗줄에
-// LOG::WriteCSV("파일명/키", loopType, fps, 프레임 수, 
+// CLOG::WriteCSV("파일명/키", loopType, fps, 프레임 수, 
 // 리소스 파일명 확장자 빼고, L, T, W, H, X, Y, false);
 void ConsoleLogger::WriteCSV(string id, 
 	int loopType, int fps, int frameCount,
@@ -61,6 +61,7 @@ void ConsoleLogger::WriteCSV(string id,
 
 	string filepath = "animations/" + id + ".csv";
 	csv.writeToFile(filepath);
+	Print3String(filepath);
 
 	if (!writeToRss)
 		return ;

@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include <list>
 #include "Object.h"
-#include "VertexArrayObj.h"
 
 class Player;
 
@@ -25,9 +24,7 @@ class Scene
 {
 protected:
 	Scenes type;
-	VertexArrayObj* background;
 	list<Object*> objList;
-	UIMgr* uiMgr;
 
 	View worldView;
 	View uiView;
@@ -58,10 +55,5 @@ public:
 	void AddGameObj(Object* obj)
 	{
 		objList.push_back(obj);
-	}
-
-	UIMgr* GetUIMgr()
-	{
-		return uiMgr;
 	}
 };

@@ -1,9 +1,16 @@
 #pragma once
 #include "Scene.h"
+#include "MainSceneUI.h"
+#include "SpriteObj.h"
+#include <vector>
 
 class MainScene : public Scene
 {
 protected:
+	MainSceneUI* ui;
+	vector<SpriteObj*> backgrounds;
+	int tabCount;
+	int currentBackground;
 
 public:
 	MainScene();
@@ -17,4 +24,5 @@ public:
 
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
+	void DrawBackground(RenderWindow& window);
 };

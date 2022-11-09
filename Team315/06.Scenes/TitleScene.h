@@ -8,6 +8,8 @@ class TitleScene : public Scene
 protected:
 	SpriteObj* background;
 	TextObj* titleText;
+	float duration;
+	float timer;
 
 public:
 	TitleScene();
