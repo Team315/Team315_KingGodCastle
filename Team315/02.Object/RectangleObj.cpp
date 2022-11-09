@@ -4,6 +4,11 @@ RectangleObj::RectangleObj()
 {
 }
 
+RectangleObj::RectangleObj(float x, float y)
+{
+	shape.setSize(Vector2f(x, y));
+}
+
 RectangleObj::~RectangleObj()
 {
 }

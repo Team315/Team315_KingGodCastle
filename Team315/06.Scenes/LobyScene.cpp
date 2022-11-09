@@ -6,7 +6,7 @@ LobyScene::LobyScene()
 {
 	CLOG::Print3String("loby create");
 	ui = new LobySceneUI(this);
-	tabSize = ui->GetHud()->GetTabSize();
+	tabSize = ui->GetTabSize();
 }
 
 LobyScene::~LobyScene()
@@ -80,14 +80,13 @@ void LobyScene::Update(float dt)
 
 	// game input
 	int idx = 0;
-	for (auto button : ui->GetHud()->buttons)
+	for (auto button : ui->buttons)
 	{
 		if (button->CollideTest(ScreenToUiPos(InputMgr::GetMousePosI())))
 		{
 			button->SetColor(button->GetHoverColor());
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				CLOG::Print3String(to_string(idx));
 				currentBackground = idx;
 				break;
 			}
@@ -104,12 +103,14 @@ void LobyScene::Update(float dt)
 	// game input end
 
 	Scene::Update(dt);
+	ui->Update(dt);
 }
 
 void LobyScene::Draw(RenderWindow& window)
 {
 	DrawBackground(window);
 	Scene::Draw(window);
+	ui->Draw(window);
 }
 
 void LobyScene::DrawBackground(RenderWindow& window)
