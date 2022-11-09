@@ -3,6 +3,7 @@
 #include <SFML/Audio.hpp>
 #include <map>
 #include <string>
+#include <vector>
 #include "AnimationClip.h"
 #include "Include.h"
 
@@ -23,9 +24,9 @@ private:
 	map<string, Font*> fontMap;
 	map<string, SoundBuffer*> soundMap;
 	map<string, AnimationClip*> animationClipMap;
+	vector<string> filePaths;
 
 public:
-	static string filePath;
 	ResourceMgr();
 	~ResourceMgr();
 	

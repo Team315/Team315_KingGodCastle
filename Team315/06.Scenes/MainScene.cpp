@@ -19,7 +19,7 @@ void MainScene::Init()
 	backgrounds.resize(tabCount);
 	for (int i = 0; i < tabCount; i++)
 	{
-		string textureKey = "graphics/mainBackground_";
+		string textureKey = "graphics/mainScene/mainBackground_";
 		textureKey += (i < 10 ? "0" : "") + to_string(i + 1) + ".png";
 		backgrounds[i] = new SpriteObj();
 		backgrounds[i]->SetTexture(*RESOURCE_MGR->GetTexture(textureKey));

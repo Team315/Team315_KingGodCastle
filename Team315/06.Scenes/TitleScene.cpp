@@ -6,7 +6,7 @@ TitleScene::TitleScene()
 {
 	CLOG::Print3String("title create");
 	background = new SpriteObj();
-	background->SetTexture(*RESOURCE_MGR->GetTexture("graphics/titleBackground.png"));
+	background->SetTexture(*RESOURCE_MGR->GetTexture("graphics/titleScene/titleBackground.png"));
 	objList.push_back(background);
 
 	Vector2i wSize;

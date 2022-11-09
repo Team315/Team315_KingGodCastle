@@ -70,6 +70,7 @@
     <ClInclude Include="03.GameObject\Player\Evan.h" />
     <ClInclude Include="03.GameObject\Monster\Goblin.h" />
     <ClInclude Include="04.UiObject\MainSceneUI.h" />
+    <ClInclude Include="98.3rd\CSVWriter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
