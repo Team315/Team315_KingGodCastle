@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="98.3rd\CSVWriter.h" />
     <ClInclude Include="98.3rd\OBB.h" />
     <ClInclude Include="98.3rd\ObjectPool.h" />
     <ClInclude Include="05.Scenes\BattleScene.h" />
