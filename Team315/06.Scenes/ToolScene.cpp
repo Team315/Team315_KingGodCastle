@@ -50,3 +50,7 @@ void ToolScene::Draw(RenderWindow& window)
 {
 	Scene::Draw(window);
 }
+
+void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHeight)
+{
+}

@@ -69,7 +69,7 @@
     <ClInclude Include="99.Include\Struct.h" />
     <ClInclude Include="03.GameObject\Player\Evan.h" />
     <ClInclude Include="03.GameObject\Monster\Goblin.h" />
-    <ClInclude Include="TileSet.h" />
+    <ClInclude Include="05.ToolObject\TileSet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
@@ -127,7 +127,7 @@
     <ClCompile Include="03.GameObject\Charactor.cpp" />
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin.cpp" />
-    <ClCompile Include="TileSet.cpp" />
+    <ClCompile Include="05.ToolObject\TileSet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">
