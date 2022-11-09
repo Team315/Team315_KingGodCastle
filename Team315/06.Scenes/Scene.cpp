@@ -5,6 +5,9 @@
 Scene::Scene(Scenes type)
 	: type(type)
 {
+	Vector2i wSize = FRAMEWORK->GetWindowSize();
+	worldView.setSize(wSize.x, wSize.y);
+	worldView.setCenter(wSize.x * 0.5f, wSize.y * 0.5f);
 }
 
 Scene::~Scene()

@@ -1,8 +1,6 @@
 #pragma once
 #include "UIMgr.h"
 #include "Button.h"
-#include "SpriteObj.h"
-#include <vector>
 
 class HUD
 {
@@ -20,9 +18,6 @@ public:
 class MainSceneUI : public UIMgr
 {
 protected:
-	vector<SpriteObj*> backgrounds;
-	int tabCount;
-	int currentBackground;
 	//HUD hud;
 
 public:
@@ -34,5 +29,4 @@ public:
 	virtual void Reset();
 	virtual void Update(float dt);
 	virtual void Draw(RenderWindow& window);
-	void DrawBackground(RenderWindow& window);
 };
