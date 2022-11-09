@@ -7,6 +7,9 @@ ResourceMgr::ResourceMgr()
 	// 새로 추가한 resourece 파일의 이름을 push back한다
 	filePaths.push_back("ResourcesUI.csv");
 	filePaths.push_back("ResourcesFonts.csv");
+
+	filePaths.push_back("ResourcesTileSet.csv");
+	filePaths.push_back("ResourcesToolUi.csv");
 }
 
 ResourceMgr::~ResourceMgr()

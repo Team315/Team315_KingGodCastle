@@ -30,4 +30,5 @@ public:
     FloatRect GetGlobalBounds();
     void SetColor(Color color);
     void SetPos(const Vector2f& pos);
+    void SetCharacterSize(int textSize);
 };

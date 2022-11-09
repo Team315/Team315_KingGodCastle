@@ -64,3 +64,8 @@ void TextObj::SetPos(const Vector2f& pos)
     Object::SetPos(pos);
     text.setPosition(pos);
 }
+
+void TextObj::SetCharacterSize(int textSize)
+{
+    text.setCharacterSize(textSize);
+}

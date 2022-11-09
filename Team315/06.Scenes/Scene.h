@@ -25,7 +25,7 @@ class Scene
 protected:
 	Scenes type;
 	list<Object*> objList;
-
+	list<Object*> tileSetList;
 	View worldView;
 	View uiView;
 	

@@ -189,6 +189,7 @@
     <ClInclude Include="03.GameObject\Monster\Goblin.h" />
     <ClInclude Include="05.ToolObject\TileSet.h" />
     <ClInclude Include="04.UiObject\MainSceneUI.h" />
+    <ClInclude Include="05.ToolObject\UiName.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -222,6 +223,7 @@
     <ClCompile Include="01.Manager\UIMgr.cpp" />
     <ClCompile Include="05.ToolObject\TileSet.cpp" />
     <ClCompile Include="04.UiObject\MainSceneUI.cpp" />
+    <ClCompile Include="05.ToolObject\UiName.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

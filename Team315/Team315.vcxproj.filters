@@ -72,6 +72,7 @@
     <ClInclude Include="05.ToolObject\TileSet.h" />
     <ClInclude Include="04.UiObject\MainSceneUI.h" />
     <ClInclude Include="98.3rd\CSVWriter.h" />
+    <ClInclude Include="05.ToolObject\UiName.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
@@ -131,6 +132,7 @@
     <ClCompile Include="03.GameObject\Monster\Goblin.cpp" />
     <ClCompile Include="05.ToolObject\TileSet.cpp" />
     <ClCompile Include="04.UiObject\MainSceneUI.cpp" />
+    <ClCompile Include="05.ToolObject\UiName.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">
