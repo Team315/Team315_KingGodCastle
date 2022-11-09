@@ -40,7 +40,7 @@ void BattleScene::Update(float dt)
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 	{
 		CLOG::Print3String("setting window");
-		SCENE_MGR->ChangeScene(Scenes::Main);
+		SCENE_MGR->ChangeScene(Scenes::Loby);
 		return;
 	}
 

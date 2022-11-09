@@ -1,20 +1,20 @@
 #pragma once
 #include "Scene.h"
-#include "MainSceneUI.h"
+#include "LobySceneUI.h"
 #include "SpriteObj.h"
 #include <vector>
 
-class MainScene : public Scene
+class LobyScene : public Scene
 {
 protected:
-	MainSceneUI* ui;
+	LobySceneUI* ui;
 	vector<SpriteObj*> backgrounds;
-	int tabCount;
+	int tabSize;
 	int currentBackground;
 
 public:
-	MainScene();
-	virtual ~MainScene();
+	LobyScene();
+	virtual ~LobyScene();
 
 	virtual void Init() override;
 	virtual void Release() override;
