@@ -4,12 +4,13 @@
 
 UiName::UiName()
 {
-	m_Text = new TextObj(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
-		"",	0.f, 0.f, Color::Black, 0.f);
+	m_Text = new TextObj();
+	m_Text->SetFont(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"));
 }
 
 UiName::~UiName()
 {
+	Release();
 }
 
 void UiName::Init()
@@ -35,8 +36,9 @@ void UiName::SetText(string str)
 	m_Text->SetString(str);
 	m_Text->SetCharacterSize(20);
 	m_Text->SetColor(Color::White);
+	m_Text->SetOutlineThickness(2.5f);
+	m_Text->SetOutlineColor(Color::Black);
 	m_Text->SetPos(sprite.getPosition());
-	m_Text->SetOrigin(Origins::BC);
-
+	m_Text->SetOrigin(Origins::MC);
 }
 
