@@ -52,7 +52,6 @@ void UIMgr::Update(float dt)
     {
         return;
     }
-
     for ( auto uiObj : uiObjList )
     {
         if ( uiObj->GetActive() )

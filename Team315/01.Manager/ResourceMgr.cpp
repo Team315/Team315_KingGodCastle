@@ -2,10 +2,11 @@
 #include "rapidcsv.h"
 #include "ConsoleLogger.h"
 
-string ResourceMgr::filePath("Resources.csv");
-
 ResourceMgr::ResourceMgr()
 {
+	// 새로 추가한 resourece 파일의 이름을 push back한다
+	filePaths.push_back("ResourcesUI.csv");
+	filePaths.push_back("ResourcesFonts.csv");
 }
 
 ResourceMgr::~ResourceMgr()
@@ -16,17 +17,21 @@ ResourceMgr::~ResourceMgr()
 bool ResourceMgr::LoadAll()
 {
 	Release();
-	rapidcsv::Document doc(filePath, rapidcsv::LabelParams(0, -1));
-
-	auto ids = doc.GetColumn<string>(0);
-	auto types = doc.GetColumn<int>(1);
-
-	for (int i = 0; i < doc.GetRowCount(); i++)
+	int pathsSize = filePaths.size();
+	for (int i = 0; i < pathsSize; i++)
 	{
-		if (!Load((ResourceTypes)types[i], ids[i]))
+		rapidcsv::Document doc(filePaths[i], rapidcsv::LabelParams(0, -1));
+		
+		auto ids = doc.GetColumn<string>(0);
+		auto types = doc.GetColumn<int>(1);
+
+		for (int j = 0; j < doc.GetRowCount(); j++)
 		{
-			CLOG::Print3String("resource manager load fail! file name: ", ids[i]);
-			return false;
+			if (!Load((ResourceTypes)types[j], ids[j]))
+			{
+				CLOG::Print3String("resource manager load fail! file name: ", ids[j]);
+				return false;
+			}
 		}
 	}
 	CLOG::Print3String("resource manager load success");
