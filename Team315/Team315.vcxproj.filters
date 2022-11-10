@@ -75,6 +75,10 @@
     <ClInclude Include="05.ToolObject\UiName.h" />
     <ClInclude Include="05.ToolObject\Theme.h" />
     <ClInclude Include="04.UiObject\SpriteButton.h" />
+    <ClInclude Include="04.UiObject\ResourceStatusWindow.h" />
+    <ClInclude Include="04.UiObject\RssTextBox.h" />
+    <ClInclude Include="04.UiObject\RssProgressWindow.h" />
+    <ClInclude Include="04.UiObject\ProgressBar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
@@ -133,11 +137,14 @@
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin.cpp" />
     <ClCompile Include="05.ToolObject\TileSet.cpp" />
-    <ClCompile Include="04.UiObject\MainSceneUI.cpp" />
     <ClCompile Include="05.ToolObject\UiName.cpp" />
     <ClCompile Include="05.ToolObject\Theme.cpp" />
     <ClCompile Include="04.UiObject\LobySceneUI.cpp" />
     <ClCompile Include="04.UiObject\SpriteButton.cpp" />
+    <ClCompile Include="04.UiObject\ResourceStatusWindow.cpp" />
+    <ClCompile Include="04.UiObject\RssTextBox.cpp" />
+    <ClCompile Include="04.UiObject\RssProgressWindow.cpp" />
+    <ClCompile Include="04.UiObject\ProgressBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">

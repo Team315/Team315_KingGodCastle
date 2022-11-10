@@ -2,7 +2,7 @@
 #include "Include.h"
 
 Button::Button()
-	: buttonTextSpacing(0, 0), baseColor(Color::White), hoverColor(Color::Red)
+	: btnTextLocalPos(0, 0), baseColor(Color::White), hoverColor(Color::Red)
 {
 }
 
@@ -13,19 +13,19 @@ Button::~Button()
 void Button::Draw(RenderWindow& window)
 {
 	SpriteObj::Draw(window);
-	window.draw(buttonText);
+	window.draw(btnText);
 }
 
 void Button::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	buttonText.setPosition(pos + buttonTextSpacing);
+	btnText.setPosition(pos + btnTextLocalPos);
 }
 
 void Button::SetOrigin(Origins origin)
 {
 	Utils::SetOrigin(sprite, origin);
-	Utils::SetOrigin(buttonText, origin);
+	Utils::SetOrigin(btnText, origin);
 }
 
 void Button::SetButton(Texture& backTexture,
@@ -38,11 +38,11 @@ void Button::SetButton(Texture& backTexture,
 {
 	sprite.setTexture(backTexture);
 	sprite.setScale(scaleX, scaleY);
-	buttonText.setFont(font);
-	buttonText.setString(textString);
-	buttonText.setFillColor(textColor);
-	buttonText.setCharacterSize(textSize);
-	buttonTextSpacing = Vector2f(txtDeltaPosX, txtDeltaPosY);
+	btnText.setFont(font);
+	btnText.setString(textString);
+	btnText.setFillColor(textColor);
+	btnText.setCharacterSize(textSize);
+	btnTextLocalPos = Vector2f(txtDeltaPosX, txtDeltaPosY);
 	SetPos(Vector2f(posX, posY));
 	Vector2u textureSize = sprite.getTexture()->getSize();
 	SetHitbox(FloatRect(0, 0, textureSize.x * scaleX, textureSize.y * scaleY), Origins::TL);

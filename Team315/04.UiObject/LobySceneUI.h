@@ -1,9 +1,10 @@
 #pragma once
 #include "UIMgr.h"
-#include "SpriteButton.h"
-#include "RectangleObj.h"
-#include "Include.h"
 #include <vector>
+
+class SpriteButton;
+class RectangleObj;
+class RssProgressWindow;
 
 class LobySceneUI : public UIMgr
 {
@@ -31,7 +32,9 @@ protected:
 		jewel,
 		count,
 	};
-	struct GameResources
+	int gameResourceCount;
+
+	/*struct GameResources
 	{
 		RectangleObj*	backSprite;
 		SpriteObj*		resourceSprite;
@@ -47,8 +50,7 @@ protected:
 		void SetValue(int v) { value = v; }
 		int GetValue() { return value; }
 	};
-	vector<GameResources*> gameResources;
-	int gameResourceCount;
+	vector<GameResources*> gameResources;*/
 
 public:
 	LobySceneUI(Scene* scene);
@@ -62,4 +64,5 @@ public:
 
 	int GetTabSize() { return tabSize; }
 	vector<SpriteButton*> buttons;
+	RssProgressWindow* expWind;
 };

@@ -1,6 +1,9 @@
 #include "LobySceneUI.h"
 #include "Include.h"
 #include "Constant.h"
+#include "SpriteButton.h"
+#include "RectangleObj.h"
+#include "RssProgressWindow.h"
 
 LobySceneUI::LobySceneUI(Scene* scene)
 	: UIMgr(scene), tabSize((int)buttonModeEnum::count), buttonSize(100.f), gameResourceCount((int)gameResourceEnum::count)
@@ -37,13 +40,13 @@ LobySceneUI::LobySceneUI(Scene* scene)
 		textSpacing.x, textSpacing.y);
 
 	for (auto button : buttons)
-		button->SetButtonSpriteSpacing(15.f, 10.f);
+		button->SetBtnSpriteLocalPos(15.f, 10.f);
 
 	// top resources
 	float blockLength = GAME_SCREEN_WIDTH / gameResourceCount;
 	float padding = blockLength * 0.05f;
 
-	vector<string> table(gameResourceCount);
+	/*vector<string> table(gameResourceCount);
 	table[0] = "graphics/mainScene/Icon_Level.png";
 	table[1] = "graphics/mainScene/Icon_Jewelry.png";
 	table[2] = "graphics/mainScene/Icon_Gold.png";
@@ -61,7 +64,13 @@ LobySceneUI::LobySceneUI(Scene* scene)
 		topResourcePos.x += blockLength - padding;
 
 		gameResources.push_back(gameResource);
-	}
+	}*/
+	expWind = new RssProgressWindow();
+	expWind->SetPos(Vector2f(200, 300));
+	expWind->SetSize(Vector2f(100, 30));
+	expWind->SetColor(Color::Black, Color::Green);
+	expWind->SetTexture(*RESOURCE_MGR->GetTexture("graphics/mainScene/Icon_Level.png"));
+	expWind->SetShapeLocalPos(Vector2f(100, 100));
 }
 
 LobySceneUI::~LobySceneUI()
@@ -79,11 +88,13 @@ void LobySceneUI::Init()
 		uiObjList.push_back(button);
 	}
 
-	for (auto gameResource : gameResources)
+	uiObjList.push_back(expWind);
+
+	/*for (auto gameResource : gameResources)
 	{
 		uiObjList.push_back(gameResource->backSprite);
 		uiObjList.push_back(gameResource->resourceSprite);
-	}
+	}*/
 
 	UIMgr::Init();
 }

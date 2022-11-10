@@ -91,7 +91,6 @@ void Evan::Init()
 
 void Evan::SetState(States newState)
 {
-	cout << (int)currState << endl;
 	if (currState == newState)
 	{
 		return;

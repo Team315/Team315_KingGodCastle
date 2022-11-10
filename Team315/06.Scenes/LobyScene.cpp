@@ -1,5 +1,9 @@
 #include "LobyScene.h"
 #include "Include.h"
+#include "SpriteButton.h"
+#include "LobySceneUI.h"
+#include "SpriteObj.h"
+#include "RssProgressWindow.h"
 
 LobyScene::LobyScene()
 	: Scene(Scenes::Loby), currentBackground(2)
@@ -27,6 +31,7 @@ void LobyScene::Init()
 	}
 
 	objList.push_back(ui);
+
 	for (auto obj : objList)
 	{
 		obj->Init();
@@ -75,6 +80,16 @@ void LobyScene::Update(float dt)
 	{
 		CLOG::Print3String("loby devmode off");
 		FRAMEWORK->devMode = false;
+	}
+	if (InputMgr::GetKey(Keyboard::Key::A))
+	{
+		ui->expWind->GetProgressBar().TranslateProgress(-dt);
+		//CLOG::Print3String(to_string(ui->expWind->GetProgressBar().progressValue));
+	}
+	if (InputMgr::GetKey(Keyboard::Key::S))
+	{
+		ui->expWind->GetProgressBar().TranslateProgress(dt);
+		//CLOG::Print3String(to_string(ui->expWind->GetProgressBar().progressValue));
 	}
 	// Dev Input End
 
