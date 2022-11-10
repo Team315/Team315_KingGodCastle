@@ -33,11 +33,11 @@ void RssProgressWindow::SetSize(Vector2f size)
 void RssProgressWindow::SetProgressLocalPos(Vector2f prgPos)
 {
 	progressLocalPos = prgPos;
-	SetPos(position);
 }
 
-void RssProgressWindow::SetColor(Color backColor, Color prgColor)
+void RssProgressWindow::SetColor(Color backColor, Color prgColor, Color prgBackColor, float thickness)
 {
 	progress.SetBackgroundColor(backColor);
 	progress.SetProgressColor(prgColor);
+	progress.SetBackgroundOutline(prgBackColor, thickness);
 }

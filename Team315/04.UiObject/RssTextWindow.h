@@ -4,13 +4,15 @@
 class RssTextWindow : public SpriteObj
 {
 protected:
-	RectangleShape background;
-	Text text;
-	float value;
-	float valueGoal;
-
-	Vector2f	backgroundLocalPos;
-	Vector2f	textLocalPos;
+	RectangleShape	background;
+	Text			text;
+	float			value;
+	float			valueGoal;
+	int				length;
+	
+	Vector2f		localPos;
+	Vector2f		bgLocalPos;
+	Vector2f		txtLocalPos;
 
 public:
 	RssTextWindow(Font& font);
@@ -24,11 +26,14 @@ public:
 	void SetBackgroundColor(Color color);
 	void SetBackgroundOutline(Color color, float thickness);
 
-	void SetBackgroundLocalPos(Vector2f bgPos);
-	void SetTextLocalPos(Vector2f txtPos);
+	void SetBackLocalPos(Vector2f pos);
+	void SetTextLocalPos(Vector2f pos);
 	void SetTextValue(float value);
 	void SetTextStyle(Color color, int cSize);
 	void SetTextOutline(Color color, float thickness);
 	void SetGoal(float goal);
 	float GetValue() { return value; }
+	float GetValueGoal() { return valueGoal; }
+
+	string MakeFormat(float value);
 };

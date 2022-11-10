@@ -45,30 +45,40 @@ LobySceneUI::LobySceneUI(Scene* scene)
 
 	// top resources
 	float blockLength = GAME_SCREEN_WIDTH / gameResourceCount;
-	float padding = blockLength * 0.05f;
+	Vector2f startPos(10.f, 10.f);
 
 	expWind = new RssProgressWindow();
-	expWind->SetPos(Vector2f(200, 300));
-	expWind->SetColor(Color(0, 0, 0, 100), Color::Green);
 	expWind->SetTexture(*RESOURCE_MGR->GetTexture("graphics/mainScene/Icon_Level.png"));
 	float texHeight = expWind->GetTextureRect().height;
-	expWind->SetSize(Vector2f(100, texHeight * 0.5f));
-	expWind->GetProgressBar().SetBackgroundOutline(Color::Black, 2.f);
+	expWind->SetSize(Vector2f(120, texHeight * 0.5f));
+	expWind->SetColor(Color(0, 0, 0, 100), Color::Green, Color::Black, 2.f);
 	expWind->SetProgressLocalPos(Vector2f(expWind->GetTextureRect().width * 0.5f, texHeight * 0.25f));
+	expWind->SetPos(startPos);
+	startPos.x += blockLength;
+	startPos.y += 15.f;
 
-	goldWind = new RssTextWindow(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	goldWind = new RssTextWindow(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"));
 	goldWind->SetTexture(*RESOURCE_MGR->GetTexture("graphics/mainScene/Icon_Gold.png"));
-	goldWind->SetPos(Vector2f(200, 400));
-	goldWind->SetSize(Vector2f(100, texHeight * 0.5f));
+	goldWind->SetBackLocalPos(Vector2f(20.f, texHeight * 0.25f - 15.f));
+	goldWind->SetTextLocalPos(Vector2f(50.f, texHeight * 0.25f - 7.5f));
+	goldWind->SetPos(startPos);
+	startPos.x += blockLength;
+	goldWind->SetSize(Vector2f(120, texHeight * 0.5f));
 	goldWind->SetBackgroundColor(Color(0, 0, 0, 100));
 	goldWind->SetBackgroundOutline(Color::Black, 2.f);
+	goldWind->SetTextStyle(Color::White, 20);
+	goldWind->SetTextOutline(Color::Black, 2.f);
 
-	jewelWind = new RssTextWindow(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	jewelWind = new RssTextWindow(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"));
 	jewelWind->SetTexture(*RESOURCE_MGR->GetTexture("graphics/mainScene/Icon_Jewelry.png"));
-	jewelWind->SetPos(Vector2f(200, 500));
-	jewelWind->SetSize(Vector2f(100, texHeight * 0.5f));
+	jewelWind->SetBackLocalPos(Vector2f(20.f, texHeight * 0.25f - 15.f));
+	jewelWind->SetTextLocalPos(Vector2f(50.f, texHeight * 0.25f - 7.5f));
+	jewelWind->SetPos(startPos);
+	jewelWind->SetSize(Vector2f(120, texHeight * 0.5f));
 	jewelWind->SetBackgroundColor(Color(0, 0, 0, 100));
 	jewelWind->SetBackgroundOutline(Color::Black, 2.f);
+	jewelWind->SetTextStyle(Color::White, 20);
+	jewelWind->SetTextOutline(Color::Black, 2.f);
 }
 
 LobySceneUI::~LobySceneUI()

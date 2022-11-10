@@ -92,19 +92,19 @@ void LobyScene::Update(float dt)
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::Q))
 	{
-		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValue() - 100);
+		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValueGoal() - 100);
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::W))
 	{
-		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValue() + 100);
+		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValueGoal() + 100);
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::E))
 	{
-		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValue() - 100);
+		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValueGoal() - 100);
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::R))
 	{
-		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValue() + 100);
+		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValueGoal() + 100);
 	}
 	// Dev Input End
 

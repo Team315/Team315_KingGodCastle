@@ -19,6 +19,6 @@ public:
 
 	void SetSize(Vector2f size);
 	void SetProgressLocalPos(Vector2f prgPos);
-	void SetColor(Color backColor, Color prgColor);
+	void SetColor(Color backColor, Color prgColor, Color prgBackColor = Color::Black, float thickness = 0.f);
 	ProgressBar& GetProgressBar() { return progress; }
 };
