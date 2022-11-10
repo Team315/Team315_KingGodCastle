@@ -1,9 +1,14 @@
 #pragma once
 #include "Scene.h"
 
+class UiName;
+class TileSet;
 class ToolScene : public Scene
 {
 protected:
+
+	TileSet* m_TileSet;
+	list<UiName*> UiNameList;
 
 public:
 	ToolScene();
@@ -17,5 +22,5 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	void CreateTileSet(int cols, int rows, float quadWidth, float quadHeight);
-
+	void CreateUiName();
 };

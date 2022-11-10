@@ -28,6 +28,10 @@ public:
     const string& GetString() const;
 
     FloatRect GetGlobalBounds();
+    void SetFont(Font& font);
     void SetColor(Color color);
     void SetPos(const Vector2f& pos);
+    void SetCharacterSize(int textSize);
+    void SetOutlineThickness(float thickness);
+    void SetOutlineColor(const Color& color);
 };

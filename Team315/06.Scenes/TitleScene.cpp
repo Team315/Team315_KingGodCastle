@@ -63,7 +63,7 @@ void TitleScene::Update(float dt)
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::Num2))
 	{
-		SCENE_MGR->ChangeScene(Scenes::Main);
+		SCENE_MGR->ChangeScene(Scenes::Loby);
 		return;
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::Num3))
@@ -75,7 +75,7 @@ void TitleScene::Update(float dt)
 	// Game Input
 	if (InputMgr::GetKeyDown(Keyboard::Key::Space))
 	{
-		SCENE_MGR->ChangeScene(Scenes::Main);
+		SCENE_MGR->ChangeScene(Scenes::Loby);
 		return;
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))

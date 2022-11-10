@@ -54,6 +54,11 @@ FloatRect TextObj::GetGlobalBounds()
     return text.getGlobalBounds();
 }
 
+void TextObj::SetFont(Font& font)
+{
+    text.setFont(font);
+}
+
 void TextObj::SetColor(Color color)
 {
     text.setFillColor(color);
@@ -63,4 +68,19 @@ void TextObj::SetPos(const Vector2f& pos)
 {
     Object::SetPos(pos);
     text.setPosition(pos);
+}
+
+void TextObj::SetCharacterSize(int textSize)
+{
+    text.setCharacterSize(textSize);
+}
+
+void TextObj::SetOutlineThickness(float thickness)
+{
+    text.setOutlineThickness(thickness);
+}
+
+void TextObj::SetOutlineColor(const Color& color)
+{
+    text.setOutlineColor(color);
 }

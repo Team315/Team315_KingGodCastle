@@ -1,36 +1,32 @@
 #pragma once
-#include "SpriteObj.h"
+#include "Button.h"
 
-class Button : public SpriteObj
+class SpriteButton : public Button
 {
 protected:
-	Text buttonText;
-	Vector2f buttonTextSpacing;
-	Color baseColor;
-	Color hoverColor;
+	Sprite buttonSprite;
+	Vector2f buttonSpriteSpacing;
 
 public:
-	Button();
-	virtual ~Button();
+	SpriteButton();
+	virtual ~SpriteButton();
 
 	virtual void Draw(RenderWindow& window) override;
-
 	virtual void SetPos(const Vector2f& pos) override;
 
-	virtual void SetOrigin(Origins origin);
+	virtual void SetOrigin(Origins origin) override;
 
 	void SetButton(Texture& backTexture,
 		Font& font, wstring textString,
+		Texture& buttonTexture,
 		float txtSpacingPosX = 0, float txtSpacingPosY = 0,
 		float posX = 0, float posY = 0,
 		float scaleX = 1.f, float scaleY = 1.f,
 		Color baseColor = Color::White,
-		Color hoverColor = Color::Red, 
+		Color hoverColor = Color::Red,
 		Color textColor = Color::Black,
 		int textSize = 25);
 
 	void SetButtonSize(float sizeX, float sizeY);
-	bool CollideTest(Vector2f pos);
-	Color GetBaseColor() { return baseColor; }
-	Color GetHoverColor() { return hoverColor; }
+	void SetButtonSpriteSpacing(float sizeX, float sizeY);
 };

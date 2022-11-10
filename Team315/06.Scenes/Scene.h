@@ -15,7 +15,7 @@ enum class Scenes
 	/*Dev1,
 	Dev2,*/
 	Title,
-	Main,
+	Loby,
 	Battle,
 	Tool,
 };
@@ -25,7 +25,7 @@ class Scene
 protected:
 	Scenes type;
 	list<Object*> objList;
-
+	list<Object*> tileSetList;
 	View worldView;
 	View uiView;
 	

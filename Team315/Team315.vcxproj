@@ -176,7 +176,7 @@
     <ClInclude Include="02.Object\Object.h" />
     <ClInclude Include="02.Object\RectangleObj.h" />
     <ClInclude Include="02.Object\VertexArrayObj.h" />
-    <ClInclude Include="06.Scenes\MainScene.h" />
+    <ClInclude Include="06.Scenes\LobyScene.h" />
     <ClInclude Include="06.Scenes\Scene.h" />
     <ClInclude Include="01.Manager\SceneMgr.h" />
     <ClInclude Include="02.Object\SpriteObj.h" />
@@ -188,7 +188,10 @@
     <ClInclude Include="03.GameObject\Player\Evan.h" />
     <ClInclude Include="03.GameObject\Monster\Goblin.h" />
     <ClInclude Include="05.ToolObject\TileSet.h" />
-    <ClInclude Include="04.UiObject\MainSceneUI.h" />
+    <ClInclude Include="05.ToolObject\UiName.h" />
+    <ClInclude Include="05.ToolObject\Theme.h" />
+    <ClInclude Include="04.UiObject\LobySceneUI.h" />
+    <ClInclude Include="04.UiObject\SpriteButton.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -211,7 +214,7 @@
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="06.Scenes\MainScene.cpp" />
+    <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
     <ClCompile Include="01.Manager\SceneMgr.cpp" />
     <ClCompile Include="02.Object\SpriteObj.cpp" />
@@ -221,7 +224,10 @@
     <ClCompile Include="06.Scenes\ToolScene.cpp" />
     <ClCompile Include="01.Manager\UIMgr.cpp" />
     <ClCompile Include="05.ToolObject\TileSet.cpp" />
-    <ClCompile Include="04.UiObject\MainSceneUI.cpp" />
+    <ClCompile Include="05.ToolObject\UiName.cpp" />
+    <ClCompile Include="05.ToolObject\Theme.cpp" />
+    <ClCompile Include="04.UiObject\LobySceneUI.cpp" />
+    <ClCompile Include="04.UiObject\SpriteButton.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

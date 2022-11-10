@@ -16,6 +16,5 @@
 #include "UIMgr.h"
 #include "Singleton.h"
 
-
 using namespace std;
 using namespace sf;
