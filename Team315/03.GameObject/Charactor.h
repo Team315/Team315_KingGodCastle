@@ -1,5 +1,7 @@
 #pragma once
-class Charactor
+#include "SpriteObj.h"
+
+class Charactor : public SpriteObj
 {
 };
 

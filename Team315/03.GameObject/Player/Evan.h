@@ -1,9 +1,9 @@
 #pragma once
 #include "Include.h"
 #include "Animator.h"
-#include "SpriteObj.h"
+#include "Charactor.h"
 
-class Evan : public SpriteObj
+class Evan : public Charactor
 {
 public:
 	enum class States
@@ -17,7 +17,7 @@ public:
 	};
 protected:
 	Animator animator;
-
+	
 	States currState;
 
 	float speed;
