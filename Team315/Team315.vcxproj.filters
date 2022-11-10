@@ -76,7 +76,8 @@
     <ClInclude Include="05.ToolObject\Theme.h" />
     <ClInclude Include="04.UiObject\SpriteButton.h" />
     <ClInclude Include="05.ToolObject\Number.h" />
-    <ClInclude Include="05.ToolObject\TileSelect.h" />
+    <ClInclude Include="05.ToolObject\SelectTile.h" />
+    <ClInclude Include="05.ToolObject\SelectObstacle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
@@ -140,7 +141,8 @@
     <ClCompile Include="04.UiObject\LobySceneUI.cpp" />
     <ClCompile Include="04.UiObject\SpriteButton.cpp" />
     <ClCompile Include="05.ToolObject\Number.cpp" />
-    <ClCompile Include="05.ToolObject\TileSelect.cpp" />
+    <ClCompile Include="05.ToolObject\SelectTile.cpp" />
+    <ClCompile Include="05.ToolObject\SelectObstacle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">

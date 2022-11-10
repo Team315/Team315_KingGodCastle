@@ -13,7 +13,5 @@ public:
 	virtual const Vector2f& GetPos() const;
 	virtual void Update(float dt);
 	virtual void Draw(RenderWindow& window);
-
-
 };
 

@@ -1,7 +1,8 @@
 #pragma once
 #include "Scene.h"
 
-class TileSelect;
+class SelectObstacle;
+class SelectTile;
 class Theme;
 class Number;
 class UiName;
@@ -15,7 +16,8 @@ protected:
 	list<Number*> ChapterNumList;
 	list<Number*> StageNumList;
 	list<Theme*> ThemeList;
-	list<TileSelect*> TileSelectList;
+	list<SelectTile*> SelectTileList;
+	list<SelectObstacle*> SelectObstacleList;
 
 
 public:
@@ -34,6 +36,7 @@ public:
 	void CreateChapterNum(int count);
 	void CreateStageNum(int count);
 	void CreateTheme();
-	void CreateTileSelect();
+	void CreateSelectTile();
+	void CreateSelectObstacle();
 
 };

@@ -1,41 +1,41 @@
-#include "TileSelect.h"
+#include "SelectTile.h"
 
-TileSelect::TileSelect()
+SelectTile::SelectTile()
 	:m_types(ThemeTypes::Goblin)
 {
 }
 
-TileSelect::~TileSelect()
+SelectTile::~SelectTile()
 {
 }
 
-void TileSelect::Init()
+void SelectTile::Init()
 {
 }
 
-void TileSelect::Release()
+void SelectTile::Release()
 {
 }
 
-void TileSelect::Update(float dt)
+void SelectTile::Update(float dt)
 {
 }
 
-void TileSelect::Draw(RenderWindow& window)
+void SelectTile::Draw(RenderWindow& window)
 {
 	window.draw(sprite);
 }
 
-void TileSelect::SetTileSelect(Vector2f pos, ThemeTypes types, int index)
+void SelectTile::SetSelectTile(Vector2f pos, ThemeTypes types, int index)
 {
 	m_index = index;
 	//SetTexture(*RESOURCE_MGR->GetTexture(SetPath(m_index)));
-	sprite.setTexture(*RESOURCE_MGR->GetTexture(SetPath(types,m_index)));
+	sprite.setTexture(*RESOURCE_MGR->GetTexture(SetPath(types, m_index)));
 	sprite.setPosition(pos);
 	SetOrigin(Origins::MC);
 }
 
-string TileSelect::SetPath(ThemeTypes types, int num)
+string SelectTile::SetPath(ThemeTypes types, int num)
 {
 	m_index = num;
 	string field = to_string((int)types / 10) + to_string((int)types % 10);

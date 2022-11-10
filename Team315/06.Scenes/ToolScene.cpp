@@ -5,7 +5,8 @@
 #include "Number.h"
 #include "TextObj.h"
 #include "Theme.h"
-#include "TileSelect.h"
+#include "SelectTile.h"
+#include "SelectObstacle.h"
 
 ToolScene::ToolScene()
 	: Scene(Scenes::Tool)
@@ -27,7 +28,8 @@ void ToolScene::Init()
 	CreateChapterNum(ChapterMaxCount);
 	CreateStageNum(StageMaxCount);
 	CreateTheme();
-	CreateTileSelect();
+	CreateSelectTile();
+	CreateSelectObstacle();
 
 	for (auto obj : objList)
 	{
@@ -105,11 +107,19 @@ void ToolScene::Update(float dt)
 		}
 	}
 
-	for (const auto& TileSelect : TileSelectList)
+	for (const auto& SelectTile : SelectTileList)
 	{
-		if (TileSelect->GetActive())
+		if (SelectTile->GetActive())
 		{
-			TileSelect->Update(dt);
+			SelectTile->Update(dt);
+		}
+	}
+
+	for (const auto& SelectObstacle : SelectObstacleList)
+	{
+		if (SelectObstacle->GetActive())
+		{
+			SelectObstacle->Update(dt);
 		}
 	}
 	Scene::Update(dt);
@@ -159,11 +169,19 @@ void ToolScene::Draw(RenderWindow& window)
 		}
 	}
 
-	for (const auto& TileSelect : TileSelectList)
+	for (const auto& TileSelect : SelectTileList)
 	{
 		if (TileSelect->GetActive())
 		{
 			TileSelect->Draw(window);
+		}
+	}
+
+	for (const auto& SelectObstacle : SelectObstacleList)
+	{
+		if (SelectObstacle->GetActive())
+		{
+			SelectObstacle->Draw(window);
 		}
 	}
 }
@@ -296,12 +314,12 @@ void ToolScene::CreateTheme()
 	}
 }
 
-void ToolScene::CreateTileSelect()
+void ToolScene::CreateSelectTile()
 {
 	float x = 0.f;
 	float y = 0.f;
 
-	for (int i = 0; i < Tile_1Type_Count; ++i)
+	for (int i = 0; i < Type1_Tile_Count; ++i)
 	{
 		if (i % 10 == 0)
 		{
@@ -309,9 +327,28 @@ void ToolScene::CreateTileSelect()
 		}
 
 		x = 51.f * (i % 10);
-		TileSelect* tileSelect = new TileSelect();
-		tileSelect->SetTileSelect({ 26.f + x, 255.f + y }, ThemeTypes::Goblin, i);
-		TileSelectList.push_back(tileSelect);
+		SelectTile* tileSelect = new SelectTile();
+		tileSelect->SetSelectTile({ 26.f + x, 255.f + y }, ThemeTypes::Goblin, i);
+		SelectTileList.push_back(tileSelect);
 	}
 	
+}
+
+void ToolScene::CreateSelectObstacle()
+{
+	float x = 0.f;
+	float y = 0.f;
+
+	for (int i = 0; i < Type1_Obstacle_Count; ++i)
+	{
+		if (i % 10 == 0)
+		{
+			y += 66.f;
+		}
+
+		x = 66.f * (i % 10);
+		SelectObstacle* selectObstacle = new SelectObstacle();
+		selectObstacle->SetSelectObstacle({ 33.f + x, 485.f + y }, ThemeTypes::Goblin, i);
+		SelectObstacleList.push_back(selectObstacle);
+	}
 }
