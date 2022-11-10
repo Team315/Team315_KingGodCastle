@@ -22,6 +22,7 @@ TextObj::TextObj(Font& font,  wstring textString,
 
 TextObj::~TextObj()
 {
+
 }
 
 void TextObj::Draw(RenderWindow& window)

@@ -18,6 +18,6 @@ public:
 
 
 	void SetText(string str);
-
+	TextObj* GetText() { return m_Text; }
 };
 

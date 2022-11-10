@@ -2,6 +2,9 @@
 #include "Include.h"
 #include "TileSet.h"
 #include "UiName.h"
+#include "Number.h"
+#include "TextObj.h"
+#include "Theme.h"
 
 ToolScene::ToolScene()
 	: Scene(Scenes::Tool)
@@ -20,6 +23,9 @@ void ToolScene::Init()
 
 	CreateTileSet(Tile_WIDTH, Tile_HEIGHT, Tile_SizeX, Tile_SizeY);
 	CreateUiName();
+	CreateChapterNum(ChapterMaxCount);
+	CreateStageNum(StageMaxCount);
+	CreateTheme();
 
 	for (auto obj : objList)
 	{
@@ -73,6 +79,31 @@ void ToolScene::Update(float dt)
 		}
 	}
 
+	for (const auto& ChapterNum : ChapterNumList)
+	{
+		if (ChapterNum->GetActive())
+		{
+			ChapterNum->Update(dt);
+		}
+	}
+
+	for (const auto& StageNum : StageNumList)
+	{
+		if (StageNum->GetActive())
+		{
+			StageNum->Update(dt);
+		}
+	}
+
+	for (const auto& Theme : ThemeList)
+	{
+		if (Theme->GetActive())
+		{
+			Theme->Update(dt);
+		}
+	}
+
+
 	Scene::Update(dt);
 }
 
@@ -96,6 +127,29 @@ void ToolScene::Draw(RenderWindow& window)
 		}
 	}
 
+	for (const auto& ChapterNum : ChapterNumList)
+	{
+		if (ChapterNum->GetActive())
+		{
+			ChapterNum->Draw(window);
+		}
+	}
+
+	for (const auto& StageNum : StageNumList)
+	{
+		if (StageNum->GetActive())
+		{
+			StageNum->Draw(window);
+		}
+	}
+
+	for (const auto& Theme : ThemeList)
+	{
+		if (Theme->GetActive())
+		{
+			Theme->Draw(window);
+		}
+	}
 }
 
 void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHeight)
@@ -148,7 +202,6 @@ void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHei
 		currPos.x = startPos.x;
 		currPos.y += Tile_SizeY;
 	}
-
 }
 
 void ToolScene::CreateUiName()
@@ -176,7 +229,7 @@ void ToolScene::CreateUiName()
 
 	UiName* tile = new UiName();
 	tile->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
-	tile->SetPos({ 60.f, 300.f });
+	tile->SetPos({ 60.f, 260.f });
 	tile->SetOrigin(Origins::MC);
 	tile->SetText("TILE");
 	UiNameList.push_back(tile);
@@ -192,6 +245,37 @@ void ToolScene::CreateUiName()
 	monster->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
 	monster->SetPos({ 60.f, 600.f });
 	monster->SetOrigin(Origins::MC);
-	monster->SetText("MONSTER0123456789");
+	monster->SetText("MONSTER");
 	UiNameList.push_back(monster);
+}
+
+void ToolScene::CreateChapterNum(int count)
+{
+	for (int i = 0; i < count; ++i)
+	{
+		Number* number = new Number();
+		number->SetNum({ 140.f + (i * 40.f), 20.f }, (i + 1) / 10, (i + 1) % 10, i + 1);
+		ChapterNumList.push_back(number);
+	}
+}
+
+void ToolScene::CreateStageNum(int count)
+{
+
+	for (int i = 0; i < count; ++i)
+	{
+		Number* number = new Number();
+		number->SetNum({ 140.f + (i * 40.f), 60.f }, (i + 1) / 10, (i + 1) % 10, i + 1);
+		StageNumList.push_back(number);
+	}
+}
+
+void ToolScene::CreateTheme()
+{
+	for (int i = 1; i <= 3; ++i)
+	{
+		Theme* theme = new Theme();
+		theme->SetTheme({101.f+(202*(i-1)) , 180.f}, i);
+		ThemeList.push_back(theme);
+	}
 }

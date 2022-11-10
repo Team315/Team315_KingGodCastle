@@ -2,7 +2,12 @@
 
 //윈도우
 #define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720	//높이 최소 761 이상
+#define WINDOW_HEIGHT 765	//높이 최소 765 이상
+
+//MAX Count
+#define ChapterMaxCount 3
+#define StageMaxCount 10
+
 
 //타일
 #define Tile_SizeX 51.f

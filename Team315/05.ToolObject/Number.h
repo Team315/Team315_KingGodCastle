@@ -1,21 +1,24 @@
 #pragma once
 #include "SpriteObj.h"
 
-
-class Theme : public SpriteObj
+class Number : public SpriteObj
 {
 protected:
+	Sprite m_BeforeNum;
+	Sprite m_AffterNum;
 	int m_index;
+
 public:
-	Theme();
-	~Theme();
+	Number();
+	~Number();
 
 	virtual void Init() override;
 	virtual void Release() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	void SetTheme(Vector2f pos, int index);
 	string SetPath(int num);
-};
+	void SetNum(Vector2f pos, int beforeNum, int affterNum, int index);
+	//void SetOrigins(Origins origin);
 
+};
