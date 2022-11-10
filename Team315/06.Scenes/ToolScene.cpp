@@ -5,6 +5,7 @@
 #include "Number.h"
 #include "TextObj.h"
 #include "Theme.h"
+#include "TileSelect.h"
 
 ToolScene::ToolScene()
 	: Scene(Scenes::Tool)
@@ -26,6 +27,7 @@ void ToolScene::Init()
 	CreateChapterNum(ChapterMaxCount);
 	CreateStageNum(StageMaxCount);
 	CreateTheme();
+	CreateTileSelect();
 
 	for (auto obj : objList)
 	{
@@ -103,7 +105,13 @@ void ToolScene::Update(float dt)
 		}
 	}
 
-
+	for (const auto& TileSelect : TileSelectList)
+	{
+		if (TileSelect->GetActive())
+		{
+			TileSelect->Update(dt);
+		}
+	}
 	Scene::Update(dt);
 }
 
@@ -150,6 +158,14 @@ void ToolScene::Draw(RenderWindow& window)
 			Theme->Draw(window);
 		}
 	}
+
+	for (const auto& TileSelect : TileSelectList)
+	{
+		if (TileSelect->GetActive())
+		{
+			TileSelect->Draw(window);
+		}
+	}
 }
 
 void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHeight)
@@ -189,6 +205,7 @@ void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHei
 			}*/
 
 			int quadIndex = i * cols + j;
+
 			for (int k = 0; k < 4; ++k)
 			{
 				int vertexIndex = quadIndex * 4 + k;
@@ -261,7 +278,6 @@ void ToolScene::CreateChapterNum(int count)
 
 void ToolScene::CreateStageNum(int count)
 {
-
 	for (int i = 0; i < count; ++i)
 	{
 		Number* number = new Number();
@@ -275,7 +291,27 @@ void ToolScene::CreateTheme()
 	for (int i = 1; i <= 3; ++i)
 	{
 		Theme* theme = new Theme();
-		theme->SetTheme({101.f+(202*(i-1)) , 180.f}, i);
+		theme->SetTheme({ 101.f + (202 * (i - 1)) , 180.f }, i);
 		ThemeList.push_back(theme);
 	}
+}
+
+void ToolScene::CreateTileSelect()
+{
+	float x = 0.f;
+	float y = 0.f;
+
+	for (int i = 0; i < Tile_1Type_Count; ++i)
+	{
+		if (i % 10 == 0)
+		{
+			y += 51.f;
+		}
+
+		x = 51.f * (i % 10);
+		TileSelect* tileSelect = new TileSelect();
+		tileSelect->SetTileSelect({ 26.f + x, 255.f + y }, ThemeTypes::Goblin, i);
+		TileSelectList.push_back(tileSelect);
+	}
+	
 }

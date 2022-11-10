@@ -14,6 +14,7 @@
 #define Tile_SizeY 51.f
 #define Tile_WIDTH 11
 #define Tile_HEIGHT 15
+#define Tile_1Type_Count 25
 
 // game screen size
 #define GAME_SCREEN_WIDTH 510
