@@ -5,6 +5,7 @@
 class SpriteButton;
 class RectangleObj;
 class RssProgressWindow;
+class RssTextWindow;
 
 class LobySceneUI : public UIMgr
 {
@@ -65,4 +66,6 @@ public:
 	int GetTabSize() { return tabSize; }
 	vector<SpriteButton*> buttons;
 	RssProgressWindow* expWind;
+	RssTextWindow* goldWind;
+	RssTextWindow* goldWind;
 };

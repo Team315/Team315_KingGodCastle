@@ -1,8 +1,8 @@
 #pragma once
-#include "ResourceStatusWindow.h"
+#include "SpriteObj.h"
 #include "ProgressBar.h"
 
-class RssProgressWindow : public ResourceStatusWindow
+class RssProgressWindow : public SpriteObj
 {
 protected:
 	ProgressBar progress;

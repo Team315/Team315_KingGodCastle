@@ -43,6 +43,17 @@ void ProgressBar::UpdateProgress()
 	progress.setSize(progressSize);
 }
 
+void ProgressBar::SetBackgroundColor(Color color)
+{
+	shape.setFillColor(color);
+}
+
+void ProgressBar::SetBackgroundOutline(Color color, float thickness)
+{
+	shape.setOutlineColor(color);
+	shape.setOutlineThickness(thickness);
+}
+
 void ProgressBar::SetProgressColor(Color color)
 {
 	progress.setFillColor(color);

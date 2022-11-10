@@ -46,31 +46,14 @@ LobySceneUI::LobySceneUI(Scene* scene)
 	float blockLength = GAME_SCREEN_WIDTH / gameResourceCount;
 	float padding = blockLength * 0.05f;
 
-	/*vector<string> table(gameResourceCount);
-	table[0] = "graphics/mainScene/Icon_Level.png";
-	table[1] = "graphics/mainScene/Icon_Jewelry.png";
-	table[2] = "graphics/mainScene/Icon_Gold.png";
-
-	Vector2f topResourcePos(padding * 2, 30.f);
-	for (int i = 0; i < gameResourceCount; i++)
-	{
-		RectangleObj* backSprite = new RectangleObj(blockLength - padding * 2, 40);
-		backSprite->SetFillColor(Color(0, 0, 0, 100));
-		backSprite->SetOutline(Color::Black, 2.f);
-		SpriteObj* resourceSprite = new SpriteObj();
-		resourceSprite->SetTexture(*RESOURCE_MGR->GetTexture(table[i]));
-		GameResources* gameResource = new GameResources(backSprite, resourceSprite);
-		gameResource->SetPos(topResourcePos);
-		topResourcePos.x += blockLength - padding;
-
-		gameResources.push_back(gameResource);
-	}*/
 	expWind = new RssProgressWindow();
 	expWind->SetPos(Vector2f(200, 300));
-	expWind->SetSize(Vector2f(100, 30));
-	expWind->SetColor(Color::Black, Color::Green);
+	expWind->SetColor(Color(0, 0, 0, 100), Color::Green);
 	expWind->SetTexture(*RESOURCE_MGR->GetTexture("graphics/mainScene/Icon_Level.png"));
-	expWind->SetShapeLocalPos(Vector2f(100, 100));
+	float texHeight = expWind->GetTextureRect().height;
+	expWind->SetSize(Vector2f(100, texHeight * 0.5f));
+	expWind->GetProgressBar().SetBackgroundOutline(Color::Black, 2.f);
+	expWind->SetProgressLocalPos(Vector2f(expWind->GetTextureRect().width * 0.5f, texHeight * 0.25f));
 }
 
 LobySceneUI::~LobySceneUI()

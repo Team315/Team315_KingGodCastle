@@ -84,12 +84,10 @@ void LobyScene::Update(float dt)
 	if (InputMgr::GetKey(Keyboard::Key::A))
 	{
 		ui->expWind->GetProgressBar().TranslateProgress(-dt);
-		//CLOG::Print3String(to_string(ui->expWind->GetProgressBar().progressValue));
 	}
 	if (InputMgr::GetKey(Keyboard::Key::S))
 	{
 		ui->expWind->GetProgressBar().TranslateProgress(dt);
-		//CLOG::Print3String(to_string(ui->expWind->GetProgressBar().progressValue));
 	}
 	// Dev Input End
 

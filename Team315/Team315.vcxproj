@@ -192,10 +192,9 @@
     <ClInclude Include="05.ToolObject\Theme.h" />
     <ClInclude Include="04.UiObject\LobySceneUI.h" />
     <ClInclude Include="04.UiObject\SpriteButton.h" />
-    <ClInclude Include="04.UiObject\ResourceStatusWindow.h" />
     <ClInclude Include="04.UiObject\ProgressBar.h" />
     <ClInclude Include="04.UiObject\RssProgressWindow.h" />
-    <ClInclude Include="04.UiObject\RssTextBox.h" />
+    <ClInclude Include="04.UiObject\RssTextWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -232,10 +231,9 @@
     <ClCompile Include="05.ToolObject\Theme.cpp" />
     <ClCompile Include="04.UiObject\LobySceneUI.cpp" />
     <ClCompile Include="04.UiObject\SpriteButton.cpp" />
-    <ClCompile Include="04.UiObject\ResourceStatusWindow.cpp" />
     <ClCompile Include="04.UiObject\ProgressBar.cpp" />
     <ClCompile Include="04.UiObject\RssProgressWindow.cpp" />
-    <ClCompile Include="04.UiObject\RssTextBox.cpp" />
+    <ClCompile Include="04.UiObject\RssTextWindow.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

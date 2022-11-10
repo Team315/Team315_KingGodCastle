@@ -7,6 +7,7 @@ protected:
 	RectangleShape progress;
 	Vector2f shapeSize;
 	Vector2f progressSize;
+	float progressValue;
 
 public:
 	ProgressBar(float x = 0, float y = 0);
@@ -18,9 +19,9 @@ public:
 
 	void SetSize(float x, float y);
 	void UpdateProgress();
+	void SetBackgroundColor(Color color);
+	void SetBackgroundOutline(Color color, float thickness);
 	void SetProgressColor(Color color);
 	void SetProgressValue(float value);
 	void TranslateProgress(float value);
-
-	float progressValue;
 };
