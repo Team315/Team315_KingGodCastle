@@ -23,6 +23,7 @@ protected:
 	};
 	int tabSize;
 	float buttonSize;
+	vector<SpriteButton*> buttons;
 
 	// top resources
 	enum class gameResourceEnum
@@ -34,24 +35,9 @@ protected:
 		count,
 	};
 	int gameResourceCount;
-
-	/*struct GameResources
-	{
-		RectangleObj*	backSprite;
-		SpriteObj*		resourceSprite;
-		int				value;
-		GameResources(RectangleObj* bs, SpriteObj* rs)
-			: backSprite(bs), resourceSprite(rs), value(0)
-		{}
-		void SetPos(Vector2f pos)
-		{
-			backSprite->SetPos(pos);
-			resourceSprite->SetPos(pos);
-		}
-		void SetValue(int v) { value = v; }
-		int GetValue() { return value; }
-	};
-	vector<GameResources*> gameResources;*/
+	RssProgressWindow* expWind;
+	RssTextWindow* goldWind;
+	RssTextWindow* jewelWind;
 
 public:
 	LobySceneUI(Scene* scene);
@@ -64,8 +50,8 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	int GetTabSize() { return tabSize; }
-	vector<SpriteButton*> buttons;
-	RssProgressWindow* expWind;
-	RssTextWindow* goldWind;
-	RssTextWindow* goldWind;
+	vector<SpriteButton*> GetButtons() { return buttons; }
+	RssProgressWindow* GetExpWindow() { return expWind; }
+	RssTextWindow* GetGoldWindow() { return goldWind; }
+	RssTextWindow* GetJewelWindow() { return jewelWind; }
 };

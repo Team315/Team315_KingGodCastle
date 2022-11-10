@@ -4,6 +4,7 @@
 #include "LobySceneUI.h"
 #include "SpriteObj.h"
 #include "RssProgressWindow.h"
+#include "RssTextWindow.h"
 
 LobyScene::LobyScene()
 	: Scene(Scenes::Loby), currentBackground(2)
@@ -83,17 +84,33 @@ void LobyScene::Update(float dt)
 	}
 	if (InputMgr::GetKey(Keyboard::Key::A))
 	{
-		ui->expWind->GetProgressBar().TranslateProgress(-dt);
+		ui->GetExpWindow()->GetProgressBar().TranslateProgress(-dt);
 	}
 	if (InputMgr::GetKey(Keyboard::Key::S))
 	{
-		ui->expWind->GetProgressBar().TranslateProgress(dt);
+		ui->GetExpWindow()->GetProgressBar().TranslateProgress(dt);
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::Q))
+	{
+		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValue() - 100);
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::W))
+	{
+		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValue() + 100);
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::E))
+	{
+		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValue() - 100);
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::R))
+	{
+		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValue() + 100);
 	}
 	// Dev Input End
 
 	// game input
 	int idx = 0;
-	for (auto button : ui->buttons)
+	for (auto button : ui->GetButtons())
 	{
 		if (button->CollideTest(ScreenToUiPos(InputMgr::GetMousePosI())))
 		{

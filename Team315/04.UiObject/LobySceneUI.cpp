@@ -4,6 +4,7 @@
 #include "SpriteButton.h"
 #include "RectangleObj.h"
 #include "RssProgressWindow.h"
+#include "RssTextWindow.h"
 
 LobySceneUI::LobySceneUI(Scene* scene)
 	: UIMgr(scene), tabSize((int)buttonModeEnum::count), buttonSize(100.f), gameResourceCount((int)gameResourceEnum::count)
@@ -54,6 +55,20 @@ LobySceneUI::LobySceneUI(Scene* scene)
 	expWind->SetSize(Vector2f(100, texHeight * 0.5f));
 	expWind->GetProgressBar().SetBackgroundOutline(Color::Black, 2.f);
 	expWind->SetProgressLocalPos(Vector2f(expWind->GetTextureRect().width * 0.5f, texHeight * 0.25f));
+
+	goldWind = new RssTextWindow(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	goldWind->SetTexture(*RESOURCE_MGR->GetTexture("graphics/mainScene/Icon_Gold.png"));
+	goldWind->SetPos(Vector2f(200, 400));
+	goldWind->SetSize(Vector2f(100, texHeight * 0.5f));
+	goldWind->SetBackgroundColor(Color(0, 0, 0, 100));
+	goldWind->SetBackgroundOutline(Color::Black, 2.f);
+
+	jewelWind = new RssTextWindow(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	jewelWind->SetTexture(*RESOURCE_MGR->GetTexture("graphics/mainScene/Icon_Jewelry.png"));
+	jewelWind->SetPos(Vector2f(200, 500));
+	jewelWind->SetSize(Vector2f(100, texHeight * 0.5f));
+	jewelWind->SetBackgroundColor(Color(0, 0, 0, 100));
+	jewelWind->SetBackgroundOutline(Color::Black, 2.f);
 }
 
 LobySceneUI::~LobySceneUI()
@@ -67,17 +82,13 @@ void LobySceneUI::Init()
 	for (auto button : buttons)
 	{
 		button->SetPos(pos);
-		pos.x += buttonSize + 5.f;
+		pos.x += buttonSize + 3.f;
 		uiObjList.push_back(button);
 	}
 
+	uiObjList.push_back(goldWind);
+	uiObjList.push_back(jewelWind);
 	uiObjList.push_back(expWind);
-
-	/*for (auto gameResource : gameResources)
-	{
-		uiObjList.push_back(gameResource->backSprite);
-		uiObjList.push_back(gameResource->resourceSprite);
-	}*/
 
 	UIMgr::Init();
 }

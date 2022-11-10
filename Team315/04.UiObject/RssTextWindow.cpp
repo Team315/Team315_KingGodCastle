@@ -12,7 +12,17 @@ RssTextWindow::~RssTextWindow()
 
 void RssTextWindow::Update(float dt)
 {
-	text.setString(to_string(value));
+	text.setString(to_string((int)value));
+	if (!Utils::EqualFloat(value, valueGoal))
+	{
+		if (value <= valueGoal)
+			value += (valueGoal - value + 1) * dt;
+		else
+			value -= (value - valueGoal) * dt;
+
+		if (Utils::EqualFloat(value, valueGoal))
+			value = valueGoal;
+	}
 }
 
 void RssTextWindow::Draw(RenderWindow& window)
@@ -29,9 +39,9 @@ void RssTextWindow::SetPos(const Vector2f& pos)
 	text.setPosition(pos + textLocalPos);
 }
 
-void RssTextWindow::SetSize(float x, float y)
+void RssTextWindow::SetSize(Vector2f size)
 {
-	background.setSize(Vector2f(x, y));
+	background.setSize(size);
 }
 
 void RssTextWindow::SetBackgroundColor(Color color)
@@ -70,4 +80,11 @@ void RssTextWindow::SetTextOutline(Color color, float thickness)
 {
 	text.setOutlineColor(color);
 	text.setOutlineThickness(thickness);
+}
+
+void RssTextWindow::SetGoal(float goal)
+{
+	if (goal < 0)
+		goal = 0;
+	valueGoal = goal;
 }

@@ -20,7 +20,7 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
 
-	void SetSize(float x, float y);
+	void SetSize(Vector2f size);
 	void SetBackgroundColor(Color color);
 	void SetBackgroundOutline(Color color, float thickness);
 
@@ -29,4 +29,6 @@ public:
 	void SetTextValue(float value);
 	void SetTextStyle(Color color, int cSize);
 	void SetTextOutline(Color color, float thickness);
+	void SetGoal(float goal);
+	float GetValue() { return value; }
 };
