@@ -68,7 +68,7 @@
     <ClInclude Include="99.Include\EnumClass.h" />
     <ClInclude Include="99.Include\Struct.h" />
     <ClInclude Include="03.GameObject\Player\Evan.h" />
-    <ClInclude Include="03.GameObject\Monster\Goblin.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin00.h" />
     <ClInclude Include="05.ToolObject\TileSet.h" />
     <ClInclude Include="04.UiObject\LobySceneUI.h" />
     <ClInclude Include="98.3rd\CSVWriter.h" />
@@ -131,9 +131,8 @@
     <ClCompile Include="06.Scenes\ToolScene.cpp" />
     <ClCompile Include="03.GameObject\Charactor.cpp" />
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
-    <ClCompile Include="03.GameObject\Monster\Goblin.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin00.cpp" />
     <ClCompile Include="05.ToolObject\TileSet.cpp" />
-    <ClCompile Include="04.UiObject\MainSceneUI.cpp" />
     <ClCompile Include="05.ToolObject\UiName.cpp" />
     <ClCompile Include="05.ToolObject\Theme.cpp" />
     <ClCompile Include="04.UiObject\LobySceneUI.cpp" />

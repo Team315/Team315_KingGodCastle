@@ -5,9 +5,14 @@ BattleScene::BattleScene()
 	: Scene(Scenes::Battle)
 {
 	CLOG::Print3String("battle create");
+
 	evan = new Evan();
 	evan->Init();
 	objList.push_back(evan);
+
+	goblin00 = new Goblin00();
+	goblin00->Init();
+	objList.push_back(goblin00);
 
 	for (auto obj : objList)
 	{

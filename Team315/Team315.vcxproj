@@ -186,7 +186,7 @@
     <ClInclude Include="06.Scenes\ToolScene.h" />
     <ClInclude Include="01.Manager\UIMgr.h" />
     <ClInclude Include="03.GameObject\Player\Evan.h" />
-    <ClInclude Include="03.GameObject\Monster\Goblin.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin00.h" />
     <ClInclude Include="05.ToolObject\TileSet.h" />
     <ClInclude Include="05.ToolObject\UiName.h" />
     <ClInclude Include="05.ToolObject\Theme.h" />
@@ -212,7 +212,7 @@
     <ClCompile Include="02.Object\VertexArrayObj.cpp" />
     <ClCompile Include="03.GameObject\Charactor.cpp" />
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
-    <ClCompile Include="03.GameObject\Monster\Goblin.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin00.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />

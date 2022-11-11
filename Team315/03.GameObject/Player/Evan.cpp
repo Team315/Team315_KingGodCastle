@@ -1,9 +1,8 @@
 #include "Evan.h"
-#include "Include.h"
 
 void Evan::Init()
 {
-    SetPos({ 1280 / 2.f, 720 / 2.f });
+    SetPos({ 200, 720 / 2.f });
     animator.SetTarget(&sprite);
 
     animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Idle"));

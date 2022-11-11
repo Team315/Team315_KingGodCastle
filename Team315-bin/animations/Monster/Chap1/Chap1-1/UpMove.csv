@@ -1,8 +1,0 @@
-ID,LOOPTYPE (0: Single 1: Move),FPS
-UpMove,1,10
-
-TEXTURE ID,L,T,W,H,W,Y,FlipX,FlipY
-graphics/Charactor/Monster/Chap1/Chap1-1Move.png,0,160,80,80,40,40,0,0
-graphics/Charactor/Monster/Chap1/Chap1-1Move.png,80,160,80,80,40,40,0,0
-graphics/Charactor/Monster/Chap1/Chap1-1Move.png,160,160,80,80,40,40,0,0
-graphics/Charactor/Monster/Chap1/Chap1-1Move.png,240,160,80,80,40,40,0,0
