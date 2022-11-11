@@ -53,6 +53,7 @@ LobySceneUI::LobySceneUI(Scene* scene)
 	expWind->SetSize(Vector2f(120, texHeight * 0.5f));
 	expWind->SetColor(Color(0, 0, 0, 100), Color::Green, Color::Black, 2.f);
 	expWind->SetProgressLocalPos(Vector2f(expWind->GetTextureRect().width * 0.5f, texHeight * 0.25f));
+	expWind->SetLevelTextLocalPos(Vector2f(expWind->GetTextureRect().width * 0.5f + 4, texHeight * 0.5f + 6));
 	expWind->SetPos(startPos);
 	startPos.x += blockLength;
 	startPos.y += 15.f;

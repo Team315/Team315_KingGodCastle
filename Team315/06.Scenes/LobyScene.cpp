@@ -90,6 +90,14 @@ void LobyScene::Update(float dt)
 	{
 		ui->GetExpWindow()->GetProgressBar().TranslateProgress(dt);
 	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::D))
+	{
+		ui->GetExpWindow()->SetLevel();
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::F))
+	{
+		ui->GetExpWindow()->SetLevel(1);
+	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::Q))
 	{
 		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValueGoal() - 100);
@@ -106,6 +114,7 @@ void LobyScene::Update(float dt)
 	{
 		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValueGoal() + 100);
 	}
+
 	// Dev Input End
 
 	// game input

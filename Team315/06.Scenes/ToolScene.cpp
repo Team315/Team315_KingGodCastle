@@ -321,9 +321,8 @@ void ToolScene::CreateChapterNum(int count)
 	for (int i = 0; i < count; ++i)
 	{
 		Number* number = new Number();
+		number->SetHitbox(number->GetTextureRect(), Origins::MC, 4, -4);
 		number->SetNum({ 140.f + (i * 40.f), 20.f }, (i + 1) / 10, (i + 1) % 10, i + 1);
-		CLOG::PrintRectState(number->GetTextureRect());
-		number->SetHitbox((FloatRect)number->GetTextureRect(), Origins::MC);
 		ChapterNumList.push_back(number);
 		objList.push_back(number);
 	}
