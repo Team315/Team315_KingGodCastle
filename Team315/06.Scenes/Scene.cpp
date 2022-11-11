@@ -23,6 +23,14 @@ Scene::~Scene()
 	Release();
 }
 
+void Scene::Init()
+{
+	for (const auto& obj : objList)
+	{
+		obj->Init();
+	}
+}
+
 void Scene::Release()
 {
 	for ( const auto& obj : objList )

@@ -35,7 +35,7 @@ public:
 	Scene(Scenes type);
 	virtual ~Scene();
 
-	virtual void Init() = 0;
+	virtual void Init();
 	virtual void Release();
 
 	virtual void Enter() = 0;

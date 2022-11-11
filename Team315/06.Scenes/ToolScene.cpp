@@ -32,10 +32,7 @@ void ToolScene::Init()
 	CreateSelectTile();
 	CreateSelectObstacle();
 
-	for (auto obj : objList)
-	{
-		obj->Init();
-	}
+	Scene::Init();
 }
 
 void ToolScene::Release()

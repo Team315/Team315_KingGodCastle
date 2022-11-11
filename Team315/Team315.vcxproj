@@ -156,7 +156,7 @@
     <ClInclude Include="97.DataTable\DataTable.h" />
     <ClInclude Include="97.DataTable\DataTableMgr.h" />
     <ClInclude Include="97.DataTable\StringTable.h" />
-    <ClInclude Include="03.GameObject\Charactor.h" />
+    <ClInclude Include="03.GameObject\Character.h" />
     <ClInclude Include="99.Include\Constant.h" />
     <ClInclude Include="99.Include\Define.h" />
     <ClInclude Include="99.Include\EnumClass.h" />
@@ -199,6 +199,7 @@
     <ClInclude Include="05.ToolObject\SelectTile.h" />
     <ClInclude Include="05.ToolObject\SelectObstacle.h" />
     <ClInclude Include="05.ToolObject\SelectMonster.h" />
+    <ClInclude Include="04.UiObject\BattleSceneUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -217,9 +218,10 @@
     <ClCompile Include="02.Object\Object.cpp" />
     <ClCompile Include="02.Object\RectangleObj.cpp" />
     <ClCompile Include="02.Object\VertexArrayObj.cpp" />
-    <ClCompile Include="03.GameObject\Charactor.cpp" />
+    <ClCompile Include="03.GameObject\Character.cpp" />
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin00.cpp" />
+    <ClCompile Include="04.UiObject\BattleSceneUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />

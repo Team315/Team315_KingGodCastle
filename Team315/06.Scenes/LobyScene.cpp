@@ -33,10 +33,7 @@ void LobyScene::Init()
 
 	objList.push_back(ui);
 
-	for (auto obj : objList)
-	{
-		obj->Init();
-	}
+	Scene::Init();
 }
 
 void LobyScene::Release()

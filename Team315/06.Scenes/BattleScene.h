@@ -5,9 +5,12 @@
 #include "SpriteObj.h"
 #include <vector>
 
+class BattleSceneUI;
+
 class BattleScene : public Scene
 {
 protected:
+	BattleSceneUI* ui;
 	SpriteObj* background;
 	Evan* evan;
 	Goblin00* goblin00;

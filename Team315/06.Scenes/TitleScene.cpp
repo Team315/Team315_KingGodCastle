@@ -27,11 +27,7 @@ TitleScene::~TitleScene()
 void TitleScene::Init()
 {
 	CLOG::Print3String("title Init");
-
-	for (auto obj : objList)
-	{
-		obj->Init();
-	}
+	Scene::Init();
 }
 
 void TitleScene::Release()

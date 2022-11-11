@@ -1,23 +1,15 @@
 #include "BattleScene.h"
 #include "Include.h"
+#include "BattleSceneUI.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle)
 {
 	CLOG::Print3String("battle create");
 
+	ui = new BattleSceneUI(this);
 	evan = new Evan();
-	evan->Init(goblin00);
-	objList.push_back(evan);
-
 	goblin00 = new Goblin00();
-	goblin00->Init(evan);
-	objList.push_back(goblin00);
-
-	for (auto obj : objList)
-	{
-		obj->Init();
-	}
 }
 
 BattleScene::~BattleScene()
@@ -28,10 +20,14 @@ void BattleScene::Init()
 {
 	CLOG::Print3String("battle Init");
 
-	for (auto obj : objList)
-	{
-		obj->Init();
-	}
+	evan->SetTarget(goblin00);
+	goblin00->SetTarget(evan);
+
+	objList.push_back(evan);
+	objList.push_back(goblin00);
+	objList.push_back(ui);
+	Scene::Init();
+	CLOG::Print3String("battle Init end");
 }
 
 void BattleScene::Release()
