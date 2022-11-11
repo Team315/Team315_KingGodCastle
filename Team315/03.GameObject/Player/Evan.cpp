@@ -1,9 +1,9 @@
 #include "Evan.h"
-#include "Include.h"
+#include "Monster/Goblin00.h"
 
-void Evan::Init()
+void Evan::Init(Goblin00* goblin00)
 {
-    SetPos({ 1280 / 2.f, 720 / 2.f });
+    SetPos({ 200, 720 / 2.f });
     animator.SetTarget(&sprite);
 
     animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Idle"));
@@ -85,13 +85,13 @@ void Evan::Init()
 		animator.AddEvent(ev);
 	}
 
+	this->goblin00 = goblin00;
     SpriteObj::Init();
     SetState(States::Idle);
 }
 
 void Evan::SetState(States newState)
 {
-	cout << (int)currState << endl;
 	if (currState == newState)
 	{
 		return;
@@ -180,7 +180,7 @@ void Evan::Update(float dt)
 	direction.y += Keyboard::isKeyPressed(Keyboard::Up) ? -1 : 0;
 
 	Translate(direction * dt * speed);
-
+	
 	switch (currState)
 	{
 	case Evan::States::Idle:

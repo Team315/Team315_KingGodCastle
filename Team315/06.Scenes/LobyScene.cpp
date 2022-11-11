@@ -1,5 +1,10 @@
 #include "LobyScene.h"
 #include "Include.h"
+#include "SpriteButton.h"
+#include "LobySceneUI.h"
+#include "SpriteObj.h"
+#include "RssProgressWindow.h"
+#include "RssTextWindow.h"
 
 LobyScene::LobyScene()
 	: Scene(Scenes::Loby), currentBackground(2)
@@ -27,6 +32,7 @@ void LobyScene::Init()
 	}
 
 	objList.push_back(ui);
+
 	for (auto obj : objList)
 	{
 		obj->Init();
@@ -40,7 +46,9 @@ void LobyScene::Release()
 void LobyScene::Enter()
 {
 	CLOG::Print3String("loby enter");
-	FRAMEWORK->GetWindow().setView(worldView);
+
+	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
+	currentView = gameView;
 }
 
 void LobyScene::Exit()
@@ -76,11 +84,44 @@ void LobyScene::Update(float dt)
 		CLOG::Print3String("loby devmode off");
 		FRAMEWORK->devMode = false;
 	}
+	if (InputMgr::GetKey(Keyboard::Key::A))
+	{
+		ui->GetExpWindow()->GetProgressBar().TranslateProgress(-dt);
+	}
+	if (InputMgr::GetKey(Keyboard::Key::S))
+	{
+		ui->GetExpWindow()->GetProgressBar().TranslateProgress(dt);
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::D))
+	{
+		ui->GetExpWindow()->SetLevel();
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::F))
+	{
+		ui->GetExpWindow()->SetLevel(1);
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::Q))
+	{
+		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValueGoal() - 1000);
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::W))
+	{
+		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValueGoal() + 1000);
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::E))
+	{
+		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValueGoal() - 1000);
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::R))
+	{
+		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValueGoal() + 1000);
+	}
+
 	// Dev Input End
 
 	// game input
 	int idx = 0;
-	for (auto button : ui->buttons)
+	for (auto button : ui->GetButtons())
 	{
 		if (button->CollideTest(ScreenToUiPos(InputMgr::GetMousePosI())))
 		{

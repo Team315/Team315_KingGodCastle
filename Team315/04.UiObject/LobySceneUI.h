@@ -1,9 +1,11 @@
 #pragma once
 #include "UIMgr.h"
-#include "SpriteButton.h"
-#include "RectangleObj.h"
-#include "Include.h"
 #include <vector>
+
+class SpriteButton;
+class RectangleObj;
+class RssProgressWindow;
+class RssTextWindow;
 
 class LobySceneUI : public UIMgr
 {
@@ -21,6 +23,7 @@ protected:
 	};
 	int tabSize;
 	float buttonSize;
+	vector<SpriteButton*> buttons;
 
 	// top resources
 	enum class gameResourceEnum
@@ -31,24 +34,10 @@ protected:
 		jewel,
 		count,
 	};
-	struct GameResources
-	{
-		RectangleObj*	backSprite;
-		SpriteObj*		resourceSprite;
-		int				value;
-		GameResources(RectangleObj* bs, SpriteObj* rs)
-			: backSprite(bs), resourceSprite(rs), value(0)
-		{}
-		void SetPos(Vector2f pos)
-		{
-			backSprite->SetPos(pos);
-			resourceSprite->SetPos(pos);
-		}
-		void SetValue(int v) { value = v; }
-		int GetValue() { return value; }
-	};
-	vector<GameResources*> gameResources;
 	int gameResourceCount;
+	RssProgressWindow* expWind;
+	RssTextWindow* goldWind;
+	RssTextWindow* jewelWind;
 
 public:
 	LobySceneUI(Scene* scene);
@@ -61,5 +50,8 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	int GetTabSize() { return tabSize; }
-	vector<SpriteButton*> buttons;
+	vector<SpriteButton*> GetButtons() { return buttons; }
+	RssProgressWindow* GetExpWindow() { return expWind; }
+	RssTextWindow* GetGoldWindow() { return goldWind; }
+	RssTextWindow* GetJewelWindow() { return jewelWind; }
 };

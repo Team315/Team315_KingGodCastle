@@ -1,8 +1,9 @@
 #pragma once
 #include "Scene.h"
-#include "LobySceneUI.h"
-#include "SpriteObj.h"
 #include <vector>
+
+class LobySceneUI;
+class SpriteObj;
 
 class LobyScene : public Scene
 {

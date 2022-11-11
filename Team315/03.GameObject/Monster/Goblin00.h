@@ -3,8 +3,8 @@
 #include "Animator.h"
 #include "Charactor.h"
 
-class Goblin00;
-class Evan : public Charactor
+class Evan;
+class Goblin00 : public Charactor
 {
 public:
 	enum class States
@@ -14,11 +14,10 @@ public:
 		MoveToIdle,
 		Move,
 		Attack,
-		Skill,
 	};
 protected:
 	Animator animator;
-	
+
 	States currState;
 
 	float speed;
@@ -26,7 +25,7 @@ protected:
 	Vector2f lastDirection;
 	Vector2f velocity;
 	SpriteObj* background;
-	Goblin00* goblin00;
+	Evan* evan;
 
 	int playerMaxhp;
 	int playerhp;
@@ -34,8 +33,8 @@ protected:
 	int playermp;
 	int dmg;
 public:
-	Evan() : currState(States::None), speed(200.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f), playerMaxhp(1000), dmg(100), playerMaxMp(500) {}
-	void Init(Goblin00* goblin00);
+	Goblin00() : currState(States::None), speed(100.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f), playerMaxhp(1000), dmg(100), playerMaxMp(500) {}
+	void Init(Evan* evan);
 
 	void SetState(States newState);
 
@@ -46,13 +45,11 @@ public:
 	void Draw(RenderWindow& window);
 
 	void OnCompleteAttack();
-	void OnCompleteSkill();
 
 	void UpdateIdle(float dt);
 	void UpdateMoveToIdle(float dt);
 	void UpdateMove(float dt);
 	void UpdateAttack(float dt);
-	void UpdateSkill(float dt);
 
 	bool EqualFloat(float a, float b);
 };

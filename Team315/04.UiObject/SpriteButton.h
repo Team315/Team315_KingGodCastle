@@ -4,8 +4,8 @@
 class SpriteButton : public Button
 {
 protected:
-	Sprite buttonSprite;
-	Vector2f buttonSpriteSpacing;
+	Sprite btnSprite;
+	Vector2f btnSpriteLocalPos;
 
 public:
 	SpriteButton();
@@ -19,7 +19,7 @@ public:
 	void SetButton(Texture& backTexture,
 		Font& font, wstring textString,
 		Texture& buttonTexture,
-		float txtSpacingPosX = 0, float txtSpacingPosY = 0,
+		float btnTextLocalPosX = 0, float btnTextLocalPosY = 0,
 		float posX = 0, float posY = 0,
 		float scaleX = 1.f, float scaleY = 1.f,
 		Color baseColor = Color::White,
@@ -28,5 +28,6 @@ public:
 		int textSize = 25);
 
 	void SetButtonSize(float sizeX, float sizeY);
-	void SetButtonSpriteSpacing(float sizeX, float sizeY);
+	void SetBtnSpriteLocalPos(float sizeX, float sizeY);
+	void SetButtonTextColor(Color textColor, Color outlineColor, float OutlineThickness);
 };

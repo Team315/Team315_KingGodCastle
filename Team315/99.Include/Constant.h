@@ -1,15 +1,14 @@
 #pragma once
 
-//윈도우
+// window size
 #define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 765	//높이 최소 765 이상
+#define WINDOW_HEIGHT 765
 
 //MAX Count
 #define ChapterMaxCount 3
 #define StageMaxCount 10
 
-
-//타일
+// tile
 #define Tile_SizeX 51.f
 #define Tile_SizeY 51.f
 #define Tile_WIDTH 11
