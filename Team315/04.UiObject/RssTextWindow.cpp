@@ -17,7 +17,7 @@ void RssTextWindow::Update(float dt)
 	if (!Utils::EqualFloat(value, valueGoal))
 	{
 		if (value <= valueGoal)
-			value += (valueGoal - value + 1) * dt;
+			value += (valueGoal - value + 2) * dt;
 		else
 			value -= (value - valueGoal) * dt;
 

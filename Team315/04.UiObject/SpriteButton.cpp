@@ -53,3 +53,10 @@ void SpriteButton::SetBtnSpriteLocalPos(float sizeX, float sizeY)
 {
 	btnSpriteLocalPos = { sizeX, sizeY };
 }
+
+void SpriteButton::SetButtonTextColor(Color textColor, Color outlineColor, float OutlineThickness)
+{
+	btnText.setFillColor(textColor);
+	btnText.setOutlineColor(outlineColor);
+	btnText.setOutlineThickness(OutlineThickness);
+}

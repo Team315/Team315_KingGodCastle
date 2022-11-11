@@ -1,6 +1,6 @@
 #pragma once
 
-//������
+// window size
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 765
 
@@ -8,8 +8,7 @@
 #define ChapterMaxCount 3
 #define StageMaxCount 10
 
-
-//Ÿ��
+// tile
 #define Tile_SizeX 51.f
 #define Tile_SizeY 51.f
 #define Tile_WIDTH 11

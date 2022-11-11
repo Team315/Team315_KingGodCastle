@@ -52,6 +52,9 @@ void ToolScene::Release()
 void ToolScene::Enter()
 {
 	CLOG::Print3String("tool enter");
+
+	FRAMEWORK->GetWindow().setSize(Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT));
+	currentView = toolView;
 }
 
 void ToolScene::Exit()
@@ -91,124 +94,12 @@ void ToolScene::Update(float dt)
 			}
 		}
 	}
-
-	/*for (const auto& tile : tileSetList)
-	{
-		if (tile->GetActive())
-		{
-			tile->Update(dt);
-		}
-	}
-
-	for (const auto& UiName : UiNameList)
-	{
-		if (UiName->GetActive())
-		{
-			UiName->Update(dt);
-		}
-	}
-
-	for (const auto& ChapterNum : ChapterNumList)
-	{
-		if (ChapterNum->GetActive())
-		{
-			ChapterNum->Update(dt);
-		}
-	}
-
-	for (const auto& StageNum : StageNumList)
-	{
-		if (StageNum->GetActive())
-		{
-			StageNum->Update(dt);
-		}
-	}
-
-	for (const auto& Theme : ThemeList)
-	{
-		if (Theme->GetActive())
-		{
-			Theme->Update(dt);
-		}
-	}
-
-	for (const auto& SelectTile : SelectTileList)
-	{
-		if (SelectTile->GetActive())
-		{
-			SelectTile->Update(dt);
-		}
-	}
-
-	for (const auto& SelectObstacle : SelectObstacleList)
-	{
-		if (SelectObstacle->GetActive())
-		{
-			SelectObstacle->Update(dt);
-		}
-	}*/
 	Scene::Update(dt);
 }
 
 void ToolScene::Draw(RenderWindow& window)
 {
 	Scene::Draw(window);
-
-	/*for (const auto& tile : tileSetList)
-	{
-		if (tile->GetActive())
-		{
-			tile->Draw(window);
-		}
-	}
-
-	for (const auto& UiName : UiNameList)
-	{
-		if (UiName->GetActive())
-		{
-			UiName->Draw(window);
-		}
-	}
-
-	for (const auto& ChapterNum : ChapterNumList)
-	{
-		if (ChapterNum->GetActive())
-		{
-			ChapterNum->Draw(window);
-		}
-	}
-
-	for (const auto& StageNum : StageNumList)
-	{
-		if (StageNum->GetActive())
-		{
-			StageNum->Draw(window);
-		}
-	}
-
-	for (const auto& Theme : ThemeList)
-	{
-		if (Theme->GetActive())
-		{
-			Theme->Draw(window);
-		}
-	}
-
-	for (const auto& TileSelect : SelectTileList)
-	{
-		if (TileSelect->GetActive())
-		{
-			TileSelect->Draw(window);
-		}
-	}
-
-	for (const auto& SelectObstacle : SelectObstacleList)
-	{
-		if (SelectObstacle->GetActive())
-		{
-			SelectObstacle->Draw(window);
-		}
-	}*/
 }
 
 void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHeight)
@@ -222,7 +113,6 @@ void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHei
 		m_TileSet->Init();
 	}
 
-	//Vector2f startPos = m_TileSet->GetPos();
 	Vector2f startPos = { WINDOW_WIDTH - (cols * quadWidth), 0.f };
 
 	VertexArray& va = m_TileSet->GetVA();

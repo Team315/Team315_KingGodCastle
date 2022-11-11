@@ -29,4 +29,5 @@ public:
 
 	void SetButtonSize(float sizeX, float sizeY);
 	void SetBtnSpriteLocalPos(float sizeX, float sizeY);
+	void SetButtonTextColor(Color textColor, Color outlineColor, float OutlineThickness);
 };

@@ -41,7 +41,10 @@ LobySceneUI::LobySceneUI(Scene* scene)
 		textSpacing.x, textSpacing.y);
 
 	for (auto button : buttons)
+	{
 		button->SetBtnSpriteLocalPos(15.f, 10.f);
+		button->SetButtonTextColor(Color::White, Color::Black, 2.f);
+	}
 
 	// top resources
 	float blockLength = GAME_SCREEN_WIDTH / gameResourceCount;

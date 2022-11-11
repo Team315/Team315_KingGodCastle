@@ -26,8 +26,10 @@ protected:
 	Scenes type;
 	list<Object*> objList;
 	list<Object*> tileSetList;
-	View worldView;
+	View gameView;
 	View uiView;
+	View toolView;
+	View& currentView;
 	
 public:
 	Scene(Scenes type);
@@ -44,7 +46,7 @@ public:
 
 	Texture* GetTexture(string id);
 
-	const View& GetWorldView() { return worldView; }
+	const View& GetWorldView() { return gameView; }
 	const View& GetUiView() { return uiView; }
 
 	Vector2f ScreenToWorldPos(Vector2i screenPos);

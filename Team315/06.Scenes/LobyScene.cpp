@@ -46,7 +46,9 @@ void LobyScene::Release()
 void LobyScene::Enter()
 {
 	CLOG::Print3String("loby enter");
-	FRAMEWORK->GetWindow().setView(worldView);
+
+	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
+	currentView = gameView;
 }
 
 void LobyScene::Exit()
@@ -100,19 +102,19 @@ void LobyScene::Update(float dt)
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::Q))
 	{
-		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValueGoal() - 100);
+		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValueGoal() - 1000);
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::W))
 	{
-		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValueGoal() + 100);
+		ui->GetGoldWindow()->SetGoal(ui->GetGoldWindow()->GetValueGoal() + 1000);
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::E))
 	{
-		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValueGoal() - 100);
+		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValueGoal() - 1000);
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::R))
 	{
-		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValueGoal() + 100);
+		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValueGoal() + 1000);
 	}
 
 	// Dev Input End
