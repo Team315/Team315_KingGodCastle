@@ -11,7 +11,6 @@ protected:
 	LobySceneUI* ui;
 	vector<SpriteObj*> backgrounds;
 	int tabSize;
-	int currentBackground;
 
 public:
 	LobyScene();
@@ -26,4 +25,6 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	void DrawBackground(RenderWindow& window);
+
+	int currentBackground;
 };

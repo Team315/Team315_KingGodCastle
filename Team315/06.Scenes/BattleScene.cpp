@@ -42,7 +42,7 @@ void BattleScene::Enter()
 {
 	CLOG::Print3String("battle enter");
 
-	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
+	FRAMEWORK->SetWindowSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	currentView = gameView;
 }
 

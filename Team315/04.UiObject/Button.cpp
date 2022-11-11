@@ -19,7 +19,7 @@ void Button::Draw(RenderWindow& window)
 void Button::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	btnText.setPosition(pos + btnTextLocalPos);
+	btnText.setPosition(position + btnTextLocalPos);
 }
 
 void Button::SetOrigin(Origins origin)
@@ -53,6 +53,26 @@ void Button::SetButton(Texture& backTexture,
 void Button::SetButtonSize(float sizeX, float sizeY)
 {
 	sprite.setScale(sizeX, sizeY);
+}
+
+void Button::SetTextStyle(Color textColor, int textSize, Color textOutlineColor, float textOutlineThickness)
+{
+	btnText.setFillColor(textColor);
+	btnText.setCharacterSize(textSize);
+	btnText.setOutlineColor(textOutlineColor);
+	btnText.setOutlineThickness(textOutlineThickness);
+}
+
+void Button::SetButtonStyle(Color baseColor, Color hoverColor)
+{
+	this->baseColor = baseColor;
+	this->hoverColor = hoverColor;
+}
+
+void Button::SetLocalPos(Vector2f pos)
+{
+	btnTextLocalPos = pos;
+	SetPos(position);
 }
 
 bool Button::CollideTest(Vector2f pos)

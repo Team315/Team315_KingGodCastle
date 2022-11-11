@@ -9,8 +9,7 @@ TitleScene::TitleScene()
 	background->SetTexture(*RESOURCE_MGR->GetTexture("graphics/titleScene/titleBackground.png"));
 	objList.push_back(background);
 
-	Vector2i wSize;
-	wSize = FRAMEWORK->GetWindowSize();
+	Vector2u wSize = FRAMEWORK->GetWindowSize();
 	titleText = new TextObj(
 		*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
 		"Press Space bar to start!",
@@ -43,7 +42,7 @@ void TitleScene::Enter()
 {
 	CLOG::Print3String("title enter");
 
-	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
+	FRAMEWORK->SetWindowSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	currentView = gameView;
 }
 

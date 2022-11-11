@@ -20,7 +20,13 @@ float Framework::GetRealDT() const
     return deltaTime.asSeconds();
 }
 
-const Vector2i& Framework::GetWindowSize() const
+void Framework::SetWindowSize(int width, int height)
+{
+    windowSize = Vector2u(width, height);
+    window.setSize(windowSize);
+}
+
+const Vector2u& Framework::GetWindowSize() const
 {
     return windowSize;
 }
@@ -32,8 +38,9 @@ RenderWindow& Framework::GetWindow()
 
 bool Framework::Init(int width, int height, std::string title)
 {
-    windowSize = { width, height };
+    windowSize = Vector2u(width, height);
     window.create(VideoMode(windowSize.x, windowSize.y), title);
+
     RESOURCE_MGR->LoadAll();
     SOUND_MGR->Init();
     //DATATABLE_MGR->Init();
