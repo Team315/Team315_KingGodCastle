@@ -6,6 +6,11 @@ BattleScene::BattleScene()
 {
 	CLOG::Print3String("battle create");
 
+	CreateBackground(10, 10, 51.f, 51.f);
+	Vector2f cenPos = ((Vector2f(510.f / 2.f, 710.f / 2.f)));
+	background->SetPos(cenPos);
+	background->SetOrigin(Origins::MC);
+
 	evan = new Evan();
 	evan->Init(goblin00);
 	objList.push_back(evan);
@@ -66,4 +71,42 @@ void BattleScene::Update(float dt)
 void BattleScene::Draw(RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+void BattleScene::CreateBackground(int cols, int rows, float qWidth, float qHeight)
+{
+	if (background == nullptr)
+	{
+		background = new VertexArrayObj();
+		background->SetTexture(GetTexture("graphics/Charactor/battelScene_Background/battelScene_Background.png"));
+		objList.push_back(background);
+	}
+
+	Vector2f startPos = background->GetPos();
+	VertexArray& va = background->GetVA();
+	va.setPrimitiveType(Quads);
+	va.resize(cols * rows * 4);
+
+	Vector2f currPos = startPos;
+
+	Vector2f offsets[4] = { {0,0}, {qWidth,0}, {qWidth,qHeight}, {0,qHeight} };
+	for (int i = 0; i < rows; ++i)
+	{
+		for (int j = 0; j < cols; ++j)
+		{
+			int quadIndex = i * cols + j;
+
+			int texIndex = (i == 0 || i == rows - 1) || ((j == 0) || (j == cols - 1))
+				? 3 : 3;
+
+			for (int k = 0; k < 4; ++k)
+			{
+				va[quadIndex * 4 + k].position = currPos + offsets[k];
+				va[quadIndex * 4 + k].texCoords = offsets[k] + Vector2f{ 0.f, texIndex * qHeight };
+			}
+			currPos.x += qWidth;
+		}
+		currPos.x = startPos.x;
+		currPos.y += qHeight;
+	}
 }
