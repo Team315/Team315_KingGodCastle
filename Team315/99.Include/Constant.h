@@ -2,7 +2,7 @@
 
 // window size
 #define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 765
+#define WINDOW_HEIGHT 800
 
 //MAX Count
 #define ChapterMaxCount 3
