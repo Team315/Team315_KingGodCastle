@@ -1,6 +1,7 @@
 #include "Evan.h"
+#include "Monster/Goblin00.h"
 
-void Evan::Init()
+void Evan::Init(Goblin00* goblin00)
 {
     SetPos({ 200, 720 / 2.f });
     animator.SetTarget(&sprite);
@@ -84,6 +85,7 @@ void Evan::Init()
 		animator.AddEvent(ev);
 	}
 
+	this->goblin00 = goblin00;
     SpriteObj::Init();
     SetState(States::Idle);
 }
@@ -179,7 +181,7 @@ void Evan::Update(float dt)
 	direction.y += Keyboard::isKeyPressed(Keyboard::Up) ? -1 : 0;
 
 	Translate(direction * dt * speed);
-
+	
 	switch (currState)
 	{
 	case Evan::States::Idle:

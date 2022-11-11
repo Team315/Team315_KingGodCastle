@@ -7,11 +7,11 @@ BattleScene::BattleScene()
 	CLOG::Print3String("battle create");
 
 	evan = new Evan();
-	evan->Init();
+	evan->Init(goblin00);
 	objList.push_back(evan);
 
 	goblin00 = new Goblin00();
-	goblin00->Init();
+	goblin00->Init(evan);
 	objList.push_back(goblin00);
 
 	for (auto obj : objList)

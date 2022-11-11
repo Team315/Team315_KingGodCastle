@@ -3,5 +3,7 @@
 
 class Charactor : public SpriteObj
 {
+protected:
+public:
 };
 

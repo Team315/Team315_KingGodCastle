@@ -1,6 +1,7 @@
 #include "Goblin00.h"
+#include "Player/Evan.h"
 
-void Goblin00::Init()
+void Goblin00::Init(Evan* evan)
 {
 	SetPos({ 1280 - 200, 720 / 2.f });
 	animator.SetTarget(&sprite);
@@ -51,6 +52,7 @@ void Goblin00::Init()
 		animator.AddEvent(ev);
 	}
 
+	this->evan = evan;
 	SpriteObj::Init();
 	SetState(States::Idle);
 }
@@ -119,6 +121,7 @@ void Goblin00::Update(float dt)
 	SpriteObj::Update(dt);
 	UpdateInput();
 
+	
 	direction.x = 0.f;
 	direction.y = 0.f;
 	direction.x += Keyboard::isKeyPressed(Keyboard::D) ? 1 : 0;
@@ -126,6 +129,7 @@ void Goblin00::Update(float dt)
 	direction.y += Keyboard::isKeyPressed(Keyboard::S) ? 1 : 0;
 	direction.y += Keyboard::isKeyPressed(Keyboard::W) ? -1 : 0;
 
+	direction = Utils::Normalize(evan->GetPos() - GetPos());
 	Translate(direction * dt * speed);
 
 	switch (currState)

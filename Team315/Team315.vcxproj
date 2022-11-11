@@ -117,7 +117,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>./SFML-2.5.1/include;./00.Framework;./01.Manager;./02.Object;./03.GameObject;./04.UiObject;./05.ToolObject;./06.Scenes;./97.DataTable;./98.3rd;./99.Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
