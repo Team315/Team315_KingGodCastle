@@ -195,6 +195,7 @@
     <ClInclude Include="05.ToolObject\Number.h" />
     <ClInclude Include="05.ToolObject\SelectTile.h" />
     <ClInclude Include="05.ToolObject\SelectObstacle.h" />
+    <ClInclude Include="05.ToolObject\SelectMonster.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -234,6 +235,7 @@
     <ClCompile Include="05.ToolObject\Number.cpp" />
     <ClCompile Include="05.ToolObject\SelectTile.cpp" />
     <ClCompile Include="05.ToolObject\SelectObstacle.cpp" />
+    <ClCompile Include="05.ToolObject\SelectMonster.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
