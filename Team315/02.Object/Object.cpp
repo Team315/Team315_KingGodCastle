@@ -32,7 +32,7 @@ bool Object::GetActive()
 
 void Object::Init()
 {
-	hitbox.setFillColor(Color(255, 0, 0, 60));
+	hitbox.setFillColor(Color(255, 0, 0, 180));
 	hitbox.setOutlineColor(Color::Black);
 	hitbox.setOutlineThickness(2.f);
 	Reset();
@@ -76,11 +76,21 @@ void Object::Draw(RenderWindow& window)
 	}
 }
 
-void Object::SetHitbox(const FloatRect rect, Origins origin)
+void Object::SetHitbox(const FloatRect rect, Origins origin, int ltDelta, int whDelta)
 {
 	hitBoxRect = rect;
-	hitbox.setSize({ rect.width, rect.height });
+	hitBoxRect.left		+= ltDelta;
+	hitBoxRect.top		+= ltDelta;
+	hitBoxRect.width	+= whDelta;
+	hitBoxRect.height	+= whDelta;
+	hitbox.setSize({ hitBoxRect.width, hitBoxRect.height });
 	Utils::SetOrigin(hitbox, origin);
+	SetPos(position);
+}
+
+void Object::SetHitbox(const IntRect rect, Origins origin, int ltDelta, int whDelta)
+{
+	SetHitbox((FloatRect)rect, origin, ltDelta, whDelta);
 }
 
 void Object::SetHitboxScale(float x, float y)

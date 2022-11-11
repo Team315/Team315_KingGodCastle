@@ -5,9 +5,14 @@ BattleScene::BattleScene()
 	: Scene(Scenes::Battle)
 {
 	CLOG::Print3String("battle create");
+
 	evan = new Evan();
-	evan->Init();
+	evan->Init(goblin00);
 	objList.push_back(evan);
+
+	goblin00 = new Goblin00();
+	goblin00->Init(evan);
+	objList.push_back(goblin00);
 
 	for (auto obj : objList)
 	{
@@ -36,6 +41,9 @@ void BattleScene::Release()
 void BattleScene::Enter()
 {
 	CLOG::Print3String("battle enter");
+
+	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
+	currentView = gameView;
 }
 
 void BattleScene::Exit()

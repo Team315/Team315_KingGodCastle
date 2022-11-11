@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "Player/Evan.h"
+#include "Monster/Goblin00.h"
 #include "SpriteObj.h"
 #include <vector>
 
@@ -9,6 +10,7 @@ class BattleScene : public Scene
 protected:
 	SpriteObj* background;
 	Evan* evan;
+	Goblin00* goblin00;
 
 public:
 	BattleScene();

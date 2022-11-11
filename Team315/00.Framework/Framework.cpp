@@ -1,4 +1,5 @@
 #include "Include.h"
+#include "Constant.h"
 
 Framework::Framework()
     : timeScale(1.f), devMode(false)
@@ -33,7 +34,6 @@ bool Framework::Init(int width, int height, std::string title)
 {
     windowSize = { width, height };
     window.create(VideoMode(windowSize.x, windowSize.y), title);
-
     RESOURCE_MGR->LoadAll();
     SOUND_MGR->Init();
     //DATATABLE_MGR->Init();

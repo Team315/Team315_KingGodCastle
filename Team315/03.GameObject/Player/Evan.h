@@ -3,6 +3,7 @@
 #include "Animator.h"
 #include "Charactor.h"
 
+class Goblin00;
 class Evan : public Charactor
 {
 public:
@@ -25,6 +26,7 @@ protected:
 	Vector2f lastDirection;
 	Vector2f velocity;
 	SpriteObj* background;
+	Goblin00* goblin00;
 
 	int playerMaxhp;
 	int playerhp;
@@ -33,7 +35,7 @@ protected:
 	int dmg;
 public:
 	Evan() : currState(States::None), speed(200.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f), playerMaxhp(1000), dmg(100), playerMaxMp(500) {}
-	void Init();
+	void Init(Goblin00* goblin00);
 
 	void SetState(States newState);
 

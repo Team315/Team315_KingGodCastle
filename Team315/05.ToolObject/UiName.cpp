@@ -33,12 +33,15 @@ void UiName::Draw(RenderWindow& window)
 
 void UiName::SetText(string str)
 {
+	Vector2f pos = sprite.getPosition();
+	pos.y -= 3.f;
+
 	m_Text->SetString(str);
 	m_Text->SetCharacterSize(20);
 	m_Text->SetColor(Color::White);
 	m_Text->SetOutlineThickness(2.5f);
 	m_Text->SetOutlineColor(Color::Black);
-	m_Text->SetPos(sprite.getPosition());
+	m_Text->SetPos(pos);
 	m_Text->SetOrigin(Origins::MC);
 }
 

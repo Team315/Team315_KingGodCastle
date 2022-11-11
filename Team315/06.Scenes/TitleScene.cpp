@@ -14,7 +14,9 @@ TitleScene::TitleScene()
 	titleText = new TextObj(
 		*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
 		"Press Space bar to start!",
-		wSize.x * 0.5f, wSize.y * 0.6f, Color::Black, 50.f);
+		wSize.x * 0.2f, wSize.y * 0.72f, Color::White, 30.f);
+	titleText->SetOutlineColor(Color::Black);
+	titleText->SetOutlineThickness(2.f);
 	titleText->SetOrigin(Origins::MC);
 	objList.push_back(titleText);
 }
@@ -40,6 +42,9 @@ void TitleScene::Release()
 void TitleScene::Enter()
 {
 	CLOG::Print3String("title enter");
+
+	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
+	currentView = gameView;
 }
 
 void TitleScene::Exit()

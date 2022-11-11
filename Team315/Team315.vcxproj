@@ -79,11 +79,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\$(ProjectName)-bin</OutDir>
+    <OutDir>..\$(ProjectName)-bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\$(ProjectName)-bin</OutDir>
+    <OutDir>..\$(ProjectName)-bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -117,7 +117,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>./SFML-2.5.1/include;./00.Framework;./01.Manager;./02.Object;./03.GameObject;./04.UiObject;./05.ToolObject;./06.Scenes;./97.DataTable;./98.3rd;./99.Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -186,12 +186,18 @@
     <ClInclude Include="06.Scenes\ToolScene.h" />
     <ClInclude Include="01.Manager\UIMgr.h" />
     <ClInclude Include="03.GameObject\Player\Evan.h" />
-    <ClInclude Include="03.GameObject\Monster\Goblin.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin00.h" />
     <ClInclude Include="05.ToolObject\TileSet.h" />
     <ClInclude Include="05.ToolObject\UiName.h" />
     <ClInclude Include="05.ToolObject\Theme.h" />
     <ClInclude Include="04.UiObject\LobySceneUI.h" />
     <ClInclude Include="04.UiObject\SpriteButton.h" />
+    <ClInclude Include="04.UiObject\ProgressBar.h" />
+    <ClInclude Include="04.UiObject\RssProgressWindow.h" />
+    <ClInclude Include="04.UiObject\RssTextWindow.h" />
+    <ClInclude Include="05.ToolObject\Number.h" />
+    <ClInclude Include="05.ToolObject\SelectTile.h" />
+    <ClInclude Include="05.ToolObject\SelectObstacle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -212,7 +218,7 @@
     <ClCompile Include="02.Object\VertexArrayObj.cpp" />
     <ClCompile Include="03.GameObject\Charactor.cpp" />
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
-    <ClCompile Include="03.GameObject\Monster\Goblin.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin00.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
@@ -228,6 +234,12 @@
     <ClCompile Include="05.ToolObject\Theme.cpp" />
     <ClCompile Include="04.UiObject\LobySceneUI.cpp" />
     <ClCompile Include="04.UiObject\SpriteButton.cpp" />
+    <ClCompile Include="04.UiObject\ProgressBar.cpp" />
+    <ClCompile Include="04.UiObject\RssProgressWindow.cpp" />
+    <ClCompile Include="04.UiObject\RssTextWindow.cpp" />
+    <ClCompile Include="05.ToolObject\Number.cpp" />
+    <ClCompile Include="05.ToolObject\SelectTile.cpp" />
+    <ClCompile Include="05.ToolObject\SelectObstacle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
