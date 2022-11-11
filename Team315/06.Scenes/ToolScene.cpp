@@ -8,9 +8,10 @@
 #include "SelectTile.h"
 #include "SelectObstacle.h"
 #include "SelectMonster.h"
+#include "SelectStar.h"
 
 ToolScene::ToolScene()
-	: Scene(Scenes::Tool)
+	: Scene(Scenes::Tool), m_nowChapter(0), m_nowStage(0), m_nowTheme(0)
 {
 	CLOG::Print3String("tool create");
 }
@@ -31,6 +32,8 @@ void ToolScene::Init()
 	CreateTheme();
 	CreateSelectTile();
 	CreateSelectObstacle();
+	CreateSelectMonster();
+	CreateSelectStar();
 
 	for (auto obj : objList)
 	{
@@ -93,6 +96,11 @@ void ToolScene::Update(float dt)
 				CLOG::Print3String((chapterNum->GetName()));
 				break;
 			}
+		}
+
+		if (chapterNum)
+		{
+
 		}
 	}
 	Scene::Update(dt);
@@ -192,7 +200,7 @@ void ToolScene::CreateUiName()
 
 	UiName* obstacle = new UiName();
 	obstacle->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
-	obstacle->SetPos({ 60.f, 500.f });
+	obstacle->SetPos({ 60.f, 455.f });
 	obstacle->SetOrigin(Origins::MC);
 	obstacle->SetText("OBSTACLE");
 	UiNameList.push_back(obstacle);
@@ -200,7 +208,7 @@ void ToolScene::CreateUiName()
 
 	UiName* monster = new UiName();
 	monster->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
-	monster->SetPos({ 60.f, 600.f });
+	monster->SetPos({ 60.f, 570.f });
 	monster->SetOrigin(Origins::MC);
 	monster->SetText("MONSTER");
 	UiNameList.push_back(monster);
@@ -277,7 +285,7 @@ void ToolScene::CreateSelectObstacle()
 
 		x = 66.f * (i % 10);
 		SelectObstacle* selectObstacle = new SelectObstacle();
-		selectObstacle->SetSelectObstacle({ 33.f + x, 485.f + y }, ThemeTypes::Goblin, i);
+		selectObstacle->SetSelectObstacle({ 33.f + x, 445.f + y }, ThemeTypes::Goblin, i);
 		SelectObstacleList.push_back(selectObstacle);
 		objList.push_back(selectObstacle);
 	}
@@ -285,15 +293,33 @@ void ToolScene::CreateSelectObstacle()
 
 void ToolScene::CreateSelectMonster()
 {
+	MonsterTypes types;
 
-	for (int j = 1; j < 2; ++j)
+	for (int i = 0; i < 1; i++)
 	{
-		SelectMonster* selectMonster = new SelectMonster(MonsterTypes::Boss);
+		for (int j = 0; j < 5; ++j)
+		{
+			if (j == 0)
+				types = MonsterTypes::Boss;
+			else
+				types = MonsterTypes::Monster;
+
+			SelectMonster* selectMonster = new SelectMonster(types);
+			selectMonster->SetSelectMonster({ 54.f + (j * 108.f),WINDOW_HEIGHT - 75.f }, (ThemeTypes)(i + 1), j);
+			objList.push_back(selectMonster);
+		}
 	}
 
-	for (int j = 0; j < 4; ++j)
-	{
-		SelectMonster* selectMonster = new SelectMonster(MonsterTypes::Monster);
-	}
+}
 
+void ToolScene::CreateSelectStar()
+{
+	for (int i = 0; i < 7; i++)
+	{
+
+		SelectStar* selectStar = new SelectStar();
+
+		selectStar->SetSelectStar({ 40.f + (i * 85.f) , 622.f }, (i + 1));
+		objList.push_back(selectStar);
+	}
 }

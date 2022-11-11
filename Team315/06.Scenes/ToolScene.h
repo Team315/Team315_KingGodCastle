@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 
+class SelectStar;
 class SelectMonster;
 class SelectObstacle;
 class SelectTile;
@@ -11,6 +12,13 @@ class TileSet;
 class ToolScene : public Scene
 {
 protected:
+	int m_nowChapter;
+	int m_nowStage;
+	int m_nowTheme;
+	int m_nowTileSet;
+	int m_nowObstacle;
+	int m_nowStar;
+	int m_monster;
 
 	TileSet* m_TileSet;
 	list<UiName*> UiNameList;
@@ -40,4 +48,6 @@ public:
 	void CreateSelectTile();
 	void CreateSelectObstacle();
 	void CreateSelectMonster();
+	void CreateSelectStar();
+
 };

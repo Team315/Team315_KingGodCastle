@@ -82,6 +82,7 @@
     <ClInclude Include="05.ToolObject\SelectTile.h" />
     <ClInclude Include="05.ToolObject\SelectObstacle.h" />
     <ClInclude Include="05.ToolObject\SelectMonster.h" />
+    <ClInclude Include="05.ToolObject\SelectStar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
@@ -151,6 +152,7 @@
     <ClCompile Include="05.ToolObject\SelectTile.cpp" />
     <ClCompile Include="05.ToolObject\SelectObstacle.cpp" />
     <ClCompile Include="05.ToolObject\SelectMonster.cpp" />
+    <ClCompile Include="05.ToolObject\SelectStar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">
