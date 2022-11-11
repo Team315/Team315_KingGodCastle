@@ -7,7 +7,7 @@ BattleScene::BattleScene()
 	CLOG::Print3String("battle create");
 
 	CreateBackground(10, 16, 51.f, 51.f);
-	Vector2f cenPos = ((Vector2f(510.f / 2.f, 715.f / 2.f)));
+	Vector2f cenPos = ((Vector2f(510.f / 2.f, 765.f / 2.f)));
 	background->SetPos(cenPos);
 	background->SetOrigin(Origins::MC);
 
