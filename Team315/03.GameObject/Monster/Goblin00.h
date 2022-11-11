@@ -3,7 +3,6 @@
 #include "Animator.h"
 #include "Character.h"
 
-class Evan;
 class Goblin00 : public Character
 {
 public:
