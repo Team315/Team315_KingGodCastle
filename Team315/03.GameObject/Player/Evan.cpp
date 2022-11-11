@@ -3,7 +3,7 @@
 
 void Evan::Init(Goblin00* goblin00)
 {
-    SetPos({ 200, 720 / 2.f });
+    SetPos({ 50, 720 / 2.f });
     animator.SetTarget(&sprite);
 
     animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Idle"));
