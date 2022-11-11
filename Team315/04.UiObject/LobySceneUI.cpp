@@ -108,11 +108,8 @@ LobySceneUI::~LobySceneUI()
 
 void LobySceneUI::Init()
 {
-	Vector2f pos(0.f, FRAMEWORK->GetWindowSize().y - buttonSize);
 	for (auto button : buttons)
 	{
-		button->SetPos(pos);
-		pos.x += buttonSize + 3.f;
 		uiObjList.push_back(button);
 	}
 

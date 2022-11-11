@@ -54,7 +54,7 @@ void ToolScene::Enter()
 {
 	CLOG::Print3String("tool enter");
 
-	FRAMEWORK->SetWindowSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
+	FRAMEWORK->SetWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	currentView = toolView;
 }
 
