@@ -9,8 +9,7 @@ class Framework : public Singleton<Framework>
 {
 protected:
 	RenderWindow window;
-	RenderWindow window2;
-	Vector2i windowSize;
+	Vector2u windowSize;
 
 	//TimeMgr
 	Clock clock;
@@ -23,7 +22,8 @@ public:
 
 	float GetDT() const;
 	float GetRealDT() const;
-	const Vector2i& GetWindowSize()const;
+	void SetWindowSize(int width, int height);
+	const Vector2u& GetWindowSize() const;
 	RenderWindow& GetWindow();
 
 	bool Init(int width, int height, std::string title);

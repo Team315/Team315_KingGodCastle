@@ -60,7 +60,11 @@
     <ClInclude Include="06.Scenes\LobyScene.h" />
     <ClInclude Include="06.Scenes\BattleScene.h" />
     <ClInclude Include="06.Scenes\ToolScene.h" />
+<<<<<<< .merge_file_TxhvoJ
     <ClInclude Include="03.GameObject\Charactor.h" />
+=======
+    <ClInclude Include="03.GameObject\Character.h" />
+>>>>>>> .merge_file_y6kdGC
     <ClInclude Include="99.Include\Include.h" />
     <ClInclude Include="99.Include\Headers.h" />
     <ClInclude Include="99.Include\Constant.h" />
@@ -82,6 +86,10 @@
     <ClInclude Include="05.ToolObject\SelectTile.h" />
     <ClInclude Include="05.ToolObject\SelectObstacle.h" />
     <ClInclude Include="05.ToolObject\SelectMonster.h" />
+<<<<<<< .merge_file_TxhvoJ
+=======
+    <ClInclude Include="04.UiObject\BattleSceneUI.h" />
+>>>>>>> .merge_file_y6kdGC
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
@@ -136,7 +144,7 @@
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
     <ClCompile Include="06.Scenes\ToolScene.cpp" />
-    <ClCompile Include="03.GameObject\Charactor.cpp" />
+    <ClCompile Include="03.GameObject\Character.cpp" />
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin00.cpp" />
     <ClCompile Include="05.ToolObject\TileSet.cpp" />
@@ -151,6 +159,7 @@
     <ClCompile Include="05.ToolObject\SelectTile.cpp" />
     <ClCompile Include="05.ToolObject\SelectObstacle.cpp" />
     <ClCompile Include="05.ToolObject\SelectMonster.cpp" />
+    <ClCompile Include="04.UiObject\BattleSceneUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">

@@ -12,17 +12,10 @@ BattleScene::BattleScene()
 	background->SetOrigin(Origins::MC);
 
 	evan = new Evan();
-	evan->Init(goblin00);
 	objList.push_back(evan);
 
 	goblin00 = new Goblin00();
-	goblin00->Init(evan);
 	objList.push_back(goblin00);
-
-	for (auto obj : objList)
-	{
-		obj->Init();
-	}
 }
 
 BattleScene::~BattleScene()
@@ -33,10 +26,9 @@ void BattleScene::Init()
 {
 	CLOG::Print3String("battle Init");
 
-	for (auto obj : objList)
-	{
-		obj->Init();
-	}
+	goblin00->SetTarget(evan);
+	evan->SetTarget(goblin00);
+	Scene::Init();
 }
 
 void BattleScene::Release()

@@ -1,7 +1,6 @@
 #include "Evan.h"
-#include "Monster/Goblin00.h"
 
-void Evan::Init(Goblin00* goblin00)
+void Evan::Init()
 {
     SetPos({ 50, 720 / 2.f });
     animator.SetTarget(&sprite);
@@ -85,8 +84,6 @@ void Evan::Init(Goblin00* goblin00)
 		animator.AddEvent(ev);
 	}
 
-	this->goblin00 = goblin00;
-    SpriteObj::Init();
     SetState(States::Idle);
 }
 
@@ -146,11 +143,6 @@ void Evan::SetState(States newState)
 	}
 }
 
-void Evan::SetBackground(SpriteObj* bk)
-{
-	background = bk;
-}
-
 void Evan::UpdateInput()
 {
 	if (InputMgr::GetKeyDown(Keyboard::Z))
@@ -169,7 +161,6 @@ void Evan::UpdateInput()
 
 void Evan::Update(float dt)
 {
-	SpriteObj::Update(dt);
 	UpdateInput();
 
 	direction.x = 0.f;
@@ -209,7 +200,6 @@ void Evan::Update(float dt)
 
 void Evan::Draw(RenderWindow& window)
 {
-	window.draw(sprite);
 	SpriteObj::Draw(window);
 }
 

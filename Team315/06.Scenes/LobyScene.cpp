@@ -33,10 +33,7 @@ void LobyScene::Init()
 
 	objList.push_back(ui);
 
-	for (auto obj : objList)
-	{
-		obj->Init();
-	}
+	Scene::Init();
 }
 
 void LobyScene::Release()
@@ -47,7 +44,7 @@ void LobyScene::Enter()
 {
 	CLOG::Print3String("loby enter");
 
-	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
+	FRAMEWORK->SetWindowSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	currentView = gameView;
 }
 
@@ -140,6 +137,23 @@ void LobyScene::Update(float dt)
 			button->SetColor(button->GetBaseColor());
 		}
 		idx++;
+	}
+	Button* button = ui->GetStartButton();
+	if (button->CollideTest(ScreenToUiPos(InputMgr::GetMousePosI())))
+	{
+			button->SetColor(button->GetHoverColor());
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				SCENE_MGR->ChangeScene(Scenes::Battle);
+				return;
+			}
+
+			if (InputMgr::GetMouseDown(Mouse::Right))
+				CLOG::Print3String("Right");
+	}
+	else
+	{
+		button->SetColor(button->GetBaseColor());
 	}
 	// game input end
 

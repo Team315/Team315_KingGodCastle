@@ -2,6 +2,7 @@
 #include "UIMgr.h"
 #include <vector>
 
+class Button;
 class SpriteButton;
 class RectangleObj;
 class RssProgressWindow;
@@ -39,6 +40,8 @@ protected:
 	RssTextWindow* goldWind;
 	RssTextWindow* jewelWind;
 
+	Button* startBtn;
+
 public:
 	LobySceneUI(Scene* scene);
 	virtual ~LobySceneUI();
@@ -54,4 +57,5 @@ public:
 	RssProgressWindow* GetExpWindow() { return expWind; }
 	RssTextWindow* GetGoldWindow() { return goldWind; }
 	RssTextWindow* GetJewelWindow() { return jewelWind; }
+	Button* GetStartButton() { return startBtn; }
 };

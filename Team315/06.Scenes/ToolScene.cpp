@@ -32,10 +32,7 @@ void ToolScene::Init()
 	CreateSelectTile();
 	CreateSelectObstacle();
 
-	for (auto obj : objList)
-	{
-		obj->Init();
-	}
+	Scene::Init();
 }
 
 void ToolScene::Release()
@@ -54,7 +51,7 @@ void ToolScene::Enter()
 {
 	CLOG::Print3String("tool enter");
 
-	FRAMEWORK->GetWindow().setSize(Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT));
+	FRAMEWORK->SetWindowSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	currentView = toolView;
 }
 
