@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 
+class SelectMonster;
 class SelectObstacle;
 class SelectTile;
 class Theme;
@@ -38,5 +39,5 @@ public:
 	void CreateTheme();
 	void CreateSelectTile();
 	void CreateSelectObstacle();
-
+	void CreateSelectMonster();
 };

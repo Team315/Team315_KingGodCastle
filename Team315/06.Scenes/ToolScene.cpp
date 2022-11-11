@@ -7,6 +7,7 @@
 #include "Theme.h"
 #include "SelectTile.h"
 #include "SelectObstacle.h"
+#include "SelectMonster.h"
 
 ToolScene::ToolScene()
 	: Scene(Scenes::Tool)
@@ -89,7 +90,7 @@ void ToolScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				CLOG::Print3String(to_string(chapterNum->GetObjId()));
+				CLOG::Print3String((chapterNum->GetName()));
 				break;
 			}
 		}
@@ -208,6 +209,7 @@ void ToolScene::CreateUiName()
 
 void ToolScene::CreateChapterNum(int count)
 {
+	string name = "chap num";
 	for (int i = 0; i < count; ++i)
 	{
 		Number* number = new Number();
@@ -279,4 +281,19 @@ void ToolScene::CreateSelectObstacle()
 		SelectObstacleList.push_back(selectObstacle);
 		objList.push_back(selectObstacle);
 	}
+}
+
+void ToolScene::CreateSelectMonster()
+{
+
+	for (int j = 1; j < 2; ++j)
+	{
+		SelectMonster* selectMonster = new SelectMonster(MonsterTypes::Boss);
+	}
+
+	for (int j = 0; j < 4; ++j)
+	{
+		SelectMonster* selectMonster = new SelectMonster(MonsterTypes::Monster);
+	}
+
 }

@@ -3,7 +3,7 @@
 
 Number::Number()
 {
-	sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/number/Nuber_Font_Bar.png"));
+	sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/number/Number_Font_Bar.png"));
 }
 
 Number::~Number()
@@ -34,7 +34,7 @@ void Number::Draw(RenderWindow& window)
 
 string Number::SetPath(int num)
 {
-	string path = "graphics/ToolUi/number/Nuber_Font_";
+	string path = "graphics/ToolUi/number/Number_Font_";
 	string sNum = to_string(num);
 	string png = ".png";
 

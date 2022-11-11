@@ -7,3 +7,10 @@ enum class ThemeTypes
 	Thief,
 	Slime,
 };
+
+enum class MonsterTypes
+{
+	None = 0,
+	Monster,
+	Boss,
+};
