@@ -61,13 +61,38 @@ void ToolScene::Exit()
 
 void ToolScene::Update(float dt)
 {
+	// Dev key
+	if (InputMgr::GetKeyDown(Keyboard::Key::F7))
+	{
+		CLOG::Print3String("tool devmode on");
+		FRAMEWORK->devMode = true;
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::F8))
+	{
+		CLOG::Print3String("tool devmode off");
+		FRAMEWORK->devMode = false;
+	}
+	// Dev key end
+
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 	{
 		SCENE_MGR->ChangeScene(Scenes::Loby);
 		return;
 	}
 
-	for (const auto& tile : tileSetList)
+	for (auto chapterNum : ChapterNumList)
+	{
+		if (chapterNum->CollideTest(ScreenToUiPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				CLOG::Print3String(to_string(chapterNum->GetObjId()));
+				break;
+			}
+		}
+	}
+
+	/*for (const auto& tile : tileSetList)
 	{
 		if (tile->GetActive())
 		{
@@ -121,7 +146,7 @@ void ToolScene::Update(float dt)
 		{
 			SelectObstacle->Update(dt);
 		}
-	}
+	}*/
 	Scene::Update(dt);
 }
 
@@ -129,7 +154,7 @@ void ToolScene::Draw(RenderWindow& window)
 {
 	Scene::Draw(window);
 
-	for (const auto& tile : tileSetList)
+	/*for (const auto& tile : tileSetList)
 	{
 		if (tile->GetActive())
 		{
@@ -183,7 +208,7 @@ void ToolScene::Draw(RenderWindow& window)
 		{
 			SelectObstacle->Draw(window);
 		}
-	}
+	}*/
 }
 
 void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHeight)
@@ -193,6 +218,7 @@ void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHei
 		m_TileSet = new TileSet();
 		m_TileSet->SetTexture(GetTexture("graphics/TileSet/Field_01.png"));
 		tileSetList.push_back(m_TileSet);
+		objList.push_back(m_TileSet);
 		m_TileSet->Init();
 	}
 
@@ -247,6 +273,7 @@ void ToolScene::CreateUiName()
 	chapter->SetOrigin(Origins::MC);
 	chapter->SetText("CHAPTER");
 	UiNameList.push_back(chapter);
+	objList.push_back(chapter);
 
 	UiName* stage = new UiName();
 	stage->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
@@ -254,6 +281,7 @@ void ToolScene::CreateUiName()
 	stage->SetOrigin(Origins::MC);
 	stage->SetText("STAGE");
 	UiNameList.push_back(stage);
+	objList.push_back(stage);
 
 	UiName* theme = new UiName();
 	theme->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
@@ -261,6 +289,7 @@ void ToolScene::CreateUiName()
 	theme->SetOrigin(Origins::MC);
 	theme->SetText("THEME");
 	UiNameList.push_back(theme);
+	objList.push_back(theme);
 
 	UiName* tile = new UiName();
 	tile->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
@@ -268,6 +297,7 @@ void ToolScene::CreateUiName()
 	tile->SetOrigin(Origins::MC);
 	tile->SetText("TILE");
 	UiNameList.push_back(tile);
+	objList.push_back(tile);
 
 	UiName* obstacle = new UiName();
 	obstacle->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
@@ -275,6 +305,7 @@ void ToolScene::CreateUiName()
 	obstacle->SetOrigin(Origins::MC);
 	obstacle->SetText("OBSTACLE");
 	UiNameList.push_back(obstacle);
+	objList.push_back(obstacle);
 
 	UiName* monster = new UiName();
 	monster->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
@@ -282,6 +313,7 @@ void ToolScene::CreateUiName()
 	monster->SetOrigin(Origins::MC);
 	monster->SetText("MONSTER");
 	UiNameList.push_back(monster);
+	objList.push_back(monster);
 }
 
 void ToolScene::CreateChapterNum(int count)
@@ -290,7 +322,10 @@ void ToolScene::CreateChapterNum(int count)
 	{
 		Number* number = new Number();
 		number->SetNum({ 140.f + (i * 40.f), 20.f }, (i + 1) / 10, (i + 1) % 10, i + 1);
+		CLOG::PrintRectState(number->GetTextureRect());
+		number->SetHitbox((FloatRect)number->GetTextureRect(), Origins::MC);
 		ChapterNumList.push_back(number);
+		objList.push_back(number);
 	}
 }
 
@@ -301,6 +336,7 @@ void ToolScene::CreateStageNum(int count)
 		Number* number = new Number();
 		number->SetNum({ 140.f + (i * 40.f), 60.f }, (i + 1) / 10, (i + 1) % 10, i + 1);
 		StageNumList.push_back(number);
+		objList.push_back(number);
 	}
 }
 
@@ -311,6 +347,7 @@ void ToolScene::CreateTheme()
 		Theme* theme = new Theme();
 		theme->SetTheme({ 101.f + (202 * (i - 1)) , 180.f }, i);
 		ThemeList.push_back(theme);
+		objList.push_back(theme);
 	}
 }
 
@@ -330,6 +367,7 @@ void ToolScene::CreateSelectTile()
 		SelectTile* tileSelect = new SelectTile();
 		tileSelect->SetSelectTile({ 26.f + x, 255.f + y }, ThemeTypes::Goblin, i);
 		SelectTileList.push_back(tileSelect);
+		objList.push_back(tileSelect);
 	}
 	
 }
@@ -350,5 +388,6 @@ void ToolScene::CreateSelectObstacle()
 		SelectObstacle* selectObstacle = new SelectObstacle();
 		selectObstacle->SetSelectObstacle({ 33.f + x, 485.f + y }, ThemeTypes::Goblin, i);
 		SelectObstacleList.push_back(selectObstacle);
+		objList.push_back(selectObstacle);
 	}
 }

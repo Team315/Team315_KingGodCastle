@@ -28,6 +28,15 @@ void ConsoleLogger::PrintRectState(FloatRect fr, string name)
 		<< " height: " << fr.height << endl;
 }
 
+void ConsoleLogger::PrintRectState(IntRect fr, string name)
+{
+	cout << name
+		<< " left: " << fr.left
+		<< " top: " << fr.top
+		<< " width: " << fr.width
+		<< " height: " << fr.height << endl;
+}
+
 void ConsoleLogger::Print3String(string str1, string str2, string str3)
 {
 	stringstream ss;

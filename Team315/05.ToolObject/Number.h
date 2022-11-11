@@ -21,4 +21,5 @@ public:
 	void SetNum(Vector2f pos, int beforeNum, int affterNum, int index);
 	//void SetOrigins(Origins origin);
 
+	bool CollideTest(Vector2f pos);
 };

@@ -25,8 +25,8 @@ void Number::Update(float dt)
 
 void Number::Draw(RenderWindow& window)
 {
-	//SpriteObj::Draw(window);
-	window.draw(sprite);
+	SpriteObj::Draw(window);
+	//window.draw(sprite);
 	window.draw(m_BeforeNum);
 	window.draw(m_AffterNum);
 	
@@ -43,7 +43,8 @@ string Number::SetPath(int num)
 
 void Number::SetNum(Vector2f pos, int beforeNum, int affterNum, int index)
 {
-	sprite.setPosition(pos);
+	//sprite.setPosition(pos);
+	SetPos(pos);
 	SetOrigin(Origins::MC);
 
 	m_BeforeNum.setTexture(*RESOURCE_MGR->GetTexture(SetPath(beforeNum)));
@@ -54,6 +55,16 @@ void Number::SetNum(Vector2f pos, int beforeNum, int affterNum, int index)
 	m_AffterNum.setPosition(pos);
 	Utils::SetOrigin(m_AffterNum, Origins::ML);
 }
+
+bool Number::CollideTest(Vector2f pos)
+{
+	if (hitbox.getGlobalBounds().contains(pos))
+	{
+		return true;
+	}
+	return false;
+}
+
 //void Number::SetOrigins(Origins origin)
 //{
 //
