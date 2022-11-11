@@ -9,6 +9,7 @@ class Framework : public Singleton<Framework>
 {
 protected:
 	RenderWindow window;
+	RenderWindow window2;
 	Vector2i windowSize;
 
 	//TimeMgr

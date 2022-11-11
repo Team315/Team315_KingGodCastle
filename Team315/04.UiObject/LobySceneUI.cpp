@@ -1,6 +1,10 @@
 #include "LobySceneUI.h"
 #include "Include.h"
 #include "Constant.h"
+#include "SpriteButton.h"
+#include "RectangleObj.h"
+#include "RssProgressWindow.h"
+#include "RssTextWindow.h"
 
 LobySceneUI::LobySceneUI(Scene* scene)
 	: UIMgr(scene), tabSize((int)buttonModeEnum::count), buttonSize(100.f), gameResourceCount((int)gameResourceEnum::count)
@@ -37,31 +41,48 @@ LobySceneUI::LobySceneUI(Scene* scene)
 		textSpacing.x, textSpacing.y);
 
 	for (auto button : buttons)
-		button->SetButtonSpriteSpacing(15.f, 10.f);
+	{
+		button->SetBtnSpriteLocalPos(15.f, 10.f);
+		button->SetButtonTextColor(Color::White, Color::Black, 2.f);
+	}
 
 	// top resources
 	float blockLength = GAME_SCREEN_WIDTH / gameResourceCount;
-	float padding = blockLength * 0.05f;
+	Vector2f startPos(10.f, 10.f);
 
-	vector<string> table(gameResourceCount);
-	table[0] = "graphics/mainScene/Icon_Level.png";
-	table[1] = "graphics/mainScene/Icon_Jewelry.png";
-	table[2] = "graphics/mainScene/Icon_Gold.png";
+	expWind = new RssProgressWindow();
+	expWind->SetTexture(*RESOURCE_MGR->GetTexture("graphics/mainScene/Icon_Level.png"));
+	float texHeight = expWind->GetTextureRect().height;
+	expWind->SetSize(Vector2f(120, texHeight * 0.5f));
+	expWind->SetColor(Color(0, 0, 0, 100), Color::Green, Color::Black, 2.f);
+	expWind->SetProgressLocalPos(Vector2f(expWind->GetTextureRect().width * 0.5f, texHeight * 0.25f));
+	expWind->SetLevelTextLocalPos(Vector2f(expWind->GetTextureRect().width * 0.5f + 4, texHeight * 0.5f + 6));
+	expWind->SetPos(startPos);
+	startPos.x += blockLength;
+	startPos.y += 15.f;
 
-	Vector2f topResourcePos(padding * 2, 30.f);
-	for (int i = 0; i < gameResourceCount; i++)
-	{
-		RectangleObj* backSprite = new RectangleObj(blockLength - padding * 2, 40);
-		backSprite->SetFillColor(Color(0, 0, 0, 100));
-		backSprite->SetOutline(Color::Black, 2.f);
-		SpriteObj* resourceSprite = new SpriteObj();
-		resourceSprite->SetTexture(*RESOURCE_MGR->GetTexture(table[i]));
-		GameResources* gameResource = new GameResources(backSprite, resourceSprite);
-		gameResource->SetPos(topResourcePos);
-		topResourcePos.x += blockLength - padding;
+	goldWind = new RssTextWindow(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"));
+	goldWind->SetTexture(*RESOURCE_MGR->GetTexture("graphics/mainScene/Icon_Gold.png"));
+	goldWind->SetBackLocalPos(Vector2f(20.f, texHeight * 0.25f - 15.f));
+	goldWind->SetTextLocalPos(Vector2f(50.f, texHeight * 0.25f - 7.5f));
+	goldWind->SetPos(startPos);
+	startPos.x += blockLength;
+	goldWind->SetSize(Vector2f(120, texHeight * 0.5f));
+	goldWind->SetBackgroundColor(Color(0, 0, 0, 100));
+	goldWind->SetBackgroundOutline(Color::Black, 2.f);
+	goldWind->SetTextStyle(Color::White, 20);
+	goldWind->SetTextOutline(Color::Black, 2.f);
 
-		gameResources.push_back(gameResource);
-	}
+	jewelWind = new RssTextWindow(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"));
+	jewelWind->SetTexture(*RESOURCE_MGR->GetTexture("graphics/mainScene/Icon_Jewelry.png"));
+	jewelWind->SetBackLocalPos(Vector2f(20.f, texHeight * 0.25f - 15.f));
+	jewelWind->SetTextLocalPos(Vector2f(50.f, texHeight * 0.25f - 7.5f));
+	jewelWind->SetPos(startPos);
+	jewelWind->SetSize(Vector2f(120, texHeight * 0.5f));
+	jewelWind->SetBackgroundColor(Color(0, 0, 0, 100));
+	jewelWind->SetBackgroundOutline(Color::Black, 2.f);
+	jewelWind->SetTextStyle(Color::White, 20);
+	jewelWind->SetTextOutline(Color::Black, 2.f);
 }
 
 LobySceneUI::~LobySceneUI()
@@ -75,15 +96,13 @@ void LobySceneUI::Init()
 	for (auto button : buttons)
 	{
 		button->SetPos(pos);
-		pos.x += buttonSize + 5.f;
+		pos.x += buttonSize + 3.f;
 		uiObjList.push_back(button);
 	}
 
-	for (auto gameResource : gameResources)
-	{
-		uiObjList.push_back(gameResource->backSprite);
-		uiObjList.push_back(gameResource->resourceSprite);
-	}
+	uiObjList.push_back(goldWind);
+	uiObjList.push_back(jewelWind);
+	uiObjList.push_back(expWind);
 
 	UIMgr::Init();
 }

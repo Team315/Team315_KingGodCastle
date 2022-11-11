@@ -79,11 +79,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\$(ProjectName)-bin</OutDir>
+    <OutDir>..\$(ProjectName)-bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\$(ProjectName)-bin</OutDir>
+    <OutDir>..\$(ProjectName)-bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -192,6 +192,12 @@
     <ClInclude Include="05.ToolObject\Theme.h" />
     <ClInclude Include="04.UiObject\LobySceneUI.h" />
     <ClInclude Include="04.UiObject\SpriteButton.h" />
+    <ClInclude Include="04.UiObject\ProgressBar.h" />
+    <ClInclude Include="04.UiObject\RssProgressWindow.h" />
+    <ClInclude Include="04.UiObject\RssTextWindow.h" />
+    <ClInclude Include="05.ToolObject\Number.h" />
+    <ClInclude Include="05.ToolObject\SelectTile.h" />
+    <ClInclude Include="05.ToolObject\SelectObstacle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -228,6 +234,12 @@
     <ClCompile Include="05.ToolObject\Theme.cpp" />
     <ClCompile Include="04.UiObject\LobySceneUI.cpp" />
     <ClCompile Include="04.UiObject\SpriteButton.cpp" />
+    <ClCompile Include="04.UiObject\ProgressBar.cpp" />
+    <ClCompile Include="04.UiObject\RssProgressWindow.cpp" />
+    <ClCompile Include="04.UiObject\RssTextWindow.cpp" />
+    <ClCompile Include="05.ToolObject\Number.cpp" />
+    <ClCompile Include="05.ToolObject\SelectTile.cpp" />
+    <ClCompile Include="05.ToolObject\SelectObstacle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

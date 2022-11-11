@@ -12,6 +12,7 @@ public:
 	static void PrintVectorState(Vector2i vec, string name = "");
 	static void PrintVectorState(Vector2u vec, string name = "");
 	static void PrintRectState(FloatRect fr, string name = "");
+	static void PrintRectState(IntRect fr, string name = "");
 
 	static void Print3String(
 		string str1, string str2 = "", string str3 = "");
