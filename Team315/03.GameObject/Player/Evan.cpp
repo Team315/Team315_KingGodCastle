@@ -85,6 +85,7 @@ void Evan::Init()
 	}
 
     SetState(States::Idle);
+	Character::Init();
 }
 
 void Evan::SetState(States newState)
@@ -161,6 +162,7 @@ void Evan::UpdateInput()
 
 void Evan::Update(float dt)
 {
+	Character::Update(dt);
 	UpdateInput();
 
 	direction.x = 0.f;
@@ -200,7 +202,12 @@ void Evan::Update(float dt)
 
 void Evan::Draw(RenderWindow& window)
 {
-	SpriteObj::Draw(window);
+	Character::Draw(window);
+}
+
+void Evan::SetPos(const Vector2f& pos)
+{
+	Character::SetPos(pos);
 }
 
 void Evan::OnCompleteAttack()

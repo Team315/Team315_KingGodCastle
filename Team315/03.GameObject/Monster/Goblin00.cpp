@@ -52,6 +52,7 @@ void Goblin00::Init()
 	}
 
 	SetState(States::Idle);
+	Character::Init();
 }
 
 void Goblin00::SetState(States newState)
@@ -111,8 +112,8 @@ void Goblin00::UpdateInput()
 
 void Goblin00::Update(float dt)
 {
+	Character::Update(dt);
 	UpdateInput();
-
 	
 	direction.x = 0.f;
 	direction.y = 0.f;
@@ -149,7 +150,12 @@ void Goblin00::Update(float dt)
 
 void Goblin00::Draw(RenderWindow& window)
 {
-	SpriteObj::Draw(window);
+	Character::Draw(window);
+}
+
+void Goblin00::SetPos(const Vector2f& pos)
+{
+	Character::SetPos(pos);
 }
 
 void Goblin00::OnCompleteAttack()
