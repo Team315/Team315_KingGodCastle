@@ -11,7 +11,7 @@
 #include "SelectStar.h"
 
 ToolScene::ToolScene()
-	: Scene(Scenes::Tool), m_nowChapter(0), m_nowStage(0), m_nowTheme(0)
+	: Scene(Scenes::Tool), m_nowChapter(0), m_nowStage(0), m_nowTheme(0), m_nowStar(0), m_monster(0)
 {
 	CLOG::Print3String("tool create");
 }
@@ -84,22 +84,105 @@ void ToolScene::Update(float dt)
 		return;
 	}
 
+	//for (auto chapterNum : ChapterNumList)
+	//{
+	//	if (chapterNum->CollideTest(ScreenToUiPos(InputMgr::GetMousePosI())))
+	//	{
+	//		if (InputMgr::GetMouseDown(Mouse::Left))
+	//		{
+	//			CLOG::Print3String((chapterNum->GetName()));
+	//			break;
+	//		}
+	//	}
+	//}
+
+
 	for (auto chapterNum : ChapterNumList)
 	{
-		if (chapterNum->CollideTest(ScreenToUiPos(InputMgr::GetMousePosI())))
+		chapterNum->OnEdge(m_nowChapter);
+		if (chapterNum->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowChapter))
 		{
-			if (InputMgr::GetMouseDown(Mouse::Left))
+			if (InputMgr::GetMouseUp(Mouse::Left))
 			{
-				CLOG::Print3String((chapterNum->GetName()));
-				break;
+				m_nowChapter = chapterNum->GetIndex();
 			}
 		}
+	}
 
-		if (chapterNum)
+	for (auto  stageNum : StageNumList)
+	{
+		stageNum->OnEdge(m_nowStage);
+		if (stageNum->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowStage))
 		{
-
+			if (InputMgr::GetMouseUp(Mouse::Left))
+			{
+				m_nowStage = stageNum->GetIndex();
+			}
 		}
 	}
+
+	for (auto  Theme : ThemeList)
+	{
+		Theme->OnEdge(m_nowTheme);
+		if (Theme->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowTheme))
+		{
+			if (InputMgr::GetMouseUp(Mouse::Left))
+			{
+				m_nowTheme = Theme->GetIndex();
+			}
+		}
+	}
+
+	for (auto SelectTile : SelectTileList)
+	{
+		SelectTile->OnEdge(m_nowTileSet);
+		if (SelectTile->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowTileSet))
+		{
+			if (InputMgr::GetMouseUp(Mouse::Left))
+			{
+				m_nowTileSet = SelectTile->GetIndex();
+			}
+		}
+	}
+
+	for (auto  SelectObstacle : SelectObstacleList)
+	{
+		SelectObstacle->OnEdge(m_nowObstacle);
+		if (SelectObstacle->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowObstacle))
+		{
+			if (InputMgr::GetMouseUp(Mouse::Left))
+			{
+				m_nowObstacle = SelectObstacle->GetIndex();
+			}
+		}
+	}
+
+	for (auto SelectStar : SelectStarList)
+	{
+		SelectStar->OnEdge(m_nowStar);
+		if (SelectStar->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowStar))
+		{
+			if (InputMgr::GetMouseUp(Mouse::Left))
+			{
+				m_nowStar = SelectStar->GetIndex();
+			}
+		}
+	}
+
+	for (auto SelectMonster : SelectMonsterList)
+	{
+		SelectMonster->OnEdge(m_monster);
+		if (SelectMonster->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_monster))
+		{
+			if (InputMgr::GetMouseUp(Mouse::Left))
+			{
+
+				m_monster = SelectMonster->GetIndex();
+				cout << m_monster << endl;
+			}
+		}
+	}
+
 	Scene::Update(dt);
 }
 
@@ -217,7 +300,7 @@ void ToolScene::CreateChapterNum(int count)
 	string name = "chap num";
 	for (int i = 0; i < count; ++i)
 	{
-		Number* number = new Number();
+		Number* number = new Number(i+1);
 		number->SetHitbox(number->GetTextureRect(), Origins::MC, 4, -4);
 		number->SetNum({ 140.f + (i * 40.f), 20.f }, (i + 1) / 10, (i + 1) % 10, i + 1);
 		ChapterNumList.push_back(number);
@@ -229,7 +312,7 @@ void ToolScene::CreateStageNum(int count)
 {
 	for (int i = 0; i < count; ++i)
 	{
-		Number* number = new Number();
+		Number* number = new Number(i + 1);
 		number->SetNum({ 140.f + (i * 40.f), 60.f }, (i + 1) / 10, (i + 1) % 10, i + 1);
 		StageNumList.push_back(number);
 		objList.push_back(number);
@@ -240,7 +323,7 @@ void ToolScene::CreateTheme()
 {
 	for (int i = 1; i <= 3; ++i)
 	{
-		Theme* theme = new Theme();
+		Theme* theme = new Theme(i);
 		theme->SetTheme({ 101.f + (202 * (i - 1)) , 180.f }, i);
 		ThemeList.push_back(theme);
 		objList.push_back(theme);
@@ -303,6 +386,7 @@ void ToolScene::CreateSelectMonster()
 
 			SelectMonster* selectMonster = new SelectMonster(types);
 			selectMonster->SetSelectMonster({ 54.f + (j * 108.f),WINDOW_HEIGHT - 75.f }, (ThemeTypes)(i + 1), j);
+			SelectMonsterList.push_back(selectMonster);
 			objList.push_back(selectMonster);
 		}
 	}
@@ -317,6 +401,7 @@ void ToolScene::CreateSelectStar()
 		SelectStar* selectStar = new SelectStar();
 
 		selectStar->SetSelectStar({ 40.f + (i * 85.f) , 622.f }, (i + 1));
+		SelectStarList.push_back(selectStar);
 		objList.push_back(selectStar);
 	}
 }

@@ -5,9 +5,11 @@
 class SelectTile : public SpriteObj
 {
 protected:
+	RectangleShape m_Edge;
+
 	ThemeTypes m_types;
 	int m_index;
-
+	bool isEdge;
 public:
 	SelectTile();
 	~SelectTile();
@@ -18,5 +20,10 @@ public:
 
 	void SetSelectTile(Vector2f pos, ThemeTypes types, int index);
 	string SetPath(ThemeTypes types, int num);
+	int GetIndex();
+	ThemeTypes GetThemeTypes();
 
+	bool CollisionCheck(Vector2f pos, int index);
+	bool ChangeColor(bool check);
+	void OnEdge(int index);
 };

@@ -27,6 +27,8 @@ protected:
 	list<Theme*> ThemeList;
 	list<SelectTile*> SelectTileList;
 	list<SelectObstacle*> SelectObstacleList;
+	list<SelectStar*> SelectStarList;
+	list<SelectMonster*> SelectMonsterList;
 
 
 public:

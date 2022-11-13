@@ -6,8 +6,9 @@ class SelectStar : public SpriteObj
 {
 protected:
 	Sprite m_star;
+	RectangleShape m_Edge;
 	int m_grade;
-
+	bool isEdge;
 public:
 	SelectStar();
 	~SelectStar();
@@ -19,5 +20,11 @@ public:
 
 	void SetSelectStar(Vector2f pos, int grade);
 	string SetPath(int grade);
+
+	int GetIndex();
+
+	bool CollisionCheck(Vector2f pos, int index);
+	bool ChangeSize(bool check);
+	void OnEdge(int index);
 };
 

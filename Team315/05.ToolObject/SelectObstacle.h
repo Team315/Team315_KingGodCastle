@@ -4,8 +4,11 @@
 
 class SelectObstacle : public SpriteObj
 {
+	RectangleShape m_Edge;
+
 	ThemeTypes m_types;
 	int m_index;
+	bool isEdge;
 
 public:
 	SelectObstacle();
@@ -18,6 +21,10 @@ public:
 	void SetSelectObstacle(Vector2f pos, ThemeTypes types, int index);
 	string SetPath(ThemeTypes types, int num);
 
+	int GetIndex();
 
+	bool CollisionCheck(Vector2f pos, int index);
+	bool ChangeColor(bool check);
+	void OnEdge(int index);
 };
 
