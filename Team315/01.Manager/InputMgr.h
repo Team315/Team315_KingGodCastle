@@ -9,7 +9,7 @@ using namespace std;
 enum class Axis
 {
     Horizontal,
-    Vertical
+    Vertical,
 };
 
 struct AxisInfo
@@ -30,6 +30,7 @@ private:
     static list<int> ingList;
     static list<int> upList;
     static Vector2f mousePos;
+    static float mouseWheelState;
 
 public:
     static void Init();
@@ -48,4 +49,5 @@ public:
     static bool GetMouseDown(Mouse::Button key);
     static bool GetMouse(Mouse::Button key);
     static bool GetMouseUp(Mouse::Button key);
+    static float GetMouseWheel();
 };

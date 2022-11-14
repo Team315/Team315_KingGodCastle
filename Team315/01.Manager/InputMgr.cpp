@@ -1,11 +1,13 @@
 #include "InputMgr.h"
 #include "Framework.h"
+#include "ConsoleLogger.h"
 
 map<Axis, AxisInfo> InputMgr::axisInfoMap;
 list<int>InputMgr::downList;
 list<int>InputMgr::ingList;
 list<int>InputMgr::upList;
 Vector2f InputMgr::mousePos;
+float InputMgr::mouseWheelState;
 
 void InputMgr::Init()
 { 
@@ -36,6 +38,7 @@ void InputMgr::Init()
 
 void InputMgr::Update(float dt)
 {
+    mouseWheelState = 0.f;
     downList.clear();
     upList.clear();
 
@@ -90,6 +93,9 @@ void InputMgr::ProcessInput(Event& ev)
     case Event::EventType::KeyReleased:
         ingList.remove(ev.key.code);
         upList.push_back(ev.key.code);
+        break;
+    case Event::EventType::MouseWheelScrolled:
+        mouseWheelState = ev.mouseWheelScroll.delta;
         break;
     }
 }
@@ -165,4 +171,9 @@ bool InputMgr::GetMouseUp(Mouse::Button key)
 {
     int code = key + Keyboard::KeyCount;
     return find(upList.begin(), upList.end(), code) != upList.end();
+}
+
+float InputMgr::GetMouseWheel()
+{
+    return mouseWheelState;
 }

@@ -27,9 +27,9 @@ BattleScene::BattleScene()
 		float tempX = TILE_SIZE_X * 2.f;
 		for (auto& tile : *tiles)
 		{
-			tile = new RectangleObj(48, 48);
+			tile = new RectangleObj(47.f, 47.f);
 			tile->SetFillColor(Color(255, 255, 255, 80));
-			tile->SetOutline(Color::Black, 1.f);
+			tile->SetOutline(Color::White, 1.5f);
 			tile->SetPos(Vector2f(tempX, tempY));
 			tile->SetOrigin(Origins::BC);
 			objList.push_back(tile);
@@ -101,6 +101,11 @@ void BattleScene::Update(float dt)
 			for (auto& tile : *tiles)
 				tile->SetActive(false);
 		}
+	}
+	float wheel = InputMgr::GetMouseWheel();
+	if (wheel != 0)
+	{
+		CLOG::Print3String(to_string(wheel));
 	}
 
 	// Dev Input end
