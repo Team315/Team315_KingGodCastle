@@ -2,17 +2,17 @@
 #include "Scene.h"
 #include "Player/Evan.h"
 #include "Monster/Goblin00.h"
-#include "SpriteObj.h"
 #include "VertexArrayObj.h"
+#include "RectangleObj.h"
 #include <vector>
 
-class VertexArrayObj;
 class BattleScene : public Scene
 {
 protected:
 	Evan* evan;
 	Goblin00* goblin00;
 	VertexArrayObj* background;
+	vector<vector<RectangleObj*>*> overlay;
 
 public:
 	BattleScene();

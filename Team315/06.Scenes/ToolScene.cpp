@@ -25,7 +25,7 @@ void ToolScene::Init()
 {
 	CLOG::Print3String("tool Init");
 
-	CreateTileSet(Tile_WIDTH, Tile_HEIGHT, Tile_SizeX, Tile_SizeY);
+	CreateTileSet(TILE_WIDTH, TILE_HEIGHT, TILE_SIZE_X, TILE_SIZE_Y);
 	CreateUiName();
 	CreateChapterNum(ChapterMaxCount);
 	CreateStageNum(StageMaxCount);
@@ -224,10 +224,10 @@ void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHei
 				va[vertexIndex].texCoords.y += quadHeight /** texIndex*/;
 
 			}
-			currPos.x += Tile_SizeX;
+			currPos.x += TILE_SIZE_X;
 		}
 		currPos.x = startPos.x;
-		currPos.y += Tile_SizeY;
+		currPos.y += TILE_SIZE_Y;
 	}
 }
 
