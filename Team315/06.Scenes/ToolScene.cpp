@@ -257,10 +257,20 @@ void ToolScene::CreateTilePlay(int cols, int rows, float quadWidth, float quadHe
 	//m_TilePlayList.resize(cols);
 	for (int i = 0; i < cols; ++i)
 	{
+		TileTypes tileTypes;
+		if (i >= 10)
+		{
+			tileTypes = TileTypes::PlayerArea;
+		}
+		else
+		{
+			tileTypes = TileTypes::None;
+		}
+
 		for (int j = 0; j < rows; ++j)
 		{
 			TilePlay* tilePlay = new TilePlay();
-			tilePlay->SetTilePlay({ cols, rows }, { (WINDOW_WIDTH - (quadWidth * 8)) + (j * quadWidth), quadHeight + (i * quadHeight) }, count++);
+			tilePlay->SetTilePlay({ cols, rows }, { (WINDOW_WIDTH - (quadWidth * 8)) + (j * quadWidth), quadHeight + (i * quadHeight) }, count++, tileTypes);
 
 			objList.push_back(tilePlay);
 			m_TilePlayList[i][j] = tilePlay;
