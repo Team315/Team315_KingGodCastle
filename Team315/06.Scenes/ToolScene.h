@@ -1,6 +1,8 @@
 #pragma once
 #include "Scene.h"
+#include "Include.h"
 
+class TilePlay;
 class SelectStar;
 class SelectMonster;
 class SelectObstacle;
@@ -12,6 +14,8 @@ class TileSet;
 class ToolScene : public Scene
 {
 protected:
+	ClickMode m_clickMode;
+
 	int m_nowChapter;
 	int m_nowStage;
 	int m_nowTheme;
@@ -20,6 +24,7 @@ protected:
 	int m_nowStar;
 	int m_monster;
 
+	vector<vector<TilePlay*>> m_TilePlayList;
 	TileSet* m_TileSet;
 	list<UiName*> UiNameList;
 	list<Number*> ChapterNumList;
@@ -43,6 +48,7 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	void CreateTileSet(int cols, int rows, float quadWidth, float quadHeight);
+	void CreateTilePlay(int cols, int rows, float quadWidth, float quadHeight);
 	void CreateUiName();
 	void CreateChapterNum(int count);
 	void CreateStageNum(int count);
@@ -51,5 +57,7 @@ public:
 	void CreateSelectObstacle();
 	void CreateSelectMonster();
 	void CreateSelectStar();
+
+	void SetClickMode(ClickMode clickMode);
 
 };

@@ -9,12 +9,10 @@
 #define StageMaxCount 10
 
 // tile
-#define TILE_SIZE_X 51.f
-#define TILE_SIZE_Y 51.f
-#define TILE_WIDTH 10
-#define TILE_HEIGHT 15
-#define GAME_TILE_WIDTH 7
-#define GAME_TILE_HEIGHT 14
+#define Tile_SizeX 51.f
+#define Tile_SizeY 51.f
+#define Tile_WIDTH 10
+#define Tile_HEIGHT 15
 
 #define Type1_Tile_Count 25
 #define Type1_Obstacle_Count 3

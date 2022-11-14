@@ -14,3 +14,12 @@ enum class MonsterTypes
 	Monster,
 	Boss,
 };
+
+enum class ClickMode
+{
+	None = 0,
+	Theme,
+	Tile,
+	Obstacle,
+	Monster,
+};
