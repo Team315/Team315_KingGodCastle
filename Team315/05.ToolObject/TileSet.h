@@ -1,6 +1,6 @@
 #pragma once
 #include "VertexArrayObj.h"
-
+#include "SpriteObj.h"
 
 class TileSet : public VertexArrayObj
 {

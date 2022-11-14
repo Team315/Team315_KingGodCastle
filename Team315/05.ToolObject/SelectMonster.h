@@ -5,8 +5,13 @@ class SelectMonster :public SpriteObj
 {
 protected:
 	Sprite m_monster;
-	int m_index;
+	RectangleShape m_Edge;
+
 	MonsterTypes m_monsterTypes;
+
+	int m_index;
+	bool isEdge;
+
 
 public:
 	SelectMonster(MonsterTypes monsterTypes);
@@ -19,5 +24,11 @@ public:
 
 	void SetSelectMonster(Vector2f pos, ThemeTypes types, int index);
 	string SetPath(ThemeTypes types, int num);
+
+	int GetIndex();
+
+	bool CollisionCheck(Vector2f pos, int index);
+	bool ChangeSize(bool check);
+	void OnEdge(int index);
 };
 

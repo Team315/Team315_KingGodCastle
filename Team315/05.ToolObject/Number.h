@@ -6,10 +6,13 @@ class Number : public SpriteObj
 protected:
 	Sprite m_BeforeNum;
 	Sprite m_AffterNum;
-	int m_index;
 
+	RectangleShape m_edge;
+	//FloatRect Edge;
+	int m_index;
+	bool isEdge;
 public:
-	Number();
+	Number(int index);
 	~Number();
 
 	virtual void Init() override;
@@ -19,7 +22,11 @@ public:
 
 	string SetPath(int num);
 	void SetNum(Vector2f pos, int beforeNum, int affterNum, int index);
+	int GetIndex();
 	//void SetOrigins(Origins origin);
 
 	bool CollideTest(Vector2f pos);
+	bool CollisionCheck(Vector2f pos, int index);
+	bool ChangeColor(bool check);
+	void OnEdge(int index);
 };

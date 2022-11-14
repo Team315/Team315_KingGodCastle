@@ -5,9 +5,12 @@
 class Theme : public SpriteObj
 {
 protected:
+	RectangleShape m_background;
 	int m_index;
+	bool isEdge;
+
 public:
-	Theme();
+	Theme(int index);
 	~Theme();
 
 	virtual void Init() override;
@@ -17,5 +20,11 @@ public:
 
 	void SetTheme(Vector2f pos, int index);
 	string SetPath(int num);
+
+	int GetIndex();
+
+	bool CollisionCheck(Vector2f pos, int index);
+	bool ChangeColor(bool check);
+	void OnEdge(int index);
 };
 
