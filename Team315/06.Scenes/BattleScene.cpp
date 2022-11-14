@@ -8,8 +8,9 @@ BattleScene::BattleScene()
 	CLOG::Print3String("battle create");
 
 	CreateBackground(TILE_WIDTH, TILE_HEIGHT, TILE_SIZE_X, TILE_SIZE_Y);
-	Vector2f cenPos = ((Vector2f(GAME_SCREEN_WIDTH / 2.f, GAME_SCREEN_HEIGHT / 2.f)));
-	background->SetPos(cenPos);
+	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT * 0.5f);
+	gameScreenHalfY = screenCenterPos.y;
+	background->SetPos(screenCenterPos);
 	background->SetOrigin(Origins::MC);
 
 	evan = new Evan();
@@ -102,13 +103,41 @@ void BattleScene::Update(float dt)
 				tile->SetActive(false);
 		}
 	}
+	// Dev Input end
+
+	// Game Input start
 	float wheel = InputMgr::GetMouseWheel();
 	if (wheel != 0)
 	{
-		CLOG::Print3String(to_string(wheel));
+		if (wheel == 1)
+		{
+			//gameView.setCenter(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT * 0.5f);
+			b_centerPos = true;
+		}
+		else
+		{
+			//gameView.setCenter(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
+			b_centerPos = false;
+		}
 	}
-
-	// Dev Input end
+	if (b_centerPos)
+	{
+		if (screenCenterPos.y <= GAME_SCREEN_HEIGHT)
+		{
+			screenCenterPos.y += dt * (GAME_SCREEN_HEIGHT - screenCenterPos.y) * 50;
+			gameView.setCenter(screenCenterPos);
+			
+		}
+	}
+	else
+	{
+		if (screenCenterPos.y >= gameScreenHalfY)
+		{
+			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenHalfY) * 50;
+			gameView.setCenter(screenCenterPos);
+		}
+	}
+	// Game Input end
 
 	Scene::Update(dt);
 }

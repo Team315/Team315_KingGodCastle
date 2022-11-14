@@ -14,6 +14,10 @@ protected:
 	VertexArrayObj* background;
 	vector<vector<RectangleObj*>*> overlay;
 
+	Vector2f screenCenterPos;
+	bool b_centerPos;
+	float gameScreenHalfY;
+
 public:
 	BattleScene();
 	virtual ~BattleScene();
