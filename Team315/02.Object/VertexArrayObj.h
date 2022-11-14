@@ -11,10 +11,10 @@ protected:
 
 public:
 	VertexArrayObj();
-	~VertexArrayObj();
+	virtual ~VertexArrayObj();
 
 	VertexArray& GetVA();
-	void SetTexture(Texture* tex);
+	void SetTexture(Texture& tex);
 	Texture* GetTexture()const;
 	FloatRect GetGlobalBounds() const;
 
@@ -24,6 +24,5 @@ public:
 	virtual void SetPos(const Vector2f& pos);
 	virtual const Vector2f& GetPos() const;
 
-	virtual void Update(float dt);
 	virtual void Draw(RenderWindow& window);
 };

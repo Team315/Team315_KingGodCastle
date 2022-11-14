@@ -14,7 +14,7 @@ VertexArray& VertexArrayObj::GetVA()
 	return vertexArray;
 }
 
-void VertexArrayObj::SetTexture(Texture* tex)
+void VertexArrayObj::SetTexture(Texture& tex)
 {
 	texture = tex;
 }
@@ -61,10 +61,6 @@ void VertexArrayObj::SetPos(const Vector2f& pos)
 const Vector2f& VertexArrayObj::GetPos() const
 {
 	return position;
-}
-
-void VertexArrayObj::Update(float dt)
-{
 }
 
 void VertexArrayObj::Draw(RenderWindow& window)

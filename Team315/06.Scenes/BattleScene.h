@@ -6,9 +6,13 @@
 #include "RectangleObj.h"
 #include <vector>
 
+class BattleSceneUI;
+
 class BattleScene : public Scene
 {
 protected:
+	BattleSceneUI* ui;
+
 	Evan* evan;
 	Goblin00* goblin00;
 	VertexArrayObj* background;
@@ -16,7 +20,7 @@ protected:
 
 	Vector2f screenCenterPos;
 	bool b_centerPos;
-	float gameScreenHalfY;
+	float gameScreenBottomLimit;
 
 public:
 	BattleScene();

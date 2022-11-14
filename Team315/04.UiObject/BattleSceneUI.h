@@ -1,9 +1,12 @@
 #pragma once
 #include "UIMgr.h"
 
+class BattlePanel;
+
 class BattleSceneUI : public UIMgr
 {
 protected:
+	BattlePanel* panel;
 
 public:
 	BattleSceneUI(Scene* scene);

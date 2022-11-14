@@ -1,15 +1,16 @@
 #include "BattleScene.h"
 #include "Include.h"
 #include "Constant.h"
+#include "BattleSceneUI.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle)
 {
 	CLOG::Print3String("battle create");
 
-	CreateBackground(TILE_WIDTH, TILE_HEIGHT, TILE_SIZE_X, TILE_SIZE_Y);
+	CreateBackground(TILE_WIDTH, TILE_HEIGHT * 2, TILE_SIZE_X, TILE_SIZE_Y);
 	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT * 0.5f);
-	gameScreenHalfY = screenCenterPos.y;
+	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 0.5f;
 	background->SetPos(screenCenterPos);
 	background->SetOrigin(Origins::MC);
 
@@ -38,6 +39,7 @@ BattleScene::BattleScene()
 		}
 		tempY += TILE_SIZE_Y;
 	}
+	ui = new BattleSceneUI(this);
 }
 
 BattleScene::~BattleScene()
@@ -50,6 +52,7 @@ void BattleScene::Init()
 
 	goblin00->SetTarget(evan);
 	evan->SetTarget(goblin00);
+	objList.push_back(ui);
 	Scene::Init();
 }
 
@@ -62,6 +65,7 @@ void BattleScene::Enter()
 	CLOG::Print3String("battle enter");
 
 	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
+	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
 	currentView = gameView;
 
 	for (auto& tiles : overlay)
@@ -109,31 +113,21 @@ void BattleScene::Update(float dt)
 	float wheel = InputMgr::GetMouseWheel();
 	if (wheel != 0)
 	{
-		if (wheel == 1)
-		{
-			//gameView.setCenter(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT * 0.5f);
-			b_centerPos = true;
-		}
-		else
-		{
-			//gameView.setCenter(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
-			b_centerPos = false;
-		}
+		b_centerPos = wheel == 1 ? false : true;
 	}
 	if (b_centerPos)
 	{
 		if (screenCenterPos.y <= GAME_SCREEN_HEIGHT)
 		{
-			screenCenterPos.y += dt * (GAME_SCREEN_HEIGHT - screenCenterPos.y) * 50;
+			screenCenterPos.y += dt * (GAME_SCREEN_HEIGHT - screenCenterPos.y) * 25.f;
 			gameView.setCenter(screenCenterPos);
-			
 		}
 	}
 	else
 	{
-		if (screenCenterPos.y >= gameScreenHalfY)
+		if (screenCenterPos.y >= gameScreenBottomLimit)
 		{
-			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenHalfY) * 50;
+			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenBottomLimit) * 25.f;
 			gameView.setCenter(screenCenterPos);
 		}
 	}
