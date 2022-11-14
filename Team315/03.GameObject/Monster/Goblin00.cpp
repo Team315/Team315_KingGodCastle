@@ -2,7 +2,7 @@
 
 void Goblin00::Init()
 {
-	SetPos({ 510 - 50, 720 / 2.f });
+	//SetPos({ 510 - 50, 720 / 2.f });
 	animator.SetTarget(&sprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_Idle"));
@@ -69,13 +69,13 @@ void Goblin00::SetState(States newState)
 		animator.Play("goblin00_Idle");
 		break;
 	case Goblin00::States::MoveToIdle:
-		if (lastDirection.x)
-		{
-			animator.Play((lastDirection.x > 0.f) ? "goblin00_RightIdle" : "goblin00_LeftIdle");
-		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "goblin00_DownIdle" : "goblin00_UpIdle");
+		}
+		if (lastDirection.x)
+		{
+			animator.Play((lastDirection.x > 0.f) ? "goblin00_RightIdle" : "goblin00_LeftIdle");
 		}
 		break;
 	case Goblin00::States::Move:
@@ -101,22 +101,25 @@ void Goblin00::SetState(States newState)
 	}
 }
 
-
-void Goblin00::UpdateInput()
-{
-	//if (InputMgr::GetKeyDown(Keyboard::Q))
-	//{
-	//	SetState(States::Attack);
-	//}
-}
-
 void Goblin00::Update(float dt)
 {
 	Character::Update(dt);
-	UpdateInput();
 
-	direction = Utils::Normalize(target->GetPos() - GetPos());
-	Translate(direction * dt * speed);
+	if (InputMgr::GetKeyDown(Keyboard::Key::O))
+	{
+		cout << "O" << endl;
+		isPlaying = true;
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::P))
+	{
+		cout << "P" << endl;
+		isPlaying = false;
+	}
+	if(isPlaying)
+	{
+		direction = Utils::Normalize(target->GetPos() - GetPos());
+		Translate(direction * dt * speed);
+	}
 
 	switch (currState)
 	{
@@ -176,18 +179,23 @@ void Goblin00::UpdateMoveToIdle(float dt)
 
 void Goblin00::UpdateMove(float dt)
 {
+	if (isPlaying)
+	{
+		SetState(States::Idle);
+		return;
+	}
 	if (EqualFloat(direction.x, 0.f) && EqualFloat(direction.y, 0.f))
 	{
 		SetState(States::MoveToIdle);
 		return;
 	}
-	if (!EqualFloat(direction.x, lastDirection.x))
-	{
-		animator.Play((direction.x > 0.f) ? "goblin00_RightMove" : "goblin00_LeftMove");
-	}
 	if (!EqualFloat(direction.y, lastDirection.y))
 	{
 		animator.Play((direction.y > 0.f) ? "goblin00_DownMove" : "goblin00_UpMove");
+	}
+	if (!EqualFloat(direction.x, lastDirection.x))
+	{
+		animator.Play((direction.x > 0.f) ? "goblin00_RightMove" : "goblin00_LeftMove");
 	}
 }
 

@@ -7,15 +7,18 @@ BattleScene::BattleScene()
 {
 	CLOG::Print3String("battle create");
 
-	CreateBackground(TILE_WIDTH, TILE_HEIGHT, TILE_SIZE_X, TILE_SIZE_Y);
-	Vector2f cenPos = ((Vector2f(GAME_SCREEN_WIDTH / 2.f, GAME_SCREEN_HEIGHT / 2.f)));
-	background->SetPos(cenPos);
-	background->SetOrigin(Origins::MC);
+	CreateTestTile(14, 7, 51.f, 51.f);
 
 	evan = new Evan();
+	Vector2f pos1 = testTile[13][3]->GetPos();
+	pos1.y -= 51.f;
+	evan->SetPos(pos1);
 	objList.push_back(evan);
 
 	goblin00 = new Goblin00();
+	Vector2f pos2 = testTile[0][3]->GetPos();
+	pos2.y -= 51.f;
+	goblin00->SetPos(pos2);
 	objList.push_back(goblin00);
 
 	float tempY = TILE_SIZE_Y;
@@ -107,7 +110,6 @@ void BattleScene::Update(float dt)
 	{
 		CLOG::Print3String(to_string(wheel));
 	}
-
 	// Dev Input end
 
 	Scene::Update(dt);
@@ -118,40 +120,23 @@ void BattleScene::Draw(RenderWindow& window)
 	Scene::Draw(window);
 }
 
-void BattleScene::CreateBackground(int cols, int rows, float qWidth, float qHeight)
+void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 {
-	if (background == nullptr)
+	testTile.assign(cols, vector<TilePlay*>(rows));
+
+	int count = 0;
+	for (int i = 0; i < cols; ++i)
 	{
-		background = new VertexArrayObj();
-		background->SetTexture(GetTexture("graphics/battleScene/TempBackground.png"));
-		objList.push_back(background);
-	}
-
-	Vector2f startPos = background->GetPos();
-	VertexArray& va = background->GetVA();
-	va.setPrimitiveType(Quads);
-	va.resize(cols * rows * 4);
-
-	Vector2f currPos = startPos;
-	Vector2f offsets[4] = { {0, 0}, {qWidth, 0}, {qWidth, qHeight}, {0, qHeight} };
-
-	for (int i = 0; i < rows; ++i)
-	{
-		for (int j = 0; j < cols; ++j)
+		for (int j = 0; j < rows; ++j)
 		{
-			int quadIndex = i * cols + j;
+			TilePlay* tilePlay = new TilePlay();
+			tilePlay->SetTilePlay({ cols, rows },
+				{ ((width / 2) + (width * 1.5f)) + (j * width),
+				height + (i * height) },
+				count++);
 
-			int texX = 0;
-			int texY = 0;
-
-			for (int k = 0; k < 4; ++k)
-			{
-				va[quadIndex * 4 + k].position = currPos + offsets[k];
-				va[quadIndex * 4 + k].texCoords = offsets[k] + Vector2f{ texX * qWidth, texY * qHeight };
-			}
-			currPos.x += qWidth;
+			objList.push_back(tilePlay);
+			testTile[i][j] = tilePlay;
 		}
-		currPos.x = startPos.x;
-		currPos.y += qHeight;
 	}
 }

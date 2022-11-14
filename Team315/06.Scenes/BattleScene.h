@@ -5,6 +5,7 @@
 #include "VertexArrayObj.h"
 #include "RectangleObj.h"
 #include <vector>
+#include "TilePlay.h"
 
 class BattleScene : public Scene
 {
@@ -13,6 +14,7 @@ protected:
 	Goblin00* goblin00;
 	VertexArrayObj* background;
 	vector<vector<RectangleObj*>*> overlay;
+	vector<vector<TilePlay*>> testTile;
 
 public:
 	BattleScene();
@@ -27,6 +29,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	void CreateBackground(int cols, int rows, float qWidth, float qHeight);
 	VertexArrayObj* GetBackground() { return background; }
+
+	void CreateTestTile(int cols, int rows, float width, float height);
 };

@@ -27,9 +27,11 @@ protected:
 	int monsterMaxhp;
 	int monsterhp;
 	int dmg;
+
+	bool isPlaying;
 public:
 	Goblin00()
-		: currState(States::None), speed(50.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f), monsterMaxhp(1000), dmg(100)
+		: currState(States::None), speed(50.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f), monsterMaxhp(1000), dmg(100), isPlaying(false)
 	{
 	}
 	virtual void Init() override;
@@ -38,8 +40,6 @@ public:
 	virtual void SetPos(const Vector2f& pos) override;
 
 	void SetState(States newState);
-
-	void UpdateInput();
 	
 	void OnCompleteAttack();
 

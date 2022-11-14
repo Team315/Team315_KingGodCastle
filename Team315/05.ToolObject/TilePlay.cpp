@@ -35,14 +35,14 @@ void TilePlay::SetTilePlay(Vector2i index, Vector2f pos, int count)
 	{
 		SetTexture(*RESOURCE_MGR->GetTexture("graphics/TileSet/Field_00.png"));
 		Color color = sprite.getColor();
-		color.a = 30;
+		color.a = 155;
 		sprite.setColor(color);
 	}
 	else 
 	{
 		SetTexture(*RESOURCE_MGR->GetTexture("graphics/TileSet/Field_01.png"));
 		Color color = sprite.getColor();
-		color.a = 30;
+		color.a = 155;
 		sprite.setColor(color);
 	}
 
