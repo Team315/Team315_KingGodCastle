@@ -104,23 +104,16 @@ void Goblin00::SetState(States newState)
 
 void Goblin00::UpdateInput()
 {
-	if (InputMgr::GetKeyDown(Keyboard::Q))
-	{
-		SetState(States::Attack);
-	}
+	//if (InputMgr::GetKeyDown(Keyboard::Q))
+	//{
+	//	SetState(States::Attack);
+	//}
 }
 
 void Goblin00::Update(float dt)
 {
 	Character::Update(dt);
 	UpdateInput();
-	
-	direction.x = 0.f;
-	direction.y = 0.f;
-	direction.x += Keyboard::isKeyPressed(Keyboard::D) ? 1 : 0;
-	direction.x += Keyboard::isKeyPressed(Keyboard::A) ? -1 : 0;
-	direction.y += Keyboard::isKeyPressed(Keyboard::S) ? 1 : 0;
-	direction.y += Keyboard::isKeyPressed(Keyboard::W) ? -1 : 0;
 
 	direction = Utils::Normalize(target->GetPos() - GetPos());
 	Translate(direction * dt * speed);

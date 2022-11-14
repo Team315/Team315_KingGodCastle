@@ -24,14 +24,12 @@ protected:
 	Vector2f lastDirection;
 	Vector2f velocity;
 
-	int playerMaxhp;
-	int playerhp;
-	int playerMaxMp;
-	int playermp;
+	int monsterMaxhp;
+	int monsterhp;
 	int dmg;
 public:
 	Goblin00()
-		: currState(States::None), speed(100.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f), playerMaxhp(1000), dmg(100), playerMaxMp(500)
+		: currState(States::None), speed(50.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f), monsterMaxhp(1000), dmg(100)
 	{
 	}
 	virtual void Init() override;

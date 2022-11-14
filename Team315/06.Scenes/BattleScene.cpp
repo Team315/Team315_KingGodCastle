@@ -81,7 +81,12 @@ void BattleScene::CreateBackground(int cols, int rows, float qWidth, float qHeig
 
 	Vector2f currPos = startPos;
 
-	Vector2f offsets[4] = { {0,0}, {qWidth,0}, {qWidth,qHeight}, {0,qHeight} };
+	Vector2f offsets[4] = {
+		{0,0},
+		{qWidth,0},
+		{qWidth,qHeight},
+		{0,qHeight}
+	};
 	for (int i = 0; i < rows; ++i)
 	{
 		for (int j = 0; j < cols; ++j)
