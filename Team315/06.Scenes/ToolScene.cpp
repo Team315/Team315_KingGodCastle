@@ -84,19 +84,6 @@ void ToolScene::Update(float dt)
 		return;
 	}
 
-	//for (auto chapterNum : ChapterNumList)
-	//{
-	//	if (chapterNum->CollideTest(ScreenToUiPos(InputMgr::GetMousePosI())))
-	//	{
-	//		if (InputMgr::GetMouseDown(Mouse::Left))
-	//		{
-	//			CLOG::Print3String((chapterNum->GetName()));
-	//			break;
-	//		}
-	//	}
-	//}
-
-
 	for (auto chapterNum : ChapterNumList)
 	{
 		chapterNum->OnEdge(m_nowChapter);
@@ -301,7 +288,6 @@ void ToolScene::CreateChapterNum(int count)
 	for (int i = 0; i < count; ++i)
 	{
 		Number* number = new Number(i+1);
-		number->SetHitbox(number->GetTextureRect(), Origins::MC, 4, -4);
 		number->SetNum({ 140.f + (i * 40.f), 20.f }, (i + 1) / 10, (i + 1) % 10, i + 1);
 		ChapterNumList.push_back(number);
 		objList.push_back(number);
