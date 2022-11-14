@@ -1,13 +1,14 @@
 #include "BattleScene.h"
 #include "Include.h"
+#include "Constant.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle)
 {
 	CLOG::Print3String("battle create");
 
-	CreateBackground(10, 16, 51.f, 51.f);
-	Vector2f cenPos = ((Vector2f(510.f / 2.f, 765.f / 2.f)));
+	CreateBackground(TILE_WIDTH, TILE_HEIGHT, TILE_SIZE_X, TILE_SIZE_Y);
+	Vector2f cenPos = ((Vector2f(GAME_SCREEN_WIDTH / 2.f, GAME_SCREEN_HEIGHT / 2.f)));
 	background->SetPos(cenPos);
 	background->SetOrigin(Origins::MC);
 
@@ -16,6 +17,26 @@ BattleScene::BattleScene()
 
 	goblin00 = new Goblin00();
 	objList.push_back(goblin00);
+
+	float tempY = TILE_SIZE_Y;
+	overlay.resize(GAME_TILE_HEIGHT);
+	for (auto& tiles : overlay)
+	{
+		tiles = new vector<RectangleObj*>;
+		tiles->resize(GAME_TILE_WIDTH);
+		float tempX = TILE_SIZE_X * 2.f;
+		for (auto& tile : *tiles)
+		{
+			tile = new RectangleObj(47.f, 47.f);
+			tile->SetFillColor(Color(255, 255, 255, 80));
+			tile->SetOutline(Color::White, 1.5f);
+			tile->SetPos(Vector2f(tempX, tempY));
+			tile->SetOrigin(Origins::BC);
+			objList.push_back(tile);
+			tempX += TILE_SIZE_X;
+		}
+		tempY += TILE_SIZE_Y;
+	}
 }
 
 BattleScene::~BattleScene()
@@ -41,6 +62,12 @@ void BattleScene::Enter()
 
 	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
 	currentView = gameView;
+
+	for (auto& tiles : overlay)
+	{
+		for (auto& tile : *tiles)
+			tile->SetActive(false);
+	}
 }
 
 void BattleScene::Exit()
@@ -50,12 +77,38 @@ void BattleScene::Exit()
 
 void BattleScene::Update(float dt)
 {
+	// Dev Input start
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 	{
 		CLOG::Print3String("setting window");
 		SCENE_MGR->ChangeScene(Scenes::Loby);
 		return;
 	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::Num0))
+	{
+		CLOG::Print3String("overlay true");
+		for (auto& tiles : overlay)
+		{
+			for (auto& tile : *tiles)
+				tile->SetActive(true);
+		}
+	}
+	if (InputMgr::GetKeyUp(Keyboard::Key::Num0))
+	{
+		CLOG::Print3String("overlay false");
+		for (auto& tiles : overlay)
+		{
+			for (auto& tile : *tiles)
+				tile->SetActive(false);
+		}
+	}
+	float wheel = InputMgr::GetMouseWheel();
+	if (wheel != 0)
+	{
+		CLOG::Print3String(to_string(wheel));
+	}
+
+	// Dev Input end
 
 	Scene::Update(dt);
 }
@@ -70,7 +123,7 @@ void BattleScene::CreateBackground(int cols, int rows, float qWidth, float qHeig
 	if (background == nullptr)
 	{
 		background = new VertexArrayObj();
-		background->SetTexture(GetTexture("graphics/Charactor/battelScene_Background/battelScene_Background.png"));
+		background->SetTexture(GetTexture("graphics/battleScene/TempBackground.png"));
 		objList.push_back(background);
 	}
 
@@ -81,25 +134,32 @@ void BattleScene::CreateBackground(int cols, int rows, float qWidth, float qHeig
 
 	Vector2f currPos = startPos;
 
+<<<<<<< HEAD
 	Vector2f offsets[4] = {
 		{0,0},
 		{qWidth,0},
 		{qWidth,qHeight},
 		{0,qHeight}
 	};
+=======
+	Vector2f offsets[4] = { {0, 0}, {qWidth, 0}, {qWidth, qHeight}, {0, qHeight} };
+>>>>>>> feature/UI
 	for (int i = 0; i < rows; ++i)
 	{
 		for (int j = 0; j < cols; ++j)
 		{
 			int quadIndex = i * cols + j;
 
-			int texIndex = (i == 0 || i == rows - 1) || ((j == 0) || (j == cols - 1))
-				? 3 : 3;
+			/*int texIndex = (i == 0 || i == rows - 1) || ((j == 0) || (j == cols - 1))
+				? 3 : 3;*/
+
+			int texX = 0;
+			int texY = 0;
 
 			for (int k = 0; k < 4; ++k)
 			{
 				va[quadIndex * 4 + k].position = currPos + offsets[k];
-				va[quadIndex * 4 + k].texCoords = offsets[k] + Vector2f{ 0.f, texIndex * qHeight };
+				va[quadIndex * 4 + k].texCoords = offsets[k] + Vector2f{ texX * qWidth, texY * qHeight };
 			}
 			currPos.x += qWidth;
 		}
