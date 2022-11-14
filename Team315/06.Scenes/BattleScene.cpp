@@ -133,25 +133,13 @@ void BattleScene::CreateBackground(int cols, int rows, float qWidth, float qHeig
 	va.resize(cols * rows * 4);
 
 	Vector2f currPos = startPos;
-
-<<<<<<< HEAD
-	Vector2f offsets[4] = {
-		{0,0},
-		{qWidth,0},
-		{qWidth,qHeight},
-		{0,qHeight}
-	};
-=======
 	Vector2f offsets[4] = { {0, 0}, {qWidth, 0}, {qWidth, qHeight}, {0, qHeight} };
->>>>>>> feature/UI
+
 	for (int i = 0; i < rows; ++i)
 	{
 		for (int j = 0; j < cols; ++j)
 		{
 			int quadIndex = i * cols + j;
-
-			/*int texIndex = (i == 0 || i == rows - 1) || ((j == 0) || (j == cols - 1))
-				? 3 : 3;*/
 
 			int texX = 0;
 			int texY = 0;
