@@ -13,6 +13,9 @@
 #define Tile_SizeY 51.f
 #define Tile_WIDTH 10
 #define Tile_HEIGHT 15
+#define BATTLE_TILE_COLS 14
+#define BATTLE_TILE_ROWS 7
+
 
 #define Type1_Tile_Count 25
 #define Type1_Obstacle_Count 3

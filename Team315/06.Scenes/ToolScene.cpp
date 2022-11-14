@@ -28,7 +28,7 @@ void ToolScene::Init()
 	CLOG::Print3String("tool Init");
 
 	//CreateTileSet(Tile_WIDTH, Tile_HEIGHT, Tile_SizeX, Tile_SizeY);
-	CreateTilePlay(14, 7, 51.f, 51.f);
+	CreateTilePlay(BATTLE_TILE_COLS, BATTLE_TILE_ROWS, Tile_SizeX, Tile_SizeY);
 	CreateUiName();
 	CreateChapterNum(ChapterMaxCount);
 	CreateStageNum(StageMaxCount);
@@ -175,7 +175,28 @@ void ToolScene::Update(float dt)
 				SetClickMode(ClickMode::Monster);
 
 				m_monster = SelectMonster->GetIndex();
-				cout << m_monster << endl;
+				//cout << m_monster << endl;
+			}
+		}
+	}
+
+	for (int i = 0; i < BATTLE_TILE_COLS - 4; ++i)
+	{
+		for (int j = 0; j < BATTLE_TILE_ROWS; ++j)
+		{
+			if (m_TilePlayList[i][j]->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 1))
+			{
+				if (InputMgr::GetMouseUp(Mouse::Left))
+				{
+					if (m_clickMode == ClickMode::Monster)
+					{
+						m_TilePlayList[i][j]->SetMonster((ThemeTypes)m_nowTheme, m_monster);
+					}
+					else if (m_clickMode == ClickMode::Obstacle)
+					{
+						m_TilePlayList[i][j]->SetObstacle((ThemeTypes)m_nowTheme, m_nowObstacle);
+					}
+				}
 			}
 		}
 	}
@@ -328,6 +349,9 @@ void ToolScene::CreateUiName()
 	monster->SetText("MONSTER");
 	UiNameList.push_back(monster);
 	objList.push_back(monster);
+
+
+
 }
 
 void ToolScene::CreateChapterNum(int count)
@@ -461,10 +485,12 @@ void ToolScene::SetClickMode(ClickMode clickMode)
 		m_monster = -1;
 		break;
 	case ClickMode::Obstacle:
+		m_clickMode = ClickMode::Obstacle;
 		m_nowTileSet = -1;
 		m_monster = -1;
 		break;
 	case ClickMode::Monster:
+		m_clickMode = clickMode;
 		m_nowObstacle = -1;
 		m_nowTileSet = -1;
 		break;

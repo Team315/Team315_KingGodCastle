@@ -30,7 +30,10 @@ void TilePlay::Draw(RenderWindow& window)
 	case TileTypes::None:
 		break;
 	case TileTypes::Obatacle:
-		window.draw(m_Obstacle);
+		window.draw(m_Obj);
+		break;
+	case TileTypes::Monster:
+		window.draw(m_Obj);
 		break;
 	case TileTypes::PlayerArea:
 		window.draw(m_playerArea);
@@ -63,8 +66,13 @@ void TilePlay::SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes Ti
 	switch (m_TileTypes)
 	{
 	case TileTypes::None:
+		isCollAble = true;
 		break;
 	case TileTypes::Obatacle:
+		isCollAble = true;
+		break;
+	case TileTypes::Monster:
+		isCollAble = true;
 		break;
 	case TileTypes::PlayerArea:
 		m_playerArea.setSize(GetSize());
@@ -76,6 +84,78 @@ void TilePlay::SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes Ti
 		Utils::SetOrigin(m_playerArea, Origins::BC);
 		break;
 	}
+}
 
-	
+void TilePlay::SetObstacle(ThemeTypes themeTypes, int obstacleIndex)
+{
+	m_TileTypes = TileTypes::Obatacle;
+	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetObstaclePath(themeTypes, obstacleIndex)));
+	m_Obj.setPosition(GetPos());
+	Utils::SetOrigin(m_Obj, Origins::BC);
+}
+
+string TilePlay::SetObstaclePath(ThemeTypes types, int num)
+{
+	string field = to_string((int)types / 10) + to_string((int)types % 10);
+
+	string path = "graphics/TileSet/obstacle_" + field + "/obstacle_" + field + "_";
+	string sNum = to_string(num / 10) + to_string(num % 10);
+	string png = ".png";
+
+	return path + sNum + png;
+}
+
+void TilePlay::SetMonster(ThemeTypes themeTypes, int monsterIndex)
+{
+	m_TileTypes = TileTypes::Monster;
+
+	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetMonsterPath(themeTypes, monsterIndex)));
+	m_Obj.setPosition(GetPos());
+	Utils::SetOrigin(m_Obj, Origins::BC);
+}
+
+string TilePlay::SetMonsterPath(ThemeTypes types, int num)
+{
+	string path;
+
+	if (num == 0)
+	{
+		path = "graphics/ToolUi/monster/Boss";
+	}
+	else
+	{
+		path = "graphics/ToolUi/monster/Monster";
+	}
+
+	string field = to_string((int)types / 10) + to_string((int)types % 10) + "_";
+	string sNum = to_string(num / 10) + to_string(num % 10);
+	string png = ".png";
+
+	return path + field + sNum + png;
+}
+
+bool TilePlay::CollisionCheck(Vector2f pos, int index)
+{
+	if (!isCollAble)
+		return false;
+
+	return ChangeAlpha(sprite.getGlobalBounds().contains(pos));
+}
+
+bool TilePlay::ChangeAlpha(bool check)
+{
+	if (check)
+	{
+		Color color = sprite.getColor();
+		color.a = 100;
+		sprite.setColor(color);
+		return true;
+	}
+	else
+	{
+		Color color = sprite.getColor();
+		color.a = 30;
+		sprite.setColor(color);
+		return false;
+	}
 }

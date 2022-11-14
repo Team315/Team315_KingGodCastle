@@ -28,5 +28,6 @@ enum class TileTypes
 {
 	None = 0,
 	Obatacle,
+	Monster,
 	PlayerArea,
 };

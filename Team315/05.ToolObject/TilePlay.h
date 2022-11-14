@@ -5,7 +5,7 @@
 class TilePlay :public SpriteObj
 {
 protected:
-	Sprite m_Obstacle;
+	Sprite m_Obj;
 	RectangleShape m_playerArea;
 
 	TileTypes m_TileTypes;
@@ -23,7 +23,12 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	void SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes TileTypes);
-	void SetObstacle();
+	void SetObstacle(ThemeTypes themeTypes, int obstacleIndex);
+	string SetObstaclePath(ThemeTypes types, int num);
+	void SetMonster(ThemeTypes themeTypes, int monsterIndex);
+	string SetMonsterPath(ThemeTypes types, int num);
 
+	bool CollisionCheck(Vector2f pos, int index);
+	bool ChangeAlpha(bool check);
 };
 
