@@ -10,6 +10,7 @@ protected:
 	ThemeTypes m_types;
 	int m_index;
 	bool isEdge;
+
 public:
 	SelectTile();
 	~SelectTile();
