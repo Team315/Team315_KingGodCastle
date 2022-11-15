@@ -36,6 +36,9 @@ public:
 
 	void CreateTestTile(int cols, int rows, float width, float height);
 
-	void MoveTile();
+	void MoveDownTile();
+	void MoveUpTile();
+	void MoveLeftTile();
+	void MoveRightTile();
 	void AIMove();
 };

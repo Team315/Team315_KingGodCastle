@@ -111,10 +111,14 @@ void BattleScene::Update(float dt)
 	{
 		CLOG::Print3String(to_string(wheel));
 	}
+	if (InputMgr::GetKeyDown(Keyboard::Down))
+	{
+		MoveDownTile();
+	}
 	if (InputMgr::GetKeyDown(Keyboard::Up))
 	{
-		
-		//dummy->SetPos();
+		MoveUpTile();
+		//CLOG::PrintVectorState(dummy->GetPos(), "dummy");
 	}
 	// Dev Input end
 
@@ -147,9 +151,32 @@ void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 	}
 }
 
-void BattleScene::MoveTile()
+void BattleScene::MoveDownTile()
 {
 	nowTile = dummy->GetPos();
+	for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
+	{
+		dummy->SetPos({ nowTile.x, nowTile.y + i });
+		++i;
+	}
+}
+
+void BattleScene::MoveUpTile()
+{
+	nowTile = dummy->GetPos();
+	for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
+	{
+		dummy->SetPos({ nowTile.x, nowTile.y - i });
+		++i;
+	}
+}
+
+void BattleScene::MoveLeftTile()
+{
+}
+
+void BattleScene::MoveRightTile()
+{
 }
 
 void BattleScene::AIMove()
