@@ -2,6 +2,7 @@
 #include "UIMgr.h"
 
 class BattlePanel;
+class VertexArrayObj;
 
 class BattleSceneUI : public UIMgr
 {
@@ -17,4 +18,8 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
+
+	BattlePanel* GetPanel() { return panel; }
+
+	void CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight);
 };

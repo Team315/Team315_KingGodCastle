@@ -14,7 +14,7 @@ VertexArray& VertexArrayObj::GetVA()
 	return vertexArray;
 }
 
-void VertexArrayObj::SetTexture(Texture& tex)
+void VertexArrayObj::SetTexture(Texture* tex)
 {
 	texture = tex;
 }

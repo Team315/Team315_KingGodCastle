@@ -1,7 +1,9 @@
 #include "BattleScene.h"
 #include "Include.h"
-#include "Constant.h"
 #include "BattleSceneUI.h"
+#include "BattlePanel.h"
+#include "Button.h"
+#include "Constant.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle)
@@ -110,6 +112,15 @@ void BattleScene::Update(float dt)
 	// Dev Input end
 
 	// Game Input start
+	for (auto button : ui->GetPanel()->GetButtons())
+	{
+		if (button->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseDown(Mouse::Left))
+				CLOG::Print3String(button->GetName());
+		}
+	}
+
 	float wheel = InputMgr::GetMouseWheel();
 	if (wheel != 0)
 	{

@@ -7,6 +7,7 @@
 #include <vector>
 
 class BattleSceneUI;
+class Button;
 
 class BattleScene : public Scene
 {

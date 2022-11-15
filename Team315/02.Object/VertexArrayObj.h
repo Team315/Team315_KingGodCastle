@@ -14,7 +14,7 @@ public:
 	virtual ~VertexArrayObj();
 
 	VertexArray& GetVA();
-	void SetTexture(Texture& tex);
+	void SetTexture(Texture* tex);
 	Texture* GetTexture()const;
 	FloatRect GetGlobalBounds() const;
 
