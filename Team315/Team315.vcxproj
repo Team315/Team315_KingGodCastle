@@ -208,6 +208,7 @@
     <ClInclude Include="03.GameObject\Player\Dummy.h" />
     <ClInclude Include="05.ToolObject\ToolChapter.h" />
     <ClInclude Include="05.ToolObject\ToolStage.h" />
+    <ClInclude Include="05.ToolObject\TileBackground.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -260,6 +261,7 @@
     <ClCompile Include="05.ToolObject\TilePlay.cpp" />
     <ClCompile Include="05.ToolObject\ToolChapter.cpp" />
     <ClCompile Include="05.ToolObject\ToolStage.cpp" />
+    <ClCompile Include="05.ToolObject\TileBackground.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -67,12 +67,15 @@ FileManager::FileManager()
 	}
 
 
-	ifstream test_f("json/test.json");
-	json test_json = json::parse(test_f);
-	test = test_json;
-	test_f.close();
+	//ifstream test_f("json/test.json");
+	//json test_json = json::parse(test_f);
+	//test = test_json;
+	//test_f.close();
 
-	std::cout << test[0][0][0][0].m_stateIndex << std::endl;
+	//std::cout << test[0][0][0][0].TileTypes << std::endl;
+	tiledata.assign(3, vector<vector<vector<TileData>>>(10, vector<vector<TileData>>(14, vector < TileData>(7))));
+	//tiledata.assign(cols, vector<TileData*>(rows));
+
 }
 
 FileManager::~FileManager()
@@ -126,6 +129,23 @@ void FileManager::SaveDataEpisode(map<string, MapData> newData, string name)
 	json data = episodeMap;
 
 	ofstream ofs("config/data/episode.json");
+	ofs << data;
+	ofs.close();
+}
+
+void FileManager::SaveDataMapInfo(TileData tileData, int chapter, int stage, int cols, int raws)
+{
+
+
+
+	tiledata[chapter][stage][cols][raws].arrIndex = tileData.arrIndex;
+	tiledata[chapter][stage][cols][raws].pathIndex = tileData.pathIndex;
+	tiledata[chapter][stage][cols][raws].ThemeTypes = tileData.ThemeTypes;
+	tiledata[chapter][stage][cols][raws].TileTypes = tileData.TileTypes;
+
+	json data = tiledata;
+
+	ofstream ofs("json/testsave.json");
 	ofs << data;
 	ofs.close();
 }

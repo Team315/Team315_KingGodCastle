@@ -14,13 +14,14 @@
 #include "ToolStage.h"
 #include "FileManager.h"
 
+
 ToolScene::ToolScene()
 	: Scene(Scenes::Tool), m_clickMode(ClickMode::None), m_nowChapter(1), m_nowStage(1), m_nowTileSet(-1), m_nowObstacle(-1), m_nowTheme(1), m_nowStar(0), m_monster(-1)
 {
 	SetClickMode(m_clickMode);
 	CLOG::Print3String("tool create");
 
-	FileManager* file = new FileManager();
+	//FileManager* file = new FileManager();
 }
 
 ToolScene::~ToolScene()
@@ -247,6 +248,27 @@ void ToolScene::Update(float dt)
 					ToolChapterLIst[m_nowChapter - 1]->
 						GetToolStage(m_nowStage - 1)->
 						GetTileTool(i, j)->SetEraser();
+				}
+			}
+		}
+	}
+
+	if (InputMgr::GetKeyDown(Keyboard::Key::F4))
+	{
+		FileManager* file = new FileManager();
+
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 10; j++)
+			{
+				for (int k = 0; k < GAME_TILE_HEIGHT; ++k)
+				{
+					for (int l = 0; l < GAME_TILE_WIDTH; ++l)
+					{
+						file->SaveDataMapInfo(ToolChapterLIst[m_nowChapter - 1]->
+							GetToolStage(m_nowStage - 1)->
+							GetTileTool(i, j)->GetTileData(), i, j, k, l);
+					}
 				}
 			}
 		}

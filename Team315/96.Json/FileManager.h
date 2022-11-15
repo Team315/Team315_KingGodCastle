@@ -1,7 +1,7 @@
 #pragma once
 #include "Singleton.h"
 #include "FileData.h"
-
+#include "ToolChapter.h"
 class FileManager : public Singleton<FileManager>
 {
 private:
@@ -9,7 +9,7 @@ private:
 	map<string, HitBoxInfo> hitBoxMap; //find by path
 	map<string, map<string, CookieHitBox>> cookieInfo; //find by cookie name and cookie state. return now animation hitbox
 
-	vector<vector<vector<vector<TempData>>>> test;
+	vector<vector<vector<vector<TileData>>>> tiledata;
 	//cookieInfo[Jungle][Jump]
 public:
 	FileManager();
@@ -23,6 +23,8 @@ public:
 
 	void SaveData(map<string, map<string, MapData>> newData, string path);
 	void SaveDataEpisode( map<string, MapData> newData, string name);
+
+	void SaveDataMapInfo(TileData tileData, int chapter, int stage, int cols, int raws);
 };
 
 #define FILE_MGR (FileManager::GetInstance())

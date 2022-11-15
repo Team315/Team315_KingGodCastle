@@ -3,6 +3,7 @@
 TilePlay::TilePlay()
 	:isCollAble(false)
 {
+	m_TileData = { {0,0},-1,-1,-1 };
 }
 
 TilePlay::~TilePlay()
@@ -44,20 +45,24 @@ void TilePlay::SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes Ti
 	m_index = index;
 	m_TileTypes = TileTypes;
 
+	m_TileData.arrIndex = index;
+	m_TileData.TileTypes = (int)TileTypes;
+
 	if (count % 2 == 0)
 	{
 		SetTexture(*RESOURCE_MGR->GetTexture("graphics/TileSet/Field_00.png"));
 		Color color = sprite.getColor();
-		color.a = 155;
+		color.a = 30;
 		sprite.setColor(color);
 	}
 	else 
 	{
 		SetTexture(*RESOURCE_MGR->GetTexture("graphics/TileSet/Field_01.png"));
 		Color color = sprite.getColor();
-		color.a = 155;
+		color.a = 30;
 		sprite.setColor(color);
 	}
+
 	SetPos(pos);
 	SetOrigin(Origins::BC);
 
@@ -86,10 +91,13 @@ void TilePlay::SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes Ti
 
 void TilePlay::SetObstacle(ThemeTypes themeTypes, int obstacleIndex)
 {
+	m_TileData.ThemeTypes;
+	m_TileData.TileTypes = (int)TileTypes::Obatacle;
+
 	m_TileTypes = TileTypes::Obatacle;
 	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetObstaclePath(themeTypes, obstacleIndex)), true);
 	m_Obj.setPosition(GetPos());
-	cout << GetPos().x << " " << GetPos().y << endl;
+	CLOG::PrintVectorState(GetPos(), "방금 놓은 장애물 포스");
 	Utils::SetOrigin(m_Obj, Origins::BC);
 }
 
@@ -106,11 +114,15 @@ string TilePlay::SetObstaclePath(ThemeTypes types, int num)
 
 void TilePlay::SetMonster(ThemeTypes themeTypes, int monsterIndex)
 {
+	m_TileData.ThemeTypes;
+	m_TileData.TileTypes = (int)TileTypes::Monster;
+
 	m_TileTypes = TileTypes::Monster;
 
 	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetMonsterPath(themeTypes, monsterIndex)), true);
 	m_Obj.setPosition(GetPos());
-	cout << GetPos().x << " " << GetPos().y << endl;
+
+	CLOG::PrintVectorState(GetPos(), "방금 놓은 몬스터 포스");
 
 	Utils::SetOrigin(m_Obj, Origins::BC);
 }
@@ -137,7 +149,19 @@ string TilePlay::SetMonsterPath(ThemeTypes types, int num)
 
 void TilePlay::SetEraser()
 {
+	m_TileData.TileTypes = (int)TileTypes::None;
+
 	m_TileTypes = TileTypes::None;
+}
+
+TileInfo TilePlay::GetTileInfo()
+{
+	return m_TileInfo;
+}
+
+TileData TilePlay::GetTileData()
+{
+	return m_TileData;
 }
 
 bool TilePlay::CollisionCheck(Vector2f pos, int index)

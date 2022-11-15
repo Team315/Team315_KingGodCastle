@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteObj.h"
 #include "Include.h"
+#include "FileData.h"
 
 class TilePlay :public SpriteObj
 {
@@ -8,11 +9,16 @@ protected:
 	Sprite m_Obj;
 	RectangleShape m_playerArea;
 
+	TileInfo m_TileInfo;
+
+	TileData m_TileData;
+
 	TileTypes m_TileTypes;
+	ThemeTypes m_ThemeTypes;
+	int m_PathIndex;
 
 	Vector2i m_index;
 	int m_chapterIndex;
-	int m_stateIndex;
 	bool isCollAble;
 
 public:
@@ -30,6 +36,9 @@ public:
 	void SetMonster(ThemeTypes themeTypes, int monsterIndex);
 	string SetMonsterPath(ThemeTypes types, int num);
 	void SetEraser();
+
+	TileInfo GetTileInfo();
+	TileData GetTileData();
 
 	bool CollisionCheck(Vector2f pos, int index);
 	bool ChangeAlpha(bool check);

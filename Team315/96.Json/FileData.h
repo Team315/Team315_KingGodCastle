@@ -90,15 +90,14 @@ namespace ns {
 		NLOHMANN_DEFINE_TYPE_INTRUSIVE(CookieHitBox, type, hitBox, bottom)
 	};
 
-	struct TempData
+	struct TileData
 	{
-		int m_TileTypes;
+		sf::Vector2i arrIndex;
 
-		sf::Vector2i m_index;
-		int m_chapterIndex;
-		int m_stateIndex;
-		bool isCollAble;
+		int TileTypes;
+		int ThemeTypes;
+		int pathIndex;
 
 
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(TempData, m_TileTypes, m_index, m_chapterIndex, m_stateIndex, isCollAble)
+		NLOHMANN_DEFINE_TYPE_INTRUSIVE(TileData, arrIndex, TileTypes, ThemeTypes, pathIndex)
 	};
