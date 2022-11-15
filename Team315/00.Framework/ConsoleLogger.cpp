@@ -16,7 +16,6 @@ void ConsoleLogger::PrintVectorState(Vector2i vec, string name)
 void ConsoleLogger::PrintVectorState(Vector2u vec, string name)
 {
 	cout << name << "(" << vec.x << ", " << vec.y << ")" << endl;
-
 }
 
 void ConsoleLogger::PrintRectState(FloatRect fr, string name)

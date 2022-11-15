@@ -139,7 +139,20 @@ void BattleScene::Update(float dt)
 		if (button->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
 				CLOG::Print3String(button->GetName());
+				if (!button->GetName().compare("begin"))
+				{
+					b_centerPos = true;
+					CLOG::Print3String("stage start");
+					break;
+				}
+				if (!button->GetName().compare("summon"))
+				{
+
+					break;
+				}
+			}
 		}
 	}
 
