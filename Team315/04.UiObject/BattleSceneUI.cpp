@@ -9,7 +9,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	panel = new BattlePanel();
 	CreateBackground(panel, 1, 3, 188.f, 400.f);
 
-	prepareGrid.resize(14);
+	prepareGrid.resize(PREPARE_SIZE);
 	float outlineThickness = 2.f;
 	float posX = TILE_SIZE_X * 2.f;
 	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE_Y * 8.f;

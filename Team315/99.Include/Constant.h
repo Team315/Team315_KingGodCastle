@@ -23,3 +23,6 @@
 // game screen size
 #define GAME_SCREEN_WIDTH 510
 #define GAME_SCREEN_HEIGHT 765
+
+// anony
+#define PREPARE_SIZE 14

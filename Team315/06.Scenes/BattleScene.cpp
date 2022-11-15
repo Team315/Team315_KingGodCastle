@@ -10,13 +10,6 @@ BattleScene::BattleScene()
 {
 	CLOG::Print3String("battle create");
 
-	/*CreateBackground(TILE_WIDTH, TILE_HEIGHT * 2, TILE_SIZE_X, TILE_SIZE_Y);
-	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
-	
-	
-	background->SetPos(screenCenterPos);
-	background->SetOrigin(Origins::MC);*/
-
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f;
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.5f;
 	CreateTestTile(14, 7, 51.f, 51.f);
@@ -56,6 +49,7 @@ BattleScene::BattleScene()
 		tempY += TILE_SIZE_Y;
 	}
 	ui = new BattleSceneUI(this);
+	prepare.resize(PREPARE_SIZE, 0);
 }
 
 BattleScene::~BattleScene()
@@ -133,6 +127,18 @@ void BattleScene::Update(float dt)
 		MoveUpTile();
 		//CLOG::PrintVectorState(dummy->GetPos(), "dummy");
 	}
+	if (InputMgr::GetKeyDown(Keyboard::F6))
+	{
+		CLOG::Print3String("print prepare vector");
+		int idx = 0;
+		for (auto& cell : prepare)
+		{
+			cout << cell;
+			idx++;
+			if (idx % 7 == 0)
+				cout << endl;
+		}
+	}
 	// Dev Input end
 
 	// Game Input start
@@ -143,7 +149,7 @@ void BattleScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				CLOG::Print3String(button->GetName());
+				//CLOG::Print3String(button->GetName());
 				if (!button->GetName().compare("begin"))
 				{
 					b_centerPos = true;
@@ -152,6 +158,17 @@ void BattleScene::Update(float dt)
 				}
 				if (!button->GetName().compare("summon"))
 				{
+					int idx = Utils::RandomRange(1, 6);
+					CLOG::Print3String(to_string(idx));
+
+					for (auto& cell : prepare)
+					{
+						if (cell == 0)
+						{
+							cell = idx;
+							break;
+						}
+					}
 
 					break;
 				}
