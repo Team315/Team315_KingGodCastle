@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Include.h"
 
+class ToolChapter;
 class TilePlay;
 class SelectStar;
 class SelectMonster;
@@ -34,7 +35,7 @@ protected:
 	list<SelectObstacle*> SelectObstacleList;
 	list<SelectStar*> SelectStarList;
 	list<SelectMonster*> SelectMonsterList;
-
+	vector<ToolChapter*> ToolChapterLIst;
 
 public:
 	ToolScene();
@@ -48,7 +49,7 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	void CreateTileSet(int cols, int rows, float quadWidth, float quadHeight);
-	void CreateTilePlay(int cols, int rows, float quadWidth, float quadHeight);
+	void CreateTilePlay(int maxChapter,int maxStage, int cols, int rows, float quadWidth, float quadHeight);
 	void CreateUiName();
 	void CreateChapterNum(int count);
 	void CreateStageNum(int count);

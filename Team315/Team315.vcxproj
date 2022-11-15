@@ -204,6 +204,8 @@
     <ClInclude Include="04.UiObject\BattlePanel.h" />
     <ClInclude Include="05.ToolObject\TilePlay.h" />
     <ClInclude Include="03.GameObject\Player\Dummy.h" />
+    <ClInclude Include="05.ToolObject\ToolChapter.h" />
+    <ClInclude Include="05.ToolObject\ToolStage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -252,6 +254,8 @@
     <ClCompile Include="05.ToolObject\SelectStar.cpp" />
     <ClCompile Include="04.UiObject\BattlePanel.cpp" />
     <ClCompile Include="05.ToolObject\TilePlay.cpp" />
+    <ClCompile Include="05.ToolObject\ToolChapter.cpp" />
+    <ClCompile Include="05.ToolObject\ToolStage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -41,7 +41,7 @@ void SelectMonster::SetSelectMonster(Vector2f pos, ThemeTypes types, int index)
 {
 	m_index = index;
 
-	cout << m_index << endl;
+	//cout << m_index << endl;
 
 	sprite.setPosition(pos);
 	SetOrigin(Origins::MC);
@@ -110,7 +110,6 @@ void SelectMonster::OnEdge(int index)
 	if (m_index == index)
 	{
 		Color color;
-
 
 		color.b = 255;
 

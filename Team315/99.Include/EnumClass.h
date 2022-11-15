@@ -23,3 +23,11 @@ enum class ClickMode
 	Obstacle,
 	Monster,
 };
+
+enum class TileTypes
+{
+	None = 0,
+	Obatacle,
+	Monster,
+	PlayerArea,
+};
