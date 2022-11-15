@@ -10,15 +10,15 @@ BattleScene::BattleScene()
 	CreateTestTile(14, 7, 51.f, 51.f);
 
 	evan = new Evan();
-	Vector2f pos1 = testTile[13][3]->GetPos();
-	pos1.y -= 51.f;
-	evan->SetPos(pos1);
+	evan->SetPos(testTile[13][3]->GetPos());
 	objList.push_back(evan);
 
+	dummy = new Dummy();
+	dummy->SetPos(testTile[10][3]->GetPos());
+	objList.push_back(dummy);
+
 	goblin00 = new Goblin00();
-	Vector2f pos2 = testTile[0][3]->GetPos();
-	pos2.y -= 51.f;
-	goblin00->SetPos(pos2);
+	goblin00->SetPos(testTile[1][3]->GetPos());
 	objList.push_back(goblin00);
 
 	float tempY = TILE_SIZE_Y;
@@ -50,7 +50,8 @@ void BattleScene::Init()
 {
 	CLOG::Print3String("battle Init");
 
-	goblin00->SetTarget(evan);
+	//goblin00->SetTarget(evan);
+	goblin00->SetTarget(dummy);
 	evan->SetTarget(goblin00);
 	Scene::Init();
 }
@@ -110,6 +111,11 @@ void BattleScene::Update(float dt)
 	{
 		CLOG::Print3String(to_string(wheel));
 	}
+	if (InputMgr::GetKeyDown(Keyboard::Up))
+	{
+		
+		//dummy->SetPos();
+	}
 	// Dev Input end
 
 	Scene::Update(dt);
@@ -139,4 +145,13 @@ void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 			testTile[i][j] = tilePlay;
 		}
 	}
+}
+
+void BattleScene::MoveTile()
+{
+	nowTile = dummy->GetPos();
+}
+
+void BattleScene::AIMove()
+{
 }

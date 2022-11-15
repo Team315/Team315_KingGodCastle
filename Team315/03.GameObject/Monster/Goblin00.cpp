@@ -104,35 +104,40 @@ void Goblin00::SetState(States newState)
 void Goblin00::Update(float dt)
 {
 	Character::Update(dt);
-
+	//cout << GetPos().x << " " << GetPos().y << endl;
 	if (InputMgr::GetKeyDown(Keyboard::Key::O))
 	{
-		cout << "O" << endl;
-		isPlaying = true;
+		//cout << "O" << endl;
+		isPlaying2 = true;
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::P))
 	{
-		cout << "P" << endl;
-		isPlaying = false;
+		//cout << "P" << endl;
+		isPlaying2 = false;
 	}
-	if(isPlaying)
+	if(isPlaying2)
 	{
 		direction = Utils::Normalize(target->GetPos() - GetPos());
 		Translate(direction * dt * speed);
 	}
+	//cout << direction.x << " " << direction.y << endl;
 
 	switch (currState)
 	{
 	case Goblin00::States::Idle:
+		cout << "Idle" << endl;
 		UpdateIdle(dt);
 		break;
 	case Goblin00::States::MoveToIdle:
+		cout << "MoveToIdle" << endl;
 		UpdateMoveToIdle(dt);
 		break;
 	case Goblin00::States::Move:
+		cout << "Move" << endl;
 		UpdateMove(dt);
 		break;
 	case Goblin00::States::Attack:
+		cout << "Attack" << endl;
 		UpdateAttack(dt);
 		break;
 	}
@@ -141,6 +146,16 @@ void Goblin00::Update(float dt)
 	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
 	{
 		lastDirection = direction;
+	}
+	direction = { 0.f, 0.f };
+	if (dist > 0.f)
+	{
+		dist -= dt * speed;
+		Translate(direction * speed * dt);
+		if (dist <= 0.f)
+		{
+			StopTranslate();
+		}
 	}
 }
 
@@ -179,9 +194,9 @@ void Goblin00::UpdateMoveToIdle(float dt)
 
 void Goblin00::UpdateMove(float dt)
 {
-	if (isPlaying)
+	if (!isPlaying2)
 	{
-		SetState(States::Idle);
+		SetState(States::MoveToIdle);
 		return;
 	}
 	if (EqualFloat(direction.x, 0.f) && EqualFloat(direction.y, 0.f))
@@ -203,11 +218,20 @@ void Goblin00::UpdateAttack(float dt)
 {
 	if (!EqualFloat(direction.x, 0.f) && !EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::Idle);
+		SetState(States::MoveToIdle);
 	}
 }
 
 bool Goblin00::EqualFloat(float a, float b)
 {
 	return fabs(a - b) < numeric_limits<float>::epsilon();
+}
+
+void Goblin00::StopTranslate()
+{
+	dist = 0.f;
+	direction = { 0,0 };
+	SetPos(dest);
+	SetState(States::MoveToIdle);
+	dest = { 0,0 };
 }

@@ -32,7 +32,7 @@ protected:
 	int dmg;
 public:
 	Evan()
-		: currState(States::None), speed(50.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f), playerMaxhp(1000), dmg(100), playerMaxMp(500)
+		: currState(States::None), speed(300.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f), playerMaxhp(1000), dmg(100), playerMaxMp(500)
 	{
 	}
 	virtual void Init() override;
