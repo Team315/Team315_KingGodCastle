@@ -1,6 +1,7 @@
 #include "Character.h"
 
 Character::Character()
+	: destination(0, 0), move(false)
 {
 	hpBar = new ProgressBar();
 	hpBarLocalPos = { -10.f, -30.f };
@@ -23,7 +24,12 @@ void Character::Init()
 void Character::Update(float dt)
 {
 	hpBar->Update(dt);
-	SpriteObj::Update(dt);
+	if (move)
+	{
+		Translate(Utils::Normalize(destination - position));
+		if (destination == position)
+			move = false;
+	}
 }
 
 void Character::Draw(RenderWindow& window)

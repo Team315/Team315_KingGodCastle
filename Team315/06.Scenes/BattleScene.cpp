@@ -214,21 +214,19 @@ void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 void BattleScene::MoveDownTile()
 {
 	nowTile = dummy->GetPos();
-	for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
-	{
-		dummy->SetPos({ nowTile.x, nowTile.y + i });
-		++i;
-	}
+	nowTile.y += TILE_SIZE_Y;
+	dummy->SetDestination(nowTile);
+	dummy->SetMove(true);
+	//dummy->SetPos(nowTile);
 }
 
 void BattleScene::MoveUpTile()
 {
 	nowTile = dummy->GetPos();
-	for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
-	{
-		dummy->SetPos({ nowTile.x, nowTile.y - i });
-		++i;
-	}
+	nowTile.y -= TILE_SIZE_Y;
+	dummy->SetDestination(nowTile);
+	dummy->SetMove(true);
+	//dummy->SetPos(nowTile);
 }
 
 void BattleScene::MoveLeftTile()

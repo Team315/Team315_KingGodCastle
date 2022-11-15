@@ -5,10 +5,12 @@
 class Character : public SpriteObj
 {
 protected:
-	Character* target;
+	Character*		target;
 
-	ProgressBar* hpBar;
-	Vector2f	hpBarLocalPos;
+	ProgressBar*	hpBar;
+	Vector2f		hpBarLocalPos;
+	Vector2f		destination;
+	bool			move;
 
 public:
 	Character();
@@ -21,4 +23,6 @@ public:
 
 	void SetTarget(Character* target);
 	void SetHpBarLocalPos(Vector2f pos);
+	void SetMove(bool b) { move = b; }
+	void SetDestination(Vector2f dest) { destination = dest; }
 };
