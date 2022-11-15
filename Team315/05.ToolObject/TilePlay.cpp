@@ -30,8 +30,6 @@ void TilePlay::Draw(RenderWindow& window)
 	case TileTypes::None:
 		break;
 	case TileTypes::Obatacle:
-		window.draw(m_Obj);
-		break;
 	case TileTypes::Monster:
 		window.draw(m_Obj);
 		break;
@@ -89,8 +87,9 @@ void TilePlay::SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes Ti
 void TilePlay::SetObstacle(ThemeTypes themeTypes, int obstacleIndex)
 {
 	m_TileTypes = TileTypes::Obatacle;
-	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetObstaclePath(themeTypes, obstacleIndex)));
+	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetObstaclePath(themeTypes, obstacleIndex)), true);
 	m_Obj.setPosition(GetPos());
+	cout << GetPos().x << " " << GetPos().y << endl;
 	Utils::SetOrigin(m_Obj, Origins::BC);
 }
 
@@ -109,8 +108,10 @@ void TilePlay::SetMonster(ThemeTypes themeTypes, int monsterIndex)
 {
 	m_TileTypes = TileTypes::Monster;
 
-	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetMonsterPath(themeTypes, monsterIndex)));
+	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetMonsterPath(themeTypes, monsterIndex)), true);
 	m_Obj.setPosition(GetPos());
+	cout << GetPos().x << " " << GetPos().y << endl;
+
 	Utils::SetOrigin(m_Obj, Origins::BC);
 }
 
@@ -132,6 +133,11 @@ string TilePlay::SetMonsterPath(ThemeTypes types, int num)
 	string png = ".png";
 
 	return path + field + sNum + png;
+}
+
+void TilePlay::SetEraser()
+{
+	m_TileTypes = TileTypes::None;
 }
 
 bool TilePlay::CollisionCheck(Vector2f pos, int index)

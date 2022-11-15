@@ -11,6 +11,8 @@ protected:
 	TileTypes m_TileTypes;
 
 	Vector2i m_index;
+	int m_chapterIndex;
+	int m_stateIndex;
 	bool isCollAble;
 
 public:
@@ -27,6 +29,7 @@ public:
 	string SetObstaclePath(ThemeTypes types, int num);
 	void SetMonster(ThemeTypes themeTypes, int monsterIndex);
 	string SetMonsterPath(ThemeTypes types, int num);
+	void SetEraser();
 
 	bool CollisionCheck(Vector2f pos, int index);
 	bool ChangeAlpha(bool check);

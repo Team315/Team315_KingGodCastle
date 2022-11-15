@@ -84,6 +84,9 @@
     <ClInclude Include="05.ToolObject\SelectMonster.h" />
     <ClInclude Include="04.UiObject\BattleSceneUI.h" />
     <ClInclude Include="05.ToolObject\SelectStar.h" />
+    <ClInclude Include="05.ToolObject\TilePlay.h" />
+    <ClInclude Include="05.ToolObject\ToolChapter.h" />
+    <ClInclude Include="05.ToolObject\ToolStage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
@@ -155,6 +158,9 @@
     <ClCompile Include="05.ToolObject\SelectMonster.cpp" />
     <ClCompile Include="04.UiObject\BattleSceneUI.cpp" />
     <ClCompile Include="05.ToolObject\SelectStar.cpp" />
+    <ClCompile Include="05.ToolObject\TilePlay.cpp" />
+    <ClCompile Include="05.ToolObject\ToolChapter.cpp" />
+    <ClCompile Include="05.ToolObject\ToolStage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">

@@ -10,6 +10,8 @@
 #include "SelectMonster.h"
 #include "SelectStar.h"
 #include "TilePlay.h"
+#include "ToolChapter.h"
+#include "ToolStage.h"
 
 ToolScene::ToolScene()
 	: Scene(Scenes::Tool), m_clickMode(ClickMode::None), m_nowChapter(1), m_nowStage(1), m_nowTileSet(-1), m_nowObstacle(-1), m_nowTheme(1), m_nowStar(0), m_monster(-1)
@@ -28,7 +30,7 @@ void ToolScene::Init()
 	CLOG::Print3String("tool Init");
 
 	//CreateTileSet(Tile_WIDTH, Tile_HEIGHT, Tile_SizeX, Tile_SizeY);
-	CreateTilePlay(BATTLE_TILE_COLS, BATTLE_TILE_ROWS, Tile_SizeX, Tile_SizeY);
+	//CreateTilePlay(ChapterMaxCount, StageMaxCount, BATTLE_TILE_COLS, BATTLE_TILE_ROWS, Tile_SizeX, Tile_SizeY);
 	CreateUiName();
 	CreateChapterNum(ChapterMaxCount);
 	CreateStageNum(StageMaxCount);
@@ -37,6 +39,13 @@ void ToolScene::Init()
 	CreateSelectObstacle();
 	CreateSelectMonster();
 	CreateSelectStar();
+
+	for (int i = 0; i < ChapterMaxCount; i++)
+	{
+		ToolChapter* toolChapter = new ToolChapter();
+		toolChapter->CreateToolStage(StageMaxCount, BATTLE_TILE_COLS, BATTLE_TILE_ROWS, Tile_SizeX, Tile_SizeY);
+		ToolChapterLIst.push_back(toolChapter);
+	}
 
 	Scene::Init();
 }
@@ -99,7 +108,7 @@ void ToolScene::Update(float dt)
 		}
 	}
 
-	for (auto  stageNum : StageNumList)
+	for (auto stageNum : StageNumList)
 	{
 		stageNum->OnEdge(m_nowStage);
 		if (stageNum->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowStage))
@@ -111,7 +120,7 @@ void ToolScene::Update(float dt)
 		}
 	}
 
-	for (auto  Theme : ThemeList)
+	for (auto Theme : ThemeList)
 	{
 		Theme->OnEdge(m_nowTheme);
 		if (Theme->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowTheme))
@@ -137,7 +146,7 @@ void ToolScene::Update(float dt)
 		}
 	}
 
-	for (auto  SelectObstacle : SelectObstacleList)
+	for (auto SelectObstacle : SelectObstacleList)
 	{
 		SelectObstacle->OnEdge(m_nowObstacle);
 		if (SelectObstacle->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowObstacle))
@@ -180,7 +189,7 @@ void ToolScene::Update(float dt)
 		}
 	}
 
-	for (int i = 0; i < BATTLE_TILE_COLS - 4; ++i)
+	/*for (int i = 0; i < BATTLE_TILE_COLS - 4; ++i)
 	{
 		for (int j = 0; j < BATTLE_TILE_ROWS; ++j)
 		{
@@ -197,6 +206,45 @@ void ToolScene::Update(float dt)
 						m_TilePlayList[i][j]->SetObstacle((ThemeTypes)m_nowTheme, m_nowObstacle);
 					}
 				}
+				else if (InputMgr::GetMouseUp(Mouse::Right))
+				{
+					m_TilePlayList[i][j]->SetEraser();
+				}
+			}
+		}
+	}*/
+
+
+	for (int i = 0; i < BATTLE_TILE_COLS - 4; ++i)
+	{
+		for (int j = 0; j < BATTLE_TILE_ROWS; ++j)
+		{
+			if (ToolChapterLIst[m_nowChapter - 1]->
+				GetToolStage(m_nowStage - 1)->
+				GetTileTool(i, j)->
+				CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 1))
+			{
+				if (InputMgr::GetMouseUp(Mouse::Left))
+				{
+					if (m_clickMode == ClickMode::Monster)
+					{
+						ToolChapterLIst[m_nowChapter - 1]->
+							GetToolStage(m_nowStage - 1)->
+							GetTileTool(i, j)->SetMonster((ThemeTypes)m_nowTheme, m_monster);
+					}
+					else if (m_clickMode == ClickMode::Obstacle)
+					{
+						ToolChapterLIst[m_nowChapter - 1]->
+							GetToolStage(m_nowStage - 1)->
+							GetTileTool(i, j)->SetObstacle((ThemeTypes)m_nowTheme, m_nowObstacle);
+					}
+				}
+				else if (InputMgr::GetMouseUp(Mouse::Right))
+				{
+					ToolChapterLIst[m_nowChapter - 1]->
+						GetToolStage(m_nowStage - 1)->
+						GetTileTool(i, j)->SetEraser();
+				}
 			}
 		}
 	}
@@ -206,13 +254,24 @@ void ToolScene::Update(float dt)
 
 void ToolScene::Draw(RenderWindow& window)
 {
-	for (int i = 0; i < 14; ++i)
+	/*for (int i = 0; i < 14; ++i)
 	{
 		for (int j = 0; j < 7; ++j)
 		{
 			m_TilePlayList[i][j]->Draw(window);
 		}
+	}*/
+
+	for (int i = 0; i < BATTLE_TILE_COLS; ++i)
+	{
+		for (int j = 0; j < BATTLE_TILE_ROWS; ++j)
+		{
+			ToolChapterLIst[m_nowChapter - 1]->
+				GetToolStage(m_nowStage - 1)->
+				GetTileTool(i, j)->Draw(window);
+		}
 	}
+
 	Scene::Draw(window);
 }
 
@@ -269,7 +328,7 @@ void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHei
 	//}
 }
 
-void ToolScene::CreateTilePlay(int cols, int rows, float quadWidth, float quadHeight)
+void ToolScene::CreateTilePlay(int maxChapter, int maxStage, int cols, int rows, float quadWidth, float quadHeight)
 {
 	//m_TilePlayList->assign(cols, vector<TilePlay*>(rows));
 	m_TilePlayList.assign(cols, vector<TilePlay*>(rows));
