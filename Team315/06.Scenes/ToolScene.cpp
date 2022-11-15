@@ -12,12 +12,15 @@
 #include "TilePlay.h"
 #include "ToolChapter.h"
 #include "ToolStage.h"
+#include "FileManager.h"
 
 ToolScene::ToolScene()
 	: Scene(Scenes::Tool), m_clickMode(ClickMode::None), m_nowChapter(1), m_nowStage(1), m_nowTileSet(-1), m_nowObstacle(-1), m_nowTheme(1), m_nowStar(0), m_monster(-1)
 {
 	SetClickMode(m_clickMode);
 	CLOG::Print3String("tool create");
+
+	FileManager* file = new FileManager();
 }
 
 ToolScene::~ToolScene()
@@ -524,7 +527,6 @@ void ToolScene::CreateSelectStar()
 
 void ToolScene::SetClickMode(ClickMode clickMode)
 {
-
 	switch (clickMode)
 	{
 	case ClickMode::None:

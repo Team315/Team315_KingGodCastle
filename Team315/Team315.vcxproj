@@ -119,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./00.Framework;./01.Manager;./02.Object;./03.GameObject;./04.UiObject;./05.ToolObject;./06.Scenes;./97.DataTable;./98.3rd;./99.Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./SFML-2.5.1/include;./00.Framework;./01.Manager;./02.Object;./03.GameObject;./04.UiObject;./05.ToolObject;./06.Scenes;./96.Json;./97.DataTable;./98.3rd;./99.Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,6 +148,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="96.Json\FileData.h" />
+    <ClInclude Include="96.Json\FileManager.h" />
     <ClInclude Include="98.3rd\CSVWriter.h" />
     <ClInclude Include="98.3rd\OBB.h" />
     <ClInclude Include="98.3rd\ObjectPool.h" />
@@ -210,6 +212,8 @@
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
     <ClCompile Include="04.UiObject\Button.cpp" />
+    <ClCompile Include="96.Json\FileData.cpp" />
+    <ClCompile Include="96.Json\FileManager.cpp" />
     <ClCompile Include="97.DataTable\DataTable.cpp" />
     <ClCompile Include="97.DataTable\DataTableMgr.cpp" />
     <ClCompile Include="97.DataTable\StringTable.cpp" />
@@ -257,7 +261,17 @@
     <ClCompile Include="05.ToolObject\ToolChapter.cpp" />
     <ClCompile Include="05.ToolObject\ToolStage.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets" Condition="Exists('packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하십시오. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하십시오. 누락된 파일은 {0}입니다.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\nlohmann.json.3.11.2\build\native\nlohmann.json.targets'))" />
+  </Target>
 </Project>
