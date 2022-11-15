@@ -43,7 +43,7 @@ void ToolScene::Init()
 	for (int i = 0; i < ChapterMaxCount; i++)
 	{
 		ToolChapter* toolChapter = new ToolChapter();
-		toolChapter->CreateToolStage(StageMaxCount, BATTLE_TILE_COLS, BATTLE_TILE_ROWS, Tile_SizeX, Tile_SizeY);
+		toolChapter->CreateToolStage(StageMaxCount, GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE_X, TILE_SIZE_Y);
 		ToolChapterLIst.push_back(toolChapter);
 	}
 
@@ -215,9 +215,9 @@ void ToolScene::Update(float dt)
 	}*/
 
 
-	for (int i = 0; i < BATTLE_TILE_COLS - 4; ++i)
+	for (int i = 0; i < GAME_TILE_HEIGHT - 4; ++i)
 	{
-		for (int j = 0; j < BATTLE_TILE_ROWS; ++j)
+		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
 		{
 			if (ToolChapterLIst[m_nowChapter - 1]->
 				GetToolStage(m_nowStage - 1)->
@@ -262,9 +262,9 @@ void ToolScene::Draw(RenderWindow& window)
 		}
 	}*/
 
-	for (int i = 0; i < BATTLE_TILE_COLS; ++i)
+	for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
 	{
-		for (int j = 0; j < BATTLE_TILE_ROWS; ++j)
+		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
 		{
 			ToolChapterLIst[m_nowChapter - 1]->
 				GetToolStage(m_nowStage - 1)->

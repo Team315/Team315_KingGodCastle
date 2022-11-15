@@ -125,19 +125,15 @@ void Goblin00::Update(float dt)
 	switch (currState)
 	{
 	case Goblin00::States::Idle:
-		cout << "Idle" << endl;
 		UpdateIdle(dt);
 		break;
 	case Goblin00::States::MoveToIdle:
-		cout << "MoveToIdle" << endl;
 		UpdateMoveToIdle(dt);
 		break;
 	case Goblin00::States::Move:
-		cout << "Move" << endl;
 		UpdateMove(dt);
 		break;
 	case Goblin00::States::Attack:
-		cout << "Attack" << endl;
 		UpdateAttack(dt);
 		break;
 	}
