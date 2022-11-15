@@ -22,6 +22,7 @@ protected:
 	Vector2f screenCenterPos;
 	bool b_centerPos;
 	float gameScreenBottomLimit;
+	float gameScreenTopLimit;
 
 public:
 	BattleScene();

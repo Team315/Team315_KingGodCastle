@@ -3,11 +3,13 @@
 
 class BattlePanel;
 class VertexArrayObj;
+class RectangleObj;
 
 class BattleSceneUI : public UIMgr
 {
 protected:
 	BattlePanel* panel;
+	vector<RectangleObj*> prepareGrid;
 
 public:
 	BattleSceneUI(Scene* scene);

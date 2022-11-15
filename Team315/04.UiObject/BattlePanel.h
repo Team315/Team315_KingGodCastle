@@ -43,5 +43,5 @@ public:
 	TextObj* GetTitleText() { return titleText; }
 	TextObj* GetStageText() { return stageText; }
 	TextObj* GetTitleNumberText() { return titleNumberText; }
-	vector<Button*> GetButtons() { return buttons; }
+	vector<Button*>& GetButtons() { return buttons; }
 };

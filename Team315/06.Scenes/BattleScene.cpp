@@ -11,8 +11,9 @@ BattleScene::BattleScene()
 	CLOG::Print3String("battle create");
 
 	CreateBackground(TILE_WIDTH, TILE_HEIGHT * 2, TILE_SIZE_X, TILE_SIZE_Y);
-	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT * 0.5f);
-	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 0.5f;
+	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
+	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f;
+	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.5f;
 	background->SetPos(screenCenterPos);
 	background->SetOrigin(Origins::MC);
 
@@ -24,6 +25,7 @@ BattleScene::BattleScene()
 
 	float tempY = TILE_SIZE_Y;
 	overlay.resize(GAME_TILE_HEIGHT);
+	float outlineThickness = 2.f;
 	for (auto& tiles : overlay)
 	{
 		tiles = new vector<RectangleObj*>;
@@ -31,9 +33,11 @@ BattleScene::BattleScene()
 		float tempX = TILE_SIZE_X * 2.f;
 		for (auto& tile : *tiles)
 		{
-			tile = new RectangleObj(47.f, 47.f);
+			tile = new RectangleObj(
+				TILE_SIZE_X - outlineThickness * 2 - 1,
+				TILE_SIZE_Y - outlineThickness * 2 - 1);
 			tile->SetFillColor(Color(255, 255, 255, 80));
-			tile->SetOutline(Color::White, 1.5f);
+			tile->SetOutline(Color::White, outlineThickness);
 			tile->SetPos(Vector2f(tempX, tempY));
 			tile->SetOrigin(Origins::BC);
 			objList.push_back(tile);
@@ -112,7 +116,8 @@ void BattleScene::Update(float dt)
 	// Dev Input end
 
 	// Game Input start
-	for (auto button : ui->GetPanel()->GetButtons())
+	vector<Button*>& buttons = ui->GetPanel()->GetButtons();
+	for (auto button : buttons)
 	{
 		if (button->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
@@ -124,21 +129,21 @@ void BattleScene::Update(float dt)
 	float wheel = InputMgr::GetMouseWheel();
 	if (wheel != 0)
 	{
-		b_centerPos = wheel == 1 ? false : true;
+		b_centerPos = wheel == 1 ? true : false;
 	}
 	if (b_centerPos)
 	{
-		if (screenCenterPos.y <= GAME_SCREEN_HEIGHT)
+		if (screenCenterPos.y >= gameScreenTopLimit)
 		{
-			screenCenterPos.y += dt * (GAME_SCREEN_HEIGHT - screenCenterPos.y) * 25.f;
+			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenTopLimit) * 25.f;
 			gameView.setCenter(screenCenterPos);
 		}
 	}
 	else
 	{
-		if (screenCenterPos.y >= gameScreenBottomLimit)
+		if (screenCenterPos.y <= gameScreenBottomLimit)
 		{
-			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenBottomLimit) * 25.f;
+			screenCenterPos.y += dt * (gameScreenBottomLimit - screenCenterPos.y) * 25.f;
 			gameView.setCenter(screenCenterPos);
 		}
 	}
