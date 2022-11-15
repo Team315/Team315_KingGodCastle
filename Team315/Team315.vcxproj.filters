@@ -85,6 +85,8 @@
     <ClInclude Include="04.UiObject\BattleSceneUI.h" />
     <ClInclude Include="05.ToolObject\SelectStar.h" />
     <ClInclude Include="04.UiObject\BattlePanel.h" />
+    <ClInclude Include="05.ToolObject\TilePlay.h" />
+    <ClInclude Include="03.GameObject\Player\Dummy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
@@ -157,6 +159,8 @@
     <ClCompile Include="04.UiObject\BattleSceneUI.cpp" />
     <ClCompile Include="05.ToolObject\SelectStar.cpp" />
     <ClCompile Include="04.UiObject\BattlePanel.cpp" />
+    <ClCompile Include="05.ToolObject\TilePlay.cpp" />
+    <ClCompile Include="03.GameObject\Player\Dummy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">

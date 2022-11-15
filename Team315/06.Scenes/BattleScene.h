@@ -2,9 +2,11 @@
 #include "Scene.h"
 #include "Player/Evan.h"
 #include "Monster/Goblin00.h"
+#include "Player/Dummy.h"
 #include "VertexArrayObj.h"
 #include "RectangleObj.h"
 #include <vector>
+#include "TilePlay.h"
 
 class BattleSceneUI;
 class Button;
@@ -16,8 +18,11 @@ protected:
 
 	Evan* evan;
 	Goblin00* goblin00;
+	Dummy* dummy;
 	VertexArrayObj* background;
 	vector<vector<RectangleObj*>*> overlay;
+	vector<vector<TilePlay*>> testTile;
+	Vector2f nowTile;
 
 	Vector2f screenCenterPos;
 	bool b_centerPos;
@@ -37,6 +42,10 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	void CreateBackground(int cols, int rows, float qWidth, float qHeight);
 	VertexArrayObj* GetBackground() { return background; }
+
+	void CreateTestTile(int cols, int rows, float width, float height);
+
+	void MoveTile();
+	void AIMove();
 };

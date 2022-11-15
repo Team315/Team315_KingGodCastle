@@ -1,8 +1,8 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
 Idle,1,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Charactor/Player/Evan/EvanIdle.png,0,0,100,100,50,50,0,0
-graphics/Charactor/Player/Evan/EvanIdle.png,100,0,100,100,50,50,0,0
-graphics/Charactor/Player/Evan/EvanIdle.png,200,0,100,100,50,50,0,0
-graphics/Charactor/Player/Evan/EvanIdle.png,300,0,100,100,50,50,0,0
-graphics/Charactor/Player/Evan/EvanIdle.png,400,0,100,100,50,50,0,0
+graphics/Charactor/Player/Evan/EvanIdle.png,0,0,100,100,50,100,0,0
+graphics/Charactor/Player/Evan/EvanIdle.png,100,0,100,100,50,100,0,0
+graphics/Charactor/Player/Evan/EvanIdle.png,200,0,100,100,50,100,0,0
+graphics/Charactor/Player/Evan/EvanIdle.png,300,0,100,100,50,100,0,0
+graphics/Charactor/Player/Evan/EvanIdle.png,400,0,100,100,50,100,0,0

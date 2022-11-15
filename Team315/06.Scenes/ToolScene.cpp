@@ -1,5 +1,5 @@
 #include "ToolScene.h"
-#include "Include.h"
+
 #include "TileSet.h"
 #include "UiName.h"
 #include "Number.h"
@@ -9,10 +9,12 @@
 #include "SelectObstacle.h"
 #include "SelectMonster.h"
 #include "SelectStar.h"
+#include "TilePlay.h"
 
 ToolScene::ToolScene()
-	: Scene(Scenes::Tool), m_nowChapter(0), m_nowStage(0), m_nowTheme(0), m_nowStar(0), m_monster(0)
+	: Scene(Scenes::Tool), m_clickMode(ClickMode::None), m_nowChapter(1), m_nowStage(1), m_nowTileSet(-1), m_nowObstacle(-1), m_nowTheme(1), m_nowStar(0), m_monster(-1)
 {
+	SetClickMode(m_clickMode);
 	CLOG::Print3String("tool create");
 }
 
@@ -25,7 +27,8 @@ void ToolScene::Init()
 {
 	CLOG::Print3String("tool Init");
 
-	CreateTileSet(TILE_WIDTH, TILE_HEIGHT, TILE_SIZE_X, TILE_SIZE_Y);
+	//CreateTileSet(Tile_WIDTH, Tile_HEIGHT, Tile_SizeX, Tile_SizeY);
+	CreateTilePlay(14, 7, 51.f, 51.f);
 	CreateUiName();
 	CreateChapterNum(ChapterMaxCount);
 	CreateStageNum(StageMaxCount);
@@ -115,6 +118,7 @@ void ToolScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseUp(Mouse::Left))
 			{
+				SetClickMode(ClickMode::Theme);
 				m_nowTheme = Theme->GetIndex();
 			}
 		}
@@ -127,6 +131,7 @@ void ToolScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseUp(Mouse::Left))
 			{
+				SetClickMode(ClickMode::Tile);
 				m_nowTileSet = SelectTile->GetIndex();
 			}
 		}
@@ -139,6 +144,8 @@ void ToolScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseUp(Mouse::Left))
 			{
+				SetClickMode(ClickMode::Obstacle);
+
 				m_nowObstacle = SelectObstacle->GetIndex();
 			}
 		}
@@ -151,6 +158,8 @@ void ToolScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseUp(Mouse::Left))
 			{
+				SetClickMode(ClickMode::Monster);
+
 				m_nowStar = SelectStar->GetIndex();
 			}
 		}
@@ -163,6 +172,7 @@ void ToolScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseUp(Mouse::Left))
 			{
+				SetClickMode(ClickMode::Monster);
 
 				m_monster = SelectMonster->GetIndex();
 				cout << m_monster << endl;
@@ -175,59 +185,87 @@ void ToolScene::Update(float dt)
 
 void ToolScene::Draw(RenderWindow& window)
 {
+	for (int i = 0; i < 14; ++i)
+	{
+		for (int j = 0; j < 7; ++j)
+		{
+			m_TilePlayList[i][j]->Draw(window);
+		}
+	}
 	Scene::Draw(window);
 }
 
 void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHeight)
 {
-	if (m_TileSet == nullptr)
+	//if (m_TileSet == nullptr)
+	//{
+	//	m_TileSet = new TileSet();
+	//	m_TileSet->SetTexture(GetTexture("graphics/TileSet/Field_01.png"));
+	//	tileSetList.push_back(m_TileSet);
+	//	objList.push_back(m_TileSet);
+	//	m_TileSet->Init();
+	//}
+
+	//Vector2f startPos = { WINDOW_WIDTH - (cols * quadWidth), 0.f };
+
+	//VertexArray& va = m_TileSet->GetVA();
+	//va.clear();
+	//va.setPrimitiveType(Quads);
+	//va.resize(cols * rows * 4);
+	//Vector2f currPos = startPos;
+
+	//Vector2f offsets[4] = {
+	//	{ 0, 0 },
+	//	{ quadWidth, 0 },
+	//	{ quadWidth, quadHeight },
+	//	{ 0, quadHeight },
+	//};
+
+	//for (int i = 0; i < rows; ++i)
+	//{
+	//	for (int j = 0; j < cols; ++j)
+	//	{
+	//		/*int texIndex = Utils::RandomRange(0, 3);
+	//		if ((i == 0 || i == rows - 1) || (j == 0 || j == cols - 1))
+	//		{
+	//			texIndex = 3;
+	//		}*/
+
+	//		int quadIndex = i * cols + j;
+
+	//		for (int k = 0; k < 4; ++k)
+	//		{
+	//			int vertexIndex = quadIndex * 4 + k;
+	//			va[vertexIndex].position = currPos + offsets[k];
+	//			va[vertexIndex].texCoords = offsets[k];
+	//			va[vertexIndex].texCoords.y += quadHeight /** texIndex*/;
+
+	//		}
+	//		currPos.x += Tile_SizeX;
+	//	}
+	//	currPos.x = startPos.x;
+	//	currPos.y += Tile_SizeY;
+	//}
+}
+
+void ToolScene::CreateTilePlay(int cols, int rows, float quadWidth, float quadHeight)
+{
+	//m_TilePlayList->assign(cols, vector<TilePlay*>(rows));
+	m_TilePlayList.assign(cols, vector<TilePlay*>(rows));
+
+	int count = 0;
+	//m_TilePlayList.resize(cols);
+	for (int i = 0; i < cols; ++i)
 	{
-		m_TileSet = new TileSet();
-		m_TileSet->SetTexture(GetTexture("graphics/TileSet/Field_01.png"));
-		tileSetList.push_back(m_TileSet);
-		objList.push_back(m_TileSet);
-		m_TileSet->Init();
-	}
-
-	Vector2f startPos = { WINDOW_WIDTH - (cols * quadWidth), 0.f };
-
-	VertexArray& va = m_TileSet->GetVA();
-	va.clear();
-	va.setPrimitiveType(Quads);
-	va.resize(cols * rows * 4);
-	Vector2f currPos = startPos;
-
-	Vector2f offsets[4] = {
-		{ 0, 0 },
-		{ quadWidth, 0 },
-		{ quadWidth, quadHeight },
-		{ 0, quadHeight },
-	};
-
-	for (int i = 0; i < rows; ++i)
-	{
-		for (int j = 0; j < cols; ++j)
+		for (int j = 0; j < rows; ++j)
 		{
-			/*int texIndex = Utils::RandomRange(0, 3);
-			if ((i == 0 || i == rows - 1) || (j == 0 || j == cols - 1))
-			{
-				texIndex = 3;
-			}*/
+			TilePlay* tilePlay = new TilePlay();
+			tilePlay->SetTilePlay({ cols, rows }, { (WINDOW_WIDTH - (quadWidth * 8)) + (j * quadWidth), quadHeight + (i * quadHeight) }, count++);
 
-			int quadIndex = i * cols + j;
-
-			for (int k = 0; k < 4; ++k)
-			{
-				int vertexIndex = quadIndex * 4 + k;
-				va[vertexIndex].position = currPos + offsets[k];
-				va[vertexIndex].texCoords = offsets[k];
-				va[vertexIndex].texCoords.y += quadHeight /** texIndex*/;
-
-			}
-			currPos.x += TILE_SIZE_X;
+			objList.push_back(tilePlay);
+			m_TilePlayList[i][j] = tilePlay;
+			//cout << i << " " << j << endl;
 		}
-		currPos.x = startPos.x;
-		currPos.y += TILE_SIZE_Y;
 	}
 }
 
@@ -383,11 +421,42 @@ void ToolScene::CreateSelectStar()
 {
 	for (int i = 0; i < 7; i++)
 	{
-
 		SelectStar* selectStar = new SelectStar();
 
 		selectStar->SetSelectStar({ 40.f + (i * 85.f) , 622.f }, (i + 1));
 		SelectStarList.push_back(selectStar);
 		objList.push_back(selectStar);
+	}
+}
+
+void ToolScene::SetClickMode(ClickMode clickMode)
+{
+
+	switch (clickMode)
+	{
+	case ClickMode::None:
+		m_nowChapter = 1;
+		m_nowStage = 1;
+		m_nowTheme = 1;
+		m_nowStar = 1;
+		break;
+	case ClickMode::Theme:
+		m_nowTileSet = -1;
+		m_nowObstacle = -1;
+		m_nowStar = 1;
+		m_monster = -1;
+		break;
+	case ClickMode::Tile:
+		m_nowObstacle = -1;
+		m_monster = -1;
+		break;
+	case ClickMode::Obstacle:
+		m_nowTileSet = -1;
+		m_monster = -1;
+		break;
+	case ClickMode::Monster:
+		m_nowObstacle = -1;
+		m_nowTileSet = -1;
+		break;
 	}
 }

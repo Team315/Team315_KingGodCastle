@@ -10,17 +10,27 @@ BattleScene::BattleScene()
 {
 	CLOG::Print3String("battle create");
 
-	CreateBackground(TILE_WIDTH, TILE_HEIGHT * 2, TILE_SIZE_X, TILE_SIZE_Y);
+	/*CreateBackground(TILE_WIDTH, TILE_HEIGHT * 2, TILE_SIZE_X, TILE_SIZE_Y);
 	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
+	
+	
+	background->SetPos(screenCenterPos);
+	background->SetOrigin(Origins::MC);*/
+
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f;
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.5f;
-	background->SetPos(screenCenterPos);
-	background->SetOrigin(Origins::MC);
+	CreateTestTile(14, 7, 51.f, 51.f);
 
 	evan = new Evan();
+	evan->SetPos(testTile[13][3]->GetPos());
 	objList.push_back(evan);
 
+	dummy = new Dummy();
+	dummy->SetPos(testTile[10][3]->GetPos());
+	objList.push_back(dummy);
+
 	goblin00 = new Goblin00();
+	goblin00->SetPos(testTile[1][3]->GetPos());
 	objList.push_back(goblin00);
 
 	float tempY = TILE_SIZE_Y;
@@ -56,7 +66,8 @@ void BattleScene::Init()
 {
 	CLOG::Print3String("battle Init");
 
-	goblin00->SetTarget(evan);
+	//goblin00->SetTarget(evan);
+	goblin00->SetTarget(dummy);
 	evan->SetTarget(goblin00);
 	objList.push_back(ui);
 	Scene::Init();
@@ -113,6 +124,12 @@ void BattleScene::Update(float dt)
 				tile->SetActive(false);
 		}
 	}
+
+	if (InputMgr::GetKeyDown(Keyboard::Up))
+	{
+
+		//dummy->SetPos();
+	}
 	// Dev Input end
 
 	// Game Input start
@@ -157,40 +174,32 @@ void BattleScene::Draw(RenderWindow& window)
 	Scene::Draw(window);
 }
 
-void BattleScene::CreateBackground(int cols, int rows, float qWidth, float qHeight)
+void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 {
-	if (background == nullptr)
+	testTile.assign(cols, vector<TilePlay*>(rows));
+
+	int count = 0;
+	for (int i = 0; i < cols; ++i)
 	{
-		background = new VertexArrayObj();
-		background->SetTexture(GetTexture("graphics/battleScene/TempBackground.png"));
-		objList.push_back(background);
-	}
-
-	Vector2f startPos = background->GetPos();
-	VertexArray& va = background->GetVA();
-	va.setPrimitiveType(Quads);
-	va.resize(cols * rows * 4);
-
-	Vector2f currPos = startPos;
-	Vector2f offsets[4] = { {0, 0}, {qWidth, 0}, {qWidth, qHeight}, {0, qHeight} };
-
-	for (int i = 0; i < rows; ++i)
-	{
-		for (int j = 0; j < cols; ++j)
+		for (int j = 0; j < rows; ++j)
 		{
-			int quadIndex = i * cols + j;
+			TilePlay* tilePlay = new TilePlay();
+			tilePlay->SetTilePlay({ cols, rows },
+				{ ((width / 2) + (width * 1.5f)) + (j * width),
+				height + (i * height) },
+				count++);
 
-			int texX = 0;
-			int texY = 0;
-
-			for (int k = 0; k < 4; ++k)
-			{
-				va[quadIndex * 4 + k].position = currPos + offsets[k];
-				va[quadIndex * 4 + k].texCoords = offsets[k] + Vector2f{ texX * qWidth, texY * qHeight };
-			}
-			currPos.x += qWidth;
+			objList.push_back(tilePlay);
+			testTile[i][j] = tilePlay;
 		}
-		currPos.x = startPos.x;
-		currPos.y += qHeight;
 	}
+}
+
+void BattleScene::MoveTile()
+{
+	nowTile = dummy->GetPos();
+}
+
+void BattleScene::AIMove()
+{
 }

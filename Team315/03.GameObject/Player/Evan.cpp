@@ -2,7 +2,7 @@
 
 void Evan::Init()
 {
-    SetPos({ 50, 720 / 2.f });
+    //SetPos({ 50, 720 / 2.f });
     animator.SetTarget(&sprite);
 
     animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Idle"));
@@ -167,10 +167,10 @@ void Evan::Update(float dt)
 
 	direction.x = 0.f;
 	direction.y = 0.f;
-	direction.x += Keyboard::isKeyPressed(Keyboard::Right) ? 1 : 0;
-	direction.x += Keyboard::isKeyPressed(Keyboard::Left) ? -1 : 0;
-	direction.y += Keyboard::isKeyPressed(Keyboard::Down) ? 1 : 0;
-	direction.y += Keyboard::isKeyPressed(Keyboard::Up) ? -1 : 0;
+	//direction.x += Keyboard::isKeyPressed(Keyboard::Right) ? 1 : 0;
+	//direction.x += Keyboard::isKeyPressed(Keyboard::Left) ? -1 : 0;
+	//direction.y += Keyboard::isKeyPressed(Keyboard::Down) ? 1 : 0;
+	//direction.y += Keyboard::isKeyPressed(Keyboard::Up) ? -1 : 0;
 
 	Translate(direction * dt * speed);
 	
