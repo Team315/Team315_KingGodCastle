@@ -17,14 +17,17 @@ BattleScene::BattleScene()
 
 	evan = new Evan();
 	evan->SetPos(testTile[13][3]->GetPos());
+	testTile[13][3]->SetOnTileObj(evan);
 	objList.push_back(evan);
 
 	dummy = new Dummy();
 	dummy->SetPos(testTile[10][3]->GetPos());
+	testTile[10][3]->SetOnTileObj(dummy);
 	objList.push_back(dummy);
 
 	goblin00 = new Goblin00();
 	goblin00->SetPos(testTile[1][3]->GetPos());
+	testTile[1][3]->SetOnTileObj(goblin00);
 	objList.push_back(goblin00);
 
 	float tempY = TILE_SIZE;
@@ -61,8 +64,9 @@ void BattleScene::Init()
 	CLOG::Print3String("battle Init");
 
 	//goblin00->SetTarget(evan);
+	//evan->SetTarget(goblin00);
 	goblin00->SetTarget(dummy);
-	evan->SetTarget(goblin00);
+	dummy->SetTarget(goblin00);
 	objList.push_back(ui);
 	Scene::Init();
 }
@@ -122,12 +126,23 @@ void BattleScene::Update(float dt)
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Down))
 	{
-		MoveDownTile();
+		MoveTile(Dir::Down);
+		//MoveDownTile();
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Up))
 	{
-		MoveUpTile();
-		//CLOG::PrintVectorState(dummy->GetPos(), "dummy");
+		MoveTile(Dir::Up);
+		//MoveUpTile();
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Left))
+	{
+		MoveTile(Dir::Left);
+		//MoveLeftTile();
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Right))
+	{
+		MoveTile(Dir::Right);
+		//MoveRightTile();
 	}
 	if (InputMgr::GetKeyDown(Keyboard::F6))
 	{
@@ -240,13 +255,35 @@ void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 	}
 }
 
+void BattleScene::MoveTile(Dir currMoveDir)
+{
+	nowTile = dummy->GetPos();
+
+	switch (currMoveDir)
+	{
+	case Dir::Up:
+		nowTile.y -= TILE_SIZE_Y;
+		break;
+	case Dir::Down:
+		nowTile.y += TILE_SIZE_Y;
+		break;
+	case Dir::Left:
+		nowTile.x -= TILE_SIZE_X;
+		break;
+	case Dir::Right:
+		nowTile.x += TILE_SIZE_X;
+		break;
+	}
+	dummy->SetDestination(nowTile);
+	dummy->SetMove(true);
+}
+
 void BattleScene::MoveDownTile()
 {
 	nowTile = dummy->GetPos();
 	nowTile.y += TILE_SIZE;
 	dummy->SetDestination(nowTile);
 	dummy->SetMove(true);
-	//dummy->SetPos(nowTile);
 }
 
 void BattleScene::MoveUpTile()
@@ -255,17 +292,25 @@ void BattleScene::MoveUpTile()
 	nowTile.y -= TILE_SIZE;
 	dummy->SetDestination(nowTile);
 	dummy->SetMove(true);
-	//dummy->SetPos(nowTile);
 }
 
 void BattleScene::MoveLeftTile()
 {
+	nowTile = dummy->GetPos();
+	nowTile.x -= TILE_SIZE_X;
+	dummy->SetDestination(nowTile);
+	dummy->SetMove(true);
 }
 
 void BattleScene::MoveRightTile()
 {
+	nowTile = dummy->GetPos();
+	nowTile.x += TILE_SIZE_X;
+	dummy->SetDestination(nowTile);
+	dummy->SetMove(true);
 }
 
 void BattleScene::AIMove()
 {
 }
+

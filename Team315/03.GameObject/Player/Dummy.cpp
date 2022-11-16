@@ -83,14 +83,13 @@ void Dummy::Init()
 		animator.AddEvent(ev);
 	}
 
-	SetState(States::Idle);
+	SetState(AnimStates::Idle);
 	Character::Init();
 }
 
 void Dummy::Update(float dt)
 {
 	Character::Update(dt);
-	//cout << GetPos().x << " " << GetPos().y << endl;
 	if (InputMgr::GetKeyDown(Keyboard::Key::O))
 	{
 		//cout << "O" << endl;
@@ -103,27 +102,29 @@ void Dummy::Update(float dt)
 	}
 	if (isPlaying2)
 	{
-		//direction = Utils::Normalize(target->GetPos() - GetPos());
+		direction = Utils::Normalize(target->GetPos() - GetPos());
 		Translate(direction * dt * speed);
 	}
-	//cout << direction.x << " " << direction.y << endl;
-
+	if (InputMgr::GetKeyDown(Keyboard::Key::Z))
+	{
+		SetState(AnimStates::Attack);
+	}
+	if (InputMgr::GetKeyDown(Keyboard::X))
+	{
+		SetState(AnimStates::Skill);
+	}
 	switch (currState)
 	{
-	case Dummy::States::Idle:
-		//cout << "I" << endl;
+	case AnimStates::Idle:
 		UpdateIdle(dt);
 		break;
-	case Dummy::States::MoveToIdle:
-		//cout << "MTI" << endl;
+	case AnimStates::MoveToIdle:
 		UpdateMoveToIdle(dt);
 		break;
-	case Dummy::States::Move:
-		//cout << "M" << endl;
+	case AnimStates::Move:
 		UpdateMove(dt);
 		break;
-	case Dummy::States::Attack:
-		//cout << "A" << endl;
+	case AnimStates::Attack:
 		UpdateAttack(dt);
 		break;
 	}
@@ -145,42 +146,16 @@ void Dummy::SetPos(const Vector2f& pos)
 	Character::SetPos(pos);
 }
 
-void Dummy::SetTilePos(const Vector2i& tpos)
+void Dummy::SetState(AnimStates newState)
 {
-	beforeTile = currTile;
-	currTile = tpos;
-}
+	Character::SetState(newState);
 
-const Vector2i& Dummy::GetTilePos() const
-{
-	return currTile;
-}
-
-void Dummy::SetDest(Vector2f dest)
-{
-	this->dest = dest;
-	direction = Utils::Normalize(dest - position);
-	dist = Utils::Distance(dest,position);
-}
-
-Vector2f Dummy::GetDest()
-{
-	return this->dest;
-}
-
-void Dummy::SetState(States newState)
-{
-	if (currState == newState)
-	{
-		return;
-	}
-	currState = newState;
 	switch (currState)
 	{
-	case Dummy::States::Idle:
+	case AnimStates::Idle:
 		animator.Play("Idle");
 		break;
-	case Dummy::States::MoveToIdle:
+	case AnimStates::MoveToIdle:
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "RightIdle" : "LeftIdle");
@@ -190,7 +165,7 @@ void Dummy::SetState(States newState)
 			animator.Play((lastDirection.y > 0.f) ? "DownIdle" : "UpIdle");
 		}
 		break;
-	case Dummy::States::Move:
+	case AnimStates::Move:
 		if (direction.y)
 		{
 			animator.Play((direction.y > 0.f) ? "DownMove" : "UpMove");
@@ -200,7 +175,7 @@ void Dummy::SetState(States newState)
 			animator.Play((direction.x > 0.f) ? "RightMove" : "LeftMove");
 		}
 		break;
-	case Dummy::States::Attack:
+	case AnimStates::Attack:
 		if(lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "RightAttack" : "LeftAttack");
@@ -210,7 +185,7 @@ void Dummy::SetState(States newState)
 			animator.Play((lastDirection.y > 0.f) ? "DownAttack" : "UpAttack");
 		}
 		break;
-	case Dummy::States::Skill:
+	case AnimStates::Skill:
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "RightSkill" : "LeftSkill");
@@ -225,19 +200,19 @@ void Dummy::SetState(States newState)
 
 void Dummy::OnCompleteAttack()
 {
-	SetState(States::MoveToIdle);
+	SetState(AnimStates::MoveToIdle);
 }
 
 void Dummy::OnCompleteSkill()
 {
-	SetState(States::MoveToIdle);
+	SetState(AnimStates::MoveToIdle);
 }
 
 void Dummy::UpdateIdle(float dt)
 {
 	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::Move);
+		SetState(AnimStates::Move);
 		return;
 	}
 }
@@ -246,34 +221,25 @@ void Dummy::UpdateMoveToIdle(float dt)
 {
 	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::Move);
+		SetState(AnimStates::Move);
 		return;
 	}
 }
 
 void Dummy::UpdateMove(float dt)
 {
-	if (InputMgr::GetKeyDown(Keyboard::Key::Up))
+	if (EqualFloat(direction.x, 0.f) && EqualFloat(direction.y, 0.f))
 	{
-		for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
-		{
-			for (int j = 0; j < GAME_TILE_WIDTH; ++j)
-			{
-				SetPos(moveTile[i+1][j]->GetPos());
-			}
-		}
+		SetState(AnimStates::MoveToIdle);
+		return;
 	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::Down))
+	if (!EqualFloat(direction.x, lastDirection.x))
 	{
-		MoveDown();
+		animator.Play((direction.x > 0.f) ? "RightMove" : "LeftMove");
 	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::Left))
+	if (!EqualFloat(direction.y, lastDirection.y))
 	{
-		MoveLeft();
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::Right))
-	{
-		MoveRight();
+		animator.Play((direction.y > 0.f) ? "DownMove" : "UpMove");
 	}
 }
 
@@ -281,7 +247,7 @@ void Dummy::UpdateAttack(float dt)
 {
 	if (!EqualFloat(direction.x, 0.f) && !EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::MoveToIdle);
+		SetState(AnimStates::MoveToIdle);
 	}
 }
 
@@ -290,44 +256,3 @@ bool Dummy::EqualFloat(float a, float b)
 	return fabs(a - b) < numeric_limits<float>::epsilon();
 }
 
-void Dummy::MoveUp()
-{
-	//direction.x = 0
-	//direction.y = -1
-	//before [i][j]
-	//after [i+0][y-1]
-	
-}
-
-void Dummy::MoveDown()
-{
-	//direction.x = 0
-	//direction.y = 1
-	//before [i][j]
-	//after [i+0][y+1]
-}
-
-void Dummy::MoveRight()
-{
-	//direction.x = 1
-	//direction.y = 0
-	//before [i][j]
-	//after [i+1][y+0]
-}
-
-void Dummy::MoveLeft()
-{
-	//direction.x = -1
-	//direction.y = 0
-	//before [i][j]
-	//after [i-1][y+0]
-}
-
-void Dummy::StopTranslate()
-{
-	dist = 0.f;
-	direction = { 0,0 };
-	SetPos(dest);
-	SetState(States::MoveToIdle);
-	dest = { 0,0 };
-}

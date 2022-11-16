@@ -10,12 +10,14 @@
 
 class BattleSceneUI;
 class Button;
+class Character;
 
 class BattleScene : public Scene
 {
 protected:
 	BattleSceneUI* ui;
 
+	Dir currMoveDir;
 	Evan* evan;
 	Goblin00* goblin00;
 	Dummy* dummy;
@@ -51,5 +53,6 @@ public:
 	void MoveUpTile();
 	void MoveLeftTile();
 	void MoveRightTile();
+	void MoveTile(Dir currMoveDir);
 	void AIMove();
 };

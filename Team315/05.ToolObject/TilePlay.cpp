@@ -1,7 +1,7 @@
 #include "TilePlay.h"
 
 TilePlay::TilePlay()
-	:isCollAble(false)
+	:isCollAble(false), onTileObj(nullptr)
 {
 }
 
@@ -138,6 +138,16 @@ string TilePlay::SetMonsterPath(ThemeTypes types, int num)
 void TilePlay::SetEraser()
 {
 	m_TileTypes = TileTypes::None;
+}
+
+void TilePlay::SetOnTileObj(Object* onTileObj)
+{
+	this->onTileObj = onTileObj;
+}
+
+Object* TilePlay::GetOnTileObj()
+{
+	return onTileObj;
 }
 
 bool TilePlay::CollisionCheck(Vector2f pos, int index)

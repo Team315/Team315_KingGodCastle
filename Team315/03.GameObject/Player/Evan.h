@@ -2,37 +2,25 @@
 #include "Include.h"
 #include "Animator.h"
 #include "Character.h"
+#include "../05.ToolObject/TilePlay.h"
 
 class Evan : public Character
 {
-public:
-	enum class States
-	{
-		None = -1,
-		Idle,
-		MoveToIdle,
-		Move,
-		Attack,
-		Skill,
-	};
+
 protected:
 	Animator animator;
-	
-	States currState;
 
 	float speed;
 	Vector2f direction;
 	Vector2f lastDirection;
 	Vector2f velocity;
-
-	int playerMaxhp;
-	int playerhp;
-	int playerMaxMp;
-	int playermp;
-	int dmg;
+	
+	vector<vector<RectangleObj*>*> overlay;
+	vector<vector<TilePlay*>> testTile;
+	Vector2f nowTile;
 public:
 	Evan()
-		: currState(States::None), speed(300.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f), playerMaxhp(1000), dmg(100), playerMaxMp(500)
+		: speed(300.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f)
 	{
 	}
 	virtual void Init() override;
@@ -40,7 +28,7 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
 
-	void SetState(States newState);
+	virtual void SetState(AnimStates newState) override;
 
 	void UpdateInput();
 

@@ -51,24 +51,20 @@ void Goblin00::Init()
 		animator.AddEvent(ev);
 	}
 
-	SetState(States::Idle);
+	SetState(AnimStates::Idle);
 	Character::Init();
 }
 
-void Goblin00::SetState(States newState)
+void Goblin00::SetState(AnimStates newState)
 {
-	if (currState == newState)
-	{
-		return;
-	}
-
-	currState = newState;
+	Character::SetState(newState);
+	
 	switch (currState)
 	{
-	case Goblin00::States::Idle:
+	case AnimStates::Idle:
 		animator.Play("goblin00_Idle");
 		break;
-	case Goblin00::States::MoveToIdle:
+	case AnimStates::MoveToIdle:
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "goblin00_DownIdle" : "goblin00_UpIdle");
@@ -78,7 +74,7 @@ void Goblin00::SetState(States newState)
 			animator.Play((lastDirection.x > 0.f) ? "goblin00_RightIdle" : "goblin00_LeftIdle");
 		}
 		break;
-	case Goblin00::States::Move:
+	case AnimStates::Move:
 		if (direction.y)
 		{
 			animator.Play((direction.y > 0.f) ? "goblin00_DownMove" : "goblin00_UpMove");
@@ -88,7 +84,7 @@ void Goblin00::SetState(States newState)
 			animator.Play((direction.x > 0.f) ? "goblin00_RightMove" : "goblin00_LeftMove");
 		}
 		break;
-	case Goblin00::States::Attack:
+	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "goblin00_RightAttack" : "goblin00_LeftAttack");
@@ -124,16 +120,16 @@ void Goblin00::Update(float dt)
 
 	switch (currState)
 	{
-	case Goblin00::States::Idle:
+	case AnimStates::Idle:
 		UpdateIdle(dt);
 		break;
-	case Goblin00::States::MoveToIdle:
+	case AnimStates::MoveToIdle:
 		UpdateMoveToIdle(dt);
 		break;
-	case Goblin00::States::Move:
+	case AnimStates::Move:
 		UpdateMove(dt);
 		break;
-	case Goblin00::States::Attack:
+	case AnimStates::Attack:
 		UpdateAttack(dt);
 		break;
 	}
@@ -167,14 +163,14 @@ void Goblin00::SetPos(const Vector2f& pos)
 
 void Goblin00::OnCompleteAttack()
 {
-	SetState(States::MoveToIdle);
+	SetState(AnimStates::MoveToIdle);
 }
 
 void Goblin00::UpdateIdle(float dt)
 {
 	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::Move);
+		SetState(AnimStates::Move);
 		return;
 	}
 }
@@ -183,7 +179,7 @@ void Goblin00::UpdateMoveToIdle(float dt)
 {
 	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::Move);
+		SetState(AnimStates::Move);
 		return;
 	}
 }
@@ -192,12 +188,12 @@ void Goblin00::UpdateMove(float dt)
 {
 	if (!isPlaying2)
 	{
-		SetState(States::MoveToIdle);
+		SetState(AnimStates::MoveToIdle);
 		return;
 	}
 	if (EqualFloat(direction.x, 0.f) && EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::MoveToIdle);
+		SetState(AnimStates::MoveToIdle);
 		return;
 	}
 	if (!EqualFloat(direction.y, lastDirection.y))
@@ -214,7 +210,7 @@ void Goblin00::UpdateAttack(float dt)
 {
 	if (!EqualFloat(direction.x, 0.f) && !EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::MoveToIdle);
+		SetState(AnimStates::MoveToIdle);
 	}
 }
 
@@ -228,6 +224,6 @@ void Goblin00::StopTranslate()
 	dist = 0.f;
 	direction = { 0,0 };
 	SetPos(dest);
-	SetState(States::MoveToIdle);
+	SetState(AnimStates::MoveToIdle);
 	dest = { 0,0 };
 }
