@@ -3,7 +3,7 @@
 
 GameManager::GameManager()
 {
-	CLOG::Print3String("Game");
+	CLOG::Print3String("GameManager Create");
 	prepare.resize(PREPARE_SIZE, 0);
 }
 

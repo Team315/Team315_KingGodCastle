@@ -121,7 +121,7 @@ void LobyScene::Update(float dt)
 		{
 			ranNum = Utils::RandomRange(1, PRESET_SIZE + 1);
 			GAME_MGR->AddPrepare(ranNum);
-			CLOG::Print3String(to_string(ranNum));
+			cout << ranNum << " ";
 		}
 	}
 

@@ -130,6 +130,7 @@ void BattleScene::Update(float dt)
 	if (InputMgr::GetKeyDown(Keyboard::F6))
 	{
 		CLOG::Print3String("print prepare vector");
+		CLOG::Print3String("prepare vector");
 		int idx = 0;
 		vector<int>& prepare = GAME_MGR->GetPrepare();
 		for (auto& cell : prepare)
@@ -138,6 +139,14 @@ void BattleScene::Update(float dt)
 			idx++;
 			if (idx % 7 == 0)
 				cout << endl;
+		}
+		queue<int>& waitQueue = GAME_MGR->GetWaitQueue();
+		int size = waitQueue.size();
+		CLOG::Print3String("wait queue");
+		for (int i = 0; i < size; i++)
+		{
+			cout << waitQueue.front();
+			waitQueue.pop();
 		}
 	}
 	// Dev Input end
@@ -159,19 +168,9 @@ void BattleScene::Update(float dt)
 				}
 				if (!button->GetName().compare("summon"))
 				{
-					int idx = Utils::RandomRange(1, 6);
+					int idx = Utils::RandomRange(1, PRESET_SIZE);
 					CLOG::Print3String(to_string(idx));
-
-					vector<int>& prepare = GAME_MGR->GetPrepare();
-					for (auto& cell : prepare)
-					{
-						if (cell == 0)
-						{
-							cell = idx;
-							break;
-						}
-					}
-
+					GAME_MGR->AddPrepare(idx);
 					break;
 				}
 			}

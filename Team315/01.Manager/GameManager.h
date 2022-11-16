@@ -49,6 +49,8 @@ public:
 			}
 		}
 	};
+
+	queue<int>& GetWaitQueue() { return waitQueue; }
 };
 
 #define GAME_MGR (GameManager::GetInstance())
