@@ -12,7 +12,7 @@ BattleScene::BattleScene()
 	CLOG::Print3String("battle create");
 
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f;
-	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.5f;
+	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.1f;
 	CreateTestTile(GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
 
 	evan = new Evan();
@@ -189,8 +189,9 @@ void BattleScene::Update(float dt)
 				//CLOG::Print3String(button->GetName());
 				if (!button->GetName().compare("begin"))
 				{
-					b_centerPos = true;
 					CLOG::Print3String("stage start");
+					b_centerPos = true;
+					ZoomIn();
 					break;
 				}
 				if (!button->GetName().compare("summon"))
@@ -214,9 +215,9 @@ void BattleScene::Update(float dt)
 	{
 		b_centerPos = wheel == 1 ? true : false;
 		if (b_centerPos)
-			currentView.setSize(GAME_SCREEN_ZOOM_WIDTH, GAME_SCREEN_ZOOM_HEIGHT);
+			ZoomIn();
 		else
-			currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
+			ZoomOut();
 	}
 	if (b_centerPos)
 	{
@@ -287,6 +288,16 @@ void BattleScene::MoveTile(Dir currMoveDir)
 	}
 	dummy->SetDestination(nowTile);
 	dummy->SetMove(true);
+}
+
+void BattleScene::ZoomIn()
+{
+	currentView.setSize(GAME_SCREEN_ZOOM_WIDTH, GAME_SCREEN_ZOOM_HEIGHT);
+}
+
+void BattleScene::ZoomOut()
+{
+	currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 }
 
 void BattleScene::AIMove()

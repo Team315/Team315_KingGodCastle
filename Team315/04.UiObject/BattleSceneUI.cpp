@@ -12,7 +12,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	prepareGrid.resize(PREPARE_SIZE);
 	float outlineThickness = 2.f;
 	float posX = TILE_SIZE * 2.f;
-	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE * 8.f;
+	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE * 2.f;
 	int count = 0;
 	for (auto cell : prepareGrid)
 	{
@@ -52,7 +52,7 @@ void BattleSceneUI::Release()
 
 void BattleSceneUI::Reset()
 {
-	panel->SetPos(Vector2f(0, GAME_SCREEN_HEIGHT * 1.6f));
+	panel->SetPos(Vector2f(0, GAME_SCREEN_HEIGHT * 1.2f));
 	UIMgr::Reset();
 }
 

@@ -52,5 +52,7 @@ public:
 	void CreateTestTile(int cols, int rows, float width, float height);
 
 	void MoveTile(Dir currMoveDir);
+	void ZoomIn();
+	void ZoomOut();
 	void AIMove();
 };
