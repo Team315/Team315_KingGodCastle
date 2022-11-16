@@ -77,6 +77,7 @@ void BattleScene::Enter()
 
 	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
 	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
+	screenSize = FRAMEWORK->GetWindow().getSize();
 	currentView = gameView;
 
 	for (auto& tiles : overlay)
@@ -187,6 +188,10 @@ void BattleScene::Update(float dt)
 	if (wheel != 0)
 	{
 		b_centerPos = wheel == 1 ? true : false;
+		if (b_centerPos)
+			currentView.setSize(GAME_SCREEN_ZOOM_WIDTH, GAME_SCREEN_ZOOM_HEIGHT);
+		else
+			currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	}
 	if (b_centerPos)
 	{

@@ -20,8 +20,10 @@
 #define Type1_Obstacle_Count (3)
 
 // game screen size
-#define GAME_SCREEN_WIDTH (510)
-#define GAME_SCREEN_HEIGHT (765)
+#define GAME_SCREEN_WIDTH (510.f)
+#define GAME_SCREEN_HEIGHT (765.f)
+#define GAME_SCREEN_ZOOM_WIDTH (450.f)
+#define GAME_SCREEN_ZOOM_HEIGHT (688.5f)
 
 // anony
 #define PREPARE_SIZE (14)

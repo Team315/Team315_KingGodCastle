@@ -25,6 +25,7 @@ protected:
 	Vector2f nowTile;
 
 	Vector2f screenCenterPos;
+	Vector2u screenSize;
 	bool b_centerPos;
 	float gameScreenBottomLimit;
 	float gameScreenTopLimit;
