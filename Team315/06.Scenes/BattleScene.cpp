@@ -13,7 +13,7 @@ BattleScene::BattleScene()
 
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f;
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.5f;
-	CreateTestTile(14, 7, 51.f, 51.f);
+	CreateTestTile(GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
 
 	evan = new Evan();
 	evan->SetPos(testTile[13][3]->GetPos());
@@ -27,27 +27,27 @@ BattleScene::BattleScene()
 	goblin00->SetPos(testTile[1][3]->GetPos());
 	objList.push_back(goblin00);
 
-	float tempY = TILE_SIZE_Y;
+	float tempY = TILE_SIZE;
 	overlay.resize(GAME_TILE_HEIGHT);
 	float outlineThickness = 2.f;
 	for (auto& tiles : overlay)
 	{
 		tiles = new vector<RectangleObj*>;
 		tiles->resize(GAME_TILE_WIDTH);
-		float tempX = TILE_SIZE_X * 2.f;
+		float tempX = TILE_SIZE * 2.f;
 		for (auto& tile : *tiles)
 		{
 			tile = new RectangleObj(
-				TILE_SIZE_X - outlineThickness * 2 - 1,
-				TILE_SIZE_Y - outlineThickness * 2 - 1);
+				TILE_SIZE - outlineThickness * 2 - 1,
+				TILE_SIZE - outlineThickness * 2 - 1);
 			tile->SetFillColor(Color(255, 255, 255, 80));
 			tile->SetOutline(Color::White, outlineThickness);
 			tile->SetPos(Vector2f(tempX, tempY));
 			tile->SetOrigin(Origins::BC);
 			objList.push_back(tile);
-			tempX += TILE_SIZE_X;
+			tempX += TILE_SIZE;
 		}
-		tempY += TILE_SIZE_Y;
+		tempY += TILE_SIZE;
 	}
 	ui = new BattleSceneUI(this);
 }
@@ -84,6 +84,7 @@ void BattleScene::Enter()
 		for (auto& tile : *tiles)
 			tile->SetActive(false);
 	}
+	GAME_MGR->EnterBattleScene();
 }
 
 void BattleScene::Exit()
@@ -168,7 +169,12 @@ void BattleScene::Update(float dt)
 				}
 				if (!button->GetName().compare("summon"))
 				{
-					int idx = Utils::RandomRange(1, PRESET_SIZE);
+					if (GAME_MGR->GetPrepareSize() == PREPARE_SIZE)
+					{
+						CLOG::Print3String("can not summon");
+						break;
+					}
+					int idx = GAME_MGR->GetPresetElem(Utils::RandomRange(0, PRESET_SIZE));
 					CLOG::Print3String(to_string(idx));
 					GAME_MGR->AddPrepare(idx);
 					break;
@@ -232,7 +238,7 @@ void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 void BattleScene::MoveDownTile()
 {
 	nowTile = dummy->GetPos();
-	nowTile.y += TILE_SIZE_Y;
+	nowTile.y += TILE_SIZE;
 	dummy->SetDestination(nowTile);
 	dummy->SetMove(true);
 	//dummy->SetPos(nowTile);
@@ -241,7 +247,7 @@ void BattleScene::MoveDownTile()
 void BattleScene::MoveUpTile()
 {
 	nowTile = dummy->GetPos();
-	nowTile.y -= TILE_SIZE_Y;
+	nowTile.y -= TILE_SIZE;
 	dummy->SetDestination(nowTile);
 	dummy->SetMove(true);
 	//dummy->SetPos(nowTile);

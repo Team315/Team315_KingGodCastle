@@ -13,6 +13,7 @@ LobyScene::LobyScene()
 	CLOG::Print3String("loby create");
 	ui = new LobySceneUI(this);
 	tabSize = ui->GetTabSize();
+	GAME_MGR;
 }
 
 LobyScene::~LobyScene()
@@ -117,12 +118,23 @@ void LobyScene::Update(float dt)
 	if (InputMgr::GetKeyDown(Keyboard::Key::F6))
 	{
 		int ranNum;
-		for (int i = 0; i < PREPARE_SIZE; i++)
+		int ranIdx;
+		int characterSize = GAME_MGR->GetCharacterCount();
+		
+		ranNum = Utils::RandomRange(0, characterSize);
+		ranIdx = Utils::RandomRange(0, PRESET_SIZE);
+		GAME_MGR->SetPresetElem(ranIdx, ranNum);
+		cout << ranIdx << " " << ranNum << " ";
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::F5))
+	{
+		vector<int>& preset = GAME_MGR->GetPreset();
+		CLOG::Print3String("preset state");
+		for (auto elem : preset)
 		{
-			ranNum = Utils::RandomRange(1, PRESET_SIZE + 1);
-			GAME_MGR->AddPrepare(ranNum);
-			cout << ranNum << " ";
+			cout << elem << " ";
 		}
+		cout << endl;
 	}
 
 	// Dev Input End
