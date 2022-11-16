@@ -26,7 +26,7 @@ public:
 	static void SetOrigin(Transformable& obj, Origins origin, FloatRect rect);
 	static float Clamp(float v, float min, float max);
 
-	static int RandomRange(int min, int maxInclude);
+	static int RandomRange(int min, int maxExclude);
 	static float RandomRange(float min, float maxInclude);
 	static float RandomZeroToOne();
 	static Vector2f RandomInCirclePoint();

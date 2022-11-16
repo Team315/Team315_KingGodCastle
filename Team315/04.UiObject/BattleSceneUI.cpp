@@ -9,27 +9,27 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	panel = new BattlePanel();
 	CreateBackground(panel, 1, 3, 188.f, 400.f);
 
-	prepareGrid.resize(14);
+	prepareGrid.resize(PREPARE_SIZE);
 	float outlineThickness = 2.f;
-	float posX = TILE_SIZE_X * 2.f;
-	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE_Y * 8.f;
+	float posX = TILE_SIZE * 2.f;
+	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE * 8.f;
 	int count = 0;
 	for (auto cell : prepareGrid)
 	{
 		cell = new RectangleObj(
-			TILE_SIZE_X - outlineThickness * 2 - 1,
-			TILE_SIZE_Y - outlineThickness * 2 - 1);
+			TILE_SIZE - outlineThickness * 2 - 1,
+			TILE_SIZE - outlineThickness * 2 - 1);
 		cell->SetOutline(Color(255, 255, 255, 100), outlineThickness);
 		cell->SetFillColor(Color(0, 0, 0, 0));
 		cell->SetPos(Vector2f(posX, posY));
 		cell->SetOrigin(Origins::BC);
 		uiObjList.push_back(cell);
 		count++;
-		posX += TILE_SIZE_X;
+		posX += TILE_SIZE;
 		if (count == prepareGrid.size() * 0.5f)
 		{
-			posX = TILE_SIZE_X * 2.f;
-			posY += TILE_SIZE_Y;
+			posX = TILE_SIZE * 2.f;
+			posY += TILE_SIZE;
 		}
 	}
 }

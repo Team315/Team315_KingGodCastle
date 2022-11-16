@@ -4,22 +4,16 @@
 #include "BattlePanel.h"
 #include "Button.h"
 #include "Constant.h"
+#include "GameManager.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle)
 {
 	CLOG::Print3String("battle create");
 
-	/*CreateBackground(TILE_WIDTH, TILE_HEIGHT * 2, TILE_SIZE_X, TILE_SIZE_Y);
-	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
-	
-	
-	background->SetPos(screenCenterPos);
-	background->SetOrigin(Origins::MC);*/
-
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f;
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.5f;
-	CreateTestTile(14, 7, 51.f, 51.f);
+	CreateTestTile(GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
 
 	evan = new Evan();
 	evan->SetPos(testTile[13][3]->GetPos());
@@ -36,27 +30,27 @@ BattleScene::BattleScene()
 	testTile[1][3]->SetOnTileObj(goblin00);
 	objList.push_back(goblin00);
 
-	float tempY = TILE_SIZE_Y;
+	float tempY = TILE_SIZE;
 	overlay.resize(GAME_TILE_HEIGHT);
 	float outlineThickness = 2.f;
 	for (auto& tiles : overlay)
 	{
 		tiles = new vector<RectangleObj*>;
 		tiles->resize(GAME_TILE_WIDTH);
-		float tempX = TILE_SIZE_X * 2.f;
+		float tempX = TILE_SIZE * 2.f;
 		for (auto& tile : *tiles)
 		{
 			tile = new RectangleObj(
-				TILE_SIZE_X - outlineThickness * 2 - 1,
-				TILE_SIZE_Y - outlineThickness * 2 - 1);
+				TILE_SIZE - outlineThickness * 2 - 1,
+				TILE_SIZE - outlineThickness * 2 - 1);
 			tile->SetFillColor(Color(255, 255, 255, 80));
 			tile->SetOutline(Color::White, outlineThickness);
 			tile->SetPos(Vector2f(tempX, tempY));
 			tile->SetOrigin(Origins::BC);
 			objList.push_back(tile);
-			tempX += TILE_SIZE_X;
+			tempX += TILE_SIZE;
 		}
-		tempY += TILE_SIZE_Y;
+		tempY += TILE_SIZE;
 	}
 	ui = new BattleSceneUI(this);
 }
@@ -87,6 +81,7 @@ void BattleScene::Enter()
 
 	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
 	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
+	screenSize = FRAMEWORK->GetWindow().getSize();
 	currentView = gameView;
 
 	for (auto& tiles : overlay)
@@ -94,6 +89,7 @@ void BattleScene::Enter()
 		for (auto& tile : *tiles)
 			tile->SetActive(false);
 	}
+	GAME_MGR->EnterBattleScene();
 }
 
 void BattleScene::Exit()
@@ -128,6 +124,16 @@ void BattleScene::Update(float dt)
 				tile->SetActive(false);
 		}
 	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::F7))
+	{
+		CLOG::Print3String("battle devmode on");
+		FRAMEWORK->devMode = true;
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::F8))
+	{
+		CLOG::Print3String("battle devmode off");
+		FRAMEWORK->devMode = false;
+	}
 	if (InputMgr::GetKeyDown(Keyboard::Down))
 	{
 		MoveTile(Dir::Down);
@@ -148,6 +154,28 @@ void BattleScene::Update(float dt)
 		MoveTile(Dir::Right);
 		//MoveRightTile();
 	}
+	if (InputMgr::GetKeyDown(Keyboard::F6))
+	{
+		CLOG::Print3String("print prepare vector");
+		CLOG::Print3String("prepare vector");
+		int idx = 0;
+		vector<int>& prepare = GAME_MGR->GetPrepare();
+		for (auto& cell : prepare)
+		{
+			cout << cell;
+			idx++;
+			if (idx % 7 == 0)
+				cout << endl;
+		}
+		queue<int>& waitQueue = GAME_MGR->GetWaitQueue();
+		int size = waitQueue.size();
+		CLOG::Print3String("wait queue");
+		for (int i = 0; i < size; i++)
+		{
+			cout << waitQueue.front();
+			waitQueue.pop();
+		}
+	}
 	// Dev Input end
 
 	// Game Input start
@@ -158,7 +186,7 @@ void BattleScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				CLOG::Print3String(button->GetName());
+				//CLOG::Print3String(button->GetName());
 				if (!button->GetName().compare("begin"))
 				{
 					b_centerPos = true;
@@ -167,7 +195,14 @@ void BattleScene::Update(float dt)
 				}
 				if (!button->GetName().compare("summon"))
 				{
-
+					if (GAME_MGR->GetPrepareSize() == PREPARE_SIZE)
+					{
+						CLOG::Print3String("can not summon");
+						break;
+					}
+					int idx = GAME_MGR->GetPresetElem(Utils::RandomRange(0, PRESET_SIZE));
+					CLOG::Print3String(to_string(idx));
+					GAME_MGR->AddPrepare(idx);
 					break;
 				}
 			}
@@ -178,6 +213,10 @@ void BattleScene::Update(float dt)
 	if (wheel != 0)
 	{
 		b_centerPos = wheel == 1 ? true : false;
+		if (b_centerPos)
+			currentView.setSize(GAME_SCREEN_ZOOM_WIDTH, GAME_SCREEN_ZOOM_HEIGHT);
+		else
+			currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	}
 	if (b_centerPos)
 	{
@@ -234,22 +273,57 @@ void BattleScene::MoveTile(Dir currMoveDir)
 	switch (currMoveDir)
 	{
 	case Dir::Up:
-		nowTile.y -= TILE_SIZE_Y;
+		nowTile.y -= TILE_SIZE;
 		break;
 	case Dir::Down:
-		nowTile.y += TILE_SIZE_Y;
+		nowTile.y += TILE_SIZE;
 		break;
 	case Dir::Left:
-		nowTile.x -= TILE_SIZE_X;
+		nowTile.x -= TILE_SIZE;
 		break;
 	case Dir::Right:
-		nowTile.x += TILE_SIZE_X;
+		nowTile.x += TILE_SIZE;
 		break;
 	}
 	dummy->SetDestination(nowTile);
 	dummy->SetMove(true);
 }
 
+<<<<<<< HEAD
+=======
+void BattleScene::MoveDownTile()
+{
+	nowTile = dummy->GetPos();
+	nowTile.y += TILE_SIZE;
+	dummy->SetDestination(nowTile);
+	dummy->SetMove(true);
+}
+
+void BattleScene::MoveUpTile()
+{
+	nowTile = dummy->GetPos();
+	nowTile.y -= TILE_SIZE;
+	dummy->SetDestination(nowTile);
+	dummy->SetMove(true);
+}
+
+void BattleScene::MoveLeftTile()
+{
+	nowTile = dummy->GetPos();
+	nowTile.x -= TILE_SIZE;
+	dummy->SetDestination(nowTile);
+	dummy->SetMove(true);
+}
+
+void BattleScene::MoveRightTile()
+{
+	nowTile = dummy->GetPos();
+	nowTile.x += TILE_SIZE;
+	dummy->SetDestination(nowTile);
+	dummy->SetMove(true);
+}
+
+>>>>>>> develop/GameManager
 void BattleScene::AIMove()
 {
 }
