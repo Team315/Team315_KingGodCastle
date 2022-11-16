@@ -26,3 +26,4 @@
 
 // anony
 #define PREPARE_SIZE 14
+#define PRESET_SIZE 6

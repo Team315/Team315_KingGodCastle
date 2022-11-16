@@ -28,7 +28,6 @@ protected:
 	bool b_centerPos;
 	float gameScreenBottomLimit;
 	float gameScreenTopLimit;
-	vector<int> prepare;
 
 public:
 	BattleScene();

@@ -42,9 +42,9 @@ float Utils::Clamp(float v, float min, float max)
 	return v;
 }
 
-int Utils::RandomRange(int min, int maxInclude)
+int Utils::RandomRange(int min, int maxExclude)
 {
-	return (gen() % (maxInclude - min + 1)) + min;
+	return (gen() % (maxExclude - min)) + min;
 }
 
 float Utils::RandomRange(float min, float maxInclude)

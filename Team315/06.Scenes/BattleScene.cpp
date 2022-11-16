@@ -4,6 +4,7 @@
 #include "BattlePanel.h"
 #include "Button.h"
 #include "Constant.h"
+#include "GameManager.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle)
@@ -49,7 +50,6 @@ BattleScene::BattleScene()
 		tempY += TILE_SIZE_Y;
 	}
 	ui = new BattleSceneUI(this);
-	prepare.resize(PREPARE_SIZE, 0);
 }
 
 BattleScene::~BattleScene()
@@ -131,6 +131,7 @@ void BattleScene::Update(float dt)
 	{
 		CLOG::Print3String("print prepare vector");
 		int idx = 0;
+		vector<int>& prepare = GAME_MGR->GetPrepare();
 		for (auto& cell : prepare)
 		{
 			cout << cell;
@@ -161,6 +162,7 @@ void BattleScene::Update(float dt)
 					int idx = Utils::RandomRange(1, 6);
 					CLOG::Print3String(to_string(idx));
 
+					vector<int>& prepare = GAME_MGR->GetPrepare();
 					for (auto& cell : prepare)
 					{
 						if (cell == 0)

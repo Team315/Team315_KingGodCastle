@@ -1,4 +1,5 @@
 #include "LobyScene.h"
+#include "GameManager.h"
 #include "Include.h"
 #include "SpriteButton.h"
 #include "LobySceneUI.h"
@@ -112,6 +113,16 @@ void LobyScene::Update(float dt)
 	if (InputMgr::GetKeyDown(Keyboard::Key::R))
 	{
 		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValueGoal() + 1000);
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::F6))
+	{
+		int ranNum;
+		for (int i = 0; i < PREPARE_SIZE; i++)
+		{
+			ranNum = Utils::RandomRange(1, PRESET_SIZE + 1);
+			GAME_MGR->AddPrepare(ranNum);
+			CLOG::Print3String(to_string(ranNum));
+		}
 	}
 
 	// Dev Input End

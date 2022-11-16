@@ -90,6 +90,7 @@
     <ClInclude Include="05.ToolObject\TilePlay.h" />
     <ClInclude Include="05.ToolObject\ToolChapter.h" />
     <ClInclude Include="05.ToolObject\ToolStage.h" />
+    <ClInclude Include="01.Manager\GameManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
@@ -167,6 +168,7 @@
     <ClCompile Include="05.ToolObject\TilePlay.cpp" />
     <ClCompile Include="05.ToolObject\ToolChapter.cpp" />
     <ClCompile Include="05.ToolObject\ToolStage.cpp" />
+    <ClCompile Include="01.Manager\GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">

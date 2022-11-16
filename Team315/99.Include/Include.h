@@ -15,6 +15,7 @@
 #include "DataTableMgr.h"
 #include "UIMgr.h"
 #include "Singleton.h"
+#include "GameManager.h"
 
 using namespace std;
 using namespace sf;
