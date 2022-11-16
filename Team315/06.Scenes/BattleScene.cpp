@@ -124,6 +124,16 @@ void BattleScene::Update(float dt)
 				tile->SetActive(false);
 		}
 	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::F7))
+	{
+		CLOG::Print3String("battle devmode on");
+		FRAMEWORK->devMode = true;
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::F8))
+	{
+		CLOG::Print3String("battle devmode off");
+		FRAMEWORK->devMode = false;
+	}
 	if (InputMgr::GetKeyDown(Keyboard::Down))
 	{
 		MoveTile(Dir::Down);
@@ -262,16 +272,16 @@ void BattleScene::MoveTile(Dir currMoveDir)
 	switch (currMoveDir)
 	{
 	case Dir::Up:
-		nowTile.y -= TILE_SIZE_Y;
+		nowTile.y -= TILE_SIZE;
 		break;
 	case Dir::Down:
-		nowTile.y += TILE_SIZE_Y;
+		nowTile.y += TILE_SIZE;
 		break;
 	case Dir::Left:
-		nowTile.x -= TILE_SIZE_X;
+		nowTile.x -= TILE_SIZE;
 		break;
 	case Dir::Right:
-		nowTile.x += TILE_SIZE_X;
+		nowTile.x += TILE_SIZE;
 		break;
 	}
 	dummy->SetDestination(nowTile);
@@ -297,7 +307,7 @@ void BattleScene::MoveUpTile()
 void BattleScene::MoveLeftTile()
 {
 	nowTile = dummy->GetPos();
-	nowTile.x -= TILE_SIZE_X;
+	nowTile.x -= TILE_SIZE;
 	dummy->SetDestination(nowTile);
 	dummy->SetMove(true);
 }
@@ -305,7 +315,7 @@ void BattleScene::MoveLeftTile()
 void BattleScene::MoveRightTile()
 {
 	nowTile = dummy->GetPos();
-	nowTile.x += TILE_SIZE_X;
+	nowTile.x += TILE_SIZE;
 	dummy->SetDestination(nowTile);
 	dummy->SetMove(true);
 }

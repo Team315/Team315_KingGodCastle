@@ -27,6 +27,7 @@ void SpriteObj::SetOrigin(Origins origin)
 void SpriteObj::SetScale(float x, float y)
 {
 	sprite.setScale(x, y);
+	SetHitboxScale(x, y);
 }
 
 void SpriteObj::SetColor(Color color)
