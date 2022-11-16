@@ -289,41 +289,6 @@ void BattleScene::MoveTile(Dir currMoveDir)
 	dummy->SetMove(true);
 }
 
-<<<<<<< HEAD
-=======
-void BattleScene::MoveDownTile()
-{
-	nowTile = dummy->GetPos();
-	nowTile.y += TILE_SIZE;
-	dummy->SetDestination(nowTile);
-	dummy->SetMove(true);
-}
-
-void BattleScene::MoveUpTile()
-{
-	nowTile = dummy->GetPos();
-	nowTile.y -= TILE_SIZE;
-	dummy->SetDestination(nowTile);
-	dummy->SetMove(true);
-}
-
-void BattleScene::MoveLeftTile()
-{
-	nowTile = dummy->GetPos();
-	nowTile.x -= TILE_SIZE;
-	dummy->SetDestination(nowTile);
-	dummy->SetMove(true);
-}
-
-void BattleScene::MoveRightTile()
-{
-	nowTile = dummy->GetPos();
-	nowTile.x += TILE_SIZE;
-	dummy->SetDestination(nowTile);
-	dummy->SetMove(true);
-}
-
->>>>>>> develop/GameManager
 void BattleScene::AIMove()
 {
 }
