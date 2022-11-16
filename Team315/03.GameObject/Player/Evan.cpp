@@ -1,5 +1,16 @@
 #include "Evan.h"
 
+Evan::Evan()
+	: speed(100.f), isPlaying2(false)
+{
+	SetType("Player");
+	SetName("Evan");
+}
+
+Evan::~Evan()
+{
+}
+
 void Evan::Init()
 {
     animator.SetTarget(&sprite);

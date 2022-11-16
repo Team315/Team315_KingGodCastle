@@ -201,9 +201,19 @@ void BattleScene::Update(float dt)
 						CLOG::Print3String("can not summon");
 						break;
 					}
-					int idx = GAME_MGR->GetPresetElem(Utils::RandomRange(0, PRESET_SIZE));
+					/*int idx = GAME_MGR->GetPresetElem(Utils::RandomRange(0, PRESET_SIZE));
 					CLOG::Print3String(to_string(idx));
 					GAME_MGR->AddPrepare(idx);
+					CLOG::PrintVectorState(ui->GetPrepareGridPos(0));*/
+
+					int idx = GAME_MGR->GetPrepareIdx();
+					Character* test = new Evan();
+					test->SetPos(ui->GetPrepareGridPos(idx));
+					GAME_MGR->AddPrepare(1);
+					test->SetHitbox(FloatRect(0, 0, TILE_SIZE, TILE_SIZE), Origins::BC);
+					test->Init();
+					test->SetDrawInBattle(false);
+					objList.push_back(test);
 					break;
 				}
 			}

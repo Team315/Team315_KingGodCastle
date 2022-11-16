@@ -14,10 +14,9 @@ protected:
 
 	bool isPlaying2;
 public:
-	Evan()
-		: speed(100.f), isPlaying2(false)
-	{
-	}
+	Evan();
+	virtual ~Evan();
+
 	virtual void Init() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;

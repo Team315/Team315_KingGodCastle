@@ -28,6 +28,7 @@ public:
 	void SetPresetElem(int idx, int num);
 
 	vector<int>& GetPrepare() { return prepare; }
+	int GetPrepareIdx();
 	void SetPrepare(vector<int>& set);
 	void AddPrepare(int num);
 	void UpdatePrepare();

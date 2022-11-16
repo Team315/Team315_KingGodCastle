@@ -24,6 +24,16 @@ void GameManager::SetPresetElem(int idx, int num)
 	preset[idx] = num;
 }
 
+int GameManager::GetPrepareIdx()
+{
+	for (int idx = 0; idx < PREPARE_SIZE; idx++)
+	{
+		if (prepare[idx] == 0)
+			return idx;
+	}
+	return -1; // fail
+}
+
 void GameManager::SetPrepare(vector<int>& set)
 {
 	prepare = set;

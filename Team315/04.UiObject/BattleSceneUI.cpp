@@ -10,6 +10,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	CreateBackground(panel, 1, 3, 188.f, 400.f);
 
 	prepareGrid.resize(PREPARE_SIZE);
+	prepareGridPos.resize(PREPARE_SIZE);
 	float outlineThickness = 2.f;
 	float posX = TILE_SIZE * 2.f;
 	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE * 2.f;
@@ -21,7 +22,8 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 			TILE_SIZE - outlineThickness * 2 - 1);
 		cell->SetOutline(Color(255, 255, 255, 100), outlineThickness);
 		cell->SetFillColor(Color(0, 0, 0, 0));
-		cell->SetPos(Vector2f(posX, posY));
+		prepareGridPos[count] = Vector2f(posX, posY);
+		cell->SetPos(prepareGridPos[count]);
 		cell->SetOrigin(Origins::BC);
 		uiObjList.push_back(cell);
 		count++;
@@ -32,6 +34,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 			posY += TILE_SIZE;
 		}
 	}
+	CLOG::Print3String("Battle scene ui create");
 }
 
 BattleSceneUI::~BattleSceneUI()

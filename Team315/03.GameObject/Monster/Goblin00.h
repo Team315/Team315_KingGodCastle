@@ -12,10 +12,9 @@ protected:
 
 	bool isPlaying2;
 public:
-	Goblin00()
-		: speed(100.f), isPlaying2(false)
-	{
-	}
+	Goblin00();
+	virtual ~Goblin00();
+
 	virtual void Init() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;

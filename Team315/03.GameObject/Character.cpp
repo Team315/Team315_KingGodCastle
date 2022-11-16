@@ -1,7 +1,9 @@
 #include "Character.h"
+#include "Include.h"
 
 Character::Character()
-	: destination(0, 0), move(false), attack(false), currState(AnimStates::None)
+	: destination(0, 0), move(false), attack(false),
+	currState(AnimStates::None), prepareUpdate(true), drawInBattle(false)
 {
 	hpBar = new ProgressBar();
 	hpBarLocalPos = { -10.f, -30.f };
@@ -23,6 +25,11 @@ void Character::Init()
 
 void Character::Update(float dt)
 {
+	if (!prepareUpdate)
+	{
+		return;
+	}
+
 	hpBar->Update(dt);
 	if (move)
 	{
@@ -46,7 +53,8 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	hpBar->SetPos(pos + hpBarLocalPos);
+	if (drawInBattle)
+		hpBar->SetPos(pos + hpBarLocalPos);
 }
 
 void Character::SetState(AnimStates newState)

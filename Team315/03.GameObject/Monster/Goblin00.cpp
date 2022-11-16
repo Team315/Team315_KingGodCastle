@@ -1,5 +1,16 @@
 #include "Goblin00.h"
 
+Goblin00::Goblin00()
+	: speed(100.f), isPlaying2(false)
+{
+	SetType("Monster");
+	SetName("Goblin00");
+}
+
+Goblin00::~Goblin00()
+{
+}
+
 void Goblin00::Init()
 {
 	//SetPos({ 510 - 50, 720 / 2.f });
