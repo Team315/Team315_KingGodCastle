@@ -269,7 +269,6 @@ void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 				{ ((width / 2) + (width * 1.5f)) + (j * width),
 				height + (i * height) },
 				count++);
-
 			objList.push_back(tilePlay);
 			testTile[i][j] = tilePlay;
 		}
@@ -278,8 +277,9 @@ void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 
 void BattleScene::MoveTile(Dir currMoveDir)
 {
+	Vector2i curPos = GAME_MGR->PosToIdx(dummy->GetPos());
+	TilePlay* curTile = testTile[curPos.y][curPos.x];
 	
-
 	nowTile = dummy->GetPos();
 	switch (currMoveDir)
 	{
@@ -297,6 +297,14 @@ void BattleScene::MoveTile(Dir currMoveDir)
 		break;
 	}
 	dummy->SetDestination(nowTile);
+	Vector2i idx = GAME_MGR->PosToIdx(nowTile);
+	//CLOG::PrintVectorState(nowTile, "now");
+	//CLOG::PrintVectorState(idx, "idx");
+	TilePlay* nextTile = testTile[idx.y][idx.x];
+	if (nextTile->GetOnTileObj() != nullptr)
+		return;
+	curTile->SetOnTileObj(nullptr);
+	nextTile->SetOnTileObj(dummy);
 	dummy->SetMove(true);
 }
 
@@ -312,5 +320,6 @@ void BattleScene::ZoomOut()
 
 void BattleScene::AIMove()
 {
+	
 }
 
