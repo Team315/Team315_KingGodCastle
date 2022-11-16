@@ -11,16 +11,11 @@ protected:
 	Animator animator;
 
 	float speed;
-	Vector2f direction;
-	Vector2f lastDirection;
-	Vector2f velocity;
-	
-	vector<vector<RectangleObj*>*> overlay;
-	vector<vector<TilePlay*>> testTile;
-	Vector2f nowTile;
+
+	bool isPlaying2;
 public:
 	Evan()
-		: speed(300.f), direction(1.f, 0.f), lastDirection(1.f, 0.f), velocity(0.f, -1000.f)
+		: speed(100.f), isPlaying2(false)
 	{
 	}
 	virtual void Init() override;

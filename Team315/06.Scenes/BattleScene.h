@@ -24,7 +24,9 @@ protected:
 	VertexArrayObj* background;
 	vector<vector<RectangleObj*>*> overlay;
 	vector<vector<TilePlay*>> testTile;
+	TilePlay* tilePlay;
 	Vector2f nowTile;
+	Vector2f nextTile;
 
 	Vector2f screenCenterPos;
 	bool b_centerPos;
@@ -48,10 +50,6 @@ public:
 
 	void CreateTestTile(int cols, int rows, float width, float height);
 
-	void MoveDownTile();
-	void MoveUpTile();
-	void MoveLeftTile();
-	void MoveRightTile();
 	void MoveTile(Dir currMoveDir);
 	void AIMove();
 };

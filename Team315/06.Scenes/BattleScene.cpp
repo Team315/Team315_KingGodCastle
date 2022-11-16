@@ -214,7 +214,7 @@ void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 	{
 		for (int j = 0; j < rows; ++j)
 		{
-			TilePlay* tilePlay = new TilePlay();
+			tilePlay = new TilePlay();
 			tilePlay->SetTilePlay({ cols, rows },
 				{ ((width / 2) + (width * 1.5f)) + (j * width),
 				height + (i * height) },
@@ -228,8 +228,9 @@ void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 
 void BattleScene::MoveTile(Dir currMoveDir)
 {
-	nowTile = dummy->GetPos();
+	
 
+	nowTile = dummy->GetPos();
 	switch (currMoveDir)
 	{
 	case Dir::Up:
@@ -245,38 +246,6 @@ void BattleScene::MoveTile(Dir currMoveDir)
 		nowTile.x += TILE_SIZE_X;
 		break;
 	}
-	dummy->SetDestination(nowTile);
-	dummy->SetMove(true);
-}
-
-void BattleScene::MoveDownTile()
-{
-	nowTile = dummy->GetPos();
-	nowTile.y += TILE_SIZE_Y;
-	dummy->SetDestination(nowTile);
-	dummy->SetMove(true);
-}
-
-void BattleScene::MoveUpTile()
-{
-	nowTile = dummy->GetPos();
-	nowTile.y -= TILE_SIZE_Y;
-	dummy->SetDestination(nowTile);
-	dummy->SetMove(true);
-}
-
-void BattleScene::MoveLeftTile()
-{
-	nowTile = dummy->GetPos();
-	nowTile.x -= TILE_SIZE_X;
-	dummy->SetDestination(nowTile);
-	dummy->SetMove(true);
-}
-
-void BattleScene::MoveRightTile()
-{
-	nowTile = dummy->GetPos();
-	nowTile.x += TILE_SIZE_X;
 	dummy->SetDestination(nowTile);
 	dummy->SetMove(true);
 }

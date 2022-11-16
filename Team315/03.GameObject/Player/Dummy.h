@@ -15,7 +15,7 @@ protected:
 
 	bool isPlaying2;
 public:
-	Dummy() : speed(200.f), isPlaying2(false) {}
+	Dummy() : speed(100.f), isPlaying2(false) {}
 	virtual void Init() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;

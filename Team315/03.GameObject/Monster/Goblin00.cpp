@@ -140,15 +140,6 @@ void Goblin00::Update(float dt)
 		lastDirection = direction;
 	}
 	direction = { 0.f, 0.f };
-	if (dist > 0.f)
-	{
-		dist -= dt * speed;
-		Translate(direction * speed * dt);
-		if (dist <= 0.f)
-		{
-			StopTranslate();
-		}
-	}
 }
 
 void Goblin00::Draw(RenderWindow& window)
@@ -219,11 +210,3 @@ bool Goblin00::EqualFloat(float a, float b)
 	return fabs(a - b) < numeric_limits<float>::epsilon();
 }
 
-void Goblin00::StopTranslate()
-{
-	dist = 0.f;
-	direction = { 0,0 };
-	SetPos(dest);
-	SetState(AnimStates::MoveToIdle);
-	dest = { 0,0 };
-}
