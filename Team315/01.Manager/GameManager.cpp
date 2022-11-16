@@ -1,5 +1,4 @@
 #include "GameManager.h"
-#include "Include.h"
 
 GameManager::GameManager()
 	: prepareSize(0), characterCount(10)
@@ -69,4 +68,20 @@ void GameManager::UpdatePrepare()
 			break;
 		}
 	}
-};
+}
+
+Vector2i GameManager::PosToIdx(Vector2f pos)
+{
+	return Vector2i(
+		((pos.x) / TILE_SIZE) - 2,
+		((pos.y) / TILE_SIZE) - 1);
+}
+
+Vector2f GameManager::IdxToPos(Vector2i idx)
+{
+	return Vector2f(
+		lt.x + ((float)idx.x + 0.5f) * TILE_SIZE,
+		lt.y + (idx.y + 1) * TILE_SIZE
+	);
+}
+

@@ -1,10 +1,7 @@
 #pragma once
-#include "Singleton.h"
-#include "Constant.h"
+#include "Include.h"
 #include <vector>
 #include <queue>
-
-using namespace std;
 
 class GameManager : public Singleton<GameManager>
 {
@@ -16,6 +13,7 @@ protected:
 	int prepareSize;
 	int characterCount;
 
+	Vector2f lt;
 public:
 	GameManager();
 	virtual ~GameManager();
@@ -36,6 +34,9 @@ public:
 
 	const int GetPrepareSize() { return prepareSize; }
 	const int GetCharacterCount() { return characterCount; }
+
+	Vector2i PosToIdx(Vector2f pos);
+	Vector2f IdxToPos(Vector2i idx);
 };
 
 #define GAME_MGR (GameManager::GetInstance())
