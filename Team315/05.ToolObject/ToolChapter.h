@@ -14,6 +14,8 @@ public:
 	~ToolChapter();
 
 	void CreateToolStage(int MaxStage, int cols, int rows, float quadWidth, float quadHeight);
-	ToolStage* GetToolStage(int index);
+	vector<ToolStage*>& GetToolStage();
+
+
 };
 

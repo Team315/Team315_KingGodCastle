@@ -224,8 +224,8 @@ void ToolScene::Update(float dt)
 		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
 		{
 			if (ToolChapterLIst[m_nowChapter - 1]->
-				GetToolStage(m_nowStage - 1)->
-				GetTileTool(i, j)->
+				GetToolStage()[m_nowStage - 1]->
+				GetTileTool()[i][j]->
 				CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 1))
 			{
 				if (InputMgr::GetMouseUp(Mouse::Left))
@@ -233,21 +233,21 @@ void ToolScene::Update(float dt)
 					if (m_clickMode == ClickMode::Monster)
 					{
 						ToolChapterLIst[m_nowChapter - 1]->
-							GetToolStage(m_nowStage - 1)->
-							GetTileTool(i, j)->SetMonster((ThemeTypes)m_nowTheme, m_monster);
+							GetToolStage()[m_nowStage - 1]->
+							GetTileTool()[i][j]->SetMonster((ThemeTypes)m_nowTheme, m_monster);
 					}
 					else if (m_clickMode == ClickMode::Obstacle)
 					{
 						ToolChapterLIst[m_nowChapter - 1]->
-							GetToolStage(m_nowStage - 1)->
-							GetTileTool(i, j)->SetObstacle((ThemeTypes)m_nowTheme, m_nowObstacle);
+							GetToolStage()[m_nowStage - 1]->
+							GetTileTool()[i][j]->SetObstacle((ThemeTypes)m_nowTheme, m_nowObstacle);
 					}
 				}
 				else if (InputMgr::GetMouseUp(Mouse::Right))
 				{
 					ToolChapterLIst[m_nowChapter - 1]->
-						GetToolStage(m_nowStage - 1)->
-						GetTileTool(i, j)->SetEraser();
+						GetToolStage()[m_nowStage - 1]->
+						GetTileTool()[i][j]->SetEraser();
 				}
 			}
 		}
@@ -255,6 +255,17 @@ void ToolScene::Update(float dt)
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::F4))
 	{
+		FileManager* file = new FileManager();
+
+		file->Save(*this);
+
+		file->Load(*this);
+
+		delete file;
+
+
+
+		/*
 		FileManager* file = new FileManager();
 
 		for (int i = 0; i < 3; i++)
@@ -272,6 +283,7 @@ void ToolScene::Update(float dt)
 				}
 			}
 		}
+		*/
 	}
 
 	Scene::Update(dt);
@@ -292,8 +304,8 @@ void ToolScene::Draw(RenderWindow& window)
 		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
 		{
 			ToolChapterLIst[m_nowChapter - 1]->
-				GetToolStage(m_nowStage - 1)->
-				GetTileTool(i, j)->Draw(window);
+				GetToolStage()[m_nowStage - 1]->
+				GetTileTool()[i][j]->Draw(window);
 		}
 	}
 
@@ -578,4 +590,34 @@ void ToolScene::SetClickMode(ClickMode clickMode)
 		m_nowTileSet = -1;
 		break;
 	}
+}
+
+Chapters ToolScene::GetData()
+{
+	Chapters data;
+	for (int i = 0; i < ToolChapterLIst.size(); ++i)
+	{
+		data.data.push_back(vector<vector<vector<ns::TileData>>>());
+		auto& stageList = ToolChapterLIst[i]->GetToolStage();
+
+		for (int j = 0; j < stageList.size(); ++j)
+		{
+			data.data[i].push_back(vector<vector<ns::TileData>>());
+			auto& tileList = stageList[j]->GetTileTool();
+			for (int k = 0; k < tileList.size(); ++k)
+			{
+				data.data[i][j].push_back(vector<ns::TileData>());
+				for (int l = 0; l < tileList[k].size(); ++l)
+				{
+					data.data[i][j][k].push_back(tileList[k][l]->GetTileData());
+				}
+			}
+		}
+	}
+	return data;
+}
+
+void ToolScene::SetData(Chapters& data)
+{
+
 }

@@ -19,7 +19,7 @@ void ToolChapter::CreateToolStage(int MaxStage, int cols, int rows, float quadWi
 	}
 }
 
-ToolStage* ToolChapter::GetToolStage(int index)
+vector<ToolStage*>& ToolChapter::GetToolStage()
 {
-    return ToolStageLIst[index];
+    return ToolStageLIst;
 }

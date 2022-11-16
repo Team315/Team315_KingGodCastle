@@ -14,6 +14,6 @@ public:
 	~ToolStage();
 
 	void CreateTilePlay(int cols, int rows, float quadWidth, float quadHeight);
-	TilePlay* GetTileTool(int cols, int rows);
+	vector<vector<TilePlay*>>& GetTileTool();
 };
 

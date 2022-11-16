@@ -3,7 +3,7 @@
 TilePlay::TilePlay()
 	:isCollAble(false)
 {
-	m_TileData = { {0,0},-1,-1,-1 };
+	//m_TileData = { {0,0},-1,-1,-1 };
 }
 
 TilePlay::~TilePlay()

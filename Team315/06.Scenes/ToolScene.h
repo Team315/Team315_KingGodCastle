@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "Include.h"
-
+#include "FileData.h"
 class ToolChapter;
 class TilePlay;
 class SelectStar;
@@ -63,5 +63,8 @@ public:
 	void CreateSelectStar();
 
 	void SetClickMode(ClickMode clickMode);
+
+	Chapters GetData();
+	void SetData(Chapters& data);
 
 };

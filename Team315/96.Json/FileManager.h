@@ -1,7 +1,10 @@
 #pragma once
 #include "Singleton.h"
 #include "FileData.h"
-#include "ToolChapter.h"
+#include "ToolScene.h"
+
+using namespace ns;
+
 class FileManager : public Singleton<FileManager>
 {
 private:
@@ -25,6 +28,10 @@ public:
 	void SaveDataEpisode( map<string, MapData> newData, string name);
 
 	void SaveDataMapInfo(TileData tileData, int chapter, int stage, int cols, int raws);
+
+	void Save(ToolScene& scene);
+	void Load(ToolScene& scene);
+
 };
 
 #define FILE_MGR (FileManager::GetInstance())

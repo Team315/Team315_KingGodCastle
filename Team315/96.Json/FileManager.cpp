@@ -137,15 +137,20 @@ void FileManager::SaveDataMapInfo(TileData tileData, int chapter, int stage, int
 {
 
 
+}
 
-	tiledata[chapter][stage][cols][raws].arrIndex = tileData.arrIndex;
-	tiledata[chapter][stage][cols][raws].pathIndex = tileData.pathIndex;
-	tiledata[chapter][stage][cols][raws].ThemeTypes = tileData.ThemeTypes;
-	tiledata[chapter][stage][cols][raws].TileTypes = tileData.TileTypes;
-
-	json data = tiledata;
-
-	ofstream ofs("json/testsave.json");
+void FileManager::Save(ToolScene& toolScene)
+{
+ 	json data = toolScene.GetData();
+	ofstream ofs("test.json");
 	ofs << data;
 	ofs.close();
+}
+
+void FileManager::Load(ToolScene& toolScene)
+{
+	ifstream ep1_f("test.json");
+	json ep1_d = json::parse(ep1_f);
+	Chapters chapters = ep1_d;
+	ep1_f.close();
 }

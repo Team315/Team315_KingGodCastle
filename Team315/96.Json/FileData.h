@@ -15,7 +15,6 @@ enum class FileTypes
 	CookieHitBox,
 };
 
-
 namespace sf {
 	void to_json(json& j, const Vector2f& p);
 	void from_json(const json& j, Vector2f& p);
@@ -63,33 +62,7 @@ namespace ns {
 	void from_json(const json& j, BackInfo& b);
 }
 
-	struct MapData
-	{
-		vector<ns::BackInfo> backInfo; // background path
-		string bottomPath;		//bottom block path
-		vector<int> bottomPos;	//bottom block draw position
-		map<string, vector<sf::Vector2f>> obstacles; //obstacles draw path, draw position
-		map<string, vector<sf::Vector2f>> jellys; //obstacles draw path, draw position
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(MapData, backInfo, bottomPath, bottomPos, obstacles, jellys)
-	};
-
-	struct HitBoxInfo
-	{
-		vector<ns::CircleInfo> circles;    // rad, pos
-		vector<ns::RectangleInfo> rectangls;  //  size , pos
-		vector <ns::ConvexInfo> points; //point
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(HitBoxInfo, circles, rectangls, points)
-	};
-
-	struct CookieHitBox
-	{
-		string type;
-		HitBoxInfo hitBox;
-		ns::RectangleInfo bottom;
-		
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(CookieHitBox, type, hitBox, bottom)
-	};
-
+namespace ns {
 	struct TileData
 	{
 		sf::Vector2i arrIndex;
@@ -97,7 +70,43 @@ namespace ns {
 		int TileTypes;
 		int ThemeTypes;
 		int pathIndex;
-
-
-		NLOHMANN_DEFINE_TYPE_INTRUSIVE(TileData, arrIndex, TileTypes, ThemeTypes, pathIndex)
 	};
+	void to_json(json& j, const TileData& b);
+	void from_json(const json& j, TileData& b);
+}
+
+struct Chapters
+{
+	vector<vector< vector<vector<ns::TileData>>>> data;
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Chapters, data);
+};
+
+struct MapData
+{
+	vector<ns::BackInfo> backInfo; // background path
+	string bottomPath;		//bottom block path
+	vector<int> bottomPos;	//bottom block draw position
+	map<string, vector<sf::Vector2f>> obstacles; //obstacles draw path, draw position
+	map<string, vector<sf::Vector2f>> jellys; //obstacles draw path, draw position
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(MapData, backInfo, bottomPath, bottomPos, obstacles, jellys)
+};
+
+struct HitBoxInfo
+{
+	vector<ns::CircleInfo> circles;    // rad, pos
+	vector<ns::RectangleInfo> rectangls;  //  size , pos
+	vector <ns::ConvexInfo> points; //point
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(HitBoxInfo, circles, rectangls, points)
+};
+
+struct CookieHitBox
+{
+	string type;
+	HitBoxInfo hitBox;
+	ns::RectangleInfo bottom;
+		
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(CookieHitBox, type, hitBox, bottom)
+};
+
+
+

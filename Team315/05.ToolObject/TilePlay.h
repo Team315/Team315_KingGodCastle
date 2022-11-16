@@ -3,6 +3,8 @@
 #include "Include.h"
 #include "FileData.h"
 
+using namespace ns;
+
 class TilePlay :public SpriteObj
 {
 protected:
@@ -11,7 +13,7 @@ protected:
 
 	TileInfo m_TileInfo;
 
-	TileData m_TileData;
+	ns::TileData m_TileData;
 
 	TileTypes m_TileTypes;
 	ThemeTypes m_ThemeTypes;

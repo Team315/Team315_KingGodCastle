@@ -65,3 +65,25 @@ void ns::from_json(const json& j, ConvexInfo& c)
     j.at("points").get_to(c.points);
     j.at("pos").get_to(c.pos);
 }
+
+//sf::Vector2i arrIndex;
+//
+//int TileTypes;
+//int ThemeTypes;
+//int pathIndex;
+
+void ns::to_json(json& j, const TileData& b)
+{
+    j = json{ {"arrIndex", b.arrIndex},
+        {"TileTypes", b.TileTypes},
+        {"ThemeTypes", b.ThemeTypes},
+        {"pathIndex", b.pathIndex} };
+}
+
+void ns::from_json(const json& j, TileData& b)
+{
+    j.at("arrIndex").get_to(b.arrIndex);
+    j.at("TileTypes").get_to(b.TileTypes);
+    j.at("ThemeTypes").get_to(b.ThemeTypes);
+    j.at("pathIndex").get_to(b.pathIndex);
+}
