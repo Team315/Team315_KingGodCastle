@@ -1,7 +1,7 @@
 #include "Character.h"
 
 Character::Character()
-	: destination(0, 0), move(false)
+	: destination(0, 0), move(false), attack(false), currState(AnimStates::None)
 {
 	hpBar = new ProgressBar();
 	hpBarLocalPos = { -10.f, -30.f };
@@ -26,9 +26,14 @@ void Character::Update(float dt)
 	hpBar->Update(dt);
 	if (move)
 	{
-		Translate(Utils::Normalize(destination - position));
+		SetState(AnimStates::Move);
+		direction = destination - position;
+		Translate(Utils::Normalize(direction));
 		if (destination == position)
+		{
 			move = false;
+			SetState(AnimStates::MoveToIdle);
+		}
 	}
 }
 
@@ -42,6 +47,15 @@ void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
 	hpBar->SetPos(pos + hpBarLocalPos);
+}
+
+void Character::SetState(AnimStates newState)
+{
+	if (currState == newState)
+	{
+		return;
+	}
+	currState = newState;
 }
 
 void Character::SetTarget(Character* target)

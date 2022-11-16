@@ -15,6 +15,7 @@ protected:
 	int m_stateIndex;
 	bool isCollAble;
 
+	Object* onTileObj;
 public:
 	TilePlay();
 	~TilePlay();
@@ -30,6 +31,9 @@ public:
 	void SetMonster(ThemeTypes themeTypes, int monsterIndex);
 	string SetMonsterPath(ThemeTypes types, int num);
 	void SetEraser();
+
+	void SetOnTileObj(Object* onTileObj);
+	Object* GetOnTileObj();
 
 	bool CollisionCheck(Vector2f pos, int index);
 	bool ChangeAlpha(bool check);

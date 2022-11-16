@@ -31,3 +31,21 @@ enum class TileTypes
 	Monster,
 	PlayerArea,
 };
+
+enum class AnimStates
+{
+	None = -1,
+	Idle,
+	MoveToIdle,
+	Move,
+	Attack,
+	Skill,
+};
+
+enum class Dir
+{
+	Up,
+	Down,
+	Left,
+	Right,
+};
