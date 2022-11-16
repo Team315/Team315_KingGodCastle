@@ -22,7 +22,6 @@ protected:
 	Goblin00* goblin00;
 	Dummy* dummy;
 	VertexArrayObj* background;
-	vector<vector<RectangleObj*>*> overlay;
 	vector<vector<TilePlay*>> testTile;
 	TilePlay* tilePlay;
 	Vector2f nowTile;
@@ -34,7 +33,11 @@ protected:
 	float gameScreenBottomLimit;
 	float gameScreenTopLimit;
 
+	vector<vector<RectangleObj*>*> battleGrid;
+	bool BattleGrid;
 	vector<Character*> prepare;
+	Character* drag;
+	Vector2f beforeDragPos;
 
 public:
 	BattleScene();

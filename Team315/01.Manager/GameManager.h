@@ -13,7 +13,6 @@ protected:
 	int prepareSize;
 	int characterCount;
 
-	Vector2f lt;
 public:
 	GameManager();
 	virtual ~GameManager();
@@ -38,6 +37,7 @@ public:
 
 	Vector2i PosToIdx(Vector2f pos);
 	Vector2f IdxToPos(Vector2i idx);
+	Vector2f SnapToCoord(Vector2f pos);
 };
 
 #define GAME_MGR (GameManager::GetInstance())

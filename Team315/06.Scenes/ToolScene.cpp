@@ -36,18 +36,18 @@ void ToolScene::Init()
 	//CreateTileSet(Tile_WIDTH, Tile_HEIGHT, Tile_SizeX, Tile_SizeY);
 	//CreateTilePlay(ChapterMaxCount, StageMaxCount, BATTLE_TILE_COLS, BATTLE_TILE_ROWS, Tile_SizeX, Tile_SizeY);
 	CreateUiName();
-	CreateChapterNum(ChapterMaxCount);
-	CreateStageNum(StageMaxCount);
+	CreateChapterNum(CHAPTER_MAX_COUNT);
+	CreateStageNum(STAGE_MAX_COUNT);
 	CreateTheme();
 	CreateSelectTile();
 	CreateSelectObstacle();
 	CreateSelectMonster();
 	CreateSelectStar();
 
-	for (int i = 0; i < ChapterMaxCount; i++)
+	for (int i = 0; i < CHAPTER_MAX_COUNT; i++)
 	{
 		ToolChapter* toolChapter = new ToolChapter();
-		toolChapter->CreateToolStage(StageMaxCount, GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
+		toolChapter->CreateToolStage(STAGE_MAX_COUNT, GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
 		ToolChapterLIst.push_back(toolChapter);
 	}
 
@@ -489,7 +489,7 @@ void ToolScene::CreateSelectTile()
 	float x = 0.f;
 	float y = 0.f;
 
-	for (int i = 0; i < Type1_Tile_Count; ++i)
+	for (int i = 0; i < TYPE1_TILE_COUNT; ++i)
 	{
 		if (i % 10 == 0)
 		{
@@ -510,7 +510,7 @@ void ToolScene::CreateSelectObstacle()
 	float x = 0.f;
 	float y = 0.f;
 
-	for (int i = 0; i < Type1_Obstacle_Count; ++i)
+	for (int i = 0; i < TYPE1_OBSTACLE_COUNT; ++i)
 	{
 		if (i % 10 == 0)
 		{

@@ -83,15 +83,19 @@ void GameManager::UpdatePrepare()
 Vector2i GameManager::PosToIdx(Vector2f pos)
 {
 	return Vector2i(
-		((pos.x) / TILE_SIZE) - 2,
-		((pos.y) / TILE_SIZE) - 1);
+		(pos.x / TILE_SIZE) - 2,
+		(pos.y / TILE_SIZE) - 1);
 }
 
 Vector2f GameManager::IdxToPos(Vector2i idx)
 {
 	return Vector2f(
-		lt.x + ((float)idx.x + 0.5f) * TILE_SIZE,
-		lt.y + (idx.y + 1) * TILE_SIZE
+		(idx.x + 2) * TILE_SIZE,
+		(idx.y + 1) * TILE_SIZE
 	);
 }
 
+Vector2f GameManager::SnapToCoord(Vector2f pos)
+{
+	return IdxToPos(PosToIdx(pos));
+}
