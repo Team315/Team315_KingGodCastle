@@ -90,11 +90,17 @@ void BattleScene::Enter()
 			tile->SetActive(false);
 	}
 	GAME_MGR->EnterBattleScene();
+	prepare.assign(PREPARE_SIZE, 0);
 }
 
 void BattleScene::Exit()
 {
 	CLOG::Print3String("battle exit");
+	for (auto& character : prepare)
+	{
+		delete character;
+	}
+	prepare.clear();
 }
 
 void BattleScene::Update(float dt)
@@ -137,22 +143,18 @@ void BattleScene::Update(float dt)
 	if (InputMgr::GetKeyDown(Keyboard::Down))
 	{
 		MoveTile(Dir::Down);
-		//MoveDownTile();
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Up))
 	{
 		MoveTile(Dir::Up);
-		//MoveUpTile();
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Left))
 	{
 		MoveTile(Dir::Left);
-		//MoveLeftTile();
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Right))
 	{
 		MoveTile(Dir::Right);
-		//MoveRightTile();
 	}
 	if (InputMgr::GetKeyDown(Keyboard::F6))
 	{
@@ -207,13 +209,18 @@ void BattleScene::Update(float dt)
 					CLOG::PrintVectorState(ui->GetPrepareGridPos(0));*/
 
 					int idx = GAME_MGR->GetPrepareIdx();
-					Character* test = new Evan();
+					int ran = Utils::RandomRange(0, 2);
+					Character* test;
+					if (ran == 0)
+						test = new Evan();
+					else
+						test = new Goblin00();
 					test->SetPos(ui->GetPrepareGridPos(idx));
 					GAME_MGR->AddPrepare(1);
 					test->SetHitbox(FloatRect(0, 0, TILE_SIZE, TILE_SIZE), Origins::BC);
 					test->Init();
 					test->SetDrawInBattle(false);
-					objList.push_back(test);
+					prepare.push_back(test);
 					break;
 				}
 			}
@@ -247,11 +254,23 @@ void BattleScene::Update(float dt)
 	}
 	// Game Input end
 
+	for (auto& character : prepare)
+	{
+		if (character != nullptr)
+			character->Update(dt);
+	}
+
 	Scene::Update(dt);
 }
 
 void BattleScene::Draw(RenderWindow& window)
 {
+	for (auto& character : prepare)
+	{
+		if (character != nullptr)
+			character->Draw(window);
+	}
+
 	Scene::Draw(window);
 }
 

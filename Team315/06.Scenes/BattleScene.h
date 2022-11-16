@@ -34,6 +34,8 @@ protected:
 	float gameScreenBottomLimit;
 	float gameScreenTopLimit;
 
+	vector<Character*> prepare;
+
 public:
 	BattleScene();
 	virtual ~BattleScene();
