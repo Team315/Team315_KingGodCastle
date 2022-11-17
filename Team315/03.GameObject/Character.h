@@ -1,15 +1,21 @@
 #pragma once
 #include "SpriteObj.h"
 #include "ProgressBar.h"
+#include "Star.h"
 #include "EnumClass.h"
 
 class Character : public SpriteObj
 {
 protected:
 	Character* target;
-
+	
+	// UI
 	ProgressBar* hpBar;
+	Star* star;
+	
 	Vector2f hpBarLocalPos;
+	Vector2f starLocalPos;
+	//
 
 	Vector2f destination;
 	bool move;
@@ -44,7 +50,6 @@ public:
 	AnimStates GetState() { return currState;  }
 
 	void SetTarget(Character* target);
-	void SetHpBarLocalPos(Vector2f pos);
 	void SetMove(bool b) { move = b; }
 	void SetDestination(Vector2f dest) { destination = dest; }
 

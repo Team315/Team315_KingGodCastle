@@ -21,8 +21,8 @@ public:
     virtual ~TextObj() override;
 
     virtual void Draw(RenderWindow& window) override;
+    virtual void SetOrigin(Origins origin) override;
 
-    void SetOrigin(Origins origin);
     void SetString(string string);
     void SetString(wstring wstring);
     const string& GetString() const;

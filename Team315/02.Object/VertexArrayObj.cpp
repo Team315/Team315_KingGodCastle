@@ -29,17 +29,17 @@ FloatRect VertexArrayObj::GetGlobalBounds() const
 	return vertexArray.getBounds();
 }
 
-void VertexArrayObj::SetOrigin(Origins newOrigin)
+void VertexArrayObj::SetOrigin(Origins origin)
 {
 	FloatRect rect = vertexArray.getBounds();
 	Vector2f prevPos(
 		rect.width * ((int)origin % 3) * 0.5f, 
 		rect.height * ((int)origin / 3) * 0.5f);
 	Vector2f newPos(
-		rect.width * ((int)newOrigin % 3) * 0.5f, 
-		rect.height * ((int)newOrigin / 3) * 0.5f);
+		rect.width * ((int)origin % 3) * 0.5f, 
+		rect.height * ((int)origin / 3) * 0.5f);
 	Translate(prevPos - newPos);
-	origin = newOrigin;
+	origin = origin;
 }
 
 Origins VertexArrayObj::GetOrigin() const

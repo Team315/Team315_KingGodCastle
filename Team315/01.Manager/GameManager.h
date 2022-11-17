@@ -13,6 +13,8 @@ protected:
 	int prepareSize;
 	int characterCount;
 
+	int extraLevelUpChance; // additional level up probability
+
 public:
 	GameManager();
 	virtual ~GameManager();
@@ -34,6 +36,7 @@ public:
 
 	const int GetPrepareSize() { return prepareSize; }
 	const int GetCharacterCount() { return characterCount; }
+	const int GetExtraLevelUpChance() { return extraLevelUpChance; }
 
 	Vector2i PosToIdx(Vector2f pos);
 	Vector2f IdxToPos(Vector2i idx);

@@ -15,7 +15,7 @@ public:
 
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
-	virtual void SetOrigin(Origins origin);
+	virtual void SetOrigin(Origins origin) override;
 
 	void SetButton(Texture& backTexture,
 		Font& font, wstring textString,

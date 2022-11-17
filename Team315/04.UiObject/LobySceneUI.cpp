@@ -140,3 +140,7 @@ void LobySceneUI::Draw(RenderWindow& window)
 {
 	UIMgr::Draw(window);
 }
+
+void LobySceneUI::SetOrigin(Origins origin)
+{
+}

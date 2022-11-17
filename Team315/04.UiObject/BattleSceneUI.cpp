@@ -69,6 +69,10 @@ void BattleSceneUI::Draw(RenderWindow& window)
 	UIMgr::Draw(window);
 }
 
+void BattleSceneUI::SetOrigin(Origins origin)
+{
+}
+
 void BattleSceneUI::CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight)
 {
 	Vector2f startPos = vao->GetPos();

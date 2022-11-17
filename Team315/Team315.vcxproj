@@ -210,6 +210,7 @@
     <ClInclude Include="05.ToolObject\ToolStage.h" />
     <ClInclude Include="01.Manager\GameManager.h" />
     <ClInclude Include="05.ToolObject\TileBackground.h" />
+    <ClInclude Include="03.GameObject\Star.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -264,6 +265,7 @@
     <ClCompile Include="05.ToolObject\ToolChapter.cpp" />
     <ClCompile Include="05.ToolObject\ToolStage.cpp" />
     <ClCompile Include="05.ToolObject\TileBackground.cpp" />
+    <ClCompile Include="03.GameObject\Star.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,7 +1,7 @@
 #include "GameManager.h"
 
 GameManager::GameManager()
-	: prepareSize(0), characterCount(10)
+	: prepareSize(0), characterCount(10), extraLevelUpChance(30)
 {
 	CLOG::Print3String("GameManager Create");
 	prepare.resize(PREPARE_SIZE, 0);

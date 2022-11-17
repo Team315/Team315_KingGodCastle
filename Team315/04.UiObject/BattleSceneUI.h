@@ -21,6 +21,7 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
+	virtual void SetOrigin(Origins origin) override;
 
 	BattlePanel* GetPanel() { return panel; }
 	Vector2f GetPrepareGridPos(int idx) { return prepareGridPos[idx]; }

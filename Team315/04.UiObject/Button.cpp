@@ -24,7 +24,7 @@ void Button::SetPos(const Vector2f& pos)
 
 void Button::SetOrigin(Origins origin)
 {
-	Utils::SetOrigin(sprite, origin);
+	SpriteObj::SetOrigin(origin);
 	Utils::SetOrigin(btnText, origin);
 }
 

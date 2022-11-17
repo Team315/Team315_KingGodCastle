@@ -18,7 +18,7 @@ public:
 	Texture* GetTexture()const;
 	FloatRect GetGlobalBounds() const;
 
-	void SetOrigin(Origins newOrigin);
+	virtual void SetOrigin(Origins origin) override;
 	Origins GetOrigin() const;
 
 	virtual void SetPos(const Vector2f& pos);

@@ -201,7 +201,6 @@ void BattleScene::Update(float dt)
 					else
 						test = new Goblin00();
 					test->SetPos(ui->GetPrepareGridPos(idx));
-					test->SetHitbox(FloatRect(0, 0, TILE_SIZE, TILE_SIZE), Origins::BC);
 					test->Init();
 					test->SetDrawInBattle(false);
 					prepare[idx] = test;

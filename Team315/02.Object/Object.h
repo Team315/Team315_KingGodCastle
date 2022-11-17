@@ -47,6 +47,7 @@ public:
 
 	virtual void Update(float dt);
 	virtual void Draw(RenderWindow& window);
+	virtual void SetOrigin(Origins origin) = 0;
 
 	virtual void SetHitbox(const FloatRect rect, Origins origin, int ltDelta = 0, int whDelta = 0);
 	virtual void SetHitbox(const IntRect rect, Origins origin, int ltDelta = 0, int whDelta = 0);
