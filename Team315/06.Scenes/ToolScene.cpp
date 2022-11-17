@@ -47,7 +47,7 @@ void ToolScene::Init()
 	for (int i = 0; i < ChapterMaxCount; i++)
 	{
 		ToolChapter* toolChapter = new ToolChapter();
-		toolChapter->CreateToolStage(StageMaxCount, GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE_X, TILE_SIZE_Y);
+		toolChapter->CreateToolStage(StageMaxCount, GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
 		ToolChapterLIst.push_back(toolChapter);
 	}
 

@@ -1,7 +1,7 @@
 #include "TilePlay.h"
 
 TilePlay::TilePlay()
-	:isCollAble(false)
+	:isCollAble(false), onTileObj(nullptr)
 {
 	//m_TileData = { {0,0},-1,-1,-1 };
 }
@@ -157,6 +157,7 @@ void TilePlay::SetEraser()
 	m_TileTypes = TileTypes::None;
 }
 
+<<<<<<< HEAD
 void TilePlay::SetTileData(ns::TileData TileData)
 {
 	if (TileData.TileTypes != 3)
@@ -174,6 +175,16 @@ void TilePlay::SetTileData(ns::TileData TileData)
 	}
 
 	//TileData;
+=======
+void TilePlay::SetOnTileObj(Object* onTileObj)
+{
+	this->onTileObj = onTileObj;
+}
+
+Object* TilePlay::GetOnTileObj()
+{
+	return onTileObj;
+>>>>>>> ad0b43d5f2a7898fa2d096c6f056fad87608f69c
 }
 
 TileInfo TilePlay::GetTileInfo()

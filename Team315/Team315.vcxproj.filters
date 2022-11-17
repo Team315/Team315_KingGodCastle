@@ -90,6 +90,7 @@
     <ClInclude Include="05.ToolObject\TilePlay.h" />
     <ClInclude Include="05.ToolObject\ToolChapter.h" />
     <ClInclude Include="05.ToolObject\ToolStage.h" />
+    <ClInclude Include="01.Manager\GameManager.h" />
     <ClInclude Include="96.Json\FileData.h" />
     <ClInclude Include="96.Json\FileManager.h" />
     <ClInclude Include="05.ToolObject\TileBackground.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="05.ToolObject\TilePlay.cpp" />
     <ClCompile Include="05.ToolObject\ToolChapter.cpp" />
     <ClCompile Include="05.ToolObject\ToolStage.cpp" />
+    <ClCompile Include="01.Manager\GameManager.cpp" />
     <ClCompile Include="96.Json\FileData.cpp" />
     <ClCompile Include="96.Json\FileManager.cpp" />
     <ClCompile Include="05.ToolObject\TileBackground.cpp" />

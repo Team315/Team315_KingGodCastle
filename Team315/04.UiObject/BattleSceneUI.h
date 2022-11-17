@@ -10,6 +10,7 @@ class BattleSceneUI : public UIMgr
 protected:
 	BattlePanel* panel;
 	vector<RectangleObj*> prepareGrid;
+	vector<Vector2f> prepareGridPos;
 
 public:
 	BattleSceneUI(Scene* scene);
@@ -22,6 +23,7 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	BattlePanel* GetPanel() { return panel; }
+	Vector2f GetPrepareGridPos(int idx) { return prepareGridPos[idx]; }
 
 	void CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight);
 };

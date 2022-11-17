@@ -23,9 +23,10 @@ protected:
 	int m_chapterIndex;
 	bool isCollAble;
 
+	Object* onTileObj;
 public:
 	TilePlay();
-	~TilePlay();
+	virtual ~TilePlay();
 
 	virtual void Init() override;
 	virtual void Release() override;
@@ -39,8 +40,13 @@ public:
 	string SetMonsterPath(ThemeTypes types, int num);
 	void SetEraser();
 
+<<<<<<< HEAD
 	void SetTileData(ns::TileData TileData);
 
+=======
+	void SetOnTileObj(Object* onTileObj);
+	Object* GetOnTileObj();
+>>>>>>> ad0b43d5f2a7898fa2d096c6f056fad87608f69c
 
 	TileInfo GetTileInfo();
 	TileData GetTileData();
@@ -48,4 +54,3 @@ public:
 	bool CollisionCheck(Vector2f pos, int index);
 	bool ChangeAlpha(bool check);
 };
-

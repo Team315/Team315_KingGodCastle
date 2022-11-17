@@ -1,8 +1,18 @@
 #include "Evan.h"
 
+Evan::Evan()
+	: speed(100.f), isPlaying2(false)
+{
+	SetType("Player");
+	SetName("Evan");
+}
+
+Evan::~Evan()
+{
+}
+
 void Evan::Init()
 {
-    //SetPos({ 50, 720 / 2.f });
     animator.SetTarget(&sprite);
 
     animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Idle"));
@@ -84,24 +94,20 @@ void Evan::Init()
 		animator.AddEvent(ev);
 	}
 
-    SetState(States::Idle);
+    SetState(AnimStates::Idle);
 	Character::Init();
 }
 
-void Evan::SetState(States newState)
+void Evan::SetState(AnimStates newState)
 {
-	if (currState == newState)
-	{
-		return;
-	}
+	Character::SetState(newState);
 
-	currState = newState;
 	switch (currState)
 	{
-	case Evan::States::Idle:
+	case AnimStates::Idle:
 		animator.Play("Idle");
 		break;
-	case Evan::States::MoveToIdle:
+	case AnimStates::MoveToIdle:
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "RightIdle" : "LeftIdle");
@@ -111,7 +117,7 @@ void Evan::SetState(States newState)
 			animator.Play((lastDirection.y > 0.f) ? "DownIdle" : "UpIdle");
 		}
 		break;
-	case Evan::States::Move:
+	case AnimStates::Move:
 		if (direction.y)
 		{
 			animator.Play((direction.y > 0.f) ? "DownMove" : "UpMove");
@@ -121,7 +127,7 @@ void Evan::SetState(States newState)
 			animator.Play((direction.x > 0.f) ? "RightMove" : "LeftMove");
 		}
 		break;
-	case Evan::States::Attack:
+	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "RightAttack" : "LeftAttack");
@@ -131,7 +137,7 @@ void Evan::SetState(States newState)
 			animator.Play((lastDirection.y > 0.f) ? "DownAttack" : "UpAttack");
 		}
 		break;
-	case Evan::States::Skill:
+	case AnimStates::Skill:
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "RightSkill" : "LeftSkill");
@@ -146,18 +152,18 @@ void Evan::SetState(States newState)
 
 void Evan::UpdateInput()
 {
-	if (InputMgr::GetKeyDown(Keyboard::Z))
-	{
-		SetState(States::Attack);
-	}
-	if (InputMgr::GetKeyDown(Keyboard::X))
-	{
-		SetState(States::Skill);
-	}
-	if (InputMgr::GetKeyDown(Keyboard::C))
-	{
-		SetState(States::Move);
-	}
+	//if (InputMgr::GetKeyDown(Keyboard::Z))
+	//{
+	//	SetState(AnimStates::Attack);
+	//}
+	//if (InputMgr::GetKeyDown(Keyboard::X))
+	//{
+	//	SetState(AnimStates::Skill);
+	//}
+	//if (InputMgr::GetKeyDown(Keyboard::C))
+	//{
+	//	SetState(AnimStates::Move);
+	//}
 }
 
 void Evan::Update(float dt)
@@ -176,19 +182,19 @@ void Evan::Update(float dt)
 	
 	switch (currState)
 	{
-	case Evan::States::Idle:
+	case AnimStates::Idle:
 		UpdateIdle(dt);
 		break;
-	case Evan::States::MoveToIdle:
+	case AnimStates::MoveToIdle:
 		UpdateMoveToIdle(dt);
 		break;
-	case Evan::States::Move:
+	case AnimStates::Move:
 		UpdateMove(dt);
 		break;
-	case Evan::States::Attack:
+	case AnimStates::Attack:
 		UpdateAttack(dt);
 		break;
-	case Evan::States::Skill:
+	case AnimStates::Skill:
 		UpdateSkill(dt);
 		break;
 	}
@@ -197,6 +203,10 @@ void Evan::Update(float dt)
 	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
 	{
 		lastDirection = direction;
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Right))
+	{
+
 	}
 }
 
@@ -212,19 +222,19 @@ void Evan::SetPos(const Vector2f& pos)
 
 void Evan::OnCompleteAttack()
 {
-	SetState(States::MoveToIdle);
+	SetState(AnimStates::MoveToIdle);
 }
 
 void Evan::OnCompleteSkill()
 {
-	SetState(States::MoveToIdle);
+	SetState(AnimStates::MoveToIdle);
 }
 
 void Evan::UpdateIdle(float dt)
 {
 	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::Move);
+		SetState(AnimStates::Move);
 		return;
 	}
 }
@@ -233,7 +243,7 @@ void Evan::UpdateMoveToIdle(float dt)
 {
 	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::Move);
+		SetState(AnimStates::Move);
 		return;
 	}
 }
@@ -242,7 +252,7 @@ void Evan::UpdateMove(float dt)
 {
 	if (EqualFloat(direction.x, 0.f) && EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::MoveToIdle);
+		SetState(AnimStates::MoveToIdle);
 		return;
 	}
 	if (!EqualFloat(direction.x, lastDirection.x))
@@ -259,7 +269,7 @@ void Evan::UpdateAttack(float dt)
 {
 	if (!EqualFloat(direction.x, 0.f) && !EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::Idle);
+		SetState(AnimStates::Idle);
 	}
 }
 
@@ -267,7 +277,7 @@ void Evan::UpdateSkill(float dt)
 {
 	if (!EqualFloat(direction.x, 0.f) && !EqualFloat(direction.y, 0.f))
 	{
-		SetState(States::Idle);
+		SetState(AnimStates::Idle);
 	}
 }
 

@@ -10,24 +10,31 @@
 
 class BattleSceneUI;
 class Button;
+class Character;
 
 class BattleScene : public Scene
 {
 protected:
 	BattleSceneUI* ui;
 
+	Dir currMoveDir;
 	Evan* evan;
 	Goblin00* goblin00;
 	Dummy* dummy;
 	VertexArrayObj* background;
 	vector<vector<RectangleObj*>*> overlay;
 	vector<vector<TilePlay*>> testTile;
+	TilePlay* tilePlay;
 	Vector2f nowTile;
+	Vector2f nextTile;
 
 	Vector2f screenCenterPos;
+	Vector2u screenSize;
 	bool b_centerPos;
 	float gameScreenBottomLimit;
 	float gameScreenTopLimit;
+
+	vector<Character*> prepare;
 
 public:
 	BattleScene();
@@ -46,9 +53,8 @@ public:
 
 	void CreateTestTile(int cols, int rows, float width, float height);
 
-	void MoveDownTile();
-	void MoveUpTile();
-	void MoveLeftTile();
-	void MoveRightTile();
+	void MoveTile(Dir currMoveDir);
+	void ZoomIn();
+	void ZoomOut();
 	void AIMove();
 };
