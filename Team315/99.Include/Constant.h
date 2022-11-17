@@ -16,6 +16,8 @@
 #define GAME_TILE_WIDTH 7
 #define GAME_TILE_HEIGHT 14
 
+const int BackGroundTileWidth = 10;
+const int BackGroundTileHeight = 15;
 
 #define Type1_Tile_Count 25
 #define Type1_Obstacle_Count 3

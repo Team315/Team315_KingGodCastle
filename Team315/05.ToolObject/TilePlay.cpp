@@ -47,6 +47,8 @@ void TilePlay::SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes Ti
 
 	m_TileData.arrIndex = index;
 	m_TileData.TileTypes = (int)TileTypes;
+	m_TileData.ThemeTypes = 0;
+	m_TileData.pathIndex = -1;
 
 	if (count % 2 == 0)
 	{
@@ -91,10 +93,11 @@ void TilePlay::SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes Ti
 
 void TilePlay::SetObstacle(ThemeTypes themeTypes, int obstacleIndex)
 {
-	m_TileData.ThemeTypes;
+	m_TileData.ThemeTypes= (int)themeTypes;
 	m_TileData.TileTypes = (int)TileTypes::Obatacle;
-
+	m_TileData.pathIndex = obstacleIndex;
 	m_TileTypes = TileTypes::Obatacle;
+
 	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetObstaclePath(themeTypes, obstacleIndex)), true);
 	m_Obj.setPosition(GetPos());
 	CLOG::PrintVectorState(GetPos(), "방금 놓은 장애물 포스");
@@ -114,9 +117,9 @@ string TilePlay::SetObstaclePath(ThemeTypes types, int num)
 
 void TilePlay::SetMonster(ThemeTypes themeTypes, int monsterIndex)
 {
-	m_TileData.ThemeTypes;
+	m_TileData.ThemeTypes=(int)themeTypes;
 	m_TileData.TileTypes = (int)TileTypes::Monster;
-
+	m_TileData.pathIndex = monsterIndex;
 	m_TileTypes = TileTypes::Monster;
 
 	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetMonsterPath(themeTypes, monsterIndex)), true);
@@ -152,6 +155,25 @@ void TilePlay::SetEraser()
 	m_TileData.TileTypes = (int)TileTypes::None;
 
 	m_TileTypes = TileTypes::None;
+}
+
+void TilePlay::SetTileData(ns::TileData TileData)
+{
+	if (TileData.TileTypes != 3)
+	SetEraser();
+
+	if (TileData.TileTypes == 1)
+	{
+		SetObstacle((ThemeTypes)TileData.ThemeTypes, TileData.pathIndex);
+	}
+	else if (TileData.TileTypes == 2)
+	{
+		
+		SetMonster((ThemeTypes)TileData.ThemeTypes, TileData.pathIndex);
+		
+	}
+
+	//TileData;
 }
 
 TileInfo TilePlay::GetTileInfo()

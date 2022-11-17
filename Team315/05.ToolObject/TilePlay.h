@@ -39,6 +39,9 @@ public:
 	string SetMonsterPath(ThemeTypes types, int num);
 	void SetEraser();
 
+	void SetTileData(ns::TileData TileData);
+
+
 	TileInfo GetTileInfo();
 	TileData GetTileData();
 
