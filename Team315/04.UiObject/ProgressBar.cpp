@@ -19,7 +19,7 @@ void ProgressBar::Update(float dt)
 
 void ProgressBar::Draw(RenderWindow& window)
 {
-	Object::Draw(window);
+ 	Object::Draw(window);
 	window.draw(shape);
 	window.draw(progress);
 }

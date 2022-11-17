@@ -1,7 +1,7 @@
 #include "Goblin00.h"
 
 Goblin00::Goblin00()
-	: speed(100.f), isPlaying2(false)
+	: isPlaying2(false)
 {
 	SetType("Monster");
 	SetName("Goblin00");
@@ -146,7 +146,7 @@ void Goblin00::Update(float dt)
 	}
 	animator.Update(dt);
 
-	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
 		lastDirection = direction;
 	}
@@ -170,7 +170,7 @@ void Goblin00::OnCompleteAttack()
 
 void Goblin00::UpdateIdle(float dt)
 {
-	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::Move);
 		return;
@@ -179,7 +179,7 @@ void Goblin00::UpdateIdle(float dt)
 
 void Goblin00::UpdateMoveToIdle(float dt)
 {
-	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::Move);
 		return;
@@ -193,16 +193,16 @@ void Goblin00::UpdateMove(float dt)
 		SetState(AnimStates::MoveToIdle);
 		return;
 	}
-	if (EqualFloat(direction.x, 0.f) && EqualFloat(direction.y, 0.f))
+	if (Utils::EqualFloat(direction.x, 0.f) && Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::MoveToIdle);
 		return;
 	}
-	if (!EqualFloat(direction.y, lastDirection.y))
+	if (!Utils::EqualFloat(direction.y, lastDirection.y))
 	{
 		animator.Play((direction.y > 0.f) ? "goblin00_DownMove" : "goblin00_UpMove");
 	}
-	if (!EqualFloat(direction.x, lastDirection.x))
+	if (!Utils::EqualFloat(direction.x, lastDirection.x))
 	{
 		animator.Play((direction.x > 0.f) ? "goblin00_RightMove" : "goblin00_LeftMove");
 	}
@@ -210,14 +210,8 @@ void Goblin00::UpdateMove(float dt)
 
 void Goblin00::UpdateAttack(float dt)
 {
-	if (!EqualFloat(direction.x, 0.f) && !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::MoveToIdle);
 	}
 }
-
-bool Goblin00::EqualFloat(float a, float b)
-{
-	return fabs(a - b) < numeric_limits<float>::epsilon();
-}
-

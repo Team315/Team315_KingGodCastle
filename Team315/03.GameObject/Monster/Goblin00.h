@@ -8,8 +8,6 @@ class Goblin00 : public Character
 protected:
 	Animator animator;
 
-	float speed;
-
 	bool isPlaying2;
 public:
 	Goblin00();
@@ -28,7 +26,4 @@ public:
 	void UpdateMoveToIdle(float dt);
 	void UpdateMove(float dt);
 	void UpdateAttack(float dt);
-
-	bool EqualFloat(float a, float b);
 };
-

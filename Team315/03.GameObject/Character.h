@@ -10,6 +10,7 @@ protected:
 
 	ProgressBar* hpBar;
 	Vector2f hpBarLocalPos;
+
 	Vector2f destination;
 	bool move;
 	bool attack;
@@ -29,8 +30,6 @@ protected:
 	Vector2f lastDirection;
 
 	bool drawInBattle;
-	// dev
-	bool prepareUpdate;
 
 public:
 	Character();
@@ -49,10 +48,6 @@ public:
 	void SetMove(bool b) { move = b; }
 	void SetDestination(Vector2f dest) { destination = dest; }
 
-
 	void SetDrawInBattle(bool b) { drawInBattle = b; }
 	bool GetDrawInBattle() { return drawInBattle; }
-	// dev
-	void SetCanUpdate(bool b) { prepareUpdate = b; }
-	bool GetCanUpdate() { return prepareUpdate; }
 };

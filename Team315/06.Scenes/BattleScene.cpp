@@ -6,9 +6,6 @@
 #include "Constant.h"
 #include "GameManager.h"
 
-bool InPrepareGrid(Vector2i pos);
-bool InBattleGrid(Vector2i pos);
-
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), drag(nullptr)
 {
@@ -69,8 +66,9 @@ void BattleScene::Init()
 
 	//goblin00->SetTarget(evan);
 	//evan->SetTarget(goblin00);
-	goblin00->SetTarget(dummy);
-	dummy->SetTarget(goblin00);
+	/*goblin00->SetTarget(dummy);
+	dummy->SetTarget(goblin00);*/
+
 	objList.push_back(ui);
 	Scene::Init();
 }
@@ -110,69 +108,49 @@ void BattleScene::Exit()
 void BattleScene::Update(float dt)
 {
 	// Dev Input start
-	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 	{
-		CLOG::Print3String("setting window");
-		SCENE_MGR->ChangeScene(Scenes::Loby);
-		return;
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::Num0))
-	{
-		CLOG::Print3String("overlay switch");
-		BattleGrid = !BattleGrid;
+		if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
+		{
+			CLOG::Print3String("setting window");
+			SCENE_MGR->ChangeScene(Scenes::Loby);
+			return;
+		}
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num0))
+		{
+			CLOG::Print3String("overlay switch");
+			b_battleGrid = !b_battleGrid;
 
-		for (auto& tiles : battleGrid)
-		{
-			for (auto& tile : *tiles)
-				tile->SetActive(BattleGrid);
+			for (auto& tiles : battleGrid)
+			{
+				for (auto& tile : *tiles)
+					tile->SetActive(b_battleGrid);
+			}
 		}
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::F7))
-	{
-		CLOG::Print3String("battle devmode on");
-		FRAMEWORK->devMode = true;
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::F8))
-	{
-		CLOG::Print3String("battle devmode off");
-		FRAMEWORK->devMode = false;
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Down))
-	{
-		MoveTile(Dir::Down);
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Up))
-	{
-		MoveTile(Dir::Up);
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Left))
-	{
-		MoveTile(Dir::Left);
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Right))
-	{
-		MoveTile(Dir::Right);
-	}
-	if (InputMgr::GetKeyDown(Keyboard::F6))
-	{
-		CLOG::Print3String("print prepare vector");
-		CLOG::Print3String("prepare vector");
-		int idx = 0;
-		vector<int>& prepare = GAME_MGR->GetPrepare();
-		for (auto& cell : prepare)
+		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 		{
-			cout << cell;
-			idx++;
-			if (idx % 7 == 0)
-				cout << endl;
+			CLOG::Print3String("battle devmode on");
+			FRAMEWORK->devMode = true;
 		}
-		queue<int>& waitQueue = GAME_MGR->GetWaitQueue();
-		int size = waitQueue.size();
-		CLOG::Print3String("wait queue");
-		for (int i = 0; i < size; i++)
+		if (InputMgr::GetKeyDown(Keyboard::Key::F8))
 		{
-			cout << waitQueue.front();
-			waitQueue.pop();
+			CLOG::Print3String("battle devmode off");
+			FRAMEWORK->devMode = false;
+		}
+		if (InputMgr::GetKeyDown(Keyboard::Down))
+		{
+			MoveTile(Dir::Down);
+		}
+		if (InputMgr::GetKeyDown(Keyboard::Up))
+		{
+			MoveTile(Dir::Up);
+		}
+		if (InputMgr::GetKeyDown(Keyboard::Left))
+		{
+			MoveTile(Dir::Left);
+		}
+		if (InputMgr::GetKeyDown(Keyboard::Right))
+		{
+			MoveTile(Dir::Right);
 		}
 	}
 	// Dev Input end
@@ -191,6 +169,11 @@ void BattleScene::Update(float dt)
 					CLOG::Print3String("stage start");
 					b_centerPos = true;
 					ZoomIn();
+					for (auto& character : prepare)
+					{
+						if (character != nullptr)
+							character->SetDrawInBattle(true);
+					}
 					break;
 				}
 				if (!button->GetName().compare("summon"))
@@ -205,7 +188,12 @@ void BattleScene::Update(float dt)
 					GAME_MGR->AddPrepare(idx);
 					CLOG::PrintVectorState(ui->GetPrepareGridPos(0));*/
 
-					int idx = GAME_MGR->GetPrepareIdx();
+					int idx = GetZeroElem(prepare);
+					if (idx == -1)
+					{
+						CLOG::Print3String("can not");
+						return;
+					}
 					int ran = Utils::RandomRange(0, 2);
 					Character* test;
 					if (ran == 0)
@@ -213,7 +201,6 @@ void BattleScene::Update(float dt)
 					else
 						test = new Goblin00();
 					test->SetPos(ui->GetPrepareGridPos(idx));
-					GAME_MGR->AddPrepare(1);
 					test->SetHitbox(FloatRect(0, 0, TILE_SIZE, TILE_SIZE), Origins::BC);
 					test->Init();
 					test->SetDrawInBattle(false);
@@ -224,6 +211,7 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	// wheel control
 	float wheel = InputMgr::GetMouseWheel();
 	if (wheel != 0)
 	{
@@ -250,6 +238,7 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	// prepare grid
 	for (auto& character : prepare)
 	{
 		if (character == nullptr)
@@ -269,6 +258,7 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	// mouse drag control
 	if (drag != nullptr && InputMgr::GetMouse(Mouse::Left))
 	{
 		drag->SetPos(ScreenToWorldPos(InputMgr::GetMousePosI()) + Vector2f(0, TILE_SIZE_HALF));
@@ -382,4 +372,14 @@ bool InPrepareGrid(Vector2i pos)
 bool InBattleGrid(Vector2i pos)
 {
 	return (pos.x >= 0 && pos.x < 7) && (pos.y >= 10 && pos.y < 14); // x(0, 6) y(10, 13)
+}
+
+int GetZeroElem(vector<Character*> vec)
+{
+	for (int idx = 0; idx < PREPARE_SIZE; idx++)
+	{
+		if (vec[idx] == nullptr)
+			return idx;
+	}
+	return -1; // fail
 }

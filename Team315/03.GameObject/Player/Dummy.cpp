@@ -130,7 +130,7 @@ void Dummy::Update(float dt)
 	}
 	animator.Update(dt);
 
-	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
 		lastDirection = direction;
 	}
@@ -210,7 +210,7 @@ void Dummy::OnCompleteSkill()
 
 void Dummy::UpdateIdle(float dt)
 {
-	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::Move);
 		return;
@@ -219,7 +219,7 @@ void Dummy::UpdateIdle(float dt)
 
 void Dummy::UpdateMoveToIdle(float dt)
 {
-	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::Move);
 		return;
@@ -228,16 +228,16 @@ void Dummy::UpdateMoveToIdle(float dt)
 
 void Dummy::UpdateMove(float dt)
 {
-	if (EqualFloat(direction.x, 0.f) && EqualFloat(direction.y, 0.f))
+	if (Utils::EqualFloat(direction.x, 0.f) && Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::MoveToIdle);
 		return;
 	}
-	if (!EqualFloat(direction.x, lastDirection.x))
+	if (!Utils::EqualFloat(direction.x, lastDirection.x))
 	{
 		animator.Play((direction.x > 0.f) ? "RightMove" : "LeftMove");
 	}
-	if (!EqualFloat(direction.y, lastDirection.y))
+	if (!Utils::EqualFloat(direction.y, lastDirection.y))
 	{
 		animator.Play((direction.y > 0.f) ? "DownMove" : "UpMove");
 	}
@@ -245,14 +245,8 @@ void Dummy::UpdateMove(float dt)
 
 void Dummy::UpdateAttack(float dt)
 {
-	if (!EqualFloat(direction.x, 0.f) && !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::MoveToIdle);
 	}
 }
-
-bool Dummy::EqualFloat(float a, float b)
-{
-	return fabs(a - b) < numeric_limits<float>::epsilon();
-}
-

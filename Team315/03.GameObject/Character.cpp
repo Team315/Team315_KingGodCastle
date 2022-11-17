@@ -3,7 +3,7 @@
 
 Character::Character()
 	: destination(0, 0), move(false), attack(false),
-	currState(AnimStates::None), prepareUpdate(true), drawInBattle(false)
+	currState(AnimStates::None), drawInBattle(false)
 {
 	hpBar = new ProgressBar();
 	hpBarLocalPos = { -10.f, -30.f };
@@ -20,16 +20,13 @@ Character::~Character()
 
 void Character::Init()
 {
+	hpBar->SetHitbox(FloatRect(0, 0, 20, 5), Origins::LT);
+	hpBar->Init();
 	Object::Init();
 }
 
 void Character::Update(float dt)
 {
-	if (!prepareUpdate)
-	{
-		return;
-	}
-
 	hpBar->Update(dt);
 	if (move)
 	{
@@ -46,6 +43,7 @@ void Character::Update(float dt)
 
 void Character::Draw(RenderWindow& window)
 {
+	//if (drawInBattle)
 	hpBar->Draw(window);
 	SpriteObj::Draw(window);
 }
@@ -53,8 +51,7 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	if (drawInBattle)
-		hpBar->SetPos(pos + hpBarLocalPos);
+	hpBar->SetPos(pos + hpBarLocalPos);
 }
 
 void Character::SetState(AnimStates newState)

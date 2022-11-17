@@ -10,8 +10,6 @@ class Evan : public Character
 protected:
 	Animator animator;
 
-	float speed;
-
 	bool isPlaying2;
 public:
 	Evan();
@@ -34,7 +32,4 @@ public:
 	void UpdateMove(float dt);
 	void UpdateAttack(float dt);
 	void UpdateSkill(float dt);
-
-	bool EqualFloat(float a, float b);
 };
-

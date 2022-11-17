@@ -34,7 +34,7 @@ protected:
 	float gameScreenTopLimit;
 
 	vector<vector<RectangleObj*>*> battleGrid;
-	bool BattleGrid;
+	bool b_battleGrid;
 	vector<Character*> prepare;
 	Character* drag;
 	Vector2f beforeDragPos;
@@ -61,3 +61,7 @@ public:
 	void ZoomOut();
 	void AIMove();
 };
+
+bool InPrepareGrid(Vector2i pos);
+bool InBattleGrid(Vector2i pos);
+int GetZeroElem(vector<Character*> vec);
