@@ -157,11 +157,10 @@ void TilePlay::SetEraser()
 	m_TileTypes = TileTypes::None;
 }
 
-<<<<<<< HEAD
 void TilePlay::SetTileData(ns::TileData TileData)
 {
 	if (TileData.TileTypes != 3)
-	SetEraser();
+		SetEraser();
 
 	if (TileData.TileTypes == 1)
 	{
@@ -169,13 +168,12 @@ void TilePlay::SetTileData(ns::TileData TileData)
 	}
 	else if (TileData.TileTypes == 2)
 	{
-		
-		SetMonster((ThemeTypes)TileData.ThemeTypes, TileData.pathIndex);
-		
-	}
 
-	//TileData;
-=======
+		SetMonster((ThemeTypes)TileData.ThemeTypes, TileData.pathIndex);
+
+	}
+}
+
 void TilePlay::SetOnTileObj(Object* onTileObj)
 {
 	this->onTileObj = onTileObj;
@@ -184,7 +182,6 @@ void TilePlay::SetOnTileObj(Object* onTileObj)
 Object* TilePlay::GetOnTileObj()
 {
 	return onTileObj;
->>>>>>> ad0b43d5f2a7898fa2d096c6f056fad87608f69c
 }
 
 TileInfo TilePlay::GetTileInfo()
