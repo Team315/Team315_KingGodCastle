@@ -139,18 +139,20 @@ void FileManager::SaveDataMapInfo(TileData tileData, int chapter, int stage, int
 
 }
 
-void FileManager::Save(ToolScene& toolScene)
+void FileManager::SaveTileData(ToolScene& toolScene)
 {
- 	json data = toolScene.GetData();
-	ofstream ofs("test.json");
+ 	json data = toolScene.GetTilesData();
+	ofstream ofs("json/tiledata.json");
 	ofs << data;
 	ofs.close();
 }
 
-void FileManager::Load(ToolScene& toolScene)
+void FileManager::LoadTileData(ToolScene& toolScene)
 {
-	ifstream ep1_f("test.json");
+	ifstream ep1_f("json/tiledata.json");
 	json ep1_d = json::parse(ep1_f);
 	Chapters chapters = ep1_d;
 	ep1_f.close();
+
+	toolScene.SetTilesData(chapters);
 }

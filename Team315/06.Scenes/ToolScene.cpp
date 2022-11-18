@@ -253,37 +253,22 @@ void ToolScene::Update(float dt)
 		}
 	}
 
+	if (InputMgr::GetKeyDown(Keyboard::Key::F3))
+	{
+		FileManager* file = new FileManager();
+
+		file->SaveTileData(*this);
+
+		delete file;
+	}
+
 	if (InputMgr::GetKeyDown(Keyboard::Key::F4))
 	{
 		FileManager* file = new FileManager();
 
-		file->Save(*this);
-
-		file->Load(*this);
+		file->LoadTileData(*this);
 
 		delete file;
-
-
-
-		/*
-		FileManager* file = new FileManager();
-
-		for (int i = 0; i < 3; i++)
-		{
-			for (int j = 0; j < 10; j++)
-			{
-				for (int k = 0; k < GAME_TILE_HEIGHT; ++k)
-				{
-					for (int l = 0; l < GAME_TILE_WIDTH; ++l)
-					{
-						file->SaveDataMapInfo(ToolChapterLIst[m_nowChapter - 1]->
-							GetToolStage(m_nowStage - 1)->
-							GetTileTool(i, j)->GetTileData(), i, j, k, l);
-					}
-				}
-			}
-		}
-		*/
 	}
 
 	Scene::Update(dt);
@@ -592,7 +577,7 @@ void ToolScene::SetClickMode(ClickMode clickMode)
 	}
 }
 
-Chapters ToolScene::GetData()
+Chapters ToolScene::GetTilesData()
 {
 	Chapters data;
 	for (int i = 0; i < ToolChapterLIst.size(); ++i)
@@ -617,7 +602,22 @@ Chapters ToolScene::GetData()
 	return data;
 }
 
-void ToolScene::SetData(Chapters& data)
+void ToolScene::SetTilesData(Chapters& data)
 {
+	for (int i = 0; i < data.data.size(); ++i)
+	{
+		for (int j = 0; j < data.data[i].size(); ++j)
+		{
+			for (int k = 0; k < data.data[i][j].size(); ++k)
+			{
+				for (int l = 0; l < data.data[i][j][k].size(); ++l)
+				{
+					ToolChapterLIst[i]->
+						GetToolStage()[j]->
+						GetTileTool()[k][l]->SetTileData(data.data[i][j][k][l]);
+				}
+			}
+		}
+	}
 
 }

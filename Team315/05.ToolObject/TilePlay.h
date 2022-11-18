@@ -40,8 +40,12 @@ public:
 	string SetMonsterPath(ThemeTypes types, int num);
 	void SetEraser();
 
+	void SetTileData(ns::TileData TileData);
+
+
 	void SetOnTileObj(Object* onTileObj);
 	Object* GetOnTileObj();
+
 
 	TileInfo GetTileInfo();
 	TileData GetTileData();

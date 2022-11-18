@@ -29,8 +29,8 @@ public:
 
 	void SaveDataMapInfo(TileData tileData, int chapter, int stage, int cols, int raws);
 
-	void Save(ToolScene& scene);
-	void Load(ToolScene& scene);
+	void SaveTileData(ToolScene& scene);
+	void LoadTileData(ToolScene& scene);
 
 };
 

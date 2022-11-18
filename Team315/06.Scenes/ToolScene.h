@@ -64,7 +64,7 @@ public:
 
 	void SetClickMode(ClickMode clickMode);
 
-	Chapters GetData();
-	void SetData(Chapters& data);
+	Chapters GetTilesData();
+	void SetTilesData(Chapters& data);
 
 };
