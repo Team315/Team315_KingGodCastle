@@ -24,5 +24,6 @@ public:
 	void SetBackgroundOutline(Color color, float thickness);
 	void SetProgressColor(Color color);
 	void SetProgressValue(float value);
+	const float GetProgressValue() { return progressValue; }
 	void TranslateProgress(float value);
 };

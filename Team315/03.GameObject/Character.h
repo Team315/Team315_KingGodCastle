@@ -55,4 +55,8 @@ public:
 
 	void SetDrawInBattle(bool b) { drawInBattle = b; }
 	bool GetDrawInBattle() { return drawInBattle; }
+
+	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
+	Star* GetStar() { return star; }
+	void SetStarNumber(int num);
 };

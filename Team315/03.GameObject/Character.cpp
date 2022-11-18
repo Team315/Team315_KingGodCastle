@@ -72,3 +72,9 @@ void Character::SetTarget(Character* target)
 {
 	this->target = target;
 }
+
+void Character::SetStarNumber(int num)
+{
+	star->SetStarNumber(num);
+	star->UpdateTexture();
+}
