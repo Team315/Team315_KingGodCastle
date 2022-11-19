@@ -74,10 +74,14 @@ void ns::from_json(const json& j, ConvexInfo& c)
 
 void ns::to_json(json& j, const TileData& b)
 {
-    j = json{ {"arrIndex", b.arrIndex},
-        {"TileTypes", b.TileTypes},
-        {"ThemeTypes", b.ThemeTypes},
-        {"pathIndex", b.pathIndex} };
+	j = json
+	{
+		{"arrIndex", b.arrIndex},
+		{"TileTypes", b.TileTypes},
+		{"ThemeTypes", b.ThemeTypes},
+		{"pathIndex", b.pathIndex},
+	    {"grade", b.grade}
+	};
 }
 
 void ns::from_json(const json& j, TileData& b)
@@ -86,4 +90,5 @@ void ns::from_json(const json& j, TileData& b)
     j.at("TileTypes").get_to(b.TileTypes);
     j.at("ThemeTypes").get_to(b.ThemeTypes);
     j.at("pathIndex").get_to(b.pathIndex);
+    j.at("grade").get_to(b.grade);
 }

@@ -1,13 +1,17 @@
 #pragma once
 #include "SpriteObj.h"
 #include "Include.h"
+#include "Star.h"
 class SelectMonster :public SpriteObj
 {
 protected:
+	Star m_star;
+
 	Sprite m_monster;
 	RectangleShape m_Edge;
 
 	MonsterTypes m_monsterTypes;
+	int m_MonsterGrade;
 
 	int m_index;
 	bool isEdge;
@@ -22,7 +26,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	void SetSelectMonster(Vector2f pos, ThemeTypes types, int index);
+	void SetSelectMonster(Vector2f pos, ThemeTypes types, int index, int grade);
 	string SetPath(ThemeTypes types, int num);
 
 	int GetIndex();

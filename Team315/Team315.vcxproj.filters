@@ -94,6 +94,8 @@
     <ClInclude Include="96.Json\FileData.h" />
     <ClInclude Include="96.Json\FileManager.h" />
     <ClInclude Include="05.ToolObject\TileBackground.h" />
+    <ClInclude Include="05.ToolObject\Star.h" />
+    <ClInclude Include="03.GameObject\Map\Tile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="97.DataTable\DataTable.cpp">
@@ -175,6 +177,8 @@
     <ClCompile Include="96.Json\FileData.cpp" />
     <ClCompile Include="96.Json\FileManager.cpp" />
     <ClCompile Include="05.ToolObject\TileBackground.cpp" />
+    <ClCompile Include="05.ToolObject\Star.cpp" />
+    <ClCompile Include="03.GameObject\Map\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DataTable">

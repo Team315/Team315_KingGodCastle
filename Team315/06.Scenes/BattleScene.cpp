@@ -5,6 +5,7 @@
 #include "Button.h"
 #include "Constant.h"
 #include "GameManager.h"
+#include "Map/Tile.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle)
@@ -265,6 +266,14 @@ void BattleScene::Update(float dt)
 
 void BattleScene::Draw(RenderWindow& window)
 {
+	for (int i = 0; i < 14; ++i)
+	{
+		for (int j = 0; j < 7; ++j)
+		{
+			GAME_MGR->GetTiles(0, 0, i, j)->Draw(window);
+		}
+	}
+
 	for (auto& character : prepare)
 	{
 		if (character != nullptr)
@@ -284,10 +293,10 @@ void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 		for (int j = 0; j < rows; ++j)
 		{
 			tilePlay = new TilePlay();
-			tilePlay->SetTilePlay({ cols, rows },
-				{ ((width / 2) + (width * 1.5f)) + (j * width),
-				height + (i * height) },
-				count++);
+			tilePlay->SetTilePlay(
+				{ cols, rows },
+				{ ((width / 2) + (width * 1.5f)) + (j * width),	height + (i * height) },
+				count++,TileTypes::None,0);
 			objList.push_back(tilePlay);
 			testTile[i][j] = tilePlay;
 		}

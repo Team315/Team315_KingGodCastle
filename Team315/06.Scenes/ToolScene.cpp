@@ -20,8 +20,6 @@ ToolScene::ToolScene()
 {
 	SetClickMode(m_clickMode);
 	CLOG::Print3String("tool create");
-
-	//FileManager* file = new FileManager();
 }
 
 ToolScene::~ToolScene()
@@ -33,8 +31,6 @@ void ToolScene::Init()
 {
 	CLOG::Print3String("tool Init");
 
-	//CreateTileSet(Tile_WIDTH, Tile_HEIGHT, Tile_SizeX, Tile_SizeY);
-	//CreateTilePlay(ChapterMaxCount, StageMaxCount, BATTLE_TILE_COLS, BATTLE_TILE_ROWS, Tile_SizeX, Tile_SizeY);
 	CreateUiName();
 	CreateChapterNum(ChapterMaxCount);
 	CreateStageNum(StageMaxCount);
@@ -193,32 +189,6 @@ void ToolScene::Update(float dt)
 		}
 	}
 
-	/*for (int i = 0; i < BATTLE_TILE_COLS - 4; ++i)
-	{
-		for (int j = 0; j < BATTLE_TILE_ROWS; ++j)
-		{
-			if (m_TilePlayList[i][j]->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 1))
-			{
-				if (InputMgr::GetMouseUp(Mouse::Left))
-				{
-					if (m_clickMode == ClickMode::Monster)
-					{
-						m_TilePlayList[i][j]->SetMonster((ThemeTypes)m_nowTheme, m_monster);
-					}
-					else if (m_clickMode == ClickMode::Obstacle)
-					{
-						m_TilePlayList[i][j]->SetObstacle((ThemeTypes)m_nowTheme, m_nowObstacle);
-					}
-				}
-				else if (InputMgr::GetMouseUp(Mouse::Right))
-				{
-					m_TilePlayList[i][j]->SetEraser();
-				}
-			}
-		}
-	}*/
-
-
 	for (int i = 0; i < GAME_TILE_HEIGHT - 4; ++i)
 	{
 		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
@@ -234,7 +204,7 @@ void ToolScene::Update(float dt)
 					{
 						ToolChapterLIst[m_nowChapter - 1]->
 							GetToolStage()[m_nowStage - 1]->
-							GetTileTool()[i][j]->SetMonster((ThemeTypes)m_nowTheme, m_monster);
+							GetTileTool()[i][j]->SetMonster((ThemeTypes)m_nowTheme, m_monster, m_nowStar);
 					}
 					else if (m_clickMode == ClickMode::Obstacle)
 					{
@@ -251,6 +221,13 @@ void ToolScene::Update(float dt)
 				}
 			}
 		}
+	}
+
+	if (InputMgr::GetKeyDown(Keyboard::Key::F6))
+	{
+		Chapters cha = GAME_MGR->GetPlayTiles();
+
+		int a=0;
 	}
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::F3))
@@ -276,14 +253,6 @@ void ToolScene::Update(float dt)
 
 void ToolScene::Draw(RenderWindow& window)
 {
-	/*for (int i = 0; i < 14; ++i)
-	{
-		for (int j = 0; j < 7; ++j)
-		{
-			m_TilePlayList[i][j]->Draw(window);
-		}
-	}*/
-
 	for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
 	{
 		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
@@ -297,89 +266,34 @@ void ToolScene::Draw(RenderWindow& window)
 	Scene::Draw(window);
 }
 
-void ToolScene::CreateTileSet(int cols, int rows, float quadWidth, float quadHeight)
-{
-	//if (m_TileSet == nullptr)
-	//{
-	//	m_TileSet = new TileSet();
-	//	m_TileSet->SetTexture(GetTexture("graphics/TileSet/Field_01.png"));
-	//	tileSetList.push_back(m_TileSet);
-	//	objList.push_back(m_TileSet);
-	//	m_TileSet->Init();
-	//}
-
-	//Vector2f startPos = { WINDOW_WIDTH - (cols * quadWidth), 0.f };
-
-	//VertexArray& va = m_TileSet->GetVA();
-	//va.clear();
-	//va.setPrimitiveType(Quads);
-	//va.resize(cols * rows * 4);
-	//Vector2f currPos = startPos;
-
-	//Vector2f offsets[4] = {
-	//	{ 0, 0 },
-	//	{ quadWidth, 0 },
-	//	{ quadWidth, quadHeight },
-	//	{ 0, quadHeight },
-	//};
-
-	//for (int i = 0; i < rows; ++i)
-	//{
-	//	for (int j = 0; j < cols; ++j)
-	//	{
-	//		/*int texIndex = Utils::RandomRange(0, 3);
-	//		if ((i == 0 || i == rows - 1) || (j == 0 || j == cols - 1))
-	//		{
-	//			texIndex = 3;
-	//		}*/
-
-	//		int quadIndex = i * cols + j;
-
-	//		for (int k = 0; k < 4; ++k)
-	//		{
-	//			int vertexIndex = quadIndex * 4 + k;
-	//			va[vertexIndex].position = currPos + offsets[k];
-	//			va[vertexIndex].texCoords = offsets[k];
-	//			va[vertexIndex].texCoords.y += quadHeight /** texIndex*/;
-
-	//		}
-	//		currPos.x += Tile_SizeX;
-	//	}
-	//	currPos.x = startPos.x;
-	//	currPos.y += Tile_SizeY;
-	//}
-}
-
-void ToolScene::CreateTilePlay(int maxChapter, int maxStage, int cols, int rows, float quadWidth, float quadHeight)
-{
-	//m_TilePlayList->assign(cols, vector<TilePlay*>(rows));
-	m_TilePlayList.assign(cols, vector<TilePlay*>(rows));
-
-	int count = 0;
-	//m_TilePlayList.resize(cols);
-	for (int i = 0; i < cols; ++i)
-	{
-		TileTypes tileTypes;
-		if (i >= 10)
-		{
-			tileTypes = TileTypes::PlayerArea;
-		}
-		else
-		{
-			tileTypes = TileTypes::None;
-		}
-
-		for (int j = 0; j < rows; ++j)
-		{
-			TilePlay* tilePlay = new TilePlay();
-			tilePlay->SetTilePlay({ cols, rows }, { (WINDOW_WIDTH - (quadWidth * 8)) + (j * quadWidth), quadHeight + (i * quadHeight) }, count++, tileTypes);
-
-			objList.push_back(tilePlay);
-			m_TilePlayList[i][j] = tilePlay;
-			//cout << i << " " << j << endl;
-		}
-	}
-}
+//void ToolScene::CreateTilePlay(int maxChapter, int maxStage, int cols, int rows, float quadWidth, float quadHeight)
+//{
+//	m_TilePlayList.assign(cols, vector<TilePlay*>(rows));
+//
+//	int count = 0;
+//
+//	for (int i = 0; i < cols; ++i)
+//	{
+//		TileTypes tileTypes;
+//		if (i >= 10)
+//		{
+//			tileTypes = TileTypes::PlayerArea;
+//		}
+//		else
+//		{
+//			tileTypes = TileTypes::None;
+//		}
+//
+//		for (int j = 0; j < rows; ++j)
+//		{
+//			TilePlay* tilePlay = new TilePlay();
+//			tilePlay->SetTilePlay({ cols, rows }, { (WINDOW_WIDTH - (quadWidth * 8)) + (j * quadWidth), quadHeight + (i * quadHeight) }, count++, tileTypes);
+//
+//			objList.push_back(tilePlay);
+//			m_TilePlayList[i][j] = tilePlay;
+//		}
+//	}
+//}
 
 void ToolScene::CreateUiName()
 {
@@ -430,9 +344,6 @@ void ToolScene::CreateUiName()
 	monster->SetText("MONSTER");
 	UiNameList.push_back(monster);
 	objList.push_back(monster);
-
-
-
 }
 
 void ToolScene::CreateChapterNum(int count)
@@ -487,7 +398,6 @@ void ToolScene::CreateSelectTile()
 		SelectTileList.push_back(tileSelect);
 		objList.push_back(tileSelect);
 	}
-	
 }
 
 void ToolScene::CreateSelectObstacle()
@@ -524,12 +434,11 @@ void ToolScene::CreateSelectMonster()
 				types = MonsterTypes::Monster;
 
 			SelectMonster* selectMonster = new SelectMonster(types);
-			selectMonster->SetSelectMonster({ 54.f + (j * 108.f),WINDOW_HEIGHT - 75.f }, (ThemeTypes)(i + 1), j);
+			selectMonster->SetSelectMonster({ 54.f + (j * 108.f),WINDOW_HEIGHT - 75.f }, (ThemeTypes)(i + 1), j, m_nowStar);
 			SelectMonsterList.push_back(selectMonster);
 			objList.push_back(selectMonster);
 		}
 	}
-
 }
 
 void ToolScene::CreateSelectStar()
@@ -619,5 +528,4 @@ void ToolScene::SetTilesData(Chapters& data)
 			}
 		}
 	}
-
 }

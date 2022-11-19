@@ -1,4 +1,5 @@
 #include "GameManager.h"
+#include "Map/Tile.h"
 
 GameManager::GameManager()
 	: prepareSize(0), characterCount(10)
@@ -6,6 +7,9 @@ GameManager::GameManager()
 	CLOG::Print3String("GameManager Create");
 	prepare.resize(PREPARE_SIZE, 0);
 	preset.resize(PRESET_SIZE, 0);
+	m_tiles.assign(ChapterMaxCount, vector<vector<vector<Tile*>>>(StageMaxCount, vector<vector<Tile*>>(GAME_TILE_HEIGHT, vector<Tile*>(GAME_TILE_WIDTH))));
+	
+	//vector<Tile*> f(14, vector<Tile*>(0))
 }
 
 GameManager::~GameManager()
@@ -93,5 +97,46 @@ Vector2f GameManager::IdxToPos(Vector2i idx)
 		lt.x + ((float)idx.x + 0.5f) * TILE_SIZE,
 		lt.y + (idx.y + 1) * TILE_SIZE
 	);
+}
+
+void GameManager::SetTilesData()
+{
+	FileManager* file = new FileManager();
+
+	m_PlayTileList = new Chapters();
+
+	file->LoadTileData(*m_PlayTileList);
+
+	delete file;
+}
+
+Chapters GameManager::GetPlayTiles()
+{
+	return *m_PlayTileList;
+}
+Tile* GameManager::GetTiles(int chap, int stage, int height, int width)
+{
+	//auto asdf = m_tiles[chap][stage][0][0];
+	return m_tiles[chap][stage][height][width];
+}
+
+void GameManager::CreatedTiles()
+{
+	for (int i = 0; i < m_PlayTileList->data.size(); ++i)
+	{
+		for (int j = 0; j < m_PlayTileList->data[i].size(); ++j)
+		{
+			for (int k = 0; k < m_PlayTileList->data[i][j].size(); ++k)
+			{
+				//m_tiles[i][j].assign()
+				for (int l = 0; l < m_PlayTileList->data[i][j][k].size(); ++l)
+				{
+					Tile* tile = new Tile();
+					tile->CreateTile(m_PlayTileList->data[i][j][k][l]);
+					m_tiles[i][j][k][l]= tile;
+				}
+			}
+		}
+	}
 }
 

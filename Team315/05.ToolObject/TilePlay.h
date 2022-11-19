@@ -33,10 +33,10 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	void SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes TileTypes = TileTypes::None);
+	void SetTilePlay(Vector2i indexArr , Vector2f pos, int index, TileTypes TileTypes, int grade);
 	void SetObstacle(ThemeTypes themeTypes, int obstacleIndex);
 	string SetObstaclePath(ThemeTypes types, int num);
-	void SetMonster(ThemeTypes themeTypes, int monsterIndex);
+	void SetMonster(ThemeTypes themeTypes, int monsterIndex, int grade);
 	string SetMonsterPath(ThemeTypes types, int num);
 	void SetEraser();
 

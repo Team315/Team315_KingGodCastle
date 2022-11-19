@@ -24,33 +24,34 @@ void TilePlay::Update(float dt)
 
 void TilePlay::Draw(RenderWindow& window)
 {
-	SpriteObj::Draw(window);
+	//SpriteObj::Draw(window);
 
-	switch (m_TileTypes)
-	{
-	case TileTypes::None:
-		break;
-	case TileTypes::Obatacle:
-	case TileTypes::Monster:
-		window.draw(m_Obj);
-		break;
-	case TileTypes::PlayerArea:
-		window.draw(m_playerArea);
-		break;
-	}
+	//switch (m_TileTypes)
+	//{
+	//case TileTypes::None:
+	//	break;
+	//case TileTypes::Obatacle:
+	//case TileTypes::Monster:
+	//	window.draw(m_Obj);
+	//	break;
+	//case TileTypes::PlayerArea:
+	//	window.draw(m_playerArea);
+	//	break;
+	//}
 }
 
-void TilePlay::SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes TileTypes)
+void TilePlay::SetTilePlay(Vector2i indexArr, Vector2f pos, int index, TileTypes TileTypes = TileTypes::None, int grade = 0)
 {
-	m_index = index;
+	m_index = indexArr;
 	m_TileTypes = TileTypes;
 
-	m_TileData.arrIndex = index;
+	m_TileData.arrIndex = indexArr;
 	m_TileData.TileTypes = (int)TileTypes;
 	m_TileData.ThemeTypes = 0;
-	m_TileData.pathIndex = -1;
+	m_TileData.pathIndex = index;
+	m_TileData.grade = grade;
 
-	if (count % 2 == 0)
+	if (index % 2 == 0)
 	{
 		SetTexture(*RESOURCE_MGR->GetTexture("graphics/TileSet/Field_00.png"));
 		Color color = sprite.getColor();
@@ -115,11 +116,12 @@ string TilePlay::SetObstaclePath(ThemeTypes types, int num)
 	return path + sNum + png;
 }
 
-void TilePlay::SetMonster(ThemeTypes themeTypes, int monsterIndex)
+void TilePlay::SetMonster(ThemeTypes themeTypes, int monsterIndex, int grade)
 {
 	m_TileData.ThemeTypes=(int)themeTypes;
 	m_TileData.TileTypes = (int)TileTypes::Monster;
 	m_TileData.pathIndex = monsterIndex;
+	m_TileData.grade = grade;
 	m_TileTypes = TileTypes::Monster;
 
 	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetMonsterPath(themeTypes, monsterIndex)), true);
@@ -169,7 +171,7 @@ void TilePlay::SetTileData(ns::TileData TileData)
 	else if (TileData.TileTypes == 2)
 	{
 
-		SetMonster((ThemeTypes)TileData.ThemeTypes, TileData.pathIndex);
+		SetMonster((ThemeTypes)TileData.ThemeTypes, TileData.pathIndex, TileData.grade);
 
 	}
 }

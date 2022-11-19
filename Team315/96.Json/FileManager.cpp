@@ -2,6 +2,8 @@
 #include <fstream>
 #include <iostream>
 
+#include "ToolScene.h"
+
 FileManager::FileManager()
 {
 	//{
@@ -133,12 +135,6 @@ void FileManager::SaveDataEpisode(map<string, MapData> newData, string name)
 	ofs.close();
 }
 
-void FileManager::SaveDataMapInfo(TileData tileData, int chapter, int stage, int cols, int raws)
-{
-
-
-}
-
 void FileManager::SaveTileData(ToolScene& toolScene)
 {
  	json data = toolScene.GetTilesData();
@@ -149,10 +145,18 @@ void FileManager::SaveTileData(ToolScene& toolScene)
 
 void FileManager::LoadTileData(ToolScene& toolScene)
 {
-	ifstream ep1_f("json/tiledata.json");
-	json ep1_d = json::parse(ep1_f);
-	Chapters chapters = ep1_d;
-	ep1_f.close();
+	ifstream ifs("json/tiledata.json");
+	json playTile = json::parse(ifs);
+	Chapters chapters = playTile;
+	ifs.close();
 
 	toolScene.SetTilesData(chapters);
+}
+
+void FileManager::LoadTileData(Chapters& m_PlayTileList)
+{
+	ifstream ifs("json/tiledata.json");
+	json playTile = json::parse(ifs);
+	m_PlayTileList = playTile;
+	ifs.close();
 }

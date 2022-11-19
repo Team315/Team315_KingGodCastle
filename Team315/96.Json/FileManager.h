@@ -1,10 +1,11 @@
 #pragma once
 #include "Singleton.h"
 #include "FileData.h"
-#include "ToolScene.h"
+//
+//#include "GameManager.h"
 
 using namespace ns;
-
+class ToolScene;
 class FileManager : public Singleton<FileManager>
 {
 private:
@@ -27,10 +28,9 @@ public:
 	void SaveData(map<string, map<string, MapData>> newData, string path);
 	void SaveDataEpisode( map<string, MapData> newData, string name);
 
-	void SaveDataMapInfo(TileData tileData, int chapter, int stage, int cols, int raws);
-
 	void SaveTileData(ToolScene& scene);
 	void LoadTileData(ToolScene& scene);
+	void LoadTileData(Chapters& m_PlayTileList);
 
 };
 
