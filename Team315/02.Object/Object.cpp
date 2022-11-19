@@ -98,7 +98,15 @@ void Object::SetHitboxScale(float x, float y)
 	hitbox.setScale(x, y);
 }
 
-RectangleShape Object::GetHitbox() const
+RectangleShape& Object::GetHitbox()
 {
 	return hitbox;
+}
+
+void Object::SetHitBoxActive(bool hitboxActive)
+{
+	if (hitboxActive)
+		hitbox.setSize({ hitBoxRect.width, hitBoxRect.height });
+	else
+		hitbox.setSize({ 0, 0 });
 }

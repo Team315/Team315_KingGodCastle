@@ -252,6 +252,7 @@ void BattleScene::Update(float dt)
 				{
 					beforeDragPos = character->GetPos();
 					drag = character;
+					drag->SetHitBoxActive(false);
 				}
 			}
 		}
@@ -277,6 +278,7 @@ void BattleScene::Update(float dt)
 			drag->SetPos(beforeDragPos);
 			CLOG::PrintVectorState(destIdx, "can not move");
 		}
+		drag->SetHitBoxActive(true);
 		drag = nullptr;
 	}
 	// Game Input end

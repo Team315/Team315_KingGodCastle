@@ -52,5 +52,6 @@ public:
 	virtual void SetHitbox(const FloatRect rect, Origins origin, int ltDelta = 0, int whDelta = 0);
 	virtual void SetHitbox(const IntRect rect, Origins origin, int ltDelta = 0, int whDelta = 0);
 	virtual void SetHitboxScale(float x, float y);
-	virtual RectangleShape GetHitbox() const;
+	virtual RectangleShape& GetHitbox();
+	virtual void SetHitBoxActive(bool hitboxActive);
 };
