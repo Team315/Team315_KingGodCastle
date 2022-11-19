@@ -24,20 +24,20 @@ void TilePlay::Update(float dt)
 
 void TilePlay::Draw(RenderWindow& window)
 {
-	//SpriteObj::Draw(window);
+	SpriteObj::Draw(window);
 
-	//switch (m_TileTypes)
-	//{
-	//case TileTypes::None:
-	//	break;
-	//case TileTypes::Obatacle:
-	//case TileTypes::Monster:
-	//	window.draw(m_Obj);
-	//	break;
-	//case TileTypes::PlayerArea:
-	//	window.draw(m_playerArea);
-	//	break;
-	//}
+	switch (m_TileTypes)
+	{
+	case TileTypes::None:
+		break;
+	case TileTypes::Obatacle:
+	case TileTypes::Monster:
+		window.draw(m_Obj);
+		break;
+	case TileTypes::PlayerArea:
+		window.draw(m_playerArea);
+		break;
+	}
 }
 
 void TilePlay::SetTilePlay(Vector2i indexArr, Vector2f pos, int index, TileTypes TileTypes = TileTypes::None, int grade = 0)

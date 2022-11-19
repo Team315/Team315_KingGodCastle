@@ -31,7 +31,6 @@ void ToolScene::Init()
 {
 	CLOG::Print3String("tool Init");
 
-	CreateUiName();
 	CreateChapterNum(ChapterMaxCount);
 	CreateStageNum(StageMaxCount);
 	CreateTheme();
@@ -39,6 +38,7 @@ void ToolScene::Init()
 	CreateSelectObstacle();
 	CreateSelectMonster();
 	CreateSelectStar();
+	CreateUiName();
 
 	for (int i = 0; i < ChapterMaxCount; i++)
 	{
@@ -148,6 +148,14 @@ void ToolScene::Update(float dt)
 
 	for (auto SelectObstacle : SelectObstacleList)
 	{
+		if(SelectObstacle->GetThemeTypes() == (ThemeTypes)m_nowTheme)
+		{ 
+			SelectObstacle->SetActive(true);
+		}
+		else
+		{
+			SelectObstacle->SetActive(false);
+		}
 		SelectObstacle->OnEdge(m_nowObstacle);
 		if (SelectObstacle->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowObstacle))
 		{
@@ -159,6 +167,7 @@ void ToolScene::Update(float dt)
 			}
 		}
 	}
+
 
 	for (auto SelectStar : SelectStarList)
 	{
@@ -417,6 +426,7 @@ void ToolScene::CreateSelectObstacle()
 			x = 66.f * (j % 10);
 			SelectObstacle* selectObstacle = new SelectObstacle();
 			selectObstacle->SetSelectObstacle({ 33.f + x, 445.f + y }, (ThemeTypes)i, j);
+			selectObstacle->SetActive(false);
 			SelectObstacleList.push_back(selectObstacle);
 			objList.push_back(selectObstacle);
 		}

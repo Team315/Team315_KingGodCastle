@@ -18,15 +18,16 @@ protected:
 	BattleSceneUI* ui;
 
 	Dir currMoveDir;
-	Evan* evan;
-	Goblin00* goblin00;
-	Dummy* dummy;
+	//Evan* evan;
+	//Goblin00* goblin00;
+	//Dummy* dummy;
 	VertexArrayObj* background;
 	vector<vector<RectangleObj*>*> overlay;
-	vector<vector<TilePlay*>> testTile;
-	TilePlay* tilePlay;
-	Vector2f nowTile;
-	Vector2f nextTile;
+
+	//vector<vector<TilePlay*>> testTile;
+	//TilePlay* tilePlay;
+	//Vector2f nowTile;
+	//Vector2f nextTile;
 
 	Vector2f screenCenterPos;
 	Vector2u screenSize;

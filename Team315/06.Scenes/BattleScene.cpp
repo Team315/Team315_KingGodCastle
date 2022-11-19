@@ -14,7 +14,7 @@ BattleScene::BattleScene()
 
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f;
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.1f;
-	CreateTestTile(GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
+	/*CreateTestTile(GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
 
 	evan = new Evan();
 	evan->SetPos(testTile[13][3]->GetPos());
@@ -52,7 +52,7 @@ BattleScene::BattleScene()
 			tempX += TILE_SIZE;
 		}
 		tempY += TILE_SIZE;
-	}
+	}*/
 	ui = new BattleSceneUI(this);
 }
 
@@ -66,9 +66,9 @@ void BattleScene::Init()
 
 	//goblin00->SetTarget(evan);
 	//evan->SetTarget(goblin00);
-	goblin00->SetTarget(dummy);
-	dummy->SetTarget(goblin00);
-	objList.push_back(ui);
+	/*goblin00->SetTarget(dummy);
+	dummy->SetTarget(goblin00);*/
+	//objList.push_back(ui);
 	Scene::Init();
 }
 
@@ -122,15 +122,15 @@ void BattleScene::Update(float dt)
 				tile->SetActive(true);
 		}
 	}
-	if (InputMgr::GetKeyUp(Keyboard::Key::Num0))
-	{
-		CLOG::Print3String("overlay false");
-		for (auto& tiles : overlay)
-		{
-			for (auto& tile : *tiles)
-				tile->SetActive(false);
-		}
-	}
+	//if (InputMgr::GetKeyUp(Keyboard::Key::Num0))
+	//{
+	//	CLOG::Print3String("overlay false");
+	//	for (auto& tiles : overlay)
+	//	{
+	//		for (auto& tile : *tiles)
+	//			tile->SetActive(false);
+	//	}
+	//}
 	if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 	{
 		CLOG::Print3String("battle devmode on");
@@ -141,22 +141,22 @@ void BattleScene::Update(float dt)
 		CLOG::Print3String("battle devmode off");
 		FRAMEWORK->devMode = false;
 	}
-	if (InputMgr::GetKeyDown(Keyboard::Down))
-	{
-		MoveTile(Dir::Down);
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Up))
-	{
-		MoveTile(Dir::Up);
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Left))
-	{
-		MoveTile(Dir::Left);
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Right))
-	{
-		MoveTile(Dir::Right);
-	}
+	//if (InputMgr::GetKeyDown(Keyboard::Down))
+	//{
+	//	MoveTile(Dir::Down);
+	//}
+	//if (InputMgr::GetKeyDown(Keyboard::Up))
+	//{
+	//	MoveTile(Dir::Up);
+	//}
+	//if (InputMgr::GetKeyDown(Keyboard::Left))
+	//{
+	//	MoveTile(Dir::Left);
+	//}
+	//if (InputMgr::GetKeyDown(Keyboard::Right))
+	//{
+	//	MoveTile(Dir::Right);
+	//}
 	if (InputMgr::GetKeyDown(Keyboard::F6))
 	{
 		CLOG::Print3String("print prepare vector");
@@ -285,55 +285,55 @@ void BattleScene::Draw(RenderWindow& window)
 
 void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 {
-	testTile.assign(cols, vector<TilePlay*>(rows));
+	//testTile.assign(cols, vector<TilePlay*>(rows));
 
-	int count = 0;
-	for (int i = 0; i < cols; ++i)
-	{
-		for (int j = 0; j < rows; ++j)
-		{
-			tilePlay = new TilePlay();
-			tilePlay->SetTilePlay(
-				{ cols, rows },
-				{ ((width / 2) + (width * 1.5f)) + (j * width),	height + (i * height) },
-				count++,TileTypes::None,0);
-			objList.push_back(tilePlay);
-			testTile[i][j] = tilePlay;
-		}
-	}
+	//int count = 0;
+	//for (int i = 0; i < cols; ++i)
+	//{
+	//	for (int j = 0; j < rows; ++j)
+	//	{
+	//		tilePlay = new TilePlay();
+	//		tilePlay->SetTilePlay(
+	//			{ cols, rows },
+	//			{ ((width / 2) + (width * 1.5f)) + (j * width),	height + (i * height) },
+	//			count++,TileTypes::None,0);
+	//		objList.push_back(tilePlay);
+	//		testTile[i][j] = tilePlay;
+	//	}
+	//}
 }
 
 void BattleScene::MoveTile(Dir currMoveDir)
 {
-	Vector2i curPos = GAME_MGR->PosToIdx(dummy->GetPos());
-	TilePlay* curTile = testTile[curPos.y][curPos.x];
-	
-	nowTile = dummy->GetPos();
-	switch (currMoveDir)
-	{
-	case Dir::Up:
-		nowTile.y -= TILE_SIZE;
-		break;
-	case Dir::Down:
-		nowTile.y += TILE_SIZE;
-		break;
-	case Dir::Left:
-		nowTile.x -= TILE_SIZE;
-		break;
-	case Dir::Right:
-		nowTile.x += TILE_SIZE;
-		break;
-	}
-	dummy->SetDestination(nowTile);
-	Vector2i idx = GAME_MGR->PosToIdx(nowTile);
-	//CLOG::PrintVectorState(nowTile, "now");
-	//CLOG::PrintVectorState(idx, "idx");
-	TilePlay* nextTile = testTile[idx.y][idx.x];
-	if (nextTile->GetOnTileObj() != nullptr)
-		return;
-	curTile->SetOnTileObj(nullptr);
-	nextTile->SetOnTileObj(dummy);
-	dummy->SetMove(true);
+	//Vector2i curPos = GAME_MGR->PosToIdx(dummy->GetPos());
+	//TilePlay* curTile = testTile[curPos.y][curPos.x];
+	//
+	//nowTile = dummy->GetPos();
+	//switch (currMoveDir)
+	//{
+	//case Dir::Up:
+	//	nowTile.y -= TILE_SIZE;
+	//	break;
+	//case Dir::Down:
+	//	nowTile.y += TILE_SIZE;
+	//	break;
+	//case Dir::Left:
+	//	nowTile.x -= TILE_SIZE;
+	//	break;
+	//case Dir::Right:
+	//	nowTile.x += TILE_SIZE;
+	//	break;
+	//}
+	//dummy->SetDestination(nowTile);
+	//Vector2i idx = GAME_MGR->PosToIdx(nowTile);
+	////CLOG::PrintVectorState(nowTile, "now");
+	////CLOG::PrintVectorState(idx, "idx");
+	//TilePlay* nextTile = testTile[idx.y][idx.x];
+	//if (nextTile->GetOnTileObj() != nullptr)
+	//	return;
+	//curTile->SetOnTileObj(nullptr);
+	//nextTile->SetOnTileObj(dummy);
+	//dummy->SetMove(true);
 }
 
 void BattleScene::ZoomIn()
