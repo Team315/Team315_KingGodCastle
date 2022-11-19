@@ -141,9 +141,9 @@ void BattleScene::Update(float dt)
 			for (auto& character : prepareGrid)
 			{
 				if (character == nullptr)
-					cout << 0 << ' ';
+					cout << "nullptr ";
 				else
-					cout << 1 << ' ';
+					cout << character->GetName() << ' ';
 				count++;
 				if (count == 7)
 					cout << endl;
@@ -248,7 +248,7 @@ void BattleScene::Update(float dt)
 	for (auto& character : prepareGrid)
 	{
 		if (character == nullptr)
-			break;
+			continue ;
 
 		character->Update(dt);
 		if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
@@ -272,19 +272,35 @@ void BattleScene::Update(float dt)
 
 	if (drag != nullptr && InputMgr::GetMouseUp(Mouse::Left))
 	{
-		Vector2i destIdx = GAME_MGR->PosToIdx(drag->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF));
+		Vector2i destCoord = GAME_MGR->PosToIdx(drag->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF));
 
-		if (InPrepareGrid(destIdx) || InBattleGrid(destIdx))
+		if (InPrepareGrid(destCoord) || InBattleGrid(destCoord))
 		{
-			Vector2f coord = GAME_MGR->IdxToPos(destIdx);
-			drag->SetPos(coord);
-			CLOG::PrintVectorState(destIdx, "can move");
-			cout << GetPrepareIdxFromCoord(destIdx) << endl;
+			Vector2f destPos = GAME_MGR->IdxToPos(destCoord);
+			int beforeIdx = GetPrepareIdxFromCoord(GAME_MGR->PosToIdx(beforeDragPos));
+			int destIdx = GetPrepareIdxFromCoord(destCoord);
+
+			if (prepareGrid[destIdx] != nullptr)
+			{
+				cout << prepareGrid[destIdx]->GetName() << endl;
+
+				prepareGrid[destIdx]->SetPos(beforeDragPos);
+				drag->SetPos(destPos);
+			}
+			else
+				drag->SetPos(destPos);
+
+			// swap
+			Character* temp = prepareGrid[destIdx];
+			prepareGrid[destIdx] = drag;
+			prepareGrid[beforeIdx] = temp;
+
+			CLOG::PrintVectorState(destCoord, "can move");
 		}
 		else
 		{
 			drag->SetPos(beforeDragPos);
-			CLOG::PrintVectorState(destIdx, "can not move");
+			CLOG::PrintVectorState(destCoord, "can not move");
 		}
 		drag->SetHitBoxActive(true);
 		drag = nullptr;

@@ -1,7 +1,6 @@
 #include "Goblin00.h"
 
 Goblin00::Goblin00()
-	: isPlaying2(false)
 {
 	SetType("Monster");
 	SetName("Goblin00");
@@ -112,22 +111,22 @@ void Goblin00::Update(float dt)
 {
 	Character::Update(dt);
 	//cout << GetPos().x << " " << GetPos().y << endl;
-	if (InputMgr::GetKeyDown(Keyboard::Key::O))
-	{
-		//cout << "O" << endl;
-		isPlaying2 = true;
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::P))
-	{
-		//cout << "P" << endl;
-		isPlaying2 = false;
-	}
-	if(isPlaying2)
-	{
-		direction = Utils::Normalize(target->GetPos() - GetPos());
-		Translate(direction * dt * speed);
-	}
-	//cout << direction.x << " " << direction.y << endl;
+	//if (InputMgr::GetKeyDown(Keyboard::Key::O))
+	//{
+	//	//cout << "O" << endl;
+	//	isPlaying2 = true;
+	//}
+	//if (InputMgr::GetKeyDown(Keyboard::Key::P))
+	//{
+	//	//cout << "P" << endl;
+	//	isPlaying2 = false;
+	//}
+	//if(isPlaying2)
+	//{
+	//	direction = Utils::Normalize(target->GetPos() - GetPos());
+	//	Translate(direction * dt * speed);
+	//}
+	////cout << direction.x << " " << direction.y << endl;
 
 	switch (currState)
 	{
@@ -188,11 +187,11 @@ void Goblin00::UpdateMoveToIdle(float dt)
 
 void Goblin00::UpdateMove(float dt)
 {
-	if (!isPlaying2)
+	/*if (!isPlaying2)
 	{
 		SetState(AnimStates::MoveToIdle);
 		return;
-	}
+	}*/
 	if (Utils::EqualFloat(direction.x, 0.f) && Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::MoveToIdle);

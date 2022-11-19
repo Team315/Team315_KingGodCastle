@@ -1,7 +1,6 @@
 #include "Evan.h"
 
 Evan::Evan()
-	: isPlaying2(false)
 {
 	SetType("Player");
 	SetName("Evan");

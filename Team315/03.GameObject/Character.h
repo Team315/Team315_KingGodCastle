@@ -1,5 +1,6 @@
 #pragma once
 #include "SpriteObj.h"
+#include "Animator.h"
 #include "ProgressBar.h"
 #include "Star.h"
 #include "EnumClass.h"
@@ -7,6 +8,7 @@
 class Character : public SpriteObj
 {
 protected:
+	Animator animator;
 	Character* target;
 	
 	// UI

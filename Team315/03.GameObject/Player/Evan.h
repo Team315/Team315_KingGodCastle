@@ -1,16 +1,10 @@
 #pragma once
 #include "Include.h"
-#include "Animator.h"
 #include "Character.h"
-#include "../05.ToolObject/TilePlay.h"
 
 class Evan : public Character
 {
-
 protected:
-	Animator animator;
-
-	bool isPlaying2;
 public:
 	Evan();
 	virtual ~Evan();

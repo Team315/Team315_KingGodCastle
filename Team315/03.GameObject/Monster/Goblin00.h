@@ -1,14 +1,10 @@
 #pragma once
 #include "Include.h"
-#include "Animator.h"
 #include "Character.h"
 
 class Goblin00 : public Character
 {
 protected:
-	Animator animator;
-
-	bool isPlaying2;
 public:
 	Goblin00();
 	virtual ~Goblin00();
