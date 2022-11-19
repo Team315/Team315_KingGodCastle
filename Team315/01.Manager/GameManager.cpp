@@ -4,7 +4,7 @@ GameManager::GameManager()
 	: prepareSize(0), characterCount(10), extraLevelUpChance(30)
 {
 	CLOG::Print3String("GameManager Create");
-	prepare.resize(PREPARE_SIZE, 0);
+	prepareGrid.resize(PREPARE_SIZE, 0);
 	preset.resize(PRESET_SIZE, 0);
 }
 
@@ -14,7 +14,7 @@ GameManager::~GameManager()
 
 void GameManager::EnterBattleScene()
 {
-	prepare.assign(PREPARE_SIZE, 0);
+	prepareGrid.assign(PREPARE_SIZE, 0);
 	prepareSize = 0;
 }
 
@@ -27,7 +27,7 @@ int GameManager::GetPrepareIdx()
 {
 	for (int idx = 0; idx < PREPARE_SIZE; idx++)
 	{
-		if (prepare[idx] == 0)
+		if (prepareGrid[idx] == 0)
 			return idx;
 	}
 	return -1; // fail
@@ -35,9 +35,9 @@ int GameManager::GetPrepareIdx()
 
 void GameManager::SetPrepare(vector<int>& set)
 {
-	prepare = set;
+	prepareGrid = set;
 	int curSize = 0;
-	for (auto& cell : prepare)
+	for (auto& cell : prepareGrid)
 	{
 		if (cell != 0)
 			curSize++;
@@ -50,7 +50,7 @@ void GameManager::SetPrepare(vector<int>& set)
 void GameManager::AddPrepare(int num)
 {
 	bool inputInPrepare = false;
-	for (auto& cell : prepare)
+	for (auto& cell : prepareGrid)
 	{
 		if (cell == 0)
 		{
@@ -69,7 +69,7 @@ void GameManager::UpdatePrepare()
 	if (waitQueue.empty())
 		return;
 
-	for (auto& cell : prepare)
+	for (auto& cell : prepareGrid)
 	{
 		if (cell != 0)
 		{

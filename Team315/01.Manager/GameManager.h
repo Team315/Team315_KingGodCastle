@@ -8,7 +8,7 @@ class GameManager : public Singleton<GameManager>
 protected:
 	// element == 0 is empty cell
 	vector<int> preset;
-	vector<int> prepare;
+	vector<int> prepareGrid;
 	queue<int> waitQueue;
 	int prepareSize;
 	int characterCount;
@@ -26,7 +26,7 @@ public:
 	int GetPresetElem(int idx) { return preset[idx]; };
 	void SetPresetElem(int idx, int num);
 
-	vector<int>& GetPrepare() { return prepare; }
+	vector<int>& GetPrepare() { return prepareGrid; }
 	int GetPrepareIdx();
 	void SetPrepare(vector<int>& set);
 	void AddPrepare(int num);

@@ -10,7 +10,7 @@
 
 // Tile
 #define TILE_SIZE (51.f)
-#define TILE_SIZE_HALF (25.f)
+#define TILE_SIZE_HALF (25.5f)
 #define TILE_WIDTH (10)
 #define TILE_HEIGHT (15)
 #define GAME_TILE_WIDTH (7)
@@ -31,4 +31,4 @@ const int BackGroundTileHeight = 15;
 // No classification
 #define PREPARE_SIZE (14)
 #define PRESET_SIZE (6)
-#define BATTLE_GRID_SIZE (4)
+#define BATTLE_GRID_ROW (4)

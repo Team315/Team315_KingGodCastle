@@ -110,3 +110,12 @@ void Object::SetHitBoxActive(bool hitboxActive)
 	else
 		hitbox.setSize({ 0, 0 });
 }
+
+bool Object::CollideTest(Vector2f pos)
+{
+	if (hitbox.getGlobalBounds().contains(pos))
+	{
+		return true;
+	}
+	return false;
+}

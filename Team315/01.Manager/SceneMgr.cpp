@@ -23,7 +23,7 @@ bool SceneMgr::Init()
 	sceneMap[Scenes::Battle] = new BattleScene();
 	sceneMap[Scenes::Tool] = new ToolScene();
 
-	for (auto i : sceneMap)
+	for (auto& i : sceneMap)
 		i.second->Init();
 
 	currScene = Scenes::Title;

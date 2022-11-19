@@ -16,14 +16,14 @@ BattleScene::BattleScene()
 	CreateTestTile(GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
 
 	float tempY = TILE_SIZE * 11.f;
-	battleGrid.resize(BATTLE_GRID_SIZE);
+	battleGridRect.resize(BATTLE_GRID_ROW);
+	battleGrid.resize(BATTLE_GRID_ROW);
 	float outlineThickness = 2.f;
-	for (auto& tiles : battleGrid)
+	for (auto& tiles : battleGridRect)
 	{
-		tiles = new vector<RectangleObj*>;
-		tiles->resize(GAME_TILE_WIDTH);
+		tiles.resize(GAME_TILE_WIDTH);
 		float tempX = TILE_SIZE * 2.f;
-		for (auto& tile : *tiles)
+		for (auto& tile : tiles)
 		{
 			tile = new RectangleObj(
 				TILE_SIZE - outlineThickness * 2 - 1,
@@ -37,8 +37,10 @@ BattleScene::BattleScene()
 		}
 		tempY += TILE_SIZE;
 	}
+	for (auto& row : battleGrid)
+		row.resize(GAME_TILE_WIDTH);
 
-	evan = new Evan();
+	/*evan = new Evan();
 	evan->SetPos(testTile[13][3]->GetPos());
 	testTile[13][3]->SetOnTileObj(evan);
 	objList.push_back(evan);
@@ -51,7 +53,7 @@ BattleScene::BattleScene()
 	goblin00 = new Goblin00();
 	goblin00->SetPos(testTile[1][3]->GetPos());
 	testTile[1][3]->SetOnTileObj(goblin00);
-	objList.push_back(goblin00);
+	objList.push_back(goblin00);*/
 
 	ui = new BattleSceneUI(this);
 }
@@ -81,28 +83,29 @@ void BattleScene::Enter()
 {
 	CLOG::Print3String("battle enter");
 
-	FRAMEWORK->GetWindow().setSize(Vector2u(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT));
+	FRAMEWORK->GetWindow().setSize(
+		Vector2u((unsigned int)GAME_SCREEN_WIDTH, (unsigned int)GAME_SCREEN_HEIGHT));
 	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
 	screenSize = FRAMEWORK->GetWindow().getSize();
 	currentView = gameView;
 
-	for (auto& tiles : battleGrid)
+	for (auto& tiles : battleGridRect)
 	{
-		for (auto& tile : *tiles)
+		for (auto& tile : tiles)
 			tile->SetActive(false);
 	}
 	GAME_MGR->EnterBattleScene();
-	prepare.assign(PREPARE_SIZE, 0);
+	prepareGrid.assign(PREPARE_SIZE, 0);
 }
 
 void BattleScene::Exit()
 {
 	CLOG::Print3String("battle exit");
-	for (auto& character : prepare)
+	for (auto& character : prepareGrid)
 	{
 		delete character;
 	}
-	prepare.clear();
+	prepareGrid.clear();
 }
 
 void BattleScene::Update(float dt)
@@ -118,25 +121,36 @@ void BattleScene::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num0))
 		{
 			CLOG::Print3String("overlay switch");
-			b_battleGrid = !b_battleGrid;
+			b_battleGridRect = !b_battleGridRect;
 
-			for (auto& tiles : battleGrid)
+			for (auto& tiles : battleGridRect)
 			{
-				for (auto& tile : *tiles)
-					tile->SetActive(b_battleGrid);
+				for (auto& tile : tiles)
+					tile->SetActive(b_battleGridRect);
 			}
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 		{
-			CLOG::Print3String("battle devmode on");
-			FRAMEWORK->devMode = true;
+			CLOG::Print3String("battle devmode switch");
+			FRAMEWORK->devMode = !FRAMEWORK->devMode;
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F8))
 		{
-			CLOG::Print3String("battle devmode off");
-			FRAMEWORK->devMode = false;
+			CLOG::Print3String("prepareGrid state");
+			int count = 0;
+			for (auto& character : prepareGrid)
+			{
+				if (character == nullptr)
+					cout << 0 << ' ';
+				else
+					cout << 1 << ' ';
+				count++;
+				if (count == 7)
+					cout << endl;
+			}
+			cout << endl;
 		}
-		if (InputMgr::GetKeyDown(Keyboard::Down))
+		/*if (InputMgr::GetKeyDown(Keyboard::Down))
 		{
 			MoveTile(Dir::Down);
 		}
@@ -151,7 +165,7 @@ void BattleScene::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Right))
 		{
 			MoveTile(Dir::Right);
-		}
+		}*/
 	}
 	// Dev Input end
 
@@ -163,19 +177,20 @@ void BattleScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				//CLOG::Print3String(button->GetName());
+				// battle start
 				if (!button->GetName().compare("begin"))
 				{
 					CLOG::Print3String("stage start");
 					b_centerPos = true;
 					ZoomIn();
-					for (auto& character : prepare)
+					for (auto& character : prepareGrid)
 					{
 						if (character != nullptr)
 							character->SetDrawInBattle(true);
 					}
 					break;
 				}
+				// summon character
 				if (!button->GetName().compare("summon"))
 				{
 					if (GAME_MGR->GetPrepareSize() == PREPARE_SIZE)
@@ -183,27 +198,22 @@ void BattleScene::Update(float dt)
 						CLOG::Print3String("can not summon");
 						break;
 					}
-					/*int idx = GAME_MGR->GetPresetElem(Utils::RandomRange(0, PRESET_SIZE));
-					CLOG::Print3String(to_string(idx));
-					GAME_MGR->AddPrepare(idx);
-					CLOG::PrintVectorState(ui->GetPrepareGridPos(0));*/
-
-					int idx = GetZeroElem(prepare);
+					int idx = GetZeroElem(prepareGrid);
 					if (idx == -1)
 					{
 						CLOG::Print3String("can not");
 						return;
 					}
-					int ran = Utils::RandomRange(0, 2);
+					int ran = Utils::RandomRange(0, PRESET_SIZE);
 					Character* test;
-					if (ran == 0)
+					if (ran % 2)
 						test = new Evan();
 					else
 						test = new Goblin00();
 					test->SetPos(ui->GetPrepareGridPos(idx));
 					test->Init();
 					test->SetDrawInBattle(false);
-					prepare[idx] = test;
+					prepareGrid[idx] = test;
 					break;
 				}
 			}
@@ -215,10 +225,7 @@ void BattleScene::Update(float dt)
 	if (wheel != 0)
 	{
 		b_centerPos = wheel == 1 ? true : false;
-		if (b_centerPos)
-			ZoomIn();
-		else
-			ZoomOut();
+		b_centerPos ? ZoomIn() : ZoomOut();
 	}
 	if (b_centerPos)
 	{
@@ -237,22 +244,21 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	// prepare grid
-	for (auto& character : prepare)
+	// prepare grid & battle grid - character pick up
+	for (auto& character : prepareGrid)
 	{
 		if (character == nullptr)
 			break;
 
 		character->Update(dt);
-		if (character->GetHitbox().getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
 				if (drag == nullptr)
 				{
-					beforeDragPos = character->GetPos();
-					drag = character;
-					drag->SetHitBoxActive(false);
+					DragAction(character);
+					break;
 				}
 			}
 		}
@@ -266,12 +272,14 @@ void BattleScene::Update(float dt)
 
 	if (drag != nullptr && InputMgr::GetMouseUp(Mouse::Left))
 	{
-		Vector2i destIdx = GAME_MGR->PosToIdx(drag->GetPos() + Vector2f(0, TILE_SIZE_HALF));
+		Vector2i destIdx = GAME_MGR->PosToIdx(drag->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF));
 
 		if (InPrepareGrid(destIdx) || InBattleGrid(destIdx))
 		{
-			drag->SetPos(GAME_MGR->IdxToPos(destIdx));
+			Vector2f coord = GAME_MGR->IdxToPos(destIdx);
+			drag->SetPos(coord);
 			CLOG::PrintVectorState(destIdx, "can move");
+			cout << GetPrepareIdxFromCoord(destIdx) << endl;
 		}
 		else
 		{
@@ -290,7 +298,7 @@ void BattleScene::Draw(RenderWindow& window)
 {
 	Scene::Draw(window);
 
-	for (auto& character : prepare)
+	for (auto& character : prepareGrid)
 	{
 		if (character != nullptr)
 			character->Draw(window);
@@ -317,12 +325,12 @@ void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
 	}
 }
 
-void BattleScene::MoveTile(Dir currMoveDir)
+void BattleScene::MoveTile(Character* character, Dir currMoveDir)
 {
-	Vector2i curPos = GAME_MGR->PosToIdx(dummy->GetPos());
+	Vector2i curPos = GAME_MGR->PosToIdx(character->GetPos());
 	TilePlay* curTile = testTile[curPos.y][curPos.x];
 	
-	nowTile = dummy->GetPos();
+	nowTile = character->GetPos();
 	switch (currMoveDir)
 	{
 	case Dir::Up:
@@ -338,7 +346,7 @@ void BattleScene::MoveTile(Dir currMoveDir)
 		nowTile.x += TILE_SIZE;
 		break;
 	}
-	dummy->SetDestination(nowTile);
+	character->SetDestination(nowTile);
 	Vector2i idx = GAME_MGR->PosToIdx(nowTile);
 	//CLOG::PrintVectorState(nowTile, "now");
 	//CLOG::PrintVectorState(idx, "idx");
@@ -346,8 +354,8 @@ void BattleScene::MoveTile(Dir currMoveDir)
 	if (nextTile->GetOnTileObj() != nullptr)
 		return;
 	curTile->SetOnTileObj(nullptr);
-	nextTile->SetOnTileObj(dummy);
-	dummy->SetMove(true);
+	nextTile->SetOnTileObj(character);
+	character->SetMove(true);
 }
 
 void BattleScene::ZoomIn()
@@ -363,6 +371,18 @@ void BattleScene::ZoomOut()
 void BattleScene::AIMove()
 {
 	
+}
+
+void BattleScene::DragAction(Character* character)
+{
+	beforeDragPos = character->GetPos();
+	drag = character;
+	drag->SetHitBoxActive(false);
+}
+
+int BattleScene::GetPrepareIdxFromCoord(Vector2i coord)
+{
+	return coord.x + (coord.y - 16) * PREPARE_SIZE * 0.5f;
 }
 
 bool InPrepareGrid(Vector2i pos)

@@ -31,7 +31,6 @@ public:
 	void SetTextStyle(Color textColor, int textSize, Color textOutlineColor, float textOutlineThickness);
 	void SetButtonStyle(Color baseColor, Color hoverColor);
 	void SetLocalPos(Vector2f pos);
-	bool CollideTest(Vector2f pos);
 	Color GetBaseColor() { return baseColor; }
 	Color GetHoverColor() { return hoverColor; }
 };

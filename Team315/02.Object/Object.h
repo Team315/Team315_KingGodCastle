@@ -54,4 +54,6 @@ public:
 	virtual void SetHitboxScale(float x, float y);
 	virtual RectangleShape& GetHitbox();
 	virtual void SetHitBoxActive(bool hitboxActive);
+
+	virtual bool CollideTest(Vector2f pos);
 };

@@ -74,12 +74,3 @@ void Button::SetLocalPos(Vector2f pos)
 	btnTextLocalPos = pos;
 	SetPos(position);
 }
-
-bool Button::CollideTest(Vector2f pos)
-{
-	if (hitbox.getGlobalBounds().contains(pos))
-	{
-		return true;
-	}
-	return false;
-}
