@@ -19,7 +19,14 @@ const int BackGroundTileWidth = 10;
 const int BackGroundTileHeight = 15;
 
 #define Type1_Tile_Count (25)
+
 #define Type1_Obstacle_Count (3)
+const int Type2_Obstacle_count = 3;
+const int Type3_Obstacle_count = 3;
+
+
+
+
 
 // game screen size
 #define GAME_SCREEN_WIDTH (510.f)

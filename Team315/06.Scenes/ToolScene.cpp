@@ -223,12 +223,12 @@ void ToolScene::Update(float dt)
 		}
 	}
 
-	if (InputMgr::GetKeyDown(Keyboard::Key::F6))
-	{
-		Chapters cha = GAME_MGR->GetPlayTiles();
+	//if (InputMgr::GetKeyDown(Keyboard::Key::F6))
+	//{
+	//	Chapters cha = GAME_MGR->GetPlayTiles();
 
-		int a=0;
-	}
+	//	int a=0;
+	//}
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::F3))
 	{
@@ -405,18 +405,23 @@ void ToolScene::CreateSelectObstacle()
 	float x = 0.f;
 	float y = 0.f;
 
-	for (int i = 0; i < Type1_Obstacle_Count; ++i)
+	for (int i = 1; i <= (int)ThemeTypes::Slime; ++i)
 	{
-		if (i % 10 == 0)
+		for (int j = 0; j < Type1_Obstacle_Count; ++j)
 		{
-			y += 66.f;
-		}
+			if (j % 10 == 0)
+			{
+				y += 66.f;
+			}
 
-		x = 66.f * (i % 10);
-		SelectObstacle* selectObstacle = new SelectObstacle();
-		selectObstacle->SetSelectObstacle({ 33.f + x, 445.f + y }, ThemeTypes::Goblin, i);
-		SelectObstacleList.push_back(selectObstacle);
-		objList.push_back(selectObstacle);
+			x = 66.f * (j % 10);
+			SelectObstacle* selectObstacle = new SelectObstacle();
+			selectObstacle->SetSelectObstacle({ 33.f + x, 445.f + y }, (ThemeTypes)i, j);
+			SelectObstacleList.push_back(selectObstacle);
+			objList.push_back(selectObstacle);
+		}
+		x = 0.f;
+		y = 0.f;
 	}
 }
 

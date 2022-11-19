@@ -56,8 +56,9 @@ void Tile::CreateTile(ns::TileData tileData)
 		color.a = 30;
 		sprite.setColor(color);
 	}
-	m_pos = { TILE_SIZE + (TILE_SIZE * 0.5f) + (m_tileData.arrIndex.x * TILE_SIZE),
-				TILE_SIZE + (m_tileData.arrIndex.y * TILE_SIZE) };
+
+	m_pos = { TILE_SIZE + (TILE_SIZE /** 0.5f*/) + (m_tileData.arrIndex.y * TILE_SIZE),
+				TILE_SIZE + (m_tileData.arrIndex.x * TILE_SIZE) };
 	SetPos(m_pos);
 	SetOrigin(Origins::BC);
 
