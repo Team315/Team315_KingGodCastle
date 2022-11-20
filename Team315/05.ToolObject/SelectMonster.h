@@ -5,8 +5,6 @@
 class SelectMonster :public SpriteObj
 {
 protected:
-	Star m_star;
-
 	Sprite m_monster;
 	RectangleShape m_Edge;
 
