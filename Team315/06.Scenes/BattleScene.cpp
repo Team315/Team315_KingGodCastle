@@ -7,19 +7,13 @@
 #include "GameManager.h"
 
 BattleScene::BattleScene()
-	: Scene(Scenes::Battle), drag(nullptr), battleCharacterCount(3)
+	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(3)
 {
 	CLOG::Print3String("battle create");
 
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f;
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.1f;
 	CreateTestTile(GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
-
-	battleGrid.resize(BATTLE_GRID_ROW);
-	float outlineThickness = 2.f;
-	
-	for (auto& row : battleGrid)
-		row.resize(GAME_TILE_WIDTH);
 
 	ui = new BattleSceneUI(this);
 }
@@ -50,23 +44,32 @@ void BattleScene::Enter()
 	screenSize = FRAMEWORK->GetWindow().getSize();
 	currentView = gameView;
 
-	//GAME_MGR->EnterBattleScene();
-	prepareGrid.assign(PREPARE_SIZE, 0);
+	prepareGrid.assign(PREPARE_SIZE, nullptr);
+	battleGrid.assign(BATTLE_GRID_ROW * GAME_TILE_WIDTH, nullptr);
 	ui->Reset();
 }
 
 void BattleScene::Exit()
 {
 	CLOG::Print3String("battle exit");
+
 	for (auto& character : prepareGrid)
 	{
 		delete character;
 	}
 	prepareGrid.clear();
+
+	for (auto& character : battleGrid)
+	{
+		delete character;
+	}
+	battleGrid.clear();
 }
 
 void BattleScene::Update(float dt)
 {
+	Scene::Update(dt);
+
 	// Dev Input start
 	{
 		if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
@@ -93,36 +96,35 @@ void BattleScene::Update(float dt)
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F8))
 		{
-			CLOG::Print3String("prepareGrid state");
+			CLOG::Print3String("prepare grid state");
 			int count = 0;
 			for (auto& character : prepareGrid)
 			{
 				if (character == nullptr)
-					cout << "nullptr ";
+					cout << '0';
 				else
-					cout << character->GetName() << ' ';
+					cout << character->GetName()[0];
+				cout << ' ';
 				count++;
-				if (count == GAME_TILE_WIDTH)
+				if (count % GAME_TILE_WIDTH == 0)
 					cout << endl;
 			}
 			cout << endl;
+
+			CLOG::Print3String("battle grid state");
+			count = 0;
+			for (auto& character : battleGrid)
+			{
+				if (character == nullptr)
+					cout << '0';
+				else
+					cout << character->GetName()[0];
+				cout << ' ';
+				count++;
+				if (count % GAME_TILE_WIDTH == 0)
+					cout << endl;
+			}
 		}
-		/*if (InputMgr::GetKeyDown(Keyboard::Down))
-		{
-			MoveTile(Dir::Down);
-		}
-		if (InputMgr::GetKeyDown(Keyboard::Up))
-		{
-			MoveTile(Dir::Up);
-		}
-		if (InputMgr::GetKeyDown(Keyboard::Left))
-		{
-			MoveTile(Dir::Left);
-		}
-		if (InputMgr::GetKeyDown(Keyboard::Right))
-		{
-			MoveTile(Dir::Right);
-		}*/
 	}
 	// Dev Input end
 
@@ -205,16 +207,16 @@ void BattleScene::Update(float dt)
 	for (auto& character : prepareGrid)
 	{
 		if (character == nullptr)
-			continue ;
+			continue;
 
 		character->Update(dt);
 		if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				if (drag == nullptr)
+				if (pick == nullptr)
 				{
-					DragAction(character);
+					PickUpCharacter(character);
 					break;
 				}
 			}
@@ -222,67 +224,32 @@ void BattleScene::Update(float dt)
 	}
 
 	// mouse drag control
-	if (drag != nullptr && InputMgr::GetMouse(Mouse::Left))
+	if (pick != nullptr && InputMgr::GetMouse(Mouse::Left))
+		pick->SetPos(ScreenToWorldPos(InputMgr::GetMousePosI()) + Vector2f(0, TILE_SIZE_HALF));
+
+	if (pick != nullptr && InputMgr::GetMouseUp(Mouse::Left))
 	{
-		drag->SetPos(ScreenToWorldPos(InputMgr::GetMousePosI()) + Vector2f(0, TILE_SIZE_HALF));
-	}
+		Vector2i destCoord = GAME_MGR->PosToIdx(pick->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF));
+		bool dest = InBattleGrid(destCoord);
 
-	if (drag != nullptr && InputMgr::GetMouseUp(Mouse::Left))
-	{
-		Vector2i destCoord = GAME_MGR->PosToIdx(drag->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF));
-		//vector<Character*>* destGrid;
-
-		if ( InPrepareGrid(destCoord) )// || InBattleGrid(destCoord))
+		if (!InPrepareGrid(destCoord) && !dest)
 		{
-			Vector2f destPos = GAME_MGR->IdxToPos(destCoord);
-			int beforeIdx = GetPrepareIdxFromCoord(GAME_MGR->PosToIdx(beforeDragPos));
-			int destIdx = GetPrepareIdxFromCoord(destCoord);
-			if (beforeIdx != destIdx)
-			{
-				Character* destCharacter = prepareGrid[destIdx];
-				if (destCharacter != nullptr)
-				{
-					CLOG::Print3String("swap or combinate");
-
-					if (!destCharacter->GetName().compare(drag->GetName()) &&
-						destCharacter->GetStarNumber() == drag->GetStarNumber())
-					{
-						prepareGrid[destIdx] = nullptr;
-						destCharacter->Release();
-						delete destCharacter;
-						drag->UpgradeStar();
-					}
-					else
-						destCharacter->SetPos(beforeDragPos);
-				}
-				else
-				{
-					CLOG::Print3String("move to empty");
-				}
-
-				// swap
-				Character* temp = prepareGrid[destIdx];
-				prepareGrid[destIdx] = drag;
-				prepareGrid[beforeIdx] = temp;
-			}
-			else
-			{
-				CLOG::Print3String("before == dest");
-			}
-			
-			drag->SetPos(destPos);
-		}
-		else
-		{
-			drag->SetPos(beforeDragPos);
 			CLOG::PrintVectorState(destCoord, "can not move");
+			pick->SetPos(beforeDragPos);
+			return;
 		}
-		drag->SetHitBoxActive(true);
-		drag = nullptr;
+		Vector2i beforeCoord = GAME_MGR->PosToIdx(beforeDragPos);
+		bool before = InBattleGrid(beforeCoord);
+		if (before && dest)
+			PutDownCharacter(&battleGrid, &battleGrid, beforeCoord, destCoord);
+		else if (before)
+			PutDownCharacter(&battleGrid, &prepareGrid, beforeCoord, destCoord);
+		else if (dest)
+			PutDownCharacter(&prepareGrid, &battleGrid, beforeCoord, destCoord);
+		else
+			PutDownCharacter(&prepareGrid, &prepareGrid, beforeCoord, destCoord);
 	}
 	// Game Input end
-
-	Scene::Update(dt);
 }
 
 void BattleScene::Draw(RenderWindow& window)
@@ -290,6 +257,12 @@ void BattleScene::Draw(RenderWindow& window)
 	Scene::Draw(window);
 
 	for (auto& character : prepareGrid)
+	{
+		if (character != nullptr)
+			character->Draw(window);
+	}
+
+	for (auto& character : battleGrid)
 	{
 		if (character != nullptr)
 			character->Draw(window);
@@ -320,7 +293,7 @@ void BattleScene::MoveTile(Character* character, Dir currMoveDir)
 {
 	Vector2i curPos = GAME_MGR->PosToIdx(character->GetPos());
 	TilePlay* curTile = testTile[curPos.y][curPos.x];
-	
+
 	nowTile = character->GetPos();
 	switch (currMoveDir)
 	{
@@ -361,19 +334,59 @@ void BattleScene::ZoomOut()
 
 void BattleScene::AIMove()
 {
-	
+
 }
 
-void BattleScene::DragAction(Character* character)
+void BattleScene::PickUpCharacter(Character* character)
 {
 	beforeDragPos = character->GetPos();
-	drag = character;
-	drag->SetHitBoxActive(false);
+	pick = character;
+	pick->SetHitBoxActive(false);
 }
 
-int BattleScene::GetPrepareIdxFromCoord(Vector2i coord)
+void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>* dest, Vector2i startCoord, Vector2i destCoord)
 {
-	return coord.x + (coord.y - 16) * PREPARE_SIZE * 0.5f;
+	int startIdx = GetIdxFromCoord(startCoord);
+	int destIdx = GetIdxFromCoord(destCoord);
+	if (startCoord != destCoord)
+	{
+		Character* destCharacter = (*dest)[destIdx];
+		if (destCharacter != nullptr)
+		{
+			if (!destCharacter->GetName().compare(pick->GetName()) &&
+				destCharacter->GetStarNumber() == pick->GetStarNumber())
+			{
+				CLOG::Print3String("combinate");
+				(*dest)[destIdx] = nullptr;
+				destCharacter->Release();
+				delete destCharacter;
+				pick->UpgradeStar();
+			}
+			else
+			{
+				CLOG::Print3String("swap");
+				destCharacter->SetPos(beforeDragPos);
+			}
+		}
+		else
+		{
+			CLOG::Print3String("move to empty");
+		}
+		// swap
+		Character* temp = (*dest)[destIdx];
+		(*dest)[destIdx] = pick;
+		(*start)[startIdx] = temp;
+	}
+
+	pick->SetPos(GAME_MGR->IdxToPos(destCoord));
+	pick->SetHitBoxActive(true);
+	pick = nullptr;
+	return;
+}
+
+int BattleScene::GetIdxFromCoord(Vector2i coord)
+{
+	return coord.x + (coord.y < 14 ? coord.y - 10 : coord.y - 16) * GAME_TILE_WIDTH; // battle y 10~13 prepare y 16~17
 }
 
 bool InPrepareGrid(Vector2i pos)
@@ -386,7 +399,7 @@ bool InBattleGrid(Vector2i pos)
 	return (pos.x >= 0 && pos.x < 7) && (pos.y >= 10 && pos.y < 14); // x(0, 6) y(10, 13)
 }
 
-int GetZeroElem(vector<Character*> vec)
+int GetZeroElem(vector<Character*>& vec)
 {
 	for (int idx = 0; idx < PREPARE_SIZE; idx++)
 	{

@@ -34,8 +34,8 @@ protected:
 	vector<Character*> prepareGrid;
 
 	// set locate before battle (4x7) x(0, 6) y(10, 13)
-	vector<vector<Character*>> battleGrid;
-	Character* drag;
+	vector<Character*> battleGrid;
+	Character* pick;
 	Vector2f beforeDragPos;
 	int battleCharacterCount;
 
@@ -60,10 +60,12 @@ public:
 	void ZoomIn();
 	void ZoomOut();
 	void AIMove();
-	void DragAction(Character* character);
-	int GetPrepareIdxFromCoord(Vector2i coord);
+	void PickUpCharacter(Character* character);
+	void PutDownCharacter(vector<Character*>* start, vector<Character*>* dest,
+		Vector2i startCoord, Vector2i destCoord);
+	int GetIdxFromCoord(Vector2i coord);
 };
 
 bool InPrepareGrid(Vector2i pos);
 bool InBattleGrid(Vector2i pos);
-int GetZeroElem(vector<Character*> vec);
+int GetZeroElem(vector<Character*>& vec);

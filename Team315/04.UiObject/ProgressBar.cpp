@@ -31,7 +31,7 @@ void ProgressBar::SetPos(const Vector2f& pos)
 
 void ProgressBar::SetOrigin(Origins origin)
 {
-	RectangleObj::SetOrigin(origin);
+	//RectangleObj::SetOrigin(origin);
 	Utils::SetOrigin(progress, origin);
 }
 

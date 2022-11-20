@@ -12,11 +12,10 @@ Character::Character()
 	hpBar->SetBackgroundColor(Color(0, 0, 0, 100));
 	hpBar->SetBackgroundOutline(Color::Black, 2.f);
 	hpBar->SetProgressValue(1.f);
-	// hpBar->SetOrigin(Origins::BC);
+	hpBar->SetOrigin(Origins::BC);
 
 	star = new Star();
-	//star->SetOrigin(Origins::BC);
-	starLocalPos = { 0, -TILE_SIZE * 1.5f };// -TILE_SIZE * 1.5f
+	starLocalPos = { 0, -TILE_SIZE * 1.5f };
 }
 
 Character::~Character()
