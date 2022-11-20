@@ -223,6 +223,25 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	for (auto& character : battleGrid)
+	{
+		if (character == nullptr)
+			continue;
+
+		character->Update(dt);
+		if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				if (pick == nullptr)
+				{
+					PickUpCharacter(character);
+					break;
+				}
+			}
+		}
+	}
+
 	// mouse drag control
 	if (pick != nullptr && InputMgr::GetMouse(Mouse::Left))
 		pick->SetPos(ScreenToWorldPos(InputMgr::GetMousePosI()) + Vector2f(0, TILE_SIZE_HALF));
@@ -348,7 +367,8 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 {
 	int startIdx = GetIdxFromCoord(startCoord);
 	int destIdx = GetIdxFromCoord(destCoord);
-	if (startCoord != destCoord)
+
+	if ((startCoord != destCoord))
 	{
 		Character* destCharacter = (*dest)[destIdx];
 		if (destCharacter != nullptr)
@@ -371,6 +391,28 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 		else
 		{
 			CLOG::Print3String("move to empty");
+
+			// add to new character from prepare
+			if (dest == &battleGrid && start == &prepareGrid)
+			{
+				int count = 0;
+				for (auto& character : battleGrid)
+				{
+					if (character == nullptr)
+						continue;
+					else
+						count++;
+				}
+
+				if (count >= battleCharacterCount)
+				{
+					CLOG::Print3String("can not move more character");
+					pick->SetPos(beforeDragPos);
+					pick->SetHitBoxActive(true);
+					pick = nullptr;
+					return;
+				}
+			}
 		}
 		// swap
 		Character* temp = (*dest)[destIdx];
@@ -381,7 +423,7 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 	pick->SetPos(GAME_MGR->IdxToPos(destCoord));
 	pick->SetHitBoxActive(true);
 	pick = nullptr;
-	return;
+	return ;
 }
 
 int BattleScene::GetIdxFromCoord(Vector2i coord)
