@@ -4,7 +4,7 @@
 #include "RectangleObj.h"
 
 BattleSceneUI::BattleSceneUI(Scene* scene)
-	: UIMgr(scene)
+	: UIMgr(scene), b_battleGridRect(false)
 {
 	panel = new BattlePanel();
 	CreateBackground(panel, 1, 3, 188.f, 400.f);
@@ -34,7 +34,27 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 			posY += TILE_SIZE;
 		}
 	}
-	CLOG::Print3String("Battle scene ui create");
+
+	battleGridRect.resize(BATTLE_GRID_ROW);
+	posY = TILE_SIZE * 11.f;
+	for (auto& tiles : battleGridRect)
+	{
+		tiles.resize(GAME_TILE_WIDTH);
+		float posX = TILE_SIZE * 2.f;
+		for (auto& tile : tiles)
+		{
+			tile = new RectangleObj(
+				TILE_SIZE - outlineThickness * 2 - 1,
+				TILE_SIZE - outlineThickness * 2 - 1);
+			tile->SetFillColor(Color(255, 255, 255, 20));
+			tile->SetOutline(Color::White, outlineThickness);
+			tile->SetPos(Vector2f(posX, posY));
+			tile->SetOrigin(Origins::BC);
+			uiObjList.push_back(tile);
+			posX += TILE_SIZE;
+		}
+		posY += TILE_SIZE;
+	}
 }
 
 BattleSceneUI::~BattleSceneUI()
@@ -57,6 +77,12 @@ void BattleSceneUI::Reset()
 {
 	panel->SetPos(Vector2f(0, GAME_SCREEN_HEIGHT * 1.2f));
 	UIMgr::Reset();
+	b_battleGridRect = false;
+	for (auto& tiles : battleGridRect)
+	{
+		for (auto& tile : tiles)
+			tile->SetActive(b_battleGridRect);
+	}
 }
 
 void BattleSceneUI::Update(float dt)

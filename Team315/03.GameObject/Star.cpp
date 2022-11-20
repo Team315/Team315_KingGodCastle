@@ -2,10 +2,9 @@
 #include "Include.h"
 
 Star::Star()
-	: inBattle(false)
+	: inBattle(false), starNumber(0)
 {
-	starNumber = Utils::RandomRange(0, 100) < GAME_MGR->GetExtraLevelUpChance() ?
-		2 : 1;
+	CalculateRandomChance();
 	UpdateTexture();
 }
 
@@ -21,6 +20,16 @@ void Star::Draw(RenderWindow& window)
 void Star::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
+}
+
+bool Star::CalculateRandomChance()
+{
+	bool ret = false;
+	if (starNumber < 6)
+		ret = Utils::RandomRange(0, 100) < GAME_MGR->GetExtraLevelUpChance() ? true : false;
+	if (starNumber != 7)
+		starNumber = ret ? starNumber + 2 : starNumber + 1;
+	return ret;
 }
 
 void Star::UpdateTexture()

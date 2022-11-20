@@ -69,15 +69,17 @@ void GameManager::UpdatePrepare()
 	if (waitQueue.empty())
 		return;
 
+	int queueFront = 0;
 	for (auto& cell : prepareGrid)
 	{
 		if (cell != 0)
 		{
-			cell = waitQueue.front();
+			queueFront = waitQueue.front();
 			waitQueue.pop();
 			break;
 		}
 	}
+	AddPrepare(queueFront);
 }
 
 Vector2i GameManager::PosToIdx(Vector2f pos)
@@ -93,9 +95,4 @@ Vector2f GameManager::IdxToPos(Vector2i idx)
 		(idx.x + 2) * TILE_SIZE,
 		(idx.y + 1) * TILE_SIZE
 	);
-}
-
-Vector2f GameManager::SnapToCoord(Vector2f pos)
-{
-	return IdxToPos(PosToIdx(pos));
 }

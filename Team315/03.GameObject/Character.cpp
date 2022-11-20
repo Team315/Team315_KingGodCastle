@@ -15,8 +15,8 @@ Character::Character()
 	// hpBar->SetOrigin(Origins::BC);
 
 	star = new Star();
-	star->SetOrigin(Origins::BC);
-	starLocalPos = { 0, - TILE_SIZE * 1.5f};
+	//star->SetOrigin(Origins::BC);
+	starLocalPos = { 0, -TILE_SIZE * 1.5f };// -TILE_SIZE * 1.5f
 }
 
 Character::~Character()
@@ -73,8 +73,9 @@ void Character::SetTarget(Character* target)
 	this->target = target;
 }
 
-void Character::SetStarNumber(int num)
+void Character::UpgradeStar()
 {
-	star->SetStarNumber(num);
+	if (star->CalculateRandomChance())
+		CLOG::Print3String("upgrade 2");
 	star->UpdateTexture();
 }

@@ -7,7 +7,7 @@
 #include "GameManager.h"
 
 BattleScene::BattleScene()
-	: Scene(Scenes::Battle), drag(nullptr)
+	: Scene(Scenes::Battle), drag(nullptr), battleCharacterCount(3)
 {
 	CLOG::Print3String("battle create");
 
@@ -15,45 +15,11 @@ BattleScene::BattleScene()
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.1f;
 	CreateTestTile(GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
 
-	float tempY = TILE_SIZE * 11.f;
-	battleGridRect.resize(BATTLE_GRID_ROW);
 	battleGrid.resize(BATTLE_GRID_ROW);
 	float outlineThickness = 2.f;
-	for (auto& tiles : battleGridRect)
-	{
-		tiles.resize(GAME_TILE_WIDTH);
-		float tempX = TILE_SIZE * 2.f;
-		for (auto& tile : tiles)
-		{
-			tile = new RectangleObj(
-				TILE_SIZE - outlineThickness * 2 - 1,
-				TILE_SIZE - outlineThickness * 2 - 1);
-			tile->SetFillColor(Color(255, 255, 255, 20));
-			tile->SetOutline(Color::White, outlineThickness);
-			tile->SetPos(Vector2f(tempX, tempY));
-			tile->SetOrigin(Origins::BC);
-			objList.push_back(tile);
-			tempX += TILE_SIZE;
-		}
-		tempY += TILE_SIZE;
-	}
+	
 	for (auto& row : battleGrid)
 		row.resize(GAME_TILE_WIDTH);
-
-	/*evan = new Evan();
-	evan->SetPos(testTile[13][3]->GetPos());
-	testTile[13][3]->SetOnTileObj(evan);
-	objList.push_back(evan);
-
-	dummy = new Dummy();
-	dummy->SetPos(testTile[10][3]->GetPos());
-	testTile[10][3]->SetOnTileObj(dummy);
-	objList.push_back(dummy);
-
-	goblin00 = new Goblin00();
-	goblin00->SetPos(testTile[1][3]->GetPos());
-	testTile[1][3]->SetOnTileObj(goblin00);
-	objList.push_back(goblin00);*/
 
 	ui = new BattleSceneUI(this);
 }
@@ -65,11 +31,6 @@ BattleScene::~BattleScene()
 void BattleScene::Init()
 {
 	CLOG::Print3String("battle Init");
-
-	//goblin00->SetTarget(evan);
-	//evan->SetTarget(goblin00);
-	/*goblin00->SetTarget(dummy);
-	dummy->SetTarget(goblin00);*/
 
 	objList.push_back(ui);
 	Scene::Init();
@@ -89,13 +50,9 @@ void BattleScene::Enter()
 	screenSize = FRAMEWORK->GetWindow().getSize();
 	currentView = gameView;
 
-	for (auto& tiles : battleGridRect)
-	{
-		for (auto& tile : tiles)
-			tile->SetActive(false);
-	}
-	GAME_MGR->EnterBattleScene();
+	//GAME_MGR->EnterBattleScene();
 	prepareGrid.assign(PREPARE_SIZE, 0);
+	ui->Reset();
 }
 
 void BattleScene::Exit()
@@ -121,12 +78,12 @@ void BattleScene::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num0))
 		{
 			CLOG::Print3String("overlay switch");
-			b_battleGridRect = !b_battleGridRect;
+			ui->b_battleGridRect = !ui->b_battleGridRect;
 
-			for (auto& tiles : battleGridRect)
+			for (auto& tiles : ui->battleGridRect)
 			{
 				for (auto& tile : tiles)
-					tile->SetActive(b_battleGridRect);
+					tile->SetActive(ui->b_battleGridRect);
 			}
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
@@ -145,7 +102,7 @@ void BattleScene::Update(float dt)
 				else
 					cout << character->GetName() << ' ';
 				count++;
-				if (count == 7)
+				if (count == GAME_TILE_WIDTH)
 					cout << endl;
 			}
 			cout << endl;
@@ -273,29 +230,47 @@ void BattleScene::Update(float dt)
 	if (drag != nullptr && InputMgr::GetMouseUp(Mouse::Left))
 	{
 		Vector2i destCoord = GAME_MGR->PosToIdx(drag->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF));
+		//vector<Character*>* destGrid;
 
 		if (InPrepareGrid(destCoord) || InBattleGrid(destCoord))
 		{
 			Vector2f destPos = GAME_MGR->IdxToPos(destCoord);
 			int beforeIdx = GetPrepareIdxFromCoord(GAME_MGR->PosToIdx(beforeDragPos));
 			int destIdx = GetPrepareIdxFromCoord(destCoord);
-
-			if (prepareGrid[destIdx] != nullptr)
+			if (beforeIdx != destIdx)
 			{
-				cout << prepareGrid[destIdx]->GetName() << endl;
+				Character* destCharacter = prepareGrid[destIdx];
+				if (destCharacter != nullptr)
+				{
+					CLOG::Print3String("swap or combinate");
 
-				prepareGrid[destIdx]->SetPos(beforeDragPos);
-				drag->SetPos(destPos);
+					if (!destCharacter->GetName().compare(drag->GetName()) &&
+						destCharacter->GetStarNumber() == drag->GetStarNumber())
+					{
+						prepareGrid[destIdx] = nullptr;
+						destCharacter->Release();
+						delete destCharacter;
+						drag->UpgradeStar();
+					}
+					else
+						destCharacter->SetPos(beforeDragPos);
+				}
+				else
+				{
+					CLOG::Print3String("move to empty");
+				}
+
+				// swap
+				Character* temp = prepareGrid[destIdx];
+				prepareGrid[destIdx] = drag;
+				prepareGrid[beforeIdx] = temp;
 			}
 			else
-				drag->SetPos(destPos);
-
-			// swap
-			Character* temp = prepareGrid[destIdx];
-			prepareGrid[destIdx] = drag;
-			prepareGrid[beforeIdx] = temp;
-
-			CLOG::PrintVectorState(destCoord, "can move");
+			{
+				CLOG::Print3String("before == dest");
+			}
+			
+			drag->SetPos(destPos);
 		}
 		else
 		{

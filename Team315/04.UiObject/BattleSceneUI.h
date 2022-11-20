@@ -27,4 +27,8 @@ public:
 	Vector2f GetPrepareGridPos(int idx) { return prepareGridPos[idx]; }
 
 	void CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight);
+
+	// draw rect only 4 x 7
+	vector<vector<RectangleObj*>> battleGridRect;
+	bool b_battleGridRect;
 };

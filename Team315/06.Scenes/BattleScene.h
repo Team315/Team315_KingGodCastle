@@ -18,9 +18,6 @@ protected:
 	BattleSceneUI* ui;
 
 	Dir currMoveDir;
-	/*Evan* evan;
-	Goblin00* goblin00;
-	Dummy* dummy;*/
 	VertexArrayObj* background;
 	vector<vector<TilePlay*>> testTile;
 	TilePlay* tilePlay;
@@ -33,10 +30,6 @@ protected:
 	float gameScreenBottomLimit;
 	float gameScreenTopLimit;
 
-	// draw rect only 4 x 7
-	vector<vector<RectangleObj*>> battleGridRect;
-	bool b_battleGridRect;
-
 	// create character when summon (2x7) x(0, 6) y(16, 17)
 	vector<Character*> prepareGrid;
 
@@ -44,6 +37,7 @@ protected:
 	vector<vector<Character*>> battleGrid;
 	Character* drag;
 	Vector2f beforeDragPos;
+	int battleCharacterCount;
 
 public:
 	BattleScene();

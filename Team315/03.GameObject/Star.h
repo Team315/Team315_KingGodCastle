@@ -16,5 +16,6 @@ public:
 
 	void SetStarNumber(int num) { starNumber = num; }
 	int GetStarNumber() { return starNumber; }
+	bool CalculateRandomChance();
 	void UpdateTexture();
 };
