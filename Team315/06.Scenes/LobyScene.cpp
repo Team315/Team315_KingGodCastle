@@ -75,13 +75,8 @@ void LobyScene::Update(float dt)
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 	{
-		CLOG::Print3String("loby devmode on");
-		FRAMEWORK->devMode = true;
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::F8))
-	{
-		CLOG::Print3String("loby devmode off");
-		FRAMEWORK->devMode = false;
+		CLOG::Print3String("loby devmode switch");
+		FRAMEWORK->devMode = !FRAMEWORK->devMode;
 	}
 	if (InputMgr::GetKey(Keyboard::Key::A))
 	{

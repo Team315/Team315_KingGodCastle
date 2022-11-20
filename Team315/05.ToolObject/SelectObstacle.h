@@ -22,7 +22,7 @@ public:
 	string SetPath(ThemeTypes types, int num);
 
 	int GetIndex();
-
+	ThemeTypes GetThemeTypes();
 	bool CollisionCheck(Vector2f pos, int index);
 	bool ChangeColor(bool check);
 	void OnEdge(int index);

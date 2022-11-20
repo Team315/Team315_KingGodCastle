@@ -33,7 +33,7 @@ void ToolStage::CreateTilePlay(int cols, int rows, float quadWidth, float quadHe
 			TilePlay* tilePlay = new TilePlay();
 			tilePlay->SetTilePlay({ i, j }, 
 				{ (WINDOW_WIDTH - (quadWidth * 8)) + (j * quadWidth), quadHeight + (i * quadHeight) }, 
-				count++, tileTypes);
+				count++, tileTypes, 0);
 
 			m_TilePlayList[i][j] = tilePlay;
 		}

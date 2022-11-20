@@ -70,6 +70,7 @@ namespace ns {
 		int TileTypes;
 		int ThemeTypes;
 		int pathIndex;
+		int grade;
 	};
 	void to_json(json& j, const TileData& b);
 	void from_json(const json& j, TileData& b);

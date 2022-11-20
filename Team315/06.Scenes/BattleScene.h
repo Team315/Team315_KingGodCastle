@@ -19,10 +19,6 @@ protected:
 
 	Dir currMoveDir;
 	VertexArrayObj* background;
-	vector<vector<TilePlay*>> testTile;
-	TilePlay* tilePlay;
-	Vector2f nowTile;
-	Vector2f nextTile;
 
 	Vector2f screenCenterPos;
 	Vector2u screenSize;
@@ -53,8 +49,6 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	VertexArrayObj* GetBackground() { return background; }
-
-	void CreateTestTile(int cols, int rows, float width, float height);
 
 	void MoveTile(Character* character, Dir currMoveDir);
 	void ZoomIn();

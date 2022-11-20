@@ -211,6 +211,8 @@
     <ClInclude Include="01.Manager\GameManager.h" />
     <ClInclude Include="05.ToolObject\TileBackground.h" />
     <ClInclude Include="03.GameObject\Star.h" />
+    <ClInclude Include="03.GameObject\Map\Tile.h" />
+    <ClInclude Include="03.GameObject\Map\AStar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -237,6 +239,7 @@
     <ClCompile Include="04.UiObject\BattleSceneUI.cpp" />
     <ClCompile Include="03.GameObject\Player\Dummy.cpp" />
     <ClCompile Include="01.Manager\GameManager.cpp" />
+    <ClCompile Include="03.GameObject\Map\AStar.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
@@ -266,6 +269,7 @@
     <ClCompile Include="05.ToolObject\ToolStage.cpp" />
     <ClCompile Include="05.ToolObject\TileBackground.cpp" />
     <ClCompile Include="03.GameObject\Star.cpp" />
+    <ClCompile Include="03.GameObject\Map\Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

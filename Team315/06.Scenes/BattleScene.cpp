@@ -5,6 +5,7 @@
 #include "Button.h"
 #include "Constant.h"
 #include "GameManager.h"
+#include "Map/Tile.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(3)
@@ -13,7 +14,6 @@ BattleScene::BattleScene()
 
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f;
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.1f;
-	CreateTestTile(GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
 
 	ui = new BattleSceneUI(this);
 }
@@ -91,7 +91,7 @@ void BattleScene::Update(float dt)
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 		{
-			CLOG::Print3String("battle devmode switch");
+			CLOG::Print3String("devmode switch");
 			FRAMEWORK->devMode = !FRAMEWORK->devMode;
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F8))
@@ -275,6 +275,14 @@ void BattleScene::Draw(RenderWindow& window)
 {
 	Scene::Draw(window);
 
+	for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
+	{
+		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
+		{
+			GAME_MGR->GetTiles(0, 0, i, j)->Draw(window);
+		}
+	}
+
 	for (auto& character : prepareGrid)
 	{
 		if (character != nullptr)
@@ -288,57 +296,37 @@ void BattleScene::Draw(RenderWindow& window)
 	}
 }
 
-void BattleScene::CreateTestTile(int cols, int rows, float width, float height)
-{
-	testTile.assign(cols, vector<TilePlay*>(rows));
-
-	int count = 0;
-	for (int i = 0; i < cols; ++i)
-	{
-		for (int j = 0; j < rows; ++j)
-		{
-			tilePlay = new TilePlay();
-			tilePlay->SetTilePlay({ cols, rows },
-				{ ((width / 2) + (width * 1.5f)) + (j * width),
-				height + (i * height) },
-				count++);
-			objList.push_back(tilePlay);
-			testTile[i][j] = tilePlay;
-		}
-	}
-}
-
 void BattleScene::MoveTile(Character* character, Dir currMoveDir)
 {
-	Vector2i curPos = GAME_MGR->PosToIdx(character->GetPos());
-	TilePlay* curTile = testTile[curPos.y][curPos.x];
+	//Vector2i curPos = GAME_MGR->PosToIdx(character->GetPos());
+	//TilePlay* curTile = testTile[curPos.y][curPos.x];
 
-	nowTile = character->GetPos();
-	switch (currMoveDir)
-	{
-	case Dir::Up:
-		nowTile.y -= TILE_SIZE;
-		break;
-	case Dir::Down:
-		nowTile.y += TILE_SIZE;
-		break;
-	case Dir::Left:
-		nowTile.x -= TILE_SIZE;
-		break;
-	case Dir::Right:
-		nowTile.x += TILE_SIZE;
-		break;
-	}
-	character->SetDestination(nowTile);
-	Vector2i idx = GAME_MGR->PosToIdx(nowTile);
-	//CLOG::PrintVectorState(nowTile, "now");
-	//CLOG::PrintVectorState(idx, "idx");
-	TilePlay* nextTile = testTile[idx.y][idx.x];
-	if (nextTile->GetOnTileObj() != nullptr)
-		return;
-	curTile->SetOnTileObj(nullptr);
-	nextTile->SetOnTileObj(character);
-	character->SetMove(true);
+	//nowTile = character->GetPos();
+	//switch (currMoveDir)
+	//{
+	//case Dir::Up:
+	//	nowTile.y -= TILE_SIZE;
+	//	break;
+	//case Dir::Down:
+	//	nowTile.y += TILE_SIZE;
+	//	break;
+	//case Dir::Left:
+	//	nowTile.x -= TILE_SIZE;
+	//	break;
+	//case Dir::Right:
+	//	nowTile.x += TILE_SIZE;
+	//	break;
+	//}
+	//character->SetDestination(nowTile);
+	//Vector2i idx = GAME_MGR->PosToIdx(nowTile);
+	////CLOG::PrintVectorState(nowTile, "now");
+	////CLOG::PrintVectorState(idx, "idx");
+	//TilePlay* nextTile = testTile[idx.y][idx.x];
+	//if (nextTile->GetOnTileObj() != nullptr)
+	//	return;
+	//curTile->SetOnTileObj(nullptr);
+	//nextTile->SetOnTileObj(character);
+	//character->SetMove(true);
 }
 
 void BattleScene::ZoomIn()

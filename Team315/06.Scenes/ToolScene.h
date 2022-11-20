@@ -48,11 +48,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	void SaveBattleTile();
-	void LoadBattleTile();
-
-	void CreateTileSet(int cols, int rows, float quadWidth, float quadHeight);
-	void CreateTilePlay(int maxChapter,int maxStage, int cols, int rows, float quadWidth, float quadHeight);
+	//void CreateTilePlay(int maxChapter,int maxStage, int cols, int rows, float quadWidth, float quadHeight);
 	void CreateUiName();
 	void CreateChapterNum(int count);
 	void CreateStageNum(int count);
