@@ -232,7 +232,7 @@ void BattleScene::Update(float dt)
 		Vector2i destCoord = GAME_MGR->PosToIdx(drag->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF));
 		//vector<Character*>* destGrid;
 
-		if (InPrepareGrid(destCoord) || InBattleGrid(destCoord))
+		if ( InPrepareGrid(destCoord) )// || InBattleGrid(destCoord))
 		{
 			Vector2f destPos = GAME_MGR->IdxToPos(destCoord);
 			int beforeIdx = GetPrepareIdxFromCoord(GAME_MGR->PosToIdx(beforeDragPos));

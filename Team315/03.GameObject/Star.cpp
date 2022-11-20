@@ -38,4 +38,5 @@ void Star::UpdateTexture()
 	path += inBattle ? "Level_Bar_" : "Level_Star_";
 	path += to_string(starNumber) + ".png";
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(path), true);
+	SpriteObj::SetOrigin(Origins::BC);
 }
