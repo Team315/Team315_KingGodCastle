@@ -419,7 +419,7 @@ void ToolScene::CreateSelectObstacle()
 	//for (int i = 0; i < TYPE1_OBSTACLE_COUNT; ++i)
 	for (int i = 1; i <= (int)ThemeTypes::Slime; ++i)
 	{
-		for (int j = 0; j < Type1_Obstacle_Count; ++j)
+		for (int j = 0; j < TYPE1_OBSTACLE_COUNT; ++j)
 		{
 			if (j % 10 == 0)
 			{
