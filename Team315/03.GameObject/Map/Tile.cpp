@@ -70,6 +70,7 @@ void Tile::CreateTile(ns::TileData tileData)
 		SetObstacle((ThemeTypes)m_tileData.ThemeTypes, m_tileData.pathIndex);
 		break;
 	case TileTypes::Monster:
+		SetMonster((ThemeTypes)m_tileData.ThemeTypes, m_tileData.pathIndex, m_tileData.grade);
 		break;
 	case TileTypes::PlayerArea:
 		m_playerArea.setSize(GetSize());
@@ -105,8 +106,6 @@ void Tile::SetMonster(ThemeTypes themeTypes, int monsterIndex, int grade)
 {
 	m_obstacle.setTexture(*RESOURCE_MGR->GetTexture(SetMonsterPath(themeTypes, monsterIndex)), true);
 	m_obstacle.setPosition(GetPos());
-
-	CLOG::PrintVectorState(GetPos(), "방금 놓은 몬스터 포스");
 
 	Utils::SetOrigin(m_obstacle, Origins::BC);
 }
