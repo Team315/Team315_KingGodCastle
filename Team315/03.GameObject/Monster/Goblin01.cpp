@@ -3,7 +3,7 @@
 Goblin01::Goblin01()
 {
 	SetType("Monster");
-	SetName("Goblin00");
+	SetName("Goblin01");
 }
 
 Goblin01::~Goblin01()
