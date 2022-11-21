@@ -58,6 +58,10 @@
     <ClCompile Include="03.GameObject\Map\Tile.cpp" />
     <ClCompile Include="03.GameObject\Player\Daniel.cpp" />
     <ClCompile Include="03.GameObject\Obstacle.cpp" />
+    <ClCompile Include="03.GameObject\Player\Pria.cpp" />
+    <ClCompile Include="03.GameObject\Player\Arveron.cpp" />
+    <ClCompile Include="03.GameObject\Player\LeonHeart.cpp" />
+    <ClCompile Include="03.GameObject\Player\Shelda.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -127,6 +131,11 @@
     <ClInclude Include="03.GameObject\Map\AStar.h" />
     <ClInclude Include="03.GameObject\Player\Daniel.h" />
     <ClInclude Include="03.GameObject\Obstacle.h" />
+    <ClInclude Include="99.Include\CharacterHeaders.h" />
+    <ClInclude Include="03.GameObject\Player\Pria.h" />
+    <ClInclude Include="03.GameObject\Player\Arveron.h" />
+    <ClInclude Include="03.GameObject\Player\LeonHeart.h" />
+    <ClInclude Include="03.GameObject\Player\Shelda.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
