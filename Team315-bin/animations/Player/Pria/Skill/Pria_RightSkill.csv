@@ -1,5 +1,5 @@
-ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
-Pria_RightSkill,0,10,,,,,,
+ID,LOOPTYPE (0: Single 1: Move),FPS
+Pria_RightSkill,0,10
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
 graphics/Charactor/Player/Pria/PriaSkill.png,0,100,100,100,50,100,1,0
 graphics/Charactor/Player/Pria/PriaSkill.png,100,100,100,100,50,100,1,0
