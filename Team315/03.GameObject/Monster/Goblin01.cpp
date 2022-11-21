@@ -18,47 +18,47 @@ void Goblin01::Init()
 {
 	animator.SetTarget(&sprite);
 
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_Idle"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_Idle"));
 
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_DownIdle"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_LeftIdle"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_RightIdle"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_UpIdle"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_DownIdle"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_LeftIdle"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_RightIdle"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_UpIdle"));
 
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_DownMove"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_LeftMove"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_RightMove"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_UpMove"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_DownMove"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_LeftMove"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_RightMove"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_UpMove"));
 
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_DownAttack"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_LeftAttack"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_RightAttack"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_UpAttack"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_DownAttack"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_LeftAttack"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_RightAttack"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin01_UpAttack"));
 
 	{
 		AnimationEvent ev;
-		ev.clipId = "goblin00_DownAttack";
+		ev.clipId = "goblin01_DownAttack";
 		ev.frame = 3;
 		ev.onEvent = bind(&Goblin01::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
-		ev.clipId = "goblin00_LeftAttack";
+		ev.clipId = "goblin01_LeftAttack";
 		ev.frame = 3;
 		ev.onEvent = bind(&Goblin01::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
-		ev.clipId = "goblin00_RightAttack";
+		ev.clipId = "goblin01_RightAttack";
 		ev.frame = 3;
 		ev.onEvent = bind(&Goblin01::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
-		ev.clipId = "goblin00_UpAttack";
+		ev.clipId = "goblin01_UpAttack";
 		ev.frame = 3;
 		ev.onEvent = bind(&Goblin01::OnCompleteAttack, this);
 		animator.AddEvent(ev);
@@ -75,36 +75,36 @@ void Goblin01::SetState(AnimStates newState)
 	switch (currState)
 	{
 	case AnimStates::Idle:
-		animator.Play("goblin00_Idle");
+		animator.Play("goblin01_Idle");
 		break;
 	case AnimStates::MoveToIdle:
 		if (lastDirection.y)
 		{
-			animator.Play((lastDirection.y > 0.f) ? "goblin00_DownIdle" : "goblin00_UpIdle");
+			animator.Play((lastDirection.y > 0.f) ? "goblin01_DownIdle" : "goblin01_UpIdle");
 		}
 		if (lastDirection.x)
 		{
-			animator.Play((lastDirection.x > 0.f) ? "goblin00_RightIdle" : "goblin00_LeftIdle");
+			animator.Play((lastDirection.x > 0.f) ? "goblin01_RightIdle" : "goblin01_LeftIdle");
 		}
 		break;
 	case AnimStates::Move:
 		if (direction.y)
 		{
-			animator.Play((direction.y > 0.f) ? "goblin00_DownMove" : "goblin00_UpMove");
+			animator.Play((direction.y > 0.f) ? "goblin01_DownMove" : "goblin01_UpMove");
 		}
 		if (direction.x)
 		{
-			animator.Play((direction.x > 0.f) ? "goblin00_RightMove" : "goblin00_LeftMove");
+			animator.Play((direction.x > 0.f) ? "goblin01_RightMove" : "goblin01_LeftMove");
 		}
 		break;
 	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
-			animator.Play((lastDirection.x > 0.f) ? "goblin00_RightAttack" : "goblin00_LeftAttack");
+			animator.Play((lastDirection.x > 0.f) ? "goblin01_RightAttack" : "goblin01_LeftAttack");
 		}
 		if (lastDirection.y)
 		{
-			animator.Play((lastDirection.y > 0.f) ? "goblin00_DownAttack" : "goblin00_UpAttack");
+			animator.Play((lastDirection.y > 0.f) ? "goblin01_DownAttack" : "goblin01_UpAttack");
 		}
 		break;
 	}
@@ -180,11 +180,11 @@ void Goblin01::UpdateMove(float dt)
 	}
 	if (!Utils::EqualFloat(direction.y, lastDirection.y))
 	{
-		animator.Play((direction.y > 0.f) ? "goblin00_DownMove" : "goblin00_UpMove");
+		animator.Play((direction.y > 0.f) ? "goblin01_DownMove" : "goblin01_UpMove");
 	}
 	if (!Utils::EqualFloat(direction.x, lastDirection.x))
 	{
-		animator.Play((direction.x > 0.f) ? "goblin00_RightMove" : "goblin00_LeftMove");
+		animator.Play((direction.x > 0.f) ? "goblin01_RightMove" : "goblin01_LeftMove");
 	}
 }
 

@@ -216,6 +216,10 @@
     <ClInclude Include="03.GameObject\Map\AStar.h" />
     <ClInclude Include="03.GameObject\Player\Daniel.h" />
     <ClInclude Include="03.GameObject\Obstacle.h" />
+    <ClInclude Include="03.GameObject\Player\Pria.h" />
+    <ClInclude Include="03.GameObject\Player\Arveron.h" />
+    <ClInclude Include="03.GameObject\Player\LeonHeart.h" />
+    <ClInclude Include="03.GameObject\Player\Shelda.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -244,6 +248,8 @@
     <ClCompile Include="03.GameObject\Player\Aramis.cpp" />
     <ClCompile Include="03.GameObject\Map\AStar.cpp" />
     <ClCompile Include="03.GameObject\Player\Daniel.cpp" />
+    <ClCompile Include="03.GameObject\Player\Arveron.cpp" />
+    <ClCompile Include="03.GameObject\Player\LeonHeart.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
@@ -275,6 +281,8 @@
     <ClCompile Include="03.GameObject\Star.cpp" />
     <ClCompile Include="03.GameObject\Map\Tile.cpp" />
     <ClCompile Include="03.GameObject\Obstacle.cpp" />
+    <ClCompile Include="03.GameObject\Player\Pria.cpp" />
+    <ClCompile Include="03.GameObject\Player\Shelda.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
