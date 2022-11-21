@@ -51,6 +51,7 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
+	virtual void SetOrigin(Origins origin) override;
 
 	int GetTabSize() { return tabSize; }
 	vector<SpriteButton*> GetButtons() { return buttons; }

@@ -3,6 +3,7 @@
 TilePlay::TilePlay()
 	:isCollAble(false), onTileObj(nullptr)
 {
+	//m_TileData = { {0,0},-1,-1,-1 };
 }
 
 TilePlay::~TilePlay()
@@ -39,25 +40,32 @@ void TilePlay::Draw(RenderWindow& window)
 	}
 }
 
-void TilePlay::SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes TileTypes)
+void TilePlay::SetTilePlay(Vector2i indexArr, Vector2f pos, int index, TileTypes TileTypes = TileTypes::None, int grade = 0)
 {
-	m_index = index;
+	m_index = indexArr;
 	m_TileTypes = TileTypes;
 
-	if (count % 2 == 0)
+	m_TileData.arrIndex = indexArr;
+	m_TileData.TileTypes = (int)TileTypes;
+	m_TileData.ThemeTypes = 0;
+	m_TileData.pathIndex = index;
+	m_TileData.grade = grade;
+
+	if (index % 2 == 0)
 	{
 		SetTexture(*RESOURCE_MGR->GetTexture("graphics/TileSet/Field_00.png"));
 		Color color = sprite.getColor();
-		color.a = 155;
+		color.a = 30;
 		sprite.setColor(color);
 	}
 	else 
 	{
 		SetTexture(*RESOURCE_MGR->GetTexture("graphics/TileSet/Field_01.png"));
 		Color color = sprite.getColor();
-		color.a = 155;
+		color.a = 30;
 		sprite.setColor(color);
 	}
+
 	SetPos(pos);
 	SetOrigin(Origins::BC);
 
@@ -86,10 +94,14 @@ void TilePlay::SetTilePlay(Vector2i index, Vector2f pos, int count, TileTypes Ti
 
 void TilePlay::SetObstacle(ThemeTypes themeTypes, int obstacleIndex)
 {
+	m_TileData.ThemeTypes= (int)themeTypes;
+	m_TileData.TileTypes = (int)TileTypes::Obatacle;
+	m_TileData.pathIndex = obstacleIndex;
 	m_TileTypes = TileTypes::Obatacle;
+
 	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetObstaclePath(themeTypes, obstacleIndex)), true);
 	m_Obj.setPosition(GetPos());
-	cout << GetPos().x << " " << GetPos().y << endl;
+	CLOG::PrintVectorState(GetPos(), "방금 놓은 장애물 포스");
 	Utils::SetOrigin(m_Obj, Origins::BC);
 }
 
@@ -104,13 +116,18 @@ string TilePlay::SetObstaclePath(ThemeTypes types, int num)
 	return path + sNum + png;
 }
 
-void TilePlay::SetMonster(ThemeTypes themeTypes, int monsterIndex)
+void TilePlay::SetMonster(ThemeTypes themeTypes, int monsterIndex, int grade)
 {
+	m_TileData.ThemeTypes=(int)themeTypes;
+	m_TileData.TileTypes = (int)TileTypes::Monster;
+	m_TileData.pathIndex = monsterIndex;
+	m_TileData.grade = grade;
 	m_TileTypes = TileTypes::Monster;
 
 	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetMonsterPath(themeTypes, monsterIndex)), true);
 	m_Obj.setPosition(GetPos());
-	cout << GetPos().x << " " << GetPos().y << endl;
+
+	CLOG::PrintVectorState(GetPos(), "방금 놓은 몬스터 포스");
 
 	Utils::SetOrigin(m_Obj, Origins::BC);
 }
@@ -137,7 +154,26 @@ string TilePlay::SetMonsterPath(ThemeTypes types, int num)
 
 void TilePlay::SetEraser()
 {
+	m_TileData.TileTypes = (int)TileTypes::None;
+
 	m_TileTypes = TileTypes::None;
+}
+
+void TilePlay::SetTileData(ns::TileData TileData)
+{
+	if (TileData.TileTypes != 3)
+		SetEraser();
+
+	if (TileData.TileTypes == 1)
+	{
+		SetObstacle((ThemeTypes)TileData.ThemeTypes, TileData.pathIndex);
+	}
+	else if (TileData.TileTypes == 2)
+	{
+
+		SetMonster((ThemeTypes)TileData.ThemeTypes, TileData.pathIndex, TileData.grade);
+
+	}
 }
 
 void TilePlay::SetOnTileObj(Object* onTileObj)
@@ -148,6 +184,16 @@ void TilePlay::SetOnTileObj(Object* onTileObj)
 Object* TilePlay::GetOnTileObj()
 {
 	return onTileObj;
+}
+
+TileInfo TilePlay::GetTileInfo()
+{
+	return m_TileInfo;
+}
+
+TileData TilePlay::GetTileData()
+{
+	return m_TileData;
 }
 
 bool TilePlay::CollisionCheck(Vector2f pos, int index)

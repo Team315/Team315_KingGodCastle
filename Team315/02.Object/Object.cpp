@@ -34,7 +34,7 @@ void Object::Init()
 {
 	hitbox.setFillColor(Color(255, 0, 0, 180));
 	hitbox.setOutlineColor(Color::Black);
-	hitbox.setOutlineThickness(2.f);
+	hitbox.setOutlineThickness(1.f);
 	Reset();
 }
 
@@ -98,7 +98,24 @@ void Object::SetHitboxScale(float x, float y)
 	hitbox.setScale(x, y);
 }
 
-RectangleShape Object::GetHitbox() const
+RectangleShape& Object::GetHitbox()
 {
 	return hitbox;
+}
+
+void Object::SetHitBoxActive(bool hitboxActive)
+{
+	if (hitboxActive)
+		hitbox.setSize({ hitBoxRect.width, hitBoxRect.height });
+	else
+		hitbox.setSize({ 0, 0 });
+}
+
+bool Object::CollideTest(Vector2f pos)
+{
+	if (hitbox.getGlobalBounds().contains(pos))
+	{
+		return true;
+	}
+	return false;
 }

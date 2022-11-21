@@ -18,21 +18,22 @@ protected:
 	BattleSceneUI* ui;
 
 	Dir currMoveDir;
-	Evan* evan;
-	Goblin00* goblin00;
-	Dummy* dummy;
 	VertexArrayObj* background;
-	vector<vector<RectangleObj*>*> overlay;
-	vector<vector<TilePlay*>> testTile;
-	TilePlay* tilePlay;
-	Vector2f nowTile;
-	Vector2f nextTile;
 
 	Vector2f screenCenterPos;
 	Vector2u screenSize;
 	bool b_centerPos;
 	float gameScreenBottomLimit;
 	float gameScreenTopLimit;
+
+	// create character when summon (2x7) x(0, 6) y(16, 17)
+	vector<Character*> prepareGrid;
+
+	// set locate before battle (4x7) x(0, 6) y(10, 13)
+	vector<Character*> battleGrid;
+	Character* pick;
+	Vector2f beforeDragPos;
+	int battleCharacterCount;
 
 public:
 	BattleScene();
@@ -49,8 +50,16 @@ public:
 
 	VertexArrayObj* GetBackground() { return background; }
 
-	void CreateTestTile(int cols, int rows, float width, float height);
-
-	void MoveTile(Dir currMoveDir);
+	void MoveTile(Character* character, Dir currMoveDir);
+	void ZoomIn();
+	void ZoomOut();
 	void AIMove();
+	void PickUpCharacter(Character* character);
+	void PutDownCharacter(vector<Character*>* start, vector<Character*>* dest,
+		Vector2i startCoord, Vector2i destCoord);
+	int GetIdxFromCoord(Vector2i coord);
 };
+
+bool InPrepareGrid(Vector2i pos);
+bool InBattleGrid(Vector2i pos);
+int GetZeroElem(vector<Character*>& vec);

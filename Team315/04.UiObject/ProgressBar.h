@@ -16,6 +16,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
+	virtual void SetOrigin(Origins origin) override;
 
 	void SetSize(float x, float y);
 	void UpdateProgress();
@@ -23,5 +24,6 @@ public:
 	void SetBackgroundOutline(Color color, float thickness);
 	void SetProgressColor(Color color);
 	void SetProgressValue(float value);
+	const float GetProgressValue() { return progressValue; }
 	void TranslateProgress(float value);
 };

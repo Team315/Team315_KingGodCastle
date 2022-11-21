@@ -37,10 +37,10 @@ void SelectMonster::Draw(RenderWindow& window)
 	window.draw(m_monster);
 }
 
-void SelectMonster::SetSelectMonster(Vector2f pos, ThemeTypes types, int index)
+void SelectMonster::SetSelectMonster(Vector2f pos, ThemeTypes types, int index, int grade)
 {
 	m_index = index;
-
+	m_MonsterGrade = grade;
 	//cout << m_index << endl;
 
 	sprite.setPosition(pos);
@@ -56,6 +56,9 @@ void SelectMonster::SetSelectMonster(Vector2f pos, ThemeTypes types, int index)
 	m_Edge.setPosition(pos);
 	m_Edge.setOutlineThickness(-4.f);
 	Utils::SetOrigin(m_Edge, Origins::MC);
+
+	
+	//m_star.SetStar(GetGlobalBounds(), m_MonsterGrade);
 }
 
 string SelectMonster::SetPath(ThemeTypes types, int num)

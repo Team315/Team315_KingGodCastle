@@ -1,15 +1,24 @@
 #pragma once
 #include "SpriteObj.h"
+#include "Animator.h"
 #include "ProgressBar.h"
+#include "Star.h"
 #include "EnumClass.h"
 
 class Character : public SpriteObj
 {
 protected:
+	Animator animator;
 	Character* target;
-
+	
+	// UI
 	ProgressBar* hpBar;
+	Star* star;
+	
 	Vector2f hpBarLocalPos;
+	Vector2f starLocalPos;
+	//
+
 	Vector2f destination;
 	bool move;
 	bool attack;
@@ -28,6 +37,8 @@ protected:
 	Vector2f direction;
 	Vector2f lastDirection;
 
+	bool drawInBattle;
+
 public:
 	Character();
 	virtual ~Character();
@@ -41,7 +52,13 @@ public:
 	AnimStates GetState() { return currState;  }
 
 	void SetTarget(Character* target);
-	void SetHpBarLocalPos(Vector2f pos);
 	void SetMove(bool b) { move = b; }
 	void SetDestination(Vector2f dest) { destination = dest; }
+
+	void SetDrawInBattle(bool b) { drawInBattle = b; }
+	bool GetDrawInBattle() { return drawInBattle; }
+
+	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
+	int GetStarNumber() { return star->GetStarNumber(); }
+	void UpgradeStar();
 };

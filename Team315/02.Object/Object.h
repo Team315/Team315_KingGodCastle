@@ -47,9 +47,13 @@ public:
 
 	virtual void Update(float dt);
 	virtual void Draw(RenderWindow& window);
+	virtual void SetOrigin(Origins origin) = 0;
 
 	virtual void SetHitbox(const FloatRect rect, Origins origin, int ltDelta = 0, int whDelta = 0);
 	virtual void SetHitbox(const IntRect rect, Origins origin, int ltDelta = 0, int whDelta = 0);
 	virtual void SetHitboxScale(float x, float y);
-	virtual RectangleShape GetHitbox() const;
+	virtual RectangleShape& GetHitbox();
+	virtual void SetHitBoxActive(bool hitboxActive);
+
+	virtual bool CollideTest(Vector2f pos);
 };

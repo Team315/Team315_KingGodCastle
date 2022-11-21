@@ -4,15 +4,16 @@
 #include "RectangleObj.h"
 
 BattleSceneUI::BattleSceneUI(Scene* scene)
-	: UIMgr(scene)
+	: UIMgr(scene), b_battleGridRect(false)
 {
 	panel = new BattlePanel();
 	CreateBackground(panel, 1, 3, 188.f, 400.f);
 
 	prepareGrid.resize(PREPARE_SIZE);
+	prepareGridPos.resize(PREPARE_SIZE);
 	float outlineThickness = 2.f;
 	float posX = TILE_SIZE * 2.f;
-	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE * 8.f;
+	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE * 2.f;
 	int count = 0;
 	for (auto cell : prepareGrid)
 	{
@@ -21,7 +22,8 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 			TILE_SIZE - outlineThickness * 2 - 1);
 		cell->SetOutline(Color(255, 255, 255, 100), outlineThickness);
 		cell->SetFillColor(Color(0, 0, 0, 0));
-		cell->SetPos(Vector2f(posX, posY));
+		prepareGridPos[count] = Vector2f(posX, posY);
+		cell->SetPos(prepareGridPos[count]);
 		cell->SetOrigin(Origins::BC);
 		uiObjList.push_back(cell);
 		count++;
@@ -31,6 +33,27 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 			posX = TILE_SIZE * 2.f;
 			posY += TILE_SIZE;
 		}
+	}
+
+	battleGridRect.resize(BATTLE_GRID_ROW);
+	posY = TILE_SIZE * 11.f;
+	for (auto& tiles : battleGridRect)
+	{
+		tiles.resize(GAME_TILE_WIDTH);
+		float posX = TILE_SIZE * 2.f;
+		for (auto& tile : tiles)
+		{
+			tile = new RectangleObj(
+				TILE_SIZE - outlineThickness * 2 - 1,
+				TILE_SIZE - outlineThickness * 2 - 1);
+			tile->SetFillColor(Color(255, 255, 255, 20));
+			tile->SetOutline(Color::White, outlineThickness);
+			tile->SetPos(Vector2f(posX, posY));
+			tile->SetOrigin(Origins::BC);
+			uiObjList.push_back(tile);
+			posX += TILE_SIZE;
+		}
+		posY += TILE_SIZE;
 	}
 }
 
@@ -52,8 +75,14 @@ void BattleSceneUI::Release()
 
 void BattleSceneUI::Reset()
 {
-	panel->SetPos(Vector2f(0, GAME_SCREEN_HEIGHT * 1.6f));
+	panel->SetPos(Vector2f(0, GAME_SCREEN_HEIGHT * 1.2f));
 	UIMgr::Reset();
+	b_battleGridRect = false;
+	for (auto& tiles : battleGridRect)
+	{
+		for (auto& tile : tiles)
+			tile->SetActive(b_battleGridRect);
+	}
 }
 
 void BattleSceneUI::Update(float dt)
@@ -64,6 +93,10 @@ void BattleSceneUI::Update(float dt)
 void BattleSceneUI::Draw(RenderWindow& window)
 {
 	UIMgr::Draw(window);
+}
+
+void BattleSceneUI::SetOrigin(Origins origin)
+{
 }
 
 void BattleSceneUI::CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight)

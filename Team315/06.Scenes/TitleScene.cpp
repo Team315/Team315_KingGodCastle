@@ -40,6 +40,9 @@ void TitleScene::Enter()
 
 	FRAMEWORK->SetWindowSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	currentView = gameView;
+
+	GAME_MGR->SetTilesData();
+	GAME_MGR->CreatedTiles();
 }
 
 void TitleScene::Exit()

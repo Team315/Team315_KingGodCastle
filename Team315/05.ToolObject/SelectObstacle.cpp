@@ -30,6 +30,7 @@ void SelectObstacle::Draw(RenderWindow& window)
 void SelectObstacle::SetSelectObstacle(Vector2f pos, ThemeTypes types, int index)
 {
 	m_index = index;
+	m_types = types;
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(SetPath(types, m_index)));
 	sprite.setPosition(pos);
 	SetOrigin(Origins::MC);
@@ -57,6 +58,11 @@ string SelectObstacle::SetPath(ThemeTypes types, int num)
 int SelectObstacle::GetIndex()
 {
 	return m_index;
+}
+
+ThemeTypes SelectObstacle::GetThemeTypes()
+{
+	return m_types;
 }
 
 bool SelectObstacle::CollisionCheck(Vector2f pos, int index)

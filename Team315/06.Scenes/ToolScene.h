@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "Include.h"
-
+#include "FileData.h"
 class ToolChapter;
 class TilePlay;
 class SelectStar;
@@ -48,8 +48,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	void CreateTileSet(int cols, int rows, float quadWidth, float quadHeight);
-	void CreateTilePlay(int maxChapter,int maxStage, int cols, int rows, float quadWidth, float quadHeight);
+	//void CreateTilePlay(int maxChapter,int maxStage, int cols, int rows, float quadWidth, float quadHeight);
 	void CreateUiName();
 	void CreateChapterNum(int count);
 	void CreateStageNum(int count);
@@ -60,5 +59,8 @@ public:
 	void CreateSelectStar();
 
 	void SetClickMode(ClickMode clickMode);
+
+	Chapters GetTilesData();
+	void SetTilesData(Chapters& data);
 
 };

@@ -11,9 +11,9 @@ public:
     virtual ~SpriteObj() override;
 
     virtual void Draw(RenderWindow& window) override;
+    virtual void SetOrigin(Origins origin) override;
 
     void SetTexture(Texture& tex);
-    void SetOrigin(Origins origin);
 	void SetScale(float x, float y);
 	void SetColor(Color color);
 

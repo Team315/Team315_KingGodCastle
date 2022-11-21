@@ -1,5 +1,15 @@
 #include "Evan.h"
 
+Evan::Evan()
+{
+	SetType("Player");
+	SetName("Evan");
+}
+
+Evan::~Evan()
+{
+}
+
 void Evan::Init()
 {
     animator.SetTarget(&sprite);
@@ -189,7 +199,7 @@ void Evan::Update(float dt)
 	}
 	animator.Update(dt);
 
-	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
 		lastDirection = direction;
 	}
@@ -221,7 +231,7 @@ void Evan::OnCompleteSkill()
 
 void Evan::UpdateIdle(float dt)
 {
-	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::Move);
 		return;
@@ -230,7 +240,7 @@ void Evan::UpdateIdle(float dt)
 
 void Evan::UpdateMoveToIdle(float dt)
 {
-	if (!EqualFloat(direction.x, 0.f) || !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::Move);
 		return;
@@ -239,16 +249,16 @@ void Evan::UpdateMoveToIdle(float dt)
 
 void Evan::UpdateMove(float dt)
 {
-	if (EqualFloat(direction.x, 0.f) && EqualFloat(direction.y, 0.f))
+	if (Utils::EqualFloat(direction.x, 0.f) && Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::MoveToIdle);
 		return;
 	}
-	if (!EqualFloat(direction.x, lastDirection.x))
+	if (!Utils::EqualFloat(direction.x, lastDirection.x))
 	{
 		animator.Play((direction.x > 0.f) ? "RightMove" : "LeftMove");
 	}
-	if (!EqualFloat(direction.y, lastDirection.y))
+	if (!Utils::EqualFloat(direction.y, lastDirection.y))
 	{
 		animator.Play((direction.y > 0.f) ? "DownMove" : "UpMove");
 	}
@@ -256,7 +266,7 @@ void Evan::UpdateMove(float dt)
 
 void Evan::UpdateAttack(float dt)
 {
-	if (!EqualFloat(direction.x, 0.f) && !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::Idle);
 	}
@@ -264,13 +274,8 @@ void Evan::UpdateAttack(float dt)
 
 void Evan::UpdateSkill(float dt)
 {
-	if (!EqualFloat(direction.x, 0.f) && !EqualFloat(direction.y, 0.f))
+	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::Idle);
 	}
-}
-
-bool Evan::EqualFloat(float a, float b)
-{
-    return fabs(a - b) < numeric_limits<float>::epsilon();
 }

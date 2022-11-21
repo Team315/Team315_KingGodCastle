@@ -31,16 +31,16 @@ void ToolStage::CreateTilePlay(int cols, int rows, float quadWidth, float quadHe
 		for (int j = 0; j < rows; ++j)
 		{
 			TilePlay* tilePlay = new TilePlay();
-			tilePlay->SetTilePlay({ cols, rows }, 
+			tilePlay->SetTilePlay({ i, j }, 
 				{ (WINDOW_WIDTH - (quadWidth * 8)) + (j * quadWidth), quadHeight + (i * quadHeight) }, 
-				count++, tileTypes);
+				count++, tileTypes, 0);
 
 			m_TilePlayList[i][j] = tilePlay;
 		}
 	}
 }
 
-TilePlay* ToolStage::GetTileTool(int cols, int rows)
+vector<vector<TilePlay*>>& ToolStage::GetTileTool()
 {
-    return m_TilePlayList[cols][rows];
+    return m_TilePlayList;
 }

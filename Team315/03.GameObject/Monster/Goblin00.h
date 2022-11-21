@@ -1,21 +1,14 @@
 #pragma once
 #include "Include.h"
-#include "Animator.h"
 #include "Character.h"
 
 class Goblin00 : public Character
 {
 protected:
-	Animator animator;
-
-	float speed;
-
-	bool isPlaying2;
 public:
-	Goblin00()
-		: speed(100.f), isPlaying2(false)
-	{
-	}
+	Goblin00();
+	virtual ~Goblin00();
+
 	virtual void Init() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
@@ -29,7 +22,4 @@ public:
 	void UpdateMoveToIdle(float dt);
 	void UpdateMove(float dt);
 	void UpdateAttack(float dt);
-
-	bool EqualFloat(float a, float b);
 };
-

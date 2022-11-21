@@ -19,7 +19,6 @@ void ProgressBar::Update(float dt)
 
 void ProgressBar::Draw(RenderWindow& window)
 {
-	Object::Draw(window);
 	window.draw(shape);
 	window.draw(progress);
 }
@@ -27,7 +26,13 @@ void ProgressBar::Draw(RenderWindow& window)
 void ProgressBar::SetPos(const Vector2f& pos)
 {
 	RectangleObj::SetPos(pos);
-	progress.setPosition(position);
+	progress.setPosition(pos);
+}
+
+void ProgressBar::SetOrigin(Origins origin)
+{
+	//RectangleObj::SetOrigin(origin);
+	Utils::SetOrigin(progress, origin);
 }
 
 void ProgressBar::SetSize(float x, float y)

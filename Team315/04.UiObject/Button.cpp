@@ -24,7 +24,7 @@ void Button::SetPos(const Vector2f& pos)
 
 void Button::SetOrigin(Origins origin)
 {
-	Utils::SetOrigin(sprite, origin);
+	SpriteObj::SetOrigin(origin);
 	Utils::SetOrigin(btnText, origin);
 }
 
@@ -73,13 +73,4 @@ void Button::SetLocalPos(Vector2f pos)
 {
 	btnTextLocalPos = pos;
 	SetPos(position);
-}
-
-bool Button::CollideTest(Vector2f pos)
-{
-	if (hitbox.getGlobalBounds().contains(pos))
-	{
-		return true;
-	}
-	return false;
 }
