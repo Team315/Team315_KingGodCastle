@@ -149,35 +149,14 @@ void Evan::SetState(AnimStates newState)
 	}
 }
 
-void Evan::UpdateInput()
-{
-	//if (InputMgr::GetKeyDown(Keyboard::Z))
-	//{
-	//	SetState(AnimStates::Attack);
-	//}
-	//if (InputMgr::GetKeyDown(Keyboard::X))
-	//{
-	//	SetState(AnimStates::Skill);
-	//}
-	//if (InputMgr::GetKeyDown(Keyboard::C))
-	//{
-	//	SetState(AnimStates::Move);
-	//}
-}
-
 void Evan::Update(float dt)
 {
 	Character::Update(dt);
-	UpdateInput();
 
 	direction.x = 0.f;
 	direction.y = 0.f;
-	//direction.x += Keyboard::isKeyPressed(Keyboard::Right) ? 1 : 0;
-	//direction.x += Keyboard::isKeyPressed(Keyboard::Left) ? -1 : 0;
-	//direction.y += Keyboard::isKeyPressed(Keyboard::Down) ? 1 : 0;
-	//direction.y += Keyboard::isKeyPressed(Keyboard::Up) ? -1 : 0;
 
-	Translate(direction * dt * speed);
+	Translate(direction * dt * moveSpeed);
 	
 	switch (currState)
 	{
@@ -202,10 +181,6 @@ void Evan::Update(float dt)
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
 		lastDirection = direction;
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Right))
-	{
-
 	}
 }
 
@@ -268,7 +243,7 @@ void Evan::UpdateAttack(float dt)
 {
 	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
 	{
-		SetState(AnimStates::Idle);
+		SetState(AnimStates::MoveToIdle);
 	}
 }
 
@@ -276,6 +251,6 @@ void Evan::UpdateSkill(float dt)
 {
 	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
 	{
-		SetState(AnimStates::Idle);
+		SetState(AnimStates::MoveToIdle);
 	}
 }

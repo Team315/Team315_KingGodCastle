@@ -30,7 +30,8 @@ protected:
 
 	AnimStates currState;
 
-	float speed;
+	float moveSpeed;
+
 
 	Vector2f nowTile;
 	Vector2f frontTile;
@@ -61,4 +62,5 @@ public:
 	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
 	int GetStarNumber() { return star->GetStarNumber(); }
 	void UpgradeStar();
+	void UpGradeCharacterSet();
 };

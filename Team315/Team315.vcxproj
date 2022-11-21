@@ -214,6 +214,7 @@
     <ClInclude Include="03.GameObject\Star.h" />
     <ClInclude Include="03.GameObject\Map\Tile.h" />
     <ClInclude Include="03.GameObject\Map\AStar.h" />
+    <ClInclude Include="03.GameObject\Player\Daniel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -242,6 +243,7 @@
     <ClCompile Include="01.Manager\GameManager.cpp" />
     <ClCompile Include="03.GameObject\Player\Aramis.cpp" />
     <ClCompile Include="03.GameObject\Map\AStar.cpp" />
+    <ClCompile Include="03.GameObject\Player\Daniel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />

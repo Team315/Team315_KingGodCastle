@@ -1,0 +1,7 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Daniel_UpMove,1,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Charactor/Player/Daniel/DanielMove.png,0,200,100,100,50,100,0,0
+graphics/Charactor/Player/Daniel/DanielMove.png,100,200,100,100,50,100,0,0
+graphics/Charactor/Player/Daniel/DanielMove.png,200,200,100,100,50,100,0,0
+graphics/Charactor/Player/Daniel/DanielMove.png,300,200,100,100,50,100,0,0

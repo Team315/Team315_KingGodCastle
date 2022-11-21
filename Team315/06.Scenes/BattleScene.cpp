@@ -165,8 +165,10 @@ void BattleScene::Update(float dt)
 					}
 					int ran = Utils::RandomRange(0, PRESET_SIZE);
 					Character* test;
-					if (ran % 2)
+					if (ran % 3)
 						test = new Evan();
+					else if (ran % 2)
+						test = new Daniel();
 					else
 						test = new Goblin00();
 					test->SetPos(ui->GetPrepareGridPos(idx));

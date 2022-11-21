@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Player/Evan.h"
 #include "Monster/Goblin00.h"
+#include "Player/Daniel.h"
 #include "Player/Dummy.h"
 #include "VertexArrayObj.h"
 #include "RectangleObj.h"
