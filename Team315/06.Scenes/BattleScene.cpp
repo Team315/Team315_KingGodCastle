@@ -3,18 +3,15 @@
 #include "BattlePanel.h"
 #include "Button.h"
 #include "Constant.h"
-#include "Player/Evan.h"
-#include "Player/Daniel.h"
-#include "Monster/Goblin01.h"
-#include "Obstacle.h"
 #include "GameManager.h"
 #include "Map/Tile.h"
 #include "RectangleObj.h"
 #include "VertexArrayObj.h"
+#include "CharacterHeaders.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(3),
-	curChapIdx(0), curStageIdx(0)
+	curChapIdx(0), curStageIdx(0), playingBattle(false)
 {
 	CLOG::Print3String("battle create");
 
@@ -100,6 +97,12 @@ void BattleScene::Update(float dt)
 					tile->SetActive(ui->b_battleGridRect);
 			}
 		}
+		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
+		{
+			CLOG::Print3String("battle end");
+			playingBattle = false;
+		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::F5))
 		{
 			CLOG::Print3String("prev stage test");
@@ -222,6 +225,8 @@ void BattleScene::Update(float dt)
 						if ((count % GAME_TILE_WIDTH) == 0)
 							cout << endl;
 					}
+
+					playingBattle = true;
 					break;
 				}
 				// summon character
@@ -239,17 +244,17 @@ void BattleScene::Update(float dt)
 						return;
 					}
 					int ran = Utils::RandomRange(0, PRESET_SIZE);
-					Character* test;
+					Character* newPick;
 					if (ran % 3 == 0)
-						test = new Evan();
+						newPick = new Evan();
 					else if (ran % 3 == 1)
-						test = new Daniel();
+						newPick = new Daniel();
 					else
-						test = new Goblin01();
-					test->SetPos(ui->GetPrepareGridPos(idx));
-					test->Init();
-					test->SetDrawInBattle(false);
-					prepareGrid[idx] = test;
+						newPick = new Aramis();
+					newPick->SetPos(ui->GetPrepareGridPos(idx));
+					newPick->Init();
+					newPick->SetDrawInBattle(false);
+					prepareGrid[idx] = newPick;
 					break;
 				}
 			}
@@ -300,20 +305,23 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	for (auto& character : battleGrid)
+	if (!playingBattle)
 	{
-		if (character == nullptr)
-			continue;
-
-		character->Update(dt);
-		if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		for (auto& character : battleGrid)
 		{
-			if (InputMgr::GetMouseDown(Mouse::Left))
+			if (character == nullptr)
+				continue;
+
+			character->Update(dt);
+			if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 			{
-				if (pick == nullptr)
+				if (InputMgr::GetMouseDown(Mouse::Left))
 				{
-					PickUpCharacter(character);
-					break;
+					if (pick == nullptr)
+					{
+						PickUpCharacter(character);
+						break;
+					}
 				}
 			}
 		}
@@ -388,10 +396,13 @@ void BattleScene::Draw(RenderWindow& window)
 			character->Draw(window);
 	}
 
-	for (auto& character : battleGrid)
+	if (!playingBattle)
 	{
-		if (character != nullptr)
-			character->Draw(window);
+		for (auto& character : battleGrid)
+		{
+			if (character != nullptr)
+				character->Draw(window);
+		}
 	}
 
 	for (auto& character : mainGrid)

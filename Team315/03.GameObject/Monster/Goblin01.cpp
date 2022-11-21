@@ -4,6 +4,9 @@ Goblin01::Goblin01()
 {
 	SetType("Monster");
 	SetName("Goblin01");
+	maxHp = 100;
+	hp = maxHp;
+	Ad = 20;
 }
 
 Goblin01::~Goblin01()
@@ -12,7 +15,6 @@ Goblin01::~Goblin01()
 
 void Goblin01::Init()
 {
-	//SetPos({ 510 - 50, 720 / 2.f });
 	animator.SetTarget(&sprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_Idle"));
@@ -110,23 +112,6 @@ void Goblin01::SetState(AnimStates newState)
 void Goblin01::Update(float dt)
 {
 	Character::Update(dt);
-	//cout << GetPos().x << " " << GetPos().y << endl;
-	//if (InputMgr::GetKeyDown(Keyboard::Key::O))
-	//{
-	//	//cout << "O" << endl;
-	//	isPlaying2 = true;
-	//}
-	//if (InputMgr::GetKeyDown(Keyboard::Key::P))
-	//{
-	//	//cout << "P" << endl;
-	//	isPlaying2 = false;
-	//}
-	//if(isPlaying2)
-	//{
-	//	direction = Utils::Normalize(target->GetPos() - GetPos());
-	//	Translate(direction * dt * speed);
-	//}
-	////cout << direction.x << " " << direction.y << endl;
 
 	switch (currState)
 	{
@@ -187,11 +172,6 @@ void Goblin01::UpdateMoveToIdle(float dt)
 
 void Goblin01::UpdateMove(float dt)
 {
-	/*if (!isPlaying2)
-	{
-		SetState(AnimStates::MoveToIdle);
-		return;
-	}*/
 	if (Utils::EqualFloat(direction.x, 0.f) && Utils::EqualFloat(direction.y, 0.f))
 	{
 		SetState(AnimStates::MoveToIdle);

@@ -159,6 +159,7 @@
     <ClInclude Include="97.DataTable\DataTableMgr.h" />
     <ClInclude Include="97.DataTable\StringTable.h" />
     <ClInclude Include="03.GameObject\Character.h" />
+    <ClInclude Include="99.Include\CharacterHeaders.h" />
     <ClInclude Include="99.Include\Constant.h" />
     <ClInclude Include="99.Include\Define.h" />
     <ClInclude Include="99.Include\EnumClass.h" />

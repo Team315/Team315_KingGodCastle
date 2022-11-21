@@ -22,11 +22,14 @@ protected:
 	Vector2f destination;
 	bool move;
 	bool attack;
+	bool isAlive;
+
 	int maxHp;
 	int hp;
 	int maxMp;
 	int Mp;
-	int dmg;
+	int Ad;
+	int Ap;
 
 	AnimStates currState;
 
@@ -63,5 +66,5 @@ public:
 	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
 	int GetStarNumber() { return star->GetStarNumber(); }
 	void UpgradeStar();
-	void UpGradeCharacterSet();
+	void UpgradeCharacterSet();
 };
