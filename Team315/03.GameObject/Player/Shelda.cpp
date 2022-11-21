@@ -5,10 +5,10 @@ Shelda::Shelda(int starNumber)
 {
 	SetType("Player");
 	SetName("Shelda");
-	maxHp = 250;
+	maxHp = 200;
 	hp = maxHp;
 	Ad = 15;
-	Ap = 25;
+	Ap = 40;
 	cout << "Shelda" << " " << hp << " " << Ad << " " << Ap << endl;
 }
 

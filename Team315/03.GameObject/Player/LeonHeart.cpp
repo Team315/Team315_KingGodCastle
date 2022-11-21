@@ -5,10 +5,10 @@ LeonHeart::LeonHeart(int starNumber)
 {
 	SetType("Player");
 	SetName("LeonHeart");
-	maxHp = 250;
+	maxHp = 300;
 	hp = maxHp;
-	Ad = 20;
-	Ap = 20;
+	Ad = 15;
+	Ap = 15;
 	cout << "LeonHeart" << " " << hp << " " << Ad << " " << Ap << endl;
 }
 
