@@ -41,7 +41,7 @@ void SelectMonster::SetSelectMonster(Vector2f pos, ThemeTypes types, int index, 
 {
 	m_index = index;
 	m_MonsterGrade = grade;
-	//cout << m_index << endl;
+	m_types = types;
 
 	sprite.setPosition(pos);
 	SetOrigin(Origins::MC);
@@ -87,6 +87,11 @@ int SelectMonster::GetIndex()
 	cout << m_index << endl;
 
 	return m_index;
+}
+
+ThemeTypes SelectMonster::GetThemeTypes()
+{
+	return m_types;
 }
 
 bool SelectMonster::CollisionCheck(Vector2f pos, int index)

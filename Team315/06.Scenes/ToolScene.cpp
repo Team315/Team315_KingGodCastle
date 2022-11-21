@@ -137,6 +137,7 @@ void ToolScene::Update(float dt)
 
 	for (auto SelectTile : SelectTileList)
 	{
+
 		SelectTile->OnEdge(m_nowTileSet);
 		if (SelectTile->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowTileSet))
 		{
@@ -187,6 +188,14 @@ void ToolScene::Update(float dt)
 
 	for (auto SelectMonster : SelectMonsterList)
 	{
+		if (SelectMonster->GetThemeTypes() == (ThemeTypes)m_nowTheme)
+		{
+			SelectMonster->SetActive(true);
+		}
+		else
+		{
+			SelectMonster->SetActive(false);
+		}
 		SelectMonster->OnEdge(m_monster);
 		if (SelectMonster->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_monster))
 		{
@@ -442,9 +451,25 @@ void ToolScene::CreateSelectMonster()
 {
 	MonsterTypes types;
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 1; i <= (int)ThemeTypes::Slime; i++)
 	{
-		for (int j = 0; j < 5; ++j)
+		int count;
+
+		switch (i)
+		{
+		case 1:
+			count = TYPE1_MONSTER_COUNT;
+			break;
+		case 2:
+			count = TYPE2_MONSTER_COUNT;
+			break;
+		case 3:
+			count = TYPE3_MONSTER_COUNT;
+			break;
+		default:
+			break;
+		}
+		for (int j = 0; j < count; ++j)
 		{
 			if (j == 0)
 				types = MonsterTypes::Boss;
@@ -452,7 +477,8 @@ void ToolScene::CreateSelectMonster()
 				types = MonsterTypes::Monster;
 
 			SelectMonster* selectMonster = new SelectMonster(types);
-			selectMonster->SetSelectMonster({ 54.f + (j * 108.f),WINDOW_HEIGHT - 75.f }, (ThemeTypes)(i + 1), j, m_nowStar);
+			selectMonster->SetSelectMonster({ 54.f + (j * 108.f),WINDOW_HEIGHT - 75.f }, (ThemeTypes)(i), j, m_nowStar);
+			selectMonster->SetActive(false);
 			SelectMonsterList.push_back(selectMonster);
 			objList.push_back(selectMonster);
 		}

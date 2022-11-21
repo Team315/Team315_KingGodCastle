@@ -7,6 +7,7 @@ class SelectMonster :public SpriteObj
 protected:
 	Sprite m_monster;
 	RectangleShape m_Edge;
+	ThemeTypes m_types;
 
 	MonsterTypes m_monsterTypes;
 	int m_MonsterGrade;
@@ -28,6 +29,7 @@ public:
 	string SetPath(ThemeTypes types, int num);
 
 	int GetIndex();
+	ThemeTypes GetThemeTypes();
 
 	bool CollisionCheck(Vector2f pos, int index);
 	bool ChangeSize(bool check);
