@@ -2,7 +2,7 @@
 #include "Include.h"
 
 Character::Character()
-	: destination(0, 0), move(false), attack(false),
+	: destination(0, 0), move(false), attack(false), isAlive(false),
 	currState(AnimStates::None), drawInBattle(false)
 {
 	hpBar = new ProgressBar();
@@ -40,7 +40,7 @@ Character::~Character()
 void Character::Init()
 {
 	SetHitbox(FloatRect(0, 0, TILE_SIZE, TILE_SIZE), Origins::BC);
-	UpGradeCharacterSet();
+	UpgradeCharacterSet();
 	Object::Init();
 }
 
@@ -93,13 +93,12 @@ void Character::UpgradeStar()
 	if (star->CalculateRandomChance())
 		CLOG::Print3String("upgrade 2");
 	star->UpdateTexture();
-	UpGradeCharacterSet();
+	UpgradeCharacterSet();
 }
 
-void Character::UpGradeCharacterSet()
+void Character::UpgradeCharacterSet()
 {
 	sprite.setScale({ 1.0f+(GetStarNumber()*0.05f),1.0f + (GetStarNumber() * 0.05f) });
-	// 1성당 캐릭터 스케일 증가(5%)
 	// 성급 올라갈때 공격력,마력,체력 증가
 	// 별 색 바뀔때 스킬 범위 증가
 	

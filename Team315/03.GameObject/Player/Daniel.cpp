@@ -4,6 +4,11 @@ Daniel::Daniel()
 {
 	SetType("Player");
 	SetName("Daniel");
+	maxHp = 250;
+	hp = maxHp;
+	Ad = 20;
+	Ap = 20;
+	cout << "Daniel" << " " << hp << " " << Ad << " " << Ap << endl;
 }
 
 Daniel::~Daniel()
@@ -12,6 +17,7 @@ Daniel::~Daniel()
 
 void Daniel::Init()
 {
+
 	animator.SetTarget(&sprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Idle"));

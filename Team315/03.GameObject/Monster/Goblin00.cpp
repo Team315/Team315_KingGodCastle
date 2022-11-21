@@ -4,6 +4,9 @@ Goblin00::Goblin00()
 {
 	SetType("Monster");
 	SetName("Goblin00");
+	maxHp = 100;
+	hp = maxHp;
+	Ad = 20;
 }
 
 Goblin00::~Goblin00()
@@ -12,7 +15,6 @@ Goblin00::~Goblin00()
 
 void Goblin00::Init()
 {
-	//SetPos({ 510 - 50, 720 / 2.f });
 	animator.SetTarget(&sprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_Idle"));

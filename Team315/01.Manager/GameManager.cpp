@@ -2,7 +2,7 @@
 #include "Map/Tile.h"
 
 GameManager::GameManager()
-	: prepareSize(0), characterCount(10), extraLevelUpChance(30)
+	: prepareSize(0), characterCount(10), extraLevelUpChance(0)
 {
 	CLOG::Print3String("GameManager Create");
 	prepareGrid.resize(PREPARE_SIZE, 0);

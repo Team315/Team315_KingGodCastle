@@ -3,13 +3,11 @@
 #include "BattlePanel.h"
 #include "Button.h"
 #include "Constant.h"
-#include "Player/Evan.h"
-#include "Player/Daniel.h"
-#include "Monster/Goblin00.h"
 #include "GameManager.h"
 #include "Map/Tile.h"
 #include "RectangleObj.h"
 #include "VertexArrayObj.h"
+#include "CharacterHeaders.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(3),
@@ -185,7 +183,7 @@ void BattleScene::Update(float dt)
 					else if (ran % 3 == 1)
 						test = new Daniel();
 					else
-						test = new Goblin00();
+						test = new Aramis();
 					test->SetPos(ui->GetPrepareGridPos(idx));
 					test->Init();
 					test->SetDrawInBattle(false);
