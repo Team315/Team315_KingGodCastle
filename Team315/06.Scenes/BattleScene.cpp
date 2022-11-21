@@ -8,7 +8,8 @@
 #include "Map/Tile.h"
 
 BattleScene::BattleScene()
-	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(3)
+	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(3),
+	curChapIdx(0), curStageIdx(0)
 {
 	CLOG::Print3String("battle create");
 
@@ -47,6 +48,10 @@ void BattleScene::Enter()
 	prepareGrid.assign(PREPARE_SIZE, nullptr);
 	battleGrid.assign(BATTLE_GRID_ROW * GAME_TILE_WIDTH, nullptr);
 	ui->Reset();
+
+	curChapIdx = 0;
+	curStageIdx = 0;
+	SetCurrentStage(curChapIdx, curStageIdx);
 }
 
 void BattleScene::Exit()
@@ -88,6 +93,12 @@ void BattleScene::Update(float dt)
 				for (auto& tile : tiles)
 					tile->SetActive(ui->b_battleGridRect);
 			}
+		}
+		if (InputMgr::GetKeyDown(Keyboard::Key::F6))
+		{
+			CLOG::Print3String("next stage test");
+			curStageIdx++;
+			SetCurrentStage(curChapIdx, curStageIdx);
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 		{
@@ -275,11 +286,11 @@ void BattleScene::Draw(RenderWindow& window)
 {
 	Scene::Draw(window);
 
-	for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
+	for (auto& row : *curStage)
 	{
-		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
+		for (auto& tile : row)
 		{
-			GAME_MGR->GetTiles(0, 0, i, j)->Draw(window);
+			tile->Draw(window);
 		}
 	}
 
@@ -417,6 +428,12 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 int BattleScene::GetIdxFromCoord(Vector2i coord)
 {
 	return coord.x + (coord.y < 14 ? coord.y - 10 : coord.y - 16) * GAME_TILE_WIDTH; // battle y 10~13 prepare y 16~17
+}
+
+void BattleScene::SetCurrentStage(int chap, int stage)
+{
+	curStage = GAME_MGR->GetStage(chap, stage);
+	cout << "current chapter, stage (" << curChapIdx << ", " << curStageIdx << ")" << endl;
 }
 
 bool InPrepareGrid(Vector2i pos)

@@ -18,7 +18,8 @@ protected:
 	int prepareSize;
 	int characterCount;
 
-	int extraLevelUpChance; // additional level up probability
+	// additional level up probability
+	int extraLevelUpChance;
 
 public:
 	GameManager();
@@ -47,11 +48,10 @@ public:
 	Vector2f IdxToPos(Vector2i idx);
 
 	void SetTilesData();
-	Chapters GetPlayTiles();
-	Tile* GetTiles(int chap, int stage, int height, int width);
+	Tile* GetTile(int chap, int stage, int height, int width);
+	vector<vector<Tile*>>* GetStage(int chap, int stage) { return &m_tiles[chap][stage]; }
 
 	void CreatedTiles();
-	//GameManager GetGameManager() { return *this; }
 };
 
 #define GAME_MGR (GameManager::GetInstance())

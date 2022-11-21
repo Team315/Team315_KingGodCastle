@@ -13,7 +13,7 @@ protected:
 
 public:
 	Tile();
-	~Tile();
+	virtual ~Tile();
 
 	virtual void Init() override;
 	virtual void Release() override;

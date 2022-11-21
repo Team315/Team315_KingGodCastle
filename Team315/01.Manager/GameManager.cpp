@@ -112,11 +112,7 @@ void GameManager::SetTilesData()
 	delete file;
 }
 
-Chapters GameManager::GetPlayTiles()
-{
-	return *m_PlayTileList;
-}
-Tile* GameManager::GetTiles(int chap, int stage, int height, int width)
+Tile* GameManager::GetTile(int chap, int stage, int height, int width)
 {
 	return m_tiles[chap][stage][height][width];
 }
