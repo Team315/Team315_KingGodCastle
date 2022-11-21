@@ -15,13 +15,13 @@ public:
 	UIMgr(Scene* scene);
 	virtual ~UIMgr();
 
-	virtual void Init();
-	virtual void Release();
+	virtual void Init() override;
+	virtual void Release() override;
 
-	virtual void Reset();
+	virtual void Reset() override;
 
-	virtual void SetPos(const Vector2f& pos);
+	virtual void SetPos(const Vector2f& pos) override;
 	
-	virtual void Update(float dt);
-	virtual void Draw(RenderWindow& window);
+	virtual void Update(float dt) override;
+	virtual void Draw(RenderWindow& window) override;
 };

@@ -11,6 +11,9 @@ protected:
 	LobySceneUI* ui;
 	vector<SpriteObj*> backgrounds;
 	int tabSize;
+	Vector2f curViewCenterDest;
+	bool translateView;
+	float translateSpeed;
 
 public:
 	LobyScene();
@@ -25,5 +28,4 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	void DrawBackground(RenderWindow& window);
-	int currentBackground;
 };

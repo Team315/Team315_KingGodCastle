@@ -8,12 +8,11 @@
 #include "RssTextWindow.h"
 
 LobyScene::LobyScene()
-	: Scene(Scenes::Loby), currentBackground(2)
+	: Scene(Scenes::Loby), translateView(false), translateSpeed(10.f)
 {
 	CLOG::Print3String("loby create");
 	ui = new LobySceneUI(this);
 	tabSize = ui->GetTabSize();
-	GAME_MGR;
 }
 
 LobyScene::~LobyScene()
@@ -25,13 +24,19 @@ void LobyScene::Init()
 	CLOG::Print3String("loby Init");
 
 	backgrounds.resize(tabSize);
-	Vector2f backgroundPos;
 	for (int i = 0; i < tabSize; i++)
 	{
 		string textureKey = "graphics/mainScene/mainBackground_";
 		textureKey += (i < 10 ? "0" : "") + to_string(i + 1) + ".png";
 		backgrounds[i] = new SpriteObj();
 		backgrounds[i]->SetTexture(*RESOURCE_MGR->GetTexture(textureKey));
+	}
+
+	Vector2f backgroundPos(0.f, 0.f);
+	for (auto& background : backgrounds)
+	{
+		background->SetPos(backgroundPos);
+		backgroundPos.x += GAME_SCREEN_WIDTH;
 	}
 
 	objList.push_back(ui);
@@ -49,6 +54,10 @@ void LobyScene::Enter()
 
 	FRAMEWORK->SetWindowSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	currentView = gameView;
+	curViewCenterDest = { GAME_SCREEN_WIDTH * 2.5f, GAME_SCREEN_HEIGHT * 0.5f };
+	currentView.setCenter(curViewCenterDest);
+	ui->SetPos(Vector2f(GAME_SCREEN_WIDTH * 2.0f, 0.f));
+	translateView = false;
 }
 
 void LobyScene::Exit()
@@ -116,7 +125,7 @@ void LobyScene::Update(float dt)
 		int ranNum;
 		int ranIdx;
 		int characterSize = GAME_MGR->GetCharacterCount();
-		
+
 		ranNum = Utils::RandomRange(0, characterSize);
 		ranIdx = Utils::RandomRange(0, PRESET_SIZE);
 		GAME_MGR->SetPresetElem(ranIdx, ranNum);
@@ -132,24 +141,21 @@ void LobyScene::Update(float dt)
 		}
 		cout << endl;
 	}
-
 	// Dev Input End
 
 	// game input
 	int idx = 0;
 	for (auto button : ui->GetButtons())
 	{
-		if (button->CollideTest(ScreenToUiPos(InputMgr::GetMousePosI())))
+		if (button->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
 			button->SetColor(button->GetHoverColor());
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				currentBackground = idx;
+				curViewCenterDest = Vector2f(GAME_SCREEN_WIDTH * (idx + 0.5f), GAME_SCREEN_HEIGHT * 0.5f);
+				translateView = true;
 				break;
 			}
-
-			if (InputMgr::GetMouseDown(Mouse::Right))
-				CLOG::Print3String("Right");
 		}
 		else
 		{
@@ -157,18 +163,28 @@ void LobyScene::Update(float dt)
 		}
 		idx++;
 	}
-	Button* button = ui->GetStartButton();
-	if (button->CollideTest(ScreenToUiPos(InputMgr::GetMousePosI())))
+	if (translateView)
 	{
-			button->SetColor(button->GetHoverColor());
-			if (InputMgr::GetMouseDown(Mouse::Left))
-			{
-				SCENE_MGR->ChangeScene(Scenes::Battle);
-				return;
-			}
+		float deltaX = dt * translateSpeed * (curViewCenterDest.x - currentView.getCenter().x);
+		currentView.move(deltaX, 0);
+		ui->Translate(Vector2f(deltaX, 0));
 
-			if (InputMgr::GetMouseDown(Mouse::Right))
-				CLOG::Print3String("Right");
+		if (Utils::EqualFloat(currentView.getCenter().x, curViewCenterDest.x))
+		{
+			cout << "equal!" << endl;
+			translateView = false;
+		}
+	}
+
+	Button* button = ui->GetStartButton();
+	if (button->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+		button->SetColor(button->GetHoverColor());
+		if (InputMgr::GetMouseDown(Mouse::Left))
+		{
+			SCENE_MGR->ChangeScene(Scenes::Battle);
+			return;
+		}
 	}
 	else
 	{
@@ -189,5 +205,8 @@ void LobyScene::Draw(RenderWindow& window)
 
 void LobyScene::DrawBackground(RenderWindow& window)
 {
-	backgrounds[currentBackground]->Draw(window);
+	for (auto& background : backgrounds)
+	{
+		background->Draw(window);
+	}
 }

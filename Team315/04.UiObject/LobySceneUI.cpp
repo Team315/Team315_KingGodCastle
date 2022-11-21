@@ -94,7 +94,7 @@ LobySceneUI::LobySceneUI(Scene* scene)
 		*RESOURCE_MGR->GetTexture("graphics/commonUI/Background.png"),
 		*RESOURCE_MGR->GetFont("fonts/NANUMBARUNGOTHICBOLD.ttf"), L"ÀüÅõ");
 
-	startBtn->SetPos(Vector2f(GAME_SCREEN_WIDTH * 0.4f, GAME_SCREEN_HEIGHT * 0.75f));
+	startBtn->SetPos(Vector2f(GAME_SCREEN_WIDTH * 2.4f, GAME_SCREEN_HEIGHT * 0.75f));
 	startBtn->SetLocalPos(Vector2f(startBtn->GetTextureRect().width * 0.25f, startBtn->GetTextureRect().height * 0.25f));
 	startBtn->SetScale(1.f, 0.75f);
 	startBtn->SetTextStyle(Color::White, 25, Color::Black, 2.f);
@@ -139,6 +139,13 @@ void LobySceneUI::Update(float dt)
 void LobySceneUI::Draw(RenderWindow& window)
 {
 	UIMgr::Draw(window);
+}
+
+void LobySceneUI::SetPos(const Vector2f& pos)
+{
+	UIMgr::SetPos(pos);
+
+	startBtn->SetPos(Vector2f(GAME_SCREEN_WIDTH * 2.4f, GAME_SCREEN_HEIGHT * 0.75f));
 }
 
 void LobySceneUI::SetOrigin(Origins origin)
