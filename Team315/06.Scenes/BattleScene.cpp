@@ -4,6 +4,7 @@
 #include "Button.h"
 #include "Constant.h"
 #include "Player/Evan.h"
+#include "Player/Daniel.h"
 #include "Monster/Goblin00.h"
 #include "GameManager.h"
 #include "Map/Tile.h"
@@ -179,8 +180,10 @@ void BattleScene::Update(float dt)
 					}
 					int ran = Utils::RandomRange(0, PRESET_SIZE);
 					Character* test;
-					if (ran % 2)
+					if (ran % 3 == 0)
 						test = new Evan();
+					else if (ran % 3 == 1)
+						test = new Daniel();
 					else
 						test = new Goblin00();
 					test->SetPos(ui->GetPrepareGridPos(idx));

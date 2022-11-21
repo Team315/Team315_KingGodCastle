@@ -2,12 +2,12 @@
 #include "Include.h"
 #include "Character.h"
 
-class Evan : public Character
+class Daniel : public Character
 {
 protected:
 public:
-	Evan();
-	virtual ~Evan();
+	Daniel();
+	virtual ~Daniel();
 
 	virtual void Init() override;
 	virtual void Update(float dt) override;
@@ -25,3 +25,4 @@ public:
 	void UpdateAttack(float dt);
 	void UpdateSkill(float dt);
 };
+
