@@ -9,6 +9,7 @@ protected:
 
 public:
 	Star();
+	Star(int starNumber);
 	virtual ~Star();
 
 	virtual void Draw(RenderWindow& window) override;

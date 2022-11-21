@@ -18,6 +18,21 @@ Character::Character()
 	starLocalPos = { 0, -TILE_SIZE * 1.5f };
 }
 
+Character::Character(int starNumber)
+{
+	hpBar = new ProgressBar();
+	hpBarLocalPos = { -TILE_SIZE_HALF * 0.5f, -TILE_SIZE_HALF - TILE_SIZE };
+	hpBar->SetSize(TILE_SIZE_HALF, 5.f);
+	hpBar->SetProgressColor(Color::Green);
+	hpBar->SetBackgroundColor(Color(0, 0, 0, 100));
+	hpBar->SetBackgroundOutline(Color::Black, 2.f);
+	hpBar->SetProgressValue(1.f);
+	hpBar->SetOrigin(Origins::BC);
+
+	star = new Star(starNumber);
+	starLocalPos = { 0, -TILE_SIZE * 1.5f };
+}
+
 Character::~Character()
 {
 }

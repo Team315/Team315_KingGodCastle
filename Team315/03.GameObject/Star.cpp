@@ -8,6 +8,13 @@ Star::Star()
 	UpdateTexture();
 }
 
+Star::Star(int starNumber)
+	: inBattle(false), starNumber(starNumber)
+{
+	//CalculateRandomChance();
+	UpdateTexture();
+}
+
 Star::~Star()
 {
 }

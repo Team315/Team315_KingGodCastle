@@ -1,11 +1,14 @@
 #include "BattleScene.h"
-#include "Include.h"
 #include "BattleSceneUI.h"
 #include "BattlePanel.h"
 #include "Button.h"
 #include "Constant.h"
+#include "Player/Evan.h"
+#include "Monster/Goblin00.h"
 #include "GameManager.h"
 #include "Map/Tile.h"
+#include "RectangleObj.h"
+#include "VertexArrayObj.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(3),
@@ -305,6 +308,11 @@ void BattleScene::Draw(RenderWindow& window)
 		if (character != nullptr)
 			character->Draw(window);
 	}
+}
+
+VertexArrayObj* BattleScene::GetBackground()
+{
+	return background;
 }
 
 void BattleScene::MoveTile(Character* character, Dir currMoveDir)

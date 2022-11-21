@@ -41,6 +41,7 @@ protected:
 
 public:
 	Character();
+	Character(int starNumber);
 	virtual ~Character();
 
 	virtual void Init() override;

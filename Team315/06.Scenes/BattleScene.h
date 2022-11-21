@@ -1,16 +1,13 @@
 #pragma once
 #include "Scene.h"
-#include "Player/Evan.h"
-#include "Monster/Goblin00.h"
-#include "Player/Dummy.h"
-#include "VertexArrayObj.h"
-#include "RectangleObj.h"
+#include "Include.h"
 #include <vector>
-#include "TilePlay.h"
 
 class BattleSceneUI;
 class Button;
 class Character;
+class RectangleObj;
+class VertexArrayObj;
 
 class BattleScene : public Scene
 {
@@ -55,7 +52,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	VertexArrayObj* GetBackground() { return background; }
+	VertexArrayObj* GetBackground();
 
 	void MoveTile(Character* character, Dir currMoveDir);
 	void ZoomIn();

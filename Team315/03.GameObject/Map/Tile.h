@@ -26,4 +26,3 @@ public:
 	void SetMonster(ThemeTypes themeTypes, int monsterIndex, int grade);
 	string SetMonsterPath(ThemeTypes types, int num);
 };
-
