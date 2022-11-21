@@ -27,7 +27,7 @@ enum class ClickMode
 enum class TileTypes
 {
 	None = 0,
-	Obatacle,
+	Obstacle,
 	Monster,
 	PlayerArea,
 };

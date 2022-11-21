@@ -1,16 +1,16 @@
-#include "Goblin00.h"
+#include "Goblin01.h"
 
-Goblin00::Goblin00()
+Goblin01::Goblin01()
 {
 	SetType("Monster");
 	SetName("Goblin00");
 }
 
-Goblin00::~Goblin00()
+Goblin01::~Goblin01()
 {
 }
 
-void Goblin00::Init()
+void Goblin01::Init()
 {
 	//SetPos({ 510 - 50, 720 / 2.f });
 	animator.SetTarget(&sprite);
@@ -36,28 +36,28 @@ void Goblin00::Init()
 		AnimationEvent ev;
 		ev.clipId = "goblin00_DownAttack";
 		ev.frame = 3;
-		ev.onEvent = bind(&Goblin00::OnCompleteAttack, this);
+		ev.onEvent = bind(&Goblin01::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "goblin00_LeftAttack";
 		ev.frame = 3;
-		ev.onEvent = bind(&Goblin00::OnCompleteAttack, this);
+		ev.onEvent = bind(&Goblin01::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "goblin00_RightAttack";
 		ev.frame = 3;
-		ev.onEvent = bind(&Goblin00::OnCompleteAttack, this);
+		ev.onEvent = bind(&Goblin01::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "goblin00_UpAttack";
 		ev.frame = 3;
-		ev.onEvent = bind(&Goblin00::OnCompleteAttack, this);
+		ev.onEvent = bind(&Goblin01::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 
@@ -65,7 +65,7 @@ void Goblin00::Init()
 	Character::Init();
 }
 
-void Goblin00::SetState(AnimStates newState)
+void Goblin01::SetState(AnimStates newState)
 {
 	Character::SetState(newState);
 	
@@ -107,7 +107,7 @@ void Goblin00::SetState(AnimStates newState)
 	}
 }
 
-void Goblin00::Update(float dt)
+void Goblin01::Update(float dt)
 {
 	Character::Update(dt);
 	//cout << GetPos().x << " " << GetPos().y << endl;
@@ -152,22 +152,22 @@ void Goblin00::Update(float dt)
 	direction = { 0.f, 0.f };
 }
 
-void Goblin00::Draw(RenderWindow& window)
+void Goblin01::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
 }
 
-void Goblin00::SetPos(const Vector2f& pos)
+void Goblin01::SetPos(const Vector2f& pos)
 {
 	Character::SetPos(pos);
 }
 
-void Goblin00::OnCompleteAttack()
+void Goblin01::OnCompleteAttack()
 {
 	SetState(AnimStates::MoveToIdle);
 }
 
-void Goblin00::UpdateIdle(float dt)
+void Goblin01::UpdateIdle(float dt)
 {
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -176,7 +176,7 @@ void Goblin00::UpdateIdle(float dt)
 	}
 }
 
-void Goblin00::UpdateMoveToIdle(float dt)
+void Goblin01::UpdateMoveToIdle(float dt)
 {
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -185,7 +185,7 @@ void Goblin00::UpdateMoveToIdle(float dt)
 	}
 }
 
-void Goblin00::UpdateMove(float dt)
+void Goblin01::UpdateMove(float dt)
 {
 	/*if (!isPlaying2)
 	{
@@ -207,7 +207,7 @@ void Goblin00::UpdateMove(float dt)
 	}
 }
 
-void Goblin00::UpdateAttack(float dt)
+void Goblin01::UpdateAttack(float dt)
 {
 	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
 	{

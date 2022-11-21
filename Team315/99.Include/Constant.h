@@ -27,7 +27,8 @@
 #define GAME_SCREEN_WIDTH (510.f)
 #define GAME_SCREEN_HEIGHT (765.f)
 #define GAME_SCREEN_ZOOM_WIDTH (484.5f)
-#define GAME_SCREEN_ZOOM_HEIGHT (726.75f)
+#define GAME_SCREEN_ZOOM_HEIGHT (700.f)
+//#define GAME_SCREEN_ZOOM_HEIGHT (726.75f)
 
 // Battle systems
 #define PREPARE_SIZE (14)

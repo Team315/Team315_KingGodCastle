@@ -2,12 +2,12 @@
 #include "Include.h"
 #include "Character.h"
 
-class Goblin00 : public Character
+class Goblin01 : public Character
 {
 protected:
 public:
-	Goblin00();
-	virtual ~Goblin00();
+	Goblin01();
+	virtual ~Goblin01();
 
 	virtual void Init() override;
 	virtual void Update(float dt) override;

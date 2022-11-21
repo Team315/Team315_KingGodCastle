@@ -30,7 +30,7 @@ void TilePlay::Draw(RenderWindow& window)
 	{
 	case TileTypes::None:
 		break;
-	case TileTypes::Obatacle:
+	case TileTypes::Obstacle:
 	case TileTypes::Monster:
 		window.draw(m_Obj);
 		break;
@@ -74,7 +74,7 @@ void TilePlay::SetTilePlay(Vector2i indexArr, Vector2f pos, int index, TileTypes
 	case TileTypes::None:
 		isCollAble = true;
 		break;
-	case TileTypes::Obatacle:
+	case TileTypes::Obstacle:
 		isCollAble = true;
 		break;
 	case TileTypes::Monster:
@@ -95,17 +95,17 @@ void TilePlay::SetTilePlay(Vector2i indexArr, Vector2f pos, int index, TileTypes
 void TilePlay::SetObstacle(ThemeTypes themeTypes, int obstacleIndex)
 {
 	m_TileData.ThemeTypes= (int)themeTypes;
-	m_TileData.TileTypes = (int)TileTypes::Obatacle;
+	m_TileData.TileTypes = (int)TileTypes::Obstacle;
 	m_TileData.pathIndex = obstacleIndex;
-	m_TileTypes = TileTypes::Obatacle;
+	m_TileTypes = TileTypes::Obstacle;
 
-	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetObstaclePath(themeTypes, obstacleIndex)), true);
+	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(GetObstaclePath(themeTypes, obstacleIndex)), true);
 	m_Obj.setPosition(GetPos());
 	CLOG::PrintVectorState(GetPos(), "방금 놓은 장애물 포스");
 	Utils::SetOrigin(m_Obj, Origins::BC);
 }
 
-string TilePlay::SetObstaclePath(ThemeTypes types, int num)
+string TilePlay::GetObstaclePath(ThemeTypes types, int num)
 {
 	string field = to_string((int)types / 10) + to_string((int)types % 10);
 
@@ -124,7 +124,7 @@ void TilePlay::SetMonster(ThemeTypes themeTypes, int monsterIndex, int grade)
 	m_TileData.grade = grade;
 	m_TileTypes = TileTypes::Monster;
 
-	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(SetMonsterPath(themeTypes, monsterIndex)), true);
+	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(GetMonsterName(themeTypes, monsterIndex)), true);
 	m_Obj.setPosition(GetPos());
 
 	CLOG::PrintVectorState(GetPos(), "방금 놓은 몬스터 포스");
@@ -132,7 +132,7 @@ void TilePlay::SetMonster(ThemeTypes themeTypes, int monsterIndex, int grade)
 	Utils::SetOrigin(m_Obj, Origins::BC);
 }
 
-string TilePlay::SetMonsterPath(ThemeTypes types, int num)
+string TilePlay::GetMonsterName(ThemeTypes types, int num)
 {
 	string path;
 

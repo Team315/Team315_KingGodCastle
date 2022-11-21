@@ -4,6 +4,7 @@
 #include <queue>
 #include "FileManager.h"
 
+class Character;
 class Tile;
 class GameManager : public Singleton<GameManager>
 {
@@ -52,6 +53,7 @@ public:
 	vector<vector<Tile*>>* GetStage(int chap, int stage) { return &m_tiles[chap][stage]; }
 
 	void CreatedTiles();
+	Character* SpawnMonster(string name);
 };
 
 #define GAME_MGR (GameManager::GetInstance())

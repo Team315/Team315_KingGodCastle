@@ -34,7 +34,8 @@ protected:
 	vector<Character*> battleGrid;
 
 	// Set monster character locate before battle with data imported from GameManager
-	vector<Character*> monsterGrid;
+	// When the game starts, the characters on the battleGrid are also taken.
+	vector<Character*> mainGrid;
 	Character* pick;
 	Vector2f beforeDragPos;
 	int battleCharacterCount;

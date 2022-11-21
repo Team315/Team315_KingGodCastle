@@ -6,8 +6,6 @@
 class Tile : public SpriteObj
 {
 protected:
-	Sprite m_obstacle;
-	Vector2f m_pos;
 	ns::TileData m_tileData;
 	RectangleShape m_playerArea;
 
@@ -21,8 +19,7 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	void CreateTile(ns::TileData tileData);
-	void SetObstacle(ThemeTypes themeTypes, int obstacleIndex);
-	string SetObstaclePath(ThemeTypes types, int num);
-	void SetMonster(ThemeTypes themeTypes, int monsterIndex, int grade);
-	string SetMonsterPath(ThemeTypes types, int num);
+	string GetObstaclePath();
+	string GetMonsterName();
+	ns::TileData& GetTileData() { return m_tileData; }
 };

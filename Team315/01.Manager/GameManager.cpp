@@ -1,5 +1,7 @@
 #include "GameManager.h"
 #include "Map/Tile.h"
+#include "Character.h"
+#include "Monster/Goblin01.h"
 
 GameManager::GameManager()
 	: prepareSize(0), characterCount(10), extraLevelUpChance(30)
@@ -14,6 +16,23 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
+	for (auto& chapter : m_tiles)
+	{
+		for (auto& stage : chapter)
+		{
+			for (auto& row : stage)
+			{
+				for (auto& tile : row)
+				{
+					delete tile;
+				}
+				row.clear();
+			}
+			stage.clear();
+		}
+		chapter.clear();
+	}
+	m_tiles.clear();
 }
 
 void GameManager::EnterBattleScene()
@@ -129,9 +148,17 @@ void GameManager::CreatedTiles()
 				{
 					Tile* tile = new Tile();
 					tile->CreateTile(m_PlayTileList->data[i][j][k][l]);
-					m_tiles[i][j][k][l]= tile;
+					m_tiles[i][j][k][l] = tile;
 				}
 			}
 		}
 	}
+}
+
+Character* GameManager::SpawnMonster(string name)
+{
+	Character* character = nullptr;
+	if (!name.compare("Goblin01"))
+		character = new Goblin01();
+	return character;
 }

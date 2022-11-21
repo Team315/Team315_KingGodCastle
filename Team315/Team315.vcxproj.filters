@@ -21,9 +21,8 @@
     <ClCompile Include="02.Object\VertexArrayObj.cpp" />
     <ClCompile Include="03.GameObject\Character.cpp" />
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
-    <ClCompile Include="03.GameObject\Monster\Goblin00.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin01.cpp" />
     <ClCompile Include="04.UiObject\BattleSceneUI.cpp" />
-    <ClCompile Include="03.GameObject\Player\Dummy.cpp" />
     <ClCompile Include="01.Manager\GameManager.cpp" />
     <ClCompile Include="03.GameObject\Player\Aramis.cpp" />
     <ClCompile Include="03.GameObject\Map\AStar.cpp" />
@@ -58,6 +57,7 @@
     <ClCompile Include="03.GameObject\Star.cpp" />
     <ClCompile Include="03.GameObject\Map\Tile.cpp" />
     <ClCompile Include="03.GameObject\Player\Daniel.cpp" />
+    <ClCompile Include="03.GameObject\Obstacle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -100,7 +100,7 @@
     <ClInclude Include="06.Scenes\ToolScene.h" />
     <ClInclude Include="01.Manager\UIMgr.h" />
     <ClInclude Include="03.GameObject\Player\Evan.h" />
-    <ClInclude Include="03.GameObject\Monster\Goblin00.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin01.h" />
     <ClInclude Include="05.ToolObject\TileSet.h" />
     <ClInclude Include="05.ToolObject\UiName.h" />
     <ClInclude Include="05.ToolObject\Theme.h" />
@@ -117,7 +117,6 @@
     <ClInclude Include="05.ToolObject\SelectStar.h" />
     <ClInclude Include="04.UiObject\BattlePanel.h" />
     <ClInclude Include="05.ToolObject\TilePlay.h" />
-    <ClInclude Include="03.GameObject\Player\Dummy.h" />
     <ClInclude Include="05.ToolObject\ToolChapter.h" />
     <ClInclude Include="05.ToolObject\ToolStage.h" />
     <ClInclude Include="01.Manager\GameManager.h" />
@@ -127,6 +126,7 @@
     <ClInclude Include="03.GameObject\Map\Tile.h" />
     <ClInclude Include="03.GameObject\Map\AStar.h" />
     <ClInclude Include="03.GameObject\Player\Daniel.h" />
+    <ClInclude Include="03.GameObject\Obstacle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -5,7 +5,8 @@
 #include "Constant.h"
 #include "Player/Evan.h"
 #include "Player/Daniel.h"
-#include "Monster/Goblin00.h"
+#include "Monster/Goblin01.h"
+#include "Obstacle.h"
 #include "GameManager.h"
 #include "Map/Tile.h"
 #include "RectangleObj.h"
@@ -51,6 +52,7 @@ void BattleScene::Enter()
 
 	prepareGrid.assign(PREPARE_SIZE, nullptr);
 	battleGrid.assign(BATTLE_GRID_ROW * GAME_TILE_WIDTH, nullptr);
+	mainGrid.assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
 	ui->Reset();
 
 	curChapIdx = 0;
@@ -98,10 +100,18 @@ void BattleScene::Update(float dt)
 					tile->SetActive(ui->b_battleGridRect);
 			}
 		}
+		if (InputMgr::GetKeyDown(Keyboard::Key::F5))
+		{
+			CLOG::Print3String("prev stage test");
+			if (curStageIdx > 0)
+				curStageIdx--;
+			SetCurrentStage(curChapIdx, curStageIdx);
+		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F6))
 		{
 			CLOG::Print3String("next stage test");
-			curStageIdx++;
+			if (curStageIdx < STAGE_MAX_COUNT - 1)
+				curStageIdx++;
 			SetCurrentStage(curChapIdx, curStageIdx);
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
@@ -111,17 +121,23 @@ void BattleScene::Update(float dt)
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F8))
 		{
-			CLOG::Print3String("prepare grid state");
 			int count = 0;
-			for (auto& character : prepareGrid)
+			cout << "-------------------" << endl;
+			CLOG::Print3String("main grid state");
+			count = 0;
+			for (auto& character : mainGrid)
 			{
+				if ((count / GAME_TILE_WIDTH) == 10)
+					break;
+
 				if (character == nullptr)
-					cout << '0';
+					cout << "..";
 				else
-					cout << character->GetName()[0];
+					cout << character->GetName()[0] + to_string(character->GetStarNumber());
+				;
 				cout << ' ';
 				count++;
-				if (count % GAME_TILE_WIDTH == 0)
+				if ((count % GAME_TILE_WIDTH) == 0)
 					cout << endl;
 			}
 			cout << endl;
@@ -131,14 +147,30 @@ void BattleScene::Update(float dt)
 			for (auto& character : battleGrid)
 			{
 				if (character == nullptr)
-					cout << '0';
+					cout << "..";
 				else
-					cout << character->GetName()[0];
+					cout << character->GetName()[0] + to_string(character->GetStarNumber());
 				cout << ' ';
 				count++;
-				if (count % GAME_TILE_WIDTH == 0)
+				if ((count % GAME_TILE_WIDTH) == 0)
 					cout << endl;
 			}
+			cout << endl;
+
+			CLOG::Print3String("prepare grid state");
+			count = 0;
+			for (auto& character : prepareGrid)
+			{
+				if (character == nullptr)
+					cout << "..";
+				else
+					cout << character->GetName()[0] + to_string(character->GetStarNumber());
+				cout << ' ';
+				count++;
+				if ((count % GAME_TILE_WIDTH) == 0)
+					cout << endl;
+			}
+			cout << "-------------------" << endl;
 		}
 	}
 	// Dev Input end
@@ -157,10 +189,38 @@ void BattleScene::Update(float dt)
 					CLOG::Print3String("stage start");
 					b_centerPos = true;
 					ZoomIn();
-					for (auto& character : prepareGrid)
+					/*for (auto& character : prepareGrid)
 					{
 						if (character != nullptr)
 							character->SetDrawInBattle(true);
+					}*/
+
+					int monsterGridCoordR = 70;
+					int monsterGridCoordC = 0;
+					int curBattleCharacterCount = 0;
+					for (auto& character : battleGrid)
+					{
+						if (character != nullptr)
+							curBattleCharacterCount++;
+						mainGrid[monsterGridCoordC + monsterGridCoordR] = character;
+						monsterGridCoordC++;
+					}
+					if (curBattleCharacterCount != battleCharacterCount)
+						CLOG::Print3String("need more battle character");
+
+					CLOG::Print3String("main grid full state");
+					int count = 0;
+					for (auto& character : mainGrid)
+					{
+						if (character == nullptr)
+							cout << "..";
+						else
+							cout << character->GetName()[0] + to_string(character->GetStarNumber());
+						
+						cout << ' ';
+						count++;
+						if ((count % GAME_TILE_WIDTH) == 0)
+							cout << endl;
 					}
 					break;
 				}
@@ -185,7 +245,7 @@ void BattleScene::Update(float dt)
 					else if (ran % 3 == 1)
 						test = new Daniel();
 					else
-						test = new Goblin00();
+						test = new Goblin01();
 					test->SetPos(ui->GetPrepareGridPos(idx));
 					test->Init();
 					test->SetDrawInBattle(false);
@@ -259,6 +319,28 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	for (auto& character : mainGrid)
+	{
+		if (character == nullptr)
+			continue;
+		if (!character->GetType().compare("Obstacle"))
+			continue;
+
+		character->Update(dt);
+		if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				/*if (pick == nullptr)
+				{
+					PickUpCharacter(character);
+					break;
+				}*/
+				CLOG::Print3String(character->GetName());
+			}
+		}
+	}
+
 	// mouse drag control
 	if (pick != nullptr && InputMgr::GetMouse(Mouse::Left))
 		pick->SetPos(ScreenToWorldPos(InputMgr::GetMousePosI()) + Vector2f(0, TILE_SIZE_HALF));
@@ -307,6 +389,12 @@ void BattleScene::Draw(RenderWindow& window)
 	}
 
 	for (auto& character : battleGrid)
+	{
+		if (character != nullptr)
+			character->Draw(window);
+	}
+
+	for (auto& character : mainGrid)
 	{
 		if (character != nullptr)
 			character->Draw(window);
@@ -443,7 +531,40 @@ int BattleScene::GetIdxFromCoord(Vector2i coord)
 
 void BattleScene::SetCurrentStage(int chap, int stage)
 {
+	mainGrid.assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
+
 	curStage = GAME_MGR->GetStage(chap, stage);
+
+	int row = GAME_TILE_HEIGHT - BATTLE_GRID_ROW; // player zone X
+	int col = GAME_TILE_WIDTH;
+
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			Tile* tile = (*curStage)[i][j];
+			TileData td = tile->GetTileData();
+			int type = td.TileTypes;
+
+			int curIdx = j + i * col;
+			switch (type)
+			{
+			case (int) TileTypes::Obstacle:
+				mainGrid[curIdx] = new Obstacle(tile->GetObstaclePath());
+				mainGrid[curIdx]->SetPos(tile->GetPos());
+				break;
+			case (int) TileTypes::Monster:
+				//CLOG::Print3String(tile->GetMonsterName());
+				mainGrid[curIdx] = GAME_MGR->SpawnMonster(tile->GetMonsterName());
+				mainGrid[curIdx]->SetPos(tile->GetPos());
+				mainGrid[curIdx]->Init();
+				mainGrid[curIdx]->SetDrawInBattle(false);
+				break;
+			default:
+				break;
+			}
+		}
+	}
 	cout << "current chapter, stage (" << curChapIdx << ", " << curStageIdx << ")" << endl;
 }
 
