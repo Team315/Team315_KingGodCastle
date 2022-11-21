@@ -44,8 +44,7 @@ protected:
 	bool drawInBattle;
 
 public:
-	Character();
-	Character(int starNumber);
+	Character(int starNumber = 0);
 	virtual ~Character();
 
 	virtual void Init() override;

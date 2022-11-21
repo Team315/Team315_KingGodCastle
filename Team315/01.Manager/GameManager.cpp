@@ -155,10 +155,10 @@ void GameManager::CreatedTiles()
 	}
 }
 
-Character* GameManager::SpawnMonster(string name)
+Character* GameManager::SpawnMonster(string name, int grade)
 {
 	Character* character = nullptr;
 	if (!name.compare("Goblin01"))
-		character = new Goblin01();
+		character = new Goblin01(grade);
 	return character;
 }

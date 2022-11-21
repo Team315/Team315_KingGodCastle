@@ -53,7 +53,7 @@ public:
 	vector<vector<Tile*>>* GetStage(int chap, int stage) { return &m_tiles[chap][stage]; }
 
 	void CreatedTiles();
-	Character* SpawnMonster(string name);
+	Character* SpawnMonster(string name, int grade);
 };
 
 #define GAME_MGR (GameManager::GetInstance())

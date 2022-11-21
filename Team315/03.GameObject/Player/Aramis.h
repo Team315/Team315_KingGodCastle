@@ -6,7 +6,7 @@ class Aramis : public Character
 {
 protected:
 public:
-	Aramis();
+	Aramis(int starNumber = 0);
 	virtual ~Aramis();
 
 	virtual void Init() override;

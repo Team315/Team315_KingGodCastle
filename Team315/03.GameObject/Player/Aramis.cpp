@@ -1,6 +1,7 @@
 #include "Aramis.h"
 
-Aramis::Aramis()
+Aramis::Aramis(int starNumber)
+	: Character(starNumber)
 {
 	SetType("Player");
 	SetName("Aramis"); 

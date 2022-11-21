@@ -1,17 +1,11 @@
 #include "Star.h"
 #include "Include.h"
 
-Star::Star()
-	: inBattle(false), starNumber(0)
-{
-	CalculateRandomChance();
-	UpdateTexture();
-}
-
 Star::Star(int starNumber)
 	: inBattle(false), starNumber(starNumber)
 {
-	//CalculateRandomChance();
+	if (starNumber == 0)
+		CalculateRandomChance();
 	UpdateTexture();
 }
 

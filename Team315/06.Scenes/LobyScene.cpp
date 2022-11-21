@@ -25,6 +25,7 @@ void LobyScene::Init()
 	CLOG::Print3String("loby Init");
 
 	backgrounds.resize(tabSize);
+	Vector2f backgroundPos;
 	for (int i = 0; i < tabSize; i++)
 	{
 		string textureKey = "graphics/mainScene/mainBackground_";

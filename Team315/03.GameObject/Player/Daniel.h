@@ -6,7 +6,7 @@ class Daniel : public Character
 {
 protected:
 public:
-	Daniel();
+	Daniel(int starNumber = 0);
 	virtual ~Daniel();
 
 	virtual void Init() override;

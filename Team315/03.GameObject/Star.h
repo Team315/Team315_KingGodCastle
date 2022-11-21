@@ -8,8 +8,7 @@ protected:
 	bool inBattle;
 
 public:
-	Star();
-	Star(int starNumber);
+	Star(int starNumber = 0);
 	virtual ~Star();
 
 	virtual void Draw(RenderWindow& window) override;

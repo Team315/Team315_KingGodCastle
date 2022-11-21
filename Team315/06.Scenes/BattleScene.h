@@ -67,6 +67,7 @@ public:
 	int GetIdxFromCoord(Vector2i coord);
 
 	void SetCurrentStage(int chap, int stage);
+	Character* GetMainGridCharacter(int r, int c);
 };
 
 bool InPrepareGrid(Vector2i pos);

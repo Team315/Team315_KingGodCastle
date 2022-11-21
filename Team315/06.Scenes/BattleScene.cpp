@@ -15,7 +15,7 @@ BattleScene::BattleScene()
 {
 	CLOG::Print3String("battle create");
 
-	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f;
+	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f - TILE_SIZE_HALF;
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.1f;
 
 	ui = new BattleSceneUI(this);
@@ -565,8 +565,7 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 				mainGrid[curIdx]->SetPos(tile->GetPos());
 				break;
 			case (int) TileTypes::Monster:
-				//CLOG::Print3String(tile->GetMonsterName());
-				mainGrid[curIdx] = GAME_MGR->SpawnMonster(tile->GetMonsterName());
+				mainGrid[curIdx] = GAME_MGR->SpawnMonster(tile->GetMonsterName(), td.grade);
 				mainGrid[curIdx]->SetPos(tile->GetPos());
 				mainGrid[curIdx]->Init();
 				mainGrid[curIdx]->SetDrawInBattle(false);
@@ -577,6 +576,12 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 		}
 	}
 	cout << "current chapter, stage (" << curChapIdx << ", " << curStageIdx << ")" << endl;
+}
+
+Character* BattleScene::GetMainGridCharacter(int r, int c)
+{
+	int idx = r * GAME_TILE_WIDTH + c;
+	return mainGrid[idx];
 }
 
 bool InPrepareGrid(Vector2i pos)
