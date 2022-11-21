@@ -3,7 +3,7 @@
 
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(false),
-	currState(AnimStates::None), drawInBattle(false)
+	currState(AnimStates::None), drawingOnBattle(false)
 {
 	hpBar = new ProgressBar();
 	hpBarLocalPos = { -TILE_SIZE_HALF * 0.5f, -TILE_SIZE_HALF - TILE_SIZE };
@@ -48,8 +48,11 @@ void Character::Update(float dt)
 void Character::Draw(RenderWindow& window)
 {
 	SpriteObj::Draw(window);
-	hpBar->Draw(window);
-	star->Draw(window);
+	if (drawingOnBattle)
+	{
+		hpBar->Draw(window);
+		star->Draw(window);
+	}
 }
 
 void Character::SetPos(const Vector2f& pos)

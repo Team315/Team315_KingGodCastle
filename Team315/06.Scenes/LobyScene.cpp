@@ -26,7 +26,7 @@ void LobyScene::Init()
 	backgrounds.resize(tabSize);
 	for (int i = 0; i < tabSize; i++)
 	{
-		string textureKey = "graphics/mainScene/mainBackground_";
+		string textureKey = "graphics/lobyScene/mainBackground_";
 		textureKey += (i < 10 ? "0" : "") + to_string(i + 1) + ".png";
 		backgrounds[i] = new SpriteObj();
 		backgrounds[i]->SetTexture(*RESOURCE_MGR->GetTexture(textureKey));
@@ -53,6 +53,7 @@ void LobyScene::Enter()
 	CLOG::Print3String("loby enter");
 
 	FRAMEWORK->SetWindowSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
+	ui->Reset();
 	currentView = gameView;
 	curViewCenterDest = { GAME_SCREEN_WIDTH * 2.5f, GAME_SCREEN_HEIGHT * 0.5f };
 	currentView.setCenter(curViewCenterDest);
@@ -120,27 +121,6 @@ void LobyScene::Update(float dt)
 	{
 		ui->GetJewelWindow()->SetGoal(ui->GetJewelWindow()->GetValueGoal() + 1000);
 	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::F6))
-	{
-		int ranNum;
-		int ranIdx;
-		int characterSize = GAME_MGR->GetCharacterCount();
-
-		ranNum = Utils::RandomRange(0, characterSize);
-		ranIdx = Utils::RandomRange(0, PRESET_SIZE);
-		GAME_MGR->SetPresetElem(ranIdx, ranNum);
-		cout << ranIdx << " " << ranNum << " ";
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::F5))
-	{
-		vector<int>& preset = GAME_MGR->GetPreset();
-		CLOG::Print3String("preset state");
-		for (auto elem : preset)
-		{
-			cout << elem << " ";
-		}
-		cout << endl;
-	}
 	// Dev Input End
 
 	// game input
@@ -169,9 +149,9 @@ void LobyScene::Update(float dt)
 		currentView.move(deltaX, 0);
 		ui->Translate(Vector2f(deltaX, 0));
 
-		if (Utils::EqualFloat(currentView.getCenter().x, curViewCenterDest.x))
+		if (Utils::EqualFloat(currentView.getCenter().x, curViewCenterDest.x, 0.20f))
 		{
-			cout << "equal!" << endl;
+			// cout << "equal!" << endl;
 			translateView = false;
 		}
 	}

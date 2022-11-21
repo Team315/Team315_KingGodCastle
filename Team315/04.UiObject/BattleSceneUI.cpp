@@ -7,19 +7,17 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	: UIMgr(scene), b_battleGridRect(false)
 {
 	panel = new BattlePanel();
-	CreateBackground(panel, 1, 3, 188.f, 400.f);
+	CreateBackground(panel, 1, 3, 188.f, 500.f);
 
 	prepareGrid.resize(PREPARE_SIZE);
 	prepareGridPos.resize(PREPARE_SIZE);
-	float outlineThickness = 2.f;
+	float outlineThickness = -2.f;
 	float posX = TILE_SIZE * 2.f;
 	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE * 2.f;
 	int count = 0;
-	for (auto cell : prepareGrid)
+	for (auto& cell : prepareGrid)
 	{
-		cell = new RectangleObj(
-			TILE_SIZE - outlineThickness * 2 - 1,
-			TILE_SIZE - outlineThickness * 2 - 1);
+		cell = new RectangleObj(TILE_SIZE - 1, TILE_SIZE - 1);
 		cell->SetOutline(Color(255, 255, 255, 100), outlineThickness);
 		cell->SetFillColor(Color(0, 0, 0, 0));
 		prepareGridPos[count] = Vector2f(posX, posY);
@@ -43,9 +41,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 		float posX = TILE_SIZE * 2.f;
 		for (auto& tile : tiles)
 		{
-			tile = new RectangleObj(
-				TILE_SIZE - outlineThickness * 2 - 1,
-				TILE_SIZE - outlineThickness * 2 - 1);
+			tile = new RectangleObj(TILE_SIZE - 1, TILE_SIZE - 1);
 			tile->SetFillColor(Color(255, 255, 255, 20));
 			tile->SetOutline(Color::White, outlineThickness);
 			tile->SetPos(Vector2f(posX, posY));

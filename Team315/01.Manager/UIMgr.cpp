@@ -41,7 +41,8 @@ void UIMgr::SetPos(const Vector2f& pos)
     Vector2f delta = pos - position;
     for ( auto uiObj : uiObjList )
     {
-        uiObj->Translate(delta);
+        if (uiObj->GetType().compare("Fixed"))
+            uiObj->Translate(delta);
     }
     position = pos;
 }

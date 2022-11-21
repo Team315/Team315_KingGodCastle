@@ -1,17 +1,16 @@
 #include "GameManager.h"
 #include "Map/Tile.h"
-#include "Character.h"
-#include "Monster/Goblin01.h"
+#include "CharacterHeaders.h"
 
 GameManager::GameManager()
-	: prepareSize(0), characterCount(10), extraLevelUpChance(0)
+	: battleCharacterCount(10), extraLevelUpChance(0)
 {
 	CLOG::Print3String("GameManager Create");
-	prepareGrid.resize(PREPARE_SIZE, 0);
-	preset.resize(PRESET_SIZE, 0);
-	m_tiles.assign(CHAPTER_MAX_COUNT, vector<vector<vector<Tile*>>>(STAGE_MAX_COUNT, vector<vector<Tile*>>(GAME_TILE_HEIGHT, vector<Tile*>(GAME_TILE_WIDTH))));
-	
-	//vector<Tile*> f(14, vector<Tile*>(0))
+	m_tiles.assign(
+		CHAPTER_MAX_COUNT,
+		vector<vector<vector<Tile*>>>(STAGE_MAX_COUNT,
+			vector<vector<Tile*>>(GAME_TILE_HEIGHT,
+				vector<Tile*>(GAME_TILE_WIDTH))));
 }
 
 GameManager::~GameManager()
@@ -37,73 +36,73 @@ GameManager::~GameManager()
 
 void GameManager::EnterBattleScene()
 {
-	prepareGrid.assign(PREPARE_SIZE, 0);
-	prepareSize = 0;
+	/*prepareGrid.assign(PREPARE_SIZE, 0);
+	prepareSize = 0;*/
 }
 
-void GameManager::SetPresetElem(int idx, int num)
-{
-	preset[idx] = num;
-}
-
-int GameManager::GetPrepareIdx()
-{
-	for (int idx = 0; idx < PREPARE_SIZE; idx++)
-	{
-		if (prepareGrid[idx] == 0)
-			return idx;
-	}
-	return -1; // fail
-}
-
-void GameManager::SetPrepare(vector<int>& set)
-{
-	prepareGrid = set;
-	int curSize = 0;
-	for (auto& cell : prepareGrid)
-	{
-		if (cell != 0)
-			curSize++;
-		else
-			break;
-	}
-	prepareSize = curSize;
-}
-
-void GameManager::AddPrepare(int num)
-{
-	bool inputInPrepare = false;
-	for (auto& cell : prepareGrid)
-	{
-		if (cell == 0)
-		{
-			inputInPrepare = true;
-			cell = num;
-			prepareSize++;
-			break;
-		}
-	}
-	if (!inputInPrepare)
-		waitQueue.push(num);
-}
-
-void GameManager::UpdatePrepare()
-{
-	if (waitQueue.empty())
-		return;
-
-	int queueFront = 0;
-	for (auto& cell : prepareGrid)
-	{
-		if (cell != 0)
-		{
-			queueFront = waitQueue.front();
-			waitQueue.pop();
-			break;
-		}
-	}
-	AddPrepare(queueFront);
-}
+//void GameManager::SetPresetElem(int idx, int num)
+//{
+//	preset[idx] = num;
+//}
+//
+//int GameManager::GetPrepareIdx()
+//{
+//	for (int idx = 0; idx < PREPARE_SIZE; idx++)
+//	{
+//		if (prepareGrid[idx] == 0)
+//			return idx;
+//	}
+//	return -1; // fail
+//}
+//
+//void GameManager::SetPrepare(vector<int>& set)
+//{
+//	prepareGrid = set;
+//	int curSize = 0;
+//	for (auto& cell : prepareGrid)
+//	{
+//		if (cell != 0)
+//			curSize++;
+//		else
+//			break;
+//	}
+//	prepareSize = curSize;
+//}
+//
+//void GameManager::AddPrepare(int num)
+//{
+//	bool inputInPrepare = false;
+//	for (auto& cell : prepareGrid)
+//	{
+//		if (cell == 0)
+//		{
+//			inputInPrepare = true;
+//			cell = num;
+//			prepareSize++;
+//			break;
+//		}
+//	}
+//	if (!inputInPrepare)
+//		waitQueue.push(num);
+//}
+//
+//void GameManager::UpdatePrepare()
+//{
+//	if (waitQueue.empty())
+//		return;
+//
+//	int queueFront = 0;
+//	for (auto& cell : prepareGrid)
+//	{
+//		if (cell != 0)
+//		{
+//			queueFront = waitQueue.front();
+//			waitQueue.pop();
+//			break;
+//		}
+//	}
+//	AddPrepare(queueFront);
+//}
 
 Vector2i GameManager::PosToIdx(Vector2f pos)
 {
@@ -161,4 +160,32 @@ Character* GameManager::SpawnMonster(string name, int grade)
 	if (!name.compare("Goblin01"))
 		character = new Goblin01(grade);
 	return character;
+}
+
+Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBattle)
+{
+	Character* character = nullptr;
+	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
+
+	if (!name.compare("Aramis") || num == 0)
+		character = new Aramis();
+	else if (!name.compare("Arveron") || num == 1)
+		character = new Arveron();
+	else if (!name.compare("Daniel") || num == 2)
+		character = new Daniel();
+	else if (!name.compare("Evan") || num == 3)
+		character = new Evan();
+	else if (!name.compare("LeonHeart") || num == 4)
+		character = new LeonHeart();
+	else if (!name.compare("Pria") || num == 5)
+		character = new Pria();
+	else if (!name.compare("Shelda") || num == 6)
+		character = new Shelda();
+	character->SetDrawingOnBattle(drawingOnBattle);
+	return character;
+}
+
+Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
+{
+	return SpawnPlayer("", random, drawingOnBattle);
 }

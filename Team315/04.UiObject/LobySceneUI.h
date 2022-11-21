@@ -5,6 +5,7 @@
 class Button;
 class Character;
 class SpriteButton;
+class SpriteObj;
 class RectangleObj;
 class RssProgressWindow;
 class RssTextWindow;
@@ -45,12 +46,18 @@ protected:
 	int gameResourceCount;
 
 	// shop tab
+	RectangleObj* shopBackgroundOverlay;
+	vector<SpriteObj*> shopIllusts;
 
 	// barrack tab
-	vector<RectangleObj*> presetRect;
-	vector<Character*> preset;
+	vector<RectangleObj*> barrackPresetRect; // Draw only rect
+	vector<Character*> preset; // Container to reference in GameManager
+	RectangleObj* heroTabBackground;
+	vector<RectangleObj*> heroTabRect;
+	vector<Character*> heroTab;
 
 	// gate tab
+	vector<Character*> gatePreset;
 	Button* startBtn;
 
 public:
