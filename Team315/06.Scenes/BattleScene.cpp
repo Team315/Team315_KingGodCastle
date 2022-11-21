@@ -310,6 +310,16 @@ void BattleScene::Update(float dt)
 					break;
 				}
 			}
+			else if (InputMgr::GetMouseDown(Mouse::Right))
+			{
+				if (pick == nullptr)
+				{
+					Character* temp = character;
+					character = nullptr;
+					delete temp;
+					break;
+				}
+			}
 		}
 	}
 
@@ -328,6 +338,16 @@ void BattleScene::Update(float dt)
 					if (pick == nullptr)
 					{
 						PickUpCharacter(character);
+						break;
+					}
+				}
+				else if (InputMgr::GetMouseDown(Mouse::Right))
+				{
+					if (pick == nullptr)
+					{
+						Character* temp = character;
+						character = nullptr;
+						delete temp;
 						break;
 					}
 				}

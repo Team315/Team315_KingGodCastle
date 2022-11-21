@@ -1,6 +1,7 @@
 #include "LobySceneUI.h"
 #include "LobyScene.h"
 #include "Include.h"
+#include "Character.h"
 #include "Constant.h"
 #include "SpriteButton.h"
 #include "RectangleObj.h"
@@ -89,6 +90,10 @@ LobySceneUI::LobySceneUI(Scene* scene)
 	jewelWind->SetTextStyle(Color::White, 20);
 	jewelWind->SetTextOutline(Color::Black, 2.f);
 
+	// barrack tab
+	
+	
+	// gate tab
 	startBtn = new Button();
 	startBtn->SetButton(
 		*RESOURCE_MGR->GetTexture("graphics/commonUI/Background.png"),

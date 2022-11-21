@@ -3,6 +3,7 @@
 #include <vector>
 
 class Button;
+class Character;
 class SpriteButton;
 class RectangleObj;
 class RssProgressWindow;
@@ -42,7 +43,6 @@ protected:
 	RssTextWindow* goldWind;
 	RssTextWindow* jewelWind;
 	int gameResourceCount;
-
 
 	// shop tab
 
