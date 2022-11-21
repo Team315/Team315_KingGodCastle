@@ -10,7 +10,7 @@
 #include "CharacterHeaders.h"
 
 BattleScene::BattleScene()
-	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(3),
+	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(10),
 	curChapIdx(0), curStageIdx(0), playingBattle(false)
 {
 	CLOG::Print3String("battle create");
@@ -245,12 +245,20 @@ void BattleScene::Update(float dt)
 					}
 					int ran = Utils::RandomRange(0, PRESET_SIZE);
 					Character* newPick;
-					if (ran % 3 == 0)
+					if (ran % 7 == 0)
 						newPick = new Evan();
-					else if (ran % 3 == 1)
+					else if (ran % 7 == 1)
 						newPick = new Daniel();
-					else
+					else if (ran % 7 == 2)
 						newPick = new Aramis();
+					else if (ran % 7 == 3)
+						newPick = new Pria();
+					else if (ran % 7 == 4)
+						newPick = new LeonHeart();
+					else if (ran % 7 == 5)
+						newPick = new Arveron();
+					else
+						newPick = new Shelda();
 					newPick->SetPos(ui->GetPrepareGridPos(idx));
 					newPick->Init();
 					newPick->SetDrawInBattle(false);
