@@ -22,9 +22,6 @@ protected:
 		mode,
 		count,
 	};
-	int tabSize;
-	float buttonSize;
-	vector<SpriteButton*> buttons;
 
 	// top resources
 	enum class gameResourceEnum
@@ -35,11 +32,25 @@ protected:
 		jewel,
 		count,
 	};
-	int gameResourceCount;
+
+	// HUD
+	vector<SpriteButton*> buttons;
+	int tabSize;
+	float buttonSize;
+
 	RssProgressWindow* expWind;
 	RssTextWindow* goldWind;
 	RssTextWindow* jewelWind;
+	int gameResourceCount;
 
+
+	// shop tab
+
+	// barrack tab
+	vector<RectangleObj*> presetRect;
+	vector<Character*> preset;
+
+	// gate tab
 	Button* startBtn;
 
 public:
