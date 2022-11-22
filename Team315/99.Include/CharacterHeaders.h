@@ -12,6 +12,7 @@
 
 // Monster
 #include "Monster/Goblin01.h"
+#include "Monster/Goblin02.h"
 
 // Neutral
 #include "Obstacle.h"

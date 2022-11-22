@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include "Map/Tile.h"
+#include "Character.h"
 #include "CharacterHeaders.h"
 
 GameManager::GameManager()

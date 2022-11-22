@@ -62,6 +62,7 @@
     <ClCompile Include="03.GameObject\Player\Arveron.cpp" />
     <ClCompile Include="03.GameObject\Player\LeonHeart.cpp" />
     <ClCompile Include="03.GameObject\Player\Shelda.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin02.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -136,6 +137,7 @@
     <ClInclude Include="03.GameObject\Player\Arveron.h" />
     <ClInclude Include="03.GameObject\Player\LeonHeart.h" />
     <ClInclude Include="03.GameObject\Player\Shelda.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin02.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
