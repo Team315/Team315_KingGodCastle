@@ -363,6 +363,7 @@ void BattleScene::Update(float dt)
 					break;
 				}*/
 				CLOG::Print3String(character->GetName());
+				cout << character->GetStat(Stats::HP).GetBase() << endl;
 			}
 		}
 	}

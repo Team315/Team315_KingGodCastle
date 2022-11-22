@@ -4,12 +4,15 @@
 #include "ProgressBar.h"
 #include "Star.h"
 #include "EnumClass.h"
+#include "Struct.h"
+#include <map>
 
 class Character : public SpriteObj
 {
 protected:
 	Animator animator;
 	Character* target;
+	map<Stats, Stat> stat;
 	
 	// UI
 	ProgressBar* hpBar;
@@ -66,4 +69,5 @@ public:
 	int GetStarNumber() { return star->GetStarNumber(); }
 	void UpgradeStar();
 	void UpgradeCharacterSet();
+	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }
 };

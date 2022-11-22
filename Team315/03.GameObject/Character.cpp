@@ -16,6 +16,13 @@ Character::Character(int starNumber)
 
 	star = new Star(starNumber);
 	starLocalPos = { 0, -TILE_SIZE * 1.5f };
+
+	stat.insert({ Stats::HP, Stat(100) });
+	stat.insert({ Stats::MP, Stat(60) });
+	stat.insert({ Stats::AD, Stat(15) });
+	stat.insert({ Stats::AP, Stat(10) });
+	stat.insert({ Stats::AS, Stat(1.0f) });
+	stat.insert({ Stats::AR, Stat(3) });
 }
 
 Character::~Character()
@@ -86,8 +93,10 @@ void Character::UpgradeStar()
 
 void Character::UpgradeCharacterSet()
 {
-	sprite.setScale({ 1.0f+(GetStarNumber()*0.05f),1.0f + (GetStarNumber() * 0.05f) });
+	sprite.setScale({
+		1.0f + (GetStarNumber() * 0.05f),
+		1.0f + (GetStarNumber() * 0.05f) });
 	// 성급 올라갈때 공격력,마력,체력 증가
-	// 별 색 바뀔때 스킬 범위 증가
+	// 별 색 바뀔때 스킬 범위 증가 1 3 5 7
 	
 }
