@@ -220,6 +220,7 @@
     <ClInclude Include="03.GameObject\Player\Arveron.h" />
     <ClInclude Include="03.GameObject\Player\LeonHeart.h" />
     <ClInclude Include="03.GameObject\Player\Shelda.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin02.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -250,6 +251,7 @@
     <ClCompile Include="03.GameObject\Player\Daniel.cpp" />
     <ClCompile Include="03.GameObject\Player\Arveron.cpp" />
     <ClCompile Include="03.GameObject\Player\LeonHeart.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin02.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />

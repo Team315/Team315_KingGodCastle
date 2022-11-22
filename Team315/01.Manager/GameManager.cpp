@@ -1,7 +1,7 @@
 #include "GameManager.h"
 #include "Map/Tile.h"
 #include "Character.h"
-#include "Monster/Goblin01.h"
+#include "CharacterHeaders.h"
 
 GameManager::GameManager()
 	: prepareSize(0), characterCount(10), extraLevelUpChance(0)
