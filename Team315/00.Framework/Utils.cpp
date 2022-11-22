@@ -129,11 +129,11 @@ float Utils::Angle(const Vector2f& dir)
 	return atan2(dir.y, dir.x) * (180.f / M_PI);
 }
 
-bool Utils::OBB(const RectangleShape& obb1, const RectangleShape& obb2)
-{
-	Vector2f MTV;
-	return testCollision(obb1, obb2, MTV);
-}
+//bool Utils::OBB(const RectangleShape& obb1, const RectangleShape& obb2)
+//{
+//	Vector2f MTV;
+//	return testCollision(obb1, obb2, MTV);
+//}
 
 bool Utils::EqualFloat(float a, float b, float epsilon)
 {

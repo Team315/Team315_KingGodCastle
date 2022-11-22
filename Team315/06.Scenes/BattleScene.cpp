@@ -362,7 +362,7 @@ void BattleScene::Update(float dt)
 					PickUpCharacter(character);
 					break;
 				}*/
-				CLOG::Print3String(character->GetName());
+				character->TakeDamage(50.f);
 			}
 		}
 	}

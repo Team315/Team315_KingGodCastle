@@ -47,7 +47,7 @@ public:
 
 	static float Angle(const Vector2f& start, const Vector2f& end);
 	static float Angle(const Vector2f& dir);
-	static bool OBB(const RectangleShape& obb1, const RectangleShape& obb2);
+	//static bool OBB(const RectangleShape& obb1, const RectangleShape& obb2);
 
 	static bool EqualFloat(float a, float b, float epsilon = numeric_limits<float>::epsilon());
 

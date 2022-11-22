@@ -5,11 +5,6 @@ Thief00::Thief00(int starNumber)
 {
 	SetType("Player");
 	SetName("Thief00");
-	maxHp = 250;
-	hp = maxHp;
-	Ad = 15;
-	Ap = 25;
-	cout << "Thief00" << " " << hp << " " << Ad << " " << Ap << endl;
 }
 
 Thief00::~Thief00()

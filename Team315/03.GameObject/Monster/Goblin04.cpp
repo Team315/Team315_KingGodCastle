@@ -5,9 +5,6 @@ Goblin04::Goblin04(int starNumber)
 {
 	SetType("Monster");
 	SetName("Goblin04");
-	maxHp = 100;
-	hp = maxHp;
-	Ad = 20;
 }
 
 Goblin04::~Goblin04()

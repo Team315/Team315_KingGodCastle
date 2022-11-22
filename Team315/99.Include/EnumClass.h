@@ -49,3 +49,15 @@ enum class Dir
 	Left,
 	Right,
 };
+
+enum class Stats
+{
+	None = -1,
+	HP, // HealthPoint
+	MP, // ManaPoint
+	AD, // AttackDamage
+	AP, // AbilityPower
+	AS, // AttackSpeed
+	AR, // AttackRange
+	COUNT,
+};

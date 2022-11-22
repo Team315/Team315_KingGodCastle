@@ -15,6 +15,14 @@ Character::Character(int starNumber)
 
 	star = new Star(starNumber);
 	starLocalPos = { 0, -TILE_SIZE * 1.5f };
+
+	// test
+	stat.insert({ Stats::HP, new Stat(100) });
+	stat.insert({ Stats::MP, new Stat(60) });
+	stat.insert({ Stats::AD, new Stat(15) });
+	stat.insert({ Stats::AP, new Stat(10) });
+	stat.insert({ Stats::AS, new Stat(1.0f) });
+	stat.insert({ Stats::AR, new Stat(3) });
 }
 
 Character::~Character()
@@ -34,9 +42,6 @@ void Character::Update(float dt)
 	if (move)
 	{
 		SetState(AnimStates::Move);
-		direction = destination - position;
-		Translate(Utils::Normalize(direction));
-		if (destination == position)
 		{
 			move = false;
 			SetState(AnimStates::MoveToIdle);
@@ -75,6 +80,13 @@ void Character::SetTarget(Character* target)
 	this->target = target;
 }
 
+void Character::TakeDamage(float damage)
+{
+	Stat* hp = stat[Stats::HP];
+	hp->SetCurrent(hp->GetCurrent() -= damage);
+	hpBar->SetProgressValue(hp->GetCurRatio());
+}
+
 void Character::UpgradeStar()
 {
 	if (star->CalculateRandomChance())
@@ -85,8 +97,10 @@ void Character::UpgradeStar()
 
 void Character::UpgradeCharacterSet()
 {
-	sprite.setScale({ 1.0f+(GetStarNumber()*0.05f),1.0f + (GetStarNumber() * 0.05f) });
+	sprite.setScale({
+		1.0f + (GetStarNumber() * 0.05f),
+		1.0f + (GetStarNumber() * 0.05f) });
 	// 성급 올라갈때 공격력,마력,체력 증가
-	// 별 색 바뀔때 스킬 범위 증가
+	// 별 색 바뀔때 스킬 범위 증가 1 3 5 7
 	
 }

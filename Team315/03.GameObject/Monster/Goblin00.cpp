@@ -5,11 +5,6 @@ Goblin00::Goblin00(int starNumber)
 {
 	SetType("Player");
 	SetName("Goblin00");
-	maxHp = 250;
-	hp = maxHp;
-	Ad = 15;
-	Ap = 25;
-	cout << "Goblin00" << " " << hp << " " << Ad << " " << Ap << endl;
 }
 
 Goblin00::~Goblin00()

@@ -5,11 +5,6 @@ Pria::Pria(int starNumber)
 {
 	SetType("Player");
 	SetName("Pria");
-	maxHp = 120;
-	hp = maxHp;
-	Ad = 15;
-	Ap = 55;
-	cout << "Pria" << " " << hp << " " << Ad << " " << Ap << endl;
 }
 
 Pria::~Pria()

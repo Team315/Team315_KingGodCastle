@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include "rapidcsv.h"
 #include "SFML/Graphics.hpp"
 #include "Utils.h"
 #include "InputMgr.h"
@@ -12,9 +11,6 @@
 #include "SoundMgr.h"
 #include "ConsoleLogger.h"
 #include "SceneMgr.h"
-#include "DataTableMgr.h"
-#include "UIMgr.h"
-#include "Singleton.h"
 #include "GameManager.h"
 
 using namespace std;

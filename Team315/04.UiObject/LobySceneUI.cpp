@@ -101,7 +101,7 @@ LobySceneUI::LobySceneUI(Scene* scene)
 	shopBackgroundOverlay->SetOutline(Color::Black, 4.f);
 	shopBackgroundOverlay->SetType("Fixed");
 
-	startPos = { 20.f, GAME_SCREEN_HEIGHT * 0.2f };
+	startPos = { 20.f, GAME_SCREEN_HEIGHT * 0.25f };
 	shopIllusts.resize(4);
 	for (auto& illu : shopIllusts)
 	{
