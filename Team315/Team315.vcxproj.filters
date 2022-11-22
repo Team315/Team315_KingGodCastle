@@ -5,9 +5,6 @@
     <ClCompile Include="04.UiObject\Button.cpp" />
     <ClCompile Include="96.Json\FileData.cpp" />
     <ClCompile Include="96.Json\FileManager.cpp" />
-    <ClCompile Include="97.DataTable\DataTable.cpp" />
-    <ClCompile Include="97.DataTable\DataTableMgr.cpp" />
-    <ClCompile Include="97.DataTable\StringTable.cpp" />
     <ClCompile Include="00.Framework\AnimationClip.cpp" />
     <ClCompile Include="00.Framework\Animator.cpp" />
     <ClCompile Include="00.Framework\ConsoleLogger.cpp" />
@@ -15,7 +12,6 @@
     <ClCompile Include="01.Manager\InputMgr.cpp" />
     <ClCompile Include="01.Manager\ResourceMgr.cpp" />
     <ClCompile Include="00.Framework\Utils.cpp" />
-    <ClCompile Include="02.Object\FloatingObj.cpp" />
     <ClCompile Include="02.Object\Object.cpp" />
     <ClCompile Include="02.Object\RectangleObj.cpp" />
     <ClCompile Include="02.Object\VertexArrayObj.cpp" />
@@ -68,13 +64,8 @@
     <ClInclude Include="96.Json\FileData.h" />
     <ClInclude Include="96.Json\FileManager.h" />
     <ClInclude Include="98.3rd\CSVWriter.h" />
-    <ClInclude Include="98.3rd\OBB.h" />
-    <ClInclude Include="98.3rd\ObjectPool.h" />
     <ClInclude Include="06.Scenes\BattleScene.h" />
     <ClInclude Include="04.UiObject\Button.h" />
-    <ClInclude Include="97.DataTable\DataTable.h" />
-    <ClInclude Include="97.DataTable\DataTableMgr.h" />
-    <ClInclude Include="97.DataTable\StringTable.h" />
     <ClInclude Include="03.GameObject\Character.h" />
     <ClInclude Include="99.Include\Constant.h" />
     <ClInclude Include="99.Include\Define.h" />
@@ -91,7 +82,6 @@
     <ClInclude Include="01.Manager\ResourceMgr.h" />
     <ClInclude Include="98.3rd\SingleTon.h" />
     <ClInclude Include="00.Framework\Utils.h" />
-    <ClInclude Include="02.Object\FloatingObj.h" />
     <ClInclude Include="02.Object\Object.h" />
     <ClInclude Include="02.Object\RectangleObj.h" />
     <ClInclude Include="02.Object\VertexArrayObj.h" />
