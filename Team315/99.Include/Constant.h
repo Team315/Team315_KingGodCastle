@@ -14,7 +14,7 @@
 
 // Tool
 #define CHAPTER_MAX_COUNT (3)
-#define STAGE_MAX_COUNT (10)
+#define STAGE_MAX_COUNT (10) 
 #define TYPE1_TILE_COUNT (25)
 #define TYPE1_OBSTACLE_COUNT (3)
 #define TYPE2_OBSTACLE_COUNT (3)
