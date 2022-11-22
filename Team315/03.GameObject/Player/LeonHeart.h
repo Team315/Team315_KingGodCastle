@@ -1,5 +1,4 @@
 #pragma once
-#include "Include.h"
 #include "Character.h"
 
 class LeonHeart : public Character

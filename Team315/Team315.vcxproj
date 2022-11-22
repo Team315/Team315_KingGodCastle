@@ -221,6 +221,14 @@
     <ClInclude Include="03.GameObject\Player\LeonHeart.h" />
     <ClInclude Include="03.GameObject\Player\Shelda.h" />
     <ClInclude Include="03.GameObject\Monster\Goblin02.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin00.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin03.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin04.h" />
+    <ClInclude Include="03.GameObject\Monster\Thief00.h" />
+    <ClInclude Include="03.GameObject\Monster\Thief01.h" />
+    <ClInclude Include="03.GameObject\Monster\Thief02.h" />
+    <ClInclude Include="03.GameObject\Monster\Thief03.h" />
+    <ClInclude Include="03.GameObject\Monster\Thief04.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
@@ -252,6 +260,9 @@
     <ClCompile Include="03.GameObject\Player\Arveron.cpp" />
     <ClCompile Include="03.GameObject\Player\LeonHeart.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin02.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin00.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin03.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin04.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
@@ -285,6 +296,11 @@
     <ClCompile Include="03.GameObject\Obstacle.cpp" />
     <ClCompile Include="03.GameObject\Player\Pria.cpp" />
     <ClCompile Include="03.GameObject\Player\Shelda.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Thief00.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Thief01.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Thief02.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Thief03.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Thief04.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

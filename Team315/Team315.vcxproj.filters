@@ -63,6 +63,14 @@
     <ClCompile Include="03.GameObject\Player\LeonHeart.cpp" />
     <ClCompile Include="03.GameObject\Player\Shelda.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin02.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin00.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin03.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Goblin04.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Thief00.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Thief01.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Thief02.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Thief03.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Thief04.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -138,6 +146,14 @@
     <ClInclude Include="03.GameObject\Player\LeonHeart.h" />
     <ClInclude Include="03.GameObject\Player\Shelda.h" />
     <ClInclude Include="03.GameObject\Monster\Goblin02.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin00.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin03.h" />
+    <ClInclude Include="03.GameObject\Monster\Goblin04.h" />
+    <ClInclude Include="03.GameObject\Monster\Thief00.h" />
+    <ClInclude Include="03.GameObject\Monster\Thief01.h" />
+    <ClInclude Include="03.GameObject\Monster\Thief02.h" />
+    <ClInclude Include="03.GameObject\Monster\Thief03.h" />
+    <ClInclude Include="03.GameObject\Monster\Thief04.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

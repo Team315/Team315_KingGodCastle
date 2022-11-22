@@ -4,6 +4,7 @@
 #include "ProgressBar.h"
 #include "Star.h"
 #include "EnumClass.h"
+#include "Include.h"
 
 class Character : public SpriteObj
 {

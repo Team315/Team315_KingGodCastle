@@ -1,5 +1,4 @@
 #pragma once
-#include "Include.h"
 #include "Character.h"
 
 class Goblin02 : public Character
@@ -23,4 +22,3 @@ public:
 	void UpdateMove(float dt);
 	void UpdateAttack(float dt);
 };
-

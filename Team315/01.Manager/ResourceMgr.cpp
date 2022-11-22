@@ -30,6 +30,8 @@ bool ResourceMgr::LoadAll()
 
 		for (int j = 0; j < doc.GetRowCount(); j++)
 		{
+			cout << types[j] << " " << ids[j] << endl;
+			
 			if (!Load((ResourceTypes)types[j], ids[j]))
 			{
 				CLOG::Print3String("resource manager load fail! file name: ", ids[j]);

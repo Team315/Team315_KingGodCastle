@@ -1,5 +1,4 @@
 #include "Character.h"
-#include "Include.h"
 
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(false),

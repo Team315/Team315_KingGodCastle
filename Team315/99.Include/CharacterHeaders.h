@@ -11,8 +11,16 @@
 #define CHARACTER_COUNT 7
 
 // Monster
+#include "Monster/Goblin00.h"
 #include "Monster/Goblin01.h"
 #include "Monster/Goblin02.h"
+#include "Monster/Goblin03.h"
+#include "Monster/Goblin04.h"
+#include "Monster/Thief00.h"
+#include "Monster/Thief01.h"
+#include "Monster/Thief02.h"
+#include "Monster/Thief03.h"
+#include "Monster/Thief04.h"
 
 // Neutral
 #include "Obstacle.h"
