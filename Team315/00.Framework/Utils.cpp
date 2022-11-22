@@ -135,9 +135,9 @@ bool Utils::OBB(const RectangleShape& obb1, const RectangleShape& obb2)
 	return testCollision(obb1, obb2, MTV);
 }
 
-bool Utils::EqualFloat(float a, float b)
+bool Utils::EqualFloat(float a, float b, float epsilon)
 {
-	return fabs(a - b) < numeric_limits<float>::epsilon();
+	return fabs(a - b) < epsilon;
 }
 
 int Utils::ManhattanDistance(Vector2i vec1, Vector2i vec2)

@@ -136,8 +136,13 @@ void BattleScene::Update(float dt)
 				if (character == nullptr)
 					cout << "..";
 				else
-					cout << character->GetName()[0] + to_string(character->GetStarNumber());
-				;
+				{
+					if (character->GetName().compare("Obstacle"))
+						cout << character->GetName()[0] + to_string(character->GetStarNumber());
+					else
+						cout << "Ob";
+				}
+				
 				cout << ' ';
 				count++;
 				if ((count % GAME_TILE_WIDTH) == 0)
@@ -218,8 +223,13 @@ void BattleScene::Update(float dt)
 						if (character == nullptr)
 							cout << "..";
 						else
-							cout << character->GetName()[0] + to_string(character->GetStarNumber());
-						
+						{
+							if (character->GetName().compare("Obstacle"))
+								cout << character->GetName()[0] + to_string(character->GetStarNumber());
+							else
+								cout << "Ob";
+						}
+
 						cout << ' ';
 						count++;
 						if ((count % GAME_TILE_WIDTH) == 0)
@@ -232,36 +242,16 @@ void BattleScene::Update(float dt)
 				// summon character
 				if (!button->GetName().compare("summon"))
 				{
-					if (GAME_MGR->GetPrepareSize() == PREPARE_SIZE)
-					{
-						CLOG::Print3String("can not summon");
-						break;
-					}
 					int idx = GetZeroElem(prepareGrid);
 					if (idx == -1)
 					{
-						CLOG::Print3String("can not");
+						CLOG::Print3String("can not summon");
 						return;
 					}
-					int ran = Utils::RandomRange(0, PRESET_SIZE);
-					Character* newPick;
-					if (ran % 7 == 0)
-						newPick = new Evan();
-					else if (ran % 7 == 1)
-						newPick = new Daniel();
-					else if (ran % 7 == 2)
-						newPick = new Aramis();
-					else if (ran % 7 == 3)
-						newPick = new Pria();
-					else if (ran % 7 == 4)
-						newPick = new LeonHeart();
-					else if (ran % 7 == 5)
-						newPick = new Arveron();
-					else
-						newPick = new Shelda();
+					Character* newPick = GAME_MGR->SpawnPlayer(true, true);
 					newPick->SetPos(ui->GetPrepareGridPos(idx));
 					newPick->Init();
-					newPick->SetDrawInBattle(false);
+					newPick->SetDrawingOnBattle(true);
 					prepareGrid[idx] = newPick;
 					break;
 				}
@@ -310,6 +300,16 @@ void BattleScene::Update(float dt)
 					break;
 				}
 			}
+			else if (InputMgr::GetMouseDown(Mouse::Right))
+			{
+				if (pick == nullptr)
+				{
+					Character* temp = character;
+					character = nullptr;
+					delete temp;
+					break;
+				}
+			}
 		}
 	}
 
@@ -328,6 +328,16 @@ void BattleScene::Update(float dt)
 					if (pick == nullptr)
 					{
 						PickUpCharacter(character);
+						break;
+					}
+				}
+				else if (InputMgr::GetMouseDown(Mouse::Right))
+				{
+					if (pick == nullptr)
+					{
+						Character* temp = character;
+						character = nullptr;
+						delete temp;
 						break;
 					}
 				}
@@ -573,10 +583,10 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 				mainGrid[curIdx]->SetPos(tile->GetPos());
 				break;
 			case (int) TileTypes::Monster:
-				mainGrid[curIdx] = GAME_MGR->SpawnMonster(tile->GetMonsterName(), td.grade);
+				mainGrid[curIdx] = GAME_MGR->SpawnMonster( tile->GetMonsterName(), td.grade);
 				mainGrid[curIdx]->SetPos(tile->GetPos());
 				mainGrid[curIdx]->Init();
-				mainGrid[curIdx]->SetDrawInBattle(false);
+				mainGrid[curIdx]->SetDrawingOnBattle(true);
 				break;
 			default:
 				break;

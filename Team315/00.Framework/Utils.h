@@ -49,7 +49,7 @@ public:
 	static float Angle(const Vector2f& dir);
 	static bool OBB(const RectangleShape& obb1, const RectangleShape& obb2);
 
-	static bool EqualFloat(float a, float b);
+	static bool EqualFloat(float a, float b, float epsilon = numeric_limits<float>::epsilon());
 
 	static int ManhattanDistance(Vector2i vec1, Vector2i vec2);
 };

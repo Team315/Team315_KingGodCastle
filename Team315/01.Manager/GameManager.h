@@ -12,15 +12,18 @@ protected:
 	Chapters* m_PlayTileList;
 	vector<vector<vector<vector<Tile*>>>> m_tiles;
 
-	// element == 0 is empty cell
+	/*element == 0 is empty cell
 	vector<int> preset;
 	vector<int> prepareGrid;
 	queue<int> waitQueue;
-	int prepareSize;
-	int characterCount;
+	int prepareSize;*/
+
+	vector<Character*> presetC;
 
 	// additional level up probability
 	int extraLevelUpChance;
+
+	int battleCharacterCount;
 
 public:
 	GameManager();
@@ -28,21 +31,19 @@ public:
 
 	void EnterBattleScene();
 
-	vector<int>& GetPreset() { return preset; }
-	void SetPreset(vector<int>& set) { preset = set; }
-	int GetPresetElem(int idx) { return preset[idx]; };
-	void SetPresetElem(int idx, int num);
+	//vector<int>& GetPreset() { return preset; }
+	//void SetPreset(vector<int>& set) { preset = set; }
+	//int GetPresetElem(int idx) { return preset[idx]; };
+	//void SetPresetElem(int idx, int num);
+	//vector<int>& GetPrepare() { return prepareGrid; }
+	//int GetPrepareIdx();
+	//void SetPrepare(vector<int>& set);
+	//void AddPrepare(int num);
+	//void UpdatePrepare();
+	//queue<int>& GetWaitQueue() { return waitQueue; }
+	//const int GetPrepareSize() { return prepareSize; }
 
-	vector<int>& GetPrepare() { return prepareGrid; }
-	int GetPrepareIdx();
-	void SetPrepare(vector<int>& set);
-	void AddPrepare(int num);
-	void UpdatePrepare();
-
-	queue<int>& GetWaitQueue() { return waitQueue; }
-
-	const int GetPrepareSize() { return prepareSize; }
-	const int GetCharacterCount() { return characterCount; }
+	const int GetCharacterCount() { return battleCharacterCount; }
 	const int GetExtraLevelUpChance() { return extraLevelUpChance; }
 
 	Vector2i PosToIdx(Vector2f pos);
@@ -54,6 +55,8 @@ public:
 
 	void CreatedTiles();
 	Character* SpawnMonster(string name, int grade);
+	Character* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
+	Character* SpawnPlayer(bool random, bool drawingOnBattle = true);
 };
 
 #define GAME_MGR (GameManager::GetInstance())

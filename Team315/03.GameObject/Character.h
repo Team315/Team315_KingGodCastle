@@ -41,7 +41,7 @@ protected:
 	Vector2f direction;
 	Vector2f lastDirection;
 
-	bool drawInBattle;
+	bool drawingOnBattle;
 
 public:
 	Character(int starNumber = 0);
@@ -59,8 +59,8 @@ public:
 	void SetMove(bool b) { move = b; }
 	void SetDestination(Vector2f dest) { destination = dest; }
 
-	void SetDrawInBattle(bool b) { drawInBattle = b; }
-	bool GetDrawInBattle() { return drawInBattle; }
+	void SetDrawingOnBattle(bool b) { drawingOnBattle = b; }
+	bool GetDrawingOnBattle() { return drawingOnBattle; }
 
 	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
 	int GetStarNumber() { return star->GetStarNumber(); }
