@@ -5,11 +5,6 @@ Evan::Evan(int starNumber)
 {
 	SetType("Player");
 	SetName("Evan");
-	maxHp = 250;
-	hp = maxHp;
-	Ad = 15;
-	Ap = 25;
-	cout << "Evan" << " " << hp << " " << Ad << " " << Ap << endl;
 }
 
 Evan::~Evan()

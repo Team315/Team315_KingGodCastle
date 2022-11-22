@@ -5,11 +5,6 @@ Aramis::Aramis(int starNumber)
 {
 	SetType("Player");
 	SetName("Aramis"); 
-	maxHp = 150;
-	hp = maxHp;
-	Ad = 35;
-	Ap = 50;
-	cout << "Aramis" << " " << hp << " " << Ad << " " << Ap << endl;
 }
 
 Aramis::~Aramis()

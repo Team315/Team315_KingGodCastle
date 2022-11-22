@@ -27,19 +27,9 @@ protected:
 	bool attack;
 	bool isAlive;
 
-	int maxHp;
-	int hp;
-	int maxMp;
-	int Mp;
-	int Ad;
-	int Ap;
-
 	AnimStates currState;
 
 	float moveSpeed;
-
-	Vector2f nowTile;
-	Vector2f frontTile;
 	Vector2f direction;
 	Vector2f lastDirection;
 
@@ -58,8 +48,6 @@ public:
 	AnimStates GetState() { return currState;  }
 
 	void SetTarget(Character* target);
-	void SetMove(bool b) { move = b; }
-	void SetDestination(Vector2f dest) { destination = dest; }
 
 	void SetDrawingOnBattle(bool b) { drawingOnBattle = b; }
 	bool GetDrawingOnBattle() { return drawingOnBattle; }

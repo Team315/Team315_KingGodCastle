@@ -17,6 +17,7 @@ Character::Character(int starNumber)
 	star = new Star(starNumber);
 	starLocalPos = { 0, -TILE_SIZE * 1.5f };
 
+	// test
 	stat.insert({ Stats::HP, new Stat(100) });
 	stat.insert({ Stats::MP, new Stat(60) });
 	stat.insert({ Stats::AD, new Stat(15) });
@@ -42,9 +43,6 @@ void Character::Update(float dt)
 	if (move)
 	{
 		SetState(AnimStates::Move);
-		direction = destination - position;
-		Translate(Utils::Normalize(direction));
-		if (destination == position)
 		{
 			move = false;
 			SetState(AnimStates::MoveToIdle);

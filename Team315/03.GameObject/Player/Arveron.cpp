@@ -5,11 +5,6 @@ Arveron::Arveron(int starNumber)
 {
 	SetType("Player");
 	SetName("Arveron");
-	maxHp = 120;
-	hp = maxHp;
-	Ad = 10;
-	Ap = 40;
-	cout << "Arveron" << " " << hp << " " << Ad << " " << Ap << endl;
 }
 
 Arveron::~Arveron()

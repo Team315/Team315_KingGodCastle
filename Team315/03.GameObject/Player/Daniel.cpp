@@ -5,11 +5,6 @@ Daniel::Daniel(int starNumber)
 {
 	SetType("Player");
 	SetName("Daniel");
-	maxHp = 250;
-	hp = maxHp;
-	Ad = 20;
-	Ap = 20;
-	cout << "Daniel" << " " << hp << " " << Ad << " " << Ap << endl;
 }
 
 Daniel::~Daniel()
