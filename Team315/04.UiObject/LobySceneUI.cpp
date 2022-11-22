@@ -173,15 +173,6 @@ LobySceneUI::LobySceneUI(Scene* scene)
 	startBtn->SetTextStyle(Color::White, 25, Color::Black, 2.f);
 	startBtn->SetButtonStyle(Color(255, 255, 255, 100), Color(255, 255, 255, 200));
 	startBtn->SetType("Fixed");
-
-	//startPos = { GAME_SCREEN_WIDTH * 2.f + TILE_SIZE * 2.5f, TILE_SIZE * 9.f };
-	/*for (auto& rect : gatePreset)
-	{
-		rect->SetPos(startPos);
-		rect->SetOrigin(Origins::BC);
-		rect->SetType("Fixed");
-		startPos.x += TILE_SIZE;
-	}*/
 }
 
 LobySceneUI::~LobySceneUI()
