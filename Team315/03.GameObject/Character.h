@@ -12,7 +12,7 @@ class Character : public SpriteObj
 protected:
 	Animator animator;
 	Character* target;
-	map<Stats, Stat> stat;
+	map<Stats, Stat*> stat;
 	
 	// UI
 	ProgressBar* hpBar;
@@ -37,7 +37,6 @@ protected:
 	AnimStates currState;
 
 	float moveSpeed;
-
 
 	Vector2f nowTile;
 	Vector2f frontTile;
@@ -67,7 +66,8 @@ public:
 
 	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
 	int GetStarNumber() { return star->GetStarNumber(); }
+	Stat& GetStat(Stats statsEnum) { return *stat[statsEnum]; }
+	void TakeDamage(float damage);
 	void UpgradeStar();
 	void UpgradeCharacterSet();
-	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }
 };

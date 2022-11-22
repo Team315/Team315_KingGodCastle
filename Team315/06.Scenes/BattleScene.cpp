@@ -362,8 +362,7 @@ void BattleScene::Update(float dt)
 					PickUpCharacter(character);
 					break;
 				}*/
-				CLOG::Print3String(character->GetName());
-				cout << character->GetStat(Stats::HP).GetBase() << endl;
+				character->TakeDamage(50.f);
 			}
 		}
 	}

@@ -14,8 +14,12 @@ struct Stat
 	float current;	// current stat, use hp/mp
 	float delta;	// sum of item, buf, debuf etc
 	float modifier;	// base + delta
-	
-	Stat(int b = 0) : base(b) {}
+
+	Stat(int b = 0) : base(b), delta(0.f)
+	{
+		ResetStat();
+		UpdateStat();
+	}
 
 	void Init(float b, float d)
 	{
@@ -52,6 +56,7 @@ struct Stat
 	float& GetCurrent() { return current; }
 	float& GetDelta() { return delta; }
 	float& GetModifier() { return modifier; }
+	float GetCurRatio() { return current / base; }
 
 	Stat& GetReference() { return *this; }
 };

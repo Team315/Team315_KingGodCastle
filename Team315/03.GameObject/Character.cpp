@@ -17,12 +17,12 @@ Character::Character(int starNumber)
 	star = new Star(starNumber);
 	starLocalPos = { 0, -TILE_SIZE * 1.5f };
 
-	stat.insert({ Stats::HP, Stat(100) });
-	stat.insert({ Stats::MP, Stat(60) });
-	stat.insert({ Stats::AD, Stat(15) });
-	stat.insert({ Stats::AP, Stat(10) });
-	stat.insert({ Stats::AS, Stat(1.0f) });
-	stat.insert({ Stats::AR, Stat(3) });
+	stat.insert({ Stats::HP, new Stat(100) });
+	stat.insert({ Stats::MP, new Stat(60) });
+	stat.insert({ Stats::AD, new Stat(15) });
+	stat.insert({ Stats::AP, new Stat(10) });
+	stat.insert({ Stats::AS, new Stat(1.0f) });
+	stat.insert({ Stats::AR, new Stat(3) });
 }
 
 Character::~Character()
@@ -81,6 +81,13 @@ void Character::SetState(AnimStates newState)
 void Character::SetTarget(Character* target)
 {
 	this->target = target;
+}
+
+void Character::TakeDamage(float damage)
+{
+	Stat* hp = stat[Stats::HP];
+	hp->SetCurrent(hp->GetCurrent() -= damage);
+	hpBar->SetProgressValue(hp->GetCurRatio());
 }
 
 void Character::UpgradeStar()
