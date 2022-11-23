@@ -3,7 +3,7 @@
 Goblin00::Goblin00(int starNumber)
 	: Character(starNumber)
 {
-	SetType("Player");
+	SetType("Monster");
 	SetName("Goblin00");
 }
 

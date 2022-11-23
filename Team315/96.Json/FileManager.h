@@ -30,8 +30,7 @@ public:
 	void LoadTileData(ToolScene& scene);
 	void LoadTileData(Chapters& m_PlayTileList);
 
-	void LoadCharacterData();
-	void SaveCharacterData();
+	json LoadCharacterData();
 };
 
 #define FILE_MGR (FileManager::GetInstance())

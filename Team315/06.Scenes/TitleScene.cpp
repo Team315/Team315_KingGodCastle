@@ -21,7 +21,7 @@ TitleScene::TitleScene()
 
 	GAME_MGR->SetTilesData();
 	GAME_MGR->CreatedTiles();
-	FILE_MGR->LoadCharacterData();
+	GAME_MGR->SetCharacterDatas();
 }
 
 TitleScene::~TitleScene()

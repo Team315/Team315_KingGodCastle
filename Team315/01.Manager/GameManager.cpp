@@ -185,3 +185,13 @@ Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
 {
 	return SpawnPlayer("", random, drawingOnBattle);
 }
+
+void GameManager::SetCharacterDatas()
+{
+	characterDatas = FILE_MGR->LoadCharacterData();
+}
+
+json GameManager::GetCharacterData(string name)
+{
+	return characterDatas[name];
+}
