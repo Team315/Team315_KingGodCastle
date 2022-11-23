@@ -17,18 +17,19 @@ bool AStar::AstarSearch(vector<vector<string>>& map, Vector2i myPos, Vector2i en
 
 	Cell cellDetails[14][7];
 
+	// 모든 좌표 초기화
 	for (int i = 0; i < ROW; ++i)
 	{
 		for (int j = 0; j < COL; ++j)
 		{
-			cellDetails[i][j].f = cellDetails[i][j].g = cellDetails[i][j].h;
-			cellDetails[i][j].parent.x = cellDetails[i][j].parent.y;
+			cellDetails[i][j].f = cellDetails[i][j].g = cellDetails[i][j].h = INF;
+			cellDetails[i][j].parent.x = cellDetails[i][j].parent.y = -1;
 		}
 	}
 
+	// 시작 좌표 초기화
 	int sy = myPos.x;
 	int sx = myPos.y;
-
 	cellDetails[sy][sx].f = cellDetails[sy][sx].g = cellDetails[sy][sx].h = 0.0;
 	cellDetails[sy][sx].parent.x = sx;
 	cellDetails[sy][sx].parent.y = sy;
@@ -42,11 +43,11 @@ bool AStar::AstarSearch(vector<vector<string>>& map, Vector2i myPos, Vector2i en
 
 	while (!openList.empty()) 
 	{
-		pPair p = *openList.begin();
-		openList.erase(openList.begin());
+		pPair p = *openList.begin();// 여기다 본인의 벨류 넣고
+		openList.erase(openList.begin());// 담겼던거 지우고
 
-		int y = p.second.first;
-		int x = p.second.second;
+		int y = p.second.first;//여기다가 좌표값 넣어준다
+		int x = p.second.second;//
 		closedList[y][x] = true;
 
 		double ng, nf, nh;
@@ -57,7 +58,8 @@ bool AStar::AstarSearch(vector<vector<string>>& map, Vector2i myPos, Vector2i en
 			int ny = y + dy1[i];
 			int nx = x + dx1[i];
 
-			if (isInRange(ny, nx)) {
+			if (isInRange(ny, nx)) 
+			{
 				if (isDestination(ny, nx, enPos)) 
 				{
 					cellDetails[ny][nx].parent.y = y;
@@ -65,19 +67,19 @@ bool AStar::AstarSearch(vector<vector<string>>& map, Vector2i myPos, Vector2i en
 					tracePath(cellDetails, enPos);
 					return true;
 				}
-
 				else if (!closedList[ny][nx] && isUnBlocked(map, ny, nx))
 				{
-					ng = cellDetails[y][x].g + 1.0;
+					ng = cellDetails[y][x].g + 1.0;//출발 점부터 이 좌표와의 거리
 					nh = GethValue(ny, nx, enPos);
 					nf = ng + nh;
 
-					if (cellDetails[ny][nx].f == INF || cellDetails[ny][nx].f > nf) {
-						cellDetails[ny][nx].f = nf;
-						cellDetails[ny][nx].g = ng;
-						cellDetails[ny][nx].h = nh;
-						cellDetails[ny][nx].parent.x = x;
-						cellDetails[ny][nx].parent.y = y;
+					if (cellDetails[ny][nx].f == INF || cellDetails[ny][nx].f > nf) 
+					{
+						cellDetails[ny][nx].f = nf;// 현제 간 좌표에 총거리 넣어줌
+						cellDetails[ny][nx].g = ng;//시작 지점부터 여기까지의 거리는 넣어줌
+						cellDetails[ny][nx].h = nh;// 현재 노드 위치부터 목표점까지의 heuristic한 거리 넣어줌
+						cellDetails[ny][nx].parent.x = x;//여기다 시작지점의 좌표를 넣어줌
+						cellDetails[ny][nx].parent.y = y; // 여기다 시작지점의 좌표를 넣어줌
 						openList.insert({ nf, { ny, nx } });
 					}
 				}
@@ -90,7 +92,9 @@ bool AStar::AstarSearch(vector<vector<string>>& map, Vector2i myPos, Vector2i en
 
 bool AStar::isDestination(int row, int col, Vector2i dst)
 {
-	if (row == dst.x && col == dst.y) return true;
+	if (row == dst.x && col == dst.y) 
+		return true;
+
 	return false;
 }
 
@@ -109,11 +113,11 @@ double AStar::GethValue(int row, int col, Vector2i dst)
 	return (double)sqrt(pow(row - dst.x, 2) + pow(col - dst.y, 2));
 }
 
-void AStar::tracePath(Cell cellDetails[14][7], Vector2i dst)
+void AStar::tracePath(Cell cellDetails[14][7], Vector2i enpos)
 {
 	stack<Vector2i> s;
-	int y = dst.x;
-	int x = dst.y;
+	int y = enpos.x;
+	int x = enpos.y;
 
 	s.push({ y, x });
 	while (!(cellDetails[y][x].parent.x == x && cellDetails[y][x].parent.y == y)) 
