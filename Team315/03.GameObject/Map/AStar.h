@@ -7,7 +7,9 @@
 struct Cell
 {
 	Vector2i parent;
-	double f, g, h;
+	double f;// g+h
+	double g;//출발점부터 현재 노드위치까지 거리
+	double h;//현재 노드 위치부터 목표점까지의 heuristic한 거리
 };
 
 class AStar
