@@ -10,7 +10,7 @@ AStar::~AStar()
 {
 }
 
-bool AStar::AstarSearch(vector<vector<int>>& map, Vector2i myPos, Vector2i enPos)
+bool AStar::AstarSearch(vector<vector<string>>& map, Vector2i myPos, Vector2i enPos)
 {
 	bool closedList[14][7];
 	std::memset(closedList, false, sizeof(closedList));
@@ -26,9 +26,9 @@ bool AStar::AstarSearch(vector<vector<int>>& map, Vector2i myPos, Vector2i enPos
 		}
 	}
 
-	
 	int sy = myPos.x;
 	int sx = myPos.y;
+
 	cellDetails[sy][sx].f = cellDetails[sy][sx].g = cellDetails[sy][sx].h = 0.0;
 	cellDetails[sy][sx].parent.x = sx;
 	cellDetails[sy][sx].parent.y = sy;
@@ -52,7 +52,8 @@ bool AStar::AstarSearch(vector<vector<int>>& map, Vector2i myPos, Vector2i enPos
 		double ng, nf, nh;
 
 		// Á÷¼±
-		for (int i = 0; i < 4; ++i) {
+		for (int i = 0; i < 4; ++i) 
+		{
 			int ny = y + dy1[i];
 			int nx = x + dx1[i];
 
@@ -67,7 +68,6 @@ bool AStar::AstarSearch(vector<vector<int>>& map, Vector2i myPos, Vector2i enPos
 
 				else if (!closedList[ny][nx] && isUnBlocked(map, ny, nx))
 				{
-
 					ng = cellDetails[y][x].g + 1.0;
 					nh = GethValue(ny, nx, enPos);
 					nf = ng + nh;
@@ -83,11 +83,9 @@ bool AStar::AstarSearch(vector<vector<int>>& map, Vector2i myPos, Vector2i enPos
 				}
 			}
 		}
-
 	}
 
 	return false;
-
 }
 
 bool AStar::isDestination(int row, int col, Vector2i dst)
@@ -101,9 +99,9 @@ bool AStar::isInRange(int row, int col)
 	return (row >= 0 && row < ROW && col >= 0 && col < COL);
 }
 
-bool AStar::isUnBlocked(vector<vector<int>>& map, int row, int col)
+bool AStar::isUnBlocked(vector<vector<string>>& map, int row, int col)
 {
-	return (map[row][col] == 0);
+	return (map[row][col] == "Obstacle");
 }
 
 double AStar::GethValue(int row, int col, Vector2i dst)
@@ -118,7 +116,8 @@ void AStar::tracePath(Cell cellDetails[14][7], Vector2i dst)
 	int x = dst.y;
 
 	s.push({ y, x });
-	while (!(cellDetails[y][x].parent.x == x && cellDetails[y][x].parent.y == y)) {
+	while (!(cellDetails[y][x].parent.x == x && cellDetails[y][x].parent.y == y)) 
+	{
 		int tempy = cellDetails[y][x].parent.y;
 		int tempx = cellDetails[y][x].parent.x;
 		y = tempy;
@@ -126,7 +125,8 @@ void AStar::tracePath(Cell cellDetails[14][7], Vector2i dst)
 		s.push({ y, x });
 	}
 
-	while (!s.empty()) {
+	while (!s.empty()) 
+	{
 		zmap[s.top().x][s.top().y] = '*';
 		s.pop();
 	}

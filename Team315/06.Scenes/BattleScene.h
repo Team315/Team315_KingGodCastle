@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include "Include.h"
 #include <vector>
-
+#include "Map/AStar.h"
 class BattleSceneUI;
 class Button;
 class Character;

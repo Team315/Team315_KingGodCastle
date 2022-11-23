@@ -55,6 +55,8 @@ void BattleScene::Enter()
 	curChapIdx = 0;
 	curStageIdx = 0;
 	SetCurrentStage(curChapIdx, curStageIdx);
+
+	
 }
 
 void BattleScene::Exit()
@@ -77,6 +79,27 @@ void BattleScene::Exit()
 void BattleScene::Update(float dt)
 {
 	Scene::Update(dt);
+
+	//AStar astar;
+	
+
+	//for (auto& player: mainGrid)
+	//{
+	//	if (!player->GetType().compare("Player"))
+	//	{
+	//		for (auto& monster : mainGrid)
+	//		{
+	//			Vector2i mypos = GAME_MGR->PosToIdx(player->GetPos());
+	//			Vector2i enpos = GAME_MGR->PosToIdx(monster->GetPos());
+
+	//			GetMainGridCharacter(mypos.x, mypos.y).;
+	//			astar.AstarSearch(,GAME_MGR->PosToIdx(player->GetPos(), GAME_MGR->PosToIdx(player->GetPos());
+	//		}
+	//	}
+	//}
+	//GAME_MGR->PosToIdx(mainGrid[0]->GetPos());
+	//"Player" == mainGrid[0]->GetType();
+	////mainGrid[1]->GetPos()
 
 	// Dev Input start
 	{

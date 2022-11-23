@@ -28,10 +28,10 @@ public:
 	AStar();
 	~AStar();
 
-	bool AstarSearch(vector<vector<int>>& map,Vector2i myPos, Vector2i enPos);
+	bool AstarSearch(vector<vector<string>>& map,Vector2i myPos, Vector2i enPos);
 	bool isDestination(int row, int col, Vector2i dst);
 	bool isInRange(int row, int col);
-	bool isUnBlocked(vector<vector<int>>& map, int row, int col);
+	bool isUnBlocked(vector<vector<string>>& map, int row, int col);
 	double GethValue(int row, int col, Vector2i dst);
 	void tracePath(Cell cellDetails[14][7], Vector2i dst);
 };

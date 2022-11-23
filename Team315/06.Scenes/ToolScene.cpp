@@ -20,6 +20,7 @@ ToolScene::ToolScene()
 {
 	SetClickMode(m_clickMode);
 	CLOG::Print3String("tool create");
+
 }
 
 ToolScene::~ToolScene()
