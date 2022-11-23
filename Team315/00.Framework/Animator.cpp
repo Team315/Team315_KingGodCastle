@@ -1,4 +1,5 @@
 #include "Animator.h"
+#include "Include.h"
 
 Animator::Animator()
     :target(nullptr), speed(1.f), isPlaying(false), currClip(nullptr), currFrame(0), totalFrame(0), frameDuration(0.f), accumTime(0.f)
@@ -25,6 +26,7 @@ void Animator::AddClip(const AnimationClip& newClip)
     {
         return;
     }
+    //cout << newClip.id << endl;
     clips[newClip.id] = newClip;
 }
 

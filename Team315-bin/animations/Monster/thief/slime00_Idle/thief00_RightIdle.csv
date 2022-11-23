@@ -1,0 +1,8 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+thief00_RightIdle,1,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Charactor/Monster/Thief/thief00_Move.png,0,100,150,100,75,100,1,0
+graphics/Charactor/Monster/Thief/thief00_Move.png,150,100,150,100,75,100,1,0
+graphics/Charactor/Monster/Thief/thief00_Move.png,300,100,150,100,75,100,1,0
+graphics/Charactor/Monster/Thief/thief00_Move.png,450,100,150,100,75,100,1,0
+graphics/Charactor/Monster/Thief/thief00_Move.png,600,100,150,100,75,100,1,0

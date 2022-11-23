@@ -1,8 +1,0 @@
-ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
-goblin04_DownMove,1,10,,,,,,
-TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Charactor/Monster/Goblin/goblin04_Move.png,0,0,120,120,60,120,0,0
-graphics/Charactor/Monster/Goblin/goblin04_Move.png,120,0,120,120,60,120,0,0
-graphics/Charactor/Monster/Goblin/goblin04_Move.png,240,0,120,120,60,120,0,0
-graphics/Charactor/Monster/Goblin/goblin04_Move.png,360,0,120,120,60,120,0,0
-graphics/Charactor/Monster/Goblin/goblin04_Move.png,480,0,120,120,60,120,0,0
