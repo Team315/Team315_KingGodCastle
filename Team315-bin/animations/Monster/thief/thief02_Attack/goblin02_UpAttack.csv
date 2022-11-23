@@ -1,0 +1,8 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+goblin02_UpAttack,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Charactor/Monster/Goblin/goblin02_Attack.png,0,160,80,80,40,80,0,0
+graphics/Charactor/Monster/Goblin/goblin02_Attack.png,80,160,80,80,40,80,0,0
+graphics/Charactor/Monster/Goblin/goblin02_Attack.png,160,160,80,80,40,80,0,0
+graphics/Charactor/Monster/Goblin/goblin02_Attack.png,80,160,80,80,40,80,0,0
+graphics/Charactor/Monster/Goblin/goblin02_Attack.png,0,160,80,80,40,80,0,0

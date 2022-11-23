@@ -1,0 +1,8 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+goblin03_RightIdle,1,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Charactor/Monster/Goblin/goblin03_Move.png,0,100,100,100,50,100,1,0
+graphics/Charactor/Monster/Goblin/goblin03_Move.png,100,100,100,100,50,100,1,0
+graphics/Charactor/Monster/Goblin/goblin03_Move.png,200,100,100,100,50,100,1,0
+graphics/Charactor/Monster/Goblin/goblin03_Move.png,300,100,100,100,50,100,1,0
+graphics/Charactor/Monster/Goblin/goblin03_Move.png,400,100,100,100,50,100,1,0
