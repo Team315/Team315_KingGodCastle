@@ -149,6 +149,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="03.GameObject\Monster\Slime00.h" />
+    <ClInclude Include="03.GameObject\Monster\Slime01.h" />
+    <ClInclude Include="03.GameObject\Monster\Slime02.h" />
+    <ClInclude Include="03.GameObject\Monster\Slime03.h" />
+    <ClInclude Include="03.GameObject\Monster\Slime04.h" />
+    <ClInclude Include="03.GameObject\Monster\Slime05.h" />
     <ClInclude Include="96.Json\FileData.h" />
     <ClInclude Include="96.Json\FileManager.h" />
     <ClInclude Include="98.3rd\CSVWriter.h" />
@@ -226,6 +232,12 @@
     <ClInclude Include="03.GameObject\Monster\Thief04.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="03.GameObject\Monster\Slime00.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Slime01.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Slime02.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Slime03.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Slime04.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Slime05.cpp" />
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
     <ClCompile Include="04.UiObject\Button.cpp" />
     <ClCompile Include="96.Json\FileData.cpp" />

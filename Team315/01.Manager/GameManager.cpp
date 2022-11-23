@@ -154,7 +154,7 @@ Character* GameManager::SpawnMonster(string name, int grade)
 {
 	Character* character = nullptr;
 	if (!name.compare("Goblin01"))
-		character = new Thief04(grade);
+		character = new Slime05(grade);
 	return character;
 }
 

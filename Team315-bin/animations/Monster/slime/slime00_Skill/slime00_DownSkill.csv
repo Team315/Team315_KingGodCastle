@@ -1,0 +1,15 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+slime00_DownSkill,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Charactor/Monster/Slime/slime00_Skill.png,0,0,110,150,55,150,0,0
+graphics/Charactor/Monster/Slime/slime00_Skill.png,110,0,110,150,55,150,0,0
+graphics/Charactor/Monster/Slime/slime00_Skill.png,220,0,110,150,55,150,0,0
+graphics/Charactor/Monster/Slime/slime00_Skill.png,330,0,110,150,55,150,0,0
+graphics/Charactor/Monster/Slime/slime00_Skill.png,440,0,110,150,55,150,0,0
+graphics/Charactor/Monster/Slime/slime00_Skill.png,550,0,110,150,55,150,0,0
+graphics/Charactor/Monster/Slime/slime00_Skill.png,0,150,110,150,55,150,0,0
+graphics/Charactor/Monster/Slime/slime00_Skill.png,110,150,110,150,55,150,0,0
+graphics/Charactor/Monster/Slime/slime00_Skill.png,220,150,110,150,55,150,0,0
+graphics/Charactor/Monster/Slime/slime00_Skill.png,330,150,110,150,55,150,0,0
+graphics/Charactor/Monster/Slime/slime00_Skill.png,440,150,110,150,55,150,0,0
+graphics/Charactor/Monster/Slime/slime00_Skill.png,550,150,110,150,55,150,0,0

@@ -67,6 +67,12 @@
     <ClCompile Include="03.GameObject\Monster\Thief02.cpp" />
     <ClCompile Include="03.GameObject\Monster\Thief03.cpp" />
     <ClCompile Include="03.GameObject\Monster\Thief04.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Slime00.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Slime01.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Slime02.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Slime03.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Slime04.cpp" />
+    <ClCompile Include="03.GameObject\Monster\Slime05.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -144,6 +150,12 @@
     <ClInclude Include="03.GameObject\Monster\Thief02.h" />
     <ClInclude Include="03.GameObject\Monster\Thief03.h" />
     <ClInclude Include="03.GameObject\Monster\Thief04.h" />
+    <ClInclude Include="03.GameObject\Monster\Slime00.h" />
+    <ClInclude Include="03.GameObject\Monster\Slime01.h" />
+    <ClInclude Include="03.GameObject\Monster\Slime02.h" />
+    <ClInclude Include="03.GameObject\Monster\Slime03.h" />
+    <ClInclude Include="03.GameObject\Monster\Slime04.h" />
+    <ClInclude Include="03.GameObject\Monster\Slime05.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
