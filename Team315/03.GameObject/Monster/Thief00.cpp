@@ -3,7 +3,7 @@
 Thief00::Thief00(int starNumber)
 	: Character(starNumber)
 {
-	SetType("Player");
+	SetType("Monster");
 	SetName("Thief00");
 }
 

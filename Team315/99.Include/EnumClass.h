@@ -60,5 +60,6 @@ enum class Stats
 	AS, // Attack Speed
 	AR, // Attack Range
 	MS, // Move Speed
+	ARTYPE, // square, cross
 	COUNT,
 };

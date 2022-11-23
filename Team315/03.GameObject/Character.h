@@ -55,9 +55,9 @@ public:
 	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }
-	void SetStatsInit(float hp, float mp, float ad,
-		float ap, float as, float ar, float ms);
+	void SetStatsInit(json data);
 	void TakeDamage(float damage);
 	void UpgradeStar();
 	void UpgradeCharacterSet();
+	void PrintStats();
 };

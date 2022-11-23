@@ -27,6 +27,9 @@ void Character::Init()
 	SetHitbox(FloatRect(0, 0, TILE_SIZE, TILE_SIZE), Origins::BC);
 	UpgradeCharacterSet();
 	Object::Init();
+
+	SetStatsInit(GAME_MGR->GetCharacterData(name));
+	PrintStats();
 }
 
 void Character::Update(float dt)
@@ -73,16 +76,18 @@ void Character::SetTarget(Character* target)
 	this->target = target;
 }
 
-void Character::SetStatsInit(float hp, float mp, float ad,
-	float ap, float as, float ar, float ms)
+void Character::SetStatsInit(json data)
 {
-	stat.insert({ Stats::HP, Stat(hp) });
-	stat.insert({ Stats::MP, Stat(mp) });
-	stat.insert({ Stats::AD, Stat(ad) });
-	stat.insert({ Stats::AP, Stat(ap) });
-	stat.insert({ Stats::AS, Stat(as) });
-	stat.insert({ Stats::AR, Stat(ar) });
-	stat.insert({ Stats::MS, Stat(ms) });
+	stat.insert({ Stats::HP, Stat(data["HP"])});
+	stat.insert({ Stats::MP, Stat(data["MP"]) });
+	stat.insert({ Stats::AD, Stat(data["AD"]) });
+	stat.insert({ Stats::AP, Stat(data["AP"]) });
+	stat.insert({ Stats::AS, Stat(data["AS"]) });
+	stat.insert({ Stats::AR, Stat(data["AR"]) });
+	stat.insert({ Stats::MS, Stat(data["MS"]) });
+	string arType = data["ARTYPE"];
+	cout << arType << endl;
+	attackRangeType = arType.compare("cross") ? true : false;
 }
 
 void Character::TakeDamage(float damage)
@@ -108,4 +113,16 @@ void Character::UpgradeCharacterSet()
 	// 성급 올라갈때 공격력,마력,체력 증가
 	// 별 색 바뀔때 스킬 범위 증가 1 3 5 7
 	
+}
+
+void Character::PrintStats()
+{
+	cout << "HP: " << stat[Stats::HP].base << endl;
+	cout << "MP: " << stat[Stats::MP].base << endl;
+	cout << "AD: " << stat[Stats::AD].base << endl;
+	cout << "AP: " << stat[Stats::AP].base << endl;
+	cout << "AS: " << stat[Stats::AS].base << endl;
+	cout << "AR: " << stat[Stats::AR].base << endl;
+	cout << "MS: " << stat[Stats::MS].base << endl;
+	cout << (attackRangeType ? "square" : "cross") << endl;
 }

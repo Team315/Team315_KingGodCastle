@@ -96,15 +96,8 @@ void FileManager::LoadTileData(Chapters& m_PlayTileList)
 	ifs.close();
 }
 
-void FileManager::LoadCharacterData()
+json FileManager::LoadCharacterData()
 {
 	ifstream ifs("json/CharacterData.json");
-	json test = json::parse(ifs);
-	cout << test["Evan"]["HP"] << endl;
-	cout << test.dump() << endl;
-	string d = test.dump();
-}
-
-void FileManager::SaveCharacterData()
-{
+	return json::parse(ifs);
 }
