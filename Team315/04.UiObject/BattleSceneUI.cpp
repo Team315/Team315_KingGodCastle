@@ -10,7 +10,6 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	CreateBackground(panel, 1, 3, 188.f, 500.f);
 
 	prepareGrid.resize(PREPARE_SIZE);
-	prepareGridPos.resize(PREPARE_SIZE);
 	float outlineThickness = -2.f;
 	float posX = TILE_SIZE * 2.f;
 	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE * 2.f;
@@ -20,8 +19,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 		cell = new RectangleObj(TILE_SIZE - 1, TILE_SIZE - 1);
 		cell->SetOutline(Color(255, 255, 255, 100), outlineThickness);
 		cell->SetFillColor(Color(0, 0, 0, 0));
-		prepareGridPos[count] = Vector2f(posX, posY);
-		cell->SetPos(prepareGridPos[count]);
+		cell->SetPos(Vector2f(posX, posY));
 		cell->SetOrigin(Origins::BC);
 		uiObjList.push_back(cell);
 		count++;
@@ -51,6 +49,9 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 		}
 		posY += TILE_SIZE;
 	}
+
+	statPopup = new RectangleObj();
+
 }
 
 BattleSceneUI::~BattleSceneUI()
@@ -93,6 +94,11 @@ void BattleSceneUI::Draw(RenderWindow& window)
 
 void BattleSceneUI::SetOrigin(Origins origin)
 {
+}
+
+Vector2f BattleSceneUI::GetGridPos(int idx)
+{
+	return prepareGrid[idx]->GetPos();
 }
 
 void BattleSceneUI::CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight)
