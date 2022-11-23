@@ -357,12 +357,13 @@ void BattleScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
+				cout << "floating character info" << endl;
 				/*if (pick == nullptr)
 				{
 					PickUpCharacter(character);
 					break;
 				}*/
-				character->TakeDamage(50.f);
+				//character->TakeDamage(50.f);
 			}
 		}
 	}
@@ -541,10 +542,14 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 				}
 			}
 		}
-		// swap
+		// swap in vector
 		Character* temp = (*dest)[destIdx];
 		(*dest)[destIdx] = pick;
 		(*start)[startIdx] = temp;
+	}
+	else
+	{
+		cout << "floating character info" << endl;
 	}
 
 	pick->SetPos(GAME_MGR->IdxToPos(destCoord));
@@ -572,8 +577,7 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 		for (int j = 0; j < col; j++)
 		{
 			Tile* tile = (*curStage)[i][j];
-			TileData td = tile->GetTileData();
-			int type = td.TileTypes;
+			int type = tile->GetTileData().TileTypes;
 
 			int curIdx = j + i * col;
 			switch (type)
@@ -583,7 +587,7 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 				mainGrid[curIdx]->SetPos(tile->GetPos());
 				break;
 			case (int) TileTypes::Monster:
-				mainGrid[curIdx] = GAME_MGR->SpawnMonster( tile->GetMonsterName(), td.grade);
+				mainGrid[curIdx] = GAME_MGR->SpawnMonster( tile->GetMonsterName(), tile->GetTileData().grade);
 				mainGrid[curIdx]->SetPos(tile->GetPos());
 				mainGrid[curIdx]->Init();
 				mainGrid[curIdx]->SetDrawingOnBattle(true);

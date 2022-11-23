@@ -57,6 +57,7 @@ public:
 	Character* SpawnMonster(string name, int grade);
 	Character* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
 	Character* SpawnPlayer(bool random, bool drawingOnBattle = true);
+	
 };
 
 #define GAME_MGR (GameManager::GetInstance())

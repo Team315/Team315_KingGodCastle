@@ -252,20 +252,12 @@ void ToolScene::Update(float dt)
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::F3))
 	{
-		FileManager* file = new FileManager();
-
-		file->SaveTileData(*this);
-
-		delete file;
+		FILE_MGR->SaveTileData(*this);
 	}
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::F4))
 	{
-		FileManager* file = new FileManager();
-
-		file->LoadTileData(*this);
-
-		delete file;
+		FILE_MGR->LoadTileData(*this);
 	}
 
 	Scene::Update(dt);
@@ -530,7 +522,7 @@ void ToolScene::SetClickMode(ClickMode clickMode)
 	}
 }
 
-Chapters ToolScene::GetTilesData()
+Chapters& ToolScene::GetTilesData()
 {
 	Chapters data;
 	for (int i = 0; i < ToolChapterLIst.size(); ++i)

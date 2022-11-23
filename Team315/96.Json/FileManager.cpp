@@ -6,78 +6,13 @@
 
 FileManager::FileManager()
 {
-	//{
-	//	CookieHitBox hit;
-	//	ns::RectangleInfo bottom{ { 40, 10 }, { 180, 354  } };
-	//	ns::RectangleInfo body{ { 45.f,52.f }, { 176,300 } };
-	//	ns::CircleInfo cir{ 38,sf::Vector2f{ 186,234} };
-	//	hit.type = "Run";
-	//	hit.bottom = bottom;
-	//	hit.hitBox.circles.push_back(cir);
-	//	hit.hitBox.rectangls.push_back(body);
-	//	hit.hitBox.rectangls.push_back(bottom);
-	//	cookieInfo["Jungle"]["Run"] = hit;
-	//	bottom = { { 40, 10 }, { 180, 354  } };
-	//	body = { { 45.f,52.f }, { 176,300 } };
-	//	CookieHitBox hit1;
-	//	hit1.type = "Slide";
-	//	hit1.bottom = bottom;
-	//	hit1.hitBox.circles.push_back(cir);
-	//	hit1.hitBox.rectangls.push_back(body);
-	//	hit1.hitBox.rectangls.push_back(bottom);
-	//	cookieInfo["Jungle"]["Slide"] = hit1;
-	//	ofstream cookie1("config/data/cookieInfo.json");
-	//	json data = cookieInfo;
-	//	cookie1 << data;
-	//	
-	//}
-
-	{
-		/*TempData t1;
-		t1.m_TileTypes = 0;
-		t1.m_index = sf::Vector2i{ 0,0 };
-		t1.m_chapterIndex = 0;
-		t1.m_stateIndex = 0;
-		t1.isCollAble = false;
-
-		vector<TempData> tt1;
-		tt1.push_back(t1);
-		tt1.push_back(t1);
-		tt1.push_back(t1);
-
-		vector<vector<TempData>> ttt1;
-		ttt1.push_back(tt1);
-		ttt1.push_back(tt1);
-		ttt1.push_back(tt1);
-
-		vector<vector<vector<TempData>>> tttt1;
-		tttt1.push_back(ttt1);
-		tttt1.push_back(ttt1);
-		tttt1.push_back(ttt1);
-
-		vector<vector<vector<vector<TempData>>>> last;
-		last.push_back(tttt1);
-		last.push_back(tttt1);
-		last.push_back(tttt1);
-
-		json data = last;
-
-		ofstream ofs("json/test.json");
-		ofs << data;
-		ofs.close();*/
-
-	}
-
-
-	//ifstream test_f("json/test.json");
-	//json test_json = json::parse(test_f);
-	//test = test_json;
-	//test_f.close();
-
-	//std::cout << test[0][0][0][0].TileTypes << std::endl;
-	tiledata.assign(3, vector<vector<vector<TileData>>>(10, vector<vector<TileData>>(14, vector < TileData>(7))));
-	//tiledata.assign(cols, vector<TileData*>(rows));
-
+	tiledata.assign(3,
+		vector<vector<vector<TileData>>>(10,
+			vector<vector<TileData>>(14,
+				vector <TileData>(7)
+				)
+			)
+	);
 }
 
 FileManager::~FileManager()
@@ -102,9 +37,9 @@ void FileManager::LoadAll()
 	cookie.close();
 }
 
-const map<string,MapData>& FileManager::GetEpisode(string episode)
+const map<string, MapData>& FileManager::GetEpisode(string episode)
 {
-    return episodeMap[episode];
+	return episodeMap[episode];
 }
 const HitBoxInfo& FileManager::GetHitBox(string name)
 {
@@ -137,7 +72,7 @@ void FileManager::SaveDataEpisode(map<string, MapData> newData, string name)
 
 void FileManager::SaveTileData(ToolScene& toolScene)
 {
- 	json data = toolScene.GetTilesData();
+	json data = toolScene.GetTilesData();
 	ofstream ofs("json/tiledata.json");
 	ofs << data;
 	ofs.close();
@@ -159,4 +94,17 @@ void FileManager::LoadTileData(Chapters& m_PlayTileList)
 	json playTile = json::parse(ifs);
 	m_PlayTileList = playTile;
 	ifs.close();
+}
+
+void FileManager::LoadCharacterData()
+{
+	ifstream ifs("json/CharacterData.json");
+	json test = json::parse(ifs);
+	cout << test["Evan"]["HP"] << endl;
+	cout << test.dump() << endl;
+	string d = test.dump();
+}
+
+void FileManager::SaveCharacterData()
+{
 }

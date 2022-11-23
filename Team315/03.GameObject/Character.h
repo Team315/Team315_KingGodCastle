@@ -4,14 +4,15 @@
 #include "ProgressBar.h"
 #include "Star.h"
 #include "Include.h"
-#include <map>
+#include <unordered_map>
 
 class Character : public SpriteObj
 {
 protected:
 	Animator animator;
 	Character* target;
-	map<Stats, Stat*> stat;
+	unordered_map<Stats, Stat> stat;
+	bool attackRangeType; // true square, false cross
 	
 	// UI
 	ProgressBar* hpBar;
@@ -53,7 +54,9 @@ public:
 
 	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
 	int GetStarNumber() { return star->GetStarNumber(); }
-	Stat& GetStat(Stats statsEnum) { return *stat[statsEnum]; }
+	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }
+	void SetStatsInit(float hp, float mp, float ad,
+		float ap, float as, float ar, float ms);
 	void TakeDamage(float damage);
 	void UpgradeStar();
 	void UpgradeCharacterSet();

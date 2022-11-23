@@ -2,7 +2,8 @@
 
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(false),
-	currState(AnimStates::None), drawingOnBattle(false)
+	currState(AnimStates::None), drawingOnBattle(false),
+	attackRangeType(false)
 {
 	hpBar = new ProgressBar();
 	hpBarLocalPos = { -TILE_SIZE_HALF * 0.5f, -TILE_SIZE_HALF - TILE_SIZE };
@@ -15,14 +16,6 @@ Character::Character(int starNumber)
 
 	star = new Star(starNumber);
 	starLocalPos = { 0, -TILE_SIZE * 1.5f };
-
-	// test
-	stat.insert({ Stats::HP, new Stat(100) });
-	stat.insert({ Stats::MP, new Stat(60) });
-	stat.insert({ Stats::AD, new Stat(15) });
-	stat.insert({ Stats::AP, new Stat(10) });
-	stat.insert({ Stats::AS, new Stat(1.0f) });
-	stat.insert({ Stats::AR, new Stat(3) });
 }
 
 Character::~Character()
@@ -80,11 +73,23 @@ void Character::SetTarget(Character* target)
 	this->target = target;
 }
 
+void Character::SetStatsInit(float hp, float mp, float ad,
+	float ap, float as, float ar, float ms)
+{
+	stat.insert({ Stats::HP, Stat(hp) });
+	stat.insert({ Stats::MP, Stat(mp) });
+	stat.insert({ Stats::AD, Stat(ad) });
+	stat.insert({ Stats::AP, Stat(ap) });
+	stat.insert({ Stats::AS, Stat(as) });
+	stat.insert({ Stats::AR, Stat(ar) });
+	stat.insert({ Stats::MS, Stat(ms) });
+}
+
 void Character::TakeDamage(float damage)
 {
-	Stat* hp = stat[Stats::HP];
-	hp->SetCurrent(hp->GetCurrent() -= damage);
-	hpBar->SetProgressValue(hp->GetCurRatio());
+	Stat& hp = stat[Stats::HP];
+	hp.SetCurrent(hp.GetCurrent() -= damage);
+	hpBar->SetProgressValue(hp.GetCurRatio());
 }
 
 void Character::UpgradeStar()

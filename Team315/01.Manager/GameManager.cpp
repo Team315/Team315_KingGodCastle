@@ -122,13 +122,8 @@ Vector2f GameManager::IdxToPos(Vector2i idx)
 
 void GameManager::SetTilesData()
 {
-	FileManager* file = new FileManager();
-
 	m_PlayTileList = new Chapters();
-
-	file->LoadTileData(*m_PlayTileList);
-
-	delete file;
+	FILE_MGR->LoadTileData(*m_PlayTileList);
 }
 
 Tile* GameManager::GetTile(int chap, int stage, int height, int width)
