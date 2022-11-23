@@ -122,13 +122,8 @@ Vector2f GameManager::IdxToPos(Vector2i idx)
 
 void GameManager::SetTilesData()
 {
-	FileManager* file = new FileManager();
-
 	m_PlayTileList = new Chapters();
-
-	file->LoadTileData(*m_PlayTileList);
-
-	delete file;
+	FILE_MGR->LoadTileData(*m_PlayTileList);
 }
 
 Tile* GameManager::GetTile(int chap, int stage, int height, int width)
@@ -189,4 +184,14 @@ Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBatt
 Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
 {
 	return SpawnPlayer("", random, drawingOnBattle);
+}
+
+void GameManager::SetCharacterDatas()
+{
+	characterDatas = FILE_MGR->LoadCharacterData();
+}
+
+json GameManager::GetCharacterData(string name)
+{
+	return characterDatas[name];
 }

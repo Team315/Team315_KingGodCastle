@@ -1,0 +1,255 @@
+{
+    "Evan" :
+    {
+        "HP":250,
+        "MP":60,
+        "AD":15,
+        "AP":20,
+        "AS":1.20,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"square"
+    },
+    "Aramis" :
+    {
+        "HP":150,
+        "MP":120,
+        "AD":35,
+        "AP":50,
+        "AS":0.67,
+        "AR":6,
+        "MS":150,
+        "ARTYPE":"square"
+    },
+    "Arveron" :
+    {
+        "HP":120,
+        "MP":60,
+        "AD":10,
+        "AP":40,
+        "AS":1.00,
+        "AR":2,
+        "MS":150,
+        "ARTYPE":"square"
+    },
+    "Daniel" :
+    {
+        "HP":250,
+        "MP":75,
+        "AD":20,
+        "AP":20,
+        "AS":1.00,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"cross"
+    },
+    "LeonHeart" :
+    {
+        "HP":300,
+        "MP":100,
+        "AD":15,
+        "AP":15,
+        "AS":0.91,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"cross"
+    },
+    "Pria" :
+    {
+        "HP":120,
+        "MP":120,
+        "AD":15,
+        "AP":55,
+        "AS":1.00,
+        "AR":3,
+        "MS":150,
+        "ARTYPE":"square"
+    },
+    "Shelda" :
+    {
+        "HP":200,
+        "MP":100,
+        "AD":15,
+        "AP":40,
+        "AS":0.91,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"cross"
+    },
+    "Goblin00" :
+    {
+        "HP":615,
+        "MP":120,
+        "AD":27,
+        "AP":22,
+        "AS":0.57,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"square"
+    },
+    "Goblin01" :
+    {
+        "HP":180,
+        "MP":0,
+        "AD":15,
+        "AP":0,
+        "AS":1.00,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"cross"
+    },
+    "Goblin02" :
+    {
+        "HP":120,
+        "MP":0,
+        "AD":15,
+        "AP":0,
+        "AS":1.00,
+        "AR":3,
+        "MS":150,
+        "ARTYPE":"square"
+    },
+    "Goblin03" :
+    {
+        "HP":300,
+        "MP":0,
+        "AD":32,
+        "AP":0,
+        "AS":1.00,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"cross"
+    },
+    "Goblin04" :
+    {
+        "HP":563,
+        "MP":0,
+        "AD":64,
+        "AP":0,
+        "AS":1.10,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"cross"
+    },
+    "Thief00" :
+    {
+        "HP":352,
+        "MP":100,
+        "AD":107,
+        "AP":176,
+        "AS":1.00,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"cross"
+    },
+    "Thief01" :
+    {
+        "HP":200,
+        "MP":0,
+        "AD":20,
+        "AP":0,
+        "AS":1.00,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"cross"
+    },
+    "Thief02" :
+    {
+        "HP":507,
+        "MP":0,
+        "AD":52,
+        "AP":0,
+        "AS":1.00,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"cross"
+    },
+    "Thief03" :
+    {
+        "HP":250,
+        "MP":0,
+        "AD":19,
+        "AP":0,
+        "AS":1.47,
+        "AR":3,
+        "MS":150,
+        "ARTYPE":"square"
+    },
+    "Thief04" :
+    {
+        "HP":600,
+        "MP":0,
+        "AD":40,
+        "AP":0,
+        "AS":0.87,
+        "AR":1,
+        "MS":150,
+        "ARTYPE":"square"
+    },
+    "Slime00" :
+    {
+        "HP":879,
+        "MP":85,
+        "AD":0,
+        "AP":0,
+        "AS":1.00,
+        "AR":2,
+        "MS":0,
+        "ARTYPE":"square"
+    },
+    "Slime01" :
+    {
+        "HP":100,
+        "MP":0,
+        "AD":15,
+        "AP":0,
+        "AS":1.00,
+        "AR":1,
+        "MS":0,
+        "ARTYPE":"cross"
+    },
+    "Slime02" :
+    {
+        "HP":300,
+        "MP":0,
+        "AD":25,
+        "AP":0,
+        "AS":1.00,
+        "AR":1,
+        "MS":0,
+        "ARTYPE":"cross"
+    },
+    "Slime03" :
+    {
+        "HP":508,
+        "MP":0,
+        "AD":40,
+        "AP":0,
+        "AS":1.00,
+        "AR":1,
+        "MS":0,
+        "ARTYPE":"cross"
+    },
+    "Slime04" :
+    {
+        "HP":300,
+        "MP":0,
+        "AD":32,
+        "AP":0,
+        "AS":0.83,
+        "AR":3,
+        "MS":0,
+        "ARTYPE":"square"
+    },
+    "Slime05" :
+    {
+        "HP":508,
+        "MP":0,
+        "AD":63,
+        "AP":0,
+        "AS":1.00,
+        "AR":1,
+        "MS":0,
+        "ARTYPE":"square"
+    }
+}

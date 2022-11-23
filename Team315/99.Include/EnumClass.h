@@ -53,11 +53,13 @@ enum class Dir
 enum class Stats
 {
 	None = -1,
-	HP, // HealthPoint
-	MP, // ManaPoint
-	AD, // AttackDamage
-	AP, // AbilityPower
-	AS, // AttackSpeed
-	AR, // AttackRange
+	HP, // Health Point
+	MP, // Mana Point
+	AD, // Attack Damage
+	AP, // Ability Power
+	AS, // Attack Speed
+	AR, // Attack Range
+	MS, // Move Speed
+	ARTYPE, // square, cross
 	COUNT,
 };

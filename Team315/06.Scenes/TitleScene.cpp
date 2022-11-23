@@ -18,6 +18,10 @@ TitleScene::TitleScene()
 	titleText->SetOutlineThickness(2.f);
 	titleText->SetOrigin(Origins::MC);
 	objList.push_back(titleText);
+
+	GAME_MGR->SetTilesData();
+	GAME_MGR->CreatedTiles();
+	GAME_MGR->SetCharacterDatas();
 }
 
 TitleScene::~TitleScene()
@@ -40,9 +44,6 @@ void TitleScene::Enter()
 
 	FRAMEWORK->SetWindowSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	currentView = gameView;
-
-	GAME_MGR->SetTilesData();
-	GAME_MGR->CreatedTiles();
 }
 
 void TitleScene::Exit()

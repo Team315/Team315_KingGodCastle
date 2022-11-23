@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Include.h"
 #include "FileData.h"
+
 class ToolChapter;
 class TilePlay;
 class SelectStar;
@@ -60,7 +61,6 @@ public:
 
 	void SetClickMode(ClickMode clickMode);
 
-	Chapters GetTilesData();
+	Chapters& GetTilesData();
 	void SetTilesData(Chapters& data);
-
 };

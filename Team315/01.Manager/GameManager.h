@@ -12,6 +12,8 @@ protected:
 	Chapters* m_PlayTileList;
 	vector<vector<vector<vector<Tile*>>>> m_tiles;
 
+	json characterDatas;
+
 	/*element == 0 is empty cell
 	vector<int> preset;
 	vector<int> prepareGrid;
@@ -22,7 +24,6 @@ protected:
 
 	// additional level up probability
 	int extraLevelUpChance;
-
 	int battleCharacterCount;
 
 public:
@@ -57,6 +58,9 @@ public:
 	Character* SpawnMonster(string name, int grade);
 	Character* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
 	Character* SpawnPlayer(bool random, bool drawingOnBattle = true);
+	
+	void SetCharacterDatas();
+	json GetCharacterData(string name);
 };
 
 #define GAME_MGR (GameManager::GetInstance())
