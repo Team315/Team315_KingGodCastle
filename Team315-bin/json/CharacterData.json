@@ -9,9 +9,7 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"square"
-    }
-}
-{
+    },
     "Aramis" :
     {
         "HP":150,
@@ -22,9 +20,7 @@
         "AR":6,
         "MS":150,
         "ARTYPE":"square"
-    }
-}
-{
+    },
     "Arveron" :
     {
         "HP":120,
@@ -35,9 +31,7 @@
         "AR":2,
         "MS":150,
         "ARTYPE":"square"
-    }
-}
-{
+    },
     "Daniel" :
     {
         "HP":250,
@@ -48,9 +42,7 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"cross"
-    }
-}
-{
+    },
     "LeonHeart" :
     {
         "HP":300,
@@ -61,9 +53,7 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"cross"
-    }
-}
-{
+    },
     "Pria" :
     {
         "HP":120,
@@ -74,9 +64,7 @@
         "AR":3,
         "MS":150,
         "ARTYPE":"square"
-    }
-}
-{
+    },
     "Shelda" :
     {
         "HP":200,
@@ -87,10 +75,8 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"cross"
-    }
-}
-{
-    "goblin00" :
+    },
+    "Goblin00" :
     {
         "HP":615,
         "MP":120,
@@ -100,10 +86,8 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"square"
-    }
-}
-{
-    "goblin01" :
+    },
+    "Goblin01" :
     {
         "HP":180,
         "MP":0,
@@ -113,10 +97,8 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"cross"
-    }
-}
-{
-    "goblin02" :
+    },
+    "Goblin02" :
     {
         "HP":120,
         "MP":0,
@@ -126,10 +108,8 @@
         "AR":3,
         "MS":150,
         "ARTYPE":"square"
-    }
-}
-{
-    "goblin03" :
+    },
+    "Goblin03" :
     {
         "HP":300,
         "MP":0,
@@ -139,10 +119,8 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"cross"
-    }
-}
-{
-    "goblin04" :
+    },
+    "Goblin04" :
     {
         "HP":563,
         "MP":0,
@@ -152,10 +130,8 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"cross"
-    }
-}
-{
-    "thief00" :
+    },
+    "Thief00" :
     {
         "HP":352,
         "MP":100,
@@ -165,10 +141,8 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"cross"
-    }
-}
-{
-    "thief01" :
+    },
+    "Thief01" :
     {
         "HP":200,
         "MP":0,
@@ -178,10 +152,8 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"cross"
-    }
-}
-{
-    "thief02" :
+    },
+    "Thief02" :
     {
         "HP":507,
         "MP":0,
@@ -191,10 +163,8 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"cross"
-    }
-}
-{
-    "thief03" :
+    },
+    "Thief03" :
     {
         "HP":250,
         "MP":0,
@@ -204,10 +174,8 @@
         "AR":3,
         "MS":150,
         "ARTYPE":"square"
-    }
-}
-{
-    "thief04" :
+    },
+    "Thief04" :
     {
         "HP":600,
         "MP":0,
@@ -217,10 +185,8 @@
         "AR":1,
         "MS":150,
         "ARTYPE":"square"
-    }
-}
-{
-    "slime00" :
+    },
+    "Slime00" :
     {
         "HP":879,
         "MP":85,
@@ -230,10 +196,8 @@
         "AR":2,
         "MS":0,
         "ARTYPE":"square"
-    }
-}
-{
-    "slime01" :
+    },
+    "Slime01" :
     {
         "HP":100,
         "MP":0,
@@ -243,10 +207,8 @@
         "AR":1,
         "MS":0,
         "ARTYPE":"cross"
-    }
-}
-{
-    "slime02" :
+    },
+    "Slime02" :
     {
         "HP":300,
         "MP":0,
@@ -256,10 +218,8 @@
         "AR":1,
         "MS":0,
         "ARTYPE":"cross"
-    }
-}
-{
-    "slime03" :
+    },
+    "Slime03" :
     {
         "HP":508,
         "MP":0,
@@ -269,10 +229,8 @@
         "AR":1,
         "MS":0,
         "ARTYPE":"cross"
-    }
-}
-{
-    "slime04" :
+    },
+    "Slime04" :
     {
         "HP":300,
         "MP":0,
@@ -282,10 +240,8 @@
         "AR":3,
         "MS":0,
         "ARTYPE":"square"
-    }
-}
-{
-    "slime05" :
+    },
+    "Slime05" :
     {
         "HP":508,
         "MP":0,

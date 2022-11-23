@@ -27,7 +27,7 @@ void Character::Init()
 	SetHitbox(FloatRect(0, 0, TILE_SIZE, TILE_SIZE), Origins::BC);
 	UpgradeCharacterSet();
 	Object::Init();
-
+	
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 	PrintStats();
 }
