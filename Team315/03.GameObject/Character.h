@@ -48,7 +48,11 @@ public:
 	AnimStates GetState() { return currState;  }
 
 	void SetTarget(Character* target);
-	void SetDestination(Vector2f dest) { destination = dest; }
+	void SetDestination(Vector2f dest)
+	{
+		move = true;
+		destination = dest;
+	}
 
 	void SetDrawingOnBattle(bool b) { drawingOnBattle = b; }
 	bool GetDrawingOnBattle() { return drawingOnBattle; }
