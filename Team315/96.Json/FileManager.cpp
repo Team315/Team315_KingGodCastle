@@ -99,5 +99,7 @@ void FileManager::LoadTileData(Chapters& m_PlayTileList)
 json FileManager::LoadCharacterData()
 {
 	ifstream ifs("json/CharacterData.json");
-	return json::parse(ifs);
+	json data = json::parse(ifs);
+	ifs.close();
+	return data;
 }

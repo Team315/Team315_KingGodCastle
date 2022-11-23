@@ -101,6 +101,17 @@ void BattleScene::Update(float dt)
 		{
 			CLOG::Print3String("battle end");
 			playingBattle = false;
+
+			for (auto& character : mainGrid)
+			{
+				if (character != nullptr && 
+					!character->GetType().compare("Player"))
+				{
+					//Character* temp = character;
+					character = nullptr;
+					//delete temp;
+				}
+			}
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F5))
@@ -130,8 +141,8 @@ void BattleScene::Update(float dt)
 			count = 0;
 			for (auto& character : mainGrid)
 			{
-				if ((count / GAME_TILE_WIDTH) == 10)
-					break;
+				/*if ((count / GAME_TILE_WIDTH) == 10)
+					break;*/
 
 				if (character == nullptr)
 					cout << "..";
@@ -181,6 +192,68 @@ void BattleScene::Update(float dt)
 			cout << "-------------------" << endl;
 		}
 	}
+
+	if (InputMgr::GetKeyDown(Keyboard::Key::Right))
+	{
+		if (test != nullptr)
+		{
+			Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
+			CLOG::PrintVectorState(coord);
+			Vector2i delta = { 1, 0 };
+			Vector2i temp = (delta + coord);
+			CLOG::PrintVectorState(coord, "coord");
+			CLOG::PrintVectorState(temp, "temp");
+			test->SetDestination(GAME_MGR->IdxToPos(temp));
+			//test->SetPos(GAME_MGR->IdxToPos(temp));
+			SetMainGrid(coord.y, coord.x, nullptr);
+			SetMainGrid(temp.y, temp.x, test);
+		}
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::Left))
+	{
+		if (test != nullptr)
+		{
+			Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
+			Vector2i delta = { -1, 0};
+			Vector2i temp = (delta + coord);
+			CLOG::PrintVectorState(coord, "coord");
+			CLOG::PrintVectorState(temp, "temp");
+			test->SetDestination(GAME_MGR->IdxToPos(temp));
+			//test->SetPos(GAME_MGR->IdxToPos(temp));
+			SetMainGrid(coord.y, coord.x, nullptr);
+			SetMainGrid(temp.y, temp.x, test);
+		}
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::Up))
+	{
+		if (test != nullptr)
+		{
+			Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
+			Vector2i delta = { 0, -1 };
+			Vector2i temp = (delta + coord);
+			CLOG::PrintVectorState(coord, "coord");
+			CLOG::PrintVectorState(temp, "temp");
+			test->SetDestination(GAME_MGR->IdxToPos(temp));
+			//test->SetPos(GAME_MGR->IdxToPos(temp));
+			SetMainGrid(coord.y, coord.x, nullptr);
+			SetMainGrid(temp.y, temp.x, test);
+		}
+	}
+	if (InputMgr::GetKeyDown(Keyboard::Key::Down))
+	{
+		if (test != nullptr)
+		{
+			Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
+			Vector2i delta = { 0, 1 };
+			Vector2i temp = (delta + coord);
+			CLOG::PrintVectorState(coord, "coord");
+			CLOG::PrintVectorState(temp, "temp");
+			test->SetDestination(GAME_MGR->IdxToPos(temp));
+			//test->SetPos(GAME_MGR->IdxToPos(temp));
+			SetMainGrid(coord.y, coord.x, nullptr);
+			SetMainGrid(temp.y, temp.x, test);
+		}
+	}
 	// Dev Input end
 
 	// Game Input start
@@ -197,11 +270,6 @@ void BattleScene::Update(float dt)
 					CLOG::Print3String("stage start");
 					b_centerPos = true;
 					ZoomIn();
-					/*for (auto& character : prepareGrid)
-					{
-						if (character != nullptr)
-							character->SetDrawInBattle(true);
-					}*/
 
 					int monsterGridCoordR = 70;
 					int monsterGridCoordC = 0;
@@ -249,7 +317,7 @@ void BattleScene::Update(float dt)
 						return;
 					}
 					Character* newPick = GAME_MGR->SpawnPlayer(true, true);
-					newPick->SetPos(ui->GetPrepareGridPos(idx));
+					newPick->SetPos(ui->GetGridPos(idx));
 					newPick->Init();
 					newPick->SetDrawingOnBattle(true);
 					prepareGrid[idx] = newPick;
@@ -357,13 +425,17 @@ void BattleScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				cout << "floating character info" << endl;
+				character->PrintStats();
 				/*if (pick == nullptr)
 				{
 					PickUpCharacter(character);
 					break;
 				}*/
 				//character->TakeDamage(50.f);
+			}
+			if (InputMgr::GetMouseDown(Mouse::Right))
+			{
+				test = character;
 			}
 		}
 	}
@@ -401,6 +473,7 @@ void BattleScene::Draw(RenderWindow& window)
 {
 	Scene::Draw(window);
 
+	// draw tile
 	for (auto& row : *curStage)
 	{
 		for (auto& tile : row)
@@ -409,12 +482,33 @@ void BattleScene::Draw(RenderWindow& window)
 		}
 	}
 
+	// draw character on prepare area
 	for (auto& character : prepareGrid)
 	{
 		if (character != nullptr)
 			character->Draw(window);
 	}
 
+	// draw character on gmae screen area
+	for (auto& character : mainGrid)
+	{
+		if (character != nullptr)
+			character->Draw(window);
+	}
+
+	/*for (int r = 0; r < GAME_TILE_HEIGHT; r++)
+	{
+		for (int c = 0; c < GAME_TILE_WIDTH; c++)
+		{
+			Character* character = GetMainGridCharacter(r, c);
+			if (character == nullptr)
+				continue;
+
+
+		}
+	}*/
+
+	// draw character on battle area
 	if (!playingBattle)
 	{
 		for (auto& character : battleGrid)
@@ -422,12 +516,6 @@ void BattleScene::Draw(RenderWindow& window)
 			if (character != nullptr)
 				character->Draw(window);
 		}
-	}
-
-	for (auto& character : mainGrid)
-	{
-		if (character != nullptr)
-			character->Draw(window);
 	}
 }
 
@@ -549,7 +637,7 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 	}
 	else
 	{
-		cout << "floating character info" << endl;
+		(*start)[startIdx]->PrintStats();
 	}
 
 	pick->SetPos(GAME_MGR->IdxToPos(destCoord));
@@ -604,6 +692,12 @@ Character* BattleScene::GetMainGridCharacter(int r, int c)
 {
 	int idx = r * GAME_TILE_WIDTH + c;
 	return mainGrid[idx];
+}
+
+void BattleScene::SetMainGrid(int r, int c, Character* character)
+{
+	int idx = r * GAME_TILE_WIDTH + c;
+	mainGrid[idx] = character;
 }
 
 bool InPrepareGrid(Vector2i pos)

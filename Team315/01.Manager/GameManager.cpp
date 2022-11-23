@@ -153,8 +153,28 @@ void GameManager::CreatedTiles()
 Character* GameManager::SpawnMonster(string name, int grade)
 {
 	Character* character = nullptr;
-	if (!name.compare("Goblin01"))
+	if (!name.compare("Goblin00"))
+		character = new Goblin00(grade);
+	else if (!name.compare("Goblin01"))
 		character = new Goblin01(grade);
+	else if (!name.compare("Goblin02"))
+		character = new Goblin02(grade);
+	else if (!name.compare("Goblin03"))
+		character = new Goblin03(grade);
+	else if (!name.compare("Goblin04"))
+		character = new Goblin04(grade);
+	else if (!name.compare("Thief00"))
+		character = new Thief00(grade);
+	/*
+	else if (!name.compare("Thief01"))
+		character = new Thief01(grade);
+	else if (!name.compare("Thief02"))
+		character = new Thief02(grade);
+	else if (!name.compare("Thief03"))
+		character = new Thief03(grade);
+	else if (!name.compare("Thief04"))
+		character = new Thief04(grade);*/
+
 	return character;
 }
 
