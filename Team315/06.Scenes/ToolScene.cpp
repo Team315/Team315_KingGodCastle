@@ -520,7 +520,7 @@ void ToolScene::SetClickMode(ClickMode clickMode)
 	}
 }
 
-Chapters& ToolScene::GetTilesData()
+Chapters ToolScene::GetTilesData()
 {
 	Chapters data;
 	for (int i = 0; i < ToolChapterLIst.size(); ++i)

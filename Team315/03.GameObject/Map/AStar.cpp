@@ -3,7 +3,7 @@
 constexpr double INF = 1e9 + 7;
 
 AStar::AStar()
-	:ROW(14), COL(7), count(0)
+	:ROW(7), COL(14), count(0)
 {
 }
 
@@ -13,8 +13,10 @@ AStar::~AStar()
 
 int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 {
+	SetAstar(map, myPos, enPos);
+
 	bool closedList[14][7];
-	std::memset(closedList, false, sizeof(closedList));
+	memset(closedList, false, sizeof(closedList));
 
 	Cell cellDetails[14][7];
 
@@ -54,7 +56,7 @@ int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 		double ng, nf, nh;
 
 		// 직선
-		for (int i = 0; i < 4; ++i) 
+ 		for (int i = 0; i < 4; ++i) 
 		{
 			int ny = y + dy1[i];
 			int nx = x + dx1[i];
@@ -68,7 +70,7 @@ int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 					tracePath(cellDetails, enPos);
 					return count;
 				}
-				else if (!closedList[ny][nx] && isUnBlocked(map, ny, nx))
+				else if (!closedList[ny][nx] && isUnBlocked(grid, ny, nx))
 				{
 					ng = cellDetails[y][x].g + 1.0;//출발 점부터 이 좌표와의 거리
 					nh = GethValue(ny, nx, enPos);
@@ -104,10 +106,9 @@ bool AStar::isInRange(int row, int col)
 	return (row >= 0 && row < ROW && col >= 0 && col < COL);
 }
 
-bool AStar::isUnBlocked(vector<Character*>& map, int row, int col)
+bool AStar::isUnBlocked(vector<vector<int>>& map, int row, int col)
 {
-	int idx = col * GAME_TILE_WIDTH + row;
-	return (map[idx]->GetType() == "Obstacle");
+	return (map[col][row] == 0);;
 }
 
 double AStar::GethValue(int row, int col, Vector2i dst)
@@ -137,4 +138,58 @@ void AStar::tracePath(Cell cellDetails[14][7], Vector2i enpos)
 		count++;
 		s.pop();
 	}
+}
+
+void AStar::SetAstar(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
+{
+	grid.resize(COL,vector<int>(ROW));
+
+	for (int i = 0; i < COL; ++i)
+	{
+		for (int j = 0; j < ROW; ++j)
+		{
+
+			if (map[(i * ROW) + j] == nullptr )
+			{
+				grid[i][j] = 0;
+			}
+			else if (!map[(i * ROW) + j]->GetType().compare("Player"))
+			{
+				grid[i][j] = 0;
+			}
+			else if (!map[(i * ROW) + j]->GetType().compare("Obstacle"))
+			{
+				grid[i][j] = 1;
+			}
+			else if (!map[(i * ROW) + j]->GetType().compare("Monster"))
+			{
+				grid[i][j] = 1;
+			}
+		}
+	}
+	//grid[myPos.y][myPos.x] = 2;
+	//grid[enPos.y][enPos.x] = 3;
+
+	for (int i = 0; i < COL; ++i)
+	{
+		for (int j = 0; j < ROW; ++j)
+		{
+		/*	if (grid[i][j] == 2)
+			{
+				grid[myPos.y][myPos.x] = 0;
+			}*/
+			if (grid[i][j] == 1)
+			{
+				grid[enPos.y][enPos.x] = 0;
+			}
+		}
+	}
+	for (int i = 0; i < COL; ++i)
+	{
+		for (int j = 0; j < ROW; ++j)
+		{
+			zmap[i][j] = grid[i][j] + '0';
+		}
+	}
+
 }

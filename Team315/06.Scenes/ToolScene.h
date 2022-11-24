@@ -61,6 +61,6 @@ public:
 
 	void SetClickMode(ClickMode clickMode);
 
-	Chapters& GetTilesData();
+	Chapters GetTilesData();
 	void SetTilesData(Chapters& data);
 };

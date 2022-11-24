@@ -197,34 +197,36 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	AStar astar;
 
-
-for (auto& player: mainGrid)
-{
-	if (player == nullptr)
+	if (InputMgr::GetKeyDown(Keyboard::Key::Space))
 	{
-
-	}
-	else if (!player->GetType().compare("Player"))
-	{
-		for (auto& monster : mainGrid)
+		for (auto& player : mainGrid)
 		{
-			if (monster == nullptr)
+			if (player == nullptr)
 			{
 
 			}
-			else if (!monster->GetType().compare("Monster"))
+			else if (!player->GetType().compare("Player"))
 			{
-				Vector2i mypos = GAME_MGR->PosToIdx(player->GetPos());
-				Vector2i enpos = GAME_MGR->PosToIdx(monster->GetPos());
+				for (auto& monster : mainGrid)
+				{
+					if (monster == nullptr)
+					{
 
-				astar.AstarSearch(mainGrid, mypos, enpos);
+					}
+					else if (!monster->GetType().compare("Monster"))
+					{
+						Vector2i mypos = GAME_MGR->PosToIdx(player->GetPos());
+						Vector2i enpos = GAME_MGR->PosToIdx(monster->GetPos());
+						AStar astar;
+						int count = astar.AstarSearch(mainGrid, mypos, enpos);
+						cout << count << endl;
+					}
+
+				}
 			}
-			
 		}
 	}
-}
 //GAME_MGR->PosToIdx(mainGrid[0]->GetPos());
 //"Player" == mainGrid[0]->GetType();
 //mainGrid[1]->GetPos()
