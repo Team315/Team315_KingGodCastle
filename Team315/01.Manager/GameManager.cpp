@@ -120,6 +120,11 @@ Vector2f GameManager::IdxToPos(Vector2i idx)
 	);
 }
 
+Vector2f GameManager::SnapToCoord(Vector2f pos)
+{
+	return IdxToPos(PosToIdx(pos));
+}
+
 void GameManager::SetTilesData()
 {
 	m_PlayTileList = new Chapters();

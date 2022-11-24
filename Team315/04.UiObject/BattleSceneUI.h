@@ -30,4 +30,6 @@ public:
 	// draw rect only 4 x 7
 	vector<vector<RectangleObj*>> battleGridRect;
 	bool b_battleGridRect;
+
+	void SetStatPopup(bool active, Vector2f viewCenter, Vector2f pos = { 0, 0 });
 };

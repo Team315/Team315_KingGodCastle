@@ -50,8 +50,11 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 		posY += TILE_SIZE;
 	}
 
-	statPopup = new RectangleObj();
-
+	statPopup = new RectangleObj(200, 200);
+	statPopup->SetFillColor(Color(50, 50, 50, 200));
+	statPopup->SetOutline(Color::Black, -2.f);
+	statPopup->SetType("Popup");
+	statPopup->SetOrigin(Origins::TL);
 }
 
 BattleSceneUI::~BattleSceneUI()
@@ -62,6 +65,7 @@ BattleSceneUI::~BattleSceneUI()
 void BattleSceneUI::Init()
 {
 	uiObjList.push_back(panel);
+	uiObjList.push_back(statPopup);
 	UIMgr::Init();
 }
 
@@ -80,6 +84,7 @@ void BattleSceneUI::Reset()
 		for (auto& tile : tiles)
 			tile->SetActive(b_battleGridRect);
 	}
+	statPopup->SetActive(false);
 }
 
 void BattleSceneUI::Update(float dt)
@@ -138,4 +143,19 @@ void BattleSceneUI::CreateBackground(VertexArrayObj* vao, int rows, int cols, fl
 		currPos.x = startPos.x;
 		currPos.y += quadHeight;
 	}
+}
+
+void BattleSceneUI::SetStatPopup(bool active, Vector2f viewCenter, Vector2f pos)
+{
+	statPopup->SetActive(active);
+	if (!active)
+		return;
+
+	Vector2f modPos = pos;
+	if (pos.x + statPopup->GetSize().x >= GAME_SCREEN_ZOOM_WIDTH)
+		modPos.x = GAME_SCREEN_ZOOM_WIDTH - statPopup->GetSize().x ;
+	if (Utils::EqualFloat(viewCenter.y, GAME_SCREEN_ZOOM_HEIGHT * 0.5f, 3.f) &&
+		(pos.y + statPopup->GetSize().y >= GAME_SCREEN_ZOOM_HEIGHT))
+		modPos.y = GAME_SCREEN_ZOOM_HEIGHT - statPopup->GetSize().y - 5.f;
+	statPopup->SetPos(modPos);
 }

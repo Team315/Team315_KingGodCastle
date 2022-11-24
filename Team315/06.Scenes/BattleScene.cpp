@@ -29,7 +29,8 @@ void BattleScene::Init()
 {
 	CLOG::Print3String("battle Init");
 
-	objList.push_back(ui);
+	//objList.push_back(ui);
+	ui->Init();
 	Scene::Init();
 }
 
@@ -77,6 +78,7 @@ void BattleScene::Exit()
 void BattleScene::Update(float dt)
 {
 	Scene::Update(dt);
+	ui->Update(dt);
 
 	// Dev Input start
 	{
@@ -107,9 +109,20 @@ void BattleScene::Update(float dt)
 				if (character != nullptr && 
 					!character->GetType().compare("Player"))
 				{
-					//Character* temp = character;
+					int len = battleGrid.size();
+					for (int i = 0; i < len; i++)
+					{
+						if (battleGrid[i] == nullptr)
+							continue;
+
+						if (battleGrid[i]->GetObjId() == character->GetObjId())
+						{
+							int coordR = (70 + i) / GAME_TILE_WIDTH;
+							int coordC = (70 + i) % GAME_TILE_WIDTH;
+							character->SetPos((*curStage)[coordR][coordC]->GetPos());
+						}
+					}
 					character = nullptr;
-					//delete temp;
 				}
 			}
 		}
@@ -257,6 +270,12 @@ void BattleScene::Update(float dt)
 	// Dev Input end
 
 	// Game Input start
+
+	if (InputMgr::GetMouseDown(Mouse::Left))
+	{
+		ui->SetStatPopup(false, currentView.getCenter());
+	}
+
 	vector<Button*>& buttons = ui->GetPanel()->GetButtons();
 	for (auto button : buttons)
 	{
@@ -426,12 +445,8 @@ void BattleScene::Update(float dt)
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
 				character->PrintStats();
-				/*if (pick == nullptr)
-				{
-					PickUpCharacter(character);
-					break;
-				}*/
-				//character->TakeDamage(50.f);
+				ui->SetStatPopup(true, currentView.getCenter(),
+					GAME_MGR->SnapToCoord(character->GetPos()));
 			}
 			if (InputMgr::GetMouseDown(Mouse::Right))
 			{
@@ -517,44 +532,13 @@ void BattleScene::Draw(RenderWindow& window)
 				character->Draw(window);
 		}
 	}
+
+	ui->Draw(window);
 }
 
 VertexArrayObj* BattleScene::GetBackground()
 {
 	return background;
-}
-
-void BattleScene::MoveTile(Character* character, Dir currMoveDir)
-{
-	//Vector2i curPos = GAME_MGR->PosToIdx(character->GetPos());
-	//TilePlay* curTile = testTile[curPos.y][curPos.x];
-
-	//nowTile = character->GetPos();
-	//switch (currMoveDir)
-	//{
-	//case Dir::Up:
-	//	nowTile.y -= TILE_SIZE;
-	//	break;
-	//case Dir::Down:
-	//	nowTile.y += TILE_SIZE;
-	//	break;
-	//case Dir::Left:
-	//	nowTile.x -= TILE_SIZE;
-	//	break;
-	//case Dir::Right:
-	//	nowTile.x += TILE_SIZE;
-	//	break;
-	//}
-	//character->SetDestination(nowTile);
-	//Vector2i idx = GAME_MGR->PosToIdx(nowTile);
-	////CLOG::PrintVectorState(nowTile, "now");
-	////CLOG::PrintVectorState(idx, "idx");
-	//TilePlay* nextTile = testTile[idx.y][idx.x];
-	//if (nextTile->GetOnTileObj() != nullptr)
-	//	return;
-	//curTile->SetOnTileObj(nullptr);
-	//nextTile->SetOnTileObj(character);
-	//character->SetMove(true);
 }
 
 void BattleScene::ZoomIn()
@@ -638,6 +622,8 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 	else
 	{
 		(*start)[startIdx]->PrintStats();
+		ui->SetStatPopup(true, currentView.getCenter(), GAME_MGR->SnapToCoord(
+			(*start)[startIdx]->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
 	}
 
 	pick->SetPos(GAME_MGR->IdxToPos(destCoord));
