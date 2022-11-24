@@ -3,6 +3,7 @@
 constexpr double INF = 1e9 + 7;
 
 AStar::AStar()
+	:ROW(14), COL(7), count(0)
 {
 }
 
@@ -10,7 +11,7 @@ AStar::~AStar()
 {
 }
 
-bool AStar::AstarSearch(vector<vector<string>>& map, Vector2i myPos, Vector2i enPos)
+int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 {
 	bool closedList[14][7];
 	std::memset(closedList, false, sizeof(closedList));
@@ -65,7 +66,7 @@ bool AStar::AstarSearch(vector<vector<string>>& map, Vector2i myPos, Vector2i en
 					cellDetails[ny][nx].parent.y = y;
 					cellDetails[ny][nx].parent.x = x;
 					tracePath(cellDetails, enPos);
-					return true;
+					return count;
 				}
 				else if (!closedList[ny][nx] && isUnBlocked(map, ny, nx))
 				{
@@ -87,7 +88,7 @@ bool AStar::AstarSearch(vector<vector<string>>& map, Vector2i myPos, Vector2i en
 		}
 	}
 
-	return false;
+	return count;
 }
 
 bool AStar::isDestination(int row, int col, Vector2i dst)
@@ -103,9 +104,10 @@ bool AStar::isInRange(int row, int col)
 	return (row >= 0 && row < ROW && col >= 0 && col < COL);
 }
 
-bool AStar::isUnBlocked(vector<vector<string>>& map, int row, int col)
+bool AStar::isUnBlocked(vector<Character*>& map, int row, int col)
 {
-	return (map[row][col] == "Obstacle");
+	int idx = col * GAME_TILE_WIDTH + row;
+	return (map[idx]->GetType() == "Obstacle");
 }
 
 double AStar::GethValue(int row, int col, Vector2i dst)
@@ -132,6 +134,7 @@ void AStar::tracePath(Cell cellDetails[14][7], Vector2i enpos)
 	while (!s.empty()) 
 	{
 		zmap[s.top().x][s.top().y] = '*';
+		count++;
 		s.pop();
 	}
 }
