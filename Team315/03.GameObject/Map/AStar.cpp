@@ -21,9 +21,9 @@ int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 	Cell cellDetails[14][7];
 
 	// 모든 좌표 초기화
-	for (int i = 0; i < ROW; ++i)
+	for (int i = 0; i < COL; ++i)
 	{
-		for (int j = 0; j < COL; ++j)
+		for (int j = 0; j < ROW; ++j)
 		{
 			cellDetails[i][j].f = cellDetails[i][j].g = cellDetails[i][j].h = INF;
 			cellDetails[i][j].parent.x = cellDetails[i][j].parent.y = -1;
@@ -31,8 +31,8 @@ int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 	}
 
 	// 시작 좌표 초기화
-	int sy = myPos.x;
-	int sx = myPos.y;
+	int sy = myPos.y;
+	int sx = myPos.x;
 	cellDetails[sy][sx].f = cellDetails[sy][sx].g = cellDetails[sy][sx].h = 0.0;
 	cellDetails[sy][sx].parent.x = sx;
 	cellDetails[sy][sx].parent.y = sy;
@@ -58,39 +58,39 @@ int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 		// 직선
  		for (int i = 0; i < 4; ++i) 
 		{
-			int ny = y + dy1[i];
-			int nx = x + dx1[i];
+			int nx = y + dy1[i];
+			int ny = x + dx1[i];
 
-			if (isInRange(ny, nx)) 
+			if (isInRange(ny, nx))
 			{
 				if (isDestination(ny, nx, enPos)) 
 				{
-					cellDetails[ny][nx].parent.y = y;
-					cellDetails[ny][nx].parent.x = x;
+					cellDetails[nx][ny].parent.y = y;
+					cellDetails[nx][ny].parent.x = x;
 					tracePath(cellDetails, enPos);
 					return count;
 				}
-				else if (!closedList[ny][nx] && isUnBlocked(grid, ny, nx))
+				else if (!closedList[nx][ny] && isUnBlocked(grid, ny, nx))
 				{
 					ng = cellDetails[y][x].g + 1.0;//출발 점부터 이 좌표와의 거리
 					nh = GethValue(ny, nx, enPos);
 					nf = ng + nh;
 
-					if (cellDetails[ny][nx].f == INF || cellDetails[ny][nx].f > nf) 
-					{
-						cellDetails[ny][nx].f = nf;// 현제 간 좌표에 총거리 넣어줌
-						cellDetails[ny][nx].g = ng;//시작 지점부터 여기까지의 거리는 넣어줌
-						cellDetails[ny][nx].h = nh;// 현재 노드 위치부터 목표점까지의 heuristic한 거리 넣어줌
-						cellDetails[ny][nx].parent.x = x;//여기다 시작지점의 좌표를 넣어줌
-						cellDetails[ny][nx].parent.y = y; // 여기다 시작지점의 좌표를 넣어줌
-						openList.insert({ nf, { ny, nx } });
+					if (cellDetails[nx][ny].f == INF || cellDetails[nx][ny].f > nf) 
+					{				
+						cellDetails[nx][ny].f = nf;// 현제 간 좌표에 총거리 넣어줌
+						cellDetails[nx][ny].g = ng;//시작 지점부터 여기까지의 거리는 넣어줌
+						cellDetails[nx][ny].h = nh;// 현재 노드 위치부터 목표점까지의 heuristic한 거리 넣어줌
+						cellDetails[nx][ny].parent.x = x;//여기다 시작지점의 좌표를 넣어줌
+						cellDetails[nx][ny].parent.y = y; // 여기다 시작지점의 좌표를 넣어줌
+						openList.insert({ nf, { nx, ny } });
 					}
 				}
 			}
 		}
 	}
 
-	return count;
+	return -1;
 }
 
 bool AStar::isDestination(int row, int col, Vector2i dst)
