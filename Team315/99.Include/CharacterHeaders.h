@@ -21,6 +21,12 @@
 #include "Monster/Thief02.h"
 #include "Monster/Thief03.h"
 #include "Monster/Thief04.h"
+#include "Monster/Slime00.h"
+#include "Monster/Slime01.h"
+#include "Monster/Slime02.h"
+#include "Monster/Slime03.h"
+#include "Monster/Slime04.h"
+#include "Monster/Slime05.h"
 
 // Neutral
 #include "Obstacle.h"

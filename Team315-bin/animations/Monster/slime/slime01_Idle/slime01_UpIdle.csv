@@ -1,0 +1,8 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+slime01_UpIdle,1,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Charactor/Monster/Slime/slime01_Move.png,0,140,70,70,35,70,0,0
+graphics/Charactor/Monster/Slime/slime01_Move.png,70,140,70,70,35,70,0,0
+graphics/Charactor/Monster/Slime/slime01_Move.png,140,140,70,70,35,70,0,0
+graphics/Charactor/Monster/Slime/slime01_Move.png,210,140,70,70,35,70,0,0
+graphics/Charactor/Monster/Slime/slime01_Move.png,280,140,70,70,35,70,0,0

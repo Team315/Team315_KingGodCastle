@@ -1,0 +1,8 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+slime04_DownAttack,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Charactor/Monster/Slime/slime04_Attack.png,0,0,90,90,45,90,0,0
+graphics/Charactor/Monster/Slime/slime04_Attack.png,90,0,90,90,45,90,0,0
+graphics/Charactor/Monster/Slime/slime04_Attack.png,180,0,90,90,45,90,0,0
+graphics/Charactor/Monster/Slime/slime04_Attack.png,90,0,90,90,45,90,0,0
+graphics/Charactor/Monster/Slime/slime04_Attack.png,0,0,90,90,45,90,0,0

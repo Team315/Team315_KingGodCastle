@@ -189,8 +189,12 @@ SoundBuffer* ResourceMgr::GetSoundBuffer(string id)
 }
 
 AnimationClip* ResourceMgr::GetAnimationClip(string id)
-{	auto it = animationClipMap.find(id);
+{	
+	auto it = animationClipMap.find(id);
 	if (it == animationClipMap.end())
+	{
+		//cout << id << endl;
 		return nullptr;
+	}
 	return it->second;
 }
