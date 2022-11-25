@@ -10,7 +10,6 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	CreateBackground(panel, 1, 3, 188.f, 500.f);
 
 	prepareGrid.resize(PREPARE_SIZE);
-	prepareGridPos.resize(PREPARE_SIZE);
 	float outlineThickness = -2.f;
 	float posX = TILE_SIZE * 2.f;
 	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE * 2.f;
@@ -20,8 +19,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 		cell = new RectangleObj(TILE_SIZE - 1, TILE_SIZE - 1);
 		cell->SetOutline(Color(255, 255, 255, 100), outlineThickness);
 		cell->SetFillColor(Color(0, 0, 0, 0));
-		prepareGridPos[count] = Vector2f(posX, posY);
-		cell->SetPos(prepareGridPos[count]);
+		cell->SetPos(Vector2f(posX, posY));
 		cell->SetOrigin(Origins::BC);
 		uiObjList.push_back(cell);
 		count++;
@@ -51,6 +49,12 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 		}
 		posY += TILE_SIZE;
 	}
+
+	statPopup = new RectangleObj(200, 200);
+	statPopup->SetFillColor(Color(50, 50, 50, 200));
+	statPopup->SetOutline(Color::Black, -2.f);
+	statPopup->SetType("Popup");
+	statPopup->SetOrigin(Origins::TL);
 }
 
 BattleSceneUI::~BattleSceneUI()
@@ -61,6 +65,7 @@ BattleSceneUI::~BattleSceneUI()
 void BattleSceneUI::Init()
 {
 	uiObjList.push_back(panel);
+	uiObjList.push_back(statPopup);
 	UIMgr::Init();
 }
 
@@ -79,6 +84,7 @@ void BattleSceneUI::Reset()
 		for (auto& tile : tiles)
 			tile->SetActive(b_battleGridRect);
 	}
+	statPopup->SetActive(false);
 }
 
 void BattleSceneUI::Update(float dt)
@@ -93,6 +99,11 @@ void BattleSceneUI::Draw(RenderWindow& window)
 
 void BattleSceneUI::SetOrigin(Origins origin)
 {
+}
+
+Vector2f BattleSceneUI::GetGridPos(int idx)
+{
+	return prepareGrid[idx]->GetPos();
 }
 
 void BattleSceneUI::CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight)
@@ -132,4 +143,19 @@ void BattleSceneUI::CreateBackground(VertexArrayObj* vao, int rows, int cols, fl
 		currPos.x = startPos.x;
 		currPos.y += quadHeight;
 	}
+}
+
+void BattleSceneUI::SetStatPopup(bool active, Vector2f viewCenter, Vector2f pos)
+{
+	statPopup->SetActive(active);
+	if (!active)
+		return;
+
+	Vector2f modPos = pos;
+	if (pos.x + statPopup->GetSize().x >= GAME_SCREEN_ZOOM_WIDTH)
+		modPos.x = GAME_SCREEN_ZOOM_WIDTH - statPopup->GetSize().x ;
+	if (Utils::EqualFloat(viewCenter.y, GAME_SCREEN_ZOOM_HEIGHT * 0.5f, 3.f) &&
+		(pos.y + statPopup->GetSize().y >= GAME_SCREEN_ZOOM_HEIGHT))
+		modPos.y = GAME_SCREEN_ZOOM_HEIGHT - statPopup->GetSize().y - 5.f;
+	statPopup->SetPos(modPos);
 }

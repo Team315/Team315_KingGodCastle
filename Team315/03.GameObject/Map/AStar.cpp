@@ -3,6 +3,7 @@
 constexpr double INF = 1e9 + 7;
 
 AStar::AStar()
+	:ROW(7), COL(14), count(0)
 {
 }
 
@@ -10,25 +11,28 @@ AStar::~AStar()
 {
 }
 
-bool AStar::AstarSearch(vector<vector<int>>& map, Vector2i myPos, Vector2i enPos)
+int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 {
+	SetAstar(map, myPos, enPos);
+
 	bool closedList[14][7];
-	std::memset(closedList, false, sizeof(closedList));
+	memset(closedList, false, sizeof(closedList));
 
 	Cell cellDetails[14][7];
 
-	for (int i = 0; i < ROW; ++i)
+	// 모든 좌표 초기화
+	for (int i = 0; i < COL; ++i)
 	{
-		for (int j = 0; j < COL; ++j)
+		for (int j = 0; j < ROW; ++j)
 		{
-			cellDetails[i][j].f = cellDetails[i][j].g = cellDetails[i][j].h;
-			cellDetails[i][j].parent.x = cellDetails[i][j].parent.y;
+			cellDetails[i][j].f = cellDetails[i][j].g = cellDetails[i][j].h = INF;
+			cellDetails[i][j].parent.x = cellDetails[i][j].parent.y = -1;
 		}
 	}
 
-	
-	int sy = myPos.x;
-	int sx = myPos.y;
+	// 시작 좌표 초기화
+	int sy = myPos.y;
+	int sx = myPos.x;
 	cellDetails[sy][sx].f = cellDetails[sy][sx].g = cellDetails[sy][sx].h = 0.0;
 	cellDetails[sy][sx].parent.x = sx;
 	cellDetails[sy][sx].parent.y = sy;
@@ -42,57 +46,58 @@ bool AStar::AstarSearch(vector<vector<int>>& map, Vector2i myPos, Vector2i enPos
 
 	while (!openList.empty()) 
 	{
-		pPair p = *openList.begin();
-		openList.erase(openList.begin());
+		pPair p = *openList.begin();// 여기다 본인의 벨류 넣고
+		openList.erase(openList.begin());// 담겼던거 지우고
 
-		int y = p.second.first;
-		int x = p.second.second;
+		int y = p.second.first;//여기다가 좌표값 넣어준다
+		int x = p.second.second;//
 		closedList[y][x] = true;
 
 		double ng, nf, nh;
 
 		// 직선
-		for (int i = 0; i < 4; ++i) {
-			int ny = y + dy1[i];
-			int nx = x + dx1[i];
+ 		for (int i = 0; i < 4; ++i) 
+		{
+			int nx = y + dy1[i];
+			int ny = x + dx1[i];
 
-			if (isInRange(ny, nx)) {
+			if (isInRange(ny, nx))
+			{
 				if (isDestination(ny, nx, enPos)) 
 				{
-					cellDetails[ny][nx].parent.y = y;
-					cellDetails[ny][nx].parent.x = x;
+					cellDetails[nx][ny].parent.y = y;
+					cellDetails[nx][ny].parent.x = x;
 					tracePath(cellDetails, enPos);
-					return true;
+					return count;
 				}
-
-				else if (!closedList[ny][nx] && isUnBlocked(map, ny, nx))
+				else if (!closedList[nx][ny] && isUnBlocked(grid, ny, nx))
 				{
-
-					ng = cellDetails[y][x].g + 1.0;
+					ng = cellDetails[y][x].g + 1.0;//출발 점부터 이 좌표와의 거리
 					nh = GethValue(ny, nx, enPos);
 					nf = ng + nh;
 
-					if (cellDetails[ny][nx].f == INF || cellDetails[ny][nx].f > nf) {
-						cellDetails[ny][nx].f = nf;
-						cellDetails[ny][nx].g = ng;
-						cellDetails[ny][nx].h = nh;
-						cellDetails[ny][nx].parent.x = x;
-						cellDetails[ny][nx].parent.y = y;
-						openList.insert({ nf, { ny, nx } });
+					if (cellDetails[nx][ny].f == INF || cellDetails[nx][ny].f > nf) 
+					{				
+						cellDetails[nx][ny].f = nf;// 현제 간 좌표에 총거리 넣어줌
+						cellDetails[nx][ny].g = ng;//시작 지점부터 여기까지의 거리는 넣어줌
+						cellDetails[nx][ny].h = nh;// 현재 노드 위치부터 목표점까지의 heuristic한 거리 넣어줌
+						cellDetails[nx][ny].parent.x = x;//여기다 시작지점의 좌표를 넣어줌
+						cellDetails[nx][ny].parent.y = y; // 여기다 시작지점의 좌표를 넣어줌
+						openList.insert({ nf, { nx, ny } });
 					}
 				}
 			}
 		}
-
 	}
 
-	return false;
-
+	return -1;
 }
 
 bool AStar::isDestination(int row, int col, Vector2i dst)
 {
-	if (row == dst.x && col == dst.y) return true;
+	if (row == dst.x && col == dst.y) 
+		return true;
+
 	return false;
 }
 
@@ -103,7 +108,7 @@ bool AStar::isInRange(int row, int col)
 
 bool AStar::isUnBlocked(vector<vector<int>>& map, int row, int col)
 {
-	return (map[row][col] == 0);
+	return (map[col][row] == 0);;
 }
 
 double AStar::GethValue(int row, int col, Vector2i dst)
@@ -111,14 +116,15 @@ double AStar::GethValue(int row, int col, Vector2i dst)
 	return (double)sqrt(pow(row - dst.x, 2) + pow(col - dst.y, 2));
 }
 
-void AStar::tracePath(Cell cellDetails[14][7], Vector2i dst)
+void AStar::tracePath(Cell cellDetails[14][7], Vector2i enpos)
 {
 	stack<Vector2i> s;
-	int y = dst.x;
-	int x = dst.y;
+	int y = enpos.x;
+	int x = enpos.y;
 
 	s.push({ y, x });
-	while (!(cellDetails[y][x].parent.x == x && cellDetails[y][x].parent.y == y)) {
+	while (!(cellDetails[y][x].parent.x == x && cellDetails[y][x].parent.y == y)) 
+	{
 		int tempy = cellDetails[y][x].parent.y;
 		int tempx = cellDetails[y][x].parent.x;
 		y = tempy;
@@ -126,8 +132,64 @@ void AStar::tracePath(Cell cellDetails[14][7], Vector2i dst)
 		s.push({ y, x });
 	}
 
-	while (!s.empty()) {
+	while (!s.empty()) 
+	{
 		zmap[s.top().x][s.top().y] = '*';
+		count++;
 		s.pop();
 	}
+}
+
+void AStar::SetAstar(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
+{
+	grid.resize(COL,vector<int>(ROW));
+
+	for (int i = 0; i < COL; ++i)
+	{
+		for (int j = 0; j < ROW; ++j)
+		{
+
+			if (map[(i * ROW) + j] == nullptr )
+			{
+				grid[i][j] = 0;
+			}
+			else if (!map[(i * ROW) + j]->GetType().compare("Player"))
+			{
+				grid[i][j] = 0;
+			}
+			else if (!map[(i * ROW) + j]->GetType().compare("Obstacle"))
+			{
+				grid[i][j] = 1;
+			}
+			else if (!map[(i * ROW) + j]->GetType().compare("Monster"))
+			{
+				grid[i][j] = 1;
+			}
+		}
+	}
+	//grid[myPos.y][myPos.x] = 2;
+	//grid[enPos.y][enPos.x] = 3;
+
+	for (int i = 0; i < COL; ++i)
+	{
+		for (int j = 0; j < ROW; ++j)
+		{
+		/*	if (grid[i][j] == 2)
+			{
+				grid[myPos.y][myPos.x] = 0;
+			}*/
+			if (grid[i][j] == 1)
+			{
+				grid[enPos.y][enPos.x] = 0;
+			}
+		}
+	}
+	for (int i = 0; i < COL; ++i)
+	{
+		for (int j = 0; j < ROW; ++j)
+		{
+			zmap[i][j] = grid[i][j] + '0';
+		}
+	}
+
 }

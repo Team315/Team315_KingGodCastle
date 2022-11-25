@@ -14,12 +14,12 @@
 #include "ToolStage.h"
 #include "FileManager.h"
 
-
 ToolScene::ToolScene()
 	: Scene(Scenes::Tool), m_clickMode(ClickMode::None), m_nowChapter(1), m_nowStage(1), m_nowTileSet(-1), m_nowObstacle(-1), m_nowTheme(1), m_nowStar(0), m_monster(-1)
 {
 	SetClickMode(m_clickMode);
 	CLOG::Print3String("tool create");
+
 }
 
 ToolScene::~ToolScene()
@@ -31,8 +31,6 @@ void ToolScene::Init()
 {
 	CLOG::Print3String("tool Init");
 
-	//CreateChapterNum(ChapterMaxCount);
-	//CreateStageNum(StageMaxCount);
 	CreateChapterNum(CHAPTER_MAX_COUNT);
 	CreateStageNum(STAGE_MAX_COUNT);
 	CreateTheme();
@@ -522,7 +520,7 @@ void ToolScene::SetClickMode(ClickMode clickMode)
 	}
 }
 
-Chapters& ToolScene::GetTilesData()
+Chapters ToolScene::GetTilesData()
 {
 	Chapters data;
 	for (int i = 0; i < ToolChapterLIst.size(); ++i)

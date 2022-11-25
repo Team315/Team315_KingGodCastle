@@ -81,7 +81,6 @@ struct Chapters
 	vector<vector< vector<vector<ns::TileData>>>> data;
 	NLOHMANN_DEFINE_TYPE_INTRUSIVE(Chapters, data);
 };
-
 struct MapData
 {
 	vector<ns::BackInfo> backInfo; // background path

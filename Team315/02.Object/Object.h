@@ -30,7 +30,9 @@ public:
 	int GetObjId()const;
 	const string& GetName() const { return name; }
 	void SetName(const string& n) { name = n; }
-	const string& GetType() const { return type; }
+	const string& GetType() const { 
+		return type; 
+	}
 	void SetType(const string& t) { type = t; }
 
 	virtual void SetActive(bool active);

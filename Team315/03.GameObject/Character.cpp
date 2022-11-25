@@ -29,7 +29,6 @@ void Character::Init()
 	Object::Init();
 	
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
-	PrintStats();
 }
 
 void Character::Update(float dt)
@@ -38,6 +37,9 @@ void Character::Update(float dt)
 	if (move)
 	{
 		SetState(AnimStates::Move);
+		direction = destination - position;
+		Translate(Utils::Normalize(direction));
+		if (destination == position)
 		{
 			move = false;
 			SetState(AnimStates::MoveToIdle);
@@ -86,7 +88,6 @@ void Character::SetStatsInit(json data)
 	stat.insert({ Stats::AR, Stat(data["AR"]) });
 	stat.insert({ Stats::MS, Stat(data["MS"]) });
 	string arType = data["ARTYPE"];
-	cout << arType << endl;
 	attackRangeType = arType.compare("cross") ? true : false;
 }
 
@@ -112,11 +113,12 @@ void Character::UpgradeCharacterSet()
 		1.0f + (GetStarNumber() * 0.05f) });
 	// 성급 올라갈때 공격력,마력,체력 증가
 	// 별 색 바뀔때 스킬 범위 증가 1 3 5 7
-	
 }
 
 void Character::PrintStats()
 {
+	cout << "---------------" << endl;
+	cout << "name: " << name << " / star: " << GetStarNumber() << endl;
 	cout << "HP: " << stat[Stats::HP].base << endl;
 	cout << "MP: " << stat[Stats::MP].base << endl;
 	cout << "AD: " << stat[Stats::AD].base << endl;
@@ -125,4 +127,5 @@ void Character::PrintStats()
 	cout << "AR: " << stat[Stats::AR].base << endl;
 	cout << "MS: " << stat[Stats::MS].base << endl;
 	cout << (attackRangeType ? "square" : "cross") << endl;
+	cout << "---------------" << endl;
 }

@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include "Include.h"
 #include <vector>
-
+#include "Map/AStar.h"
 class BattleSceneUI;
 class Button;
 class Character;
@@ -13,6 +13,7 @@ class BattleScene : public Scene
 {
 protected:
 	BattleSceneUI* ui;
+	Character* test;
 
 	Dir currMoveDir;
 	VertexArrayObj* background;
@@ -68,6 +69,7 @@ public:
 
 	void SetCurrentStage(int chap, int stage);
 	Character* GetMainGridCharacter(int r, int c);
+	void SetMainGrid(int r, int c, Character* character);
 };
 
 bool InPrepareGrid(Vector2i pos);

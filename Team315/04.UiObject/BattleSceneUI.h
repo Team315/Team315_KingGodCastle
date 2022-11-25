@@ -10,7 +10,7 @@ class BattleSceneUI : public UIMgr
 protected:
 	BattlePanel* panel;
 	vector<RectangleObj*> prepareGrid;
-	vector<Vector2f> prepareGridPos;
+	RectangleObj* statPopup;
 
 public:
 	BattleSceneUI(Scene* scene);
@@ -24,11 +24,12 @@ public:
 	virtual void SetOrigin(Origins origin) override;
 
 	BattlePanel* GetPanel() { return panel; }
-	Vector2f GetPrepareGridPos(int idx) { return prepareGridPos[idx]; }
-
+	Vector2f GetGridPos(int idx);
 	void CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight);
 
 	// draw rect only 4 x 7
 	vector<vector<RectangleObj*>> battleGridRect;
 	bool b_battleGridRect;
+
+	void SetStatPopup(bool active, Vector2f viewCenter, Vector2f pos = { 0, 0 });
 };
