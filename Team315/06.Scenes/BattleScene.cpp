@@ -213,32 +213,37 @@ void BattleScene::Update(float dt)
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Space))
 	{
+		EnemyInfo enemyInfo;
 		for (auto& player : mainGrid)
 		{
-			if (player == nullptr)
-			{
-
-			}
-			else if (!player->GetType().compare("Player"))
+			if (player != nullptr && !player->GetType().compare("Player"))
 			{
 				for (auto& monster : mainGrid)
 				{
-					if (monster == nullptr)
-					{
-
-					}
-					else if (!monster->GetType().compare("Monster"))
+					if (monster != nullptr && !monster->GetType().compare("Monster"))
 					{
 						Vector2i mypos = GAME_MGR->PosToIdx(player->GetPos());
 						Vector2i enpos = GAME_MGR->PosToIdx(monster->GetPos());
 						AStar astar;
-						int count = astar.AstarSearch(mainGrid, mypos, enpos);
-						cout << count << endl;
+						enemyInfo = astar.AstarSearch(mainGrid, mypos, enpos);
+						cout << enemyInfo.leng << endl << enemyInfo.destPos.y << " " << enemyInfo.destPos.x << endl;
 					}
-
 				}
 			}
 		}
+
+		if (test != nullptr)
+		{
+			Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
+
+			//Vector2i delta = enemyInfo.destPos - coord;
+			//Vector2i temp = (delta + coord);
+			test->SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
+			//test->SetPos(GAME_MGR->IdxToPos(temp));
+			SetMainGrid(coord.y, coord.x, nullptr);
+			SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, test);
+		}
+
 	}
 //GAME_MGR->PosToIdx(mainGrid[0]->GetPos());
 //"Player" == mainGrid[0]->GetType();

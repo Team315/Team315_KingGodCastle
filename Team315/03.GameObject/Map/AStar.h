@@ -12,6 +12,12 @@ struct Cell
 	double h;//현재 노드 위치부터 목표점까지의 heuristic한 거리
 };
 
+struct EnemyInfo
+{
+	int leng;
+	Vector2i destPos;
+	EnemyInfo() { leng = 0; destPos = { 0,0 }; }
+};
 class AStar
 {
 protected:
@@ -20,10 +26,11 @@ protected:
 	char zmap[14][7];
 	vector<vector<int>> grid;
 
+	EnemyInfo enemyInfo;
 	int count;
 
-	const int dx1[4] = { 0, 0, 1, -1 };
-	const int dy1[4] = { -1, 1, 0, 0 };
+	const int crossX1[4] = { 0, 0, 1, -1 };
+	const int crossY1[4] = { -1, 1, 0, 0 };
 
 	Vector2i m_pair;
 	pair<double, Vector2i> m_pPair;
@@ -31,7 +38,7 @@ public:
 	AStar();
 	~AStar();
 
-	int AstarSearch(vector<Character*>& map,Vector2i myPos, Vector2i enPos);
+	EnemyInfo AstarSearch(vector<Character*>& map,Vector2i myPos, Vector2i enPos);
 
 	//현재좌표가 도착지점과 일치하다면 참, 아니면 거짓을 반환하는 함수.
 	bool isDestination(int row, int col, Vector2i dst);

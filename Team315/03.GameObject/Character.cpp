@@ -3,7 +3,7 @@
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(false),
 	currState(AnimStates::None), drawingOnBattle(false),
-	attackRangeType(false)
+	attackRangeType(false), isBattle(false)
 {
 	hpBar = new ProgressBar();
 	hpBarLocalPos = { -TILE_SIZE_HALF * 0.5f, -TILE_SIZE_HALF - TILE_SIZE };
@@ -29,11 +29,44 @@ void Character::Init()
 	Object::Init();
 	
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
+
+	enemyInfo.leng = 99999;
+	if (!type.compare("Player"))
+		targetType = "Monster";
+	else if (!type.compare("Monster"))
+		targetType = "Monster";
+	else
+		targetType = "None";
 }
 
 void Character::Update(float dt)
 {
-	
+	if (isBattle)
+	{
+		SetTargetDistance();
+
+		if (move)
+		{
+			SetState(AnimStates::Move);
+			direction = destination - position;
+			Translate(Utils::Normalize(direction));
+			if (destination == position)
+			{
+				move = false;
+				SetState(AnimStates::MoveToIdle);
+
+			}
+		}
+
+
+
+
+
+
+
+
+
+	}
 	hpBar->Update(dt);
 	if (move)
 	{
@@ -140,5 +173,33 @@ void Character::PlayAstar()
 
 void Character::SetTargetDistance()
 {
+	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
 
+	for (auto& target : mainGrid)
+	{
+		if (target != nullptr && !target->GetType().compare(targetType))
+		{
+			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
+			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
+			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
+
+			if (enemyInfo.leng > nowEnemyInfo.leng)
+			{
+				enemyInfo = nowEnemyInfo;
+			}
+		}
+	}
+
+	Vector2i coord = GAME_MGR->PosToIdx(GetPos());
+	SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
+	SetMainGrid(coord.y, coord.x, nullptr);
+	SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, this);
+}
+
+void Character::SetMainGrid(int r, int c, Character* character)
+{
+	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
+
+	int idx = r * GAME_TILE_WIDTH + c;
+	mainGrid[idx] = character;
 }

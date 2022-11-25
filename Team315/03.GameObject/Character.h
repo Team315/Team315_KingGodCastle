@@ -38,6 +38,9 @@ protected:
 
 	//Astar
 	AStar m_aStar;
+	EnemyInfo enemyInfo;
+	string targetType;
+	bool isBattle;
 
 public:
 	Character(int starNumber = 0);
@@ -73,4 +76,7 @@ public:
 	//Astar
 	void PlayAstar();
 	void SetTargetDistance();
+	void SetMainGrid(int r, int c, Character* character);
+	void SetIsBattle(bool battleOnOff) { isBattle = battleOnOff; }
+	
 };
