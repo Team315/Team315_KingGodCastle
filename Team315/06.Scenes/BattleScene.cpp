@@ -17,6 +17,27 @@ BattleScene::BattleScene()
 
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f - TILE_SIZE_HALF;
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.1f;
+	prepareGridRect.resize(PREPARE_SIZE);
+	float outlineThickness = -2.f;
+	float posX = TILE_SIZE * 2.f;
+	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE * 2.f;
+	int count = 0;
+	for (auto &cell : prepareGridRect)
+	{
+		cell = new RectangleObj(TILE_SIZE - 1, TILE_SIZE - 1);
+		cell->SetOutline(Color(255, 255, 255, 100), outlineThickness);
+		cell->SetFillColor(Color(0, 0, 0, 0));
+		cell->SetPos(Vector2f(posX, posY));
+		cell->SetOrigin(Origins::BC);
+		objList.push_back(cell);
+		count++;
+		posX += TILE_SIZE;
+		if (count == prepareGridRect.size() * 0.5f)
+		{
+			posX = TILE_SIZE * 2.f;
+			posY += TILE_SIZE;
+		}
+	}
 
 	ui = new BattleSceneUI(this);
 }
@@ -29,8 +50,7 @@ void BattleScene::Init()
 {
 	CLOG::Print3String("battle Init");
 
-	//objList.push_back(ui);
-	ui->Init();
+	objList.push_back(ui);
 	Scene::Init();
 }
 
@@ -80,9 +100,6 @@ void BattleScene::Exit()
 void BattleScene::Update(float dt)
 {
 	Scene::Update(dt);
-	ui->Update(dt);
-
-
 
 	// Dev Input start
 	{
@@ -91,17 +108,6 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("setting window");
 			SCENE_MGR->ChangeScene(Scenes::Loby);
 			return;
-		}
-		if (InputMgr::GetKeyDown(Keyboard::Key::Num0))
-		{
-			CLOG::Print3String("overlay switch");
-			ui->b_battleGridRect = !ui->b_battleGridRect;
-
-			for (auto& tiles : ui->battleGridRect)
-			{
-				for (auto& tile : tiles)
-					tile->SetActive(ui->b_battleGridRect);
-			}
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
 		{
@@ -375,7 +381,7 @@ void BattleScene::Update(float dt)
 						return;
 					}
 					Character* newPick = GAME_MGR->SpawnPlayer(true, true);
-					newPick->SetPos(ui->GetGridPos(idx));
+					newPick->SetPos(prepareGridRect[idx]->GetPos());
 					newPick->Init();
 					newPick->SetDrawingOnBattle(true);
 					prepareGrid[idx] = newPick;

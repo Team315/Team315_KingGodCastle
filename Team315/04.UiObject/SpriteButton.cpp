@@ -13,14 +13,14 @@ void SpriteButton::Draw(RenderWindow& window)
 {
 	SpriteObj::Draw(window);
 	window.draw(btnSprite);
-	window.draw(btnText);
+	window.draw(text);
 }
 
 void SpriteButton::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
 	btnSprite.setPosition(pos + btnSpriteLocalPos);
-	btnText.setPosition(pos + btnTextLocalPos);
+	text.setPosition(pos + textLocalPos);
 }
 
 void SpriteButton::SetOrigin(Origins origin)
@@ -56,7 +56,7 @@ void SpriteButton::SetBtnSpriteLocalPos(float sizeX, float sizeY)
 
 void SpriteButton::SetButtonTextColor(Color textColor, Color outlineColor, float OutlineThickness)
 {
-	btnText.setFillColor(textColor);
-	btnText.setOutlineColor(outlineColor);
-	btnText.setOutlineThickness(OutlineThickness);
+	text.setFillColor(textColor);
+	text.setOutlineColor(outlineColor);
+	text.setOutlineThickness(OutlineThickness);
 }

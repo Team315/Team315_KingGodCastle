@@ -168,7 +168,7 @@ LobySceneUI::LobySceneUI(Scene* scene)
 		*RESOURCE_MGR->GetFont("fonts/NANUMBARUNGOTHICBOLD.ttf"), L"ÀüÅõ");
 
 	startBtn->SetPos(Vector2f(GAME_SCREEN_WIDTH * 2.4f, GAME_SCREEN_HEIGHT * 0.75f));
-	startBtn->SetLocalPos(Vector2f(startBtn->GetTextureRect().width * 0.25f, startBtn->GetTextureRect().height * 0.25f));
+	startBtn->SetTextLocalPos(Vector2f(startBtn->GetTextureRect().width * 0.25f, startBtn->GetTextureRect().height * 0.25f));
 	startBtn->SetScale(1.f, 0.75f);
 	startBtn->SetTextStyle(Color::White, 25, Color::Black, 2.f);
 	startBtn->SetButtonStyle(Color(255, 255, 255, 100), Color(255, 255, 255, 200));

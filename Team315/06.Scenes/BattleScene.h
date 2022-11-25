@@ -33,6 +33,8 @@ protected:
 
 	// Create player character when summon (2x7) x(0, 6) y(16, 17)
 	vector<Character*> prepareGrid;
+	// draw rect only 2 x 7
+	vector<RectangleObj*> prepareGridRect;
 
 	// Set player character locate before battle (4x7) x(0, 6) y(10, 13)
 	vector<Character*> battleGrid;

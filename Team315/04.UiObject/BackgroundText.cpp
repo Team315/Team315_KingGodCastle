@@ -40,3 +40,8 @@ void BackgroundText::SetTextStyle(Color textColor, int textSize, Color textOutli
 	text.setOutlineColor(textOutlineColor);
 	text.setOutlineThickness(textOutlineThickness);
 }
+
+void BackgroundText::SetFont(Font &font)
+{
+	text.setFont(font);
+}

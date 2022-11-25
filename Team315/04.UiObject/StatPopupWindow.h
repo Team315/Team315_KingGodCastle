@@ -1,24 +1,28 @@
 #pragma once
 #include "RectangleObj.h"
-#include "ProgressBar.h"
-#include "BackgroundText.h"
+
+class BackrectText;
+class BackgroundText;
+class ProgressBar;
 
 class StatPopupWindow : public RectangleObj
 {
 protected:
 	// always
-	BackgroundText* nameText;
-	BackgroundText* starText;
+	BackrectText* nameText;
+	BackgroundText * starText;
 
 	Sprite portrait;
+	RectangleShape portraitRect;
 	Sprite adImg;
 	Sprite apImg;
 	Sprite asImg;
 	ProgressBar* hpBar;
+	Text currentHp;
 	
+	bool useOptional;
 	// optional
 	ProgressBar* mpBar;
-	
 
 public:
 	StatPopupWindow(float x = 0, float y = 0);

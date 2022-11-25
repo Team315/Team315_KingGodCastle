@@ -1,11 +1,9 @@
 #pragma once
-#include "SpriteObj.h"
+#include "BackgroundText.h"
 
-class Button : public SpriteObj
+class Button : public BackgroundText
 {
 protected:
-	Text btnText;
-	Vector2f btnTextLocalPos;
 	Color baseColor;
 	Color hoverColor;
 
@@ -28,9 +26,7 @@ public:
 		int textSize = 25);
 
 	void SetButtonSize(float sizeX, float sizeY);
-	void SetTextStyle(Color textColor, int textSize, Color textOutlineColor, float textOutlineThickness);
 	void SetButtonStyle(Color baseColor, Color hoverColor);
-	void SetLocalPos(Vector2f pos);
 	Color GetBaseColor() { return baseColor; }
 	Color GetHoverColor() { return hoverColor; }
 };
