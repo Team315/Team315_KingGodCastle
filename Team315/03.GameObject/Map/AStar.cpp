@@ -90,7 +90,7 @@ int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 		}
 	}
 
-	return -1;
+	return false;
 }
 
 bool AStar::isDestination(int row, int col, Vector2i dst)
