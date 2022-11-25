@@ -5,6 +5,7 @@
 #include "Star.h"
 #include "Include.h"
 #include <unordered_map>
+#include "Map/AStar.h"
 
 class Character : public SpriteObj
 {
@@ -13,7 +14,7 @@ protected:
 	Character* target;
 	unordered_map<Stats, Stat> stat;
 	bool attackRangeType; // true square, false cross
-	
+
 	// UI
 	ProgressBar* hpBar;
 	Star* star;
@@ -34,6 +35,9 @@ protected:
 	Vector2f lastDirection;
 
 	bool drawingOnBattle;
+
+	//Astar
+	AStar m_aStar;
 
 public:
 	Character(int starNumber = 0);
@@ -65,4 +69,8 @@ public:
 	void UpgradeStar();
 	void UpgradeCharacterSet();
 	void PrintStats();
+
+	//Astar
+	void PlayAstar();
+	void SetTargetDistance();
 };
