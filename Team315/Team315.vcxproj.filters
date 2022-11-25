@@ -73,6 +73,17 @@
     <ClCompile Include="03.GameObject\Monster\Slime03.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime04.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime05.cpp" />
+    <ClCompile Include="03.GameObject\Skill\EvanSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\AramisSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\ArveronSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\DanielSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\LeonHeartSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\PriaSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\SheldaSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\Goblin00Skill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\Thief00Skill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\Slime00Skill.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -156,6 +167,17 @@
     <ClInclude Include="03.GameObject\Monster\Slime03.h" />
     <ClInclude Include="03.GameObject\Monster\Slime04.h" />
     <ClInclude Include="03.GameObject\Monster\Slime05.h" />
+    <ClInclude Include="03.GameObject\Skill.h" />
+    <ClInclude Include="03.GameObject\Skill\EvanSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\AramisSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\ArveronSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\DanielSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\LeonHeartSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\PriaSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\SheldaSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\Goblin00Skill.h" />
+    <ClInclude Include="03.GameObject\Skill\Thief00Skill.h" />
+    <ClInclude Include="03.GameObject\Skill\Slime00Skill.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
