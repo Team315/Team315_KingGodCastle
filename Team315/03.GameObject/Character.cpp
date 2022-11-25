@@ -50,6 +50,7 @@ void Character::Update(float dt)
 void Character::Draw(RenderWindow& window)
 {
 	SpriteObj::Draw(window);
+	window.draw(attackSprite);
 	if (drawingOnBattle)
 	{
 		hpBar->Draw(window);
@@ -60,6 +61,7 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
+	attackSprite.setPosition(GetPos());
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
 }

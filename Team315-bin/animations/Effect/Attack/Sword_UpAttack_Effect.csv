@@ -1,0 +1,8 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Sword_UpAttack_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/attackEffect_00.png,0,240,150,120,75,120,0,0
+graphics/Effect/player/attackEffect_00.png,150,240,150,120,75,120,0,0
+graphics/Effect/player/attackEffect_00.png,300,240,150,120,75,120,0,0
+graphics/Effect/player/attackEffect_00.png,450,240,150,120,75,120,0,0
+graphics/Effect/player/attackEffect_00.png,600,240,150,120,75,120,0,0

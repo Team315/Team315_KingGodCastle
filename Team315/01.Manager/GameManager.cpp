@@ -201,17 +201,17 @@ Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBatt
 	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
 
 	if (!name.compare("Aramis") || num == 0)
-		character = new Aramis();
+		character = new Shelda();
 	else if (!name.compare("Arveron") || num == 1)
-		character = new Arveron();
+		character = new Shelda();
 	else if (!name.compare("Daniel") || num == 2)
-		character = new Daniel();
+		character = new Shelda();
 	else if (!name.compare("Evan") || num == 3)
-		character = new Evan();
+		character = new Shelda();
 	else if (!name.compare("LeonHeart") || num == 4)
-		character = new LeonHeart();
+		character = new Shelda();
 	else if (!name.compare("Pria") || num == 5)
-		character = new Pria();
+		character = new Shelda();
 	else if (!name.compare("Shelda") || num == 6)
 		character = new Shelda();
 	character->SetDrawingOnBattle(drawingOnBattle);
