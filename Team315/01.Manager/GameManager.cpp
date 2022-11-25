@@ -4,7 +4,7 @@
 #include "CharacterHeaders.h"
 
 GameManager::GameManager()
-	: battleCharacterCount(10), extraLevelUpChance(0)
+	: battleCharacterCount(10), extraLevelUpChance(0), mainGridRef(presetC)
 {
 	CLOG::Print3String("GameManager Create");
 	m_tiles.assign(

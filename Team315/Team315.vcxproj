@@ -241,6 +241,7 @@
     <ClInclude Include="03.GameObject\Skill\Goblin00Skill.h" />
     <ClInclude Include="03.GameObject\Skill\Slime00Skill.h" />
     <ClInclude Include="03.GameObject\Skill\Thief00Skill.h" />
+    <ClInclude Include="StatPopupWiindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="03.GameObject\Monster\Slime00.cpp" />
@@ -326,6 +327,7 @@
     <ClCompile Include="03.GameObject\Skill\SheldaSkill.cpp" />
     <ClCompile Include="03.GameObject\Skill\Slime00Skill.cpp" />
     <ClCompile Include="03.GameObject\Skill\Thief00Skill.cpp" />
+    <ClCompile Include="StatPopupWiindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

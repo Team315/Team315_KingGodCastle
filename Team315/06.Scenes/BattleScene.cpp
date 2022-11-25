@@ -51,13 +51,13 @@ void BattleScene::Enter()
 	prepareGrid.assign(PREPARE_SIZE, nullptr);
 	battleGrid.assign(BATTLE_GRID_ROW * GAME_TILE_WIDTH, nullptr);
 	mainGrid.assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
+
 	ui->Reset();
 
 	curChapIdx = 0;
 	curStageIdx = 0;
 	SetCurrentStage(curChapIdx, curStageIdx);
-
-	
+	GAME_MGR->SetMainGridRef(mainGrid);
 }
 
 void BattleScene::Exit()
