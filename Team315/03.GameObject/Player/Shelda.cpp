@@ -14,6 +14,7 @@ Shelda::~Shelda()
 void Shelda::Init()
 {
 	animator.SetTarget(&sprite);
+	attackEffect.SetTarget(&attackSprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Shelda_Idle"));
 
@@ -37,33 +38,66 @@ void Shelda::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Shelda_RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Shelda_UpSkill"));
 
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_DownAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_LeftAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_RightAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_UpAttack_Effect"));
+
 	{
 		AnimationEvent ev;
 		ev.clipId = "Shelda_DownAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Shelda::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Shelda_LeftAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Shelda::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Shelda_RightAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Shelda::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Shelda_UpAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Shelda::OnCompleteAttack, this);
 		animator.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Sword_DownAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Shelda::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Sword_LeftAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Shelda::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Sword_RightAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Shelda::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Sword_UpAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Shelda::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
@@ -102,6 +136,11 @@ void Shelda::Update(float dt)
 {
 	Character::Update(dt);
 
+	if (InputMgr::GetKeyDown(Keyboard::Z))
+	{
+		SetState(AnimStates::Attack);
+	}
+
 	switch (currState)
 	{
 	case AnimStates::Idle:
@@ -121,6 +160,7 @@ void Shelda::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
+	attackEffect.Update(dt);
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -172,9 +212,17 @@ void Shelda::SetState(AnimStates newState)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Shelda_RightAttack" : "Shelda_LeftAttack");
 		}
+		if (lastDirection.x)
+		{
+			attackEffect.Play((lastDirection.x > 0.f) ? "Sword_RightAttack_Effect" : "Sword_LeftAttack_Effect");
+		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Shelda_DownAttack" : "Shelda_UpAttack");
+		}
+		if (lastDirection.y)
+		{
+			attackEffect.Play((lastDirection.y > 0.f) ? "Sword_DownAttack_Effect" : "Sword_UpAttack_Effect");
 		}
 		break;
 	case AnimStates::Skill:

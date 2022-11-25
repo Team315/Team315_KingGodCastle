@@ -5,7 +5,7 @@ class SpriteObj : public Object
 {
 protected:
     Sprite sprite;
-
+	Sprite attackSprite;
 public:
     SpriteObj();
     virtual ~SpriteObj() override;

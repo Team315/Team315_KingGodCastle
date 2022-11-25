@@ -1,0 +1,8 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Sword_LeftAttack_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/attackEffect_00.png,0,120,150,120,75,120,0,0
+graphics/Effect/player/attackEffect_00.png,150,120,150,120,75,120,0,0
+graphics/Effect/player/attackEffect_00.png,300,120,150,120,75,120,0,0
+graphics/Effect/player/attackEffect_00.png,450,120,150,120,75,120,0,0
+graphics/Effect/player/attackEffect_00.png,600,120,150,120,75,120,0,0
