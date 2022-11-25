@@ -1,8 +1,8 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
 slime05_LeftIdle,1,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Charactor/Monster/Slime/slime05_Move.png,0,110,140,110,70,110,0,0
-graphics/Charactor/Monster/Slime/slime05_Move.png,140,110,140,110,70,110,0,0
-graphics/Charactor/Monster/Slime/slime05_Move.png,280,110,140,110,70,110,0,0
-graphics/Charactor/Monster/Slime/slime05_Move.png,420,110,140,110,70,110,0,0
-graphics/Charactor/Monster/Slime/slime05_Move.png,560,110,140,110,70,110,0,0
+graphics/Charactor/Monster/Slime/slime05_Move.png,0,220,140,110,70,110,0,0
+graphics/Charactor/Monster/Slime/slime05_Move.png,140,220,140,110,70,110,0,0
+graphics/Charactor/Monster/Slime/slime05_Move.png,280,220,140,110,70,110,0,0
+graphics/Charactor/Monster/Slime/slime05_Move.png,420,220,140,110,70,110,0,0
+graphics/Charactor/Monster/Slime/slime05_Move.png,560,220,140,110,70,110,0,0

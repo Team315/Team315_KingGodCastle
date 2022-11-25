@@ -102,11 +102,6 @@ void Goblin00::Update(float dt)
 {
 	Character::Update(dt);
 
-	direction.x = 0.f;
-	direction.y = 0.f;
-
-	Translate(direction * dt * moveSpeed);
-
 	switch (currState)
 	{
 	case AnimStates::Idle:
@@ -230,13 +225,13 @@ void Goblin00::UpdateMove(float dt)
 		SetState(AnimStates::MoveToIdle);
 		return;
 	}
-	if (!Utils::EqualFloat(direction.x, lastDirection.x))
-	{
-		animator.Play((direction.x > 0.f) ? "goblin00_RightMove" : "goblin00_LeftMove");
-	}
 	if (!Utils::EqualFloat(direction.y, lastDirection.y))
 	{
 		animator.Play((direction.y > 0.f) ? "goblin00_DownMove" : "goblin00_UpMove");
+	}
+	if (!Utils::EqualFloat(direction.x, lastDirection.x))
+	{
+		animator.Play((direction.x > 0.f) ? "goblin00_RightMove" : "goblin00_LeftMove");
 	}
 }
 

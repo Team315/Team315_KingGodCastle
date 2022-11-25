@@ -153,11 +153,6 @@ void Evan::SetState(AnimStates newState)
 void Evan::Update(float dt)
 {
 	Character::Update(dt);
-
-	direction.x = 0.f;
-	direction.y = 0.f;
-
-	Translate(direction * dt * moveSpeed);
 	
 	switch (currState)
 	{
@@ -183,6 +178,7 @@ void Evan::Update(float dt)
 	{
 		lastDirection = direction;
 	}
+	direction = { 0.f, 0.f };
 }
 
 void Evan::Draw(RenderWindow& window)

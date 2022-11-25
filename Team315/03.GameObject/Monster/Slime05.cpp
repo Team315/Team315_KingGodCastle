@@ -68,7 +68,7 @@ void Slime05::Init()
 void Slime05::SetState(AnimStates newState)
 {
 	Character::SetState(newState);
-
+	
 	switch (currState)
 	{
 	case AnimStates::Idle:
