@@ -230,6 +230,17 @@
     <ClInclude Include="03.GameObject\Monster\Thief02.h" />
     <ClInclude Include="03.GameObject\Monster\Thief03.h" />
     <ClInclude Include="03.GameObject\Monster\Thief04.h" />
+    <ClInclude Include="03.GameObject\Skill.h" />
+    <ClInclude Include="03.GameObject\Skill\EvanSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\AramisSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\ArveronSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\DanielSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\LeonHeartSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\PriaSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\SheldaSkill.h" />
+    <ClInclude Include="03.GameObject\Skill\Goblin00Skill.h" />
+    <ClInclude Include="03.GameObject\Skill\Slime00Skill.h" />
+    <ClInclude Include="03.GameObject\Skill\Thief00Skill.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="03.GameObject\Monster\Slime00.cpp" />
@@ -266,6 +277,12 @@
     <ClCompile Include="03.GameObject\Monster\Goblin00.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin03.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin04.cpp" />
+    <ClCompile Include="03.GameObject\Skill\EvanSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\AramisSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\ArveronSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\DanielSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\LeonHeartSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\Goblin00Skill.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
@@ -304,6 +321,11 @@
     <ClCompile Include="03.GameObject\Monster\Thief02.cpp" />
     <ClCompile Include="03.GameObject\Monster\Thief03.cpp" />
     <ClCompile Include="03.GameObject\Monster\Thief04.cpp" />
+    <ClCompile Include="03.GameObject\Skill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\PriaSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\SheldaSkill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\Slime00Skill.cpp" />
+    <ClCompile Include="03.GameObject\Skill\Thief00Skill.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
