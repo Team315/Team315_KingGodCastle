@@ -15,6 +15,8 @@ protected:
 	json characterDatas;
 
 	vector<Character*> presetC;
+	
+	vector<Character*>& mainGridRef;
 
 	// additional level up probability
 	int extraLevelUpChance;
@@ -44,6 +46,10 @@ public:
 	
 	void SetCharacterDatas();
 	json GetCharacterData(string name);
+
+	void SetMainGridRef(vector<Character*>& ref) { mainGridRef = ref; }
+	vector<Character*>& GetMainGridRef() { return mainGridRef; }
+
 };
 
 #define GAME_MGR (GameManager::GetInstance())

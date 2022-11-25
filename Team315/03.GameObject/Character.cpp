@@ -33,16 +33,19 @@ void Character::Init()
 
 void Character::Update(float dt)
 {
+	
 	hpBar->Update(dt);
 	if (move)
 	{
 		SetState(AnimStates::Move);
 		direction = destination - position;
 		Translate(Utils::Normalize(direction));
+
 		if (destination == position)
 		{
 			move = false;
 			SetState(AnimStates::MoveToIdle);
+
 		}
 	}
 }
@@ -130,4 +133,14 @@ void Character::PrintStats()
 	cout << "MS: " << stat[Stats::MS].base << endl;
 	cout << (attackRangeType ? "square" : "cross") << endl;
 	cout << "---------------" << endl;
+}
+
+void Character::PlayAstar()
+{
+
+}
+
+void Character::SetTargetDistance()
+{
+
 }

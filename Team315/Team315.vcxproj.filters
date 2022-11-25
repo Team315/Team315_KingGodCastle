@@ -84,6 +84,7 @@
     <ClCompile Include="03.GameObject\Skill\Goblin00Skill.cpp" />
     <ClCompile Include="03.GameObject\Skill\Thief00Skill.cpp" />
     <ClCompile Include="03.GameObject\Skill\Slime00Skill.cpp" />
+    <ClCompile Include="StatPopupWiindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -178,6 +179,7 @@
     <ClInclude Include="03.GameObject\Skill\Goblin00Skill.h" />
     <ClInclude Include="03.GameObject\Skill\Thief00Skill.h" />
     <ClInclude Include="03.GameObject\Skill\Slime00Skill.h" />
+    <ClInclude Include="StatPopupWiindow.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
