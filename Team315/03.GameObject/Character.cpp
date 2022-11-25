@@ -118,7 +118,7 @@ void Character::UpgradeCharacterSet()
 void Character::PrintStats()
 {
 	cout << "---------------" << endl;
-	cout << L"ÀÌ¸§: " << name << endl;
+	cout << "name: " << name << " / star: " << GetStarNumber() << endl;
 	cout << "HP: " << stat[Stats::HP].base << endl;
 	cout << "MP: " << stat[Stats::MP].base << endl;
 	cout << "AD: " << stat[Stats::AD].base << endl;
