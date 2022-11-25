@@ -2,6 +2,7 @@
 #include "Include.h"
 #include "BattlePanel.h"
 #include "RectangleObj.h"
+#include "StatPopupWindow.h"
 
 BattleSceneUI::BattleSceneUI(Scene* scene)
 	: UIMgr(scene), b_battleGridRect(false)
@@ -50,7 +51,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 		posY += TILE_SIZE;
 	}
 
-	statPopup = new RectangleObj(200, 200);
+	statPopup = new StatPopupWindow(200.f, 200.f);
 	statPopup->SetFillColor(Color(50, 50, 50, 200));
 	statPopup->SetOutline(Color::Black, -2.f);
 	statPopup->SetType("Popup");

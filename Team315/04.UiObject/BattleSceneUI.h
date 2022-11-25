@@ -4,13 +4,14 @@
 class BattlePanel;
 class VertexArrayObj;
 class RectangleObj;
+class StatPopupWindow;
 
 class BattleSceneUI : public UIMgr
 {
 protected:
 	BattlePanel* panel;
 	vector<RectangleObj*> prepareGrid;
-	RectangleObj* statPopup;
+	StatPopupWindow* statPopup;
 
 public:
 	BattleSceneUI(Scene* scene);

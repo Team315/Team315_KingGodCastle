@@ -49,7 +49,7 @@ public:
 
 	void SetMainGridRef(vector<Character*>& ref) { mainGridRef = ref; }
 	vector<Character*>& GetMainGridRef() { return mainGridRef; }
-
+	
 };
 
 #define GAME_MGR (GameManager::GetInstance())
