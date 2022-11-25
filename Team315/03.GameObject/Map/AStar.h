@@ -18,6 +18,9 @@ protected:
 	int ROW;
 	int COL;
 	char zmap[14][7];
+	vector<vector<int>> grid;
+
+	int count;
 
 	const int dx1[4] = { 0, 0, 1, -1 };
 	const int dy1[4] = { -1, 1, 0, 0 };
@@ -28,10 +31,22 @@ public:
 	AStar();
 	~AStar();
 
-	bool AstarSearch(vector<vector<int>>& map,Vector2i myPos, Vector2i enPos);
+	int AstarSearch(vector<Character*>& map,Vector2i myPos, Vector2i enPos);
+
+	//현재좌표가 도착지점과 일치하다면 참, 아니면 거짓을 반환하는 함수.
 	bool isDestination(int row, int col, Vector2i dst);
+
+	//현재좌표가 전체 맵안에 존재하면 , 아니면 거짓을 반환하는 함수.
 	bool isInRange(int row, int col);
+
+	//현재좌표가 벽이아니라면 참, 아니면 거짓을 반환하는 함수.
 	bool isUnBlocked(vector<vector<int>>& map, int row, int col);
+
+	//현재좌표로부터 도착지점까지의 거리를 계산하는 함수.
 	double GethValue(int row, int col, Vector2i dst);
-	void tracePath(Cell cellDetails[14][7], Vector2i dst);
+
+	//backtracking을 이용하여 최단경로를 탐색하는 함수.
+	void tracePath(Cell cellDetails[14][7], Vector2i enpos);
+
+	void SetAstar(vector<Character*>& map, Vector2i myPos, Vector2i enPos);
 };

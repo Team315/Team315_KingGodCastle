@@ -56,6 +56,8 @@ void BattleScene::Enter()
 	curChapIdx = 0;
 	curStageIdx = 0;
 	SetCurrentStage(curChapIdx, curStageIdx);
+
+	
 }
 
 void BattleScene::Exit()
@@ -79,6 +81,8 @@ void BattleScene::Update(float dt)
 {
 	Scene::Update(dt);
 	ui->Update(dt);
+
+
 
 	// Dev Input start
 	{
@@ -205,6 +209,41 @@ void BattleScene::Update(float dt)
 			cout << "-------------------" << endl;
 		}
 	}
+
+
+	if (InputMgr::GetKeyDown(Keyboard::Key::Space))
+	{
+		for (auto& player : mainGrid)
+		{
+			if (player == nullptr)
+			{
+
+			}
+			else if (!player->GetType().compare("Player"))
+			{
+				for (auto& monster : mainGrid)
+				{
+					if (monster == nullptr)
+					{
+
+					}
+					else if (!monster->GetType().compare("Monster"))
+					{
+						Vector2i mypos = GAME_MGR->PosToIdx(player->GetPos());
+						Vector2i enpos = GAME_MGR->PosToIdx(monster->GetPos());
+						AStar astar;
+						int count = astar.AstarSearch(mainGrid, mypos, enpos);
+						cout << count << endl;
+					}
+
+				}
+			}
+		}
+	}
+//GAME_MGR->PosToIdx(mainGrid[0]->GetPos());
+//"Player" == mainGrid[0]->GetType();
+//mainGrid[1]->GetPos()
+
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Right))
 	{
