@@ -103,11 +103,6 @@ void Pria::Update(float dt)
 {
 	Character::Update(dt);
 
-	direction.x = 0.f;
-	direction.y = 0.f;
-
-	Translate(direction * dt * moveSpeed);
-
 	switch (currState)
 	{
 	case AnimStates::Idle:
