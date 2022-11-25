@@ -36,7 +36,6 @@ void Character::Init()
 
 void Character::Update(float dt)
 {
-	
 	hpBar->Update(dt);
 	if (move)
 	{

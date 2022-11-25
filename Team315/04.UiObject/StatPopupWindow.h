@@ -14,6 +14,10 @@ protected:
 
 	Sprite portrait;
 	RectangleShape portraitRect;
+
+	BackrectText* adText;
+	BackrectText* apText;
+	BackrectText* asText;
 	Sprite adImg;
 	Sprite apImg;
 	Sprite asImg;
