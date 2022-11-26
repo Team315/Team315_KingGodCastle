@@ -11,7 +11,7 @@ AStar::~AStar()
 {
 }
 
-int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
+EnemyInfo AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 {
 	SetAstar(map, myPos, enPos);
 
@@ -58,8 +58,8 @@ int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 		// Á÷¼±
  		for (int i = 0; i < 4; ++i) 
 		{
-			int nx = y + dy1[i];
-			int ny = x + dx1[i];
+			int nx = y + crossY1[i];
+			int ny = x + crossX1[i];
 
 			if (isInRange(ny, nx))
 			{
@@ -68,7 +68,7 @@ int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 					cellDetails[nx][ny].parent.y = y;
 					cellDetails[nx][ny].parent.x = x;
 					tracePath(cellDetails, enPos);
-					return count;
+					return enemyInfo;
 				}
 				else if (!closedList[nx][ny] && isUnBlocked(grid, ny, nx))
 				{
@@ -90,7 +90,8 @@ int AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 		}
 	}
 
-	return false;
+	enemyInfo.leng = -1;
+	return enemyInfo;
 }
 
 bool AStar::isDestination(int row, int col, Vector2i dst)
@@ -132,10 +133,18 @@ void AStar::tracePath(Cell cellDetails[14][7], Vector2i enpos)
 		s.push({ y, x });
 	}
 
+	int num = s.size();
+
 	while (!s.empty()) 
 	{
 		zmap[s.top().x][s.top().y] = '*';
-		count++;
+		enemyInfo.leng++;
+
+		if (s.size() == num-1)
+		{
+			enemyInfo.destPos.x = s.top().y;
+			enemyInfo.destPos.y = s.top().x;
+		}
 		s.pop();
 	}
 }

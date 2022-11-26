@@ -3,7 +3,7 @@
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(false),
 	currState(AnimStates::None), drawingOnBattle(false),
-	attackRangeType(false)
+	attackRangeType(false), isBattle(false)
 {
 	hpBar = new ProgressBar(TILE_SIZE * 0.8f, 5.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -30,21 +30,34 @@ void Character::Init()
 	hpBar->SetProgressValue(stat[Stats::HP].GetCurRatio());
 	starLocalPos = { 0, hpBarLocalPos.y };
 	SetPos(position);
+
+	enemyInfo.leng = 99999;
+	if (!type.compare("Player"))
+		targetType = "Monster";
+	else if (!type.compare("Monster"))
+		targetType = "Player";
+	else
+		targetType = "None";
 }
 
 void Character::Update(float dt)
 {
 	hpBar->Update(dt);
-	if (move)
+	if (isBattle)
 	{
-		SetState(AnimStates::Move);
-		direction = destination - position;
-		Translate(Utils::Normalize(direction));
+		//SetTargetDistance();
 
-		if (destination == position)
+		if (move)
 		{
-			move = false;
-			SetState(AnimStates::MoveToIdle);
+			SetState(AnimStates::Move);
+			direction = destination - position;
+			Translate(Utils::Normalize(direction));
+			if (destination == position)
+			{
+				move = false;
+				SetState(AnimStates::MoveToIdle);
+
+			}
 		}
 	}
 }
@@ -147,5 +160,33 @@ void Character::PlayAstar()
 
 void Character::SetTargetDistance()
 {
+	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
 
+	for (auto& target : mainGrid)
+	{
+		if (target != nullptr && !target->GetType().compare(targetType))
+		{
+			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
+			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
+			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
+
+			if (enemyInfo.leng > nowEnemyInfo.leng)
+			{
+				enemyInfo = nowEnemyInfo;
+			}
+		}
+	}
+
+	Vector2i coord = GAME_MGR->PosToIdx(GetPos());
+	SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
+	SetMainGrid(coord.y, coord.x, nullptr);
+	SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, this);
+}
+
+void Character::SetMainGrid(int r, int c, Character* character)
+{
+	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
+
+	int idx = r * GAME_TILE_WIDTH + c;
+	mainGrid[idx] = character;
 }
