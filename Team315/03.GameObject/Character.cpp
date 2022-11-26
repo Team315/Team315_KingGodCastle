@@ -3,7 +3,7 @@
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(false),
 	currState(AnimStates::None), drawingOnBattle(false),
-	attackRangeType(false), isBattle(false)
+	attackRangeType(false), isBattle(false), noSkill(false)
 {
 	hpBar = new ProgressBar(TILE_SIZE * 0.8f, 5.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -98,7 +98,7 @@ void Character::SetTarget(Character* target)
 void Character::SetStatsInit(json data)
 {
 	stat.insert({ Stats::HP, Stat(data["HP"])});
-	stat.insert({ Stats::MP, Stat(data["MP"]) });
+	stat.insert({ Stats::MP, Stat(data["MP"], 0.f, false) });
 	stat.insert({ Stats::AD, Stat(data["AD"]) });
 	stat.insert({ Stats::AP, Stat(data["AP"]) });
 	stat.insert({ Stats::AS, Stat(data["AS"]) });
@@ -142,13 +142,13 @@ void Character::PrintStats()
 {
 	cout << "---------------" << endl;
 	cout << "name: " << name << " / star: " << GetStarNumber() << endl;
-	cout << "HP: " << stat[Stats::HP].base << endl;
-	cout << "MP: " << stat[Stats::MP].base << endl;
-	cout << "AD: " << stat[Stats::AD].base << endl;
-	cout << "AP: " << stat[Stats::AP].base << endl;
-	cout << "AS: " << stat[Stats::AS].base << endl;
-	cout << "AR: " << stat[Stats::AR].base << endl;
-	cout << "MS: " << stat[Stats::MS].base << endl;
+	cout << "HP: " << stat[Stats::HP].GetBase() << endl;
+	cout << "MP: " << stat[Stats::MP].GetBase() << endl;
+	cout << "AD: " << stat[Stats::AD].GetBase() << endl;
+	cout << "AP: " << stat[Stats::AP].GetBase() << endl;
+	cout << "AS: " << stat[Stats::AS].GetBase() << endl;
+	cout << "AR: " << stat[Stats::AR].GetBase() << endl;
+	cout << "MS: " << stat[Stats::MS].GetBase() << endl;
 	cout << (attackRangeType ? "square" : "cross") << endl;
 	cout << "---------------" << endl;
 }

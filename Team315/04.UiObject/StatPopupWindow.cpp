@@ -12,7 +12,6 @@ StatPopupWindow::StatPopupWindow(float x, float y)
 	nameText->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	nameText->SetTextStyle(Color::White, 22, Color::Black, 2.f);
 	nameText->SetFillColor(Color(0x1B, 0x1B, 0x1B));
-	nameText->GetText().setString("name");
 	nameText->SetTextLocalPos(Vector2f(10.f, 2.f));
 	nameText->SetOutline(Color::Black, 1.f);
 
@@ -30,7 +29,6 @@ StatPopupWindow::StatPopupWindow(float x, float y)
 	adText = new BackrectText(95, 25);
 	adText->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	adText->SetTextLocalPos(Vector2f(25.f, 3.f));
-	adText->GetText().setString("ad");
 	adText->SetTextStyle(Color::White, 15, Color::Black, 2.f);
 	adText->SetFillColor(Color(0x1B, 0x1B, 0x1B));
 	adText->SetOutline(Color::Black, 1.f);
@@ -38,7 +36,6 @@ StatPopupWindow::StatPopupWindow(float x, float y)
 	apText = new BackrectText(95, 25);
 	apText->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	apText->SetTextLocalPos(Vector2f(25.f, 3.f));
-	apText->GetText().setString("ap");
 	apText->SetTextStyle(Color::White, 15, Color::Black, 2.f);
 	apText->SetFillColor(Color(0x1B, 0x1B, 0x1B));
 	apText->SetOutline(Color::Black, 1.f);
@@ -46,7 +43,6 @@ StatPopupWindow::StatPopupWindow(float x, float y)
 	asText = new BackrectText(95, 25);
 	asText->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	asText->SetTextLocalPos(Vector2f(25.f, 3.f));
-	asText->GetText().setString("as");
 	asText->SetTextStyle(Color::White, 15, Color::Black, 2.f);
 	asText->SetFillColor(Color(0x1B, 0x1B, 0x1B));
 	asText->SetOutline(Color::Black, 1.f);
@@ -65,13 +61,21 @@ StatPopupWindow::StatPopupWindow(float x, float y)
 	hpBar->SetBackgroundOutline(Color::Black, 1.f);
 
 	currentHp.setFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	currentHp.setString("hp string");
 	currentHp.setFillColor(Color::Green);
 	currentHp.setCharacterSize(12);
 	currentHp.setOutlineColor(Color::Black);
 	currentHp.setOutlineThickness(1.f);
 	
-	//mpBar = new ProgressBar();
+	mpBar = new ProgressBar(190.f, 11.f);
+	mpBar->SetProgressColor(Color::Blue);
+	mpBar->SetBackgroundColor(Color(0x1B, 0x1B, 0x1B));
+	mpBar->SetBackgroundOutline(Color::Black, 1.f);
+
+	currentMp.setFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	currentMp.setFillColor(Color::Green);
+	currentMp.setCharacterSize(12);
+	currentMp.setOutlineColor(Color::Black);
+	currentMp.setOutlineThickness(1.f);
 }
 
 StatPopupWindow::~StatPopupWindow()
@@ -81,6 +85,7 @@ StatPopupWindow::~StatPopupWindow()
 void StatPopupWindow::Update(float dt)
 {
 	hpBar->Update(dt);
+	mpBar->Update(dt);
 }
 
 void StatPopupWindow::Draw(RenderWindow& window)
@@ -98,6 +103,11 @@ void StatPopupWindow::Draw(RenderWindow& window)
 	hpBar->Draw(window);
 	window.draw(currentHp);
 	window.draw(portrait);
+	if (useOptional)
+		return;
+	
+	mpBar->Draw(window);
+	window.draw(currentMp);
 }
 
 void StatPopupWindow::SetPos(const Vector2f& pos)
@@ -117,6 +127,9 @@ void StatPopupWindow::SetPos(const Vector2f& pos)
 	hpBar->SetPos(pos + Vector2f(5.f, 135.f));
 	currentHp.setPosition(pos + Vector2f(100.f, 143.5f));
 	Utils::SetOrigin(currentHp, Origins::BC);
+	mpBar->SetPos(pos + Vector2f(5.f, 150.f));
+	currentMp.setPosition(pos + Vector2f(100.f, 158.5f));
+	Utils::SetOrigin(currentMp, Origins::BC);
 }
 
 void StatPopupWindow::SetOrigin(Origins origin)
@@ -142,4 +155,20 @@ void StatPopupWindow::SetCharacter(Character* character)
 	asText->SetString(asStr);
 	currentHp.setString(to_string((int)character->GetStat(Stats::HP).GetCurrent()));
 	hpBar->SetProgressValue(character->GetStat(Stats::HP).GetCurRatio());
+
+	Stat mp = character->GetStat(Stats::MP);
+	if (mp.GetBase() == 0)
+	{
+		useOptional = true;
+		shape.setSize(Vector2f(200.f, 160.f));
+	}
+	else
+	{
+		useOptional = false;
+		shape.setSize(Vector2f(200.f, 180.f));
+	}
+	cout << "test?" << endl;
+	currentMp.setString(to_string((int)mp.GetCurrent()) + "/" +
+		to_string((int)mp.GetBase()));
+	mpBar->SetProgressValue(mp.GetCurRatio());
 }

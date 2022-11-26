@@ -23,6 +23,7 @@ protected:
 	Vector2f hpBarLocalPos;
 	Vector2f starLocalPos;
 	//
+	bool noSkill;
 
 	Vector2f destination;
 	bool move;
@@ -73,6 +74,8 @@ public:
 	void UpgradeStar();
 	void UpgradeCharacterSet();
 	void PrintStats();
+	void SetNoSkill(bool b) { noSkill = b; };
+	bool GetNoSkill() { return noSkill; }
 
 	//Astar
 	void PlayAstar();

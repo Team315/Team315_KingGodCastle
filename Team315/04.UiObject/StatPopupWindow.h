@@ -24,6 +24,7 @@ protected:
 	Sprite asImg;
 	ProgressBar* hpBar;
 	Text currentHp;
+	Text currentMp;
 	
 	bool useOptional;
 	// optional

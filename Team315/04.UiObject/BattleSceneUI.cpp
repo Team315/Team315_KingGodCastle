@@ -11,7 +11,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	panel = new BattlePanel();
 	CreateBackground(panel, 1, 3, 188.f, 500.f);
 
-	statPopup = new StatPopupWindow(200.f, 150.f);
+	statPopup = new StatPopupWindow(200.f, 180.f);
 	statPopup->SetFillColor(Color(0x0B, 0x0B, 0x0B));
 	statPopup->SetOutline(Color::Black, -2.f);
 	statPopup->SetType("Popup");

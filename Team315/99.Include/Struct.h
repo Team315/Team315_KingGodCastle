@@ -15,16 +15,16 @@ struct Stat
 	float delta;	// sum of item, buf, debuf etc
 	float modifier;	// base + delta
 
-	Stat(float b = 0.f) : base(b), delta(0.f)
+	Stat(float b = 0.f, float d = 0.f, bool currentFull = true)
+		: base(b), delta(0.f), current(0.f)
 	{
-		ResetStat();
-		UpdateStat();
+		Init(b, d, currentFull);
 	}
 
-	void Init(float b, float d)
+	void Init(float b, float d = 0.f, bool currentFull = true)
 	{
 		base = b;
-		current = base;
+		current = currentFull ? base : 0;
 		delta = d;
 		modifier = base + delta;
 	}
@@ -56,7 +56,10 @@ struct Stat
 	float& GetCurrent() { return current; }
 	float& GetDelta() { return delta; }
 	float& GetModifier() { return modifier; }
-	float GetCurRatio() { return current / base; }
+	float GetCurRatio() {
+		cout << "ratio : " <<
+		current << base << current / base << endl; 
+	return current / base; }
 
 	Stat& GetReference() { return *this; }
 };
