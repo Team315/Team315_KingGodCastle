@@ -26,8 +26,6 @@ public:
 	GameManager();
 	virtual ~GameManager();
 
-	void EnterBattleScene();
-
 	const int GetCharacterCount() { return battleCharacterCount; }
 	const int GetExtraLevelUpChance() { return extraLevelUpChance; }
 
@@ -49,7 +47,6 @@ public:
 
 	void SetMainGridRef(vector<Character*>& ref) { mainGridRef = ref; }
 	vector<Character*>& GetMainGridRef() { return mainGridRef; }
-	
 };
 
 #define GAME_MGR (GameManager::GetInstance())

@@ -44,4 +44,6 @@ public:
 	TextObj* GetStageText() { return stageText; }
 	TextObj* GetTitleNumberText() { return titleNumberText; }
 	vector<Button*>& GetButtons() { return buttons; }
+
+	void SetStageNumber(int num);
 };

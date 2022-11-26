@@ -9,7 +9,6 @@ Character::Character(int starNumber)
 	hpBar->SetProgressColor(Color::Green);
 	hpBar->SetBackgroundColor(Color(0, 0, 0, 100));
 	hpBar->SetBackgroundOutline(Color::Black, 2.f);
-	hpBar->SetProgressValue(1.f);
 
 	star = new Star(starNumber);
 }
@@ -26,10 +25,9 @@ void Character::Init()
 	
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 
-	hpBarLocalPos =
-	{ -TILE_SIZE_HALF * 0.5f,
-		-(float)GetTextureRect().height + 20.f};
+	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 20.f};
 	hpBar->SetOrigin(Origins::BC);
+	hpBar->SetProgressValue(stat[Stats::HP].GetCurRatio());
 	starLocalPos = { 0, hpBarLocalPos.y };
 	SetPos(position);
 }
@@ -47,7 +45,6 @@ void Character::Update(float dt)
 		{
 			move = false;
 			SetState(AnimStates::MoveToIdle);
-
 		}
 	}
 }
@@ -102,7 +99,13 @@ void Character::TakeDamage(float damage)
 {
 	Stat& hp = stat[Stats::HP];
 	hp.SetCurrent(hp.GetCurrent() -= damage);
-	hpBar->SetProgressValue(hp.GetCurRatio());
+	float curRatio = hp.GetCurRatio();
+	hpBar->SetProgressValue(curRatio);
+	if (curRatio <= 0.f)
+	{
+		// death
+		CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
+	}
 }
 
 void Character::UpgradeStar()

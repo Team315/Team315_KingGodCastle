@@ -45,3 +45,18 @@ void BackgroundText::SetFont(Font &font)
 {
 	text.setFont(font);
 }
+
+void BackgroundText::SetString(wstring str)
+{
+	text.setString(str);
+}
+
+void BackgroundText::SetString(string str)
+{
+	text.setString(str);
+}
+
+void BackgroundText::SetString(float num)
+{
+	text.setString(to_string(num));
+}

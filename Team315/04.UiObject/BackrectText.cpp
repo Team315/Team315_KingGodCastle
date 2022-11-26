@@ -45,3 +45,23 @@ void BackrectText::SetFont(Font &font)
 {
 	text.setFont(font);
 }
+
+void BackrectText::SetString(wstring str)
+{
+	text.setString(str);
+}
+
+void BackrectText::SetString(string str)
+{
+	text.setString(str);
+}
+
+void BackrectText::SetString(float num, bool deleteAfterComma)
+{
+	if (!deleteAfterComma)
+		text.setString(to_string(num));
+	else
+	{
+		text.setString(to_string((int)num));
+	}
+}

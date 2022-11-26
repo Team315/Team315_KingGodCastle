@@ -143,6 +143,7 @@ void BattleScene::Update(float dt)
 			if (curStageIdx > 0)
 				curStageIdx--;
 			SetCurrentStage(curChapIdx, curStageIdx);
+			ui->GetPanel()->SetStageNumber(curStageIdx + 1);
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F6))
 		{
@@ -150,6 +151,7 @@ void BattleScene::Update(float dt)
 			if (curStageIdx < STAGE_MAX_COUNT - 1)
 				curStageIdx++;
 			SetCurrentStage(curChapIdx, curStageIdx);
+			ui->GetPanel()->SetStageNumber(curStageIdx + 1);
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 		{
@@ -490,7 +492,7 @@ void BattleScene::Update(float dt)
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
 				character->PrintStats();
-				ui->SetStatPopup(true, currentView.getCenter(),
+				ui->SetStatPopup(true, currentView.getCenter(), character,
 					GAME_MGR->SnapToCoord(character->GetPos()));
 			}
 			if (InputMgr::GetMouseDown(Mouse::Right))
@@ -667,7 +669,8 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 	else
 	{
 		(*start)[startIdx]->PrintStats();
-		ui->SetStatPopup(true, currentView.getCenter(), GAME_MGR->SnapToCoord(
+		ui->SetStatPopup(true, currentView.getCenter(), (*start)[startIdx],
+			GAME_MGR->SnapToCoord(
 			(*start)[startIdx]->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
 	}
 

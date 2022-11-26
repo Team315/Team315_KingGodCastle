@@ -15,7 +15,7 @@ struct Stat
 	float delta;	// sum of item, buf, debuf etc
 	float modifier;	// base + delta
 
-	Stat(int b = 0) : base(b), delta(0.f)
+	Stat(float b = 0.f) : base(b), delta(0.f)
 	{
 		ResetStat();
 		UpdateStat();

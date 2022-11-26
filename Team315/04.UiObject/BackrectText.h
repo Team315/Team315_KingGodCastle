@@ -1,5 +1,6 @@
 #pragma once
 #include "RectangleObj.h"
+#include <Map/AStar.h>
 
 class BackrectText : public RectangleObj
 {
@@ -19,4 +20,7 @@ public:
 	void SetTextStyle(Color textColor, int textSize, Color textOutlineColor, float textOutlineThickness);
 	void SetFont(Font& font);
 	Text& GetText() { return text; }
+	void SetString(wstring str);
+	void SetString(string str);
+	void SetString(float num, bool deleteAfterComma = false);
 };

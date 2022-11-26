@@ -1,6 +1,7 @@
 #include "BattleSceneUI.h"
 #include "Include.h"
 #include "BattlePanel.h"
+#include "Character.h"
 #include "RectangleObj.h"
 #include "StatPopupWindow.h"
 
@@ -93,7 +94,8 @@ void BattleSceneUI::CreateBackground(VertexArrayObj* vao, int rows, int cols, fl
 	}
 }
 
-void BattleSceneUI::SetStatPopup(bool active, Vector2f viewCenter, Vector2f pos)
+void BattleSceneUI::SetStatPopup(bool active, Vector2f viewCenter,
+	Character* character, Vector2f pos)
 {
 	statPopup->SetActive(active);
 	if (!active)
@@ -105,5 +107,6 @@ void BattleSceneUI::SetStatPopup(bool active, Vector2f viewCenter, Vector2f pos)
 	if (Utils::EqualFloat(viewCenter.y, GAME_SCREEN_ZOOM_HEIGHT * 0.5f, 3.f) &&
 		(pos.y + statPopup->GetSize().y >= GAME_SCREEN_ZOOM_HEIGHT))
 		modPos.y = GAME_SCREEN_ZOOM_HEIGHT - statPopup->GetSize().y - 5.f;
+	statPopup->SetCharacter(character);
 	statPopup->SetPos(modPos);
 }

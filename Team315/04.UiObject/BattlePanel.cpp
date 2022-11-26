@@ -100,3 +100,8 @@ void BattlePanel::SetPos(const Vector2f& pos)
 	stageText->SetPos(position + stageTextLocalPos);
 	titleNumberText->SetPos(position + dnmTitleTextLocalPos);
 }
+
+void BattlePanel::SetStageNumber(int num)
+{
+	titleNumberText->SetString(to_string(num));
+}
