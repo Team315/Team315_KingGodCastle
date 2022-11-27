@@ -70,7 +70,7 @@ public:
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
-	void TakeDamage(float damage);
+	void TakeDamage(Character* attacker, bool attackType = true); // true = ad / false = ap
 	void UpgradeStar();
 	void UpgradeCharacterSet();
 	void PrintStats();

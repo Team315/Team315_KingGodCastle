@@ -12,6 +12,7 @@ GameManager::GameManager()
 		vector<vector<vector<Tile*>>>(STAGE_MAX_COUNT,
 			vector<vector<Tile*>>(GAME_TILE_HEIGHT,
 				vector<Tile*>(GAME_TILE_WIDTH))));
+	battleTracker = new BattleTracker(mainGridRef);
 }
 
 GameManager::~GameManager()
@@ -161,4 +162,41 @@ void GameManager::SetCharacterDatas()
 json GameManager::GetCharacterData(string name)
 {
 	return characterDatas[name];
+}
+
+void GameManager::SetMainGridRef(vector<Character*>& ref)
+{
+	mainGridRef = ref;
+	battleTracker->SetMainGrid(mainGridRef);
+	battleTracker->SetDatas();
+}
+
+BattleTracker*& GameManager::GetTracker()
+{
+	return battleTracker;
+}
+
+BattleTracker::BattleTracker(vector<Character*>& mainGrid)
+	: mainGridRef(mainGrid)
+{
+}
+
+BattleTracker::~BattleTracker()
+{
+}
+
+void BattleTracker::SetMainGrid(vector<Character*>& mainGrid)
+{
+	mainGridRef = mainGrid;
+}
+
+void BattleTracker::SetDatas()
+{
+	for (auto& character : mainGridRef)
+	{
+		if (character != nullptr && !character->GetType().compare("Player"))
+		{
+			datas.push_back(character);
+		}
+	}
 }

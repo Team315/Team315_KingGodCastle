@@ -4,8 +4,11 @@
 #include <queue>
 #include "FileManager.h"
 
+struct DamageData;
+class BattleTracker;
 class Character;
 class Tile;
+
 class GameManager : public Singleton<GameManager>
 {
 protected:
@@ -17,6 +20,8 @@ protected:
 	vector<Character*> presetC;
 	
 	vector<Character*>& mainGridRef;
+
+	BattleTracker* battleTracker;
 
 	// additional level up probability
 	int extraLevelUpChance;
@@ -45,8 +50,35 @@ public:
 	void SetCharacterDatas();
 	json GetCharacterData(string name);
 
-	void SetMainGridRef(vector<Character*>& ref) { mainGridRef = ref; }
+	void SetMainGridRef(vector<Character*>& ref);
 	vector<Character*>& GetMainGridRef() { return mainGridRef; }
+
+	BattleTracker*& GetTracker();
 };
 
 #define GAME_MGR (GameManager::GetInstance())
+
+struct DamageData
+{
+	Character* character;
+	float given;
+	float receive;
+	DamageData(Character* character = nullptr)
+		: character(character), given(0.f), receive(0.f)
+	{
+	}
+};
+
+class BattleTracker
+{
+protected:
+	vector<Character*>& mainGridRef;
+	vector<DamageData> datas;
+
+public:
+	BattleTracker(vector<Character*>& mainGrid);
+	~BattleTracker();
+
+	void SetMainGrid(vector<Character*>& mainGrid);
+	void SetDatas();
+};

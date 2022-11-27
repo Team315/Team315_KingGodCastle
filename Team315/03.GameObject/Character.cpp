@@ -108,9 +108,15 @@ void Character::SetStatsInit(json data)
 	attackRangeType = arType.compare("cross") ? true : false;
 }
 
-void Character::TakeDamage(float damage)
+void Character::TakeDamage(Character* attacker, bool attackType)
 {
 	Stat& hp = stat[Stats::HP];
+	float damage = 0.f;
+	if (attackType)
+		damage = attacker->GetStat(Stats::AD).GetModifier();
+	else
+		damage = attacker->GetStat(Stats::AP).GetModifier();
+
 	hp.SetCurrent(hp.GetCurrent() -= damage);
 	float curRatio = hp.GetCurRatio();
 	hpBar->SetProgressValue(curRatio);
