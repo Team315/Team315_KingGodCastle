@@ -244,6 +244,8 @@
     <ClInclude Include="04.UiObject\StatPopupWindow.h" />
     <ClInclude Include="04.UiObject\BackgroundText.h" />
     <ClInclude Include="04.UiObject\BackrectText.h" />
+    <ClInclude Include="03.GameObject\Map\FloodFill.h" />
+    <ClInclude Include="StatPopupWiindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="03.GameObject\Monster\Slime00.cpp" />
@@ -287,6 +289,7 @@
     <ClCompile Include="03.GameObject\Skill\LeonHeartSkill.cpp" />
     <ClCompile Include="03.GameObject\Skill\Goblin00Skill.cpp" />
     <ClCompile Include="04.UiObject\BackrectText.cpp" />
+    <ClCompile Include="03.GameObject\Map\FloodFill.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />

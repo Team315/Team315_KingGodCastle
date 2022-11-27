@@ -5,6 +5,7 @@
 #include "Star.h"
 #include "Include.h"
 #include <unordered_map>
+#include "Map/FloodFill.h"
 #include "Map/AStar.h"
 
 class Character : public SpriteObj
@@ -37,6 +38,9 @@ protected:
 	Vector2f lastDirection;
 
 	bool drawingOnBattle;
+
+	//FloodFill
+	FloodFill m_floodFill;
 
 	//Astar
 	AStar m_aStar;
@@ -76,6 +80,10 @@ public:
 	void PrintStats();
 	void SetNoSkill(bool b) { noSkill = b; };
 	bool GetNoSkill() { return noSkill; }
+
+	//FloodFill
+	unordered_map<Stats, Stat>& GetStat();
+	bool isAttack();
 
 	//Astar
 	void PlayAstar();

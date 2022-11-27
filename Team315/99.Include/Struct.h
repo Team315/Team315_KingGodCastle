@@ -56,10 +56,7 @@ struct Stat
 	float& GetCurrent() { return current; }
 	float& GetDelta() { return delta; }
 	float& GetModifier() { return modifier; }
-	float GetCurRatio() {
-		cout << "ratio : " <<
-		current << base << current / base << endl; 
-	return current / base; }
+	float GetCurRatio() { return current / base; }
 
 	Stat& GetReference() { return *this; }
 };

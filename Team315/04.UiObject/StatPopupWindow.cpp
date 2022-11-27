@@ -167,7 +167,6 @@ void StatPopupWindow::SetCharacter(Character* character)
 		useOptional = false;
 		shape.setSize(Vector2f(200.f, 180.f));
 	}
-	cout << "test?" << endl;
 	currentMp.setString(to_string((int)mp.GetCurrent()) + "/" +
 		to_string((int)mp.GetBase()));
 	mpBar->SetProgressValue(mp.GetCurRatio());

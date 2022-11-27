@@ -96,9 +96,7 @@ EnemyInfo AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i e
 
 bool AStar::isDestination(int row, int col, Vector2i dst)
 {
-	if (row == dst.x && col == dst.y) 
-		return true;
-
+	if (row == dst.x && col == dst.y) return true;
 	return false;
 }
 
@@ -109,7 +107,7 @@ bool AStar::isInRange(int row, int col)
 
 bool AStar::isUnBlocked(vector<vector<int>>& map, int row, int col)
 {
-	return (map[col][row] == 0);;
+	return (map[col][row] == 0);
 }
 
 double AStar::GethValue(int row, int col, Vector2i dst)
@@ -133,7 +131,7 @@ void AStar::tracePath(Cell cellDetails[14][7], Vector2i enpos)
 		s.push({ y, x });
 	}
 
-	int num = s.size();
+	int num = (int)s.size();
 
 	while (!s.empty()) 
 	{
@@ -164,7 +162,7 @@ void AStar::SetAstar(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 			}
 			else if (!map[(i * ROW) + j]->GetType().compare("Player"))
 			{
-				grid[i][j] = 0;
+				grid[i][j] = 1;
 			}
 			else if (!map[(i * ROW) + j]->GetType().compare("Obstacle"))
 			{
@@ -176,18 +174,18 @@ void AStar::SetAstar(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 			}
 		}
 	}
-	//grid[myPos.y][myPos.x] = 2;
-	//grid[enPos.y][enPos.x] = 3;
+	grid[myPos.y][myPos.x] = 2;
+	grid[enPos.y][enPos.x] = 3;
 
 	for (int i = 0; i < COL; ++i)
 	{
 		for (int j = 0; j < ROW; ++j)
 		{
-		/*	if (grid[i][j] == 2)
+			if (grid[i][j] == 2)
 			{
 				grid[myPos.y][myPos.x] = 0;
-			}*/
-			if (grid[i][j] == 1)
+			}
+			if (grid[i][j] == 3)
 			{
 				grid[enPos.y][enPos.x] = 0;
 			}
