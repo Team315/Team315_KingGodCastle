@@ -52,6 +52,8 @@ struct Stat
 	}
 	void SetModifier(float m) { modifier = m; }
 
+	void TranslateCurrent(float var) { current += var; }
+
 	float& GetBase() { return base; }
 	float& GetCurrent() { return current; }
 	float& GetDelta() { return delta; }

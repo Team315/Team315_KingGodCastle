@@ -51,6 +51,8 @@ void Character::Update(float dt)
 		if (!move && !attack && isAttack())
 		{
 			SetState(AnimStates::Attack);
+			Stat& mp = stat[Stats::MP];
+			mp.TranslateCurrent(15.f);
 			attack = true;
 		}
 		else if (!move && !attack)
@@ -70,19 +72,19 @@ void Character::Update(float dt)
 		}
 	}
 	hpBar->Update(dt);
-	if (move)
-	{
-		SetState(AnimStates::Move);
-		direction = destination - position;
-		Translate(Utils::Normalize(direction));
+	//if (move)
+	//{
+	//	SetState(AnimStates::Move);
+	//	direction = destination - position;
+	//	Translate(Utils::Normalize(direction));
 
-		if (destination == position)
-		{
-			move = false;
-			SetState(AnimStates::MoveToIdle);
+	//	if (destination == position)
+	//	{
+	//		move = false;
+	//		SetState(AnimStates::MoveToIdle);
 
-		}
-	}
+	//	}
+	//}
 }
 
 void Character::Draw(RenderWindow& window)
@@ -140,7 +142,8 @@ void Character::TakeDamage(Character* attacker, bool attackType)
 	else
 		damage = attacker->GetStat(Stats::AP).GetModifier();
 
-	hp.SetCurrent(hp.GetCurrent() -= damage);
+	hp.TranslateCurrent(-damage);
+	// hp.SetCurrent(hp.GetCurrent() -= damage);
 	float curRatio = hp.GetCurRatio();
 	hpBar->SetProgressValue(curRatio);
 	if (curRatio <= 0.f)

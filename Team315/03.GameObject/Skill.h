@@ -2,6 +2,9 @@
 #include "SpriteObj.h"
 #include "Animator.h"
 #include "Include.h"
+#include <list>
+
+class Character;
 
 class Skill : public SpriteObj
 {
@@ -9,6 +12,11 @@ protected:
 	Animator animator;
 	Character* target;
 	AnimStates currState;
+	float damage;
+	Vector2i startPos;
+	Vector2i destPos;
+	list<Vector2i> area;
+
 public:
 	Skill(int starNumber = 0);
 	virtual ~Skill();
@@ -23,4 +31,3 @@ public:
 
 	void SetTarget(Character* target);
 };
-
