@@ -8,6 +8,7 @@
 #include "RectangleObj.h"
 #include "VertexArrayObj.h"
 #include "CharacterHeaders.h"
+#include "Map/FloodFill.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(10),
@@ -213,42 +214,62 @@ void BattleScene::Update(float dt)
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Space))
 	{
-		EnemyInfo enemyInfo;
 		for (auto& player : mainGrid)
 		{
 			if (player != nullptr && !player->GetType().compare("Player"))
 			{
-				for (auto& monster : mainGrid)
-				{
-					if (monster != nullptr && !monster->GetType().compare("Monster"))
-					{
-						Vector2i mypos = GAME_MGR->PosToIdx(player->GetPos());
-						Vector2i enpos = GAME_MGR->PosToIdx(monster->GetPos());
-						AStar astar;
-						enemyInfo = astar.AstarSearch(mainGrid, mypos, enpos);
-						cout << enemyInfo.leng << endl << enemyInfo.destPos.y << " " << enemyInfo.destPos.x << endl;
-					}
-				}
+				player->SetIsBattle(true);
 			}
 		}
 
-		if (test != nullptr)
-		{
-			Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
+		//EnemyInfo enemyInfo;
+		//for (auto& player : mainGrid)
+		//{
+		//	if (player != nullptr && !player->GetType().compare("Player"))
+		//	{
+		//		test = player;
 
-			//Vector2i delta = enemyInfo.destPos - coord;
-			//Vector2i temp = (delta + coord);
-			test->SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
-			//test->SetPos(GAME_MGR->IdxToPos(temp));
-			SetMainGrid(coord.y, coord.x, nullptr);
-			SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, test);
-		}
+		//		for (auto& monster : mainGrid)
+		//		{
+		//			if (monster != nullptr && !monster->GetType().compare("Monster"))
+		//			{
+		//				Vector2i mypos = GAME_MGR->PosToIdx(player->GetPos());
+		//				Vector2i enpos = GAME_MGR->PosToIdx(monster->GetPos());
+
+		//				FloodFill floodFill;
+		//				floodFill.SetArrSize(2, 2, false);
+		//				if (!floodFill.FloodFillSearch(mainGrid, mypos, enpos))
+		//				{
+		//					AStar astar;
+		//					enemyInfo = astar.AstarSearch(mainGrid, mypos, enpos);
+		//					cout << enemyInfo.leng << endl << enemyInfo.destPos.y << " " << enemyInfo.destPos.x << endl;
+		//					if (enemyInfo.leng > 1)
+		//					{
+		//						test->SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
+		//						SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, test);
+		//						SetMainGrid(mypos.y, mypos.x, nullptr);
+		//						CLOG::PrintVectorState(test->GetPos());
+		//					}
+		//				}
+		//				
+		//			}
+		//		}
+		//	}
+		//}
+
+		//if (test != nullptr)
+		//{
+		//	Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
+
+		//	//Vector2i delta = enemyInfo.destPos - coord;
+		//	//Vector2i temp = (delta + coord);
+		//	test->SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
+		//	//test->SetPos(GAME_MGR->IdxToPos(temp));
+		//	SetMainGrid(coord.y, coord.x, nullptr);
+		//	SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, test);
+		//}
 
 	}
-//GAME_MGR->PosToIdx(mainGrid[0]->GetPos());
-//"Player" == mainGrid[0]->GetType();
-//mainGrid[1]->GetPos()
-
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Right))
 	{

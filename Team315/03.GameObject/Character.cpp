@@ -30,22 +30,32 @@ void Character::Init()
 	
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 
+
+	//battle
 	enemyInfo.leng = 99999;
+
 	if (!type.compare("Player"))
 		targetType = "Monster";
 	else if (!type.compare("Monster"))
 		targetType = "Monster";
 	else
 		targetType = "None";
+
+	m_floodFill.SetArrSize(2, 2, false);
 }
 
 void Character::Update(float dt)
 {
 	if (isBattle)
 	{
-		SetTargetDistance();
+		if (!move && !attack && isAttack())
+		{
 
-		if (move)
+		}
+		else if (!move && !attack)
+			SetTargetDistance();
+
+		if (move && !attack)
 		{
 			SetState(AnimStates::Move);
 			direction = destination - position;
@@ -53,19 +63,10 @@ void Character::Update(float dt)
 			if (destination == position)
 			{
 				move = false;
+				//isBattle = false;
 				SetState(AnimStates::MoveToIdle);
-
 			}
 		}
-
-
-
-
-
-
-
-
-
 	}
 	hpBar->Update(dt);
 	if (move)
@@ -166,6 +167,31 @@ void Character::PrintStats()
 	cout << "---------------" << endl;
 }
 
+unordered_map<Stats, Stat> Character::GetStat()
+{
+	return stat;
+}
+
+bool Character::isAttack()
+{
+	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
+
+	for (auto& target : mainGrid)
+	{
+		if (target != nullptr && !target->GetType().compare(targetType))
+		{
+			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
+			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
+			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
+
+			if (m_floodFill.FloodFillSearch(mainGrid, mypos, enpos))
+				return true;
+		}
+	}
+
+	return false;
+}
+
 void Character::PlayAstar()
 {
 
@@ -173,6 +199,8 @@ void Character::PlayAstar()
 
 void Character::SetTargetDistance()
 {
+	move = true;
+
 	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto& target : mainGrid)
@@ -194,6 +222,7 @@ void Character::SetTargetDistance()
 	SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
 	SetMainGrid(coord.y, coord.x, nullptr);
 	SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, this);
+	enemyInfo.leng = 99999;
 }
 
 void Character::SetMainGrid(int r, int c, Character* character)
