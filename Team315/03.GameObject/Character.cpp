@@ -50,7 +50,8 @@ void Character::Update(float dt)
 	{
 		if (!move && !attack && isAttack())
 		{
-
+			SetState(AnimStates::Attack);
+			attack = true;
 		}
 		else if (!move && !attack)
 			SetTargetDistance();
