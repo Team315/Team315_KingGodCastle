@@ -14,6 +14,7 @@ Evan::~Evan()
 void Evan::Init()
 {
     animator.SetTarget(&sprite);
+	attackEffect.SetTarget(&attackSprite);
 
     animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Idle"));
 
@@ -36,6 +37,11 @@ void Evan::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeftSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("UpSkill"));
+
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_DownAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_LeftAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_RightAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_UpAttack_Effect"));
 
 	{
 		AnimationEvent ev;
@@ -64,6 +70,33 @@ void Evan::Init()
 		ev.frame = 3;
 		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
 		animator.AddEvent(ev);
+	} {
+		AnimationEvent ev;
+		ev.clipId = "Sword_DownAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Sword_LeftAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Sword_RightAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Sword_UpAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
@@ -132,9 +165,17 @@ void Evan::SetState(AnimStates newState)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "RightAttack" : "LeftAttack");
 		}
+		if (lastDirection.x)
+		{
+			attackEffect.Play((lastDirection.x > 0.f) ? "Sword_RightAttack_Effect" : "Sword_LeftAttack_Effect");
+		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "DownAttack" : "UpAttack");
+		}
+		if (lastDirection.y)
+		{
+			attackEffect.Play((lastDirection.y > 0.f) ? "Sword_DownAttack_Effect" : "Sword_UpAttack_Effect");
 		}
 		break;
 	case AnimStates::Skill:
@@ -153,7 +194,11 @@ void Evan::SetState(AnimStates newState)
 void Evan::Update(float dt)
 {
 	Character::Update(dt);
-	
+
+	if (InputMgr::GetKeyDown(Keyboard::Z))
+	{
+		SetState(AnimStates::Attack);
+	}
 	switch (currState)
 	{
 	case AnimStates::Idle:
@@ -173,6 +218,7 @@ void Evan::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
+	attackEffect.Update(dt);
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
