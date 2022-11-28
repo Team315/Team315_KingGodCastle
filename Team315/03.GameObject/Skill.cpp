@@ -1,7 +1,8 @@
 #include "Skill.h"
+#include "Character.h"
 
-Skill::Skill(int starNumber)
-	: damage(0.f)
+Skill::Skill()
+	: core(0.f), factor(0.f), damage(0.f)
 {
 }
 
@@ -36,7 +37,7 @@ void Skill::SetState(AnimStates newState)
 	currState = newState;
 }
 
-void Skill::SetTarget(Character* target)
+void Skill::CalculateDamage(Character *character)
 {
-	this->target = target;
+	damage = core + factor * character->GetStat(Stats::AP).GetModifier();
 }

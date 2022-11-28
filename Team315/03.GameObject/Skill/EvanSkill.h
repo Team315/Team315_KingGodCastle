@@ -3,5 +3,10 @@
 
 class EvanSkill : public Skill
 {
-};
+protected:
 
+public:
+	EvanSkill();
+	virtual~ EvanSkill();
+
+};

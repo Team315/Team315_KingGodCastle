@@ -78,7 +78,6 @@ public:
 	void TakeDamage(Character* attacker, bool attackType = true); // true = ad / false = ap
 	void UpgradeStar();
 	void UpgradeCharacterSet();
-	void ForceSetLastDirection(Dir dir);
 	void SetNoSkill(bool b) { noSkill = b; };
 	bool GetNoSkill() { return noSkill; }
 

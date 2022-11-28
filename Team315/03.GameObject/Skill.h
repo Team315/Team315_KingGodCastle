@@ -10,15 +10,17 @@ class Skill : public SpriteObj
 {
 protected:
 	Animator animator;
-	Character* target;
 	AnimStates currState;
+
+	float core;
+	float factor;
 	float damage;
 	Vector2i startPos;
 	Vector2i destPos;
 	list<Vector2i> area;
 
 public:
-	Skill(int starNumber = 0);
+	Skill();
 	virtual ~Skill();
 
 	virtual void Init() override;
@@ -28,6 +30,5 @@ public:
 
 	virtual void SetState(AnimStates newState);
 	AnimStates GetState() { return currState; }
-
-	void SetTarget(Character* target);
+	void CalculateDamage(Character* character);
 };

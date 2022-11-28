@@ -49,12 +49,11 @@ void Character::Init()
 
 void Character::Reset()
 {
-	SetState(AnimStates::Idle);
 	isBattle = false;
 	attack = false;
 	move = false;
 	isAlive = true;
-	ForceSetLastDirection(Dir::Down);
+	SetState(AnimStates::Idle);
 }
 
 void Character::Update(float dt)
@@ -80,6 +79,7 @@ void Character::Update(float dt)
 			{
 				move = false;
 				SetState(AnimStates::MoveToIdle);
+				CLOG::PrintVectorState(GAME_MGR->PosToIdx(destination), name);
 			}
 		}
 	}
@@ -169,18 +169,6 @@ void Character::UpgradeCharacterSet()
 	// 별 색 바뀔때 스킬 범위 증가 1 3 5 7
 }
 
-void Character::ForceSetLastDirection(Dir dir)
-{
-	if (dir == Dir::Up)
-		lastDirection = Vector2f(0.f, -1.f);
-	else if (dir == Dir::Down)
-		lastDirection = Vector2f(0.f, 1.f);
-	else if (dir == Dir::Left)
-		lastDirection = Vector2f(-1.f, 0.f);
-	else if (dir == Dir::Right)
-		lastDirection = Vector2f(1.f, -0.f);
-}
-
 void Character::PrintStats()
 {
 	cout << "---------------" << endl;
@@ -228,7 +216,7 @@ void Character::PlayAstar()
 
 void Character::SetTargetDistance()
 {
-	//move = true;
+	move = true;
 
 	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
