@@ -41,7 +41,7 @@ void Character::Init()
 	else
 		targetType = "None";
 
-	m_floodFill.SetArrSize(2, 2, false);
+	m_floodFill.SetArrSize(3, 3, false);
 }
 
 void Character::Update(float dt)
@@ -54,6 +54,7 @@ void Character::Update(float dt)
 			Stat& mp = stat[Stats::MP];
 			mp.TranslateCurrent(15.f);
 			attack = true;
+			//attack = true;
 		}
 		else if (!move && !attack)
 			SetTargetDistance();
@@ -72,19 +73,6 @@ void Character::Update(float dt)
 		}
 	}
 	hpBar->Update(dt);
-	//if (move)
-	//{
-	//	SetState(AnimStates::Move);
-	//	direction = destination - position;
-	//	Translate(Utils::Normalize(direction));
-
-	//	if (destination == position)
-	//	{
-	//		move = false;
-	//		SetState(AnimStates::MoveToIdle);
-
-	//	}
-	//}
 }
 
 void Character::Draw(RenderWindow& window)
