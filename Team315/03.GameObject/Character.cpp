@@ -190,7 +190,7 @@ bool Character::isAttack()
 		{
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
-			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
+			//EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
 			if (m_floodFill.FloodFillSearch(mainGrid, mypos, enpos))
 				return true;
