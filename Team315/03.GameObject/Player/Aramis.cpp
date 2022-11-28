@@ -298,4 +298,3 @@ void Aramis::UpdateSkill(float dt)
 		SetState(AnimStates::MoveToIdle);
 	}
 }
-

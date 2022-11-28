@@ -74,12 +74,11 @@ void Character::Update(float dt)
 		{
 			SetState(AnimStates::Move);
 			direction = destination - position;
-			Translate(Utils::Normalize(direction));
+			Translate(Utils::Normalize(direction) * 0.5f);
 			if (destination == position)
 			{
 				move = false;
 				SetState(AnimStates::MoveToIdle);
-				CLOG::PrintVectorState(GAME_MGR->PosToIdx(destination), name);
 			}
 		}
 	}
@@ -128,6 +127,7 @@ void Character::SetStatsInit(json data)
 	stat.insert({ Stats::AS, Stat(data["AS"]) });
 	stat.insert({ Stats::AR, Stat(data["AR"]) });
 	stat.insert({ Stats::MS, Stat(data["MS"]) });
+	stat.insert({ Stats::SP, Stat(0.f, 0.f, false) });
 	string arType = data["ARTYPE"];
 	attackRangeType = arType.compare("cross") ? true : false;
 }

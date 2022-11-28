@@ -18,12 +18,14 @@ public:
 	virtual void SetPos(const Vector2f& pos) override;
 	virtual void SetOrigin(Origins origin) override;
 
-	void SetSize(float x, float y);
-	void UpdateProgress();
+	virtual void SetSize(float x, float y);
+	virtual void UpdateProgress();
+
 	void SetBackgroundColor(Color color);
 	void SetBackgroundOutline(Color color, float thickness);
 	void SetProgressColor(Color color);
 	void SetProgressValue(float value);
 	const float GetProgressValue() { return progressValue; }
-	void TranslateProgress(float value);
+	
+	virtual void TranslateProgress(float value);
 };
