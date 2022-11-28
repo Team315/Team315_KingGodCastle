@@ -1,6 +1,17 @@
 id,type
 graphics/Effect/player/attackEffect_00.png,0
+graphics/Effect/player/daniel_attackEffect.png,0
+graphics/Effect/player/aramis_AttackEffect_00.png,0
+graphics/Effect/player/aramis_AttackEffect_01.png,0
 animations/Effect/Attack/Sword_DownAttack_Effect.csv,3
 animations/Effect/Attack/Sword_LeftAttack_Effect.csv,3
 animations/Effect/Attack/Sword_RightAttack_Effect.csv,3
 animations/Effect/Attack/Sword_UpAttack_Effect.csv,3
+animations/Effect/Attack/Daniel_DownAttack_Effect.csv,3
+animations/Effect/Attack/Daniel_LeftAttack_Effect.csv,3
+animations/Effect/Attack/Daniel_RightAttack_Effect.csv,3
+animations/Effect/Attack/Daniel_UpAttack_Effect.csv,3
+animations/Effect/Attack/Aramis_DownAttack_Effect.csv,3
+animations/Effect/Attack/Aramis_LeftAttack_Effect.csv,3
+animations/Effect/Attack/Aramis_RightAttack_Effect.csv,3
+animations/Effect/Attack/Aramis_UpAttack_Effect.csv,3

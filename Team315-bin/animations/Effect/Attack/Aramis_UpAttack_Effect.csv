@@ -1,0 +1,9 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Aramis_UpAttack_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/aramis_AttackEffect_01.png,70,0,100,70,50,70,0,0
+graphics/Effect/player/aramis_AttackEffect_01.png,70,100,100,70,50,70,0,0
+graphics/Effect/player/aramis_AttackEffect_01.png,70,200,100,70,50,70,0,0
+graphics/Effect/player/aramis_AttackEffect_01.png,0,0,100,70,50,70,0,0
+graphics/Effect/player/aramis_AttackEffect_01.png,0,100,100,70,50,70,0,0
+graphics/Effect/player/aramis_AttackEffect_01.png,0,200,100,70,50,70,0,0
