@@ -41,7 +41,7 @@ void Character::Init()
 	else
 		targetType = "None";
 
-	m_floodFill.SetArrSize(3, 3, false);
+	m_floodFill.SetArrSize(6, 3, true);
 }
 
 void Character::Update(float dt)

@@ -15,7 +15,7 @@ protected:
 	float damage;
 	Vector2i startPos;
 	Vector2i destPos;
-	list<Vector2i> area;
+	list<Vector2i> area;  
 
 public:
 	Skill(int starNumber = 0);
