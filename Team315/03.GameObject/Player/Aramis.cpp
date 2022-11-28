@@ -14,6 +14,7 @@ Aramis::~Aramis()
 void Aramis::Init()
 {
 	animator.SetTarget(&sprite);
+	attackEffect.SetTarget(&attackSprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_Idle"));
 
@@ -36,6 +37,11 @@ void Aramis::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_LeftSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_UpSkill"));
+
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_DownAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_LeftAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_RightAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_UpAttack_Effect"));
 
 	{
 		AnimationEvent ev;
@@ -64,6 +70,34 @@ void Aramis::Init()
 		ev.frame = 3;
 		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
 		animator.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Aramis_DownAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Aramis_LeftAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Aramis_RightAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Aramis_UpAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
@@ -102,6 +136,11 @@ void Aramis::Update(float dt)
 {
 	Character::Update(dt);
 
+	if (InputMgr::GetKeyDown(Keyboard::Z))
+	{
+		SetState(AnimStates::Attack);
+	}
+
 	switch (currState)
 	{
 	case AnimStates::Idle:
@@ -121,6 +160,7 @@ void Aramis::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
+	attackEffect.Update(dt);
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -172,9 +212,17 @@ void Aramis::SetState(AnimStates newState)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Aramis_RightAttack" : "Aramis_LeftAttack");
 		}
+		if (lastDirection.x)
+		{
+			attackEffect.Play((lastDirection.x > 0.f) ? "Aramis_RightAttack_Effect" : "Aramis_LeftAttack_Effect");
+		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Aramis_DownAttack" : "Aramis_UpAttack");
+		}
+		if (lastDirection.y)
+		{
+			attackEffect.Play((lastDirection.y > 0.f) ? "Aramis_DownAttack_Effect" : "Aramis_UpAttack_Effect");
 		}
 		break;
 	case AnimStates::Skill:

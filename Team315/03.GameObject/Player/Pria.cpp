@@ -38,6 +38,8 @@ void Pria::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpSkill"));
 
+
+
 	{
 		AnimationEvent ev;
 		ev.clipId = "Pria_DownAttack";

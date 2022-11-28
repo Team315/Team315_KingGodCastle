@@ -13,8 +13,8 @@ Daniel::~Daniel()
 
 void Daniel::Init()
 {
-
 	animator.SetTarget(&sprite);
+	attackEffect.SetTarget(&attackSprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Idle"));
 
@@ -37,6 +37,11 @@ void Daniel::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_LeftSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_UpSkill"));
+
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_DownAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_LeftAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_RightAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_UpAttack_Effect"));
 
 	{
 		AnimationEvent ev;
@@ -65,6 +70,34 @@ void Daniel::Init()
 		ev.frame = 3;
 		ev.onEvent = bind(&Daniel::OnCompleteAttack, this);
 		animator.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Daniel_DownAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Daniel::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Daniel_LeftAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Daniel::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Daniel_RightAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Daniel::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Daniel_UpAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Daniel::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
@@ -103,6 +136,11 @@ void Daniel::Update(float dt)
 {
 	Character::Update(dt);
 
+	if (InputMgr::GetKeyDown(Keyboard::Z))
+	{
+		SetState(AnimStates::Attack);
+	}
+
 	switch (currState)
 	{
 	case AnimStates::Idle:
@@ -122,6 +160,7 @@ void Daniel::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
+	attackEffect.Update(dt);
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -173,9 +212,17 @@ void Daniel::SetState(AnimStates newState)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Daniel_RightAttack" : "Daniel_LeftAttack");
 		}
+		if (lastDirection.x)
+		{
+			attackEffect.Play((lastDirection.x > 0.f) ? "Daniel_RightAttack_Effect" : "Daniel_LeftAttack_Effect");
+		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Daniel_DownAttack" : "Daniel_UpAttack");
+		}
+		if (lastDirection.y)
+		{
+			attackEffect.Play((lastDirection.y > 0.f) ? "Daniel_DownAttack_Effect" : "Daniel_UpAttack_Effect");
 		}
 		break;
 	case AnimStates::Skill:

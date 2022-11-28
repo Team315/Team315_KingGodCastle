@@ -94,6 +94,7 @@ void Animator::SetFrame(const AnimationFrame& frame)
     target->setTexture(*frame.texture);
     target->setTextureRect(frame.coord);
     target->setOrigin(frame.origin);
+    //target->setRotation(90.f);
 
     Vector2f scale = target->getScale();
     scale.x = abs(scale.x) * (frame.flipX ? -1 : 1);
