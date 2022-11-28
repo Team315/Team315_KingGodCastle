@@ -69,10 +69,10 @@ bool FloodFill::FloodFillSearch(vector<Character*>& map, Vector2i myPos, Vector2
 	{
 		for (int j = 0; j < m_Width; ++j)
 		{
-			int y = myPos.y;
+			/*int y = myPos.y;
 			int x = myPos.x;
 			int nx = y + grid[i][j];
-			int ny = x + grid[i][j];
+			int ny = x + grid[i][j];*/
 
 			if (isInRange(areas[i][j].y, areas[i][j].x))
 			{
