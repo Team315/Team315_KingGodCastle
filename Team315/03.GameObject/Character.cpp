@@ -41,7 +41,7 @@ void Character::Init()
 	else
 		targetType = "None";
 
-	m_floodFill.SetArrSize(2, 2, false);
+	m_floodFill.SetArrSize(3, 3, false);
 }
 
 void Character::Update(float dt)
@@ -51,7 +51,7 @@ void Character::Update(float dt)
 		if (!move && !attack && isAttack())
 		{
 			SetState(AnimStates::Attack);
-			attack = true;
+			//attack = true;
 		}
 		else if (!move && !attack)
 			SetTargetDistance();
