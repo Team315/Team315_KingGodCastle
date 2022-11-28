@@ -71,14 +71,15 @@ void BattleScene::Enter()
 
 	prepareGrid.assign(PREPARE_SIZE, nullptr);
 	battleGrid.assign(BATTLE_GRID_ROW * GAME_TILE_WIDTH, nullptr);
-	mainGrid.assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
+	//mainGrid.assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
 
 	ui->Reset();
 
 	curChapIdx = 0;
 	curStageIdx = 0;
+	GAME_MGR->Reset();
 	SetCurrentStage(curChapIdx, curStageIdx);
-	GAME_MGR->SetMainGridRef(mainGrid);
+	//GAME_MGR->SetMainGridRef(mainGrid);
 }
 
 void BattleScene::Exit()
@@ -115,7 +116,8 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("battle end");
 			playingBattle = false;
 
-			for (auto& character : mainGrid)
+			vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+			for (auto& character : mgref)
 			{
 				if (character != nullptr && 
 					!character->GetType().compare("Player"))
@@ -166,7 +168,8 @@ void BattleScene::Update(float dt)
 			cout << "-------------------" << endl;
 			CLOG::Print3String("main grid state");
 			count = 0;
-			for (auto& character : mainGrid)
+			vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+			for (auto& character : mgref)
 			{
 				/*if ((count / GAME_TILE_WIDTH) == 10)
 					break;*/
@@ -223,121 +226,13 @@ void BattleScene::Update(float dt)
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Space))
 	{
-		for (auto& player : mainGrid)
+		vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+		for (auto& player : mgref)
 		{
 			if (player != nullptr && !player->GetType().compare("Player"))
 			{
 				player->SetIsBattle(true);
 			}
-		}
-
-		//EnemyInfo enemyInfo;
-		//for (auto& player : mainGrid)
-		//{
-		//	if (player != nullptr && !player->GetType().compare("Player"))
-		//	{
-		//		test = player;
-
-		//		for (auto& monster : mainGrid)
-		//		{
-		//			if (monster != nullptr && !monster->GetType().compare("Monster"))
-		//			{
-		//				Vector2i mypos = GAME_MGR->PosToIdx(player->GetPos());
-		//				Vector2i enpos = GAME_MGR->PosToIdx(monster->GetPos());
-
-		//				FloodFill floodFill;
-		//				floodFill.SetArrSize(2, 2, false);
-		//				if (!floodFill.FloodFillSearch(mainGrid, mypos, enpos))
-		//				{
-		//					AStar astar;
-		//					enemyInfo = astar.AstarSearch(mainGrid, mypos, enpos);
-		//					cout << enemyInfo.leng << endl << enemyInfo.destPos.y << " " << enemyInfo.destPos.x << endl;
-		//					if (enemyInfo.leng > 1)
-		//					{
-		//						test->SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
-		//						SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, test);
-		//						SetMainGrid(mypos.y, mypos.x, nullptr);
-		//						CLOG::PrintVectorState(test->GetPos());
-		//					}
-		//				}
-		//				
-		//			}
-		//		}
-		//	}
-		//}
-
-		//if (test != nullptr)
-		//{
-		//	Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
-
-		//	//Vector2i delta = enemyInfo.destPos - coord;
-		//	//Vector2i temp = (delta + coord);
-		//	test->SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
-		//	//test->SetPos(GAME_MGR->IdxToPos(temp));
-		//	SetMainGrid(coord.y, coord.x, nullptr);
-		//	SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, test);
-		//}
-
-	}
-
-	if (InputMgr::GetKeyDown(Keyboard::Key::Right))
-	{
-		if (test != nullptr)
-		{
-			Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
-			Vector2i delta = { 1, 0 };
-			Vector2i temp = (delta + coord);
-			CLOG::PrintVectorState(coord, "coord");
-			CLOG::PrintVectorState(temp, "temp");
-			test->SetDestination(GAME_MGR->IdxToPos(temp));
-			//test->SetPos(GAME_MGR->IdxToPos(temp));
-			SetMainGrid(coord.y, coord.x, nullptr);
-			SetMainGrid(temp.y, temp.x, test);
-		}
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::Left))
-	{
-		if (test != nullptr)
-		{
-			Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
-			Vector2i delta = { -1, 0};
-			Vector2i temp = (delta + coord);
-			CLOG::PrintVectorState(coord, "coord");
-			CLOG::PrintVectorState(temp, "temp");
-			test->SetDestination(GAME_MGR->IdxToPos(temp));
-			//test->SetPos(GAME_MGR->IdxToPos(temp));
-			SetMainGrid(coord.y, coord.x, nullptr);
-			SetMainGrid(temp.y, temp.x, test);
-		}
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::Up))
-	{
-		if (test != nullptr)
-		{
-			Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
-			Vector2i delta = { 0, -1 };
-			Vector2i temp = (delta + coord);
-			CLOG::PrintVectorState(coord, "coord");
-			CLOG::PrintVectorState(temp, "temp");
-			test->SetDestination(GAME_MGR->IdxToPos(temp));
-			//test->SetPos(GAME_MGR->IdxToPos(temp));
-			SetMainGrid(coord.y, coord.x, nullptr);
-			SetMainGrid(temp.y, temp.x, test);
-		}
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::Down))
-	{
-		if (test != nullptr)
-		{
-			Vector2i coord = GAME_MGR->PosToIdx(test->GetPos());
-			Vector2i delta = { 0, 1 };
-			Vector2i temp = (delta + coord);
-			CLOG::PrintVectorState(coord, "coord");
-			CLOG::PrintVectorState(temp, "temp");
-			test->SetDestination(GAME_MGR->IdxToPos(temp));
-			//test->SetPos(GAME_MGR->IdxToPos(temp));
-			SetMainGrid(coord.y, coord.x, nullptr);
-			SetMainGrid(temp.y, temp.x, test);
 		}
 	}
 	// Dev Input end
@@ -365,12 +260,15 @@ void BattleScene::Update(float dt)
 
 					int monsterGridCoordR = 70;
 					int monsterGridCoordC = 0;
-					int curBattleCharacterCount = 0;
+					int curBattleCharacterCount = 0; 
+
+					vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+
 					for (auto& character : battleGrid)
 					{
 						if (character != nullptr)
 							curBattleCharacterCount++;
-						mainGrid[monsterGridCoordC + monsterGridCoordR] = character;
+						mgref[monsterGridCoordC + monsterGridCoordR] = character;
 						monsterGridCoordC++;
 					}
 					if (curBattleCharacterCount != battleCharacterCount)
@@ -378,7 +276,7 @@ void BattleScene::Update(float dt)
 
 					CLOG::Print3String("main grid full state");
 					int count = 0;
-					for (auto& character : mainGrid)
+					for (auto& character : mgref)
 					{
 						if (character == nullptr)
 							cout << "..";
@@ -387,8 +285,13 @@ void BattleScene::Update(float dt)
 							if (character->GetName().compare("Obstacle"))
 								cout << character->GetName()[0] + to_string(character->GetStarNumber());
 							else
-								cout << "Ob";
-
+							{
+								cout << "Ob ";
+								count++;
+								if ((count % GAME_TILE_WIDTH) == 0)
+									cout << endl;
+								continue;
+							}
 							character->SetIsBattle(true);
 						}
 
@@ -507,7 +410,8 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	for (auto& character : mainGrid)
+	vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+	for (auto& character : mgref)
 	{
 		if (character == nullptr)
 			continue;
@@ -515,7 +419,7 @@ void BattleScene::Update(float dt)
 			continue;
 
 		character->Update(dt);
-		if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		/*if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
@@ -523,12 +427,7 @@ void BattleScene::Update(float dt)
 				ui->SetStatPopup(true, currentView.getCenter(), character,
 					GAME_MGR->SnapToCoord(character->GetPos()));
 			}
-			if (InputMgr::GetMouseDown(Mouse::Right))
-			{
-				test = character;
-				CLOG::Print3String(test->GetName());
-			}
-		}
+		}*/
 	}
 
 	// mouse drag control
@@ -581,7 +480,8 @@ void BattleScene::Draw(RenderWindow& window)
 	}
 
 	// draw character on gmae screen area
-	for (auto& character : mainGrid)
+	vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+	for (auto& character : mgref)
 	{
 		if (character != nullptr)
 			character->Draw(window);
@@ -612,11 +512,6 @@ void BattleScene::Draw(RenderWindow& window)
 	ui->Draw(window);
 }
 
-VertexArrayObj* BattleScene::GetBackground()
-{
-	return background;
-}
-
 void BattleScene::ZoomIn()
 {
 	currentView.setSize(GAME_SCREEN_ZOOM_WIDTH, GAME_SCREEN_ZOOM_HEIGHT);
@@ -625,11 +520,6 @@ void BattleScene::ZoomIn()
 void BattleScene::ZoomOut()
 {
 	currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
-}
-
-void BattleScene::AIMove()
-{
-
 }
 
 void BattleScene::PickUpCharacter(Character* character)
@@ -716,8 +606,6 @@ int BattleScene::GetIdxFromCoord(Vector2i coord)
 
 void BattleScene::SetCurrentStage(int chap, int stage)
 {
-	mainGrid.assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
-
 	curStage = GAME_MGR->GetStage(chap, stage);
 
 	int row = GAME_TILE_HEIGHT - BATTLE_GRID_ROW; // player zone X
@@ -734,14 +622,14 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 			switch (type)
 			{
 			case (int) TileTypes::Obstacle:
-				mainGrid[curIdx] = new Obstacle(tile->GetObstaclePath());
-				mainGrid[curIdx]->SetPos(tile->GetPos());
+				GAME_MGR->GetMainGridRef()[curIdx] = new Obstacle(tile->GetObstaclePath());
+				GAME_MGR->GetMainGridRef()[curIdx]->SetPos(tile->GetPos());
 				break;
 			case (int) TileTypes::Monster:
-				mainGrid[curIdx] = GAME_MGR->SpawnMonster( tile->GetMonsterName(), tile->GetTileData().grade);
-				mainGrid[curIdx]->SetPos(tile->GetPos());
-				mainGrid[curIdx]->Init();
-				mainGrid[curIdx]->SetDrawingOnBattle(true);
+				GAME_MGR->GetMainGridRef()[curIdx] = GAME_MGR->SpawnMonster( tile->GetMonsterName(), tile->GetTileData().grade);
+				GAME_MGR->GetMainGridRef()[curIdx]->SetPos(tile->GetPos());
+				GAME_MGR->GetMainGridRef()[curIdx]->Init();
+				GAME_MGR->GetMainGridRef()[curIdx]->SetDrawingOnBattle(true);
 				break;
 			default:
 				break;
@@ -751,17 +639,17 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 	cout << "current chapter, stage (" << curChapIdx << ", " << curStageIdx << ")" << endl;
 }
 
-Character* BattleScene::GetMainGridCharacter(int r, int c)
-{
-	int idx = r * GAME_TILE_WIDTH + c;
-	return mainGrid[idx];
-}
-
-void BattleScene::SetMainGrid(int r, int c, Character* character)
-{
-	int idx = r * GAME_TILE_WIDTH + c;
-	mainGrid[idx] = character;
-}
+//Character* BattleScene::GetMainGridCharacter(int r, int c)
+//{
+//	int idx = r * GAME_TILE_WIDTH + c;
+//	return GAME_MGR->GetMainGridRef()[idx];
+//}
+//
+//void BattleScene::SetMainGrid(int r, int c, Character* character)
+//{
+//	int idx = r * GAME_TILE_WIDTH + c;
+//	GAME_MGR->GetMainGridRef()[idx] = character;
+//}
 
 bool InPrepareGrid(Vector2i pos)
 {

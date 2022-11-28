@@ -41,7 +41,10 @@ void Character::Init()
 	else
 		targetType = "None";
 
-	m_floodFill.SetArrSize(3, 3, false);
+	m_floodFill.SetArrSize(
+		stat[Stats::AR].GetModifier(),
+		stat[Stats::AR].GetModifier(),
+		attackRangeType);
 }
 
 void Character::Update(float dt)

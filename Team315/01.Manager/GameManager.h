@@ -18,8 +18,10 @@ protected:
 	json characterDatas;
 
 	vector<Character*> presetC;
-	
-	vector<Character*>& mainGridRef;
+
+	// Set monster character locate before battle with data imported from GameManager
+	// When the game starts, the characters on the battleGrid are also taken.
+	vector<Character*>* mainGrid;
 
 	BattleTracker* battleTracker;
 
@@ -47,11 +49,12 @@ public:
 	Character* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
 	Character* SpawnPlayer(bool random, bool drawingOnBattle = true);
 	
+	void Reset();
+
 	void SetCharacterDatas();
 	json GetCharacterData(string name);
 
-	void SetMainGridRef(vector<Character*>& ref);
-	vector<Character*>& GetMainGridRef() { return mainGridRef; }
+	vector<Character*>& GetMainGridRef() { return *mainGrid; }
 
 	BattleTracker*& GetTracker();
 };
