@@ -53,6 +53,7 @@ public:
 	virtual ~Character();
 
 	virtual void Init() override;
+	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
@@ -77,9 +78,12 @@ public:
 	void TakeDamage(Character* attacker, bool attackType = true); // true = ad / false = ap
 	void UpgradeStar();
 	void UpgradeCharacterSet();
-	void PrintStats();
+	void ForceSetLastDirection(Dir dir);
 	void SetNoSkill(bool b) { noSkill = b; };
 	bool GetNoSkill() { return noSkill; }
+
+	// Dev
+	void PrintStats();
 
 	//FloodFill
 	unordered_map<Stats, Stat>& GetStat();

@@ -1,7 +1,7 @@
 #include "Character.h"
 
 Character::Character(int starNumber)
-	: destination(0, 0), move(false), attack(false), isAlive(false),
+	: destination(0, 0), move(false), attack(false), isAlive(true),
 	currState(AnimStates::None), drawingOnBattle(false),
 	attackRangeType(false), isBattle(false), noSkill(false)
 {
@@ -41,12 +41,20 @@ void Character::Init()
 	else
 		targetType = "None";
 
-	/*m_floodFill.SetArrSize(
+	m_floodFill.SetArrSize(
 		stat[Stats::AR].GetModifier(),
 		stat[Stats::AR].GetModifier(),
-		attackRangeType);*/
+		attackRangeType);
+}
 
-	m_floodFill.SetArrSize(3, 3, true);
+void Character::Reset()
+{
+	SetState(AnimStates::Idle);
+	isBattle = false;
+	attack = false;
+	move = false;
+	isAlive = true;
+	ForceSetLastDirection(Dir::Down);
 }
 
 void Character::Update(float dt)
@@ -71,7 +79,6 @@ void Character::Update(float dt)
 			if (destination == position)
 			{
 				move = false;
-				//isBattle = false;
 				SetState(AnimStates::MoveToIdle);
 			}
 		}
@@ -160,6 +167,18 @@ void Character::UpgradeCharacterSet()
 		1.0f + (GetStarNumber() * 0.05f) });
 	// 성급 올라갈때 공격력,마력,체력 증가
 	// 별 색 바뀔때 스킬 범위 증가 1 3 5 7
+}
+
+void Character::ForceSetLastDirection(Dir dir)
+{
+	if (dir == Dir::Up)
+		lastDirection = Vector2f(0.f, -1.f);
+	else if (dir == Dir::Down)
+		lastDirection = Vector2f(0.f, 1.f);
+	else if (dir == Dir::Left)
+		lastDirection = Vector2f(-1.f, 0.f);
+	else if (dir == Dir::Right)
+		lastDirection = Vector2f(1.f, -0.f);
 }
 
 void Character::PrintStats()

@@ -75,13 +75,11 @@ struct DamageData
 class BattleTracker
 {
 protected:
-	vector<Character*>& mainGridRef;
 	vector<DamageData> datas;
 
 public:
-	BattleTracker(vector<Character*>& mainGrid);
+	BattleTracker();
 	~BattleTracker();
 
-	void SetMainGrid(vector<Character*>& mainGrid);
 	void SetDatas();
 };

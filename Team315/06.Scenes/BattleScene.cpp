@@ -6,7 +6,6 @@
 #include "GameManager.h"
 #include "Map/Tile.h"
 #include "RectangleObj.h"
-#include "VertexArrayObj.h"
 #include "CharacterHeaders.h"
 #include "Map/FloodFill.h"
 
@@ -71,15 +70,14 @@ void BattleScene::Enter()
 
 	prepareGrid.assign(PREPARE_SIZE, nullptr);
 	battleGrid.assign(BATTLE_GRID_ROW * GAME_TILE_WIDTH, nullptr);
-	//mainGrid.assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
 
+	playingBattle = false;
 	ui->Reset();
 
 	curChapIdx = 0;
 	curStageIdx = 0;
 	GAME_MGR->Reset();
 	SetCurrentStage(curChapIdx, curStageIdx);
-	//GAME_MGR->SetMainGridRef(mainGrid);
 }
 
 void BattleScene::Exit()
@@ -101,6 +99,8 @@ void BattleScene::Exit()
 
 void BattleScene::Update(float dt)
 {
+	vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+
 	Scene::Update(dt);
 
 	// Dev Input start
@@ -116,13 +116,11 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("battle end");
 			playingBattle = false;
 
-			vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
 			for (auto& character : mgref)
 			{
 				if (character != nullptr && 
 					!character->GetType().compare("Player"))
 				{
-					character->SetIsBattle(false);
 					int len = battleGrid.size();
 					for (int i = 0; i < len; i++)
 					{
@@ -134,11 +132,19 @@ void BattleScene::Update(float dt)
 							int coordR = (70 + i) / GAME_TILE_WIDTH;
 							int coordC = (70 + i) % GAME_TILE_WIDTH;
 							character->SetPos((*curStage)[coordR][coordC]->GetPos());
+							character->Reset();
 						}
 					}
 					character = nullptr;
 				}
 			}
+			b_centerPos = false; 
+			ZoomOut();
+
+			if (curStageIdx < STAGE_MAX_COUNT - 1)
+				curStageIdx++;
+			SetCurrentStage(curChapIdx, curStageIdx);
+			ui->GetPanel()->SetStageNumber(curStageIdx + 1);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F5))
@@ -168,7 +174,7 @@ void BattleScene::Update(float dt)
 			cout << "-------------------" << endl;
 			CLOG::Print3String("main grid state");
 			count = 0;
-			vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+
 			for (auto& character : mgref)
 			{
 				/*if ((count / GAME_TILE_WIDTH) == 10)
@@ -222,19 +228,6 @@ void BattleScene::Update(float dt)
 			cout << "-------------------" << endl;
 		}
 	}
-
-
-	if (InputMgr::GetKeyDown(Keyboard::Key::Space))
-	{
-		vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
-		for (auto& player : mgref)
-		{
-			if (player != nullptr && !player->GetType().compare("Player"))
-			{
-				player->SetIsBattle(true);
-			}
-		}
-	}
 	// Dev Input end
 
 	// Game Input start
@@ -252,7 +245,7 @@ void BattleScene::Update(float dt)
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
 				// battle start
-				if (!button->GetName().compare("begin"))
+				if (!button->GetName().compare("begin") && !playingBattle)
 				{
 					CLOG::Print3String("stage start");
 					b_centerPos = true;
@@ -261,8 +254,6 @@ void BattleScene::Update(float dt)
 					int monsterGridCoordR = 70;
 					int monsterGridCoordC = 0;
 					int curBattleCharacterCount = 0; 
-
-					vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
 
 					for (auto& character : battleGrid)
 					{
@@ -283,16 +274,12 @@ void BattleScene::Update(float dt)
 						else
 						{
 							if (character->GetName().compare("Obstacle"))
-								cout << character->GetName()[0] + to_string(character->GetStarNumber());
-							else
 							{
-								cout << "Ob ";
-								count++;
-								if ((count % GAME_TILE_WIDTH) == 0)
-									cout << endl;
-								continue;
+								cout << character->GetName()[0] + to_string(character->GetStarNumber());
+								character->SetIsBattle(true);
 							}
-							character->SetIsBattle(true);
+							else
+								cout << "Ob";
 						}
 
 						cout << ' ';
@@ -410,7 +397,6 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
 	for (auto& character : mgref)
 	{
 		if (character == nullptr)
@@ -419,6 +405,7 @@ void BattleScene::Update(float dt)
 			continue;
 
 		character->Update(dt);
+		
 		/*if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
