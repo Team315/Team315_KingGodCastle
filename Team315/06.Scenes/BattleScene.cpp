@@ -259,6 +259,7 @@ void BattleScene::Update(float dt)
 					{
 						if (character != nullptr)
 							curBattleCharacterCount++;
+						
 						mgref[monsterGridCoordC + monsterGridCoordR] = character;
 						monsterGridCoordC++;
 					}
@@ -276,7 +277,7 @@ void BattleScene::Update(float dt)
 							if (character->GetName().compare("Obstacle"))
 							{
 								cout << character->GetName()[0] + to_string(character->GetStarNumber());
-								character->SetIsBattle(true);
+
 							}
 							else
 								cout << "Ob";
@@ -287,7 +288,13 @@ void BattleScene::Update(float dt)
 						if ((count % GAME_TILE_WIDTH) == 0)
 							cout << endl;
 					}
-
+					for (auto& character : mgref)
+					{
+						if (character != nullptr && character->GetName().compare("Obstacle"))
+						{
+							character->SetIsBattle(true);
+						}
+					}
 					playingBattle = true;
 					break;
 				}

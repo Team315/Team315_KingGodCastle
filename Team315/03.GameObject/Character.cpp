@@ -45,6 +45,9 @@ void Character::Init()
 		stat[Stats::AR].GetModifier(),
 		stat[Stats::AR].GetModifier(),
 		attackRangeType);
+
+	//m_attackDelay = 1.f/ stat[Stats::AS].GetModifier();
+	m_attackDelay = 0.f;
 }
 
 void Character::Reset()
@@ -61,15 +64,23 @@ void Character::Update(float dt)
 {
 	if (isBattle)
 	{
+
 		if (!move && !attack && isAttack())
 		{
-			SetState(AnimStates::Attack);
-			Stat& mp = stat[Stats::MP];
-			mp.TranslateCurrent(15.f);
-			attack = true;
+			if (m_attackDelay <= 0.f)
+			{
+				SetState(AnimStates::Attack);
+				attack = true;
+				Stat& mp = stat[Stats::MP];
+				mp.TranslateCurrent(15.f);
+			}
+			m_attackDelay -= dt;
 		}
 		else if (!move && !attack)
+		{
 			SetTargetDistance();
+			move = true;
+		}
 
 		if (move && !attack)
 		{
@@ -83,6 +94,7 @@ void Character::Update(float dt)
 			}
 		}
 	}
+
 	hpBar->Update(dt);
 }
 
@@ -107,11 +119,20 @@ void Character::SetPos(const Vector2f& pos)
 
 void Character::SetState(AnimStates newState)
 {
+	IsSetState(newState);
+	//if (newState != AnimStates::Attack && currState == AnimStates::Attack)
+	//{
+	//	attack = false;
+	//	m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
+	//}
+
 	if (currState == newState)
 	{
 		return;
 	}
+	
 	currState = newState;
+	
 }
 
 void Character::SetTarget(Character* target)
@@ -158,6 +179,8 @@ void Character::UpgradeStar()
 		CLOG::Print3String("upgrade 2");
 	star->UpdateTexture();
 	UpgradeCharacterSet();
+
+	m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
 }
 
 void Character::UpgradeCharacterSet()
@@ -179,6 +202,15 @@ void Character::ForceSetLastDirection(Dir dir)
 		lastDirection = Vector2f(-1.f, 0.f);
 	else if (dir == Dir::Right)
 		lastDirection = Vector2f(1.f, -0.f);
+}
+
+void Character::IsSetState(AnimStates newState)
+{
+	if (newState != AnimStates::Attack && currState == AnimStates::Attack)
+	{
+		attack = false;
+		m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
+	}
 }
 
 void Character::PrintStats()

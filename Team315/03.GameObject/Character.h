@@ -39,6 +39,7 @@ protected:
 
 	bool drawingOnBattle;
 
+	float m_attackDelay;
 	//FloodFill
 	FloodFill m_floodFill;
 
@@ -82,6 +83,9 @@ public:
 	void SetNoSkill(bool b) { noSkill = b; };
 	bool GetNoSkill() { return noSkill; }
 
+
+	//battle
+	void IsSetState(AnimStates newState);
 	// Dev
 	void PrintStats();
 
