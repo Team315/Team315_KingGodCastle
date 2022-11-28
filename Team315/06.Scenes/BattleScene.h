@@ -5,7 +5,6 @@
 #include "Map/AStar.h"
 
 class BattleSceneUI;
-class Button;
 class Character;
 class RectangleObj;
 class VertexArrayObj;
@@ -14,10 +13,8 @@ class BattleScene : public Scene
 {
 protected:
 	BattleSceneUI* ui;
-	Character* test;
 
 	Dir currMoveDir;
-	VertexArrayObj* background;
 
 	Vector2f screenCenterPos;
 	Vector2u screenSize;
@@ -39,9 +36,6 @@ protected:
 	// Set player character locate before battle (4x7) x(0, 6) y(10, 13)
 	vector<Character*> battleGrid;
 
-	// Set monster character locate before battle with data imported from GameManager
-	// When the game starts, the characters on the battleGrid are also taken.
-	vector<Character*> mainGrid;
 	Character* pick;
 	Vector2f beforeDragPos;
 	int battleCharacterCount;
@@ -59,20 +53,14 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	VertexArrayObj* GetBackground();
-
-	void MoveTile(Character* character, Dir currMoveDir);
 	void ZoomIn();
 	void ZoomOut();
-	void AIMove();
 	void PickUpCharacter(Character* character);
 	void PutDownCharacter(vector<Character*>* start, vector<Character*>* dest,
 		Vector2i startCoord, Vector2i destCoord);
 	int GetIdxFromCoord(Vector2i coord);
 
 	void SetCurrentStage(int chap, int stage);
-	Character* GetMainGridCharacter(int r, int c);
-	void SetMainGrid(int r, int c, Character* character);
 };
 
 bool InPrepareGrid(Vector2i pos);

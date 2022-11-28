@@ -4,7 +4,7 @@
 #include "CharacterHeaders.h"
 
 GameManager::GameManager()
-	: battleCharacterCount(10), extraLevelUpChance(0), mainGridRef(presetC)
+	: battleCharacterCount(10), extraLevelUpChance(0)
 {
 	CLOG::Print3String("GameManager Create");
 	m_tiles.assign(
@@ -12,7 +12,8 @@ GameManager::GameManager()
 		vector<vector<vector<Tile*>>>(STAGE_MAX_COUNT,
 			vector<vector<Tile*>>(GAME_TILE_HEIGHT,
 				vector<Tile*>(GAME_TILE_WIDTH))));
-	battleTracker = new BattleTracker(mainGridRef);
+	mainGrid = new vector<Character*>();
+	//battleTracker = new BattleTracker();
 }
 
 GameManager::~GameManager()
@@ -154,6 +155,11 @@ Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
 	return SpawnPlayer("", random, drawingOnBattle);
 }
 
+void GameManager::Reset()
+{
+	mainGrid->assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
+}
+
 void GameManager::SetCharacterDatas()
 {
 	characterDatas = FILE_MGR->LoadCharacterData();
@@ -164,20 +170,8 @@ json GameManager::GetCharacterData(string name)
 	return characterDatas[name];
 }
 
-void GameManager::SetMainGridRef(vector<Character*>& ref)
-{
-	mainGridRef = ref;
-	battleTracker->SetMainGrid(mainGridRef);
-	battleTracker->SetDatas();
-}
-
-BattleTracker*& GameManager::GetTracker()
-{
-	return battleTracker;
-}
-
-BattleTracker::BattleTracker(vector<Character*>& mainGrid)
-	: mainGridRef(mainGrid)
+// Battle Tracker
+BattleTracker::BattleTracker()
 {
 }
 
@@ -185,18 +179,19 @@ BattleTracker::~BattleTracker()
 {
 }
 
-void BattleTracker::SetMainGrid(vector<Character*>& mainGrid)
-{
-	mainGridRef = mainGrid;
-}
-
 void BattleTracker::SetDatas()
 {
-	for (auto& character : mainGridRef)
+	vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+	for (auto& character : mgref)
 	{
 		if (character != nullptr && !character->GetType().compare("Player"))
 		{
 			datas.push_back(character);
 		}
 	}
+}
+
+BattleTracker *&GameManager::GetTracker()
+{
+	return battleTracker;
 }

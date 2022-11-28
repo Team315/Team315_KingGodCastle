@@ -61,7 +61,7 @@ EnemyInfo AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i e
 			int nx = y + crossY1[i];
 			int ny = x + crossX1[i];
 
-			if (isInRange(ny, nx))
+ 			if (isInRange(ny, nx))
 			{
 				if (isDestination(ny, nx, enPos)) 
 				{

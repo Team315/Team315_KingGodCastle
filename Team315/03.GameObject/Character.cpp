@@ -1,7 +1,7 @@
 #include "Character.h"
 
 Character::Character(int starNumber)
-	: destination(0, 0), move(false), attack(false), isAlive(false),
+	: destination(0, 0), move(false), attack(false), isAlive(true),
 	currState(AnimStates::None), drawingOnBattle(false),
 	attackRangeType(false), isBattle(false), noSkill(false)
 {
@@ -41,7 +41,20 @@ void Character::Init()
 	else
 		targetType = "None";
 
-	m_floodFill.SetArrSize(6, 3, true);
+	m_floodFill.SetArrSize(
+		stat[Stats::AR].GetModifier(),
+		stat[Stats::AR].GetModifier(),
+		attackRangeType);
+}
+
+void Character::Reset()
+{
+	SetState(AnimStates::Idle);
+	isBattle = false;
+	attack = false;
+	move = false;
+	isAlive = true;
+	ForceSetLastDirection(Dir::Down);
 }
 
 void Character::Update(float dt)
@@ -54,7 +67,6 @@ void Character::Update(float dt)
 			Stat& mp = stat[Stats::MP];
 			mp.TranslateCurrent(15.f);
 			attack = true;
-			//attack = true;
 		}
 		else if (!move && !attack)
 			SetTargetDistance();
@@ -67,7 +79,6 @@ void Character::Update(float dt)
 			if (destination == position)
 			{
 				move = false;
-				//isBattle = false;
 				SetState(AnimStates::MoveToIdle);
 			}
 		}
@@ -158,6 +169,18 @@ void Character::UpgradeCharacterSet()
 	// 별 색 바뀔때 스킬 범위 증가 1 3 5 7
 }
 
+void Character::ForceSetLastDirection(Dir dir)
+{
+	if (dir == Dir::Up)
+		lastDirection = Vector2f(0.f, -1.f);
+	else if (dir == Dir::Down)
+		lastDirection = Vector2f(0.f, 1.f);
+	else if (dir == Dir::Left)
+		lastDirection = Vector2f(-1.f, 0.f);
+	else if (dir == Dir::Right)
+		lastDirection = Vector2f(1.f, -0.f);
+}
+
 void Character::PrintStats()
 {
 	cout << "---------------" << endl;
@@ -180,7 +203,7 @@ unordered_map<Stats, Stat>& Character::GetStat()
 
 bool Character::isAttack()
 {
-	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
+	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto& target : mainGrid)
 	{
@@ -188,7 +211,7 @@ bool Character::isAttack()
 		{
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
-			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
+			//EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
 			if (m_floodFill.FloodFillSearch(mainGrid, mypos, enpos))
 				return true;
@@ -205,9 +228,9 @@ void Character::PlayAstar()
 
 void Character::SetTargetDistance()
 {
-	move = true;
+	//move = true;
 
-	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
+	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto& target : mainGrid)
 	{
@@ -233,7 +256,7 @@ void Character::SetTargetDistance()
 
 void Character::SetMainGrid(int r, int c, Character* character)
 {
-	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
+	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	int idx = r * GAME_TILE_WIDTH + c;
 	mainGrid[idx] = character;
