@@ -54,7 +54,6 @@ void Character::Update(float dt)
 			Stat& mp = stat[Stats::MP];
 			mp.TranslateCurrent(15.f);
 			attack = true;
-			//attack = true;
 		}
 		else if (!move && !attack)
 			SetTargetDistance();
@@ -180,7 +179,7 @@ unordered_map<Stats, Stat>& Character::GetStat()
 
 bool Character::isAttack()
 {
-	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
+	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto& target : mainGrid)
 	{
@@ -205,9 +204,9 @@ void Character::PlayAstar()
 
 void Character::SetTargetDistance()
 {
-	move = true;
+	//move = true;
 
-	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
+	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto& target : mainGrid)
 	{
@@ -233,7 +232,7 @@ void Character::SetTargetDistance()
 
 void Character::SetMainGrid(int r, int c, Character* character)
 {
-	vector<Character*> mainGrid = GAME_MGR->GetMainGridRef();
+	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	int idx = r * GAME_TILE_WIDTH + c;
 	mainGrid[idx] = character;
