@@ -45,7 +45,6 @@ void Character::Update(float dt)
 		{
 			move = false;
 			SetState(AnimStates::MoveToIdle);
-
 		}
 	}
 }
