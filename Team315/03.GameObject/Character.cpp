@@ -62,39 +62,44 @@ void Character::Reset()
 
 void Character::Update(float dt)
 {
-	if (isBattle)
+	if (InputMgr::GetKey(Keyboard::Key::B))
 	{
-
-		if (!move && !attack && isAttack())
+		if (isBattle)
 		{
-			if (m_attackDelay <= 0.f)
+
+			if (!move && !attack && isAttack())
 			{
-				SetState(AnimStates::Attack);
-				attack = true;
-				Stat& mp = stat[Stats::MP];
-				mp.TranslateCurrent(15.f);
+				if (m_attackDelay <= 0.f)
+				{
+					SetState(AnimStates::Attack);
+					attack = true;
+					Stat& mp = stat[Stats::MP];
+					mp.TranslateCurrent(15.f);
+				}
+				m_attackDelay -= dt;
 			}
-			m_attackDelay -= dt;
-		}
-		else if (!move && !attack)
-		{
-			SetTargetDistance();
-			move = true;
-		}
-
-		if (move && !attack)
-		{
-			SetState(AnimStates::Move);
-			direction = destination - position;
-			Translate(Utils::Normalize(direction));
-			if (destination == position)
+			else if (!move && !attack)
 			{
-				move = false;
-				SetState(AnimStates::MoveToIdle);
+				SetTargetDistance();
+				move = true;
+			}
+
+			if (move && !attack)
+			{
+				SetState(AnimStates::Move);
+				direction = destination - position;
+				Translate(Utils::Normalize(direction) * 0.5f);
+				if (destination == position)
+				{
+				//	Vector2i coord = GAME_MGR->PosToIdx(GetPos());
+				//	SetMainGrid(coord.y, coord.x, nullptr);
+
+					move = false;
+					SetState(AnimStates::MoveToIdle);
+				}
 			}
 		}
 	}
-
 	hpBar->Update(dt);
 }
 
@@ -237,15 +242,22 @@ bool Character::isAttack()
 {
 	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
+	//int n = 0;
 	for (auto& target : mainGrid)
 	{
+		//n++;
+		//if (targetType == "Player")
+		//{
+		//	cout << type << endl;
+		//	cout << n << endl;
+		//}
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 			//EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
-			if (m_floodFill.FloodFillSearch(mainGrid, mypos, enpos))
+			if (m_floodFill.FloodFillSearch(mainGrid, mypos, enpos, targetType))
 				return true;
 		}
 	}
@@ -269,7 +281,7 @@ void Character::SetTargetDistance()
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
-			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
+			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());//GetDestination() 인잇에서 해볼것
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
 			if (enemyInfo.leng > nowEnemyInfo.leng)
@@ -279,10 +291,18 @@ void Character::SetTargetDistance()
 		}
 	}
 
+	if (enemyInfo.leng == -1)
+	{
+		enemyInfo.leng = 99999;
+		return;
+
+	}
+
 	Vector2i coord = GAME_MGR->PosToIdx(GetPos());
 	SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
 	SetMainGrid(coord.y, coord.x, nullptr);
 	SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, this);
+	//SetMainGrid(coord.y, coord.x, this);
 	enemyInfo.leng = 99999;
 }
 

@@ -174,23 +174,23 @@ void AStar::SetAstar(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 			}
 		}
 	}
-	grid[myPos.y][myPos.x] = 2;
-	grid[enPos.y][enPos.x] = 3;
+	grid[myPos.y][myPos.x] = 0;
+	grid[enPos.y][enPos.x] = 0;
 
-	for (int i = 0; i < COL; ++i)
-	{
-		for (int j = 0; j < ROW; ++j)
-		{
-			if (grid[i][j] == 2)
-			{
-				grid[myPos.y][myPos.x] = 0;
-			}
-			if (grid[i][j] == 3)
-			{
-				grid[enPos.y][enPos.x] = 0;
-			}
-		}
-	}
+	//for (int i = 0; i < COL; ++i)
+	//{
+	//	for (int j = 0; j < ROW; ++j)
+	//	{
+	//		if (grid[i][j] == 2)
+	//		{
+	//			grid[myPos.y][myPos.x] = 0;
+	//		}
+	//		if (grid[i][j] == 3)
+	//		{
+	//			grid[enPos.y][enPos.x] = 0;
+	//		}
+	//	}
+	//}
 	for (int i = 0; i < COL; ++i)
 	{
 		for (int j = 0; j < ROW; ++j)

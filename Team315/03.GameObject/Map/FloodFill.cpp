@@ -22,9 +22,9 @@ void FloodFill::Draw(RenderWindow& window)
 {
 }
 
-bool FloodFill::FloodFillSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
+bool FloodFill::FloodFillSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos, string targetType)
 {
-	SetFloodFill(map, myPos, enPos);
+	SetFloodFill(map, myPos, enPos, targetType);
 
 	vector<vector<Vector2i>> areas;
 
@@ -132,7 +132,7 @@ void FloodFill::SetArrSize(int height, int width, bool attackType)
 	}
 }
 
-void FloodFill::SetFloodFill(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
+void FloodFill::SetFloodFill(vector<Character*>& map, Vector2i myPos, Vector2i enPos, string targetType)
 {
 	grid.resize(GAME_TILE_HEIGHT, vector<int>(GAME_TILE_WIDTH));
 
@@ -145,15 +145,12 @@ void FloodFill::SetFloodFill(vector<Character*>& map, Vector2i myPos, Vector2i e
 			{
 				grid[i][j] = 0;
 			}
-			else if (!map[(i * GAME_TILE_WIDTH) + j]->GetType().compare("Player"))
+			else if (map[(i * GAME_TILE_WIDTH) + j]->GetType().compare("Obstacle") && 
+				map[(i * GAME_TILE_WIDTH) + j]->GetType().compare(targetType))
 			{
 				grid[i][j] = 0;
 			}
-			else if (!map[(i * GAME_TILE_WIDTH) + j]->GetType().compare("Obstacle"))
-			{
-				grid[i][j] = 0;
-			}
-			else if (!map[(i * GAME_TILE_WIDTH) + j]->GetType().compare("Monster"))
+			else if (!map[(i * GAME_TILE_WIDTH) + j]->GetType().compare(targetType))
 			{
 				grid[i][j] = 1;
 			}

@@ -21,9 +21,9 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	bool FloodFillSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos);
+	bool FloodFillSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos, string targetType);
 	void SetArrSize(int height, int width, bool attackType);
-	void SetFloodFill(vector<Character*>& map, Vector2i myPos, Vector2i enPos);
+	void SetFloodFill(vector<Character*>& map, Vector2i myPos, Vector2i enPos, string targetType);
 
 	bool isInRange(int col, int row);
 	bool isDestination(int grid);
