@@ -225,7 +225,6 @@ void Evan::Update(float dt)
 	{
 		lastDirection = direction;
 	}
-	direction = { 0.f, 0.f };
 }
 
 void Evan::Draw(RenderWindow& window)

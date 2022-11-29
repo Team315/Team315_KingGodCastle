@@ -5,6 +5,8 @@ graphics/Effect/player/aramis_AttackEffect_00.png,0
 graphics/Effect/player/aramis_AttackEffect_01.png,0
 graphics/Effect/player/leonheart_attackEffect_00.png,0
 graphics/Effect/player/leonheart_attackEffect_01.png,0
+graphics/Effect/player/pria_attackEffect_02.png,0
+graphics/Effect/player/arveron_attackEffect.png,0
 graphics/Effect/player/bullet.png,0
 animations/Effect/Attack/Sword_DownAttack_Effect.csv,3
 animations/Effect/Attack/Sword_LeftAttack_Effect.csv,3
@@ -22,3 +24,11 @@ animations/Effect/Attack/LeonHeart_DownAttack_Effect.csv,3
 animations/Effect/Attack/LeonHeart_LeftAttack_Effect.csv,3
 animations/Effect/Attack/LeonHeart_RightAttack_Effect.csv,3
 animations/Effect/Attack/LeonHeart_UpAttack_Effect.csv,3
+animations/Effect/Attack/Pria_DownAttack_Effect.csv,3
+animations/Effect/Attack/Pria_LeftAttack_Effect.csv,3
+animations/Effect/Attack/Pria_RightAttack_Effect.csv,3
+animations/Effect/Attack/Pria_UpAttack_Effect.csv,3
+animations/Effect/Attack/Arveron_DownAttack_Effect.csv,3
+animations/Effect/Attack/Arveron_LeftAttack_Effect.csv,3
+animations/Effect/Attack/Arveron_RightAttack_Effect.csv,3
+animations/Effect/Attack/Arveron_UpAttack_Effect.csv,3

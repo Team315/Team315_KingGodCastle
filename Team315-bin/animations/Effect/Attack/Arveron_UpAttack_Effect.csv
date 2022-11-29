@@ -1,0 +1,8 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Arveron_UpAttack_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/arveron_attackEffect.png,0,0,70,70,35,70,0,0
+graphics/Effect/player/arveron_attackEffect.png,70,0,70,70,35,70,0,0
+graphics/Effect/player/arveron_attackEffect.png,140,0,70,70,35,70,0,0
+graphics/Effect/player/arveron_attackEffect.png,210,0,70,70,35,70,0,0
+graphics/Effect/player/arveron_attackEffect.png,280,0,70,70,35,70,0,0

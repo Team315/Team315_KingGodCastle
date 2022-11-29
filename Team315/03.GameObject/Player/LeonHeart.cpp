@@ -166,7 +166,6 @@ void LeonHeart::Update(float dt)
 	{
 		lastDirection = direction;
 	}
-	direction = { 0.f, 0.f };
 }
 
 void LeonHeart::Draw(RenderWindow& window)
