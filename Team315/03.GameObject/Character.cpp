@@ -254,23 +254,19 @@ void Character::SetTargetDistance()
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
-			if (mypos.x == 6 && mypos.y == 6)
-			{
-				cout << mypos.x<< mypos.y << endl;
-			}
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
-			if (enemyInfo.leng > nowEnemyInfo.leng)
+			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
 			{
 				enemyInfo = nowEnemyInfo;
 			}
 		}
 	}
 
-	if (enemyInfo.leng == -1)
+	if (enemyInfo.leng == 99999)
 	{
-		enemyInfo.leng = 99999;
+		//enemyInfo.leng = 99999;
 		return;
 
 	}
