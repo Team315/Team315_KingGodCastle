@@ -211,17 +211,11 @@ void Daniel::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Daniel_RightAttack" : "Daniel_LeftAttack");
-		}
-		if (lastDirection.x)
-		{
 			attackEffect.Play((lastDirection.x > 0.f) ? "Daniel_RightAttack_Effect" : "Daniel_LeftAttack_Effect");
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Daniel_DownAttack" : "Daniel_UpAttack");
-		}
-		if (lastDirection.y)
-		{
 			attackEffect.Play((lastDirection.y > 0.f) ? "Daniel_DownAttack_Effect" : "Daniel_UpAttack_Effect");
 		}
 		break;

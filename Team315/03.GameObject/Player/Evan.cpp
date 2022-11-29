@@ -70,7 +70,8 @@ void Evan::Init()
 		ev.frame = 3;
 		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
 		animator.AddEvent(ev);
-	} {
+	} 
+	{
 		AnimationEvent ev;
 		ev.clipId = "Sword_DownAttack_Effect";
 		ev.frame = 3;
