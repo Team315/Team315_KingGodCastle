@@ -15,11 +15,6 @@ class Character : public SpriteObj
 protected:
 	Animator animator;
 	Animator attackEffect;
-<<<<<<< HEAD
-	Character* target;
-=======
-	Vector2f look;
->>>>>>> feature/UI
 	unordered_map<Stats, Stat> stat;
 	bool attackRangeType; // true square, false cross
 
@@ -44,8 +39,6 @@ protected:
 	float moveSpeed;
 	Vector2f direction;
 	Vector2f lastDirection;
-
-	bool drawingOnBattle;
 
 	float m_attackDelay;
 	//FloodFill
@@ -75,9 +68,6 @@ public:
 		move = true;
 		destination = dest;
 	}
-	void SetDrawingOnBattle(bool b) { drawingOnBattle = b; }
-	bool GetDrawingOnBattle() { return drawingOnBattle; }
-
 	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }

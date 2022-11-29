@@ -2,9 +2,8 @@
 
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
-	currState(AnimStates::None), drawingOnBattle(false),
-	attackRangeType(false), isBattle(false), noSkill(false),
-	ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f)
+	currState(AnimStates::None), attackRangeType(false), isBattle(false),
+	noSkill(false), ccTimer(0.f), shieldAmount(0.f),astarDelay(0.0f)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 5.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -135,11 +134,8 @@ void Character::Draw(RenderWindow& window)
 {
 	SpriteObj::Draw(window);
 	window.draw(attackSprite);
-	if (drawingOnBattle)
-	{
-		hpBar->Draw(window);
-		star->Draw(window);
-	}
+	hpBar->Draw(window);
+	star->Draw(window);
 }
 
 void Character::SetPos(const Vector2f& pos)

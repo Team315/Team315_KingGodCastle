@@ -265,7 +265,6 @@ void BattleScene::Update(float dt)
 					}
 					if (curBattleCharacterCount != battleCharacterCount)
 						CLOG::Print3String("need more battle character");
-					
 					for (auto& character : mgref)
 					{
 						if (character != nullptr && character->GetType().compare("Obstacle"))
@@ -273,6 +272,7 @@ void BattleScene::Update(float dt)
 							character->SetIsBattle(true);
 						}
 					}
+
 					playingBattle = true;
 					break;
 				}
@@ -288,7 +288,6 @@ void BattleScene::Update(float dt)
 					Character* newPick = GAME_MGR->SpawnPlayer(true, true);
 					newPick->SetPos(prepareGridRect[idx]->GetPos());
 					newPick->Init();
-					newPick->SetDrawingOnBattle(true);
 					prepareGrid[idx] = newPick;
 					break;
 				}
@@ -439,10 +438,6 @@ void BattleScene::Update(float dt)
 			PutDownCharacter(&prepareGrid, &prepareGrid, beforeCoord, destCoord);
 	}
 	// Game Input end
-<<<<<<< HEAD
-	//cout << AStar::counter << endl;
-=======
->>>>>>> feature/UI
 }
 
 void BattleScene::Draw(RenderWindow& window)
@@ -667,7 +662,6 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 				mgref[curIdx] = GAME_MGR->SpawnMonster( tile->GetMonsterName(), tile->GetTileData().grade);
 				mgref[curIdx]->SetPos(tile->GetPos());
 				mgref[curIdx]->Init();
-				mgref[curIdx]->SetDrawingOnBattle(true);
 				break;
 			default:
 				break;
