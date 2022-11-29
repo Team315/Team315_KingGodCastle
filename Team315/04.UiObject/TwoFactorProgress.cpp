@@ -23,9 +23,7 @@ void TwoFactorProgress::Draw(RenderWindow &window)
 
 void TwoFactorProgress::SetPos(const Vector2f &pos)
 {
-	progressSize =
-		Vector2f(shapeSize.x * progressValue, shapeSize.y);
-	progress.setSize(progressSize);
+	ProgressBar::SetPos(pos);
 }
 
 void TwoFactorProgress::UpdateProgress()
@@ -34,7 +32,7 @@ void TwoFactorProgress::UpdateProgress()
 	secondProgressSize =
 		Vector2f(shapeSize.x * secondProgressValue, shapeSize.y);
 	secondProgress.setPosition(position.x + progressSize.x, position.y);
-	secondProgress.setSize(progressSize);
+	secondProgress.setSize(secondProgressSize);
 }
 
 void TwoFactorProgress::SetSecondProgressColor(Color color)

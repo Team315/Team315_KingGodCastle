@@ -10,6 +10,7 @@ Character::Character(int starNumber)
 	hpBar->SetProgressColor(Color::Green);
 	hpBar->SetBackgroundColor(Color(0, 0, 0, 100));
 	hpBar->SetBackgroundOutline(Color::Black, 2.f);
+	hpBar->SetSecondProgressColor(Color::White);
 
 	star = new Star(starNumber);
 }
@@ -29,7 +30,7 @@ void Character::Init()
 	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 20.f };
 	hpBar->SetOrigin(Origins::BC);
 	hpBar->SetProgressValue(stat[Stats::HP].GetCurRatio());
-	starLocalPos = { 0, hpBarLocalPos.y };
+	starLocalPos = { 0.f, hpBarLocalPos.y };
 	SetPos(position);
 
 	//battle
@@ -94,22 +95,29 @@ void Character::Update(float dt)
 		}
 	}
 
-	if (InputMgr::GetKey(Keyboard::Key::S))
+	if (InputMgr::GetKeyDown(Keyboard::Key::W))
 	{
 		shieldAmount += 100.f;
 		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
 	}
 
-	if (InputMgr::GetKey(Keyboard::Key::A))
+	if (InputMgr::GetKeyDown(Keyboard::Key::S))
 	{
-		stat[Stats::HP].TranslateCurrent(-dt);
-		//hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+		if (shieldAmount >= 100.f)
+			shieldAmount -= 100.f;
+		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
 	}
 
-	if (InputMgr::GetKey(Keyboard::Key::D))
+	if (InputMgr::GetKeyDown(Keyboard::Key::A))
 	{
-		stat[Stats::HP].TranslateCurrent(-dt);
-		//hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+		stat[Stats::HP].TranslateCurrent(-15.f);
+		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+	}
+
+	if (InputMgr::GetKeyDown(Keyboard::Key::D))
+	{
+		stat[Stats::HP].TranslateCurrent(15.f);
+		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
 	}
 
 	hpBar->Update(dt);
@@ -129,7 +137,7 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	attackSprite.setPosition(GetPos());
+	//attackSprite.setPosition(GetPos());
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
 }

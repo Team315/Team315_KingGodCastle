@@ -2,6 +2,7 @@
 #include "SpriteObj.h"
 #include "Animator.h"
 #include "TwoFactorProgress.h"
+#include "ProgressBar.h"
 #include "Star.h"
 #include "Include.h"
 #include <unordered_map>
@@ -18,7 +19,6 @@ protected:
 	bool attackRangeType; // true square, false cross
 
 	// UI
-	//ProgressBar* hpBar;
 	TwoFactorProgress* hpBar;
 	Star* star;
 	
