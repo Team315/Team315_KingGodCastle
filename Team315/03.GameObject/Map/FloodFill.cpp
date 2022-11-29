@@ -159,7 +159,6 @@ void FloodFill::SetFloodFill(vector<Character*>& map, Vector2i myPos, Vector2i e
 	//		}
 	//	}
 	//}
-
 }
 
 bool FloodFill::isInRange(int col, int row)
