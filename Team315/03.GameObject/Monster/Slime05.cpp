@@ -35,28 +35,28 @@ void Slime05::Init()
 	{
 		AnimationEvent ev;
 		ev.clipId = "slime05_DownAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Slime05::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "slime05_LeftAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Slime05::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "slime05_RightAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Slime05::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "slime05_UpAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Slime05::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}

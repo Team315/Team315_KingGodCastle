@@ -1,12 +1,6 @@
 #include "Aramis.h"
 #include "Bullet.h"
 
-void OnCreateBullet(Bullet* bullet)
-{
-	bullet->SetTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/bullet.png"));
-	bullet->Init();
-}
-
 Aramis::Aramis(int starNumber)
 	: Character(starNumber)
 {

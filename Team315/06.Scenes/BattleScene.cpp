@@ -449,7 +449,7 @@ void BattleScene::Update(float dt)
 			PutDownCharacter(&prepareGrid, &prepareGrid, beforeCoord, destCoord);
 	}
 	// Game Input end
-	cout << AStar::counter << endl;
+	//cout << AStar::counter << endl;
 }
 
 void BattleScene::Draw(RenderWindow& window)

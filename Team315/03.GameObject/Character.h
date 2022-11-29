@@ -14,7 +14,6 @@ class Character : public SpriteObj
 protected:
 	Animator animator;
 	Animator attackEffect;
-	Vector2f look;
 	Character* target;
 	unordered_map<Stats, Stat> stat;
 	bool attackRangeType; // true square, false cross

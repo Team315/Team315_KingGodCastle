@@ -40,28 +40,28 @@ void Thief00::Init()
 	{
 		AnimationEvent ev;
 		ev.clipId = "thief00_DownAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Thief00::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "thief00_LeftAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Thief00::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "thief00_RightAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Thief00::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "thief00_UpAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Thief00::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}

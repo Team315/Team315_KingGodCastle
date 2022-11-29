@@ -1,5 +1,6 @@
 #pragma once
 #include "SpriteObj.h"
+#include "Include.h"
 
 class Bullet : public SpriteObj
 {
