@@ -30,6 +30,8 @@ public:
 	//그리드 받아와서 셋해줌
 	void SetFloodFill(vector<Character*>& map, Vector2i myPos, Vector2i enPos, string targetType);
 
+	void GetGeneralInfo(vector<Character*>& map, string targetType);
+
 	bool isInRange(int col, int row);
 	bool isDestination(int grid);
 	bool IsAttack();
