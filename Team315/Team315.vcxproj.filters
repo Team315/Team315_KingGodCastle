@@ -88,7 +88,11 @@
     <ClCompile Include="04.UiObject\BackgroundText.cpp" />
     <ClCompile Include="04.UiObject\BackrectText.cpp" />
     <ClCompile Include="03.GameObject\Map\FloodFill.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="04.UiObject\TwoFactorProgress.cpp" />
+=======
+    <ClCompile Include="03.GameObject\Bullet.cpp" />
+>>>>>>> Character
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -188,7 +192,11 @@
     <ClInclude Include="04.UiObject\BackrectText.h" />
     <ClInclude Include="StatPopupWiindow.h" />
     <ClInclude Include="03.GameObject\Map\FloodFill.h" />
+<<<<<<< HEAD
     <ClInclude Include="04.UiObject\TwoFactorProgress.h" />
+=======
+    <ClInclude Include="03.GameObject\Bullet.h" />
+>>>>>>> Character
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

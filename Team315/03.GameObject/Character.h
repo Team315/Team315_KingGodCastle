@@ -7,12 +7,14 @@
 #include <unordered_map>
 #include "Map/FloodFill.h"
 #include "Map/AStar.h"
+#include "Bullet.h"
 
 class Character : public SpriteObj
 {
 protected:
 	Animator animator;
 	Animator attackEffect;
+	Vector2f look;
 	Character* target;
 	unordered_map<Stats, Stat> stat;
 	bool attackRangeType; // true square, false cross
@@ -61,6 +63,8 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
+
+	void Fire();
 
 	virtual void SetState(AnimStates newState);
 	AnimStates GetState() { return currState;  }
