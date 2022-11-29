@@ -266,25 +266,6 @@ void BattleScene::Update(float dt)
 					if (curBattleCharacterCount != battleCharacterCount)
 						CLOG::Print3String("need more battle character");
 
-					CLOG::Print3String("main grid full state");
-					int count = 0;
-					for (auto& character : mgref)
-					{
-						if (character == nullptr)
-							cout << "..";
-						else
-						{
-							if (character->GetName().compare("Obstacle"))
-								cout << character->GetName()[0] + to_string(character->GetStarNumber());
-							else
-								cout << "Ob";
-						}
-
-						cout << ' ';
-						count++;
-						if ((count % GAME_TILE_WIDTH) == 0)
-							cout << endl;
-					}
 					for (auto& character : mgref)
 					{
 						if (character != nullptr && character->GetType().compare("Obstacle"))
@@ -292,6 +273,7 @@ void BattleScene::Update(float dt)
 							character->SetIsBattle(true);
 						}
 					}
+
 					playingBattle = true;
 					break;
 				}
@@ -307,7 +289,6 @@ void BattleScene::Update(float dt)
 					Character* newPick = GAME_MGR->SpawnPlayer(true, true);
 					newPick->SetPos(prepareGridRect[idx]->GetPos());
 					newPick->Init();
-					newPick->SetDrawingOnBattle(true);
 					prepareGrid[idx] = newPick;
 					break;
 				}
@@ -682,7 +663,6 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 				mgref[curIdx] = GAME_MGR->SpawnMonster( tile->GetMonsterName(), tile->GetTileData().grade);
 				mgref[curIdx]->SetPos(tile->GetPos());
 				mgref[curIdx]->Init();
-				mgref[curIdx]->SetDrawingOnBattle(true);
 				break;
 			default:
 				break;

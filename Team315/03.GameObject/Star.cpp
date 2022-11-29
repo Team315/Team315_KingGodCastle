@@ -2,7 +2,7 @@
 #include "Include.h"
 
 Star::Star(int starNumber)
-	: inBattle(false), starNumber(starNumber)
+	: starNumber(starNumber)
 {
 	if (starNumber == 0)
 		CalculateRandomChance();
@@ -35,9 +35,7 @@ bool Star::CalculateRandomChance()
 
 void Star::UpdateTexture()
 {
-	string path = "graphics/commonUI/";
-	path += inBattle ? "Level_Bar_" : "Level_Star_";
-	path += to_string(starNumber) + ".png";
+	string path = "graphics/commonUI/" + ("Level_Star_" + to_string(starNumber) + ".png");
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(path), true);
 	SpriteObj::SetOrigin(Origins::BC);
 }

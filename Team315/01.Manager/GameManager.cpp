@@ -35,6 +35,12 @@ GameManager::~GameManager()
 		chapter.clear();
 	}
 	m_tiles.clear();
+
+	for (auto& character : *mainGrid)
+	{
+		delete character;
+	}
+	mainGrid->clear();
 }
 
 Vector2i GameManager::PosToIdx(Vector2f pos)
@@ -146,7 +152,6 @@ Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBatt
 		character = new Pria();
 	else if (!name.compare("Shelda") || num == 6)
 		character = new Shelda();
-	character->SetDrawingOnBattle(drawingOnBattle);
 	return character;
 }
 

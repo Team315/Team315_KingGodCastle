@@ -41,8 +41,6 @@ protected:
 	Vector2f direction;
 	Vector2f lastDirection;
 
-	bool drawingOnBattle;
-
 	float m_attackDelay;
 	//FloodFill
 	FloodFill m_floodFill;
@@ -70,9 +68,6 @@ public:
 		move = true;
 		destination = dest;
 	}
-	void SetDrawingOnBattle(bool b) { drawingOnBattle = b; }
-	bool GetDrawingOnBattle() { return drawingOnBattle; }
-
 	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }

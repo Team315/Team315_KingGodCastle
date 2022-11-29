@@ -5,7 +5,6 @@ class Star : public SpriteObj
 {
 protected:
 	int starNumber;
-	bool inBattle;
 
 public:
 	Star(int starNumber = 0);
