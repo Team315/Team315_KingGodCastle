@@ -205,8 +205,8 @@ void Character::UpgradeCharacterSet()
 	sprite.setScale({
 		1.0f + (GetStarNumber() * 0.05f),
 		1.0f + (GetStarNumber() * 0.05f) });
-	// ¼º±Þ ¿Ã¶ó°¥¶§ °ø°Ý·Â,¸¶·Â,Ã¼·Â Áõ°¡
-	// º° »ö ¹Ù²ð¶§ ½ºÅ³ ¹üÀ§ Áõ°¡ 1 3 5 7
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¶ó°¥¶ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½,ï¿½ï¿½ï¿½ï¿½,Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 1 3 5 7
 }
 
 void Character::IsSetState(AnimStates newState)
@@ -273,25 +273,19 @@ void Character::SetTargetDistance()
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
-			if (mypos.x == 6 && mypos.y == 6)
-			{
-				cout << mypos.x << mypos.y << endl;
-			}
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
-			if (enemyInfo.leng > nowEnemyInfo.leng)
+			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
 			{
 				enemyInfo = nowEnemyInfo;
 			}
 		}
 	}
 
-	if (enemyInfo.leng == -1)
+	if (enemyInfo.leng == 99999)
 	{
-		enemyInfo.leng = 99999;
 		return;
-
 	}
 
 	Vector2i coord = GAME_MGR->PosToIdx(GetPos());
