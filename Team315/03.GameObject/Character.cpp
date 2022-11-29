@@ -99,28 +99,21 @@ void Character::Update(float dt)
 		}
 	}
 
-	if (InputMgr::GetKeyDown(Keyboard::Key::W))
-	{
-		shieldAmount += 100.f;
-		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
-	}
-
 	if (InputMgr::GetKeyDown(Keyboard::Key::S))
 	{
-		if (shieldAmount >= 100.f)
-			shieldAmount -= 100.f;
+		TakeCare(this, false);
 		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
 	}
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::A))
 	{
-		stat[Stats::HP].TranslateCurrent(-15.f);
+		TakeDamage(this);
 		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
 	}
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::D))
 	{
-		stat[Stats::HP].TranslateCurrent(15.f);
+		TakeCare(this);
 		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
 	}
 
@@ -141,7 +134,7 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	//attackSprite.setPosition(GetPos());
+	attackSprite.setPosition(GetPos());
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
 }
@@ -149,11 +142,6 @@ void Character::SetPos(const Vector2f& pos)
 void Character::SetState(AnimStates newState)
 {
 	IsSetState(newState);
-	//if (newState != AnimStates::Attack && currState == AnimStates::Attack)
-	//{
-	//	attack = false;
-	//	m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
-	//}
 
 	if (currState == newState)
 	{
@@ -162,11 +150,6 @@ void Character::SetState(AnimStates newState)
 
 	currState = newState;
 
-}
-
-void Character::SetTarget(Character* target)
-{
-	this->target = target;
 }
 
 void Character::SetStatsInit(json data)
@@ -191,15 +174,38 @@ void Character::TakeDamage(Character* attacker, bool attackType)
 	else
 		damage = attacker->GetStat(Stats::AP).GetModifier();
 
+	if (shieldAmount > 0.f)
+	{
+		float damageTemp = damage;
+		damage -= shieldAmount;
+		shieldAmount -= damageTemp;
+
+		if (shieldAmount < 0.f)
+			shieldAmount = 0.f;
+		if (damage < 0.f)
+			damage = 0.f;
+	}
+
 	hp.TranslateCurrent(-damage);
-	// hp.SetCurrent(hp.GetCurrent() -= damage);
-	float curRatio = hp.GetCurRatio();
-	hpBar->SetProgressValue(curRatio);
-	if (curRatio <= 0.f)
+	hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+	if (stat[Stats::HP].GetCurrent() <= 0.f)
 	{
 		// death
 		CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
 	}
+}
+
+void Character::TakeCare(Character* caster, bool careType)
+{
+	Stat& hp = stat[Stats::HP];
+	float careAmount = caster->GetStat(Stats::AP).GetModifier();
+
+	if (careType)
+		hp.TranslateCurrent(careAmount);
+	else
+		shieldAmount += careAmount;
+
+	hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
 }
 
 void Character::UpgradeStar()
@@ -217,8 +223,6 @@ void Character::UpgradeCharacterSet()
 	sprite.setScale({
 		1.0f + (GetStarNumber() * 0.05f),
 		1.0f + (GetStarNumber() * 0.05f) });
-	// ���� �ö󰥶� ���ݷ�,����,ü�� ����
-	// �� �� �ٲ� ��ų ���� ���� 1 3 5 7
 }
 
 void Character::IsSetState(AnimStates newState)

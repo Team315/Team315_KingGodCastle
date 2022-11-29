@@ -55,8 +55,9 @@ StatPopupWindow::StatPopupWindow(float x, float y)
 	apImg.setScale(0.5f, 0.5f);
 	asImg.setScale(0.5f, 0.5f);
 
-	hpBar = new ProgressBar(190.f, 11.f);
+	hpBar = new TwoFactorProgress(190.f, 11.f);
 	hpBar->SetProgressColor(Color::Green);
+	hpBar->SetSecondProgressColor(Color::White);
 	hpBar->SetBackgroundColor(Color(0x1B, 0x1B, 0x1B));
 	hpBar->SetBackgroundOutline(Color::Black, 1.f);
 
@@ -67,12 +68,12 @@ StatPopupWindow::StatPopupWindow(float x, float y)
 	currentHp.setOutlineThickness(1.f);
 	
 	mpBar = new ProgressBar(190.f, 11.f);
-	mpBar->SetProgressColor(Color::Blue);
+	mpBar->SetProgressColor(Color(0.f, 0.f, 200.f));
 	mpBar->SetBackgroundColor(Color(0x1B, 0x1B, 0x1B));
 	mpBar->SetBackgroundOutline(Color::Black, 1.f);
 
 	currentMp.setFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	currentMp.setFillColor(Color::Green);
+	currentMp.setFillColor(Color::White);
 	currentMp.setCharacterSize(12);
 	currentMp.setOutlineColor(Color::Black);
 	currentMp.setOutlineThickness(1.f);
@@ -86,6 +87,7 @@ void StatPopupWindow::Update(float dt)
 {
 	hpBar->Update(dt);
 	mpBar->Update(dt);
+	UpdateContents();
 }
 
 void StatPopupWindow::Draw(RenderWindow& window)
@@ -126,10 +128,8 @@ void StatPopupWindow::SetPos(const Vector2f& pos)
 	asImg.setPosition(pos + Vector2f(100.f, 100.f));
 	hpBar->SetPos(pos + Vector2f(5.f, 135.f));
 	currentHp.setPosition(pos + Vector2f(100.f, 143.5f));
-	Utils::SetOrigin(currentHp, Origins::BC);
 	mpBar->SetPos(pos + Vector2f(5.f, 150.f));
 	currentMp.setPosition(pos + Vector2f(100.f, 158.5f));
-	Utils::SetOrigin(currentMp, Origins::BC);
 }
 
 void StatPopupWindow::SetOrigin(Origins origin)
@@ -139,6 +139,8 @@ void StatPopupWindow::SetOrigin(Origins origin)
 
 void StatPopupWindow::SetCharacter(Character* character)
 {
+	target = character;
+
 	string texPath = "graphics/Charactor/Portrait/Portrait_" + character->GetName() + ".png";
 	portrait.setTexture(*RESOURCE_MGR->GetTexture(texPath), true);
 	FloatRect fr = (FloatRect)portrait.getTextureRect();
@@ -153,8 +155,6 @@ void StatPopupWindow::SetCharacter(Character* character)
 	apText->SetString(character->GetStat(Stats::AP).GetModifier(), true);
 	string asStr = to_string(character->GetStat(Stats::AS).GetModifier()).substr(0, 4);
 	asText->SetString(asStr);
-	currentHp.setString(to_string((int)character->GetStat(Stats::HP).GetCurrent()));
-	hpBar->SetProgressValue(character->GetStat(Stats::HP).GetCurRatio());
 
 	Stat mp = character->GetStat(Stats::MP);
 	if (mp.GetBase() == 0)
@@ -167,7 +167,27 @@ void StatPopupWindow::SetCharacter(Character* character)
 		useOptional = false;
 		shape.setSize(Vector2f(200.f, 180.f));
 	}
+}
+
+void StatPopupWindow::UpdateContents()
+{
+	if (target == nullptr)
+		return;
+
+	float shieldAmount = target->GetShieldAmount();
+	Stat hp = target->GetStat(Stats::HP);
+	hpBar->SetRatio(hp.GetModifier(), hp.GetCurrent(), shieldAmount);
+
+	string str = to_string((int)target->GetStat(Stats::HP).GetCurrent());
+	if (shieldAmount > 0.f)
+		str += "(" + to_string((int)shieldAmount) + ")";
+	currentHp.setString(str);
+
+	Stat mp = target->GetStat(Stats::MP);
 	currentMp.setString(to_string((int)mp.GetCurrent()) + "/" +
 		to_string((int)mp.GetBase()));
 	mpBar->SetProgressValue(mp.GetCurRatio());
+
+	Utils::SetOrigin(currentHp, Origins::BC);
+	Utils::SetOrigin(currentMp, Origins::BC);
 }

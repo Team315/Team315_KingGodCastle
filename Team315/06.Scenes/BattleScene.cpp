@@ -534,6 +534,7 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 {
 	int startIdx = GetIdxFromCoord(startCoord);
 	int destIdx = GetIdxFromCoord(destCoord);
+	bool canMove = true;
 
 	if (startCoord == destCoord)
 	{
@@ -559,7 +560,10 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 					pick->UpgradeStar();
 				}
 				else
+				{
 					CLOG::Print3String("can not combinate");
+					canMove = false;
+				}
 			}
 			else
 			{
@@ -569,16 +573,41 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 					destCharacter->SetPos(beforeDragPos);
 				}
 				else
+				{
 					CLOG::Print3String("can not swap");
+					canMove = false;
+				}
 			}
 		}
 		else
 		{
-			CLOG::Print3String("move to empty");
-
-			// add to new character in battleGrid from prepare (prepare -> battleGrid)
-			if (dest == &battleGrid && start == &prepareGrid)
+			if ( (!playingBattle) )
 			{
+				// add to new character in battleGrid from prepare (prepare -> battleGrid)
+				if ( (dest == &battleGrid && start == &prepareGrid) )
+				{
+					CLOG::Print3String("prepare -> battle move empty");
+
+					int count = 0;
+					for (auto& character : battleGrid)
+					{
+						if (character == nullptr)
+							continue;
+						else
+							count++;
+					}
+
+					if (count >= battleCharacterCount)
+					{
+						CLOG::Print3String("can not move more character");
+						canMove = false;
+					}
+				}
+			}
+			else if (start == dest)
+			{
+				CLOG::Print3String("start == dest move empty");
+
 				int count = 0;
 				for (auto& character : battleGrid)
 				{
@@ -591,20 +620,29 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 				if (count >= battleCharacterCount)
 				{
 					CLOG::Print3String("can not move more character");
-					pick->SetPos(beforeDragPos);
-					pick->SetHitBoxActive(true);
-					pick = nullptr;
-					return;
+					canMove = false;
 				}
 			}
+			else
+			{
+				CLOG::Print3String("can not move");
+				canMove = false;
+			}
+
 		}
-		// swap in vector
-		Character* temp = (*dest)[destIdx];
-		(*dest)[destIdx] = pick;
-		(*start)[startIdx] = temp;
+		if (canMove)
+		{
+			// swap in vector contatiner
+			Character* temp = (*dest)[destIdx];
+			(*dest)[destIdx] = pick;
+			(*start)[startIdx] = temp;
+		}
 	}
 
-	pick->SetPos(GAME_MGR->IdxToPos(destCoord));
+	if (canMove)
+		pick->SetPos(GAME_MGR->IdxToPos(destCoord));
+	else
+		pick->SetPos(GAME_MGR->IdxToPos(startCoord));
 	pick->SetHitBoxActive(true);
 	pick = nullptr;
 	return ;

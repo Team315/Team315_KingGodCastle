@@ -46,20 +46,20 @@ void TwoFactorProgress::SetSecondProgressValue(float value)
 	secondProgressValue = Utils::Clamp(secondProgressValue, 0.f, 1.f);
 }
 
-void TwoFactorProgress::SetRatio(float TotalAmount,
+void TwoFactorProgress::SetRatio(float totalAmount,
 	float firstFactorAmount, float secondFactorAmount)
 {
 	float firstValue = 0.f, secondValue = 0.f;
 	float sumFactors = firstFactorAmount + secondFactorAmount;
-	if (TotalAmount < sumFactors)
+	if (totalAmount < sumFactors)
 	{
 		firstValue = firstFactorAmount / sumFactors;
 		secondValue = secondFactorAmount / sumFactors;
 	}
 	else
 	{
-		firstValue = firstFactorAmount / TotalAmount;
-		secondValue = secondFactorAmount / TotalAmount;
+		firstValue = firstFactorAmount / totalAmount;
+		secondValue = secondFactorAmount / totalAmount;
 	}
 	SetProgressValue(firstValue);
 	SetSecondProgressValue(secondValue);

@@ -16,7 +16,6 @@ protected:
 	Animator animator;
 	Animator attackEffect;
 	Vector2f look;
-	Character* target;
 	unordered_map<Stats, Stat> stat;
 	bool attackRangeType; // true square, false cross
 
@@ -63,13 +62,9 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
-
-	void Fire();
-
 	virtual void SetState(AnimStates newState);
 	AnimStates GetState() { return currState;  }
 
-	void SetTarget(Character* target);
 	void SetDestination(Vector2f dest)
 	{
 		move = true;
@@ -83,6 +78,9 @@ public:
 	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
 	void TakeDamage(Character* attacker, bool attackType = true); // true = ad / false = ap
+	void TakeCare(Character* caster, bool careType = true); // true = heal / false = shield
+	void AddShieldAmount(float amount) { shieldAmount += amount; }
+	float GetShieldAmount() { return shieldAmount; }
 	void UpgradeStar();
 	void UpgradeCharacterSet();
 	void SetNoSkill(bool b) { noSkill = b; };
