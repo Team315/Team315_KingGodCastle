@@ -35,6 +35,8 @@ protected:
 	Vector2i m_pair;
 	pair<double, Vector2i> m_pPair;
 public:
+	static int counter;
+
 	AStar();
 	~AStar();
 

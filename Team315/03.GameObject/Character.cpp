@@ -21,7 +21,11 @@ Character::~Character()
 
 void Character::Init()
 {
-	SetHitbox(FloatRect(0, 0, TILE_SIZE, TILE_SIZE), Origins::BC);
+	Vector2f hitboxSize(
+		GetTextureRect().width * 0.5f < TILE_SIZE ? TILE_SIZE : GetTextureRect().width * 0.5f,
+		GetTextureRect().height * 0.5f < TILE_SIZE ? TILE_SIZE : GetTextureRect().height * 0.5f);
+	
+	SetHitbox(FloatRect(0, 0, hitboxSize.x, hitboxSize.y), Origins::BC);
 	UpgradeCharacterSet();
 	Object::Init();
 

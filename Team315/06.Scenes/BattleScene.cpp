@@ -401,6 +401,7 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	// main grid update
 	for (auto& character : mgref)
 	{
 		if (character == nullptr)
@@ -409,8 +410,17 @@ void BattleScene::Update(float dt)
 			continue;
 
 		character->Update(dt);
-		
-		/*if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	}
+
+	// main grid stat pop up
+	for (auto& character : mgref)
+	{
+		if (character == nullptr)
+			continue;
+		if (!character->GetType().compare("Obstacle"))
+			continue;
+
+		if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
@@ -418,7 +428,7 @@ void BattleScene::Update(float dt)
 				ui->SetStatPopup(true, currentView.getCenter(), character,
 					GAME_MGR->SnapToCoord(character->GetPos()));
 			}
-		}*/
+		}
 	}
 
 	// mouse drag control
@@ -525,7 +535,14 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 	int startIdx = GetIdxFromCoord(startCoord);
 	int destIdx = GetIdxFromCoord(destCoord);
 
-	if ((startCoord != destCoord))
+	if (startCoord == destCoord)
+	{
+		(*start)[startIdx]->PrintStats();
+		ui->SetStatPopup(true, currentView.getCenter(), (*start)[startIdx],
+			GAME_MGR->SnapToCoord(
+				(*start)[startIdx]->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
+	}
+	else
 	{
 		Character* destCharacter = (*dest)[destIdx];
 		if (destCharacter != nullptr)
@@ -533,23 +550,33 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 			if (!destCharacter->GetName().compare(pick->GetName()) &&
 				destCharacter->GetStarNumber() == pick->GetStarNumber())
 			{
-				CLOG::Print3String("combinate");
-				(*dest)[destIdx] = nullptr;
-				destCharacter->Release();
-				delete destCharacter;
-				pick->UpgradeStar();
+				if ((!playingBattle) || (start == dest))
+				{
+					CLOG::Print3String("combinate");
+					(*dest)[destIdx] = nullptr;
+					destCharacter->Release();
+					delete destCharacter;
+					pick->UpgradeStar();
+				}
+				else
+					CLOG::Print3String("can not combinate");
 			}
 			else
 			{
-				CLOG::Print3String("swap");
-				destCharacter->SetPos(beforeDragPos);
+				if ( (!playingBattle) || (start == dest) )
+				{
+					CLOG::Print3String("swap");
+					destCharacter->SetPos(beforeDragPos);
+				}
+				else
+					CLOG::Print3String("can not swap");
 			}
 		}
 		else
 		{
 			CLOG::Print3String("move to empty");
 
-			// add to new character from prepare
+			// add to new character in battleGrid from prepare (prepare -> battleGrid)
 			if (dest == &battleGrid && start == &prepareGrid)
 			{
 				int count = 0;
@@ -575,13 +602,6 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 		Character* temp = (*dest)[destIdx];
 		(*dest)[destIdx] = pick;
 		(*start)[startIdx] = temp;
-	}
-	else
-	{
-		(*start)[startIdx]->PrintStats();
-		ui->SetStatPopup(true, currentView.getCenter(), (*start)[startIdx],
-			GAME_MGR->SnapToCoord(
-			(*start)[startIdx]->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
 	}
 
 	pick->SetPos(GAME_MGR->IdxToPos(destCoord));

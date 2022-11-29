@@ -70,7 +70,8 @@ void Evan::Init()
 		ev.frame = 3;
 		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
 		animator.AddEvent(ev);
-	} {
+	} 
+	{
 		AnimationEvent ev;
 		ev.clipId = "Sword_DownAttack_Effect";
 		ev.frame = 3;
@@ -224,7 +225,6 @@ void Evan::Update(float dt)
 	{
 		lastDirection = direction;
 	}
-	direction = { 0.f, 0.f };
 }
 
 void Evan::Draw(RenderWindow& window)

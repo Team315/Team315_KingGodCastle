@@ -13,8 +13,8 @@ Pria::~Pria()
 
 void Pria::Init()
 {
-
 	animator.SetTarget(&sprite);
+	attackEffect.SetTarget(&attackSprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_Idle"));
 
@@ -38,7 +38,10 @@ void Pria::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpSkill"));
 
-
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_DownAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_LeftAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightAttack_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpAttack_Effect"));
 
 	{
 		AnimationEvent ev;
@@ -67,6 +70,34 @@ void Pria::Init()
 		ev.frame = 3;
 		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
 		animator.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Pria_DownAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Pria_LeftAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Pria_RightAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Pria_UpAttack_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
+		attackEffect.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
@@ -105,6 +136,11 @@ void Pria::Update(float dt)
 {
 	Character::Update(dt);
 
+	if (InputMgr::GetKeyDown(Keyboard::Z))
+	{
+		SetState(AnimStates::Attack);
+	}
+
 	switch (currState)
 	{
 	case AnimStates::Idle:
@@ -124,6 +160,7 @@ void Pria::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
+	attackEffect.Update(dt);
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -175,9 +212,17 @@ void Pria::SetState(AnimStates newState)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Pria_RightAttack" : "Pria_LeftAttack");
 		}
+		if (lastDirection.x)
+		{
+			attackEffect.Play((lastDirection.x > 0.f) ? "Pria_RightAttack_Effect" : "Pria_LeftAttack_Effect");
+		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Pria_DownAttack" : "Pria_UpAttack");
+		}
+		if (lastDirection.y)
+		{
+			attackEffect.Play((lastDirection.y > 0.f) ? "Pria_DownAttack_Effect" : "Pria_UpAttack_Effect");
 		}
 		break;
 	case AnimStates::Skill:
