@@ -246,7 +246,6 @@
     <ClInclude Include="04.UiObject\BackrectText.h" />
     <ClInclude Include="03.GameObject\Map\FloodFill.h" />
     <ClInclude Include="04.UiObject\TwoFactorProgress.h" />
-    <ClInclude Include="StatPopupWiindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="03.GameObject\Monster\Slime00.cpp" />
