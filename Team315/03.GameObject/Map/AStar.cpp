@@ -118,8 +118,8 @@ double AStar::GethValue(int row, int col, Vector2i dst)
 void AStar::tracePath(Cell cellDetails[14][7], Vector2i enpos)
 {
 	stack<Vector2i> s;
-	int y = enpos.x;
-	int x = enpos.y;
+	int x = enpos.x;
+	int y = enpos.y;
 
 	s.push({ y, x });
 	while (!(cellDetails[y][x].parent.x == x && cellDetails[y][x].parent.y == y)) 
@@ -174,23 +174,10 @@ void AStar::SetAstar(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 			}
 		}
 	}
+
 	grid[myPos.y][myPos.x] = 0;
 	grid[enPos.y][enPos.x] = 0;
 
-	//for (int i = 0; i < COL; ++i)
-	//{
-	//	for (int j = 0; j < ROW; ++j)
-	//	{
-	//		if (grid[i][j] == 2)
-	//		{
-	//			grid[myPos.y][myPos.x] = 0;
-	//		}
-	//		if (grid[i][j] == 3)
-	//		{
-	//			grid[enPos.y][enPos.x] = 0;
-	//		}
-	//	}
-	//}
 	for (int i = 0; i < COL; ++i)
 	{
 		for (int j = 0; j < ROW; ++j)

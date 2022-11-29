@@ -147,7 +147,6 @@ void BattleScene::Update(float dt)
 			if (curStageIdx < STAGE_MAX_COUNT - 1)
 				curStageIdx++;
 			SetCurrentStage(curChapIdx, curStageIdx);
-			ui->GetPanel()->SetStageNumber(curStageIdx + 1);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F5))
@@ -156,7 +155,6 @@ void BattleScene::Update(float dt)
 			if (curStageIdx > 0)
 				curStageIdx--;
 			SetCurrentStage(curChapIdx, curStageIdx);
-			ui->GetPanel()->SetStageNumber(curStageIdx + 1);
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F6))
 		{
@@ -164,7 +162,6 @@ void BattleScene::Update(float dt)
 			if (curStageIdx < STAGE_MAX_COUNT - 1)
 				curStageIdx++;
 			SetCurrentStage(curChapIdx, curStageIdx);
-			ui->GetPanel()->SetStageNumber(curStageIdx + 1);
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 		{
@@ -290,7 +287,7 @@ void BattleScene::Update(float dt)
 					}
 					for (auto& character : mgref)
 					{
-						if (character != nullptr && character->GetType().compare("Player"))
+						if (character != nullptr && character->GetType().compare("Obstacle"))
 						{
 							character->SetIsBattle(true);
 						}
@@ -602,6 +599,8 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 {
 	curStage = GAME_MGR->GetStage(chap, stage);
 
+	GAME_MGR->Reset();
+
 	int row = GAME_TILE_HEIGHT - BATTLE_GRID_ROW; // player zone X
 	int col = GAME_TILE_WIDTH;
 
@@ -613,37 +612,29 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 			int type = tile->GetTileData().TileTypes;
 
 			int curIdx = j + i * col;
+
+			vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
 			switch (type)
 			{
 			case (int) TileTypes::Obstacle:
-				GAME_MGR->GetMainGridRef()[curIdx] = new Obstacle(tile->GetObstaclePath());
-				GAME_MGR->GetMainGridRef()[curIdx]->SetPos(tile->GetPos());
+				mgref[curIdx] = new Obstacle(tile->GetObstaclePath());
+				mgref[curIdx]->SetPos(tile->GetPos());
 				break;
 			case (int) TileTypes::Monster:
-				GAME_MGR->GetMainGridRef()[curIdx] = GAME_MGR->SpawnMonster( tile->GetMonsterName(), tile->GetTileData().grade);
-				GAME_MGR->GetMainGridRef()[curIdx]->SetPos(tile->GetPos());
-				GAME_MGR->GetMainGridRef()[curIdx]->Init();
-				GAME_MGR->GetMainGridRef()[curIdx]->SetDrawingOnBattle(true);
+				mgref[curIdx] = GAME_MGR->SpawnMonster( tile->GetMonsterName(), tile->GetTileData().grade);
+				mgref[curIdx]->SetPos(tile->GetPos());
+				mgref[curIdx]->Init();
+				mgref[curIdx]->SetDrawingOnBattle(true);
 				break;
 			default:
 				break;
 			}
 		}
 	}
+
+	ui->GetPanel()->SetStageNumber(curStageIdx + 1);
 	cout << "current chapter, stage (" << curChapIdx << ", " << curStageIdx << ")" << endl;
 }
-
-//Character* BattleScene::GetMainGridCharacter(int r, int c)
-//{
-//	int idx = r * GAME_TILE_WIDTH + c;
-//	return GAME_MGR->GetMainGridRef()[idx];
-//}
-//
-//void BattleScene::SetMainGrid(int r, int c, Character* character)
-//{
-//	int idx = r * GAME_TILE_WIDTH + c;
-//	GAME_MGR->GetMainGridRef()[idx] = character;
-//}
 
 bool InPrepareGrid(Vector2i pos)
 {
