@@ -46,7 +46,6 @@ void Character::Init()
 		stat[Stats::AR].GetModifier(),
 		attackRangeType);
 
-	//m_attackDelay = 1.f/ stat[Stats::AS].GetModifier();
 	m_attackDelay = 0.f;
 }
 
@@ -61,16 +60,8 @@ void Character::Reset()
 
 void Character::Update(float dt)
 {
-	//if (InputMgr::GetKey(Keyboard::Key::B))
-	{
 		if (isBattle)
 		{
-		/*if (move && !attack)
-		{
-			SetState(AnimStates::Move);
-			direction = destination - position;
-			Translate(Utils::Normalize(direction) * 0.5f);
-			if (destination == position)*/
 			if (!move && !attack && isAttack())
 			{
 				if (m_attackDelay <= 0.f)
@@ -96,15 +87,11 @@ void Character::Update(float dt)
 				Translate(Utils::Normalize(direction) * 0.5f);
 				if (destination == position)
 				{
-				//	Vector2i coord = GAME_MGR->PosToIdx(GetPos());
-				//	SetMainGrid(coord.y, coord.x, nullptr);
-
 					move = false;
 					SetState(AnimStates::MoveToIdle);
 				}
 			}
 		}
-	}
 	hpBar->Update(dt);
 }
 
@@ -236,20 +223,12 @@ bool Character::isAttack()
 {
 	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
-	//int n = 0;
 	for (auto& target : mainGrid)
 	{
-		//n++;
-		//if (targetType == "Player")
-		//{
-		//	cout << type << endl;
-		//	cout << n << endl;
-		//}
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
-			//EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
 			if (m_floodFill.FloodFillSearch(mainGrid, mypos, enpos, targetType))
 				return true;
@@ -275,9 +254,11 @@ void Character::SetTargetDistance()
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
-			//Vector2i enpos = GAME_MGR->PosToIdx(GetDestination());//GetDestination() 인잇에서 해볼것
-
-			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());//GetDestination() 인잇에서 해볼것
+			if (mypos.x == 6 && mypos.y == 6)
+			{
+				cout << mypos.x<< mypos.y << endl;
+			}
+			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
 			if (enemyInfo.leng > nowEnemyInfo.leng)
@@ -298,7 +279,6 @@ void Character::SetTargetDistance()
 	SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
 	SetMainGrid(coord.y, coord.x, nullptr);
 	SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, this);
-	//SetMainGrid(coord.y, coord.x, this);
 	enemyInfo.leng = 99999;
 }
 

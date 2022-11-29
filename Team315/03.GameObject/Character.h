@@ -68,7 +68,6 @@ public:
 		move = true;
 		destination = dest;
 	}
-	Vector2f GetDestination() {	return destination;	};
 	void SetDrawingOnBattle(bool b) { drawingOnBattle = b; }
 	bool GetDrawingOnBattle() { return drawingOnBattle; }
 
