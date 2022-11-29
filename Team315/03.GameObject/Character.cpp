@@ -42,11 +42,11 @@ void Character::Init()
 	else
 		targetType = "None";
 
-	m_floodFill.SetArrSize(
-		stat[Stats::AR].GetModifier(),
-		stat[Stats::AR].GetModifier(),
-		attackRangeType);
-
+	//m_floodFill.SetArrSize(
+	//	stat[Stats::AR].GetModifier(),
+	//	stat[Stats::AR].GetModifier(),
+	//	attackRangeType);
+	m_floodFill.SetArrSize(1,1,false);
 	m_attackDelay = 0.f;
 }
 

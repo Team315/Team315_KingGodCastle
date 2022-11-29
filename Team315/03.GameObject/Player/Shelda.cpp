@@ -214,7 +214,22 @@ void Shelda::SetState(AnimStates newState)
 		}
 		if (lastDirection.x)
 		{
-			attackEffect.Play((lastDirection.x > 0.f) ? "Sword_RightAttack_Effect" : "Sword_LeftAttack_Effect");
+			if (lastDirection.x > 0.f)
+			{
+				attackEffect.Play("Sword_RightAttack_Effect");
+				Vector2f vec = GetPos();
+				vec.x += 21.f;
+				vec.y += 15.f;
+				attackSprite.setPosition(vec);
+			}
+			else if (lastDirection.x < 0.f)
+			{
+				attackEffect.Play("Sword_LeftAttack_Effect");
+				Vector2f vec = GetPos();
+				vec.x -= 21.f;
+				vec.y += 15.f;
+				attackSprite.setPosition(vec);
+			}
 		}
 		if (lastDirection.y)
 		{
@@ -222,7 +237,22 @@ void Shelda::SetState(AnimStates newState)
 		}
 		if (lastDirection.y)
 		{
-			attackEffect.Play((lastDirection.y > 0.f) ? "Sword_DownAttack_Effect" : "Sword_UpAttack_Effect");
+			if (lastDirection.y > 0.f)
+			{
+				attackEffect.Play("Sword_DownAttack_Effect");
+				//Vector2f vec = GetPos();
+				//vec.x += 21.f;
+				//vec.y += 15.f;
+				//attackSprite.setPosition(vec);
+			}
+			if (lastDirection.y < 0.f)
+			{
+				attackEffect.Play("Sword_UpAttack_Effect");
+				Vector2f vec = GetPos();
+				vec.x += 5.f;
+				//vec.y += 15.f;
+				attackSprite.setPosition(vec);
+			}
 		}
 		break;
 	case AnimStates::Skill:
