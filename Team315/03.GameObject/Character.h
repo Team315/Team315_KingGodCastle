@@ -15,6 +15,7 @@ class Character : public SpriteObj
 protected:
 	Animator animator;
 	Animator attackEffect;
+	Sprite attackSprite;
 	unordered_map<Stats, Stat> stat;
 	bool attackRangeType; // true square, false cross
 

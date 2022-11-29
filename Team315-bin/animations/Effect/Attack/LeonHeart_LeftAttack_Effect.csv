@@ -1,9 +1,8 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
 LeonHeart_LeftAttack_Effect,0,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Effect/player/leonheart_attackEffect_01.png,0,0,70,70,35,70,0,0
-graphics/Effect/player/leonheart_attackEffect_01.png,0,70,70,70,35,70,0,0
-graphics/Effect/player/leonheart_attackEffect_01.png,0,140,70,70,35,70,0,0
-graphics/Effect/player/leonheart_attackEffect_01.png,0,210,70,70,35,70,0,0
-graphics/Effect/player/leonheart_attackEffect_01.png,0,280,70,70,35,70,0,0
-graphics/Effect/player/leonheart_attackEffect_01.png,0,350,70,70,35,70,0,0
+graphics/Effect/player/leonheart_attackEffect_00.png,0,0,130,130,65,130,1,0
+graphics/Effect/player/leonheart_attackEffect_00.png,130,0,130,130,65,130,1,0
+graphics/Effect/player/leonheart_attackEffect_00.png,260,0,130,130,65,130,1,0
+graphics/Effect/player/leonheart_attackEffect_00.png,390,0,130,130,65,130,1,0
+graphics/Effect/player/leonheart_attackEffect_00.png,520,0,130,130,65,130,1,0

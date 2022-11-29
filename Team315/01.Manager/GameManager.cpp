@@ -138,6 +138,10 @@ Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBatt
 	Character* character = nullptr;
 	//int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
 	int num = 4;
+<<<<<<< HEAD
+=======
+
+>>>>>>> Character
 	if (!name.compare("Aramis") || num == 0)
 		character = new Aramis();
 	else if (!name.compare("Arveron") || num == 1)
