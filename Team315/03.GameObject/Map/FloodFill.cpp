@@ -30,14 +30,6 @@ bool FloodFill::FloodFillSearch(vector<Character*>& map, Vector2i myPos, Vector2
 
 	areas.resize(m_Height, vector<Vector2i>(m_Width));
 
-	for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
-	{
-		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
-		{
-			//area[i][j].x = area[i][j].y = -1;
-		}
-	}
-
 	Vector2i pos = myPos;
 	pos.y -= (m_Height / 2);
 	pos.x -= (m_Width/ 2);
@@ -62,18 +54,12 @@ bool FloodFill::FloodFillSearch(vector<Character*>& map, Vector2i myPos, Vector2
 
 	int sy = myPos.y;
 	int sx = myPos.x;
-	//area[sy][sx].x = sx;
-	//area[sy][sx].y = sy;
+
 
 	for (int i = 0; i < m_Height; ++i)
 	{
 		for (int j = 0; j < m_Width; ++j)
 		{
-			/*int y = myPos.y;
-			int x = myPos.x;
-			int nx = y + grid[i][j];
-			int ny = x + grid[i][j];*/
-
 			if (isInRange(areas[i][j].y, areas[i][j].x))
 			{
 				if (m_areaArr[i][j] == true)

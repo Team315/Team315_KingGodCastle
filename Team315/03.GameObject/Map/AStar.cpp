@@ -1,6 +1,7 @@
 #include "AStar.h"
 
 constexpr double INF = 1e9 + 7;
+int AStar::counter = 0;
 
 AStar::AStar()
 	:ROW(7), COL(14), count(0)
@@ -13,6 +14,7 @@ AStar::~AStar()
 
 EnemyInfo AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 {
+	counter++;
 	SetAstar(map, myPos, enPos);
 
 	bool closedList[14][7];
@@ -155,12 +157,15 @@ void AStar::SetAstar(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 	{
 		for (int j = 0; j < ROW; ++j)
 		{
-
 			if (map[(i * ROW) + j] == nullptr )
 			{
 				grid[i][j] = 0;
 			}
-			else if (!map[(i * ROW) + j]->GetType().compare("Player"))
+			else if (map[(i * ROW) + j] != nullptr)
+			{
+				grid[i][j] = 1;
+			}
+			/*else if (!map[(i * ROW) + j]->GetType().compare("Player"))
 			{
 				grid[i][j] = 1;
 			}
@@ -171,7 +176,7 @@ void AStar::SetAstar(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 			else if (!map[(i * ROW) + j]->GetType().compare("Monster"))
 			{
 				grid[i][j] = 1;
-			}
+			}*/
 		}
 	}
 

@@ -102,6 +102,7 @@ void BattleScene::Exit()
 
 void BattleScene::Update(float dt)
 {
+	AStar::counter = 0;
 	vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
 
 	Scene::Update(dt);
@@ -448,6 +449,7 @@ void BattleScene::Update(float dt)
 			PutDownCharacter(&prepareGrid, &prepareGrid, beforeCoord, destCoord);
 	}
 	// Game Input end
+	cout << AStar::counter << endl;
 }
 
 void BattleScene::Draw(RenderWindow& window)
