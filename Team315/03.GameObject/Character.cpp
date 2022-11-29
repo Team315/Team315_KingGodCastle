@@ -31,8 +31,8 @@ void Character::Init()
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 
 	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 20.f };
+	SetHpBarValue(1.f);
 	hpBar->SetOrigin(Origins::BC);
-	hpBar->SetProgressValue(stat[Stats::HP].GetCurRatio());
 	starLocalPos = { 0.f, hpBarLocalPos.y };
 	SetPos(position);
 
@@ -46,11 +46,11 @@ void Character::Init()
 	else
 		targetType = "None";
 
-	//m_floodFill.SetArrSize(
-	//	stat[Stats::AR].GetModifier(),
-	//	stat[Stats::AR].GetModifier(),
-	//	attackRangeType);
-	m_floodFill.SetArrSize(1,1,false);
+	m_floodFill.SetArrSize(
+		stat[Stats::AR].GetModifier(),
+		stat[Stats::AR].GetModifier(),
+		attackRangeType);
+
 	m_attackDelay = 0.f;
 }
 
@@ -65,6 +65,29 @@ void Character::Reset()
 
 void Character::Update(float dt)
 {
+	hpBar->Update(dt);
+	// Dev key start
+	{
+		if (InputMgr::GetKeyDown(Keyboard::Key::S))
+		{
+			TakeCare(this, false);
+			hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::A))
+		{
+			TakeDamage(this);
+			hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::D))
+		{
+			TakeCare(this);
+			hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+		}
+	}
+	// Dev key end
+
 	if (isBattle)
 	{
 		if (!move && !attack && isAttack())
@@ -75,6 +98,11 @@ void Character::Update(float dt)
 				attack = true;
 				Stat& mp = stat[Stats::MP];
 				mp.TranslateCurrent(15.f);
+				if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
+				{
+					cout << name << " fire skill !" << endl;
+					mp.SetCurrent(0.f);
+				}
 			}
 			m_attackDelay -= dt;
 		}
@@ -108,26 +136,6 @@ void Character::Update(float dt)
 			}
 		}
 	}
-
-	if (InputMgr::GetKeyDown(Keyboard::Key::S))
-	{
-		TakeCare(this, false);
-		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
-	}
-
-	if (InputMgr::GetKeyDown(Keyboard::Key::A))
-	{
-		TakeDamage(this);
-		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
-	}
-
-	if (InputMgr::GetKeyDown(Keyboard::Key::D))
-	{
-		TakeCare(this);
-		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
-	}
-
-	hpBar->Update(dt);
 }
 
 void Character::Draw(RenderWindow& window)

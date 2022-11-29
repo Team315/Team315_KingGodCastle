@@ -72,8 +72,10 @@ public:
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
-	void TakeDamage(Character* attacker, bool attackType = true); // true = ad / false = ap
-	void TakeCare(Character* caster, bool careType = true); // true = heal / false = shield
+	// attackType, true = ad / false = ap
+	void TakeDamage(Character* attacker, bool attackType = true);
+	// careType, true = heal / false = shield
+	void TakeCare(Character* caster, bool careType = true);
 	void AddShieldAmount(float amount) { shieldAmount += amount; }
 	float GetShieldAmount() { return shieldAmount; }
 	void UpgradeStar();

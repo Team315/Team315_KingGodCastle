@@ -247,7 +247,6 @@ void BattleScene::Update(float dt)
 				// battle start
 				if (!button->GetName().compare("begin") && !playingBattle)
 				{
-					CLOG::Print3String("stage start");
 					b_centerPos = true;
 					ZoomIn();
 
@@ -279,6 +278,17 @@ void BattleScene::Update(float dt)
 				// summon character
 				if (!button->GetName().compare("summon"))
 				{
+					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->characterCost)
+					{
+						GAME_MGR->TranslateCoin(-GAME_MGR->characterCost);
+						ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+					}
+					else
+					{
+						cout << "not enough coin" << endl;
+						break;
+					}
+
 					int idx = GetZeroElem(prepareGrid);
 					if (idx == -1)
 					{
@@ -289,6 +299,21 @@ void BattleScene::Update(float dt)
 					newPick->SetPos(prepareGridRect[idx]->GetPos());
 					newPick->Init();
 					prepareGrid[idx] = newPick;
+					break;
+				}
+				if (!button->GetName().compare("equipment"))
+				{
+					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->equipmentCost)
+					{
+						GAME_MGR->TranslateCoin(-GAME_MGR->equipmentCost);
+						ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+					}
+					else
+					{
+						cout << "not enough coin" << endl;
+						break;
+					}
+					CLOG::Print3String("equipment");
 					break;
 				}
 			}

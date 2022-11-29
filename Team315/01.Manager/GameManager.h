@@ -28,6 +28,8 @@ protected:
 	// additional level up probability
 	int extraLevelUpChance;
 	int battleCharacterCount;
+	int startCoin;
+	int currentCoin;
 
 public:
 	GameManager();
@@ -55,6 +57,12 @@ public:
 	json GetCharacterData(string name);
 
 	vector<Character*>& GetMainGridRef() { return *mainGrid; }
+
+	int GetCurrentCoin() { return currentCoin; }
+	void TranslateCoin(int coin) { currentCoin += coin; }
+
+	const int characterCost;
+	const int equipmentCost;
 
 	BattleTracker*& GetTracker();
 };

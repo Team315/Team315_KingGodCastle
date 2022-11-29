@@ -5,17 +5,18 @@
 class Button;
 class SpriteObj;
 class TextObj;
+class BackrectText;
 
 class BattlePanel : public VertexArrayObj
 {
 protected:
 	SpriteObj* paper;
-	SpriteObj* titleBackground;
-	SpriteObj* bottomGradiant;
+	Sprite titleBackground;
+	Sprite bottomGradiant;
 
 	Button* summon;
 	Button* begin;
-	Button* expansion;
+	Button* equipment;
 	vector<Button*> buttons;
 
 	TextObj* titleText;
@@ -32,6 +33,10 @@ protected:
 	Vector2f stageTextLocalPos;
 	Vector2f dnmTitleTextLocalPos;
 	Vector2f gradiantLocalPos;
+	Vector2f coinLocalPos;
+
+	Sprite coinSprite;
+	BackrectText* coinState;
 
 public:
 	BattlePanel();
@@ -46,4 +51,5 @@ public:
 	vector<Button*>& GetButtons() { return buttons; }
 
 	void SetStageNumber(int num);
+	void SetCurrentCoin(int num);
 };

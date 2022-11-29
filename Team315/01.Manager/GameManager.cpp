@@ -4,7 +4,8 @@
 #include "CharacterHeaders.h"
 
 GameManager::GameManager()
-	: battleCharacterCount(10), extraLevelUpChance(0)
+	: battleCharacterCount(8), extraLevelUpChance(0), startCoin(50), // 6
+	characterCost(3), equipmentCost(5), currentCoin(startCoin)
 {
 	CLOG::Print3String("GameManager Create");
 	m_tiles.assign(
@@ -164,6 +165,9 @@ Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
 void GameManager::Reset()
 {
 	mainGrid->assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
+	currentCoin = startCoin;
+	battleCharacterCount = 8;
+	extraLevelUpChance = 0;
 }
 
 void GameManager::SetCharacterDatas()
