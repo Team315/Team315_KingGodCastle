@@ -80,6 +80,7 @@ void Character::Update(float dt)
 			}
 			else if (!move && !attack)
 			{
+				destination = GetPos();
 				SetTargetDistance();
 				move = true;
 			}
@@ -281,6 +282,8 @@ void Character::SetTargetDistance()
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
+			//Vector2i enpos = GAME_MGR->PosToIdx(GetDestination());//GetDestination() 인잇에서 해볼것
+
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());//GetDestination() 인잇에서 해볼것
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
