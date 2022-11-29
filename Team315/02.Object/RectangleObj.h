@@ -12,6 +12,7 @@ public:
 
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetOrigin(Origins origin) override;
+	virtual void SetPos(const Vector2f& pos) override;
 
 	void SetTexture(Texture* tex);
 	void SetScale(float x, float y);
@@ -25,8 +26,6 @@ public:
 
 	Vector2f GetSize()const;
 	FloatRect GetGlobalBounds() const;
-
-	void SetPos(const Vector2f& pos) override;
 
 	RectangleShape& GetShape();
 };

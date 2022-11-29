@@ -1,4 +1,5 @@
 #include "ProgressBar.h"
+#include "Include.h"
 
 ProgressBar::ProgressBar(float x, float y)
 	: RectangleObj(x, y), progressValue(0.f)

@@ -2,6 +2,7 @@
 #include "SpriteObj.h"
 #include "Animator.h"
 #include "TwoFactorProgress.h"
+#include "ProgressBar.h"
 #include "Star.h"
 #include "Include.h"
 #include <unordered_map>
@@ -14,12 +15,15 @@ class Character : public SpriteObj
 protected:
 	Animator animator;
 	Animator attackEffect;
+<<<<<<< HEAD
 	Character* target;
+=======
+	Vector2f look;
+>>>>>>> feature/UI
 	unordered_map<Stats, Stat> stat;
 	bool attackRangeType; // true square, false cross
 
 	// UI
-	//ProgressBar* hpBar;
 	TwoFactorProgress* hpBar;
 	Star* star;
 	
@@ -63,13 +67,9 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
-
-	void Fire();
-
 	virtual void SetState(AnimStates newState);
 	AnimStates GetState() { return currState;  }
 
-	void SetTarget(Character* target);
 	void SetDestination(Vector2f dest)
 	{
 		move = true;
@@ -83,6 +83,9 @@ public:
 	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
 	void TakeDamage(Character* attacker, bool attackType = true); // true = ad / false = ap
+	void TakeCare(Character* caster, bool careType = true); // true = heal / false = shield
+	void AddShieldAmount(float amount) { shieldAmount += amount; }
+	float GetShieldAmount() { return shieldAmount; }
 	void UpgradeStar();
 	void UpgradeCharacterSet();
 	void SetNoSkill(bool b) { noSkill = b; };

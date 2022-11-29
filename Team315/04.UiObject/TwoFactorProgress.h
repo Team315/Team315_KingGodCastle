@@ -21,7 +21,7 @@ public:
 	void SetSecondProgressColor(Color color);
 	void SetSecondProgressValue(float value);
 	const float GetSecondProgressValue() { return progressValue; }
-	void SetRatio(float TotalAmount, float firstFactorAmount, float secondFactorAmount);
+	void SetRatio(float totalAmount, float firstFactorAmount, float secondFactorAmount);
 	
 	virtual void TranslateProgress(float value) override;
 };

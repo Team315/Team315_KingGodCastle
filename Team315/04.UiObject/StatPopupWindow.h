@@ -5,10 +5,12 @@ class BackrectText;
 class BackgroundText;
 class Character;
 class ProgressBar;
+class TwoFactorProgress;
 
 class StatPopupWindow : public RectangleObj
 {
 protected:
+	Character* target;
 	// always
 	BackrectText* nameText;
 	BackgroundText * starText;
@@ -22,7 +24,7 @@ protected:
 	Sprite adImg;
 	Sprite apImg;
 	Sprite asImg;
-	ProgressBar* hpBar;
+	TwoFactorProgress* hpBar;
 	Text currentHp;
 	Text currentMp;
 	
@@ -40,4 +42,5 @@ public:
 	virtual void SetOrigin(Origins origin) override;
 
 	void SetCharacter(Character* character);
+	void UpdateContents();
 };

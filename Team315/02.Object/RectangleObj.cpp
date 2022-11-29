@@ -25,6 +25,12 @@ void RectangleObj::SetOrigin(Origins origin)
 	Utils::SetOrigin(shape, origin);
 }
 
+void RectangleObj::SetPos(const Vector2f& pos)
+{
+	Object::SetPos(pos);
+	shape.setPosition(position);
+}
+
 void RectangleObj::SetScale(float x, float y)
 {
 	shape.setScale(x, y);
@@ -71,12 +77,6 @@ Vector2f RectangleObj::GetSize() const
 FloatRect RectangleObj::GetGlobalBounds() const
 {
 	return shape.getGlobalBounds();
-}
-
-void RectangleObj::SetPos(const Vector2f& pos)
-{
-	Object::SetPos(pos);
-	shape.setPosition(position);
 }
 
 RectangleShape& RectangleObj::GetShape()

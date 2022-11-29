@@ -44,7 +44,14 @@ struct Stat
 		base = b;
 		UpdateStat();
 	}
-	void SetCurrent(float c) { current = c; }
+
+	void SetCurrent(float c)
+	{
+		current = c;
+		if (current >= modifier)
+			current = modifier;
+	}
+
 	void SetDelta(float d)
 	{
 		delta = d;
@@ -52,7 +59,7 @@ struct Stat
 	}
 	void SetModifier(float m) { modifier = m; }
 
-	void TranslateCurrent(float var) { current += var; }
+	void TranslateCurrent(float var) { SetCurrent(current + var); }
 
 	float& GetBase() { return base; }
 	float& GetCurrent() { return current; }

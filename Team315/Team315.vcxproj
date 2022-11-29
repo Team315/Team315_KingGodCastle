@@ -155,6 +155,7 @@
     <ClInclude Include="03.GameObject\Monster\Slime03.h" />
     <ClInclude Include="03.GameObject\Monster\Slime04.h" />
     <ClInclude Include="03.GameObject\Monster\Slime05.h" />
+    <ClInclude Include="04.UiObject\TwoFactorProgress.h" />
     <ClInclude Include="96.Json\FileData.h" />
     <ClInclude Include="96.Json\FileManager.h" />
     <ClInclude Include="98.3rd\CSVWriter.h" />
@@ -245,9 +246,7 @@
     <ClInclude Include="04.UiObject\BackgroundText.h" />
     <ClInclude Include="04.UiObject\BackrectText.h" />
     <ClInclude Include="03.GameObject\Map\FloodFill.h" />
-    <ClInclude Include="04.UiObject\TwoFactorProgress.h" />
     <ClInclude Include="03.GameObject\Bullet.h" />
-
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="03.GameObject\Monster\Slime00.cpp" />
@@ -256,6 +255,7 @@
     <ClCompile Include="03.GameObject\Monster\Slime03.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime04.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime05.cpp" />
+    <ClCompile Include="04.UiObject\TwoFactorProgress.cpp" />
     <ClCompile Include="06.Scenes\BattleScene.cpp" />
     <ClCompile Include="04.UiObject\Button.cpp" />
     <ClCompile Include="96.Json\FileData.cpp" />
@@ -292,7 +292,6 @@
     <ClCompile Include="03.GameObject\Skill\Goblin00Skill.cpp" />
     <ClCompile Include="04.UiObject\BackrectText.cpp" />
     <ClCompile Include="03.GameObject\Map\FloodFill.cpp" />
-    <ClCompile Include="04.UiObject\TwoFactorProgress.cpp" />
     <ClCompile Include="03.GameObject\Bullet.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
