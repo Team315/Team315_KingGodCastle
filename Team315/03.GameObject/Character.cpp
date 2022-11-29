@@ -45,6 +45,9 @@ void Character::Init()
 		stat[Stats::AR].GetModifier(),
 		stat[Stats::AR].GetModifier(),
 		attackRangeType);
+
+	//m_attackDelay = 1.f/ stat[Stats::AS].GetModifier();
+	m_attackDelay = 0.f;
 }
 
 void Character::Reset()
@@ -58,27 +61,46 @@ void Character::Reset()
 
 void Character::Update(float dt)
 {
-	if (isBattle)
+	//if (InputMgr::GetKey(Keyboard::Key::B))
 	{
-		if (!move && !attack && isAttack())
+		if (isBattle)
 		{
-			SetState(AnimStates::Attack);
-			Stat& mp = stat[Stats::MP];
-			mp.TranslateCurrent(15.f);
-			attack = true;
-		}
-		else if (!move && !attack)
-			SetTargetDistance();
-
-		if (move && !attack)
+		/*if (move && !attack)
 		{
 			SetState(AnimStates::Move);
 			direction = destination - position;
 			Translate(Utils::Normalize(direction) * 0.5f);
-			if (destination == position)
+			if (destination == position)*/
+			if (!move && !attack && isAttack())
 			{
-				move = false;
-				SetState(AnimStates::MoveToIdle);
+				if (m_attackDelay <= 0.f)
+				{
+					SetState(AnimStates::Attack);
+					attack = true;
+					Stat& mp = stat[Stats::MP];
+					mp.TranslateCurrent(15.f);
+				}
+				m_attackDelay -= dt;
+			}
+			else if (!move && !attack)
+			{
+				SetTargetDistance();
+				move = true;
+			}
+
+			if (move && !attack)
+			{
+				SetState(AnimStates::Move);
+				direction = destination - position;
+				Translate(Utils::Normalize(direction) * 0.5f);
+				if (destination == position)
+				{
+				//	Vector2i coord = GAME_MGR->PosToIdx(GetPos());
+				//	SetMainGrid(coord.y, coord.x, nullptr);
+
+					move = false;
+					SetState(AnimStates::MoveToIdle);
+				}
 			}
 		}
 	}
@@ -106,11 +128,20 @@ void Character::SetPos(const Vector2f& pos)
 
 void Character::SetState(AnimStates newState)
 {
+	IsSetState(newState);
+	//if (newState != AnimStates::Attack && currState == AnimStates::Attack)
+	//{
+	//	attack = false;
+	//	m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
+	//}
+
 	if (currState == newState)
 	{
 		return;
 	}
+	
 	currState = newState;
+	
 }
 
 void Character::SetTarget(Character* target)
@@ -158,6 +189,8 @@ void Character::UpgradeStar()
 		CLOG::Print3String("upgrade 2");
 	star->UpdateTexture();
 	UpgradeCharacterSet();
+
+	m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
 }
 
 void Character::UpgradeCharacterSet()
@@ -167,6 +200,15 @@ void Character::UpgradeCharacterSet()
 		1.0f + (GetStarNumber() * 0.05f) });
 	// 성급 올라갈때 공격력,마력,체력 증가
 	// 별 색 바뀔때 스킬 범위 증가 1 3 5 7
+}
+
+void Character::IsSetState(AnimStates newState)
+{
+	if (newState != AnimStates::Attack && currState == AnimStates::Attack)
+	{
+		attack = false;
+		m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
+	}
 }
 
 void Character::PrintStats()
@@ -193,15 +235,22 @@ bool Character::isAttack()
 {
 	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
+	//int n = 0;
 	for (auto& target : mainGrid)
 	{
+		//n++;
+		//if (targetType == "Player")
+		//{
+		//	cout << type << endl;
+		//	cout << n << endl;
+		//}
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 			//EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
-			if (m_floodFill.FloodFillSearch(mainGrid, mypos, enpos))
+			if (m_floodFill.FloodFillSearch(mainGrid, mypos, enpos, targetType))
 				return true;
 		}
 	}
@@ -225,7 +274,7 @@ void Character::SetTargetDistance()
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
-			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
+			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());//GetDestination() 인잇에서 해볼것
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
 			if (enemyInfo.leng > nowEnemyInfo.leng)
@@ -235,10 +284,18 @@ void Character::SetTargetDistance()
 		}
 	}
 
+	if (enemyInfo.leng == -1)
+	{
+		enemyInfo.leng = 99999;
+		return;
+
+	}
+
 	Vector2i coord = GAME_MGR->PosToIdx(GetPos());
 	SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
 	SetMainGrid(coord.y, coord.x, nullptr);
 	SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, this);
+	//SetMainGrid(coord.y, coord.x, this);
 	enemyInfo.leng = 99999;
 }
 

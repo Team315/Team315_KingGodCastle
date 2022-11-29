@@ -262,6 +262,7 @@ void BattleScene::Update(float dt)
 					{
 						if (character != nullptr)
 							curBattleCharacterCount++;
+						
 						mgref[monsterGridCoordC + monsterGridCoordR] = character;
 						monsterGridCoordC++;	
 					}
@@ -289,12 +290,11 @@ void BattleScene::Update(float dt)
 					}
 					for (auto& character : mgref)
 					{
-						if (character != nullptr && character->GetName().compare("Obstacle"))
+						if (character != nullptr && !character->GetType().compare("Player"))
 						{
 							character->SetIsBattle(true);
 						}
 					}
-
 					playingBattle = true;
 					break;
 				}
