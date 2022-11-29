@@ -3,9 +3,10 @@
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	currState(AnimStates::None), drawingOnBattle(false),
-	attackRangeType(false), isBattle(false), noSkill(false)
+	attackRangeType(false), isBattle(false), noSkill(false),
+	ccTimer(0.f), shieldAmount(0.f)
 {
-	hpBar = new ProgressBar(TILE_SIZE * 0.8f, 5.f);
+	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 5.f);
 	hpBar->SetProgressColor(Color::Green);
 	hpBar->SetBackgroundColor(Color(0, 0, 0, 100));
 	hpBar->SetBackgroundOutline(Color::Black, 2.f);
@@ -104,6 +105,15 @@ void Character::Update(float dt)
 			}
 		}
 	}
+
+	if (InputMgr::GetKey(Keyboard::Key::S))
+	{
+		shieldAmount += 100.f;
+		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+	}
+
+	if (InputMgr::GetKey(Keyboard::Key::S))
+
 	hpBar->Update(dt);
 }
 
@@ -158,7 +168,6 @@ void Character::SetStatsInit(json data)
 	stat.insert({ Stats::AS, Stat(data["AS"]) });
 	stat.insert({ Stats::AR, Stat(data["AR"]) });
 	stat.insert({ Stats::MS, Stat(data["MS"]) });
-	stat.insert({ Stats::SP, Stat(0.f, 0.f, false) });
 	string arType = data["ARTYPE"];
 	attackRangeType = arType.compare("cross") ? true : false;
 }

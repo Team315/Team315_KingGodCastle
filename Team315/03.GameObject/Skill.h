@@ -2,7 +2,7 @@
 #include "SpriteObj.h"
 #include "Animator.h"
 #include "Include.h"
-#include <list>
+#include <vector>
 
 class Character;
 
@@ -12,12 +12,13 @@ protected:
 	Animator animator;
 	AnimStates currState;
 
-	float core;
-	float factor;
+	vector<float> baseDamage; // skill base damage
+	vector<Vector2i> range;    // skill range
+
 	float damage;
 	Vector2i startPos;
 	Vector2i destPos;
-	list<Vector2i> area;  
+	int starNumber;
 
 public:
 	Skill();

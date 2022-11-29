@@ -2,8 +2,9 @@
 #include "Character.h"
 
 Skill::Skill()
-	: core(0.f), factor(0.f), damage(0.f)
+	: damage(0.f), startPos(0.f, 0.f), destPos(0.f, 0.f), starNumber(0)
 {
+	baseDamage.resize(4);
 }
 
 Skill::~Skill()
@@ -39,5 +40,5 @@ void Skill::SetState(AnimStates newState)
 
 void Skill::CalculateDamage(Character *character)
 {
-	damage = core + factor * character->GetStat(Stats::AP).GetModifier();
+	damage = baseDamage[(starNumber + 1) / 2] * character->GetStat(Stats::AP).GetModifier();
 }

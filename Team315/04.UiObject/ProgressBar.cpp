@@ -1,5 +1,4 @@
 #include "ProgressBar.h"
-#include "Include.h"
 
 ProgressBar::ProgressBar(float x, float y)
 	: RectangleObj(x, y), progressValue(0.f)
@@ -31,7 +30,6 @@ void ProgressBar::SetPos(const Vector2f& pos)
 
 void ProgressBar::SetOrigin(Origins origin)
 {
-	//RectangleObj::SetOrigin(origin);
 	Utils::SetOrigin(progress, origin);
 }
 

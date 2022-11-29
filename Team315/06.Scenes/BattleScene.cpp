@@ -290,7 +290,7 @@ void BattleScene::Update(float dt)
 					}
 					for (auto& character : mgref)
 					{
-						if (character != nullptr && !character->GetType().compare("Player"))
+						if (character != nullptr && character->GetType().compare("Player"))
 						{
 							character->SetIsBattle(true);
 						}
