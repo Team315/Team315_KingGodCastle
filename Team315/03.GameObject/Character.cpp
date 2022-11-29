@@ -52,21 +52,25 @@ void Character::Init()
 
 void Character::Reset()
 {
-	SetState(AnimStates::Idle);
 	isBattle = false;
 	attack = false;
 	move = false;
 	isAlive = true;
-	ForceSetLastDirection(Dir::Down);
+	SetState(AnimStates::Idle);
 }
 
 void Character::Update(float dt)
 {
-	if (InputMgr::GetKey(Keyboard::Key::B))
+	//if (InputMgr::GetKey(Keyboard::Key::B))
 	{
 		if (isBattle)
 		{
-
+		/*if (move && !attack)
+		{
+			SetState(AnimStates::Move);
+			direction = destination - position;
+			Translate(Utils::Normalize(direction) * 0.5f);
+			if (destination == position)*/
 			if (!move && !attack && isAttack())
 			{
 				if (m_attackDelay <= 0.f)
@@ -155,6 +159,7 @@ void Character::SetStatsInit(json data)
 	stat.insert({ Stats::AS, Stat(data["AS"]) });
 	stat.insert({ Stats::AR, Stat(data["AR"]) });
 	stat.insert({ Stats::MS, Stat(data["MS"]) });
+	stat.insert({ Stats::SP, Stat(0.f, 0.f, false) });
 	string arType = data["ARTYPE"];
 	attackRangeType = arType.compare("cross") ? true : false;
 }
@@ -196,18 +201,6 @@ void Character::UpgradeCharacterSet()
 		1.0f + (GetStarNumber() * 0.05f) });
 	// 성급 올라갈때 공격력,마력,체력 증가
 	// 별 색 바뀔때 스킬 범위 증가 1 3 5 7
-}
-
-void Character::ForceSetLastDirection(Dir dir)
-{
-	if (dir == Dir::Up)
-		lastDirection = Vector2f(0.f, -1.f);
-	else if (dir == Dir::Down)
-		lastDirection = Vector2f(0.f, 1.f);
-	else if (dir == Dir::Left)
-		lastDirection = Vector2f(-1.f, 0.f);
-	else if (dir == Dir::Right)
-		lastDirection = Vector2f(1.f, -0.f);
 }
 
 void Character::IsSetState(AnimStates newState)
@@ -273,7 +266,7 @@ void Character::PlayAstar()
 
 void Character::SetTargetDistance()
 {
-	//move = true;
+	move = true;
 
 	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 

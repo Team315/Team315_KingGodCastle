@@ -74,28 +74,28 @@ void Aramis::Init()
 	{
 		AnimationEvent ev;
 		ev.clipId = "Aramis_DownAttack_Effect";
-		ev.frame = 3;
+		ev.frame = 4;
 		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
 		attackEffect.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Aramis_LeftAttack_Effect";
-		ev.frame = 3;
+		ev.frame = 4;
 		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
 		attackEffect.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Aramis_RightAttack_Effect";
-		ev.frame = 3;
+		ev.frame = 4;
 		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
 		attackEffect.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Aramis_UpAttack_Effect";
-		ev.frame = 3;
+		ev.frame = 4;
 		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
 		attackEffect.AddEvent(ev);
 	}

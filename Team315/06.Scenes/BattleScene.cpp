@@ -78,6 +78,9 @@ void BattleScene::Enter()
 	curStageIdx = 0;
 	GAME_MGR->Reset();
 	SetCurrentStage(curChapIdx, curStageIdx);
+
+	b_centerPos = false;
+	ZoomOut();
 }
 
 void BattleScene::Exit()
@@ -261,7 +264,7 @@ void BattleScene::Update(float dt)
 							curBattleCharacterCount++;
 						
 						mgref[monsterGridCoordC + monsterGridCoordR] = character;
-						monsterGridCoordC++;
+						monsterGridCoordC++;	
 					}
 					if (curBattleCharacterCount != battleCharacterCount)
 						CLOG::Print3String("need more battle character");
@@ -275,10 +278,7 @@ void BattleScene::Update(float dt)
 						else
 						{
 							if (character->GetName().compare("Obstacle"))
-							{
 								cout << character->GetName()[0] + to_string(character->GetStarNumber());
-
-							}
 							else
 								cout << "Ob";
 						}
@@ -290,7 +290,7 @@ void BattleScene::Update(float dt)
 					}
 					for (auto& character : mgref)
 					{
-						if (character != nullptr && character->GetName().compare("Obstacle"))
+						if (character != nullptr && !character->GetType().compare("Player"))
 						{
 							character->SetIsBattle(true);
 						}
