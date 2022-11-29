@@ -1,7 +1,7 @@
 #pragma once
 #include "SpriteObj.h"
 #include "Animator.h"
-#include "ProgressBar.h"
+#include "TwoFactorProgress.h"
 #include "Star.h"
 #include "Include.h"
 #include <unordered_map>
@@ -18,12 +18,15 @@ protected:
 	bool attackRangeType; // true square, false cross
 
 	// UI
-	ProgressBar* hpBar;
+	//ProgressBar* hpBar;
+	TwoFactorProgress* hpBar;
 	Star* star;
 	
 	Vector2f hpBarLocalPos;
 	Vector2f starLocalPos;
 	//
+	float ccTimer; // Crowd control timer
+	float shieldAmount;
 	bool noSkill;
 
 	Vector2f destination;

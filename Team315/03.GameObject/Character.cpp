@@ -3,9 +3,10 @@
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	currState(AnimStates::None), drawingOnBattle(false),
-	attackRangeType(false), isBattle(false), noSkill(false)
+	attackRangeType(false), isBattle(false), noSkill(false),
+	ccTimer(0.f), shieldAmount(0.f)
 {
-	hpBar = new ProgressBar(TILE_SIZE * 0.8f, 5.f);
+	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 5.f);
 	hpBar->SetProgressColor(Color::Green);
 	hpBar->SetBackgroundColor(Color(0, 0, 0, 100));
 	hpBar->SetBackgroundOutline(Color::Black, 2.f);
@@ -22,10 +23,10 @@ void Character::Init()
 	SetHitbox(FloatRect(0, 0, TILE_SIZE, TILE_SIZE), Origins::BC);
 	UpgradeCharacterSet();
 	Object::Init();
-	
+
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 
-	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 20.f};
+	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 20.f };
 	hpBar->SetOrigin(Origins::BC);
 	hpBar->SetProgressValue(stat[Stats::HP].GetCurRatio());
 	starLocalPos = { 0, hpBarLocalPos.y };
@@ -60,38 +61,57 @@ void Character::Reset()
 
 void Character::Update(float dt)
 {
-		if (isBattle)
+	if (isBattle)
+	{
+		if (!move && !attack && isAttack())
 		{
-			if (!move && !attack && isAttack())
+			if (m_attackDelay <= 0.f)
 			{
-				if (m_attackDelay <= 0.f)
-				{
-					SetState(AnimStates::Attack);
-					attack = true;
-					Stat& mp = stat[Stats::MP];
-					mp.TranslateCurrent(15.f);
-				}
-				m_attackDelay -= dt;
+				SetState(AnimStates::Attack);
+				attack = true;
+				Stat& mp = stat[Stats::MP];
+				mp.TranslateCurrent(15.f);
 			}
-			else if (!move && !attack)
-			{
-				destination = GetPos();
-				SetTargetDistance();
-				move = true;
-			}
+			m_attackDelay -= dt;
+		}
+		else if (!move && !attack)
+		{
+			destination = GetPos();
+			SetTargetDistance();
+			move = true;
+		}
 
-			if (move && !attack)
+		if (move && !attack)
+		{
+			SetState(AnimStates::Move);
+			direction = destination - position;
+			Translate(Utils::Normalize(direction) * 0.5f);
+			if (destination == position)
 			{
-				SetState(AnimStates::Move);
-				direction = destination - position;
-				Translate(Utils::Normalize(direction) * 0.5f);
-				if (destination == position)
-				{
-					move = false;
-					SetState(AnimStates::MoveToIdle);
-				}
+				move = false;
+				SetState(AnimStates::MoveToIdle);
 			}
 		}
+	}
+
+	if (InputMgr::GetKey(Keyboard::Key::S))
+	{
+		shieldAmount += 100.f;
+		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+	}
+
+	if (InputMgr::GetKey(Keyboard::Key::A))
+	{
+		stat[Stats::HP].TranslateCurrent(-dt);
+		//hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+	}
+
+	if (InputMgr::GetKey(Keyboard::Key::D))
+	{
+		stat[Stats::HP].TranslateCurrent(-dt);
+		//hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+	}
+
 	hpBar->Update(dt);
 }
 
@@ -127,9 +147,9 @@ void Character::SetState(AnimStates newState)
 	{
 		return;
 	}
-	
+
 	currState = newState;
-	
+
 }
 
 void Character::SetTarget(Character* target)
@@ -139,14 +159,13 @@ void Character::SetTarget(Character* target)
 
 void Character::SetStatsInit(json data)
 {
-	stat.insert({ Stats::HP, Stat(data["HP"])});
+	stat.insert({ Stats::HP, Stat(data["HP"]) });
 	stat.insert({ Stats::MP, Stat(data["MP"], 0.f, false) });
 	stat.insert({ Stats::AD, Stat(data["AD"]) });
 	stat.insert({ Stats::AP, Stat(data["AP"]) });
 	stat.insert({ Stats::AS, Stat(data["AS"]) });
 	stat.insert({ Stats::AR, Stat(data["AR"]) });
 	stat.insert({ Stats::MS, Stat(data["MS"]) });
-	stat.insert({ Stats::SP, Stat(0.f, 0.f, false) });
 	string arType = data["ARTYPE"];
 	attackRangeType = arType.compare("cross") ? true : false;
 }
@@ -186,8 +205,8 @@ void Character::UpgradeCharacterSet()
 	sprite.setScale({
 		1.0f + (GetStarNumber() * 0.05f),
 		1.0f + (GetStarNumber() * 0.05f) });
-	// ¼º±Þ ¿Ã¶ó°¥¶§ °ø°Ý·Â,¸¶·Â,Ã¼·Â Áõ°¡
-	// º° »ö ¹Ù²ð¶§ ½ºÅ³ ¹üÀ§ Áõ°¡ 1 3 5 7
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¶ó°¥¶ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½,ï¿½ï¿½ï¿½ï¿½,Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 1 3 5 7
 }
 
 void Character::IsSetState(AnimStates newState)
@@ -266,9 +285,7 @@ void Character::SetTargetDistance()
 
 	if (enemyInfo.leng == 99999)
 	{
-		//enemyInfo.leng = 99999;
 		return;
-
 	}
 
 	Vector2i coord = GAME_MGR->PosToIdx(GetPos());

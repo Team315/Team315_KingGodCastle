@@ -16,12 +16,12 @@ public:
 	virtual void Draw(RenderWindow &window) override;
 	virtual void SetPos(const Vector2f &pos) override;
 
-	virtual void SetSize(float x, float y) override;
 	virtual void UpdateProgress() override;
 
 	void SetSecondProgressColor(Color color);
 	void SetSecondProgressValue(float value);
 	const float GetSecondProgressValue() { return progressValue; }
+	void SetRatio(float TotalAmount, float firstFactorAmount, float secondFactorAmount);
 	
 	virtual void TranslateProgress(float value) override;
 };

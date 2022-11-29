@@ -18,9 +18,9 @@ public:
 	virtual void SetPos(const Vector2f& pos) override;
 	virtual void SetOrigin(Origins origin) override;
 
-	virtual void SetSize(float x, float y);
 	virtual void UpdateProgress();
 
+	void SetSize(float x, float y);
 	void SetBackgroundColor(Color color);
 	void SetBackgroundOutline(Color color, float thickness);
 	void SetProgressColor(Color color);
