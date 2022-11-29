@@ -4,7 +4,7 @@ Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	currState(AnimStates::None), drawingOnBattle(false),
 	attackRangeType(false), isBattle(false), noSkill(false),
-	ccTimer(0.f), shieldAmount(0.f)
+	ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 5.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -76,9 +76,20 @@ void Character::Update(float dt)
 		}
 		else if (!move && !attack)
 		{
-			destination = GetPos();
-			SetTargetDistance();
-			move = true;
+			astarDelay -= dt;
+			if (astarDelay <= 0.f)
+			{
+				destination = GetPos();
+				if (SetTargetDistance())
+				{
+					move = true;
+				}
+				else
+				{
+					move = false;
+					astarDelay = 0.1f;
+				}
+			}
 		}
 
 		if (move && !attack)
@@ -262,9 +273,9 @@ void Character::PlayAstar()
 
 }
 
-void Character::SetTargetDistance()
+bool Character::SetTargetDistance()
 {
-	move = true;
+	//move = true;
 
 	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
@@ -285,7 +296,7 @@ void Character::SetTargetDistance()
 
 	if (enemyInfo.leng == 99999)
 	{
-		return;
+		return false;
 	}
 
 	Vector2i coord = GAME_MGR->PosToIdx(GetPos());
@@ -293,6 +304,7 @@ void Character::SetTargetDistance()
 	SetMainGrid(coord.y, coord.x, nullptr);
 	SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, this);
 	enemyInfo.leng = 99999;
+	return true;
 }
 
 void Character::SetMainGrid(int r, int c, Character* character)

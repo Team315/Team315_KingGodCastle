@@ -15,6 +15,9 @@ AStar::~AStar()
 EnemyInfo AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
 {
 	counter++;
+	/*if (count == 10)
+		enemyInfo.leng = -1;*/
+
 	SetAstar(map, myPos, enPos);
 
 	bool closedList[14][7];

@@ -266,26 +266,7 @@ void BattleScene::Update(float dt)
 					}
 					if (curBattleCharacterCount != battleCharacterCount)
 						CLOG::Print3String("need more battle character");
-
-					CLOG::Print3String("main grid full state");
-					int count = 0;
-					for (auto& character : mgref)
-					{
-						if (character == nullptr)
-							cout << "..";
-						else
-						{
-							if (character->GetName().compare("Obstacle"))
-								cout << character->GetName()[0] + to_string(character->GetStarNumber());
-							else
-								cout << "Ob";
-						}
-
-						cout << ' ';
-						count++;
-						if ((count % GAME_TILE_WIDTH) == 0)
-							cout << endl;
-					}
+					
 					for (auto& character : mgref)
 					{
 						if (character != nullptr && character->GetType().compare("Obstacle"))
@@ -449,7 +430,7 @@ void BattleScene::Update(float dt)
 			PutDownCharacter(&prepareGrid, &prepareGrid, beforeCoord, destCoord);
 	}
 	// Game Input end
-	cout << AStar::counter << endl;
+	//cout << AStar::counter << endl;
 }
 
 void BattleScene::Draw(RenderWindow& window)

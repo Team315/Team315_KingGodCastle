@@ -53,6 +53,7 @@ protected:
 	EnemyInfo enemyInfo;
 	string targetType;
 	bool isBattle;
+	float astarDelay;
 
 public:
 	Character(int starNumber = 0);
@@ -99,7 +100,7 @@ public:
 
 	//Astar
 	void PlayAstar();
-	void SetTargetDistance();
+	bool SetTargetDistance();
 	void SetMainGrid(int r, int c, Character* character);
 	void SetIsBattle(bool battleOnOff) { isBattle = battleOnOff; }
 };
