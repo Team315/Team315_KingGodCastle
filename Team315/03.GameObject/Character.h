@@ -39,10 +39,11 @@ protected:
 	float moveSpeed;
 	Vector2f direction;
 	Vector2f lastDirection;
-
 	float m_attackDelay;
+
 	//FloodFill
 	FloodFill m_floodFill;
+	vector<Vector2i>* m_GeneralArr;
 
 	//Astar
 	AStar m_aStar;
@@ -88,8 +89,10 @@ public:
 
 	//battle
 	void IsSetState(AnimStates newState);
+	bool GetAttackRangeType() { return attackRangeType; };
 
 	//FloodFill
+	void SetGeneralArr();
 	unordered_map<Stats, Stat>& GetStat();
 	bool isAttack();
 
