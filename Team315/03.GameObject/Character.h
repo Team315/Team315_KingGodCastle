@@ -40,7 +40,7 @@ protected:
 
 	//FloodFill
 	FloodFill m_floodFill;
-	vector<Vector2i>* m_GeneralArr;
+	vector<Vector2i> m_GeneralArr;
 
 	//Astar
 	AStar m_aStar;
