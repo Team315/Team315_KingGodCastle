@@ -8,6 +8,7 @@
 //class BattleTracker;
 class Character;
 class GameObj;
+class Item;
 class Tile;
 
 class GameManager : public Singleton<GameManager>
@@ -26,8 +27,10 @@ protected:
 
 	//BattleTracker* battleTracker;
 
-	// additional level up probability
+	// Additional level up probability (Character)
 	int extraLevelUpChance;
+	// Additional grade up probability (Item)
+	int extraGradeUpChance;
 	int battleCharacterCount;
 	int startCoin;
 	int currentCoin;
@@ -52,6 +55,8 @@ public:
 	Character* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
 	Character* SpawnPlayer(bool random, bool drawingOnBattle = true);
 	
+	Item* SpawnItem();
+
 	void Reset();
 
 	void SetCharacterDatas();
@@ -64,6 +69,12 @@ public:
 
 	const int characterCost;
 	const int equipmentCost;
+
+	// Stat increase rate when upgrading, (todo: file input)
+	const float hpIncreaseRate;
+	const float adIncreaseRate;
+	const float apIncreaseRate;
+	const float asIncrease;
 
 	//BattleTracker*& GetTracker();
 };

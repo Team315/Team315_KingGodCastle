@@ -168,6 +168,8 @@ void Character::SetStatsInit(json data)
 	stat.insert({ Stats::MS, Stat(data["MS"]) });
 	string arType = data["ARTYPE"];
 	attackRangeType = arType.compare("cross") ? true : false;
+
+	stat[Stats::AS].SetIsAddition(true);
 }
 
 void Character::TakeDamage(GameObj* attacker, bool attackType)
@@ -220,8 +222,7 @@ void Character::UpgradeStar()
 		CLOG::Print3String("upgrade 2");
 	star->UpdateTexture();
 	UpgradeCharacterSet();
-
-	// upgrade stat
+	UpgradeStats();
 
 	m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
 }
@@ -231,6 +232,14 @@ void Character::UpgradeCharacterSet()
 	sprite.setScale({
 		1.0f + (GetStarNumber() * 0.05f),
 		1.0f + (GetStarNumber() * 0.05f) });
+}
+
+void Character::UpgradeStats()
+{
+	stat[Stats::HP].UpgradeBase(GAME_MGR->hpIncreaseRate);
+	stat[Stats::AD].UpgradeBase(GAME_MGR->adIncreaseRate);
+	stat[Stats::AP].UpgradeBase(GAME_MGR->apIncreaseRate);
+	stat[Stats::AS].UpgradeBase(GAME_MGR->asIncrease);
 }
 
 void Character::IsSetState(AnimStates newState)

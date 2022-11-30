@@ -28,5 +28,13 @@
 #include "Monster/Slime04.h"
 #include "Monster/Slime05.h"
 
+// Item
+#include "Item/Armor.h"
+#include "Item/Book.h"
+#include "Item/Bow.h"
+#include "Item/Staff.h"
+#include "Item/Sword.h"
+#define ITEM_COUNT 5
+
 // Neutral
 #include "Obstacle.h"

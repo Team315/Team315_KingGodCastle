@@ -1,11 +1,13 @@
 #include "GameManager.h"
 #include "Map/Tile.h"
 #include "GameObj.h"
-#include "CharacterHeaders.h"
+#include "GameObjHeaders.h"
 
 GameManager::GameManager()
-	: battleCharacterCount(8), extraLevelUpChance(0), startCoin(50), // 6
-	characterCost(3), equipmentCost(5), currentCoin(startCoin)
+	: battleCharacterCount(8), extraLevelUpChance(0),
+	extraGradeUpChance(0), startCoin(50), // 6
+	characterCost(3), equipmentCost(5), currentCoin(startCoin),
+	hpIncreaseRate(1.6f), adIncreaseRate(1.5f), apIncreaseRate(1.6f), asIncrease(0.1f)
 {
 	CLOG::Print3String("GameManager Create");
 	m_tiles.assign(
@@ -14,6 +16,7 @@ GameManager::GameManager()
 			vector<vector<Tile*>>(GAME_TILE_HEIGHT,
 				vector<Tile*>(GAME_TILE_WIDTH))));
 	mainGrid = new vector<GameObj*>();
+
 	//battleTracker = new BattleTracker();
 }
 
@@ -161,6 +164,34 @@ Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBatt
 Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
 {
 	return SpawnPlayer("", random, drawingOnBattle);
+}
+
+Item* GameManager::SpawnItem()
+{
+	Item* item = nullptr;
+	// 0 ~ 8, 2/9 armor, bow, staff, sword / 1/9 book
+	ItemType type =
+		(ItemType)(Utils::RandomRange(0, 2 * ITEM_COUNT - 1) / 2);
+	
+	switch (type)
+	{
+	case ItemType::Armor:
+		item = new Armor();
+		break;
+	case ItemType::Bow:
+		item = new Bow();
+		break;
+	case ItemType::Staff:
+		item = new Staff();
+		break;
+	case ItemType::Sword:
+		item = new Sword();
+		break;
+	case ItemType::Book:
+		item = new Book();
+		break;
+	}
+	return item;
 }
 
 void GameManager::Reset()

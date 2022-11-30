@@ -2,10 +2,9 @@
 #include "BattleSceneUI.h"
 #include "BattlePanel.h"
 #include "Button.h"
-#include "CharacterHeaders.h"
+#include "GameObjHeaders.h"
 #include "Constant.h"
 #include "GameManager.h"
-#include "Item.h"
 #include "Map/Tile.h"
 #include "Map/FloodFill.h"
 #include "RectangleObj.h"
@@ -115,6 +114,12 @@ void BattleScene::Update(float dt)
 			SCENE_MGR->ChangeScene(Scenes::Loby);
 			return;
 		}
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
+		{
+			GAME_MGR->TranslateCoin(100.f);
+			ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
 		{
 			CLOG::Print3String("battle end");
@@ -233,7 +238,7 @@ void BattleScene::Update(float dt)
 					{
 						if (character != nullptr &&
 							(!character->GetType().compare("Player") ||
-								!character->GetType().compare("Monster")))
+							!character->GetType().compare("Monster")))
 						{
 							dynamic_cast<Character*>(character)->SetIsBattle(true);
 						}
@@ -245,6 +250,13 @@ void BattleScene::Update(float dt)
 				// summon character
 				if (!button->GetName().compare("summon"))
 				{
+					int idx = GetZeroElem(prepareGrid);
+					if (idx == -1)
+					{
+						CLOG::Print3String("can not summon");
+						return;
+					}
+
 					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->characterCost)
 					{
 						GAME_MGR->TranslateCoin(-GAME_MGR->characterCost);
@@ -255,25 +267,31 @@ void BattleScene::Update(float dt)
 						cout << "not enough coin" << endl;
 						break;
 					}
-
-					int idx = GetZeroElem(prepareGrid);
-					if (idx == -1)
-					{
-						CLOG::Print3String("can not summon");
-						return;
-					}
 					Character* newPick = GAME_MGR->SpawnPlayer(true, true);
 					newPick->SetPos(prepareGridRect[idx]->GetPos());
 					newPick->Init();
 					prepareGrid[idx] = newPick;
 					break;
 				}
-				if (!button->GetName().compare("equipment"))
+				// Item
+				if (!button->GetName().compare("item"))
 				{
+					int idx = GetZeroElem(prepareGrid);
+					if (idx == -1)
+					{
+						CLOG::Print3String("can not create item");
+						return;
+					}
+
 					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->equipmentCost)
 					{
 						GAME_MGR->TranslateCoin(-GAME_MGR->equipmentCost);
 						ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+						
+						Item* item = GAME_MGR->SpawnItem();
+						item->SetPos(prepareGridRect[idx]->GetPos());
+						item->Init();
+						prepareGrid[idx] = item;
 					}
 					else
 					{

@@ -78,6 +78,7 @@ public:
 	float GetShieldAmount() { return shieldAmount; }
 	void UpgradeStar();
 	void UpgradeCharacterSet();
+	void UpgradeStats();
 	void SetNoSkill(bool b) { noSkill = b; };
 	bool GetNoSkill() { return noSkill; }
 

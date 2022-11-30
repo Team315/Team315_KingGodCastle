@@ -63,3 +63,14 @@ enum class Stats
 	ARTYPE, // square, cross
 	COUNT,
 };
+
+enum class ItemType
+{
+	None = -1,
+	Armor,
+	Bow,
+	Staff,
+	Sword,
+	Book,
+	Count,
+};
