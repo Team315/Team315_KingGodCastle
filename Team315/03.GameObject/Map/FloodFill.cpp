@@ -161,6 +161,11 @@ void FloodFill::SetFloodFill(vector<GameObj*>& map, Vector2i myPos, Vector2i enP
 	//}
 }
 
+void FloodFill::GetGeneralInfo(vector<Character*>& map, string targetType)
+{
+
+}
+
 bool FloodFill::isInRange(int col, int row)
 {
 	return (row >= 0 && row < GAME_TILE_WIDTH&& col >= 0 && col < GAME_TILE_HEIGHT);

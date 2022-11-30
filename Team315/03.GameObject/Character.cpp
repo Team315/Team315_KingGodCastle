@@ -105,7 +105,7 @@ void Character::Update(float dt)
 			astarDelay -= dt;
 			if (astarDelay <= 0.f)
 			{
-				destination = GetPos();
+				//destination = GetPos();
 				if (SetTargetDistance())
 				{
 					move = true;
@@ -266,9 +266,36 @@ bool Character::isAttack()
 	return false;
 }
 
-void Character::PlayAstar()
+bool Character::PlayAstar()
 {
+	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
 
+	for (auto& target : mainGrid)
+	{
+		if (target != nullptr && !target->GetType().compare(targetType))
+		{
+			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
+			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
+			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
+
+			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
+			{
+				enemyInfo = nowEnemyInfo;
+			}
+		}
+	}
+
+	if (enemyInfo.leng == 99999)
+	{
+		return false;
+	}
+
+	Vector2i coord = GAME_MGR->PosToIdx(GetPos());
+	SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
+	SetMainGrid(coord.y, coord.x, nullptr);
+	SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, this);
+	enemyInfo.leng = 99999;
+	return true;
 }
 
 bool Character::SetTargetDistance()

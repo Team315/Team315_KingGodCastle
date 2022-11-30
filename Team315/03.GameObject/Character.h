@@ -89,7 +89,7 @@ public:
 	bool isAttack();
 
 	//Astar
-	void PlayAstar();
+	bool PlayAstar();
 	bool SetTargetDistance();
 	void SetMainGrid(int r, int c, GameObj* character);
 	void SetIsBattle(bool battleOnOff) { isBattle = battleOnOff; }
