@@ -211,45 +211,37 @@ void Daniel::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Daniel_RightAttack" : "Daniel_LeftAttack");
-			if (lastDirection.x)
+			if (lastDirection.x > 0.f)
 			{
-				if (lastDirection.x > 0.f)
-				{
-					attackEffect.Play("Daniel_RightAttack_Effect");
-					Vector2f vec = GetPos();
-					vec.x += 40.f;
-					attackSprite.setPosition(vec);
-				}
-				else if (lastDirection.x < 0.f)
-				{
-					attackEffect.Play("Daniel_LeftAttack_Effect");
-					Vector2f vec = GetPos();
-					vec.x -= 40.f;
-					attackSprite.setPosition(vec);
-				}
+				attackEffect.Play("Daniel_RightAttack_Effect");
+				Vector2f vec = GetPos();
+				vec.x += 40.f;
+				attackSprite.setPosition(vec);
+			}
+			else if (lastDirection.x < 0.f)
+			{
+				attackEffect.Play("Daniel_LeftAttack_Effect");
+				Vector2f vec = GetPos();
+				vec.x -= 40.f;
+				attackSprite.setPosition(vec);
 			}
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Daniel_DownAttack" : "Daniel_UpAttack");
-			if (lastDirection.y)
+			if (lastDirection.y > 0.f)
 			{
-				if (lastDirection.y > 0.f)
-				{
-					attackEffect.Play("Daniel_DownAttack_Effect");
-					//Vector2f vec = GetPos();
-					//vec.x += 21.f;
-					//vec.y += 15.f;
-					//attackSprite.setPosition(vec);
-				}
-				if (lastDirection.y < 0.f)
-				{
-					attackEffect.Play("Daniel_UpAttack_Effect");
-					Vector2f vec = GetPos();
-					vec.x += 3.f;
-					vec.y -= 51.f;
-					attackSprite.setPosition(vec);
-				}
+				attackEffect.Play("Daniel_DownAttack_Effect");
+				Vector2f vec = GetPos();
+				attackSprite.setPosition(vec);
+			}
+			if (lastDirection.y < 0.f)
+			{
+				attackEffect.Play("Daniel_UpAttack_Effect");
+				Vector2f vec = GetPos();
+				vec.x += 3.f;
+				vec.y -= 51.f;
+				attackSprite.setPosition(vec);
 			}
 		}
 		break;

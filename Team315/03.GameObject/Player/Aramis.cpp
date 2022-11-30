@@ -44,6 +44,11 @@ void Aramis::Init()
 	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_RightAttack_Effect"));
 	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_UpAttack_Effect"));
 
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_DownSkill_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_LeftSkill_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_RightSkill_Effect"));
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_UpSkill_Effect"));
+
 	{
 		AnimationEvent ev;
 		ev.clipId = "Aramis_DownAttack";
@@ -128,6 +133,34 @@ void Aramis::Init()
 		ev.onEvent = bind(&Aramis::OnCompleteSkill, this);
 		animator.AddEvent(ev);
 	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Aramis_DownSkill_Effect";
+		ev.frame = 5;
+		ev.onEvent = bind(&Aramis::OnCompleteSkill, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Aramis_LeftSkill_Effect";
+		ev.frame = 5;
+		ev.onEvent = bind(&Aramis::OnCompleteSkill, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Aramis_RightSkill_Effect";
+		ev.frame = 5;
+		ev.onEvent = bind(&Aramis::OnCompleteSkill, this);
+		attackEffect.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Aramis_UpSkill_Effect";
+		ev.frame = 5;
+		ev.onEvent = bind(&Aramis::OnCompleteSkill, this);
+		attackEffect.AddEvent(ev);
+	}
 
 	SetState(AnimStates::Idle);
 	Character::Init();
@@ -139,7 +172,7 @@ void Aramis::Update(float dt)
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
-		SetState(AnimStates::Attack);
+		SetState(AnimStates::Skill);
 	}
 
 	switch (currState)
@@ -212,28 +245,82 @@ void Aramis::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Aramis_RightAttack" : "Aramis_LeftAttack");
-		}
-		if (lastDirection.x)
-		{
-			attackEffect.Play((lastDirection.x > 0.f) ? "Aramis_RightAttack_Effect" : "Aramis_LeftAttack_Effect");
+			if (lastDirection.x > 0.f)
+			{
+				attackEffect.Play("Aramis_RightAttack_Effect");
+				Vector2f vec = GetPos();
+				vec.x += 81.f;
+				vec.y -= 21.f;
+				attackSprite.setPosition(vec);
+			}
+			else if (lastDirection.x < 0.f)
+			{
+				attackEffect.Play("Aramis_LeftAttack_Effect");
+				Vector2f vec = GetPos();
+				vec.x -= 81.f;
+				vec.y -= 21.f;
+				attackSprite.setPosition(vec);
+			}
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Aramis_DownAttack" : "Aramis_UpAttack");
-		}
-		if (lastDirection.y)
-		{
-			attackEffect.Play((lastDirection.y > 0.f) ? "Aramis_DownAttack_Effect" : "Aramis_UpAttack_Effect");
+			if (lastDirection.y > 0.f)
+			{
+				attackEffect.Play("Aramis_DownAttack_Effect");
+				Vector2f vec = GetPos();
+				vec.y -= 31.f;
+				attackSprite.setPosition(vec);
+			}
+			else if (lastDirection.y < 0.f)
+			{
+				attackEffect.Play("Aramis_UpAttack_Effect");
+				Vector2f vec = GetPos();
+				vec.x += 3.f;
+				vec.y -= 71.f;
+				attackSprite.setPosition(vec);
+			}
 		}
 		break;
 	case AnimStates::Skill:
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Aramis_RightSkill" : "Aramis_LeftSkill");
+			if (lastDirection.x > 0.f)
+			{
+				attackEffect.Play("Aramis_RightSkill_Effect");
+				Vector2f vec = GetPos();
+				vec.x += 81.f;
+				vec.y -= 21.f;
+				attackSprite.setPosition(vec);
+			}
+			else if (lastDirection.x < 0.f)
+			{
+				attackEffect.Play("Aramis_LeftSkill_Effect");
+				Vector2f vec = GetPos();
+				vec.x -= 81.f;
+				vec.y -= 21.f;
+				attackSprite.setPosition(vec);
+			}
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Aramis_DownSkill" : "Aramis_UpSkill");
+			if (lastDirection.y > 0.f)
+			{
+				attackEffect.Play("Aramis_DownSkill_Effect");
+				Vector2f vec = GetPos();
+				vec.y -= 31.f;
+				attackSprite.setPosition(vec);
+			}
+			else if (lastDirection.y < 0.f)
+			{
+				attackEffect.Play("Aramis_UpSkill_Effect");
+				Vector2f vec = GetPos();
+				vec.x += 3.f;
+				vec.y -= 71.f;
+				attackSprite.setPosition(vec);
+			}
 		}
 		break;
 	}

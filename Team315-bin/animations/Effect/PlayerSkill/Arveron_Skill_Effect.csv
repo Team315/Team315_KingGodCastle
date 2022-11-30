@@ -1,0 +1,11 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Arveron_Skill_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/arveron_SkillEffect.png,0,0,80,120,40,120,0,0
+graphics/Effect/player/arveron_SkillEffect.png,80,0,80,120,40,120,0,0
+graphics/Effect/player/arveron_SkillEffect.png,160,0,80,120,40,120,0,0
+graphics/Effect/player/arveron_SkillEffect.png,240,0,80,120,40,120,0,0
+graphics/Effect/player/arveron_SkillEffect.png,320,0,80,120,40,120,0,0
+graphics/Effect/player/arveron_SkillEffect.png,400,0,80,120,40,120,0,0
+graphics/Effect/player/arveron_SkillEffect.png,480,0,80,120,40,120,0,0
+graphics/Effect/player/arveron_SkillEffect.png,560,0,80,120,40,120,0,0

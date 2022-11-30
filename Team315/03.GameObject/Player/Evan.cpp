@@ -165,9 +165,6 @@ void Evan::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "RightAttack" : "LeftAttack");
-		}
-		if (lastDirection.x)
-		{
 			if (lastDirection.x > 0.f)
 			{
 				attackEffect.Play("Sword_RightAttack_Effect");
@@ -188,23 +185,19 @@ void Evan::SetState(AnimStates newState)
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "DownAttack" : "UpAttack");
-		}
-		if (lastDirection.y)
-		{
 			if (lastDirection.y > 0.f)
 			{
 				attackEffect.Play("Sword_DownAttack_Effect");
-				//Vector2f vec = GetPos();
-				//vec.x += 21.f;
-				//vec.y += 15.f;
-				//attackSprite.setPosition(vec);
+				Vector2f vec = GetPos();
+				vec.x -= 11.f;
+				vec.y += 12.f;
+				attackSprite.setPosition(vec);
 			}
-			if (lastDirection.y < 0.f)
+			else if (lastDirection.y < 0.f)
 			{
 				attackEffect.Play("Sword_UpAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 5.f;
-				//vec.y += 15.f;
 				attackSprite.setPosition(vec);
 			}
 		}
@@ -274,7 +267,7 @@ void Evan::OnCompleteAttack()
 
 void Evan::OnCompleteSkill()
 {
-	SetState(AnimStates::MoveToIdle);
+	SetState(AnimStates::Attack);
 }
 
 void Evan::UpdateIdle(float dt)

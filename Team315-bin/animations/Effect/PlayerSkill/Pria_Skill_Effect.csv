@@ -1,0 +1,7 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Pria_Skill_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/pria_SkillEffect.png,0,0,60,80,30,80,0,0
+graphics/Effect/player/pria_SkillEffect.png,60,0,60,80,30,80,0,0
+graphics/Effect/player/pria_SkillEffect.png,120,0,60,80,30,80,0,0
+graphics/Effect/player/pria_SkillEffect.png,180,0,60,80,30,80,0,0

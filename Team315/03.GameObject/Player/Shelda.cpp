@@ -211,9 +211,6 @@ void Shelda::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Shelda_RightAttack" : "Shelda_LeftAttack");
-		}
-		if (lastDirection.x)
-		{
 			if (lastDirection.x > 0.f)
 			{
 				attackEffect.Play("Sword_RightAttack_Effect");
@@ -234,23 +231,17 @@ void Shelda::SetState(AnimStates newState)
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Shelda_DownAttack" : "Shelda_UpAttack");
-		}
-		if (lastDirection.y)
-		{
 			if (lastDirection.y > 0.f)
 			{
 				attackEffect.Play("Sword_DownAttack_Effect");
-				//Vector2f vec = GetPos();
-				//vec.x += 21.f;
-				//vec.y += 15.f;
-				//attackSprite.setPosition(vec);
+				Vector2f vec = GetPos();
+				attackSprite.setPosition(vec);
 			}
 			if (lastDirection.y < 0.f)
 			{
 				attackEffect.Play("Sword_UpAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 5.f;
-				//vec.y += 15.f;
 				attackSprite.setPosition(vec);
 			}
 		}
