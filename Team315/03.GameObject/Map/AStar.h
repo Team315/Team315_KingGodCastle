@@ -2,7 +2,7 @@
 #include "Include.h"
 #include <set>
 #include <stack>
-#include "Character.h"
+#include "GameObj.h"
 
 struct Cell
 {

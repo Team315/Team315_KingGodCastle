@@ -1,5 +1,5 @@
 #pragma once
-#include "Character.h"
+#include "GameObj.h"
 
 class Goblin01 : public GameObj
 {

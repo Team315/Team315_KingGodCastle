@@ -1,7 +1,7 @@
 #include "StatPopupWindow.h"
 #include "BackrectText.h"
 #include "BackgroundText.h"
-#include "Character.h"
+#include "GameObj.h"
 #include "ProgressBar.h"
 #include "Include.h"
 

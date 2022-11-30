@@ -1,5 +1,5 @@
 #include "Skill.h"
-#include "Character.h"
+#include "GameObj.h"
 
 Skill::Skill()
 	: damage(0.f), startPos(0.f, 0.f), destPos(0.f, 0.f), starNumber(0)

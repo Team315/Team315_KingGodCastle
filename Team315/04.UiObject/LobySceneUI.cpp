@@ -1,7 +1,7 @@
 #include "LobySceneUI.h"
 #include "LobyScene.h"
 #include "Include.h"
-#include "Character.h"
+#include "GameObj.h"
 #include "Constant.h"
 #include "SpriteButton.h"
 #include "RectangleObj.h"

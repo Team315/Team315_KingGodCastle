@@ -1,7 +1,7 @@
 #include "BattleSceneUI.h"
 #include "Include.h"
 #include "BattlePanel.h"
-#include "Character.h"
+#include "GameObj.h"
 #include "RectangleObj.h"
 #include "StatPopupWindow.h"
 

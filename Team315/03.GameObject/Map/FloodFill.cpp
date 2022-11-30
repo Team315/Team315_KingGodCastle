@@ -1,6 +1,6 @@
 #include "FloodFill.h"
 #include "Include.h"
-#include "Character.h"
+#include "GameObj.h"
 
 FloodFill::FloodFill()
 {
