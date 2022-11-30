@@ -430,22 +430,22 @@ void BattleScene::Update(float dt)
 			return;
 		}
 		Vector2i beforeCoord = GAME_MGR->PosToIdx(beforeDragPos);
-		bool before = InBattleGrid(beforeCoord);
+		vector<GameObj*>& beforeContainer = InBattleGrid(beforeCoord) ? battleGrid : prepareGrid;
+		vector<GameObj*>& destContainer = dest ? battleGrid : prepareGrid;
+
 		if (IsCharacter(pick))
 		{
-			if (before && dest)
-				PutDownCharacter(&battleGrid, &battleGrid, beforeCoord, destCoord);
-			else if (before)
-				PutDownCharacter(&battleGrid, &prepareGrid, beforeCoord, destCoord);
-			else if (dest)
-				PutDownCharacter(&prepareGrid, &battleGrid, beforeCoord, destCoord);
-			else
-				PutDownCharacter(&prepareGrid, &prepareGrid, beforeCoord, destCoord);
+			PutDownCharacter(&beforeContainer, &destContainer, beforeCoord, destCoord);
 		}
-		else
+		else // item
 		{
 			cout << "item" << endl;
+			PutDownItem(&beforeContainer, &destContainer, beforeCoord, destCoord);
 		}
+
+		pick->SetHitBoxActive(true);
+		pick = nullptr;
+		return;
 	}
 	// Game Input end
 }
@@ -632,9 +632,10 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 		pick->SetPos(GAME_MGR->IdxToPos(destCoord));
 	else
 		pick->SetPos(GAME_MGR->IdxToPos(startCoord));
-	pick->SetHitBoxActive(true);
-	pick = nullptr;
-	return;
+}
+
+void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)
+{
 }
 
 void BattleScene::SetCurrentStage(int chap, int stage)

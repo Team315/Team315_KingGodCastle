@@ -58,6 +58,8 @@ public:
 	void TranslateCoinState(float delta);
 	void PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest,
 		Vector2i startCoord, Vector2i destCoord);
+	void PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest,
+		Vector2i startCoord, Vector2i destCoord);
 
 	void SetCurrentStage(int chap, int stage);
 };
