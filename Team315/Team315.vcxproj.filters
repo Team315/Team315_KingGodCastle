@@ -91,6 +91,7 @@
     <ClCompile Include="04.UiObject\TwoFactorProgress.cpp" />
     <ClCompile Include="03.GameObject\Bullet.cpp" />
     <ClCompile Include="03.GameObject\Item.cpp" />
+    <ClCompile Include="03.GameObject\Character.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -192,6 +193,7 @@
     <ClInclude Include="04.UiObject\TwoFactorProgress.h" />
     <ClInclude Include="03.GameObject\Bullet.h" />
     <ClInclude Include="03.GameObject\Item.h" />
+    <ClInclude Include="03.GameObject\Character.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

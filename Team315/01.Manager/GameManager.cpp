@@ -94,9 +94,9 @@ void GameManager::CreatedTiles()
 	}
 }
 
-GameObj* GameManager::SpawnMonster(string name, int grade)
+Character* GameManager::SpawnMonster(string name, int grade)
 {
-	GameObj* character = nullptr;
+	Character* character = nullptr;
 	if (!name.compare("Goblin00"))
 		character = new Goblin00(grade);
 	else if (!name.compare("Goblin01"))
@@ -134,9 +134,9 @@ GameObj* GameManager::SpawnMonster(string name, int grade)
 	return character;
 }
 
-GameObj* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBattle)
+Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBattle)
 {
-	GameObj* character = nullptr;
+	Character* character = nullptr;
 	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
 	//int num = 4;
 
@@ -158,7 +158,7 @@ GameObj* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBattle
 	return character;
 }
 
-GameObj* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
+Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
 {
 	return SpawnPlayer("", random, drawingOnBattle);
 }
@@ -182,27 +182,27 @@ json GameManager::GetCharacterData(string name)
 }
 
 // Battle Tracker
-BattleTracker::BattleTracker()
-{
-}
-
-BattleTracker::~BattleTracker()
-{
-}
-
-void BattleTracker::SetDatas()
-{
-	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
-	for (auto& character : mgref)
-	{
-		if (character != nullptr && !character->GetType().compare("Player"))
-		{
-			datas.push_back(character);
-		}
-	}
-}
-
-BattleTracker *&GameManager::GetTracker()
-{
-	return battleTracker;
-}
+//BattleTracker::BattleTracker()
+//{
+//}
+//
+//BattleTracker::~BattleTracker()
+//{
+//}
+//
+//void BattleTracker::SetDatas()
+//{
+//	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
+//	for (auto& character : mgref)
+//	{
+//		if (character != nullptr && !character->GetType().compare("Player"))
+//		{
+//			datas.push_back(character);
+//		}
+//	}
+//}
+//
+//BattleTracker *&GameManager::GetTracker()
+//{
+//	return battleTracker;
+//}

@@ -1,7 +1,7 @@
 #include "Arveron.h"
 
 Arveron::Arveron(int starNumber)
-	: GameObj(starNumber)
+	: Character(starNumber)
 {
 	SetType("Player");
 	SetName("Arveron");

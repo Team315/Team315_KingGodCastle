@@ -4,8 +4,9 @@
 #include <queue>
 #include "FileManager.h"
 
-struct DamageData;
-class BattleTracker;
+//struct DamageData;
+//class BattleTracker;
+class Character;
 class GameObj;
 class Tile;
 
@@ -17,13 +18,13 @@ protected:
 
 	json characterDatas;
 
-	vector<GameObj*> presetC;
+	//vector<GameObj*> presetC;
 
 	// Set monster character locate before battle with data imported from GameManager
 	// When the game starts, the characters on the battleGrid are also taken.
 	vector<GameObj*>* mainGrid;
 
-	BattleTracker* battleTracker;
+	//BattleTracker* battleTracker;
 
 	// additional level up probability
 	int extraLevelUpChance;
@@ -47,9 +48,9 @@ public:
 	vector<vector<Tile*>>* GetStage(int chap, int stage) { return &m_tiles[chap][stage]; }
 
 	void CreatedTiles();
-	GameObj* SpawnMonster(string name, int grade);
-	GameObj* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
-	GameObj* SpawnPlayer(bool random, bool drawingOnBattle = true);
+	Character* SpawnMonster(string name, int grade);
+	Character* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
+	Character* SpawnPlayer(bool random, bool drawingOnBattle = true);
 	
 	void Reset();
 
@@ -64,30 +65,30 @@ public:
 	const int characterCost;
 	const int equipmentCost;
 
-	BattleTracker*& GetTracker();
+	//BattleTracker*& GetTracker();
 };
 
 #define GAME_MGR (GameManager::GetInstance())
 
-struct DamageData
-{
-	GameObj* character;
-	float given;
-	float receive;
-	DamageData(GameObj* character = nullptr)
-		: character(character), given(0.f), receive(0.f)
-	{
-	}
-};
-
-class BattleTracker
-{
-protected:
-	vector<DamageData> datas;
-
-public:
-	BattleTracker();
-	~BattleTracker();
-
-	void SetDatas();
-};
+//struct DamageData
+//{
+//	GameObj* character;
+//	float given;
+//	float receive;
+//	DamageData(GameObj* character = nullptr)
+//		: character(character), given(0.f), receive(0.f)
+//	{
+//	}
+//};
+//
+//class BattleTracker
+//{
+//protected:
+//	vector<DamageData> datas;
+//
+//public:
+//	BattleTracker();
+//	~BattleTracker();
+//
+//	void SetDatas();
+//};

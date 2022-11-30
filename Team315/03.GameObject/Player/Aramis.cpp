@@ -2,7 +2,7 @@
 #include "Bullet.h"
 
 Aramis::Aramis(int starNumber)
-	: GameObj(starNumber)
+	: Character(starNumber)
 {
 	SetType("Player");
 	SetName("Aramis"); 

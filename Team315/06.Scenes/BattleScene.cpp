@@ -2,12 +2,13 @@
 #include "BattleSceneUI.h"
 #include "BattlePanel.h"
 #include "Button.h"
+#include "CharacterHeaders.h"
 #include "Constant.h"
 #include "GameManager.h"
+#include "Item.h"
 #include "Map/Tile.h"
-#include "RectangleObj.h"
-#include "CharacterHeaders.h"
 #include "Map/FloodFill.h"
+#include "RectangleObj.h"
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(10),
@@ -171,10 +172,7 @@ void BattleScene::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Key::F8))
 		{
 			int count = 0;
-			cout << "-------------------" << endl;
 			CLOG::Print3String("main grid state");
-			count = 0;
-
 			for (auto& character : mgref)
 			{
 				string str = "";
@@ -183,7 +181,7 @@ void BattleScene::Update(float dt)
 				else
 				{
 					if (character->GetName().compare("Obstacle"))
-						str += (character->GetName()[0] + to_string(character->GetStarNumber()) + " ");
+						str += (character->GetName().substr(0, 2) + " ");
 					else
 						str += "Ob ";
 				}
@@ -193,36 +191,6 @@ void BattleScene::Update(float dt)
 				cout << str;
 			}
 			cout << endl;
-
-			CLOG::Print3String("battle grid state");
-			count = 0;
-			for (auto& character : battleGrid)
-			{
-				if (character == nullptr)
-					cout << "..";
-				else
-					cout << character->GetName()[0] + to_string(character->GetStarNumber());
-				cout << ' ';
-				count++;
-				if ((count % GAME_TILE_WIDTH) == 0)
-					cout << endl;
-			}
-			cout << endl;
-
-			CLOG::Print3String("prepare grid state");
-			count = 0;
-			for (auto& character : prepareGrid)
-			{
-				if (character == nullptr)
-					cout << "..";
-				else
-					cout << character->GetName()[0] + to_string(character->GetStarNumber());
-				cout << ' ';
-				count++;
-				if ((count % GAME_TILE_WIDTH) == 0)
-					cout << endl;
-			}
-			cout << "-------------------" << endl;
 		}
 	}
 	// Dev Input end
@@ -263,9 +231,11 @@ void BattleScene::Update(float dt)
 						CLOG::Print3String("need more battle character");
 					for (auto& character : mgref)
 					{
-						if (character != nullptr && character->GetType().compare("Obstacle"))
+						if (character != nullptr &&
+							(!character->GetType().compare("Player") ||
+								!character->GetType().compare("Monster")))
 						{
-							character->SetIsBattle(true);
+							dynamic_cast<Character*>(character)->SetIsBattle(true);
 						}
 					}
 
@@ -292,7 +262,7 @@ void BattleScene::Update(float dt)
 						CLOG::Print3String("can not summon");
 						return;
 					}
-					GameObj* newPick = GAME_MGR->SpawnPlayer(true, true);
+					Character* newPick = GAME_MGR->SpawnPlayer(true, true);
 					newPick->SetPos(prepareGridRect[idx]->GetPos());
 					newPick->Init();
 					prepareGrid[idx] = newPick;
@@ -342,19 +312,24 @@ void BattleScene::Update(float dt)
 	}
 
 	// prepare grid & battle grid - character pick up
-	for (auto& character : prepareGrid)
+	for (auto& gameObj : prepareGrid)
 	{
-		if (character == nullptr)
+		if (gameObj == nullptr)
 			continue;
 
-		character->Update(dt);
-		if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		if (!gameObj->GetType().compare("Player") ||
+			!gameObj->GetType().compare("Monster"))
+			dynamic_cast<Character*>(gameObj)->Update(dt);
+		else if (!gameObj->GetType().compare("Item"))
+			dynamic_cast<Item*>(gameObj)->Update(dt);
+
+		if (gameObj->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
 				if (pick == nullptr)
 				{
-					PickUpCharacter(character);
+					PickUpCharacter(gameObj);
 					break;
 				}
 			}
@@ -362,8 +337,8 @@ void BattleScene::Update(float dt)
 			{
 				if (pick == nullptr)
 				{
-					GameObj* temp = character;
-					character = nullptr;
+					GameObj* temp = gameObj;
+					gameObj = nullptr;
 					delete temp;
 					break;
 				}
@@ -373,19 +348,24 @@ void BattleScene::Update(float dt)
 
 	if (!playingBattle)
 	{
-		for (auto& character : battleGrid)
+		for (auto& gameObj : battleGrid)
 		{
-			if (character == nullptr)
+			if (gameObj == nullptr)
 				continue;
 
-			character->Update(dt);
-			if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+			if (!gameObj->GetType().compare("Player") ||
+				!gameObj->GetType().compare("Monster"))
+				dynamic_cast<Character*>(gameObj)->Update(dt);
+			else if (!gameObj->GetType().compare("Item"))
+				dynamic_cast<Item*>(gameObj)->Update(dt);
+
+			if (gameObj->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 			{
 				if (InputMgr::GetMouseDown(Mouse::Left))
 				{
 					if (pick == nullptr)
 					{
-						PickUpCharacter(character);
+						PickUpCharacter(gameObj);
 						break;
 					}
 				}
@@ -393,8 +373,8 @@ void BattleScene::Update(float dt)
 				{
 					if (pick == nullptr)
 					{
-						GameObj* temp = character;
-						character = nullptr;
+						GameObj* temp = gameObj;
+						gameObj = nullptr;
 						delete temp;
 						break;
 					}
@@ -426,8 +406,7 @@ void BattleScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				character->PrintStats();
-				ui->SetStatPopup(true, currentView.getCenter(), character,
+				ui->SetStatPopup(true, currentView.getCenter(), dynamic_cast<Character*>(character),
 					GAME_MGR->SnapToCoord(character->GetPos()));
 			}
 		}
@@ -476,39 +455,47 @@ void BattleScene::Draw(RenderWindow& window)
 	}
 
 	// draw character on prepare area
-	for (auto& character : prepareGrid)
+	for (auto& gameObj : prepareGrid)
 	{
-		if (character != nullptr)
-			character->Draw(window);
+		if (gameObj != nullptr)
+		{
+			if (!gameObj->GetType().compare("Player") ||
+				!gameObj->GetType().compare("Monster"))
+				dynamic_cast<Character*>(gameObj)->Draw(window);
+			else if (!gameObj->GetType().compare("Item"))
+				dynamic_cast<Item*>(gameObj)->Draw(window);
+		}
 	}
 
 	// draw character on gmae screen area
 	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
-	for (auto& character : mgref)
+	for (auto& gameObj : mgref)
 	{
-		if (character != nullptr)
-			character->Draw(window);
-	}
-
-	/*for (int r = 0; r < GAME_TILE_HEIGHT; r++)
-	{
-		for (int c = 0; c < GAME_TILE_WIDTH; c++)
+		if (gameObj != nullptr)
 		{
-			Character* character = GetMainGridCharacter(r, c);
-			if (character == nullptr)
-				continue;
-
-
+			if (!gameObj->GetType().compare("Player") ||
+				!gameObj->GetType().compare("Monster"))
+				dynamic_cast<Character*>(gameObj)->Draw(window);
+			else if (!gameObj->GetType().compare("Item"))
+				dynamic_cast<Item*>(gameObj)->Draw(window);
+			else
+				gameObj->Draw(window);
 		}
-	}*/
+	}
 
 	// draw character on battle area
 	if (!playingBattle)
 	{
-		for (auto& character : battleGrid)
+		for (auto& gameObj : battleGrid)
 		{
-			if (character != nullptr)
-				character->Draw(window);
+			if (gameObj != nullptr)
+			{
+				if (!gameObj->GetType().compare("Player") ||
+					!gameObj->GetType().compare("Monster"))
+					dynamic_cast<Character*>(gameObj)->Draw(window);
+				else if (!gameObj->GetType().compare("Item"))
+					dynamic_cast<Item*>(gameObj)->Draw(window);
+			}
 		}
 	}
 
@@ -540,18 +527,17 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 
 	if (startCoord == destCoord)
 	{
-		(*start)[startIdx]->PrintStats();
-		ui->SetStatPopup(true, currentView.getCenter(), (*start)[startIdx],
+		ui->SetStatPopup(true, currentView.getCenter(), dynamic_cast<Character*>((*start)[startIdx]),
 			GAME_MGR->SnapToCoord(
 				(*start)[startIdx]->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
 	}
 	else
 	{
-		GameObj* destCharacter = (*dest)[destIdx];
+		Character* destCharacter = dynamic_cast<Character*>((*dest)[destIdx]);
 		if (destCharacter != nullptr)
 		{
 			if (!destCharacter->GetName().compare(pick->GetName()) &&
-				destCharacter->GetStarNumber() == pick->GetStarNumber())
+				destCharacter->GetStarNumber() == dynamic_cast<Character*>(pick)->GetStarNumber())
 			{
 				if ((!playingBattle) || (start == dest))
 				{
@@ -559,7 +545,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 					(*dest)[destIdx] = nullptr;
 					destCharacter->Release();
 					delete destCharacter;
-					pick->UpgradeStar();
+					dynamic_cast<Character*>(pick)->UpgradeStar();
 				}
 				else
 				{

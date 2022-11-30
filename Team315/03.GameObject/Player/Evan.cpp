@@ -1,7 +1,7 @@
 #include "Evan.h"
 
 Evan::Evan(int starNumber)
-	: GameObj(starNumber)
+	: Character(starNumber)
 {
 	SetType("Player");
 	SetName("Evan");

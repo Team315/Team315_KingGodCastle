@@ -1,7 +1,7 @@
 #include "Pria.h"
 
 Pria::Pria(int starNumber)
-	: GameObj(starNumber)
+	: Character(starNumber)
 {
 	SetType("Player");
 	SetName("Pria");

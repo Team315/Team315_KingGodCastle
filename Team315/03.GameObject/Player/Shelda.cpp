@@ -1,7 +1,7 @@
 #include "Shelda.h"
 
 Shelda::Shelda(int starNumber)
-	: GameObj(starNumber)
+	: Character(starNumber)
 {
 	SetType("Player");
 	SetName("Shelda");

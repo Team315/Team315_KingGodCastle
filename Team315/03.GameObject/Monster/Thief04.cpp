@@ -1,7 +1,7 @@
 #include "Thief04.h"
 
 Thief04::Thief04(int starNumber)
-	: GameObj(starNumber)
+	: Character(starNumber)
 {
 	SetType("Monster");
 	SetName("Thief04");

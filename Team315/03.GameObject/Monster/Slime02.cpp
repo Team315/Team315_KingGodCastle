@@ -1,7 +1,7 @@
 #include "Slime02.h"
 
 Slime02::Slime02(int starNumber)
-	: GameObj(starNumber)
+	: Character(starNumber)
 {
 	SetType("Monster");
 	SetName("Slime02");

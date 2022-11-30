@@ -1,7 +1,7 @@
 #include "LeonHeart.h"
 
 LeonHeart::LeonHeart(int starNumber)
-	: GameObj(starNumber)
+	: Character(starNumber)
 {
 	SetType("Player");
 	SetName("LeonHeart");

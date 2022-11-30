@@ -1,8 +1,8 @@
 #include "StatPopupWindow.h"
 #include "BackrectText.h"
 #include "BackgroundText.h"
-#include "GameObj.h"
-#include "ProgressBar.h"
+#include "Character.h"
+#include "TwoFactorProgress.h"
 #include "Include.h"
 
 StatPopupWindow::StatPopupWindow(float x, float y)
@@ -139,7 +139,7 @@ void StatPopupWindow::SetOrigin(Origins origin)
 	RectangleObj::SetOrigin(origin);
 }
 
-void StatPopupWindow::SetCharacter(GameObj* character)
+void StatPopupWindow::SetCharacter(Character* character)
 {
 	target = character;
 

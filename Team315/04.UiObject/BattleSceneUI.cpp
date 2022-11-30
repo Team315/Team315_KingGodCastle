@@ -1,7 +1,7 @@
 #include "BattleSceneUI.h"
 #include "Include.h"
 #include "BattlePanel.h"
-#include "GameObj.h"
+#include "Character.h"
 #include "RectangleObj.h"
 #include "StatPopupWindow.h"
 
@@ -38,6 +38,7 @@ void BattleSceneUI::Reset()
 {
 	panel->SetPos(Vector2f(0, GAME_SCREEN_HEIGHT * 1.2f));
 	statPopup->SetActive(false);
+	panel->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 }
 
 void BattleSceneUI::Update(float dt)
@@ -94,7 +95,7 @@ void BattleSceneUI::CreateBackground(VertexArrayObj* vao, int rows, int cols, fl
 }
 
 void BattleSceneUI::SetStatPopup(bool active, Vector2f viewCenter,
-	GameObj* character, Vector2f pos)
+	Character* character, Vector2f pos)
 {
 	statPopup->SetActive(active);
 	if (!active)

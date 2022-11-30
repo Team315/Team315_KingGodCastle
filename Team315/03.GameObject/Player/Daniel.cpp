@@ -1,7 +1,7 @@
 #include "Daniel.h"
 
 Daniel::Daniel(int starNumber)
-	: GameObj(starNumber)
+	: Character(starNumber)
 {
 	SetType("Player");
 	SetName("Daniel");

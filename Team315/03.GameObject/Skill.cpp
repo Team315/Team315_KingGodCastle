@@ -1,5 +1,5 @@
 #include "Skill.h"
-#include "GameObj.h"
+#include "Character.h"
 
 Skill::Skill()
 	: damage(0.f), startPos(0.f, 0.f), destPos(0.f, 0.f), starNumber(0)
@@ -38,7 +38,7 @@ void Skill::SetState(AnimStates newState)
 	currState = newState;
 }
 
-void Skill::CalculateDamage(GameObj *character)
+void Skill::CalculateDamage(Character* character)
 {
 	damage = baseDamage[(starNumber + 1) / 2] * character->GetStat(Stats::AP).GetModifier();
 }

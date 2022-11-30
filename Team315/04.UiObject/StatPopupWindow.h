@@ -3,14 +3,14 @@
 
 class BackrectText;
 class BackgroundText;
-class GameObj;
+class Character;
 class ProgressBar;
 class TwoFactorProgress;
 
 class StatPopupWindow : public RectangleObj
 {
 protected:
-	GameObj* target;
+	Character* target;
 	// always
 	BackrectText* nameText;
 	BackgroundText * starText;
@@ -41,6 +41,6 @@ public:
 	virtual void SetPos(const Vector2f& pos) override;
 	virtual void SetOrigin(Origins origin) override;
 
-	void SetCharacter(GameObj* character);
+	void SetCharacter(Character* character);
 	void UpdateContents();
 };

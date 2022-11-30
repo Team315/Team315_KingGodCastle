@@ -1,7 +1,7 @@
 #include "Goblin01.h"
 
 Goblin01::Goblin01(int starNumber)
-	: GameObj(starNumber)
+	: Character(starNumber)
 {
 	SetType("Monster");
 	SetName("Goblin01");

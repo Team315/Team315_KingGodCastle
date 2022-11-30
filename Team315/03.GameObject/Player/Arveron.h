@@ -1,7 +1,7 @@
 #pragma once
-#include "GameObj.h"
+#include "Character.h"
 
-class Arveron : public GameObj
+class Arveron : public Character
 {
 protected:
 public:
