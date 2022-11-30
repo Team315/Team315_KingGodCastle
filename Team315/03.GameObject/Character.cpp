@@ -88,6 +88,7 @@ void Character::Update(float dt)
 			if (m_attackDelay <= 0.f)
 			{
 				SetState(AnimStates::Attack);
+
 				attack = true;
 				Stat& mp = stat[Stats::MP];
 				mp.TranslateCurrent(15.f);
@@ -242,6 +243,22 @@ void Character::IsSetState(AnimStates newState)
 	}
 }
 
+void Character::SetGeneralArr()
+{
+
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+
+	//for (auto& target : mainGrid)
+	//{
+	//	if (target != nullptr && !target->GetType().compare(targetType))
+	//	{
+
+			m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
+
+	//	}
+	//}
+}
+
 unordered_map<Stats, Stat>& Character::GetStat()
 {
 	return stat;
@@ -278,6 +295,8 @@ bool Character::PlayAstar()
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
+
+
 			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
 			{
 				enemyInfo = nowEnemyInfo;
@@ -311,6 +330,8 @@ bool Character::SetTargetDistance()
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
+
+			m_floodFill.GetGeneralInfo(mainGrid, targetType);
 
 			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
 			{
