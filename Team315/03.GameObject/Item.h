@@ -1,14 +1,16 @@
 #pragma once
 #include "Character.h"
 
-class Obstacle : public GameObj
+class Item : public GameObj
 {
 protected:
 
 public:
-	Obstacle(string path);
-	virtual ~Obstacle();
+	Item();
+	virtual ~Item();
 
+	virtual void Init() override;
+	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
 };

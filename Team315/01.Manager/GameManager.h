@@ -6,7 +6,7 @@
 
 struct DamageData;
 class BattleTracker;
-class Character;
+class GameObj;
 class Tile;
 
 class GameManager : public Singleton<GameManager>
@@ -17,11 +17,11 @@ protected:
 
 	json characterDatas;
 
-	vector<Character*> presetC;
+	vector<GameObj*> presetC;
 
 	// Set monster character locate before battle with data imported from GameManager
 	// When the game starts, the characters on the battleGrid are also taken.
-	vector<Character*>* mainGrid;
+	vector<GameObj*>* mainGrid;
 
 	BattleTracker* battleTracker;
 
@@ -47,16 +47,16 @@ public:
 	vector<vector<Tile*>>* GetStage(int chap, int stage) { return &m_tiles[chap][stage]; }
 
 	void CreatedTiles();
-	Character* SpawnMonster(string name, int grade);
-	Character* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
-	Character* SpawnPlayer(bool random, bool drawingOnBattle = true);
+	GameObj* SpawnMonster(string name, int grade);
+	GameObj* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
+	GameObj* SpawnPlayer(bool random, bool drawingOnBattle = true);
 	
 	void Reset();
 
 	void SetCharacterDatas();
 	json GetCharacterData(string name);
 
-	vector<Character*>& GetMainGridRef() { return *mainGrid; }
+	vector<GameObj*>& GetMainGridRef() { return *mainGrid; }
 
 	int GetCurrentCoin() { return currentCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }
@@ -71,10 +71,10 @@ public:
 
 struct DamageData
 {
-	Character* character;
+	GameObj* character;
 	float given;
 	float receive;
-	DamageData(Character* character = nullptr)
+	DamageData(GameObj* character = nullptr)
 		: character(character), given(0.f), receive(0.f)
 	{
 	}

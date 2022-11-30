@@ -40,7 +40,7 @@ public:
 	AStar();
 	~AStar();
 
-	EnemyInfo AstarSearch(vector<Character*>& map,Vector2i myPos, Vector2i enPos);
+	EnemyInfo AstarSearch(vector<GameObj*>& map,Vector2i myPos, Vector2i enPos);
 
 	//현재좌표가 도착지점과 일치하다면 참, 아니면 거짓을 반환하는 함수.
 	bool isDestination(int row, int col, Vector2i dst);
@@ -57,5 +57,5 @@ public:
 	//backtracking을 이용하여 최단경로를 탐색하는 함수.
 	void tracePath(Cell cellDetails[14][7], Vector2i enpos);
 
-	void SetAstar(vector<Character*>& map, Vector2i myPos, Vector2i enPos);
+	void SetAstar(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos);
 };

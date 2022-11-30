@@ -139,7 +139,7 @@ void StatPopupWindow::SetOrigin(Origins origin)
 	RectangleObj::SetOrigin(origin);
 }
 
-void StatPopupWindow::SetCharacter(Character* character)
+void StatPopupWindow::SetCharacter(GameObj* character)
 {
 	target = character;
 

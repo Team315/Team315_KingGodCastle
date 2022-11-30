@@ -1,7 +1,7 @@
 #include "Thief03.h"
 
 Thief03::Thief03(int starNumber)
-	: Character(starNumber)
+	: GameObj(starNumber)
 {
 	SetType("Monster");
 	SetName("Thief03");
@@ -62,12 +62,12 @@ void Thief03::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	Character::Init();
+	GameObj::Init();
 }
 
 void Thief03::SetState(AnimStates newState)
 {
-	Character::SetState(newState);
+	GameObj::SetState(newState);
 
 	switch (currState)
 	{
@@ -109,7 +109,7 @@ void Thief03::SetState(AnimStates newState)
 
 void Thief03::Update(float dt)
 {
-	Character::Update(dt);
+	GameObj::Update(dt);
 
 	switch (currState)
 	{
@@ -137,12 +137,12 @@ void Thief03::Update(float dt)
 
 void Thief03::Draw(RenderWindow& window)
 {
-	Character::Draw(window);
+	GameObj::Draw(window);
 }
 
 void Thief03::SetPos(const Vector2f& pos)
 {
-	Character::SetPos(pos);
+	GameObj::SetPos(pos);
 }
 
 void Thief03::OnCompleteAttack()

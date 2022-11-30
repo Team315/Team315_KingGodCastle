@@ -1,9 +1,9 @@
 #include "Character.h"
 
-Character::Character(int starNumber)
+GameObj::GameObj(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	currState(AnimStates::None), attackRangeType(false), isBattle(false),
-	noSkill(false), ccTimer(0.f), shieldAmount(0.f),astarDelay(0.0f)
+	noSkill(false), ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 5.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -14,11 +14,11 @@ Character::Character(int starNumber)
 	star = new Star(starNumber);
 }
 
-Character::~Character()
+GameObj::~GameObj()
 {
 }
 
-void Character::Init()
+void GameObj::Init()
 {
 	Vector2f hitboxSize(
 		GetTextureRect().width * 0.5f < TILE_SIZE ? TILE_SIZE : GetTextureRect().width * 0.5f,
@@ -54,7 +54,7 @@ void Character::Init()
 	m_attackDelay = 0.f;
 }
 
-void Character::Reset()
+void GameObj::Reset()
 {
 	isBattle = false;
 	attack = false;
@@ -63,7 +63,7 @@ void Character::Reset()
 	SetState(AnimStates::Idle);
 }
 
-void Character::Update(float dt)
+void GameObj::Update(float dt)
 {
 	hpBar->Update(dt);
 	// Dev key start
@@ -138,7 +138,7 @@ void Character::Update(float dt)
 	}
 }
 
-void Character::Draw(RenderWindow& window)
+void GameObj::Draw(RenderWindow& window)
 {
 	SpriteObj::Draw(window);
 	window.draw(attackSprite);
@@ -146,7 +146,7 @@ void Character::Draw(RenderWindow& window)
 	star->Draw(window);
 }
 
-void Character::SetPos(const Vector2f& pos)
+void GameObj::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
 	attackSprite.setPosition(GetPos());
@@ -154,7 +154,7 @@ void Character::SetPos(const Vector2f& pos)
 	star->SetPos(pos + starLocalPos);
 }
 
-void Character::SetState(AnimStates newState)
+void GameObj::SetState(AnimStates newState)
 {
 	IsSetState(newState);
 
@@ -167,7 +167,7 @@ void Character::SetState(AnimStates newState)
 
 }
 
-void Character::SetStatsInit(json data)
+void GameObj::SetStatsInit(json data)
 {
 	stat.insert({ Stats::HP, Stat(data["HP"]) });
 	stat.insert({ Stats::MP, Stat(data["MP"], 0.f, false) });
@@ -180,7 +180,7 @@ void Character::SetStatsInit(json data)
 	attackRangeType = arType.compare("cross") ? true : false;
 }
 
-void Character::TakeDamage(Character* attacker, bool attackType)
+void GameObj::TakeDamage(GameObj* attacker, bool attackType)
 {
 	Stat& hp = stat[Stats::HP];
 	float damage = 0.f;
@@ -210,7 +210,7 @@ void Character::TakeDamage(Character* attacker, bool attackType)
 	}
 }
 
-void Character::TakeCare(Character* caster, bool careType)
+void GameObj::TakeCare(GameObj* caster, bool careType)
 {
 	Stat& hp = stat[Stats::HP];
 	float careAmount = caster->GetStat(Stats::AP).GetModifier();
@@ -223,7 +223,7 @@ void Character::TakeCare(Character* caster, bool careType)
 	hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
 }
 
-void Character::UpgradeStar()
+void GameObj::UpgradeStar()
 {
 	if (star->CalculateRandomChance())
 		CLOG::Print3String("upgrade 2");
@@ -233,14 +233,14 @@ void Character::UpgradeStar()
 	m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
 }
 
-void Character::UpgradeCharacterSet()
+void GameObj::UpgradeCharacterSet()
 {
 	sprite.setScale({
 		1.0f + (GetStarNumber() * 0.05f),
 		1.0f + (GetStarNumber() * 0.05f) });
 }
 
-void Character::IsSetState(AnimStates newState)
+void GameObj::IsSetState(AnimStates newState)
 {
 	if (newState != AnimStates::Attack && currState == AnimStates::Attack)
 	{
@@ -249,7 +249,7 @@ void Character::IsSetState(AnimStates newState)
 	}
 }
 
-void Character::PrintStats()
+void GameObj::PrintStats()
 {
 	cout << "---------------" << endl;
 	cout << "name: " << name << " / star: " << GetStarNumber() << endl;
@@ -264,14 +264,14 @@ void Character::PrintStats()
 	cout << "---------------" << endl;
 }
 
-unordered_map<Stats, Stat>& Character::GetStat()
+unordered_map<Stats, Stat>& GameObj::GetStat()
 {
 	return stat;
 }
 
-bool Character::isAttack()
+bool GameObj::isAttack()
 {
-	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto& target : mainGrid)
 	{
@@ -288,16 +288,16 @@ bool Character::isAttack()
 	return false;
 }
 
-void Character::PlayAstar()
+void GameObj::PlayAstar()
 {
 
 }
 
-bool Character::SetTargetDistance()
+bool GameObj::SetTargetDistance()
 {
 	//move = true;
 
-	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto& target : mainGrid)
 	{
@@ -327,9 +327,9 @@ bool Character::SetTargetDistance()
 	return true;
 }
 
-void Character::SetMainGrid(int r, int c, Character* character)
+void GameObj::SetMainGrid(int r, int c, GameObj* character)
 {
-	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	int idx = r * GAME_TILE_WIDTH + c;
 	mainGrid[idx] = character;

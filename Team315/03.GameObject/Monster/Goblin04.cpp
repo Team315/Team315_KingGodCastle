@@ -1,7 +1,7 @@
 #include "Goblin04.h"
 
 Goblin04::Goblin04(int starNumber)
-	: Character(starNumber)
+	: GameObj(starNumber)
 {
 	SetType("Monster");
 	SetName("Goblin04");
@@ -62,12 +62,12 @@ void Goblin04::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	Character::Init();
+	GameObj::Init();
 }
 
 void Goblin04::SetState(AnimStates newState)
 {
-	Character::SetState(newState);
+	GameObj::SetState(newState);
 
 	switch (currState)
 	{
@@ -109,7 +109,7 @@ void Goblin04::SetState(AnimStates newState)
 
 void Goblin04::Update(float dt)
 {
-	Character::Update(dt);
+	GameObj::Update(dt);
 
 	switch (currState)
 	{
@@ -137,12 +137,12 @@ void Goblin04::Update(float dt)
 
 void Goblin04::Draw(RenderWindow& window)
 {
-	Character::Draw(window);
+	GameObj::Draw(window);
 }
 
 void Goblin04::SetPos(const Vector2f& pos)
 {
-	Character::SetPos(pos);
+	GameObj::SetPos(pos);
 }
 
 void Goblin04::OnCompleteAttack()

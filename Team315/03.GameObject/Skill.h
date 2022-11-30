@@ -4,7 +4,7 @@
 #include "Include.h"
 #include <vector>
 
-class Character;
+class GameObj;
 
 class Skill : public SpriteObj
 {
@@ -31,5 +31,5 @@ public:
 
 	virtual void SetState(AnimStates newState);
 	AnimStates GetState() { return currState; }
-	void CalculateDamage(Character* character);
+	void CalculateDamage(GameObj* character);
 };

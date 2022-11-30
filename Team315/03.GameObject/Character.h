@@ -10,7 +10,7 @@
 #include "Map/AStar.h"
 #include "Bullet.h"
 
-class Character : public SpriteObj
+class GameObj : public SpriteObj
 {
 protected:
 	Animator animator;
@@ -53,8 +53,8 @@ protected:
 	float astarDelay;
 
 public:
-	Character(int starNumber = 0);
-	virtual ~Character();
+	GameObj(int starNumber = 0);
+	virtual ~GameObj();
 
 	virtual void Init() override;
 	virtual void Reset() override;
@@ -74,9 +74,9 @@ public:
 	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
 	// attackType, true = ad / false = ap
-	void TakeDamage(Character* attacker, bool attackType = true);
+	void TakeDamage(GameObj* attacker, bool attackType = true);
 	// careType, true = heal / false = shield
-	void TakeCare(Character* caster, bool careType = true);
+	void TakeCare(GameObj* caster, bool careType = true);
 	void AddShieldAmount(float amount) { shieldAmount += amount; }
 	float GetShieldAmount() { return shieldAmount; }
 	void UpgradeStar();
@@ -96,6 +96,6 @@ public:
 	//Astar
 	void PlayAstar();
 	bool SetTargetDistance();
-	void SetMainGrid(int r, int c, Character* character);
+	void SetMainGrid(int r, int c, GameObj* character);
 	void SetIsBattle(bool battleOnOff) { isBattle = battleOnOff; }
 };

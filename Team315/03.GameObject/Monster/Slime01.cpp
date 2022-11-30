@@ -1,7 +1,7 @@
 #include "Slime01.h"
 
 Slime01::Slime01(int starNumber)
-	: Character(starNumber)
+	: GameObj(starNumber)
 {
 	SetType("Monster");
 	SetName("Slime01");
@@ -62,12 +62,12 @@ void Slime01::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	Character::Init();
+	GameObj::Init();
 }
 
 void Slime01::SetState(AnimStates newState)
 {
-	Character::SetState(newState);
+	GameObj::SetState(newState);
 
 	switch (currState)
 	{
@@ -109,7 +109,7 @@ void Slime01::SetState(AnimStates newState)
 
 void Slime01::Update(float dt)
 {
-	Character::Update(dt);
+	GameObj::Update(dt);
 
 	switch (currState)
 	{
@@ -137,12 +137,12 @@ void Slime01::Update(float dt)
 
 void Slime01::Draw(RenderWindow& window)
 {
-	Character::Draw(window);
+	GameObj::Draw(window);
 }
 
 void Slime01::SetPos(const Vector2f& pos)
 {
-	Character::SetPos(pos);
+	GameObj::SetPos(pos);
 }
 
 void Slime01::OnCompleteAttack()

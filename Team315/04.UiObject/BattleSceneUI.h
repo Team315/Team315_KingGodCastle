@@ -2,7 +2,7 @@
 #include "UIMgr.h"
 
 class BattlePanel;
-class Character;
+class GameObj;
 class VertexArrayObj;
 class RectangleObj;
 class StatPopupWindow;
@@ -28,5 +28,5 @@ public:
 	void CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight);
 
 	void SetStatPopup(bool active, Vector2f viewCenter,
-		Character* character = nullptr, Vector2f pos = {0, 0});
+		GameObj* character = nullptr, Vector2f pos = {0, 0});
 };

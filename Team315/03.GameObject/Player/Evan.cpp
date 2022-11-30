@@ -1,7 +1,7 @@
 #include "Evan.h"
 
 Evan::Evan(int starNumber)
-	: Character(starNumber)
+	: GameObj(starNumber)
 {
 	SetType("Player");
 	SetName("Evan");
@@ -129,12 +129,12 @@ void Evan::Init()
 	}
 
     SetState(AnimStates::Idle);
-	Character::Init();
+	GameObj::Init();
 }
 
 void Evan::SetState(AnimStates newState)
 {
-	Character::SetState(newState);
+	GameObj::SetState(newState);
 
 	switch (currState)
 	{
@@ -224,7 +224,7 @@ void Evan::SetState(AnimStates newState)
 
 void Evan::Update(float dt)
 {
-	Character::Update(dt);
+	GameObj::Update(dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -259,12 +259,12 @@ void Evan::Update(float dt)
 
 void Evan::Draw(RenderWindow& window)
 {
-	Character::Draw(window);
+	GameObj::Draw(window);
 }
 
 void Evan::SetPos(const Vector2f& pos)
 {
-	Character::SetPos(pos);
+	GameObj::SetPos(pos);
 }
 
 void Evan::OnCompleteAttack()

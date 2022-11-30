@@ -2,7 +2,7 @@
 #include "Bullet.h"
 
 Aramis::Aramis(int starNumber)
-	: Character(starNumber)
+	: GameObj(starNumber)
 {
 	SetType("Player");
 	SetName("Aramis"); 
@@ -130,12 +130,12 @@ void Aramis::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	Character::Init();
+	GameObj::Init();
 }
 
 void Aramis::Update(float dt)
 {
-	Character::Update(dt);
+	GameObj::Update(dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -171,17 +171,17 @@ void Aramis::Update(float dt)
 
 void Aramis::Draw(RenderWindow& window)
 {
-	Character::Draw(window);
+	GameObj::Draw(window);
 }
 
 void Aramis::SetPos(const Vector2f& pos)
 {
-	Character::SetPos(pos);
+	GameObj::SetPos(pos);
 }
 
 void Aramis::SetState(AnimStates newState)
 {
-	Character::SetState(newState);
+	GameObj::SetState(newState);
 
 	switch (currState)
 	{

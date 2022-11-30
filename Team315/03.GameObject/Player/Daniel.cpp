@@ -1,7 +1,7 @@
 #include "Daniel.h"
 
 Daniel::Daniel(int starNumber)
-	: Character(starNumber)
+	: GameObj(starNumber)
 {
 	SetType("Player");
 	SetName("Daniel");
@@ -129,12 +129,12 @@ void Daniel::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	Character::Init();
+	GameObj::Init();
 }
 
 void Daniel::Update(float dt)
 {
-	Character::Update(dt);
+	GameObj::Update(dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -170,17 +170,17 @@ void Daniel::Update(float dt)
 
 void Daniel::Draw(RenderWindow& window)
 {
-	Character::Draw(window);
+	GameObj::Draw(window);
 }
 
 void Daniel::SetPos(const Vector2f& pos)
 {
-	Character::SetPos(pos);
+	GameObj::SetPos(pos);
 }
 
 void Daniel::SetState(AnimStates newState)
 {
-	Character::SetState(newState);
+	GameObj::SetState(newState);
 
 	switch (currState)
 	{

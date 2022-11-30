@@ -22,7 +22,7 @@ void FloodFill::Draw(RenderWindow& window)
 {
 }
 
-bool FloodFill::FloodFillSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos, string targetType)
+bool FloodFill::FloodFillSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos, string targetType)
 {
 	SetFloodFill(map, myPos, enPos, targetType);
 
@@ -118,7 +118,7 @@ void FloodFill::SetArrSize(int height, int width, bool attackType)
 	}
 }
 
-void FloodFill::SetFloodFill(vector<Character*>& map, Vector2i myPos, Vector2i enPos, string targetType)
+void FloodFill::SetFloodFill(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos, string targetType)
 {
 	grid.resize(GAME_TILE_HEIGHT, vector<int>(GAME_TILE_WIDTH));
 

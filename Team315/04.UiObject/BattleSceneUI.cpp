@@ -94,7 +94,7 @@ void BattleSceneUI::CreateBackground(VertexArrayObj* vao, int rows, int cols, fl
 }
 
 void BattleSceneUI::SetStatPopup(bool active, Vector2f viewCenter,
-	Character* character, Vector2f pos)
+	GameObj* character, Vector2f pos)
 {
 	statPopup->SetActive(active);
 	if (!active)

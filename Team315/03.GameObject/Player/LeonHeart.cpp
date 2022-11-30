@@ -1,7 +1,7 @@
 #include "LeonHeart.h"
 
 LeonHeart::LeonHeart(int starNumber)
-	: Character(starNumber)
+	: GameObj(starNumber)
 {
 	SetType("Player");
 	SetName("LeonHeart");
@@ -129,12 +129,12 @@ void LeonHeart::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	Character::Init();
+	GameObj::Init();
 }
 
 void LeonHeart::Update(float dt)
 {
-	Character::Update(dt);
+	GameObj::Update(dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -170,17 +170,17 @@ void LeonHeart::Update(float dt)
 
 void LeonHeart::Draw(RenderWindow& window)
 {
-	Character::Draw(window);
+	GameObj::Draw(window);
 }
 
 void LeonHeart::SetPos(const Vector2f& pos)
 {
-	Character::SetPos(pos);
+	GameObj::SetPos(pos);
 }
 
 void LeonHeart::SetState(AnimStates newState)
 {
-	Character::SetState(newState);
+	GameObj::SetState(newState);
 
 	switch (currState)
 	{

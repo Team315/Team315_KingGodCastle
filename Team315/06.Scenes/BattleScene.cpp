@@ -102,7 +102,7 @@ void BattleScene::Exit()
 
 void BattleScene::Update(float dt)
 {
-	vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 
 	Scene::Update(dt);
 
@@ -177,23 +177,20 @@ void BattleScene::Update(float dt)
 
 			for (auto& character : mgref)
 			{
-				/*if ((count / GAME_TILE_WIDTH) == 10)
-					break;*/
-
+				string str = "";
 				if (character == nullptr)
-					cout << "..";
+					str += ".. ";
 				else
 				{
 					if (character->GetName().compare("Obstacle"))
-						cout << character->GetName()[0] + to_string(character->GetStarNumber());
+						str += (character->GetName()[0] + to_string(character->GetStarNumber()) + " ");
 					else
-						cout << "Ob";
+						str += "Ob ";
 				}
-				
-				cout << ' ';
 				count++;
 				if ((count % GAME_TILE_WIDTH) == 0)
-					cout << endl;
+					str += "\n";
+				cout << str;
 			}
 			cout << endl;
 
@@ -295,7 +292,7 @@ void BattleScene::Update(float dt)
 						CLOG::Print3String("can not summon");
 						return;
 					}
-					Character* newPick = GAME_MGR->SpawnPlayer(true, true);
+					GameObj* newPick = GAME_MGR->SpawnPlayer(true, true);
 					newPick->SetPos(prepareGridRect[idx]->GetPos());
 					newPick->Init();
 					prepareGrid[idx] = newPick;
@@ -365,7 +362,7 @@ void BattleScene::Update(float dt)
 			{
 				if (pick == nullptr)
 				{
-					Character* temp = character;
+					GameObj* temp = character;
 					character = nullptr;
 					delete temp;
 					break;
@@ -396,7 +393,7 @@ void BattleScene::Update(float dt)
 				{
 					if (pick == nullptr)
 					{
-						Character* temp = character;
+						GameObj* temp = character;
 						character = nullptr;
 						delete temp;
 						break;
@@ -486,7 +483,7 @@ void BattleScene::Draw(RenderWindow& window)
 	}
 
 	// draw character on gmae screen area
-	vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 	for (auto& character : mgref)
 	{
 		if (character != nullptr)
@@ -528,14 +525,14 @@ void BattleScene::ZoomOut()
 	currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 }
 
-void BattleScene::PickUpCharacter(Character* character)
+void BattleScene::PickUpCharacter(GameObj* character)
 {
 	beforeDragPos = character->GetPos();
 	pick = character;
 	pick->SetHitBoxActive(false);
 }
 
-void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>* dest, Vector2i startCoord, Vector2i destCoord)
+void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)
 {
 	int startIdx = GetIdxFromCoord(startCoord);
 	int destIdx = GetIdxFromCoord(destCoord);
@@ -550,7 +547,7 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 	}
 	else
 	{
-		Character* destCharacter = (*dest)[destIdx];
+		GameObj* destCharacter = (*dest)[destIdx];
 		if (destCharacter != nullptr)
 		{
 			if (!destCharacter->GetName().compare(pick->GetName()) &&
@@ -638,7 +635,7 @@ void BattleScene::PutDownCharacter(vector<Character*>* start, vector<Character*>
 		if (canMove)
 		{
 			// swap in vector contatiner
-			Character* temp = (*dest)[destIdx];
+			GameObj* temp = (*dest)[destIdx];
 			(*dest)[destIdx] = pick;
 			(*start)[startIdx] = temp;
 		}
@@ -676,7 +673,7 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 
 			int curIdx = j + i * col;
 
-			vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+			vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 			switch (type)
 			{
 			case (int) TileTypes::Obstacle:
@@ -708,7 +705,7 @@ bool InBattleGrid(Vector2i pos)
 	return (pos.x >= 0 && pos.x < 7) && (pos.y >= 10 && pos.y < 14); // x(0, 6) y(10, 13)
 }
 
-int GetZeroElem(vector<Character*>& vec)
+int GetZeroElem(vector<GameObj*>& vec)
 {
 	for (int idx = 0; idx < PREPARE_SIZE; idx++)
 	{

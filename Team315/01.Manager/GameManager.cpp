@@ -13,7 +13,7 @@ GameManager::GameManager()
 		vector<vector<vector<Tile*>>>(STAGE_MAX_COUNT,
 			vector<vector<Tile*>>(GAME_TILE_HEIGHT,
 				vector<Tile*>(GAME_TILE_WIDTH))));
-	mainGrid = new vector<Character*>();
+	mainGrid = new vector<GameObj*>();
 	//battleTracker = new BattleTracker();
 }
 
@@ -94,9 +94,9 @@ void GameManager::CreatedTiles()
 	}
 }
 
-Character* GameManager::SpawnMonster(string name, int grade)
+GameObj* GameManager::SpawnMonster(string name, int grade)
 {
-	Character* character = nullptr;
+	GameObj* character = nullptr;
 	if (!name.compare("Goblin00"))
 		character = new Goblin00(grade);
 	else if (!name.compare("Goblin01"))
@@ -134,11 +134,11 @@ Character* GameManager::SpawnMonster(string name, int grade)
 	return character;
 }
 
-Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBattle)
+GameObj* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBattle)
 {
-	Character* character = nullptr;
-	//int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
-	int num = 4;
+	GameObj* character = nullptr;
+	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
+	//int num = 4;
 
 	if (!name.compare("Aramis") || num == 0)
 		character = new Aramis();
@@ -158,7 +158,7 @@ Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBatt
 	return character;
 }
 
-Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
+GameObj* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
 {
 	return SpawnPlayer("", random, drawingOnBattle);
 }
@@ -192,7 +192,7 @@ BattleTracker::~BattleTracker()
 
 void BattleTracker::SetDatas()
 {
-	vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
+	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 	for (auto& character : mgref)
 	{
 		if (character != nullptr && !character->GetType().compare("Player"))

@@ -1,7 +1,7 @@
 #include "Shelda.h"
 
 Shelda::Shelda(int starNumber)
-	: Character(starNumber)
+	: GameObj(starNumber)
 {
 	SetType("Player");
 	SetName("Shelda");
@@ -129,12 +129,12 @@ void Shelda::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	Character::Init();
+	GameObj::Init();
 }
 
 void Shelda::Update(float dt)
 {
-	Character::Update(dt);
+	GameObj::Update(dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -170,17 +170,17 @@ void Shelda::Update(float dt)
 
 void Shelda::Draw(RenderWindow& window)
 {
-	Character::Draw(window);
+	GameObj::Draw(window);
 }
 
 void Shelda::SetPos(const Vector2f& pos)
 {
-	Character::SetPos(pos);
+	GameObj::SetPos(pos);
 }
 
 void Shelda::SetState(AnimStates newState)
 {
-	Character::SetState(newState);
+	GameObj::SetState(newState);
 
 	switch (currState)
 	{
