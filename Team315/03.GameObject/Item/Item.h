@@ -17,4 +17,5 @@ public:
 	virtual void SetPos(const Vector2f& pos) override;
 
 	string MakePath();
+	int GetGrade() { return grade; }
 };

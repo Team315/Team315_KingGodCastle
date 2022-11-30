@@ -116,8 +116,7 @@ void BattleScene::Update(float dt)
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
 		{
-			GAME_MGR->TranslateCoin(100.f);
-			ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+			TranslateCoinState(100.f);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
@@ -259,8 +258,7 @@ void BattleScene::Update(float dt)
 
 					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->characterCost)
 					{
-						GAME_MGR->TranslateCoin(-GAME_MGR->characterCost);
-						ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+						TranslateCoinState(-GAME_MGR->characterCost);
 					}
 					else
 					{
@@ -285,8 +283,7 @@ void BattleScene::Update(float dt)
 
 					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->equipmentCost)
 					{
-						GAME_MGR->TranslateCoin(-GAME_MGR->equipmentCost);
-						ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+						TranslateCoinState(-GAME_MGR->equipmentCost);
 						
 						Item* item = GAME_MGR->SpawnItem();
 						item->SetPos(prepareGridRect[idx]->GetPos());
@@ -329,7 +326,7 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	// prepare grid & battle grid - character pick up
+	// prepare grid & battle grid - gameObj pick up
 	for (auto& gameObj : prepareGrid)
 	{
 		if (gameObj == nullptr)
@@ -343,7 +340,7 @@ void BattleScene::Update(float dt)
 			{
 				if (pick == nullptr)
 				{
-					PickUpCharacter(gameObj);
+					PickUpGameObj(gameObj);
 					break;
 				}
 			}
@@ -352,9 +349,16 @@ void BattleScene::Update(float dt)
 				if (pick == nullptr)
 				{
 					GameObj* temp = gameObj;
-					gameObj = nullptr;
-					delete temp;
-					break;
+					if (temp->GetType().compare("Item"))
+					{
+						float delta =
+							dynamic_cast<Character*>(temp)->GetStarNumber() *
+							GAME_MGR->characterCost * 2 / 3;
+						TranslateCoinState(delta);
+						gameObj = nullptr;
+						delete temp;
+						break;
+					}
 				}
 			}
 		}
@@ -375,7 +379,7 @@ void BattleScene::Update(float dt)
 				{
 					if (pick == nullptr)
 					{
-						PickUpCharacter(gameObj);
+						PickUpGameObj(gameObj);
 						break;
 					}
 				}
@@ -384,9 +388,16 @@ void BattleScene::Update(float dt)
 					if (pick == nullptr)
 					{
 						GameObj* temp = gameObj;
-						gameObj = nullptr;
-						delete temp;
-						break;
+						if (temp->GetType().compare("Item"))
+						{
+							float delta =
+								dynamic_cast<Character*>(temp)->GetStarNumber() *
+								GAME_MGR->characterCost * 2 / 3;
+							TranslateCoinState(delta);
+							gameObj = nullptr;
+							delete temp;
+							break;
+						}
 					}
 				}
 			}
@@ -508,11 +519,17 @@ void BattleScene::ZoomOut()
 	currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 }
 
-void BattleScene::PickUpCharacter(GameObj* character)
+void BattleScene::PickUpGameObj(GameObj* gameObj)
 {
-	beforeDragPos = character->GetPos();
-	pick = character;
+	beforeDragPos = gameObj->GetPos();
+	pick = gameObj;
 	pick->SetHitBoxActive(false);
+}
+
+void BattleScene::TranslateCoinState(float delta)
+{
+	GAME_MGR->TranslateCoin(delta);
+	ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 }
 
 void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)

@@ -55,7 +55,7 @@ public:
 	Character* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
 	Character* SpawnPlayer(bool random, bool drawingOnBattle = true);
 	
-	Item* SpawnItem();
+	Item* SpawnItem(int typeIdx = -1);
 
 	void Reset();
 
