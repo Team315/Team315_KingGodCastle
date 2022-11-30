@@ -72,11 +72,11 @@ void BattleScene::Enter()
 	battleGrid.assign(BATTLE_GRID_ROW * GAME_TILE_WIDTH, nullptr);
 
 	playingBattle = false;
+	GAME_MGR->Init();
 	ui->Reset();
 
 	curChapIdx = 0;
 	curStageIdx = 0;
-	GAME_MGR->Reset();
 	SetCurrentStage(curChapIdx, curStageIdx);
 
 	b_centerPos = false;
@@ -124,28 +124,16 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("battle end");
 			playingBattle = false;
 
-			for (auto& gameObj : mgref)
+			int len = battleGrid.size();
+			for (int idx = 0; idx < len; idx++)
 			{
-				if (gameObj != nullptr &&
-					!gameObj->GetType().compare("Player"))
-				{
-					int len = battleGrid.size();
-					for (int i = 0; i < len; i++)
-					{
-						if (battleGrid[i] == nullptr)
-							continue;
-
-						if (battleGrid[i]->GetObjId() == gameObj->GetObjId())
-						{
-							int coordR = (70 + i) / GAME_TILE_WIDTH;
-							int coordC = (70 + i) % GAME_TILE_WIDTH;
-							gameObj->SetPos((*curStage)[coordR][coordC]->GetPos());
-							gameObj->Reset();
-						}
-					}
-					gameObj = nullptr;
-				}
+				if (battleGrid[idx] == nullptr)
+					continue;
+				
+				battleGrid[idx]->Reset();
+				battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
 			}
+
 			b_centerPos = false;
 			ZoomOut();
 
@@ -200,6 +188,30 @@ void BattleScene::Update(float dt)
 	// Dev Input end
 
 	// Game Input start
+
+	// wheel control
+	float wheel = InputMgr::GetMouseWheel();
+	if (wheel != 0)
+	{
+		b_centerPos = wheel == 1 ? true : false;
+		b_centerPos ? ZoomIn() : ZoomOut();
+	}
+	if (b_centerPos)
+	{
+		if (screenCenterPos.y >= gameScreenTopLimit)
+		{
+			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenTopLimit) * 25.f;
+			gameView.setCenter(screenCenterPos);
+		}
+	}
+	else
+	{
+		if (screenCenterPos.y <= gameScreenBottomLimit)
+		{
+			screenCenterPos.y += dt * (gameScreenBottomLimit - screenCenterPos.y) * 25.f;
+			gameView.setCenter(screenCenterPos);
+		}
+	}
 
 	if (InputMgr::GetMouseDown(Mouse::Left))
 	{
@@ -297,30 +309,6 @@ void BattleScene::Update(float dt)
 					break;
 				}
 			}
-		}
-	}
-
-	// wheel control
-	float wheel = InputMgr::GetMouseWheel();
-	if (wheel != 0)
-	{
-		b_centerPos = wheel == 1 ? true : false;
-		b_centerPos ? ZoomIn() : ZoomOut();
-	}
-	if (b_centerPos)
-	{
-		if (screenCenterPos.y >= gameScreenTopLimit)
-		{
-			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenTopLimit) * 25.f;
-			gameView.setCenter(screenCenterPos);
-		}
-	}
-	else
-	{
-		if (screenCenterPos.y <= gameScreenBottomLimit)
-		{
-			screenCenterPos.y += dt * (gameScreenBottomLimit - screenCenterPos.y) * 25.f;
-			gameView.setCenter(screenCenterPos);
 		}
 	}
 
@@ -649,11 +637,6 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 	return;
 }
 
-int BattleScene::GetIdxFromCoord(Vector2i coord)
-{
-	return coord.x + (coord.y < 14 ? coord.y - 10 : coord.y - 16) * GAME_TILE_WIDTH; // battle y 10~13 prepare y 16~17
-}
-
 void BattleScene::SetCurrentStage(int chap, int stage)
 {
 	curStage = GAME_MGR->GetStage(chap, stage);
@@ -692,6 +675,21 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 
 	ui->GetPanel()->SetStageNumber(curStageIdx + 1);
 	cout << "current chapter, stage (" << curChapIdx << ", " << curStageIdx << ")" << endl;
+}
+
+int GetIdxFromCoord(Vector2i coord)
+{
+	return coord.x + (coord.y < 14 ? coord.y - 10 : coord.y - 16) * GAME_TILE_WIDTH; // battle y 10~13 prepare y 16~17
+}
+
+Vector2i GetCoordFromIdx(int idx, bool battle)
+{
+	Vector2i coord(idx % GAME_TILE_WIDTH, idx / GAME_TILE_WIDTH);
+	if (battle)
+		coord.y += 10;
+	else
+		coord.y += 16;
+	return coord;
 }
 
 bool IsCharacter(GameObj* gameObj)

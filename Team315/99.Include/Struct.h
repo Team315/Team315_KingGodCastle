@@ -19,15 +19,10 @@ struct Stat
 	Stat(float b = 0.f, float d = 0.f, bool currentFull = true)
 		: base(b), delta(0.f), current(0.f), isAddition(false)
 	{
-		Init(b, d, currentFull);
-	}
-
-	void Init(float b, float d = 0.f, bool currentFull = true)
-	{
 		base = b;
 		current = currentFull ? base : 0;
 		delta = d;
-		modifier = base + delta;
+		modifier = b + d;
 	}
 
 	void ResetStat()
@@ -67,9 +62,7 @@ struct Stat
 
 	void SetCurrent(float c)
 	{
-		current = c;
-		if (current >= modifier)
-			current = modifier;
+		current = Utils::Clamp(c, 0.f, modifier);
 	}
 
 	void SetDelta(float d)

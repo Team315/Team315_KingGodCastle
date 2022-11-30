@@ -3,7 +3,7 @@
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	attackRangeType(false), isBattle(false),
-	noSkill(false), ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f)
+	noSkill(false), ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 5.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -53,7 +53,11 @@ void Character::Reset()
 	attack = false;
 	move = false;
 	isAlive = true;
-	SetActive(true);
+	Stat& hp = stat[Stats::HP];
+	hp.ResetStat();
+	shieldAmount = shieldAmountMin;
+	hpBar->SetRatio(hp.GetModifier(), hp.GetCurrent(), shieldAmount);
+	stat[Stats::MP].SetCurrent(0.f);
 	SetState(AnimStates::Idle);
 }
 
@@ -207,9 +211,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		// death
 		CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
 		isAlive = false;
-		SetActive(false);
-		Vector2i coord = GAME_MGR->PosToIdx(GetPos());
-		SetMainGrid(coord.y, coord.x, nullptr);
+		GAME_MGR->RemoveFromMainGrid(this);
 	}
 }
 

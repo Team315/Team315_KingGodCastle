@@ -58,11 +58,12 @@ public:
 	void TranslateCoinState(float delta);
 	void PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest,
 		Vector2i startCoord, Vector2i destCoord);
-	int GetIdxFromCoord(Vector2i coord);
 
 	void SetCurrentStage(int chap, int stage);
 };
 
+int GetIdxFromCoord(Vector2i coord);
+Vector2i GetCoordFromIdx(int idx, bool battle);
 bool IsCharacter(GameObj* gameObj);
 bool InPrepareGrid(Vector2i pos);
 bool InBattleGrid(Vector2i pos);

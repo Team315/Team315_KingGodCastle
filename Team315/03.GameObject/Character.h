@@ -27,6 +27,7 @@ protected:
 	//Skill
 	float ccTimer; // Crowd control timer
 	float shieldAmount;
+	float shieldAmountMin;
 	bool noSkill;
 	Skill* skill;
 
@@ -34,7 +35,6 @@ protected:
 	bool move;
 	bool attack;
 	bool isAlive;
-
 
 	float moveSpeed;
 	Vector2f direction;
@@ -87,6 +87,7 @@ public:
 	void UpgradeStats();
 	void SetNoSkill(bool b) { noSkill = b; };
 	bool GetNoSkill() { return noSkill; }
+	void SetShieldMinValue(float value) { shieldAmountMin = value; }
 
 	//battle
 	void IsSetState(AnimStates newState);

@@ -39,6 +39,7 @@ public:
 	GameManager();
 	virtual ~GameManager();
 
+	void Init();
 	const int GetCharacterCount() { return battleCharacterCount; }
 	const int GetExtraLevelUpChance() { return extraLevelUpChance; }
 
@@ -63,6 +64,7 @@ public:
 	json GetCharacterData(string name);
 
 	vector<GameObj*>& GetMainGridRef() { return *mainGrid; }
+	void RemoveFromMainGrid(GameObj* gameObj);
 
 	int GetCurrentCoin() { return currentCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }

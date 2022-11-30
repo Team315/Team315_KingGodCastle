@@ -47,6 +47,13 @@ GameManager::~GameManager()
 	mainGrid->clear();
 }
 
+void GameManager::Init()
+{
+	currentCoin = startCoin;
+	extraLevelUpChance = 0;
+	extraGradeUpChance = 0;
+}
+
 Vector2i GameManager::PosToIdx(Vector2f pos)
 {
 	return Vector2i(
@@ -198,9 +205,6 @@ Item* GameManager::SpawnItem(int typeIdx)
 void GameManager::Reset()
 {
 	mainGrid->assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
-	currentCoin = startCoin;
-	battleCharacterCount = 8;
-	extraLevelUpChance = 0;
 }
 
 void GameManager::SetCharacterDatas()
@@ -211,6 +215,18 @@ void GameManager::SetCharacterDatas()
 json GameManager::GetCharacterData(string name)
 {
 	return characterDatas[name];
+}
+
+void GameManager::RemoveFromMainGrid(GameObj* gameObj)
+{
+	for (auto& cell : *mainGrid)
+	{
+		if (cell != nullptr && (cell->GetObjId() == gameObj->GetObjId()))
+		{
+			cell = nullptr;
+			return;
+		}
+	}
 }
 
 // Battle Tracker
