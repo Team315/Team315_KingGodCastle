@@ -53,11 +53,15 @@ void Character::Reset()
 	attack = false;
 	move = false;
 	isAlive = true;
+	SetActive(true);
 	SetState(AnimStates::Idle);
 }
 
 void Character::Update(float dt)
 {
+	if (!isAlive)
+		return;
+
 	hpBar->Update(dt);
 	// Dev key start
 	{
@@ -92,6 +96,8 @@ void Character::Update(float dt)
 				attack = true;
 				Stat& mp = stat[Stats::MP];
 				mp.TranslateCurrent(15.f);
+				dynamic_cast<Character*>(this->target)->TakeDamage(this);
+
 				if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
 				{
 					cout << name << " fire skill !" << endl;
@@ -201,6 +207,9 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		// death
 		CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
 		isAlive = false;
+		SetActive(false);
+		Vector2i coord = GAME_MGR->PosToIdx(GetPos());
+		SetMainGrid(coord.y, coord.x, nullptr);
 	}
 }
 
@@ -285,7 +294,10 @@ bool Character::isAttack()
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 
 			if (m_floodFill.FloodFillSearch(mainGrid, mypos, enpos, targetType))
+			{
+				this->target = target;
 				return true;
+			}
 		}
 	}
 
