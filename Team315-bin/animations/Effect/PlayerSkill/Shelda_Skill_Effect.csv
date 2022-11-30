@@ -1,10 +1,10 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
 Shelda_Skill_Effect,0,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Effect/player/shelda_SkillEffect_00.png,0,0,80,80,40,80,0,0
-graphics/Effect/player/shelda_SkillEffect_00.png,80,0,80,80,40,80,0,0
-graphics/Effect/player/shelda_SkillEffect_00.png,160,0,80,80,40,80,0,0
-graphics/Effect/player/shelda_SkillEffect_00.png,0,80,80,80,40,80,0,0
-graphics/Effect/player/shelda_SkillEffect_00.png,80,80,80,80,40,80,0,0
-graphics/Effect/player/shelda_SkillEffect_00.png,160,80,80,80,40,80,0,0
-graphics/Effect/player/shelda_SkillEffect_00.png,240,80,80,80,40,80,0,0
+graphics/Effect/player/shelda_SkillEffect.png,0,0,80,80,40,80,0,0
+graphics/Effect/player/shelda_SkillEffect.png,80,0,80,80,40,80,0,0
+graphics/Effect/player/shelda_SkillEffect.png,160,0,80,80,40,80,0,0
+graphics/Effect/player/shelda_SkillEffect.png,0,80,80,80,40,80,0,0
+graphics/Effect/player/shelda_SkillEffect.png,80,80,80,80,40,80,0,0
+graphics/Effect/player/shelda_SkillEffect.png,160,80,80,80,40,80,0,0
+graphics/Effect/player/shelda_SkillEffect.png,240,80,80,80,40,80,0,0

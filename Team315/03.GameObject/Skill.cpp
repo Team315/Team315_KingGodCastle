@@ -13,6 +13,7 @@ Skill::~Skill()
 
 void Skill::Init()
 {
+	GameObj::Init();
 }
 
 void Skill::Update(float dt)

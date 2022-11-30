@@ -182,10 +182,7 @@ animations/Player/Shelda/Attack/Shelda_DownAttack.csv,3
 animations/Player/Shelda/Attack/Shelda_LeftAttack.csv,3
 animations/Player/Shelda/Attack/Shelda_RightAttack.csv,3
 animations/Player/Shelda/Attack/Shelda_UpAttack.csv,3
-animations/Player/Shelda/Skill/Shelda_DownSkill.csv,3
-animations/Player/Shelda/Skill/Shelda_LeftSkill.csv,3
-animations/Player/Shelda/Skill/Shelda_RightSkill.csv,3
-animations/Player/Shelda/Skill/Shelda_UpSkill.csv,3
+animations/Player/Shelda/Skill/Shelda_Skill.csv,3
 animations/Player/Shelda/Move/Shelda_DownMove.csv,3
 animations/Player/Shelda/Move/Shelda_LeftMove.csv,3
 animations/Player/Shelda/Move/Shelda_RightMove.csv,3

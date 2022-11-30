@@ -7,6 +7,7 @@
 #include "Map/FloodFill.h"
 #include "Map/AStar.h"
 #include "Bullet.h"
+#include "Skill.h"
 
 class Character : public GameObj
 {
@@ -22,10 +23,12 @@ protected:
 
 	Vector2f hpBarLocalPos;
 	Vector2f starLocalPos;
-	//
+	
+	//Skill
 	float ccTimer; // Crowd control timer
 	float shieldAmount;
 	bool noSkill;
+	Skill* skill;
 
 	Vector2f destination;
 	bool move;
@@ -47,6 +50,7 @@ protected:
 	string targetType;
 	bool isBattle;
 	float astarDelay;
+
 
 public:
 	Character(int starNumber = 0);
