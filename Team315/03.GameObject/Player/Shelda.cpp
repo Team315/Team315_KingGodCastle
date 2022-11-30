@@ -34,7 +34,10 @@ void Shelda::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Shelda_RightAttack"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Shelda_UpAttack"));
 
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Shelda_Skill"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Shelda_DownSkill"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Shelda_LeftSkill"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Shelda_RightSkill"));
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Shelda_UpSkill"));
 
 	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_DownAttack_Effect"));
 	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_LeftAttack_Effect"));
@@ -105,7 +108,28 @@ void Shelda::Init()
 	}
 	{
 		AnimationEvent ev;
-		ev.clipId = "Shelda_Skill";
+		ev.clipId = "Shelda_DownSkill";
+		ev.frame = 3;
+		ev.onEvent = bind(&Shelda::OnCompleteSkill, this);
+		animator.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Shelda_LeftSkill";
+		ev.frame = 3;
+		ev.onEvent = bind(&Shelda::OnCompleteSkill, this);
+		animator.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Shelda_RightSkill";
+		ev.frame = 3;
+		ev.onEvent = bind(&Shelda::OnCompleteSkill, this);
+		animator.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Shelda_UpSkill";
 		ev.frame = 3;
 		ev.onEvent = bind(&Shelda::OnCompleteSkill, this);
 		animator.AddEvent(ev);
@@ -249,16 +273,20 @@ void Shelda::SetState(AnimStates newState)
 	case AnimStates::Skill:
 		if(lastDirection.x)
 		{
-			animator.Play((lastDirection.x >0.f) ? "Shelda_Skill" : "Shelda_Skill");
+			animator.Play((lastDirection.x >0.f) ? "Shelda_RightSkill" : "Shelda_LeftSkill");
 			//attackEffect.Play("Shelda_HUSkill_Effect");
 			//skill->GetSkillAnimator().Play("Shelda_Skill_Effect");
 			//skill->SetPos(GetPos());
-			//attackEffect.Play((lastDirection.x > 0.f) ? "Shelda_Skill_Effect" : "Shelda_Skill_Effect");
+			attackEffect.Play("Shelda_Skill_Effect");
+			Vector2f vec = GetPos();
+			attackSprite.setPosition(vec);
 		}
 		if (lastDirection.y)
 		{
-			animator.Play((lastDirection.y > 0.f) ? "Shelda_Skill" : "Shelda_Skill");
-			//attackEffect.Play((lastDirection.y > 0.f) ? "Shelda_Skill_Effect" : "Shelda_Skill_Effect");
+			animator.Play((lastDirection.y > 0.f) ? "Shelda_DownSkill" : "Shelda_UpSkill");
+			attackEffect.Play("Shelda_Skill_Effect");
+			Vector2f vec = GetPos();
+			attackSprite.setPosition(vec);
 		}
 		break;
 	}
