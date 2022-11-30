@@ -268,7 +268,7 @@ bool Character::isAttack()
 
 bool Character::PlayAstar()
 {
-	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto& target : mainGrid)
 	{
