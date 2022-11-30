@@ -1,9 +1,11 @@
 #pragma once
 #include "Character.h"
+#include "Skill/SheldaSkill.h"
 
 class Shelda : public Character
 {
 protected:
+	float skillDelay;
 public:
 	Shelda(int starNumber = 0);
 	virtual ~Shelda();

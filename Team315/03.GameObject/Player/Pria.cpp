@@ -43,6 +43,8 @@ void Pria::Init()
 	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightAttack_Effect"));
 	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpAttack_Effect"));
 
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_Skill_Effect"));
+
 	{
 		AnimationEvent ev;
 		ev.clipId = "Pria_DownAttack";
@@ -127,6 +129,14 @@ void Pria::Init()
 		ev.onEvent = bind(&Pria::OnCompleteSkill, this);
 		animator.AddEvent(ev);
 	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Pria_Skill_Effect";
+		ev.frame = 2;
+		ev.onEvent = bind(&Pria::OnCompleteSkill, this);
+		animator.AddEvent(ev);
+	}
+
 
 	SetState(AnimStates::Idle);
 	Character::Init();
@@ -138,7 +148,7 @@ void Pria::Update(float dt)
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
-		SetState(AnimStates::Attack);
+		SetState(AnimStates::Skill);
 	}
 
 	switch (currState)
@@ -170,7 +180,21 @@ void Pria::Update(float dt)
 
 void Pria::Draw(RenderWindow& window)
 {
-	Character::Draw(window);
+	if (!isAlive)
+		return;
+
+	if(GetState() == AnimStates::Skill)
+	{
+		window.draw(attackSprite);
+		SpriteObj::Draw(window);
+	}
+	else
+	{
+		SpriteObj::Draw(window);
+		window.draw(attackSprite);
+	}	
+	hpBar->Draw(window);
+	star->Draw(window);
 }
 
 void Pria::SetPos(const Vector2f& pos)
@@ -229,10 +253,18 @@ void Pria::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Pria_RightSkill" : "Pria_LeftSkill");
+			attackEffect.Play("Pria_Skill_Effect");
+			Vector2f vec = GetPos();
+			vec.y += 15.f;
+			attackSprite.setPosition(vec);
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Pria_DownSkill" : "Pria_UpSkill");
+			attackEffect.Play("Pria_Skill_Effect");
+			Vector2f vec = GetPos();
+			vec.y += 15.f;
+			attackSprite.setPosition(vec);
 		}
 		break;
 	}

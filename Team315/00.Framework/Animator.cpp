@@ -104,6 +104,8 @@ void Animator::SetFrame(const AnimationFrame& frame)
 
 void Animator::Play(string id, bool clearQueue)
 {
+    //if("Shelda_Skill_Effect" == id)
+    //    cout << id << endl;
     if (clearQueue)
     {
         ClearPlayQueue();

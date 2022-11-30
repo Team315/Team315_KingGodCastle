@@ -1,0 +1,10 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Shelda_HUSkill_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/shelda_HUSkillEffect.png,0,0,60,60,35,145,0,0
+graphics/Effect/player/shelda_HUSkillEffect.png,60,0,60,60,35,145,0,0
+graphics/Effect/player/shelda_HUSkillEffect.png,120,0,60,60,35,145,0,0
+graphics/Effect/player/shelda_HUSkillEffect.png,180,0,60,60,35,145,0,0
+graphics/Effect/player/shelda_HUSkillEffect.png,0,60,60,60,35,145,0,0
+graphics/Effect/player/shelda_HUSkillEffect.png,60,60,60,60,35,145,0,0
+graphics/Effect/player/shelda_HUSkillEffect.png,240,60,60,60,35,145,0,0
