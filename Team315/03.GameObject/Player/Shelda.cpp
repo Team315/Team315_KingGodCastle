@@ -129,12 +129,12 @@ void Shelda::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	GameObj::Init();
+	Character::Init();
 }
 
 void Shelda::Update(float dt)
 {
-	GameObj::Update(dt);
+	Character::Update(dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -170,17 +170,17 @@ void Shelda::Update(float dt)
 
 void Shelda::Draw(RenderWindow& window)
 {
-	GameObj::Draw(window);
+	Character::Draw(window);
 }
 
 void Shelda::SetPos(const Vector2f& pos)
 {
-	GameObj::SetPos(pos);
+	Character::SetPos(pos);
 }
 
 void Shelda::SetState(AnimStates newState)
 {
-	GameObj::SetState(newState);
+	Character::SetState(newState);
 
 	switch (currState)
 	{

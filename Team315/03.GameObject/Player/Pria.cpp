@@ -129,12 +129,12 @@ void Pria::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	GameObj::Init();
+	Character::Init();
 }
 
 void Pria::Update(float dt)
 {
-	GameObj::Update(dt);
+	Character::Update(dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -170,17 +170,17 @@ void Pria::Update(float dt)
 
 void Pria::Draw(RenderWindow& window)
 {
-	GameObj::Draw(window);
+	Character::Draw(window);
 }
 
 void Pria::SetPos(const Vector2f& pos)
 {
-	GameObj::SetPos(pos);
+	Character::SetPos(pos);
 }
 
 void Pria::SetState(AnimStates newState)
 {
-	GameObj::SetState(newState);
+	Character::SetState(newState);
 
 	switch (currState)
 	{

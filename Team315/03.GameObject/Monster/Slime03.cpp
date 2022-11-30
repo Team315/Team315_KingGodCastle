@@ -62,12 +62,12 @@ void Slime03::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	GameObj::Init();
+	Character::Init();
 }
 
 void Slime03::SetState(AnimStates newState)
 {
-	GameObj::SetState(newState);
+	Character::SetState(newState);
 
 	switch (currState)
 	{
@@ -109,7 +109,7 @@ void Slime03::SetState(AnimStates newState)
 
 void Slime03::Update(float dt)
 {
-	GameObj::Update(dt);
+	Character::Update(dt);
 
 	switch (currState)
 	{
@@ -137,12 +137,12 @@ void Slime03::Update(float dt)
 
 void Slime03::Draw(RenderWindow& window)
 {
-	GameObj::Draw(window);
+	Character::Draw(window);
 }
 
 void Slime03::SetPos(const Vector2f& pos)
 {
-	GameObj::SetPos(pos);
+	Character::SetPos(pos);
 }
 
 void Slime03::OnCompleteAttack()

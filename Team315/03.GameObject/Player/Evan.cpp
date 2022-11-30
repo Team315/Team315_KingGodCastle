@@ -129,12 +129,12 @@ void Evan::Init()
 	}
 
     SetState(AnimStates::Idle);
-	GameObj::Init();
+	Character::Init();
 }
 
 void Evan::SetState(AnimStates newState)
 {
-	GameObj::SetState(newState);
+	Character::SetState(newState);
 
 	switch (currState)
 	{
@@ -224,7 +224,7 @@ void Evan::SetState(AnimStates newState)
 
 void Evan::Update(float dt)
 {
-	GameObj::Update(dt);
+	Character::Update(dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -259,12 +259,12 @@ void Evan::Update(float dt)
 
 void Evan::Draw(RenderWindow& window)
 {
-	GameObj::Draw(window);
+	Character::Draw(window);
 }
 
 void Evan::SetPos(const Vector2f& pos)
 {
-	GameObj::SetPos(pos);
+	Character::SetPos(pos);
 }
 
 void Evan::OnCompleteAttack()

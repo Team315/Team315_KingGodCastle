@@ -317,11 +317,7 @@ void BattleScene::Update(float dt)
 		if (gameObj == nullptr)
 			continue;
 
-		if (!gameObj->GetType().compare("Player") ||
-			!gameObj->GetType().compare("Monster"))
-			dynamic_cast<Character*>(gameObj)->Update(dt);
-		else if (!gameObj->GetType().compare("Item"))
-			dynamic_cast<Item*>(gameObj)->Update(dt);
+		gameObj->Update(dt);
 
 		if (gameObj->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
@@ -353,11 +349,7 @@ void BattleScene::Update(float dt)
 			if (gameObj == nullptr)
 				continue;
 
-			if (!gameObj->GetType().compare("Player") ||
-				!gameObj->GetType().compare("Monster"))
-				dynamic_cast<Character*>(gameObj)->Update(dt);
-			else if (!gameObj->GetType().compare("Item"))
-				dynamic_cast<Item*>(gameObj)->Update(dt);
+			gameObj->Update(dt);
 
 			if (gameObj->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 			{
@@ -459,11 +451,7 @@ void BattleScene::Draw(RenderWindow& window)
 	{
 		if (gameObj != nullptr)
 		{
-			if (!gameObj->GetType().compare("Player") ||
-				!gameObj->GetType().compare("Monster"))
-				dynamic_cast<Character*>(gameObj)->Draw(window);
-			else if (!gameObj->GetType().compare("Item"))
-				dynamic_cast<Item*>(gameObj)->Draw(window);
+			gameObj->Draw(window);
 		}
 	}
 
@@ -473,13 +461,7 @@ void BattleScene::Draw(RenderWindow& window)
 	{
 		if (gameObj != nullptr)
 		{
-			if (!gameObj->GetType().compare("Player") ||
-				!gameObj->GetType().compare("Monster"))
-				dynamic_cast<Character*>(gameObj)->Draw(window);
-			else if (!gameObj->GetType().compare("Item"))
-				dynamic_cast<Item*>(gameObj)->Draw(window);
-			else
-				gameObj->Draw(window);
+			gameObj->Draw(window);
 		}
 	}
 
@@ -490,11 +472,7 @@ void BattleScene::Draw(RenderWindow& window)
 		{
 			if (gameObj != nullptr)
 			{
-				if (!gameObj->GetType().compare("Player") ||
-					!gameObj->GetType().compare("Monster"))
-					dynamic_cast<Character*>(gameObj)->Draw(window);
-				else if (!gameObj->GetType().compare("Item"))
-					dynamic_cast<Item*>(gameObj)->Draw(window);
+				gameObj->Draw(window);
 			}
 		}
 	}

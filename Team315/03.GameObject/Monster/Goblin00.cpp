@@ -95,12 +95,12 @@ void Goblin00::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	GameObj::Init();
+	Character::Init();
 }
 
 void Goblin00::Update(float dt)
 {
-	GameObj::Update(dt);
+	Character::Update(dt);
 
 	switch (currState)
 	{
@@ -130,17 +130,17 @@ void Goblin00::Update(float dt)
 
 void Goblin00::Draw(RenderWindow& window)
 {
-	GameObj::Draw(window);
+	Character::Draw(window);
 }
 
 void Goblin00::SetPos(const Vector2f& pos)
 {
-	GameObj::SetPos(pos);
+	Character::SetPos(pos);
 }
 
 void Goblin00::SetState(AnimStates newState)
 {
-	GameObj::SetState(newState);
+	Character::SetState(newState);
 
 	switch (currState)
 	{

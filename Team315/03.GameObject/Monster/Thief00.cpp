@@ -95,12 +95,12 @@ void Thief00::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	GameObj::Init();
+	Character::Init();
 }
 
 void Thief00::Update(float dt)
 {
-	GameObj::Update(dt);
+	Character::Update(dt);
 
 	switch (currState)
 	{
@@ -130,17 +130,17 @@ void Thief00::Update(float dt)
 
 void Thief00::Draw(RenderWindow& window)
 {
-	GameObj::Draw(window);
+	Character::Draw(window);
 }
 
 void Thief00::SetPos(const Vector2f& pos)
 {
-	GameObj::SetPos(pos);
+	Character::SetPos(pos);
 }
 
 void Thief00::SetState(AnimStates newState)
 {
-	GameObj::SetState(newState);
+	Character::SetState(newState);
 
 	switch (currState)
 	{

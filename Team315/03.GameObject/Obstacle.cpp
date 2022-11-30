@@ -12,3 +12,13 @@ Obstacle::Obstacle(string path)
 Obstacle::~Obstacle()
 {
 }
+
+void Obstacle::Draw(RenderWindow& window)
+{
+	SpriteObj::Draw(window);
+}
+
+void Obstacle::SetPos(const Vector2f& pos)
+{
+	SpriteObj::SetPos(pos);
+}

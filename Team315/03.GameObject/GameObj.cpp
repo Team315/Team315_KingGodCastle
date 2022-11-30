@@ -19,16 +19,6 @@ void GameObj::Init()
 	Object::Init();
 }
 
-void GameObj::Draw(RenderWindow& window)
-{
-	SpriteObj::Draw(window);
-}
-
-void GameObj::SetPos(const Vector2f& pos)
-{
-	SpriteObj::SetPos(pos);
-}
-
 void GameObj::SetState(AnimStates newState)
 {
 	if (currState == newState)

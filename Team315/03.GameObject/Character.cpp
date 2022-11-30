@@ -45,8 +45,6 @@ void Character::Init()
 		stat[Stats::AR].GetModifier(),
 		stat[Stats::AR].GetModifier(),
 		attackRangeType);
-
-	m_attackDelay = 0.f;
 }
 
 void Character::Reset()
@@ -96,6 +94,7 @@ void Character::Update(float dt)
 				if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
 				{
 					cout << name << " fire skill !" << endl;
+					SetState(AnimStates::Skill);
 					mp.SetCurrent(0.f);
 				}
 			}
@@ -135,11 +134,13 @@ void Character::Update(float dt)
 
 void Character::Draw(RenderWindow& window)
 {
+	if (!isAlive)
+		return;
+
 	SpriteObj::Draw(window);
 	window.draw(attackSprite);
 	hpBar->Draw(window);
 	star->Draw(window);
-	cout << "test";
 }
 
 void Character::SetPos(const Vector2f& pos)
@@ -196,6 +197,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	{
 		// death
 		CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
+		isAlive = false;
 	}
 }
 
@@ -219,6 +221,8 @@ void Character::UpgradeStar()
 	star->UpdateTexture();
 	UpgradeCharacterSet();
 
+	// upgrade stat
+
 	m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
 }
 
@@ -237,21 +241,6 @@ void Character::IsSetState(AnimStates newState)
 		m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
 	}
 }
-
-//void Character::PrintStats()
-//{
-//	cout << "---------------" << endl;
-//	cout << "name: " << name << " / star: " << GetStarNumber() << endl;
-//	cout << "HP: " << stat[Stats::HP].GetBase() << endl;
-//	cout << "MP: " << stat[Stats::MP].GetBase() << endl;
-//	cout << "AD: " << stat[Stats::AD].GetBase() << endl;
-//	cout << "AP: " << stat[Stats::AP].GetBase() << endl;
-//	cout << "AS: " << stat[Stats::AS].GetBase() << endl;
-//	cout << "AR: " << stat[Stats::AR].GetBase() << endl;
-//	cout << "MS: " << stat[Stats::MS].GetBase() << endl;
-//	cout << (attackRangeType ? "square" : "cross") << endl;
-//	cout << "---------------" << endl;
-//}
 
 unordered_map<Stats, Stat>& Character::GetStat()
 {

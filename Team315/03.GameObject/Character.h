@@ -57,7 +57,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
-	virtual void SetState(AnimStates newState);
+	virtual void SetState(AnimStates newState) override;
 
 	AnimStates GetState() { return currState; }
 
@@ -83,8 +83,6 @@ public:
 
 	//battle
 	void IsSetState(AnimStates newState);
-	// Dev
-	// void PrintStats();
 
 	//FloodFill
 	unordered_map<Stats, Stat>& GetStat();

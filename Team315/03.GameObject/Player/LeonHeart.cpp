@@ -129,12 +129,12 @@ void LeonHeart::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	GameObj::Init();
+	Character::Init();
 }
 
 void LeonHeart::Update(float dt)
 {
-	GameObj::Update(dt);
+	Character::Update(dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -170,17 +170,17 @@ void LeonHeart::Update(float dt)
 
 void LeonHeart::Draw(RenderWindow& window)
 {
-	GameObj::Draw(window);
+	Character::Draw(window);
 }
 
 void LeonHeart::SetPos(const Vector2f& pos)
 {
-	GameObj::SetPos(pos);
+	Character::SetPos(pos);
 }
 
 void LeonHeart::SetState(AnimStates newState)
 {
-	GameObj::SetState(newState);
+	Character::SetState(newState);
 
 	switch (currState)
 	{

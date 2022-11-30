@@ -130,12 +130,12 @@ void Aramis::Init()
 	}
 
 	SetState(AnimStates::Idle);
-	GameObj::Init();
+	Character::Init();
 }
 
 void Aramis::Update(float dt)
 {
-	GameObj::Update(dt);
+	Character::Update(dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -171,17 +171,17 @@ void Aramis::Update(float dt)
 
 void Aramis::Draw(RenderWindow& window)
 {
-	GameObj::Draw(window);
+	Character::Draw(window);
 }
 
 void Aramis::SetPos(const Vector2f& pos)
 {
-	GameObj::SetPos(pos);
+	Character::SetPos(pos);
 }
 
 void Aramis::SetState(AnimStates newState)
 {
-	GameObj::SetState(newState);
+	Character::SetState(newState);
 
 	switch (currState)
 	{
