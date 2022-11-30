@@ -1,0 +1,9 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+LeonHeart_DownSkill_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/leonheart_SkillEffect_00.png,0,0,180,80,90,80,0,0
+graphics/Effect/player/leonheart_SkillEffect_00.png,180,0,180,80,90,80,0,0
+graphics/Effect/player/leonheart_SkillEffect_00.png,360,0,180,80,90,80,0,0
+graphics/Effect/player/leonheart_SkillEffect_00.png,540,0,180,80,90,80,0,0
+graphics/Effect/player/leonheart_SkillEffect_00.png,720,0,180,80,90,80,0,0
+graphics/Effect/player/leonheart_SkillEffect_00.png,900,0,180,80,90,80,0,0

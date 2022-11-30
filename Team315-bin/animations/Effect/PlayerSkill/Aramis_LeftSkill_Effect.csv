@@ -1,0 +1,10 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Aramis_LeftSkill_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/aramis_SkillEffect_00.png,0,0,90,65,45,65,0,0
+graphics/Effect/player/aramis_SkillEffect_00.png,90,0,90,65,45,65,0,0
+graphics/Effect/player/aramis_SkillEffect_00.png,180,0,90,65,45,65,0,0
+graphics/Effect/player/aramis_SkillEffect_00.png,0,65,90,65,45,65,0,0
+graphics/Effect/player/aramis_SkillEffect_00.png,90,65,90,65,45,65,0,0
+graphics/Effect/player/aramis_SkillEffect_00.png,180,65,90,65,45,65,0,0
+graphics/Effect/player/aramis_SkillEffect_00.png,270,65,90,65,45,65,0,0

@@ -148,8 +148,6 @@ void Arveron::Update(float dt)
 		UpdateMove(dt);
 		break;
 	case AnimStates::Attack:
-		if(currState==AnimStates::Attack)
-			break;
 		UpdateAttack(dt);
 		break;
 	case AnimStates::Skill:

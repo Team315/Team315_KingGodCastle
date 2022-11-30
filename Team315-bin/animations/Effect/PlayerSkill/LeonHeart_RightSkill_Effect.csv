@@ -1,0 +1,9 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+LeonHeart_RightSkill_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/leonheart_SkillEffect_01.png,0,0,80,180,40,180,1,0
+graphics/Effect/player/leonheart_SkillEffect_01.png,0,180,80,180,40,180,1,0
+graphics/Effect/player/leonheart_SkillEffect_01.png,0,360,80,180,40,180,1,0
+graphics/Effect/player/leonheart_SkillEffect_01.png,0,540,80,180,40,180,1,0
+graphics/Effect/player/leonheart_SkillEffect_01.png,0,720,80,180,40,180,1,0
+graphics/Effect/player/leonheart_SkillEffect_01.png,0,900,80,180,40,180,1,0
