@@ -63,6 +63,7 @@ public:
 	void SetCurrentStage(int chap, int stage);
 };
 
+bool IsCharacter(GameObj* gameObj);
 bool InPrepareGrid(Vector2i pos);
 bool InBattleGrid(Vector2i pos);
 int GetZeroElem(vector<GameObj*>& vec);

@@ -22,7 +22,7 @@ BattleScene::BattleScene()
 	float posX = TILE_SIZE * 2.f;
 	float posY = GAME_SCREEN_HEIGHT + TILE_SIZE * 2.f;
 	int count = 0;
-	for (auto &cell : prepareGridRect)
+	for (auto& cell : prepareGridRect)
 	{
 		cell = new RectangleObj(TILE_SIZE - 1, TILE_SIZE - 1);
 		cell->SetOutline(Color(255, 255, 255, 100), outlineThickness);
@@ -87,15 +87,15 @@ void BattleScene::Exit()
 {
 	CLOG::Print3String("battle exit");
 
-	for (auto& character : prepareGrid)
+	for (auto& gameObj : prepareGrid)
 	{
-		delete character;
+		delete gameObj;
 	}
 	prepareGrid.clear();
 
-	for (auto& character : battleGrid)
+	for (auto& gameObj : battleGrid)
 	{
-		delete character;
+		delete gameObj;
 	}
 	battleGrid.clear();
 }
@@ -124,10 +124,10 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("battle end");
 			playingBattle = false;
 
-			for (auto& character : mgref)
+			for (auto& gameObj : mgref)
 			{
-				if (character != nullptr && 
-					!character->GetType().compare("Player"))
+				if (gameObj != nullptr &&
+					!gameObj->GetType().compare("Player"))
 				{
 					int len = battleGrid.size();
 					for (int i = 0; i < len; i++)
@@ -135,18 +135,18 @@ void BattleScene::Update(float dt)
 						if (battleGrid[i] == nullptr)
 							continue;
 
-						if (battleGrid[i]->GetObjId() == character->GetObjId())
+						if (battleGrid[i]->GetObjId() == gameObj->GetObjId())
 						{
 							int coordR = (70 + i) / GAME_TILE_WIDTH;
 							int coordC = (70 + i) % GAME_TILE_WIDTH;
-							character->SetPos((*curStage)[coordR][coordC]->GetPos());
-							character->Reset();
+							gameObj->SetPos((*curStage)[coordR][coordC]->GetPos());
+							gameObj->Reset();
 						}
 					}
-					character = nullptr;
+					gameObj = nullptr;
 				}
 			}
-			b_centerPos = false; 
+			b_centerPos = false;
 			ZoomOut();
 
 			if (curStageIdx < STAGE_MAX_COUNT - 1)
@@ -177,15 +177,15 @@ void BattleScene::Update(float dt)
 		{
 			int count = 0;
 			CLOG::Print3String("main grid state");
-			for (auto& character : mgref)
+			for (auto& gameObj : mgref)
 			{
 				string str = "";
-				if (character == nullptr)
+				if (gameObj == nullptr)
 					str += ".. ";
 				else
 				{
-					if (character->GetName().compare("Obstacle"))
-						str += (character->GetName().substr(0, 2) + " ");
+					if (gameObj->GetName().compare("Obstacle"))
+						str += (gameObj->GetName().substr(0, 2) + " ");
 					else
 						str += "Ob ";
 				}
@@ -221,25 +221,23 @@ void BattleScene::Update(float dt)
 
 					int monsterGridCoordR = 70;
 					int monsterGridCoordC = 0;
-					int curBattleCharacterCount = 0; 
+					int curBattleCharacterCount = 0;
 
 					for (auto& character : battleGrid)
 					{
 						if (character != nullptr)
 							curBattleCharacterCount++;
-						
+
 						mgref[monsterGridCoordC + monsterGridCoordR] = character;
-						monsterGridCoordC++;	
+						monsterGridCoordC++;
 					}
 					if (curBattleCharacterCount != battleCharacterCount)
 						CLOG::Print3String("need more battle character");
-					for (auto& character : mgref)
+					for (auto& gameObj : mgref)
 					{
-						if (character != nullptr &&
-							(!character->GetType().compare("Player") ||
-							!character->GetType().compare("Monster")))
+						if (gameObj != nullptr && IsCharacter(gameObj))
 						{
-							dynamic_cast<Character*>(character)->SetIsBattle(true);
+							dynamic_cast<Character*>(gameObj)->SetIsBattle(true);
 						}
 					}
 
@@ -284,7 +282,7 @@ void BattleScene::Update(float dt)
 					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->equipmentCost)
 					{
 						TranslateCoinState(-GAME_MGR->equipmentCost);
-						
+
 						Item* item = GAME_MGR->SpawnItem();
 						item->SetPos(prepareGridRect[idx]->GetPos());
 						item->Init();
@@ -349,7 +347,7 @@ void BattleScene::Update(float dt)
 				if (pick == nullptr)
 				{
 					GameObj* temp = gameObj;
-					if (temp->GetType().compare("Item"))
+					if (IsCharacter(temp))
 					{
 						float delta =
 							dynamic_cast<Character*>(temp)->GetStarNumber() *
@@ -371,7 +369,8 @@ void BattleScene::Update(float dt)
 			if (gameObj == nullptr)
 				continue;
 
-			gameObj->Update(dt);
+			if (IsCharacter(gameObj))
+				gameObj->Update(dt);
 
 			if (gameObj->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 			{
@@ -405,30 +404,24 @@ void BattleScene::Update(float dt)
 	}
 
 	// main grid update
-	for (auto& character : mgref)
+	for (auto& gameObj : mgref)
 	{
-		if (character == nullptr)
-			continue;
-		if (!character->GetType().compare("Obstacle"))
-			continue;
-
-		character->Update(dt);
+		if (gameObj != nullptr && IsCharacter(gameObj))
+			gameObj->Update(dt);
 	}
 
 	// main grid stat pop up
-	for (auto& character : mgref)
+	for (auto& gameObj : mgref)
 	{
-		if (character == nullptr)
-			continue;
-		if (!character->GetType().compare("Obstacle"))
-			continue;
-
-		if (character->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		if (gameObj != nullptr && IsCharacter(gameObj))
 		{
-			if (InputMgr::GetMouseDown(Mouse::Left))
+			if (gameObj->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
 			{
-				ui->SetStatPopup(true, currentView.getCenter(), dynamic_cast<Character*>(character),
-					GAME_MGR->SnapToCoord(character->GetPos()));
+				if (InputMgr::GetMouseDown(Mouse::Left))
+				{
+					ui->SetStatPopup(true, currentView.getCenter(), dynamic_cast<Character*>(gameObj),
+						GAME_MGR->SnapToCoord(gameObj->GetPos()));
+				}
 			}
 		}
 	}
@@ -450,14 +443,21 @@ void BattleScene::Update(float dt)
 		}
 		Vector2i beforeCoord = GAME_MGR->PosToIdx(beforeDragPos);
 		bool before = InBattleGrid(beforeCoord);
-		if (before && dest)
-			PutDownCharacter(&battleGrid, &battleGrid, beforeCoord, destCoord);
-		else if (before)
-			PutDownCharacter(&battleGrid, &prepareGrid, beforeCoord, destCoord);
-		else if (dest)
-			PutDownCharacter(&prepareGrid, &battleGrid, beforeCoord, destCoord);
+		if (IsCharacter(pick))
+		{
+			if (before && dest)
+				PutDownCharacter(&battleGrid, &battleGrid, beforeCoord, destCoord);
+			else if (before)
+				PutDownCharacter(&battleGrid, &prepareGrid, beforeCoord, destCoord);
+			else if (dest)
+				PutDownCharacter(&prepareGrid, &battleGrid, beforeCoord, destCoord);
+			else
+				PutDownCharacter(&prepareGrid, &prepareGrid, beforeCoord, destCoord);
+		}
 		else
-			PutDownCharacter(&prepareGrid, &prepareGrid, beforeCoord, destCoord);
+		{
+			cout << "item" << endl;
+		}
 	}
 	// Game Input end
 }
@@ -568,7 +568,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 			}
 			else
 			{
-				if ( (!playingBattle) || (start == dest) )
+				if ((!playingBattle) || (start == dest))
 				{
 					CLOG::Print3String("swap");
 					destCharacter->SetPos(beforeDragPos);
@@ -582,10 +582,10 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 		}
 		else
 		{
-			if ( (!playingBattle) )
+			if ((!playingBattle))
 			{
 				// add to new character in battleGrid from prepare (prepare -> battleGrid)
-				if ( (dest == &battleGrid && start == &prepareGrid) )
+				if ((dest == &battleGrid && start == &prepareGrid))
 				{
 					CLOG::Print3String("prepare -> battle move empty");
 
@@ -646,7 +646,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 		pick->SetPos(GAME_MGR->IdxToPos(startCoord));
 	pick->SetHitBoxActive(true);
 	pick = nullptr;
-	return ;
+	return;
 }
 
 int BattleScene::GetIdxFromCoord(Vector2i coord)
@@ -675,12 +675,12 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 			vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 			switch (type)
 			{
-			case (int) TileTypes::Obstacle:
+			case (int)TileTypes::Obstacle:
 				mgref[curIdx] = new Obstacle(tile->GetObstaclePath());
 				mgref[curIdx]->SetPos(tile->GetPos());
 				break;
-			case (int) TileTypes::Monster:
-				mgref[curIdx] = GAME_MGR->SpawnMonster( tile->GetMonsterName(), tile->GetTileData().grade);
+			case (int)TileTypes::Monster:
+				mgref[curIdx] = GAME_MGR->SpawnMonster(tile->GetMonsterName(), tile->GetTileData().grade);
 				mgref[curIdx]->SetPos(tile->GetPos());
 				mgref[curIdx]->Init();
 				break;
@@ -692,6 +692,11 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 
 	ui->GetPanel()->SetStageNumber(curStageIdx + 1);
 	cout << "current chapter, stage (" << curChapIdx << ", " << curStageIdx << ")" << endl;
+}
+
+bool IsCharacter(GameObj* gameObj)
+{
+	return !gameObj->GetType().compare("Player") || !gameObj->GetType().compare("Monster");
 }
 
 bool InPrepareGrid(Vector2i pos)
