@@ -4,9 +4,10 @@
 #include <queue>
 #include "FileManager.h"
 
-struct DamageData;
-class BattleTracker;
+//struct DamageData;
+//class BattleTracker;
 class Character;
+class GameObj;
 class Tile;
 
 class GameManager : public Singleton<GameManager>
@@ -17,17 +18,19 @@ protected:
 
 	json characterDatas;
 
-	vector<Character*> presetC;
+	//vector<GameObj*> presetC;
 
 	// Set monster character locate before battle with data imported from GameManager
 	// When the game starts, the characters on the battleGrid are also taken.
-	vector<Character*>* mainGrid;
+	vector<GameObj*>* mainGrid;
 
-	BattleTracker* battleTracker;
+	//BattleTracker* battleTracker;
 
 	// additional level up probability
 	int extraLevelUpChance;
 	int battleCharacterCount;
+	int startCoin;
+	int currentCoin;
 
 public:
 	GameManager();
@@ -54,32 +57,38 @@ public:
 	void SetCharacterDatas();
 	json GetCharacterData(string name);
 
-	vector<Character*>& GetMainGridRef() { return *mainGrid; }
+	vector<GameObj*>& GetMainGridRef() { return *mainGrid; }
 
-	BattleTracker*& GetTracker();
+	int GetCurrentCoin() { return currentCoin; }
+	void TranslateCoin(int coin) { currentCoin += coin; }
+
+	const int characterCost;
+	const int equipmentCost;
+
+	//BattleTracker*& GetTracker();
 };
 
 #define GAME_MGR (GameManager::GetInstance())
 
-struct DamageData
-{
-	Character* character;
-	float given;
-	float receive;
-	DamageData(Character* character = nullptr)
-		: character(character), given(0.f), receive(0.f)
-	{
-	}
-};
-
-class BattleTracker
-{
-protected:
-	vector<DamageData> datas;
-
-public:
-	BattleTracker();
-	~BattleTracker();
-
-	void SetDatas();
-};
+//struct DamageData
+//{
+//	GameObj* character;
+//	float given;
+//	float receive;
+//	DamageData(GameObj* character = nullptr)
+//		: character(character), given(0.f), receive(0.f)
+//	{
+//	}
+//};
+//
+//class BattleTracker
+//{
+//protected:
+//	vector<DamageData> datas;
+//
+//public:
+//	BattleTracker();
+//	~BattleTracker();
+//
+//	void SetDatas();
+//};

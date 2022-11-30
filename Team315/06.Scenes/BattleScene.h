@@ -2,10 +2,9 @@
 #include "Scene.h"
 #include "Include.h"
 #include <vector>
-#include "Map/AStar.h"
 
 class BattleSceneUI;
-class Character;
+class GameObj;
 class RectangleObj;
 class VertexArrayObj;
 
@@ -29,14 +28,14 @@ protected:
 	bool playingBattle;
 
 	// Create player character when summon (2x7) x(0, 6) y(16, 17)
-	vector<Character*> prepareGrid;
+	vector<GameObj*> prepareGrid;
 	// draw rect only 2 x 7
 	vector<RectangleObj*> prepareGridRect;
 
 	// Set player character locate before battle (4x7) x(0, 6) y(10, 13)
-	vector<Character*> battleGrid;
+	vector<GameObj*> battleGrid;
 
-	Character* pick;
+	GameObj* pick;
 	Vector2f beforeDragPos;
 	int battleCharacterCount;
 
@@ -55,8 +54,8 @@ public:
 
 	void ZoomIn();
 	void ZoomOut();
-	void PickUpCharacter(Character* character);
-	void PutDownCharacter(vector<Character*>* start, vector<Character*>* dest,
+	void PickUpCharacter(GameObj* character);
+	void PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest,
 		Vector2i startCoord, Vector2i destCoord);
 	int GetIdxFromCoord(Vector2i coord);
 
@@ -65,4 +64,4 @@ public:
 
 bool InPrepareGrid(Vector2i pos);
 bool InBattleGrid(Vector2i pos);
-int GetZeroElem(vector<Character*>& vec);
+int GetZeroElem(vector<GameObj*>& vec);

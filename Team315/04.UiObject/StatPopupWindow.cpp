@@ -2,12 +2,14 @@
 #include "BackrectText.h"
 #include "BackgroundText.h"
 #include "Character.h"
-#include "ProgressBar.h"
+#include "TwoFactorProgress.h"
 #include "Include.h"
 
 StatPopupWindow::StatPopupWindow(float x, float y)
 	: RectangleObj(x, y), useOptional(false)
 {
+	SetFillColor(Color(0.f, 0.f, 0.f, 180.f));
+
 	nameText = new BackrectText(160, 30);
 	nameText->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	nameText->SetTextStyle(Color::White, 22, Color::Black, 2.f);
@@ -21,10 +23,10 @@ StatPopupWindow::StatPopupWindow(float x, float y)
 	starText->SetTexture(*RESOURCE_MGR->GetTexture("graphics/commonUI/Level_Frame_02.png"));
 	starText->SetScale(0.4f, 0.4f);
 
-	portraitRect.setSize(Vector2f(90.f, 90.f));
+	/*portraitRect.setSize(Vector2f(90.f, 90.f));
 	portraitRect.setOutlineColor(Color::Black);
 	portraitRect.setOutlineThickness(-2.f);
-	portraitRect.setFillColor(Color(0x5B, 0x5B, 0x5B));
+	portraitRect.setFillColor(Color(0x5B, 0x5B, 0x5B));*/
 	
 	adText = new BackrectText(95, 25);
 	adText->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
@@ -95,7 +97,7 @@ void StatPopupWindow::Draw(RenderWindow& window)
 	RectangleObj::Draw(window);
 	nameText->Draw(window);
 	starText->Draw(window);
-	window.draw(portraitRect);
+	//window.draw(portraitRect);
 	adText->Draw(window);
 	apText->Draw(window);
 	asText->Draw(window);
@@ -117,7 +119,7 @@ void StatPopupWindow::SetPos(const Vector2f& pos)
 	RectangleObj::SetPos(pos);
 	nameText->SetPos(pos + Vector2f(35.f, 5.f));
 	starText->SetPos(pos + Vector2f(20.f, 5.f));
-	portraitRect.setPosition(pos + Vector2f(5.f, 40.f));
+	//portraitRect.setPosition(pos + Vector2f(5.f, 40.f));
 	portrait.setPosition(pos + Vector2f(50.f, 130.f));
 	Utils::SetOrigin(portrait, Origins::BC);
 	adText->SetPos(pos + Vector2f(100.f, 40.f));
@@ -160,12 +162,12 @@ void StatPopupWindow::SetCharacter(Character* character)
 	if (mp.GetBase() == 0)
 	{
 		useOptional = true;
-		shape.setSize(Vector2f(200.f, 160.f));
+		shape.setSize(Vector2f(200.f, 150.f));
 	}
 	else
 	{
 		useOptional = false;
-		shape.setSize(Vector2f(200.f, 180.f));
+		shape.setSize(Vector2f(200.f, 170.f));
 	}
 }
 

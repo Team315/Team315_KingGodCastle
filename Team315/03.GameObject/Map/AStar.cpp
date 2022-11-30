@@ -12,7 +12,7 @@ AStar::~AStar()
 {
 }
 
-EnemyInfo AStar::AstarSearch(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
+EnemyInfo AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos)
 {
 	counter++;
 	/*if (count == 10)
@@ -152,7 +152,7 @@ void AStar::tracePath(Cell cellDetails[14][7], Vector2i enpos)
 	}
 }
 
-void AStar::SetAstar(vector<Character*>& map, Vector2i myPos, Vector2i enPos)
+void AStar::SetAstar(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos)
 {
 	grid.resize(COL,vector<int>(ROW));
 

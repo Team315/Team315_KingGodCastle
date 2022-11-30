@@ -2,8 +2,8 @@
 
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
-	currState(AnimStates::None), attackRangeType(false), isBattle(false),
-	noSkill(false), ccTimer(0.f), shieldAmount(0.f),astarDelay(0.0f)
+	attackRangeType(false), isBattle(false),
+	noSkill(false), ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 5.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -20,19 +20,14 @@ Character::~Character()
 
 void Character::Init()
 {
-	Vector2f hitboxSize(
-		GetTextureRect().width * 0.5f < TILE_SIZE ? TILE_SIZE : GetTextureRect().width * 0.5f,
-		GetTextureRect().height * 0.5f < TILE_SIZE ? TILE_SIZE : GetTextureRect().height * 0.5f);
-	
-	SetHitbox(FloatRect(0, 0, hitboxSize.x, hitboxSize.y), Origins::BC);
+	GameObj::Init();
 	UpgradeCharacterSet();
-	Object::Init();
 
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 
 	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 20.f };
+	SetHpBarValue(1.f);
 	hpBar->SetOrigin(Origins::BC);
-	hpBar->SetProgressValue(stat[Stats::HP].GetCurRatio());
 	starLocalPos = { 0.f, hpBarLocalPos.y };
 	SetPos(position);
 
@@ -46,12 +41,10 @@ void Character::Init()
 	else
 		targetType = "None";
 
-	//m_floodFill.SetArrSize(
-	//	stat[Stats::AR].GetModifier(),
-	//	stat[Stats::AR].GetModifier(),
-	//	attackRangeType);
-	m_floodFill.SetArrSize(1,1,false);
-	m_attackDelay = 0.f;
+	m_floodFill.SetArrSize(
+		stat[Stats::AR].GetModifier(),
+		stat[Stats::AR].GetModifier(),
+		attackRangeType);
 }
 
 void Character::Reset()
@@ -65,6 +58,29 @@ void Character::Reset()
 
 void Character::Update(float dt)
 {
+	hpBar->Update(dt);
+	// Dev key start
+	{
+		if (InputMgr::GetKeyDown(Keyboard::Key::S))
+		{
+			TakeCare(this, false);
+			hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::A))
+		{
+			TakeDamage(this);
+			hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::D))
+		{
+			TakeCare(this);
+			hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+		}
+	}
+	// Dev key end
+
 	if (isBattle)
 	{
 		if (!move && !attack && isAttack())
@@ -75,6 +91,12 @@ void Character::Update(float dt)
 				attack = true;
 				Stat& mp = stat[Stats::MP];
 				mp.TranslateCurrent(15.f);
+				if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
+				{
+					cout << name << " fire skill !" << endl;
+					SetState(AnimStates::Skill);
+					mp.SetCurrent(0.f);
+				}
 			}
 			m_attackDelay -= dt;
 		}
@@ -83,7 +105,7 @@ void Character::Update(float dt)
 			astarDelay -= dt;
 			if (astarDelay <= 0.f)
 			{
-				destination = GetPos();
+				//destination = GetPos();
 				if (SetTargetDistance())
 				{
 					move = true;
@@ -108,30 +130,13 @@ void Character::Update(float dt)
 			}
 		}
 	}
-
-	if (InputMgr::GetKeyDown(Keyboard::Key::S))
-	{
-		TakeCare(this, false);
-		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
-	}
-
-	if (InputMgr::GetKeyDown(Keyboard::Key::A))
-	{
-		TakeDamage(this);
-		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
-	}
-
-	if (InputMgr::GetKeyDown(Keyboard::Key::D))
-	{
-		TakeCare(this);
-		hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
-	}
-
-	hpBar->Update(dt);
 }
 
 void Character::Draw(RenderWindow& window)
 {
+	if (!isAlive)
+		return;
+
 	SpriteObj::Draw(window);
 	window.draw(attackSprite);
 	hpBar->Draw(window);
@@ -149,14 +154,7 @@ void Character::SetPos(const Vector2f& pos)
 void Character::SetState(AnimStates newState)
 {
 	IsSetState(newState);
-
-	if (currState == newState)
-	{
-		return;
-	}
-
-	currState = newState;
-
+	GameObj::SetState(newState);
 }
 
 void Character::SetStatsInit(json data)
@@ -172,14 +170,14 @@ void Character::SetStatsInit(json data)
 	attackRangeType = arType.compare("cross") ? true : false;
 }
 
-void Character::TakeDamage(Character* attacker, bool attackType)
+void Character::TakeDamage(GameObj* attacker, bool attackType)
 {
 	Stat& hp = stat[Stats::HP];
 	float damage = 0.f;
 	if (attackType)
-		damage = attacker->GetStat(Stats::AD).GetModifier();
+		damage = dynamic_cast<Character*>(attacker)->GetStat(Stats::AD).GetModifier();
 	else
-		damage = attacker->GetStat(Stats::AP).GetModifier();
+		damage = dynamic_cast<Character*>(attacker)->GetStat(Stats::AP).GetModifier();
 
 	if (shieldAmount > 0.f)
 	{
@@ -199,13 +197,14 @@ void Character::TakeDamage(Character* attacker, bool attackType)
 	{
 		// death
 		CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
+		isAlive = false;
 	}
 }
 
-void Character::TakeCare(Character* caster, bool careType)
+void Character::TakeCare(GameObj* caster, bool careType)
 {
 	Stat& hp = stat[Stats::HP];
-	float careAmount = caster->GetStat(Stats::AP).GetModifier();
+	float careAmount = dynamic_cast<Character*>(caster)->GetStat(Stats::AP).GetModifier();
 
 	if (careType)
 		hp.TranslateCurrent(careAmount);
@@ -221,6 +220,8 @@ void Character::UpgradeStar()
 		CLOG::Print3String("upgrade 2");
 	star->UpdateTexture();
 	UpgradeCharacterSet();
+
+	// upgrade stat
 
 	m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
 }
@@ -241,21 +242,6 @@ void Character::IsSetState(AnimStates newState)
 	}
 }
 
-void Character::PrintStats()
-{
-	cout << "---------------" << endl;
-	cout << "name: " << name << " / star: " << GetStarNumber() << endl;
-	cout << "HP: " << stat[Stats::HP].GetBase() << endl;
-	cout << "MP: " << stat[Stats::MP].GetBase() << endl;
-	cout << "AD: " << stat[Stats::AD].GetBase() << endl;
-	cout << "AP: " << stat[Stats::AP].GetBase() << endl;
-	cout << "AS: " << stat[Stats::AS].GetBase() << endl;
-	cout << "AR: " << stat[Stats::AR].GetBase() << endl;
-	cout << "MS: " << stat[Stats::MS].GetBase() << endl;
-	cout << (attackRangeType ? "square" : "cross") << endl;
-	cout << "---------------" << endl;
-}
-
 unordered_map<Stats, Stat>& Character::GetStat()
 {
 	return stat;
@@ -263,7 +249,7 @@ unordered_map<Stats, Stat>& Character::GetStat()
 
 bool Character::isAttack()
 {
-	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto& target : mainGrid)
 	{
@@ -280,16 +266,9 @@ bool Character::isAttack()
 	return false;
 }
 
-void Character::PlayAstar()
+bool Character::PlayAstar()
 {
-
-}
-
-bool Character::SetTargetDistance()
-{
-	//move = true;
-
-	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto& target : mainGrid)
 	{
@@ -319,9 +298,43 @@ bool Character::SetTargetDistance()
 	return true;
 }
 
-void Character::SetMainGrid(int r, int c, Character* character)
+bool Character::SetTargetDistance()
 {
-	vector<Character*>& mainGrid = GAME_MGR->GetMainGridRef();
+	//move = true;
+
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+
+	for (auto& target : mainGrid)
+	{
+		if (target != nullptr && !target->GetType().compare(targetType))
+		{
+			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
+			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
+			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
+
+			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
+			{
+				enemyInfo = nowEnemyInfo;
+			}
+		}
+	}
+
+	if (enemyInfo.leng == 99999)
+	{
+		return false;
+	}
+
+	Vector2i coord = GAME_MGR->PosToIdx(GetPos());
+	SetDestination(GAME_MGR->IdxToPos(enemyInfo.destPos));
+	SetMainGrid(coord.y, coord.x, nullptr);
+	SetMainGrid(enemyInfo.destPos.y, enemyInfo.destPos.x, this);
+	enemyInfo.leng = 99999;
+	return true;
+}
+
+void Character::SetMainGrid(int r, int c, GameObj* character)
+{
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	int idx = r * GAME_TILE_WIDTH + c;
 	mainGrid[idx] = character;

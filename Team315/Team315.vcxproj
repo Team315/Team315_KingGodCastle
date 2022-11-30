@@ -161,7 +161,7 @@
     <ClInclude Include="98.3rd\CSVWriter.h" />
     <ClInclude Include="06.Scenes\BattleScene.h" />
     <ClInclude Include="04.UiObject\Button.h" />
-    <ClInclude Include="03.GameObject\Character.h" />
+    <ClInclude Include="03.GameObject\GameObj.h" />
     <ClInclude Include="99.Include\CharacterHeaders.h" />
     <ClInclude Include="99.Include\Constant.h" />
     <ClInclude Include="99.Include\Define.h" />
@@ -247,8 +247,11 @@
     <ClInclude Include="04.UiObject\BackrectText.h" />
     <ClInclude Include="03.GameObject\Map\FloodFill.h" />
     <ClInclude Include="03.GameObject\Bullet.h" />
+    <ClInclude Include="03.GameObject\Item.h" />
+    <ClInclude Include="03.GameObject\Character.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="03.GameObject\GameObj.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime00.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime01.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime02.cpp" />
@@ -270,7 +273,6 @@
     <ClCompile Include="02.Object\Object.cpp" />
     <ClCompile Include="02.Object\RectangleObj.cpp" />
     <ClCompile Include="02.Object\VertexArrayObj.cpp" />
-    <ClCompile Include="03.GameObject\Character.cpp" />
     <ClCompile Include="03.GameObject\Player\Evan.cpp" />
     <ClCompile Include="03.GameObject\Monster\Goblin01.cpp" />
     <ClCompile Include="04.UiObject\BattleSceneUI.cpp" />
@@ -293,6 +295,8 @@
     <ClCompile Include="04.UiObject\BackrectText.cpp" />
     <ClCompile Include="03.GameObject\Map\FloodFill.cpp" />
     <ClCompile Include="03.GameObject\Bullet.cpp" />
+    <ClCompile Include="03.GameObject\Item.cpp" />
+    <ClCompile Include="03.GameObject\Character.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />

@@ -1,10 +1,11 @@
 #include "GameManager.h"
 #include "Map/Tile.h"
-#include "Character.h"
+#include "GameObj.h"
 #include "CharacterHeaders.h"
 
 GameManager::GameManager()
-	: battleCharacterCount(10), extraLevelUpChance(0)
+	: battleCharacterCount(8), extraLevelUpChance(0), startCoin(50), // 6
+	characterCost(3), equipmentCost(5), currentCoin(startCoin)
 {
 	CLOG::Print3String("GameManager Create");
 	m_tiles.assign(
@@ -12,7 +13,7 @@ GameManager::GameManager()
 		vector<vector<vector<Tile*>>>(STAGE_MAX_COUNT,
 			vector<vector<Tile*>>(GAME_TILE_HEIGHT,
 				vector<Tile*>(GAME_TILE_WIDTH))));
-	mainGrid = new vector<Character*>();
+	mainGrid = new vector<GameObj*>();
 	//battleTracker = new BattleTracker();
 }
 
@@ -136,8 +137,8 @@ Character* GameManager::SpawnMonster(string name, int grade)
 Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBattle)
 {
 	Character* character = nullptr;
-	//int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
-	int num = 0;
+	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
+	//int num = 0;
 
 	if (!name.compare("Aramis") || num == 0)
 		character = new Aramis();
@@ -165,6 +166,9 @@ Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
 void GameManager::Reset()
 {
 	mainGrid->assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
+	currentCoin = startCoin;
+	battleCharacterCount = 8;
+	extraLevelUpChance = 0;
 }
 
 void GameManager::SetCharacterDatas()
@@ -178,27 +182,27 @@ json GameManager::GetCharacterData(string name)
 }
 
 // Battle Tracker
-BattleTracker::BattleTracker()
-{
-}
-
-BattleTracker::~BattleTracker()
-{
-}
-
-void BattleTracker::SetDatas()
-{
-	vector<Character*>& mgref = GAME_MGR->GetMainGridRef();
-	for (auto& character : mgref)
-	{
-		if (character != nullptr && !character->GetType().compare("Player"))
-		{
-			datas.push_back(character);
-		}
-	}
-}
-
-BattleTracker *&GameManager::GetTracker()
-{
-	return battleTracker;
-}
+//BattleTracker::BattleTracker()
+//{
+//}
+//
+//BattleTracker::~BattleTracker()
+//{
+//}
+//
+//void BattleTracker::SetDatas()
+//{
+//	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
+//	for (auto& character : mgref)
+//	{
+//		if (character != nullptr && !character->GetType().compare("Player"))
+//		{
+//			datas.push_back(character);
+//		}
+//	}
+//}
+//
+//BattleTracker *&GameManager::GetTracker()
+//{
+//	return battleTracker;
+//}

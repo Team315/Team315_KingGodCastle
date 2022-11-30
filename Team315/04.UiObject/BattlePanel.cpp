@@ -1,6 +1,7 @@
 #include "BattlePanel.h"
 #include "Button.h"
 #include "TextObj.h"
+#include "BackrectText.h"
 #include "Include.h"
 
 BattlePanel::BattlePanel()
@@ -12,12 +13,10 @@ BattlePanel::BattlePanel()
 	paperLocalPos = Vector2f(15.f, 0);
 	paper->SetScale(0.8f, 0.57f); // 480 x 200
 
-	titleBackground = new SpriteObj();
-	titleBackground->SetTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/title.png"));
-	titlebgLocalPos = Vector2f((GAME_SCREEN_WIDTH - titleBackground->GetSize().x) * 0.5f, 30.f);
+	titleBackground.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/title.png"));
+	titlebgLocalPos = Vector2f((GAME_SCREEN_WIDTH - titleBackground.getTextureRect().width) * 0.5f, 30.f);
 
-	bottomGradiant = new SpriteObj();
-	bottomGradiant->SetTexture(*RESOURCE_MGR->GetTexture("graphics/commonUI/BotGradiant.png"));
+	bottomGradiant.setTexture(*RESOURCE_MGR->GetTexture("graphics/commonUI/BotGradiant.png"));
 	gradiantLocalPos = Vector2f(0, 85.f);
 
 	Vector2f textLocalPos(15.f, 30.f); 
@@ -37,13 +36,13 @@ BattlePanel::BattlePanel()
 	beginLocalPos = Vector2f((GAME_SCREEN_WIDTH - begin->GetSize().x) * 0.5f, 180.f);
 	begin->SetName("begin");
 
-	expansion = new Button();
-	expansion->SetButton(*RESOURCE_MGR->GetTexture("graphics/battleScene/Button_02.png"),
-		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), L"진영확장",
+	equipment = new Button();
+	equipment->SetButton(*RESOURCE_MGR->GetTexture("graphics/battleScene/Button_02.png"),
+		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), L"장비구입",
 		textLocalPos.x, textLocalPos.y);
-	expansion->SetTextStyle(Color::White, 20, Color::Black, 1.f);
+	equipment->SetTextStyle(Color::White, 20, Color::Black, 1.f);
 	expansionLocalPos = Vector2f(GAME_SCREEN_WIDTH * 0.75f, 200.f);
-	expansion->SetName("expansion");
+	equipment->SetName("equipment");
 
 	titleText = new TextObj(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"),
 		L"고블린 습격!     번째 침략",
@@ -64,9 +63,20 @@ BattlePanel::BattlePanel()
 	stageText->SetOutlineThickness(1.f);
 	stageTextLocalPos = beginLocalPos + Vector2f(50.f, 40.f);
 
+	coinSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/coin_01.png"));
+
+	coinState = new BackrectText(70.f, 30.f);
+	coinState->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	coinState->SetString(to_string(GAME_MGR->GetCurrentCoin()));
+	coinState->SetTextStyle(Color::White, 20, Color::Black, 2.f);
+	coinState->SetFillColor(Color(0x1B, 0x1B, 0x1B, 180.f));
+	coinState->SetTextLocalPos(Vector2f(25.f, 4.f));
+	coinState->SetOutline(Color::Black, 1.f);
+	coinLocalPos = Vector2f((GAME_SCREEN_WIDTH - coinState->GetSize().x) * 0.5f, 150.f);
+
 	buttons.push_back(summon);
 	buttons.push_back(begin);
-	buttons.push_back(expansion);
+	buttons.push_back(equipment);
 }
 
 BattlePanel::~BattlePanel()
@@ -77,31 +87,41 @@ void BattlePanel::Draw(RenderWindow& window)
 {
 	VertexArrayObj::Draw(window);
 	paper->Draw(window);
-	titleBackground->Draw(window);
-	bottomGradiant->Draw(window);
+	window.draw(titleBackground);
+	window.draw(bottomGradiant);
 	summon->Draw(window);
 	begin->Draw(window);
-	expansion->Draw(window);
+	equipment->Draw(window);
 	titleText->Draw(window);
 	stageText->Draw(window);
 	titleNumberText->Draw(window);
+	coinState->Draw(window);
+	window.draw(coinSprite);
 }
 
 void BattlePanel::SetPos(const Vector2f& pos)
 {
 	VertexArrayObj::SetPos(pos);
 	paper->SetPos(position + paperLocalPos);
-	titleBackground->SetPos(position + titlebgLocalPos);
-	bottomGradiant->SetPos(position + gradiantLocalPos);
+	titleBackground.setPosition(position + titlebgLocalPos);
+	bottomGradiant.setPosition(position + gradiantLocalPos);
 	summon->SetPos(position + summonLocalPos);
 	begin->SetPos(position + beginLocalPos);
-	expansion->SetPos(position + expansionLocalPos);
+	equipment->SetPos(position + expansionLocalPos);
 	titleText->SetPos(position + titleTextLocalPos);
 	stageText->SetPos(position + stageTextLocalPos);
 	titleNumberText->SetPos(position + dnmTitleTextLocalPos);
+	coinSprite.setScale(2.f, 2.f);
+	coinSprite.setPosition(position + coinLocalPos + Vector2f(-coinSprite.getTextureRect().width * 0.75f, 5.f));
+	coinState->SetPos(position + coinLocalPos);
 }
 
 void BattlePanel::SetStageNumber(int num)
 {
 	titleNumberText->SetString(to_string(num));
+}
+
+void BattlePanel::SetCurrentCoin(int num)
+{
+	coinState->SetString(to_string(num));
 }

@@ -65,7 +65,7 @@ struct Stat
 	float& GetCurrent() { return current; }
 	float& GetDelta() { return delta; }
 	float& GetModifier() { return modifier; }
-	float GetCurRatio() { return current / base; }
+	float GetCurRatio() { return current / modifier; }
 
 	Stat& GetReference() { return *this; }
 };

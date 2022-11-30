@@ -16,7 +16,7 @@ protected:
 	BackgroundText * starText;
 
 	Sprite portrait;
-	RectangleShape portraitRect;
+	//RectangleShape portraitRect;
 
 	BackrectText* adText;
 	BackrectText* apText;

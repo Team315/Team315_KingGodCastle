@@ -3,7 +3,7 @@
 #include <vector>
 
 class Button;
-class Character;
+class GameObj;
 class SpriteButton;
 class SpriteObj;
 class RectangleObj;
@@ -51,13 +51,13 @@ protected:
 
 	// barrack tab
 	vector<RectangleObj*> barrackPresetRect; // Draw only rect
-	vector<Character*> preset; // Container to reference in GameManager
+	vector<GameObj*> preset; // Container to reference in GameManager
 	RectangleObj* heroTabBackground;
 	vector<RectangleObj*> heroTabRect;
-	vector<Character*> heroTab;
+	vector<GameObj*> heroTab;
 
 	// gate tab
-	vector<Character*> gatePreset;
+	vector<GameObj*> gatePreset;
 	Button* startBtn;
 
 public:

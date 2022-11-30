@@ -12,7 +12,6 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	CreateBackground(panel, 1, 3, 188.f, 500.f);
 
 	statPopup = new StatPopupWindow(200.f, 180.f);
-	statPopup->SetFillColor(Color(0x0B, 0x0B, 0x0B));
 	statPopup->SetOutline(Color::Black, -2.f);
 	statPopup->SetType("Popup");
 	statPopup->SetOrigin(Origins::TL);
@@ -39,6 +38,7 @@ void BattleSceneUI::Reset()
 {
 	panel->SetPos(Vector2f(0, GAME_SCREEN_HEIGHT * 1.2f));
 	statPopup->SetActive(false);
+	panel->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 }
 
 void BattleSceneUI::Update(float dt)

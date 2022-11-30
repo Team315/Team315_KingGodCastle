@@ -1,19 +1,16 @@
 #pragma once
-#include "SpriteObj.h"
-#include "Animator.h"
+#include "GameObj.h"
 #include "TwoFactorProgress.h"
 #include "ProgressBar.h"
 #include "Star.h"
-#include "Include.h"
 #include <unordered_map>
 #include "Map/FloodFill.h"
 #include "Map/AStar.h"
 #include "Bullet.h"
 
-class Character : public SpriteObj
+class Character : public GameObj
 {
 protected:
-	Animator animator;
 	Animator attackEffect;
 	Sprite attackSprite;
 	unordered_map<Stats, Stat> stat;
@@ -22,7 +19,7 @@ protected:
 	// UI
 	TwoFactorProgress* hpBar;
 	Star* star;
-	
+
 	Vector2f hpBarLocalPos;
 	Vector2f starLocalPos;
 	//
@@ -35,7 +32,6 @@ protected:
 	bool attack;
 	bool isAlive;
 
-	AnimStates currState;
 
 	float moveSpeed;
 	Vector2f direction;
@@ -61,8 +57,9 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
-	virtual void SetState(AnimStates newState);
-	AnimStates GetState() { return currState;  }
+	virtual void SetState(AnimStates newState) override;
+
+	AnimStates GetState() { return currState; }
 
 	void SetDestination(Vector2f dest)
 	{
@@ -73,8 +70,10 @@ public:
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
-	void TakeDamage(Character* attacker, bool attackType = true); // true = ad / false = ap
-	void TakeCare(Character* caster, bool careType = true); // true = heal / false = shield
+	// attackType, true = ad / false = ap
+	void TakeDamage(GameObj* attacker, bool attackType = true);
+	// careType, true = heal / false = shield
+	void TakeCare(GameObj* caster, bool careType = true);
 	void AddShieldAmount(float amount) { shieldAmount += amount; }
 	float GetShieldAmount() { return shieldAmount; }
 	void UpgradeStar();
@@ -84,16 +83,14 @@ public:
 
 	//battle
 	void IsSetState(AnimStates newState);
-	// Dev
-	void PrintStats();
 
 	//FloodFill
 	unordered_map<Stats, Stat>& GetStat();
 	bool isAttack();
 
 	//Astar
-	void PlayAstar();
+	bool PlayAstar();
 	bool SetTargetDistance();
-	void SetMainGrid(int r, int c, Character* character);
+	void SetMainGrid(int r, int c, GameObj* character);
 	void SetIsBattle(bool battleOnOff) { isBattle = battleOnOff; }
 };
