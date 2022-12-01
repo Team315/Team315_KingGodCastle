@@ -86,8 +86,8 @@ namespace ns {
 		int pathIndex;
 	};
 
-	void to_json(json& j, const TileData& b);
-	void from_json(const json& j, TileData& b);
+	void to_json(json& j, const BackGroundData& b);
+	void from_json(const json& j, BackGroundData& b);
 }
 
 struct Chapters

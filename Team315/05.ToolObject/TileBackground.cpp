@@ -1,7 +1,10 @@
 #include "TileBackground.h"
+#include "RectangleObj.h."
 
 TileBackground::TileBackground()
 {
+	backGroundData.pathIndex = 0;
+	backGroundData.ThemeTypes = 0;
 }
 
 TileBackground::~TileBackground()
@@ -18,26 +21,29 @@ void TileBackground::Release()
 
 void TileBackground::Update(float dt)
 {
-	Update(dt);
 }
 
 void TileBackground::Draw(RenderWindow& window)
 {
-	Draw(window);
+	SpriteObj::Draw(window);
+	m_rectHit.Draw(window);
 }
 
-void TileBackground::SetTilePlay(Vector2i indexArr, Vector2f pos, int index, TileTypes TileTypes)
+void TileBackground::SetTileBackground(Vector2i indexArr, Vector2f pos)
 {
 	backGroundData.arrIndex = indexArr;
-	backGroundData.pathIndex = index;
-	backGroundData.TileTypes = (int)TileTypes;
-	backGroundData.ThemeTypes = 0;
 
 	SetTexture(*RESOURCE_MGR->GetTexture("graphics/TileSet/Field_02.png"));
-	SetOrigin(Origins::MC);
 	SetPos(pos);
-	
+	SetOrigin(Origins::TL);
 
+	m_rectHit.SetSize(TILE_SIZE, TILE_SIZE);
+	m_rectHit.SetPos(pos);
+	
+	m_rectHit.SetFillColor({0,0,0,0});
+	m_rectHit.SetOutline(Color::Red, -1.f);
+	//SetHitbox(GetGlobalBounds(), Origins::TL, -1, -1);
+	//SetHitBoxActive( true);
 }
 
 bool TileBackground::CollisionCheck(Vector2f pos, int index)

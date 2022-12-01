@@ -24,6 +24,9 @@
 #define TYPE1_MONSTER_COUNT (5)
 #define TYPE2_MONSTER_COUNT (5)
 #define TYPE3_MONSTER_COUNT (6)
+#define BACKGROUND_WIDTH_COUNT (10)
+#define BACKGROUND_HEIGHT_COUNT (15)
+
 
 // Game screen size
 #define GAME_SCREEN_WIDTH (510.f)

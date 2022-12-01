@@ -92,3 +92,22 @@ void ns::from_json(const json& j, TileData& b)
     j.at("pathIndex").get_to(b.pathIndex);
     j.at("grade").get_to(b.grade);
 }
+
+void ns::to_json(json& j, const BackGroundData& b)
+{
+    j = json
+    {
+        {"arrIndex", b.arrIndex},
+        {"TileTypes", b.TileTypes},
+        {"ThemeTypes", b.ThemeTypes},
+        {"pathIndex", b.pathIndex},
+    };
+}
+
+void ns::from_json(const json& j, BackGroundData& b)
+{
+    j.at("arrIndex").get_to(b.arrIndex);
+    j.at("TileTypes").get_to(b.TileTypes);
+    j.at("ThemeTypes").get_to(b.ThemeTypes);
+    j.at("pathIndex").get_to(b.pathIndex);
+}

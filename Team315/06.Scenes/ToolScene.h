@@ -37,8 +37,8 @@ protected:
 	list<SelectObstacle*> SelectObstacleList;
 	list<SelectStar*> SelectStarList;
 	list<SelectMonster*> SelectMonsterList;
-	vector<ToolChapter*> ToolChapterLIst;
-
+	vector<ToolChapter*> ToolChapterList;
+	vector<TileBackground*> TileBackgroundList;
 public:
 	ToolScene();
 	virtual ~ToolScene();
@@ -56,6 +56,7 @@ public:
 	void CreateStageNum(int count);
 	void CreateTheme();
 	void CreateSelectTile();
+	void CreateBackGrounds();
 	void CreateSelectObstacle();
 	void CreateSelectMonster();
 	void CreateSelectStar();

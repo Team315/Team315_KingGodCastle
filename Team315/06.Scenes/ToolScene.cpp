@@ -36,6 +36,7 @@ void ToolScene::Init()
 	CreateStageNum(STAGE_MAX_COUNT);
 	CreateTheme();
 	CreateSelectTile();
+	CreateBackGrounds();
 	CreateSelectObstacle();
 	CreateSelectMonster();
 	CreateSelectStar();
@@ -45,7 +46,7 @@ void ToolScene::Init()
 	{
 		ToolChapter* toolChapter = new ToolChapter();
 		toolChapter->CreateToolStage(STAGE_MAX_COUNT, GAME_TILE_HEIGHT, GAME_TILE_WIDTH, TILE_SIZE, TILE_SIZE);
-		ToolChapterLIst.push_back(toolChapter);
+		ToolChapterList.push_back(toolChapter);
 	}
 
 	Scene::Init();
@@ -220,7 +221,7 @@ void ToolScene::Update(float dt)
 	{
 		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
 		{
-			if (ToolChapterLIst[m_nowChapter - 1]->
+			if (ToolChapterList[m_nowChapter - 1]->
 				GetToolStage()[m_nowStage - 1]->
 				GetTileTool()[i][j]->
 				CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 1))
@@ -229,20 +230,20 @@ void ToolScene::Update(float dt)
 				{
 					if (m_clickMode == ClickMode::Monster)
 					{
-						ToolChapterLIst[m_nowChapter - 1]->
+						ToolChapterList[m_nowChapter - 1]->
 							GetToolStage()[m_nowStage - 1]->
 							GetTileTool()[i][j]->SetMonster((ThemeTypes)m_nowTheme, m_monster, m_nowStar);
 					}
 					else if (m_clickMode == ClickMode::Obstacle)
 					{
-						ToolChapterLIst[m_nowChapter - 1]->
+						ToolChapterList[m_nowChapter - 1]->
 							GetToolStage()[m_nowStage - 1]->
 							GetTileTool()[i][j]->SetObstacle((ThemeTypes)m_nowTheme, m_nowObstacle);
 					}
 				}
 				else if (InputMgr::GetMouseUp(Mouse::Right))
 				{
-					ToolChapterLIst[m_nowChapter - 1]->
+					ToolChapterList[m_nowChapter - 1]->
 						GetToolStage()[m_nowStage - 1]->
 						GetTileTool()[i][j]->SetEraser();
 				}
@@ -297,13 +298,16 @@ void ToolScene::Draw(RenderWindow& window)
 	{
 		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
 		{
-			ToolChapterLIst[m_nowChapter - 1]->
+			ToolChapterList[m_nowChapter - 1]->
 				GetToolStage()[m_nowStage - 1]->
 				GetTileTool()[i][j]->Draw(window);
 		}
 	}
-
 	Scene::Draw(window);
+	for (auto TileBackground : TileBackgroundList)
+	{
+		TileBackground->Draw(window);
+	}
 }
 
 //void ToolScene::CreateTilePlay(int maxChapter, int maxStage, int cols, int rows, float quadWidth, float quadHeight)
@@ -486,6 +490,28 @@ void ToolScene::CreateSelectTile()
 	}
 }
 
+void ToolScene::CreateBackGrounds()
+{
+
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < BACKGROUND_HEIGHT_COUNT; ++j)
+		{
+			for (int k= 0; k < BACKGROUND_WIDTH_COUNT; ++k)
+			{
+				TileBackground* tileBackground = new TileBackground();
+				tileBackground->SetTileBackground({ j,k },
+					{ WINDOW_WIDTH-51.f - (TILE_SIZE * k), 0.f + (TILE_SIZE * j) });
+
+				TileBackgroundList.push_back(tileBackground);
+				//objList.push_back(tileBackground);
+			}
+		}
+	}
+
+
+}
+
 void ToolScene::CreateSelectObstacle()
 {
 	float x = 0.f;
@@ -598,10 +624,10 @@ void ToolScene::SetClickMode(ClickMode clickMode)
 Chapters ToolScene::GetTilesData()
 {
 	Chapters data;
-	for (int i = 0; i < ToolChapterLIst.size(); ++i)
+	for (int i = 0; i < ToolChapterList.size(); ++i)
 	{
 		data.data.push_back(vector<vector<vector<ns::TileData>>>());
-		auto& stageList = ToolChapterLIst[i]->GetToolStage();
+		auto& stageList = ToolChapterList[i]->GetToolStage();
 
 		for (int j = 0; j < stageList.size(); ++j)
 		{
@@ -630,7 +656,7 @@ void ToolScene::SetTilesData(Chapters& data)
 			{
 				for (int l = 0; l < data.data[i][j][k].size(); ++l)
 				{
-					ToolChapterLIst[i]->
+					ToolChapterList[i]->
 						GetToolStage()[j]->
 						GetTileTool()[k][l]->SetTileData(data.data[i][j][k][l]);
 				}
