@@ -104,7 +104,6 @@ void Character::Update(float dt)
 				attack = true;
 				Stat& mp = stat[Stats::MP];
 				mp.TranslateCurrent(15.f);
-				dynamic_cast<Character*>(this->target)->TakeDamage(this);
 
 				if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
 				{
@@ -301,7 +300,6 @@ bool Character::isAttack()
 
 			if (m_floodFill.FloodFillSearch(mainGrid, mypos, enpos, targetType))
 			{
-				this->target = target;
 				return true;
 			}
 		}

@@ -52,8 +52,6 @@ protected:
 	bool isBattle;
 	float astarDelay;
 
-	GameObj* target;
-
 public:
 	Character(int starNumber = 0);
 	virtual ~Character();
