@@ -17,6 +17,7 @@ graphics/Effect/player/daniel_SkillEffect.png,0
 graphics/Effect/player/leonheart_SkillEffect_00.png,0
 graphics/Effect/player/leonheart_SkillEffect_01.png,0
 graphics/Effect/player/pria_SkillEffect.png,0
+graphics/Effect/player/pria_HitEffect.png,0
 graphics/Effect/player/shelda_SkillEffect.png,0
 graphics/Effect/player/shelda_HUSkillEffect.png,0
 animations/Effect/Attack/Sword_DownAttack_Effect.csv,3
@@ -60,3 +61,4 @@ animations/Effect/PlayerSkill/Evan_DownSkill_Effect.csv,3
 animations/Effect/PlayerSkill/Evan_LeftSkill_Effect.csv,3
 animations/Effect/PlayerSkill/Evan_RightSkill_Effect.csv,3
 animations/Effect/PlayerSkill/Evan_UpSkill_Effect.csv,3
+animations/Effect/PlayerSkill/Pria_SkillHit_Effect.csv,3

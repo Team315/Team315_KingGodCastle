@@ -287,10 +287,7 @@ void Daniel::SetState(AnimStates newState)
 			animator.Play((lastDirection.y > 0.f) ? "Daniel_DownSkill" : "Daniel_UpSkill");
 		}
 		Vector2f vec = GetTarget()->GetPos();
-		
-
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-
 		Vector2i targetPos = GAME_MGR->PosToIdx(GetPos());
 		if (mainGrid[targetPos.y * 7 + targetPos.x + 1] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 1]->GetType().compare(targetType))
 		{
