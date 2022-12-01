@@ -4,6 +4,8 @@
 class Goblin00 : public Character
 {
 protected:
+	vector<Animator*> skillEffect;
+	vector<Sprite*> skillSprite;
 public:
 	Goblin00(int starNumber = 0);
 	virtual ~Goblin00();

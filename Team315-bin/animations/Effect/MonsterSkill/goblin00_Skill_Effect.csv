@@ -1,0 +1,14 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+goblin00_Skill_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/monster/goblin00_Effect.png,0,0,120,150,60,150,0,0
+graphics/Effect/monster/goblin00_Effect.png,120,0,120,150,60,150,0,0
+graphics/Effect/monster/goblin00_Effect.png,240,0,120,150,60,150,0,0
+graphics/Effect/monster/goblin00_Effect.png,360,0,120,150,60,150,0,0
+graphics/Effect/monster/goblin00_Effect.png,480,0,120,150,60,150,0,0
+graphics/Effect/monster/goblin00_Effect.png,0,150,120,150,60,150,0,0
+graphics/Effect/monster/goblin00_Effect.png,120,150,120,150,60,150,0,0
+graphics/Effect/monster/goblin00_Effect.png,240,150,120,150,60,150,0,0
+graphics/Effect/monster/goblin00_Effect.png,360,150,120,150,60,150,0,0
+graphics/Effect/monster/goblin00_Effect.png,480,150,120,150,60,150,0,0
+graphics/Effect/monster/goblin00_Effect.png,600,150,120,150,60,150,0,0

@@ -12,8 +12,8 @@
 class Character : public GameObj
 {
 protected:
-	Animator attackEffect;
-	Sprite attackSprite;
+	Animator effectAnimator;
+	Sprite effectSprite;
 	unordered_map<StatType, Stat> stat;
 	bool attackRangeType; // true square, false cross
 

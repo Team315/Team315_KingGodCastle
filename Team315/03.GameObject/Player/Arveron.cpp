@@ -14,7 +14,7 @@ Arveron::~Arveron()
 void Arveron::Init()
 {
 	animator.SetTarget(&sprite);
-	attackEffect.SetTarget(&attackSprite);
+	effectAnimator.SetTarget(&effectSprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_Idle"));
 
@@ -38,12 +38,12 @@ void Arveron::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_UpSkill"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_DownAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_LeftAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_RightAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_UpAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_DownAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_LeftAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_RightAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_UpAttack_Effect"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_Skill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_Skill_Effect"));
 
 	{
 		AnimationEvent ev;
@@ -78,28 +78,28 @@ void Arveron::Init()
 		ev.clipId = "Arveron_DownAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Arveron::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Arveron_LeftAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Arveron::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Arveron_RightAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Arveron::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Arveron_UpAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Arveron::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
@@ -134,7 +134,7 @@ void Arveron::Init()
 		ev.clipId = "Arveron_Skill_Effect";
 		ev.frame = 6;
 		ev.onEvent = bind(&Arveron::OnCompleteSkill, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 
 	SetState(AnimStates::Idle);
@@ -164,7 +164,7 @@ void Arveron::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
-	attackEffect.Update(dt);
+	effectAnimator.Update(dt);
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -179,13 +179,13 @@ void Arveron::Draw(RenderWindow& window)
 
 	if (GetState() == AnimStates::Skill)
 	{
-		window.draw(attackSprite);
+		window.draw(effectSprite);
 		SpriteObj::Draw(window);
 	}
 	else
 	{
 		SpriteObj::Draw(window);
-		window.draw(attackSprite);
+		window.draw(effectSprite);
 	}
 	hpBar->Draw(window);
 	star->Draw(window);
@@ -229,28 +229,28 @@ void Arveron::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Arveron_RightAttack" : "Arveron_LeftAttack");
-			attackEffect.Play((lastDirection.x > 0.f) ? "Arveron_RightAttack_Effect" : "Arveron_LeftAttack_Effect");
+			effectAnimator.Play((lastDirection.x > 0.f) ? "Arveron_RightAttack_Effect" : "Arveron_LeftAttack_Effect");
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Arveron_DownAttack" : "Arveron_UpAttack");
-			attackEffect.Play((lastDirection.y > 0.f) ? "Arveron_DownAttack_Effect" : "Arveron_UpAttack_Effect");
+			effectAnimator.Play((lastDirection.y > 0.f) ? "Arveron_DownAttack_Effect" : "Arveron_UpAttack_Effect");
 		}
 		break;
 	case AnimStates::Skill:
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Arveron_RightSkill" : "Arveron_LeftSkill");
-			attackEffect.Play("Arveron_Skill_Effect");
+			effectAnimator.Play("Arveron_Skill_Effect");
 			Vector2f vec = GetPos();
-			attackSprite.setPosition(vec);
+			effectSprite.setPosition(vec);
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Arveron_DownSkill" : "Arveron_UpSkill");
-			attackEffect.Play("Arveron_Skill_Effect");
+			effectAnimator.Play("Arveron_Skill_Effect");
 			Vector2f vec = GetPos();
-			attackSprite.setPosition(vec);
+			effectSprite.setPosition(vec);
 		}
 		break;
 	}

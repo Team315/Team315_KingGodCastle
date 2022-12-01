@@ -93,6 +93,23 @@ void Goblin00::Init()
 		ev.onEvent = bind(&Goblin00::OnCompleteSkill, this);
 		animator.AddEvent(ev);
 	}
+	
+	for (int i = 0; i < 9; ++i)
+	{
+		Sprite* skillSpriteArr = new Sprite();
+		Animator* skillEffectArr = new Animator();
+		skillEffectArr->SetTarget(skillSpriteArr);
+		skillEffectArr->AddClip(*RESOURCE_MGR->GetAnimationClip("goblin00_Skill_Effect"));
+		{
+			AnimationEvent ev;
+			ev.clipId = "goblin00_Skill_Effect";
+			ev.frame = 9;
+			ev.onEvent = bind(&Goblin00::OnCompleteSkill, this);
+			skillEffectArr->AddEvent(ev);
+		}
+		skillEffect.push_back(skillEffectArr);
+		skillSprite.push_back(skillSpriteArr);
+	}
 
 	SetState(AnimStates::Idle);
 	Character::Init();
@@ -121,6 +138,10 @@ void Goblin00::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
+	for (int i = 0; i < 9; ++i)
+	{
+		skillEffect[i]->Update(dt);
+	}
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -131,6 +152,10 @@ void Goblin00::Update(float dt)
 void Goblin00::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
+	for (auto skills : skillSprite)
+	{
+		window.draw(*skills);
+	}
 }
 
 void Goblin00::SetPos(const Vector2f& pos)
@@ -185,6 +210,66 @@ void Goblin00::SetState(AnimStates newState)
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "goblin00_DownSkill" : "goblin00_UpSkill");
+		}
+		Vector2f vec = GetTarget()->GetPos();
+		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+		Vector2i targetPos = GAME_MGR->PosToIdx(GetPos());
+		if (mainGrid[targetPos.y * 7 + targetPos.x + 1] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 1]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 1])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 1])->GetPos();
+			skillSprite[0]->setPosition(pos);
+			skillEffect[0]->Play("goblin00_Skill_Effect");
+		}
+		if (mainGrid[targetPos.y * 7 + targetPos.x - 1] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x - 1]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 1])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 1])->GetPos();
+			skillSprite[1]->setPosition(pos);
+			skillEffect[1]->Play("goblin00_Skill_Effect");
+		}
+		if (mainGrid[targetPos.y * 7 + targetPos.x + 7] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 7]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 7])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 7])->GetPos();
+			skillSprite[2]->setPosition(pos);
+			skillEffect[2]->Play("goblin00_Skill_Effect");
+		}
+		if (mainGrid[targetPos.y * 7 + targetPos.x - 7] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x - 7]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 7])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 7])->GetPos();
+			skillSprite[3]->setPosition(pos);
+			skillEffect[3]->Play("goblin00_Skill_Effect");
+		}
+
+		if (mainGrid[targetPos.y * 7 + targetPos.x - 8] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x - 8]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 8])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 8])->GetPos();
+			skillSprite[4]->setPosition(pos);
+			skillEffect[4]->Play("goblin00_Skill_Effect");
+		}
+		if (mainGrid[targetPos.y * 7 + targetPos.x - 6] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x - 6]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 6])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 6])->GetPos();
+			skillSprite[5]->setPosition(pos);
+			skillEffect[5]->Play("goblin00_Skill_Effect");
+		}
+		if (mainGrid[targetPos.y * 7 + targetPos.x + 6] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 6]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 6])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 6])->GetPos();
+			skillSprite[6]->setPosition(pos);
+			skillEffect[6]->Play("goblin00_Skill_Effect");
+		}
+		if (mainGrid[targetPos.y * 7 + targetPos.x + 8] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 8]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 8])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 8])->GetPos();
+			skillSprite[7]->setPosition(pos);
+			skillEffect[7]->Play("goblin00_Skill_Effect");
 		}
 		break;
 	}
