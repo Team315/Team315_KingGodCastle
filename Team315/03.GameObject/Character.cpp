@@ -91,11 +91,15 @@ void Character::Update(float dt)
 
 	if (isBattle)
 	{
+		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+		Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
+
 		if (!move && !attack && isAttack())
 		{
 			if (m_attackDelay <= 0.f)
 			{
 				SetState(AnimStates::Attack);
+				dynamic_cast<Character*>(m_floodFill.GetNearEnemy(mainGrid, mypos, targetType))->TakeDamage(this);
 
 				attack = true;
 				Stat& mp = stat[Stats::MP];
@@ -354,7 +358,7 @@ bool Character::SetTargetDistance()
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
-			m_floodFill.GetGeneralInfo(mainGrid, targetType);
+			m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
 
 			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
 			{

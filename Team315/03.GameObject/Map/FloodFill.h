@@ -37,14 +37,13 @@ public:
 
 
 	void SetGeneralArr(vector<GameObj*>& map, string targetType);
-	vector<Vector2i>* GetGeneralInfo(vector<GameObj*>& map, string targetType);
+	vector<Vector2i> GetGeneralInfo(vector<GameObj*>& map, string targetType);
+
+	GameObj* GetNearEnemy(vector<GameObj*>& map, Vector2i myPos, string targetType);
 
 	bool isInRange(int col, int row);
 	bool isDestination(int grid);
 	bool IsAttack();
 
-
-	const int crossX[100] = { 0, 0, 0, 1, -1,-1, 1, };
-	const int crossY[100] = { 0, -1, 1, 0, 0,-1, -1 };
 };
 
