@@ -6,7 +6,7 @@ class UiName: public SpriteObj
 {
 protected:
 	TextObj* m_Text;
-
+	String m_string;
 public:
 	UiName();
 	~UiName();
@@ -17,6 +17,10 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	void SetText(string str);
+	String GetStr() { return m_string; };
 	TextObj* GetText() { return m_Text; }
+
+	bool CollisionCheck(Vector2f pos, int index);
+	bool ChangeSize(bool check);
 };
 

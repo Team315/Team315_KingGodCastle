@@ -135,7 +135,6 @@ void ToolScene::Update(float dt)
 
 	for (auto SelectTile : SelectTileList)
 	{
-
 		SelectTile->OnEdge(m_nowTileSet);
 		if (SelectTile->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowTileSet))
 		{
@@ -248,6 +247,26 @@ void ToolScene::Update(float dt)
 	//	int a=0;
 	//}
 
+	for (auto save: UiNameList)
+	{
+		if (save->GetStr() == "SAVE" &&
+			save->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 0))
+		{
+			FILE_MGR->SaveTileData(*this);
+		}
+	}
+
+	for (auto load : UiNameList)
+	{
+		if (load->GetStr() == "LOAD" &&
+			load->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 0))
+		{
+			if (InputMgr::GetMouseUp(Mouse::Left))
+			{
+				FILE_MGR->LoadTileData(*this);
+			}
+		}
+	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::F3))
 	{
 		FILE_MGR->SaveTileData(*this);
@@ -354,6 +373,22 @@ void ToolScene::CreateUiName()
 	monster->SetText("MONSTER");
 	UiNameList.push_back(monster);
 	objList.push_back(monster);
+
+	UiName* save = new UiName();
+	save->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
+	save->SetPos({ 600.f, 25.f });
+	save->SetOrigin(Origins::MC);
+	save->SetText("SAVE");
+	UiNameList.push_back(save);
+	objList.push_back(save);
+
+	UiName* load = new UiName();
+	load->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
+	load->SetPos({ 600.f, 70.f });
+	load->SetOrigin(Origins::MC);
+	load->SetText("LOAD");
+	UiNameList.push_back(load);
+	objList.push_back(load);
 }
 
 void ToolScene::CreateChapterNum(int count)
@@ -415,7 +450,6 @@ void ToolScene::CreateSelectObstacle()
 	float x = 0.f;
 	float y = 0.f;
 
-	//for (int i = 0; i < TYPE1_OBSTACLE_COUNT; ++i)
 	for (int i = 1; i <= (int)ThemeTypes::Slime; ++i)
 	{
 		for (int j = 0; j < TYPE1_OBSTACLE_COUNT; ++j)
