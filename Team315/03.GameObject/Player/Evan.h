@@ -4,6 +4,7 @@
 class Evan : public Character
 {
 protected:
+	float skillSpeed;
 public:
 	Evan(int starNumber = 0);
 	virtual ~Evan();

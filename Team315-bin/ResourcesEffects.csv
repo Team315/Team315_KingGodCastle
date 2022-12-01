@@ -9,6 +9,7 @@ graphics/Effect/player/pria_attackEffect_02.png,0
 graphics/Effect/player/arveron_attackEffect.png,0
 graphics/Effect/player/bullet.png,0
 graphics/Effect/player/evan_SkillEffect.png,0
+graphics/Effect/player/evan_SkillEffect_00.png,0
 graphics/Effect/player/aramis_SkillEffect_00.png,0
 graphics/Effect/player/aramis_SkillEffect_01.png,0
 graphics/Effect/player/arveron_SkillEffect.png,0
@@ -47,7 +48,7 @@ animations/Effect/PlayerSkill/Aramis_LeftSkill_Effect.csv,3
 animations/Effect/PlayerSkill/Aramis_RightSkill_Effect.csv,3
 animations/Effect/PlayerSkill/Aramis_UpSkill_Effect.csv,3
 animations/Effect/PlayerSkill/Arveron_Skill_Effect.csv,3
-animations/Effect/PlayerSkill/Daniel_DownSkill_Effect.csv,3
+animations/Effect/PlayerSkill/Daniel_Skill_Effect.csv,3
 animations/Effect/PlayerSkill/LeonHeart_DownSkill_Effect.csv,3
 animations/Effect/PlayerSkill/LeonHeart_LeftSkill_Effect.csv,3
 animations/Effect/PlayerSkill/LeonHeart_RightSkill_Effect.csv,3
@@ -55,3 +56,7 @@ animations/Effect/PlayerSkill/LeonHeart_UpSkill_Effect.csv,3
 animations/Effect/PlayerSkill/Pria_Skill_Effect.csv,3
 animations/Effect/PlayerSkill/Shelda_Skill_Effect.csv,3
 animations/Effect/PlayerSkill/Shelda_HUSkill_Effect.csv,3
+animations/Effect/PlayerSkill/Evan_DownSkill_Effect.csv,3
+animations/Effect/PlayerSkill/Evan_LeftSkill_Effect.csv,3
+animations/Effect/PlayerSkill/Evan_RightSkill_Effect.csv,3
+animations/Effect/PlayerSkill/Evan_UpSkill_Effect.csv,3

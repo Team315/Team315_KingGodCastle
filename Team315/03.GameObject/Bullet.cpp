@@ -3,7 +3,7 @@
 Bullet::Bullet()
 	:dir(), speed(0.f), range(0.f)
 {
-	SetTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/bullet.png"));
+	sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/bullet.png"));
 }
 
 Bullet::~Bullet()

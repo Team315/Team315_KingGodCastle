@@ -239,8 +239,8 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	{
 		// death
 		CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
-		isAlive = false;
-		GAME_MGR->RemoveFromMainGrid(this);
+		//isAlive = false;
+		//GAME_MGR->RemoveFromMainGrid(this);
 	}
 }
 
