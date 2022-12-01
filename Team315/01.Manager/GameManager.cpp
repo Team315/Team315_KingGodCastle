@@ -137,8 +137,8 @@ Character* GameManager::SpawnMonster(string name, int grade)
 Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBattle)
 {
 	Character* character = nullptr;
-	//int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
-	int num = 4;
+	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
+	//int num = 4;
 
 	if (!name.compare("Aramis") || num == 0)
 		character = new Aramis();
