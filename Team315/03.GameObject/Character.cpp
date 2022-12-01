@@ -42,8 +42,8 @@ void Character::Init()
 		targetType = "None";
 
 	m_floodFill.SetArrSize(
-		stat[Stats::AR].GetModifier(),
-		stat[Stats::AR].GetModifier(),
+		stat[StatType::AR].GetModifier(),
+		stat[StatType::AR].GetModifier(),
 		attackRangeType);
 }
 
@@ -53,11 +53,11 @@ void Character::Reset()
 	attack = false;
 	move = false;
 	isAlive = true;
-	Stat& hp = stat[Stats::HP];
+	Stat& hp = stat[StatType::HP];
 	hp.ResetStat();
 	shieldAmount = shieldAmountMin;
 	hpBar->SetRatio(hp.GetModifier(), hp.GetCurrent(), shieldAmount);
-	stat[Stats::MP].SetCurrent(0.f);
+	stat[StatType::MP].SetCurrent(0.f);
 	SetState(AnimStates::Idle);
 }
 
@@ -72,19 +72,19 @@ void Character::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Key::S))
 		{
 			TakeCare(this, false);
-			hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+			hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::A))
 		{
 			TakeDamage(this);
-			hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+			hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::D))
 		{
 			TakeCare(this);
-			hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+			hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
 		}
 	}
 	// Dev key end
@@ -104,7 +104,7 @@ void Character::Update(float dt)
 				//dynamic_cast<Character*>(m_target)->TakeDamage(this);
 				dynamic_cast<Character*>(GetTarget())->TakeDamage(this);
 				attack = true;
-				Stat& mp = stat[Stats::MP];
+				Stat& mp = stat[StatType::MP];
 				mp.TranslateCurrent(15.f);
 
 				if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
@@ -175,27 +175,27 @@ void Character::SetState(AnimStates newState)
 
 void Character::SetStatsInit(json data)
 {
-	stat.insert({ Stats::HP, Stat(data["HP"]) });
-	stat.insert({ Stats::MP, Stat(data["MP"], 0.f, false) });
-	stat.insert({ Stats::AD, Stat(data["AD"]) });
-	stat.insert({ Stats::AP, Stat(data["AP"]) });
-	stat.insert({ Stats::AS, Stat(data["AS"]) });
-	stat.insert({ Stats::AR, Stat(data["AR"]) });
-	stat.insert({ Stats::MS, Stat(data["MS"]) });
+	stat.insert({ StatType::HP, Stat(data["HP"]) });
+	stat.insert({ StatType::MP, Stat(data["MP"], 0.f, false) });
+	stat.insert({ StatType::AD, Stat(data["AD"]) });
+	stat.insert({ StatType::AP, Stat(data["AP"]) });
+	stat.insert({ StatType::AS, Stat(data["AS"]) });
+	stat.insert({ StatType::AR, Stat(data["AR"]) });
+	stat.insert({ StatType::MS, Stat(data["MS"]) });
 	string arType = data["ARTYPE"];
 	attackRangeType = arType.compare("cross") ? true : false;
 
-	stat[Stats::AS].SetIsAddition(true);
+	stat[StatType::AS].SetIsAddition(true);
 }
 
 void Character::TakeDamage(GameObj* attacker, bool attackType)
 {
-	Stat& hp = stat[Stats::HP];
+	Stat& hp = stat[StatType::HP];
 	float damage = 0.f;
 	if (attackType)
-		damage = dynamic_cast<Character*>(attacker)->GetStat(Stats::AD).GetModifier();
+		damage = dynamic_cast<Character*>(attacker)->GetStat(StatType::AD).GetModifier();
 	else
-		damage = dynamic_cast<Character*>(attacker)->GetStat(Stats::AP).GetModifier();
+		damage = dynamic_cast<Character*>(attacker)->GetStat(StatType::AP).GetModifier();
 
 	if (shieldAmount > 0.f)
 	{
@@ -210,8 +210,8 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	}
 
 	hp.TranslateCurrent(-damage);
-	hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
-	if (stat[Stats::HP].GetCurrent() <= 0.f)
+	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+	if (stat[StatType::HP].GetCurrent() <= 0.f)
 	{
 		// death
 		CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
@@ -222,15 +222,15 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 
 void Character::TakeCare(GameObj* caster, bool careType)
 {
-	Stat& hp = stat[Stats::HP];
-	float careAmount = dynamic_cast<Character*>(caster)->GetStat(Stats::AP).GetModifier();
+	Stat& hp = stat[StatType::HP];
+	float careAmount = dynamic_cast<Character*>(caster)->GetStat(StatType::AP).GetModifier();
 
 	if (careType)
 		hp.TranslateCurrent(careAmount);
 	else
 		shieldAmount += careAmount;
 
-	hpBar->SetRatio(stat[Stats::HP].GetModifier(), stat[Stats::HP].current, shieldAmount);
+	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
 }
 
 void Character::UpgradeStar()
@@ -241,7 +241,7 @@ void Character::UpgradeStar()
 	UpgradeCharacterSet();
 	UpgradeStats();
 
-	m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
+	m_attackDelay = 1.f / stat[StatType::AS].GetModifier();
 }
 
 void Character::UpgradeCharacterSet()
@@ -253,10 +253,10 @@ void Character::UpgradeCharacterSet()
 
 void Character::UpgradeStats()
 {
-	stat[Stats::HP].UpgradeBase(GAME_MGR->hpIncreaseRate);
-	stat[Stats::AD].UpgradeBase(GAME_MGR->adIncreaseRate);
-	stat[Stats::AP].UpgradeBase(GAME_MGR->apIncreaseRate);
-	stat[Stats::AS].UpgradeBase(GAME_MGR->asIncrease);
+	stat[StatType::HP].UpgradeBase(GAME_MGR->hpIncreaseRate);
+	stat[StatType::AD].UpgradeBase(GAME_MGR->adIncreaseRate);
+	stat[StatType::AP].UpgradeBase(GAME_MGR->apIncreaseRate);
+	stat[StatType::AS].UpgradeBase(GAME_MGR->asIncrease);
 }
 
 void Character::IsSetState(AnimStates newState)
@@ -264,29 +264,8 @@ void Character::IsSetState(AnimStates newState)
 	if (newState != AnimStates::Attack && currState == AnimStates::Attack)
 	{
 		attack = false;
-		m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
+		m_attackDelay = 1.f / stat[StatType::AS].GetModifier();
 	}
-}
-
-void Character::SetGeneralArr()
-{
-
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-
-	//for (auto& target : mainGrid)
-	//{
-	//	if (target != nullptr && !target->GetType().compare(targetType))
-	//	{
-
-			m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
-
-	//	}
-	//}
-}
-
-unordered_map<Stats, Stat>& Character::GetStat()
-{
-	return stat;
 }
 
 bool Character::isAttack()

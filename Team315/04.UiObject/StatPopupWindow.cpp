@@ -153,12 +153,12 @@ void StatPopupWindow::SetCharacter(Character* character)
 	nameText->SetString(character->GetName());
 	starText->SetString(to_string(character->GetStarNumber()));
 	starText->SetOrigin(Origins::TC);
-	adText->SetString(character->GetStat(Stats::AD).GetModifier(), true);
-	apText->SetString(character->GetStat(Stats::AP).GetModifier(), true);
-	string asStr = to_string(character->GetStat(Stats::AS).GetModifier()).substr(0, 4);
+	adText->SetString(character->GetStat(StatType::AD).GetModifier(), true);
+	apText->SetString(character->GetStat(StatType::AP).GetModifier(), true);
+	string asStr = to_string(character->GetStat(StatType::AS).GetModifier()).substr(0, 4);
 	asText->SetString(asStr);
 
-	Stat mp = character->GetStat(Stats::MP);
+	Stat mp = character->GetStat(StatType::MP);
 	if (mp.GetBase() == 0)
 	{
 		useOptional = true;
@@ -177,15 +177,15 @@ void StatPopupWindow::UpdateContents()
 		return;
 
 	float shieldAmount = target->GetShieldAmount();
-	Stat hp = target->GetStat(Stats::HP);
+	Stat hp = target->GetStat(StatType::HP);
 	hpBar->SetRatio(hp.GetModifier(), hp.GetCurrent(), shieldAmount);
 
-	string str = to_string((int)target->GetStat(Stats::HP).GetCurrent());
+	string str = to_string((int)target->GetStat(StatType::HP).GetCurrent());
 	if (shieldAmount > 0.f)
 		str += "(" + to_string((int)shieldAmount) + ")";
 	currentHp.setString(str);
 
-	Stat mp = target->GetStat(Stats::MP);
+	Stat mp = target->GetStat(StatType::MP);
 	currentMp.setString(to_string((int)mp.GetCurrent()) + "/" +
 		to_string((int)mp.GetBase()));
 	mpBar->SetProgressValue(mp.GetCurRatio());

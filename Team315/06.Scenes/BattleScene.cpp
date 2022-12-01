@@ -129,7 +129,7 @@ void BattleScene::Update(float dt)
 			{
 				if (battleGrid[idx] == nullptr)
 					continue;
-				
+
 				battleGrid[idx]->Reset();
 				battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
 			}
@@ -176,6 +176,44 @@ void BattleScene::Update(float dt)
 						str += (gameObj->GetName().substr(0, 2) + " ");
 					else
 						str += "Ob ";
+				}
+				count++;
+				if ((count % GAME_TILE_WIDTH) == 0)
+					str += "\n";
+				cout << str;
+			}
+			cout << endl;
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::F9))
+		{
+			int count = 0;
+			CLOG::Print3String("battle grid state");
+			for (auto& gameObj : battleGrid)
+			{
+				string str = "";
+				if (gameObj == nullptr)
+					str += ".. ";
+				else
+				{
+					str += (gameObj->GetName().substr(0, 2) + " ");
+				}
+				count++;
+				if ((count % GAME_TILE_WIDTH) == 0)
+					str += "\n";
+				cout << str;
+			}
+			cout << endl;
+
+			CLOG::Print3String("prepare grid state");
+			for (auto& gameObj : prepareGrid)
+			{
+				string str = "";
+				if (gameObj == nullptr)
+					str += ".. ";
+				else
+				{
+					str += (gameObj->GetName().substr(0, 2) + " ");
 				}
 				count++;
 				if ((count % GAME_TILE_WIDTH) == 0)
@@ -291,9 +329,9 @@ void BattleScene::Update(float dt)
 						return;
 					}
 
-					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->equipmentCost)
+					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->itemCost)
 					{
-						TranslateCoinState(-GAME_MGR->equipmentCost);
+						TranslateCoinState(-GAME_MGR->itemCost);
 
 						Item* item = GAME_MGR->SpawnItem();
 						item->SetPos(prepareGridRect[idx]->GetPos());
@@ -334,12 +372,24 @@ void BattleScene::Update(float dt)
 			{
 				if (pick == nullptr)
 				{
-					GameObj* temp = gameObj;
+					GameObj*& temp = gameObj;
 					if (IsCharacter(temp))
 					{
 						float delta =
-							dynamic_cast<Character*>(temp)->GetStarNumber() *
+							pow(2, dynamic_cast<Character*>(temp)->GetStarNumber() - 1) *
 							GAME_MGR->characterCost * 2 / 3;
+						cout << "sell character, +" << to_string((int)delta) << endl;
+						TranslateCoinState(delta);
+						gameObj = nullptr;
+						delete temp;
+						break;
+					}
+					else
+					{
+						float delta =
+							pow(2, dynamic_cast<Item*>(temp)->GetGrade() - 1) *
+							GAME_MGR->itemCost * 3 / 5;
+						cout << "sell item, +" << to_string((int)delta) << endl;
 						TranslateCoinState(delta);
 						gameObj = nullptr;
 						delete temp;
@@ -439,7 +489,6 @@ void BattleScene::Update(float dt)
 		}
 		else // item
 		{
-			cout << "item" << endl;
 			PutDownItem(&beforeContainer, &destContainer, beforeCoord, destCoord);
 		}
 
@@ -529,8 +578,11 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 	if (startCoord == destCoord)
 	{
 		ui->SetStatPopup(true, currentView.getCenter(), dynamic_cast<Character*>((*start)[startIdx]),
-			GAME_MGR->SnapToCoord(
-				(*start)[startIdx]->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
+			GAME_MGR->SnapToCoord((*start)[startIdx]->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
+	}
+	else if ((*dest)[destIdx] != nullptr && IsItem((*dest)[destIdx]))
+	{
+		(*dest)[destIdx]->SetPos(beforeDragPos);
 	}
 	else
 	{
@@ -542,7 +594,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 			{
 				if ((!playingBattle) || (start == dest))
 				{
-					CLOG::Print3String("combinate");
+					CLOG::Print3String("character combinate");
 					(*dest)[destIdx] = nullptr;
 					destCharacter->Release();
 					delete destCharacter;
@@ -550,7 +602,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 				}
 				else
 				{
-					CLOG::Print3String("can not combinate");
+					CLOG::Print3String("character can not combinate");
 					canMove = false;
 				}
 			}
@@ -558,12 +610,12 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 			{
 				if ((!playingBattle) || (start == dest))
 				{
-					CLOG::Print3String("swap");
+					CLOG::Print3String("character swap");
 					destCharacter->SetPos(beforeDragPos);
 				}
 				else
 				{
-					CLOG::Print3String("can not swap");
+					CLOG::Print3String("character can not swap");
 					canMove = false;
 				}
 			}
@@ -617,25 +669,117 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 				CLOG::Print3String("can not move");
 				canMove = false;
 			}
-
 		}
+
 		if (canMove)
 		{
-			// swap in vector contatiner
+			// swap in vector container
 			GameObj* temp = (*dest)[destIdx];
 			(*dest)[destIdx] = pick;
 			(*start)[startIdx] = temp;
 		}
 	}
-
-	if (canMove)
-		pick->SetPos(GAME_MGR->IdxToPos(destCoord));
-	else
-		pick->SetPos(GAME_MGR->IdxToPos(startCoord));
+	pick->SetPos(GAME_MGR->IdxToPos(canMove ? destCoord : startCoord));
 }
 
 void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)
 {
+	int startIdx = GetIdxFromCoord(startCoord);
+	int destIdx = GetIdxFromCoord(destCoord);
+	bool canMove = true;
+
+	if (dest == &battleGrid)
+	{
+		canMove = false;
+		cout << "equipment to the character in battleGrid" << endl;
+	}
+	else if (startCoord == destCoord)
+	{
+		cout << "item pop up" << endl;
+	}
+	else
+	{
+		Item* destItem = dynamic_cast<Item*>((*dest)[destIdx]);
+		if (destItem != nullptr)
+		{
+			if (!destItem->GetName().compare(pick->GetName()) &&
+				destItem->GetGrade() == dynamic_cast<Item*>(pick)->GetGrade())
+			{
+				if (dynamic_cast<Item*>(pick)->Upgrade())
+				{
+					CLOG::Print3String("item combinate");
+					(*dest)[destIdx] = nullptr;
+					destItem->Release();
+					delete destItem;
+				}
+				else
+					canMove = false;
+			}
+			else
+			{
+				CLOG::Print3String("item swap");
+				destItem->SetPos(beforeDragPos);
+			}
+		}
+		else
+		{
+			if ((!playingBattle))
+			{
+				// add to new character in battleGrid from prepare (prepare -> battleGrid)
+				if ((dest == &battleGrid && start == &prepareGrid))
+				{
+					CLOG::Print3String("prepare -> battle move empty");
+
+					int count = 0;
+					for (auto& character : battleGrid)
+					{
+						if (character == nullptr)
+							continue;
+						else
+							count++;
+					}
+
+					if (count >= battleCharacterCount)
+					{
+						CLOG::Print3String("can not move more character");
+						canMove = false;
+					}
+				}
+			}
+			else if (start == dest)
+			{
+				CLOG::Print3String("start == dest move empty");
+
+				int count = 0;
+				for (auto& character : battleGrid)
+				{
+					if (character == nullptr)
+						continue;
+					else
+						count++;
+				}
+
+				if (count >= battleCharacterCount)
+				{
+					CLOG::Print3String("can not move more character");
+					canMove = false;
+				}
+			}
+			else
+			{
+				CLOG::Print3String("can not move");
+				canMove = false;
+			}
+		}
+		if (canMove)
+		{
+			// swap in vector container
+			GameObj* temp = (*dest)[destIdx];
+			(*dest)[destIdx] = pick;
+			(*start)[startIdx] = temp;
+		}
+	}
+	pick->SetPos(GAME_MGR->IdxToPos(canMove ? destCoord : startCoord));
 }
 
 void BattleScene::SetCurrentStage(int chap, int stage)
@@ -691,6 +835,11 @@ Vector2i GetCoordFromIdx(int idx, bool battle)
 	else
 		coord.y += 16;
 	return coord;
+}
+
+bool IsItem(GameObj* gameObj)
+{
+	return !gameObj->GetType().compare("Item");
 }
 
 bool IsCharacter(GameObj* gameObj)

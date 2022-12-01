@@ -2,7 +2,7 @@
 #include "Constant.h"
 
 Framework::Framework()
-    : timeScale(1.f), devMode(false)
+    : timeScale(1.0f), devMode(false)
 {
 }
 

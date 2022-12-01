@@ -196,7 +196,7 @@ vector<Vector2i> FloodFill::GetGeneralInfo(vector<GameObj*>& map, string targetT
 	{
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
-			int attackRange = dynamic_cast<Character*>(target)->GetStat()[Stats::AR].GetBase();
+			int attackRange = dynamic_cast<Character*>(target)->GetStat(StatType::AR).GetBase();
 			bool attackType = dynamic_cast<Character*>(target)->GetAttackRangeType();
 
 			vector<vector<bool>> areaArr;
