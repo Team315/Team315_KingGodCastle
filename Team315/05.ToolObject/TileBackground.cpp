@@ -69,13 +69,13 @@ void TileBackground::ChangeTileBackground(ThemeTypes types, int index)
 	backGroundData.pathIndex = index;
 	m_TileTypes = TileTypes::Obstacle;
 
-	sprite.setTexture(*RESOURCE_MGR->GetTexture(GetObstaclePath(types, index)), true);
+	sprite.setTexture(*RESOURCE_MGR->GetTexture(GetBackgroundPath(types, index)), true);
 	SetOrigin(Origins::TL);
 	CLOG::PrintVectorState(GetPos(), "방금 놓은 타일 포스");
 	cout << backGroundData.ThemeTypes << " " << backGroundData.pathIndex << endl;
 }
 
-string TileBackground::GetObstaclePath(ThemeTypes types, int num)
+string TileBackground::GetBackgroundPath(ThemeTypes types, int num)
 {
 	string field = to_string((int)types / 10) + to_string((int)types % 10);
 

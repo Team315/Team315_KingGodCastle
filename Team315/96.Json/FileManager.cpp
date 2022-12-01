@@ -96,6 +96,22 @@ void FileManager::LoadTileData(Chapters& m_PlayTileList)
 	ifs.close();
 }
 
+void FileManager::SaveBackGroundData(json datas)
+{
+	json data = datas;
+	ofstream ofs("json/BackGroundData.json");
+	ofs << data;
+	ofs.close();
+}
+
+json FileManager::LoadBackGroundData()
+{
+	ifstream ifs("json/BackGroundData.json");
+	json data = json::parse(ifs);
+	ifs.close();
+	return data;
+}
+
 json FileManager::LoadCharacterData()
 {
 	ifstream ifs("json/CharacterData.json");

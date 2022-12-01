@@ -315,7 +315,7 @@ void ToolScene::Draw(RenderWindow& window)
 {
 	for (auto TileBackground : TileBackgroundList)
 	{
-		if (m_clickMode == ClickMode::Tile && 
+		if (/*m_clickMode == ClickMode::Tile &&*/ 
 			TileBackground->GetChapther() == m_nowChapter)
 		TileBackground->Draw(window);
 	}
@@ -653,6 +653,7 @@ void ToolScene::SetClickMode(ClickMode clickMode)
 Chapters ToolScene::GetTilesData()
 {
 	Chapters data;
+
 	for (int i = 0; i < ToolChapterList.size(); ++i)
 	{
 		data.data.push_back(vector<vector<vector<ns::TileData>>>());
@@ -693,3 +694,11 @@ void ToolScene::SetTilesData(Chapters& data)
 		}
 	}
 }
+
+json ToolScene::SetBackGroundData()
+{
+	json data;
+
+	return data;
+}
+

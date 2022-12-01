@@ -17,6 +17,7 @@ class GameManager : public Singleton<GameManager>
 protected:
 	Chapters* m_PlayTileList;
 	vector<vector<vector<vector<Tile*>>>> m_tiles;
+	BackGroundData BackGroundDatas;
 
 	json characterDatas;
 
@@ -54,6 +55,9 @@ public:
 	void SetTilesData();
 	Tile* GetTile(int chap, int stage, int height, int width);
 	vector<vector<Tile*>>* GetStage(int chap, int stage) { return &m_tiles[chap][stage]; }
+
+	void SetBackGroundDatas();
+	json GetBackGroundDatas();
 
 	void CreatedTiles();
 	Character* SpawnMonster(string name, int grade);

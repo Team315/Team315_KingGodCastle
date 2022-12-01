@@ -65,4 +65,7 @@ public:
 
 	Chapters GetTilesData();
 	void SetTilesData(Chapters& data);
+
+	json SetBackGroundData();
+
 };

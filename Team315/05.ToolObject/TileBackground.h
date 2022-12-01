@@ -29,6 +29,8 @@ public:
 	bool OnEdge(bool isCollAble);
 	int GetChapther() { return (int)m_ThemeTypes; };
 	void ChangeTileBackground(ThemeTypes types, int index);
-	string GetObstaclePath(ThemeTypes types, int num);
+	string GetBackgroundPath(ThemeTypes types, int num);
+	BackGroundData GetBackGroundData() { return backGroundData; }
+
 };
 
