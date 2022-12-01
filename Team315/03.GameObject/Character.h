@@ -45,6 +45,8 @@ protected:
 	Vector2f lastDirection;
 	float m_attackDelay;
 
+	GameObj* m_target;
+
 	//FloodFill
 	FloodFill m_floodFill;
 	vector<Vector2i> m_GeneralArr;
@@ -96,6 +98,7 @@ public:
 	//battle
 	void IsSetState(AnimStates newState);
 	bool GetAttackRangeType() { return attackRangeType; };
+	GameObj* GetTarget() { return m_target; };
 
 	//FloodFill
 	bool isAttack();

@@ -10,6 +10,7 @@
 #include "SelectMonster.h"
 #include "SelectStar.h"
 #include "TilePlay.h"
+#include "TileBackground.h"
 #include "ToolChapter.h"
 #include "ToolStage.h"
 #include "FileManager.h"
@@ -135,6 +136,15 @@ void ToolScene::Update(float dt)
 
 	for (auto SelectTile : SelectTileList)
 	{
+		if (SelectTile->GetThemeTypes() == (ThemeTypes)m_nowTheme)
+		{
+			SelectTile->SetActive(true);
+		}
+		else
+		{
+			SelectTile->SetActive(false);
+		}
+
 		SelectTile->OnEdge(m_nowTileSet);
 		if (SelectTile->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), m_nowTileSet))
 		{
@@ -267,11 +277,12 @@ void ToolScene::Update(float dt)
 			}
 		}
 	}
+
+	// 삭제 예정
 	if (InputMgr::GetKeyDown(Keyboard::Key::F3))
 	{
 		FILE_MGR->SaveTileData(*this);
 	}
-
 	if (InputMgr::GetKeyDown(Keyboard::Key::F4))
 	{
 		FILE_MGR->LoadTileData(*this);
@@ -440,6 +451,36 @@ void ToolScene::CreateSelectTile()
 		x = 51.f * (i % 10);
 		SelectTile* tileSelect = new SelectTile();
 		tileSelect->SetSelectTile({ 26.f + x, 255.f + y }, ThemeTypes::Goblin, i);
+		SelectTileList.push_back(tileSelect);
+		objList.push_back(tileSelect);
+	}
+	x = 0.f;
+	y = 0.f;
+	for (int i = 0; i < TYPE2_TILE_COUNT; ++i)
+	{
+		if (i % 10 == 0)
+		{
+			y += 51.f;
+		}
+
+		x = 51.f * (i % 10);
+		SelectTile* tileSelect = new SelectTile();
+		tileSelect->SetSelectTile({ 26.f + x, 255.f + y }, ThemeTypes::Thief, i);
+		SelectTileList.push_back(tileSelect);
+		objList.push_back(tileSelect);
+	}
+	x = 0.f;
+	y = 0.f;
+	for (int i = 0; i < TYPE3_TILE_COUNT; ++i)
+	{
+		if (i % 10 == 0)
+		{
+			y += 51.f;
+		}
+
+		x = 51.f * (i % 10);
+		SelectTile* tileSelect = new SelectTile();
+		tileSelect->SetSelectTile({ 26.f + x, 255.f + y }, ThemeTypes::Slime, i);
 		SelectTileList.push_back(tileSelect);
 		objList.push_back(tileSelect);
 	}

@@ -30,6 +30,7 @@ enum class TileTypes
 	Obstacle,
 	Monster,
 	PlayerArea,
+	BackGround,
 };
 
 enum class AnimStates

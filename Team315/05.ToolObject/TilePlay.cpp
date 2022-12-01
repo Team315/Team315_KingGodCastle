@@ -176,16 +176,6 @@ void TilePlay::SetTileData(ns::TileData TileData)
 	}
 }
 
-void TilePlay::SetOnTileObj(Object* onTileObj)
-{
-	this->onTileObj = onTileObj;
-}
-
-Object* TilePlay::GetOnTileObj()
-{
-	return onTileObj;
-}
-
 TileInfo TilePlay::GetTileInfo()
 {
 	return m_TileInfo;
