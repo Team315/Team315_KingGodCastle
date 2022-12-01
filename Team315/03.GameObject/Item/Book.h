@@ -6,6 +6,6 @@ class Book : public Item
 protected:
 
 public:
-	Book(int grade = 1, ItemType type = ItemType::Book);
+	Book(int grade = 0, ItemType type = ItemType::Book);
 	virtual ~Book();
 };

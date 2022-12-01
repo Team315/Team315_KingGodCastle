@@ -35,7 +35,7 @@ void UiName::SetText(string str)
 {
 	Vector2f pos = sprite.getPosition();
 	pos.y -= 3.f;
-
+	m_string = str;
 	m_Text->SetString(str);
 	m_Text->SetCharacterSize(20);
 	m_Text->SetColor(Color::White);
@@ -43,5 +43,24 @@ void UiName::SetText(string str)
 	m_Text->SetOutlineColor(Color::Black);
 	m_Text->SetPos(pos);
 	m_Text->SetOrigin(Origins::MC);
+}
+
+bool UiName::CollisionCheck(Vector2f pos, int index)
+{
+	return ChangeSize(sprite.getGlobalBounds().contains(pos));
+}
+
+bool UiName::ChangeSize(bool check)
+{
+	if (check)
+	{
+		m_Text->SetCharacterSize(22);
+		return true;
+	}
+	else
+	{
+		m_Text->SetCharacterSize(20);
+		return false;
+	}
 }
 

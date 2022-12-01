@@ -66,6 +66,7 @@ public:
 
 int GetIdxFromCoord(Vector2i coord);
 Vector2i GetCoordFromIdx(int idx, bool battle);
+bool IsItem(GameObj* gameObj);
 bool IsCharacter(GameObj* gameObj);
 bool InPrepareGrid(Vector2i pos);
 bool InBattleGrid(Vector2i pos);

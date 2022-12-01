@@ -4,6 +4,7 @@
 #include "FileData.h"
 
 class ToolChapter;
+class TileBackground;
 class TilePlay;
 class SelectStar;
 class SelectMonster;

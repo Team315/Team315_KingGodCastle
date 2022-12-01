@@ -6,6 +6,6 @@ class Bow : public Item
 protected:
 
 public:
-	Bow(int grade = 1, ItemType type = ItemType::Bow);
+	Bow(int grade = 0, ItemType type = ItemType::Bow);
 	virtual ~Bow();
 };

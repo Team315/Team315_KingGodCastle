@@ -6,7 +6,7 @@
 GameManager::GameManager()
 	: battleCharacterCount(8), extraLevelUpChance(0),
 	extraGradeUpChance(0), startCoin(50), // 6
-	characterCost(3), equipmentCost(5), currentCoin(startCoin),
+	characterCost(3), itemCost(5), currentCoin(startCoin),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f), apIncreaseRate(1.6f), asIncrease(0.1f)
 {
 	CLOG::Print3String("GameManager Create");
@@ -16,6 +16,18 @@ GameManager::GameManager()
 			vector<vector<Tile*>>(GAME_TILE_HEIGHT,
 				vector<Tile*>(GAME_TILE_WIDTH))));
 	mainGrid = new vector<GameObj*>();
+
+	/*
+	ad		25	40	70	 120
+	ap		40% 70% 120% 200%
+	as		25% 40% 70%  120%
+	armor	250 400 700  120
+	*/
+
+	itemStatMap[StatType::AD] = { 25, 40, 70, 120 };			// +
+	itemStatMap[StatType::AP] = { 0.4f, 0.7f, 1.2f, 2.f };		// %
+	itemStatMap[StatType::AS] = { 0.25f, 0.4f, 0.7f, 1.2f };	// %
+	itemStatMap[StatType::HP] = { 250, 400, 700, 1200 };		// +
 
 	//battleTracker = new BattleTracker();
 }
@@ -180,7 +192,7 @@ Item* GameManager::SpawnItem(int typeIdx)
 	ItemType type = typeIdx == -1 ?
 		(ItemType) (Utils::RandomRange(0, 2 * ITEM_COUNT - 1) / 2) :
 		(ItemType) (typeIdx);
-	
+
 	switch (type)
 	{
 	case ItemType::Armor:
@@ -227,6 +239,13 @@ void GameManager::RemoveFromMainGrid(GameObj* gameObj)
 			return;
 		}
 	}
+}
+
+float GameManager::GetItemStatMapElem(StatType statType, int grade)
+{
+	if (statType == StatType::None)
+		return -1.f;
+	return (itemStatMap[statType])[grade];
 }
 
 // Battle Tracker

@@ -42,11 +42,6 @@ public:
 
 	void SetTileData(ns::TileData TileData);
 
-
-	void SetOnTileObj(Object* onTileObj);
-	Object* GetOnTileObj();
-
-
 	TileInfo GetTileInfo();
 	TileData GetTileData();
 

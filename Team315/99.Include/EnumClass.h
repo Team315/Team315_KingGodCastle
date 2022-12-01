@@ -30,6 +30,7 @@ enum class TileTypes
 	Obstacle,
 	Monster,
 	PlayerArea,
+	BackGround,
 };
 
 enum class AnimStates
@@ -50,7 +51,7 @@ enum class Dir
 	Right,
 };
 
-enum class Stats
+enum class StatType
 {
 	None = -1,
 	HP, // Health Point
