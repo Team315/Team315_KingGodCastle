@@ -217,39 +217,58 @@ void ToolScene::Update(float dt)
 		}
 	}
 
-	for (int i = 0; i < GAME_TILE_HEIGHT - 4; ++i)
+		
+	if (m_clickMode != ClickMode::Tile)
 	{
-		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
+		for (int i = 0; i < GAME_TILE_HEIGHT - 4; ++i)
 		{
-			if (ToolChapterList[m_nowChapter - 1]->
-				GetToolStage()[m_nowStage - 1]->
-				GetTileTool()[i][j]->
-				CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 1))
+			for (int j = 0; j < GAME_TILE_WIDTH; ++j)
 			{
-				if (InputMgr::GetMouseUp(Mouse::Left))
+				if (ToolChapterList[m_nowChapter - 1]->
+					GetToolStage()[m_nowStage - 1]->
+					GetTileTool()[i][j]->
+					CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 1))
 				{
-					if (m_clickMode == ClickMode::Monster)
+					if (InputMgr::GetMouseUp(Mouse::Left))
+					{
+						if (m_clickMode == ClickMode::Monster)
+						{
+							ToolChapterList[m_nowChapter - 1]->
+								GetToolStage()[m_nowStage - 1]->
+								GetTileTool()[i][j]->SetMonster((ThemeTypes)m_nowTheme, m_monster, m_nowStar);
+						}
+						else if (m_clickMode == ClickMode::Obstacle)
+						{
+							ToolChapterList[m_nowChapter - 1]->
+								GetToolStage()[m_nowStage - 1]->
+								GetTileTool()[i][j]->SetObstacle((ThemeTypes)m_nowTheme, m_nowObstacle);
+						}
+					}
+					else if (InputMgr::GetMouseUp(Mouse::Right))
 					{
 						ToolChapterList[m_nowChapter - 1]->
 							GetToolStage()[m_nowStage - 1]->
-							GetTileTool()[i][j]->SetMonster((ThemeTypes)m_nowTheme, m_monster, m_nowStar);
+							GetTileTool()[i][j]->SetEraser();
 					}
-					else if (m_clickMode == ClickMode::Obstacle)
-					{
-						ToolChapterList[m_nowChapter - 1]->
-							GetToolStage()[m_nowStage - 1]->
-							GetTileTool()[i][j]->SetObstacle((ThemeTypes)m_nowTheme, m_nowObstacle);
-					}
-				}
-				else if (InputMgr::GetMouseUp(Mouse::Right))
-				{
-					ToolChapterList[m_nowChapter - 1]->
-						GetToolStage()[m_nowStage - 1]->
-						GetTileTool()[i][j]->SetEraser();
 				}
 			}
 		}
 	}
+	
+
+	for (auto TileBackground : TileBackgroundList)
+	{
+		if (m_clickMode == ClickMode::Tile && m_nowTileSet != -1 &&
+			TileBackground->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseUp(Mouse::Left) && 
+				TileBackground->GetChapther() == m_nowChapter)
+			{
+				TileBackground->ChangeTileBackground((ThemeTypes)m_nowTheme, m_nowTileSet);
+			}
+		}
+	}
+
 
 	//if (InputMgr::GetKeyDown(Keyboard::Key::F6))
 	//{
@@ -294,19 +313,28 @@ void ToolScene::Update(float dt)
 
 void ToolScene::Draw(RenderWindow& window)
 {
-	for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
-	{
-		for (int j = 0; j < GAME_TILE_WIDTH; ++j)
-		{
-			ToolChapterList[m_nowChapter - 1]->
-				GetToolStage()[m_nowStage - 1]->
-				GetTileTool()[i][j]->Draw(window);
-		}
-	}
-	Scene::Draw(window);
 	for (auto TileBackground : TileBackgroundList)
 	{
+		if (m_clickMode == ClickMode::Tile && 
+			TileBackground->GetChapther() == m_nowChapter)
 		TileBackground->Draw(window);
+	}
+	Scene::Draw(window);
+
+	if (m_clickMode != ClickMode::Tile)
+	{
+		for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
+		{
+			for (int j = 0; j < GAME_TILE_WIDTH; ++j)
+			{
+				if (m_clickMode != ClickMode::Tile)
+				{
+					ToolChapterList[m_nowChapter - 1]->
+						GetToolStage()[m_nowStage - 1]->
+						GetTileTool()[i][j]->Draw(window);
+				}
+			}
+		}
 	}
 }
 
@@ -501,7 +529,7 @@ void ToolScene::CreateBackGrounds()
 			{
 				TileBackground* tileBackground = new TileBackground();
 				tileBackground->SetTileBackground({ j,k },
-					{ WINDOW_WIDTH-51.f - (TILE_SIZE * k), 0.f + (TILE_SIZE * j) });
+					{ WINDOW_WIDTH - 51.f - (TILE_SIZE * k), 0.f + (TILE_SIZE * j) }, i + 1);
 
 				TileBackgroundList.push_back(tileBackground);
 				//objList.push_back(tileBackground);
@@ -605,11 +633,12 @@ void ToolScene::SetClickMode(ClickMode clickMode)
 		m_monster = -1;
 		break;
 	case ClickMode::Tile:
+		m_clickMode = clickMode;
 		m_nowObstacle = -1;
 		m_monster = -1;
 		break;
 	case ClickMode::Obstacle:
-		m_clickMode = ClickMode::Obstacle;
+		m_clickMode = clickMode;
 		m_nowTileSet = -1;
 		m_monster = -1;
 		break;
