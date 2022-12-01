@@ -76,6 +76,20 @@ namespace ns {
 	void from_json(const json& j, TileData& b);
 }
 
+namespace ns {
+	struct BackGroundData
+	{
+		sf::Vector2i arrIndex;
+
+		int TileTypes;
+		int ThemeTypes;
+		int pathIndex;
+	};
+
+	void to_json(json& j, const TileData& b);
+	void from_json(const json& j, TileData& b);
+}
+
 struct Chapters
 {
 	vector<vector< vector<vector<ns::TileData>>>> data;

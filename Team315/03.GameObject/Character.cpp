@@ -99,8 +99,10 @@ void Character::Update(float dt)
 			if (m_attackDelay <= 0.f)
 			{
 				SetState(AnimStates::Attack);
-				dynamic_cast<Character*>(m_floodFill.GetNearEnemy(mainGrid, mypos, targetType))->TakeDamage(this);
-
+				//dynamic_cast<Character*>(m_floodFill.GetNearEnemy(mainGrid, mypos, targetType))->TakeDamage(this);
+				m_target = m_floodFill.GetNearEnemy(mainGrid, mypos, targetType);
+				//dynamic_cast<Character*>(m_target)->TakeDamage(this);
+				dynamic_cast<Character*>(GetTarget())->TakeDamage(this);
 				attack = true;
 				Stat& mp = stat[Stats::MP];
 				mp.TranslateCurrent(15.f);
