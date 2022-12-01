@@ -1,11 +1,13 @@
 #include "GameManager.h"
 #include "Map/Tile.h"
 #include "GameObj.h"
-#include "CharacterHeaders.h"
+#include "GameObjHeaders.h"
 
 GameManager::GameManager()
-	: battleCharacterCount(8), extraLevelUpChance(0), startCoin(50), // 6
-	characterCost(3), equipmentCost(5), currentCoin(startCoin)
+	: battleCharacterCount(8), extraLevelUpChance(0),
+	extraGradeUpChance(0), startCoin(50), // 6
+	characterCost(3), equipmentCost(5), currentCoin(startCoin),
+	hpIncreaseRate(1.6f), adIncreaseRate(1.5f), apIncreaseRate(1.6f), asIncrease(0.1f)
 {
 	CLOG::Print3String("GameManager Create");
 	m_tiles.assign(
@@ -14,6 +16,7 @@ GameManager::GameManager()
 			vector<vector<Tile*>>(GAME_TILE_HEIGHT,
 				vector<Tile*>(GAME_TILE_WIDTH))));
 	mainGrid = new vector<GameObj*>();
+
 	//battleTracker = new BattleTracker();
 }
 
@@ -42,6 +45,13 @@ GameManager::~GameManager()
 		delete character;
 	}
 	mainGrid->clear();
+}
+
+void GameManager::Init()
+{
+	currentCoin = startCoin;
+	extraLevelUpChance = 0;
+	extraGradeUpChance = 0;
 }
 
 Vector2i GameManager::PosToIdx(Vector2f pos)
@@ -163,12 +173,38 @@ Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
 	return SpawnPlayer("", random, drawingOnBattle);
 }
 
+Item* GameManager::SpawnItem(int typeIdx)
+{
+	Item* item = nullptr;
+	// 0 ~ 8, 2/9 armor, bow, staff, sword / 1/9 book
+	ItemType type = typeIdx == -1 ?
+		(ItemType) (Utils::RandomRange(0, 2 * ITEM_COUNT - 1) / 2) :
+		(ItemType) (typeIdx);
+	
+	switch (type)
+	{
+	case ItemType::Armor:
+		item = new Armor();
+		break;
+	case ItemType::Bow:
+		item = new Bow();
+		break;
+	case ItemType::Staff:
+		item = new Staff();
+		break;
+	case ItemType::Sword:
+		item = new Sword();
+		break;
+	case ItemType::Book:
+		item = new Book();
+		break;
+	}
+	return item;
+}
+
 void GameManager::Reset()
 {
 	mainGrid->assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
-	currentCoin = startCoin;
-	battleCharacterCount = 8;
-	extraLevelUpChance = 0;
 }
 
 void GameManager::SetCharacterDatas()
@@ -179,6 +215,18 @@ void GameManager::SetCharacterDatas()
 json GameManager::GetCharacterData(string name)
 {
 	return characterDatas[name];
+}
+
+void GameManager::RemoveFromMainGrid(GameObj* gameObj)
+{
+	for (auto& cell : *mainGrid)
+	{
+		if (cell != nullptr && (cell->GetObjId() == gameObj->GetObjId()))
+		{
+			cell = nullptr;
+			return;
+		}
+	}
 }
 
 // Battle Tracker

@@ -1,10 +1,9 @@
 #include "AStar.h"
 
 constexpr double INF = 1e9 + 7;
-int AStar::counter = 0;
 
 AStar::AStar()
-	:ROW(7), COL(14), count(0)
+	:ROW(7), COL(14), count(0), m_nearLeng(9999)
 {
 }
 
@@ -14,7 +13,6 @@ AStar::~AStar()
 
 EnemyInfo AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos)
 {
-	counter++;
 	/*if (count == 10)
 		enemyInfo.leng = -1;*/
 
@@ -99,6 +97,11 @@ EnemyInfo AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enP
 	return enemyInfo;
 }
 
+Vector2i AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, vector<Vector2i> GeneralArr)
+{
+	return Vector2i();
+}
+
 bool AStar::isDestination(int row, int col, Vector2i dst)
 {
 	if (row == dst.x && col == dst.y) return true;
@@ -140,7 +143,7 @@ void AStar::tracePath(Cell cellDetails[14][7], Vector2i enpos)
 
 	while (!s.empty()) 
 	{
-		zmap[s.top().x][s.top().y] = '*';
+	//	zmap[s.top().x][s.top().y] = '*';
 		enemyInfo.leng++;
 
 		if (s.size() == num-1)
@@ -168,30 +171,18 @@ void AStar::SetAstar(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos)
 			{
 				grid[i][j] = 1;
 			}
-			/*else if (!map[(i * ROW) + j]->GetType().compare("Player"))
-			{
-				grid[i][j] = 1;
-			}
-			else if (!map[(i * ROW) + j]->GetType().compare("Obstacle"))
-			{
-				grid[i][j] = 1;
-			}
-			else if (!map[(i * ROW) + j]->GetType().compare("Monster"))
-			{
-				grid[i][j] = 1;
-			}*/
 		}
 	}
 
 	grid[myPos.y][myPos.x] = 0;
 	grid[enPos.y][enPos.x] = 0;
 
-	for (int i = 0; i < COL; ++i)
-	{
-		for (int j = 0; j < ROW; ++j)
-		{
-			zmap[i][j] = grid[i][j] + '0';
-		}
-	}
+	//for (int i = 0; i < COL; ++i)
+	//{
+	//	for (int j = 0; j < ROW; ++j)
+	//	{
+	//		zmap[i][j] = grid[i][j] + '0';
+	//	}
+	//}
 
 }

@@ -35,7 +35,6 @@ void Object::Init()
 	hitbox.setFillColor(Color(255, 0, 0, 180));
 	hitbox.setOutlineColor(Color::Black);
 	hitbox.setOutlineThickness(1.f);
-	Reset();
 }
 
 void Object::Release()

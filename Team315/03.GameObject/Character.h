@@ -27,6 +27,7 @@ protected:
 	//Skill
 	float ccTimer; // Crowd control timer
 	float shieldAmount;
+	float shieldAmountMin;
 	bool noSkill;
 	Skill* skill;
 
@@ -35,14 +36,14 @@ protected:
 	bool attack;
 	bool isAlive;
 
-
 	float moveSpeed;
 	Vector2f direction;
 	Vector2f lastDirection;
-
 	float m_attackDelay;
+
 	//FloodFill
 	FloodFill m_floodFill;
+	vector<Vector2i> m_GeneralArr;
 
 	//Astar
 	AStar m_aStar;
@@ -50,7 +51,6 @@ protected:
 	string targetType;
 	bool isBattle;
 	float astarDelay;
-
 
 public:
 	Character(int starNumber = 0);
@@ -82,13 +82,17 @@ public:
 	float GetShieldAmount() { return shieldAmount; }
 	void UpgradeStar();
 	void UpgradeCharacterSet();
+	void UpgradeStats();
 	void SetNoSkill(bool b) { noSkill = b; };
 	bool GetNoSkill() { return noSkill; }
+	void SetShieldMinValue(float value) { shieldAmountMin = value; }
 
 	//battle
 	void IsSetState(AnimStates newState);
+	bool GetAttackRangeType() { return attackRangeType; };
 
 	//FloodFill
+	void SetGeneralArr();
 	unordered_map<Stats, Stat>& GetStat();
 	bool isAttack();
 

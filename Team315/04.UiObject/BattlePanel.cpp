@@ -42,7 +42,7 @@ BattlePanel::BattlePanel()
 		textLocalPos.x, textLocalPos.y);
 	equipment->SetTextStyle(Color::White, 20, Color::Black, 1.f);
 	expansionLocalPos = Vector2f(GAME_SCREEN_WIDTH * 0.75f, 200.f);
-	equipment->SetName("equipment");
+	equipment->SetName("item");
 
 	titleText = new TextObj(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"),
 		L"고블린 습격!     번째 침략",

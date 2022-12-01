@@ -7,7 +7,9 @@ class FloodFill:public RectangleObj
 protected:
 	vector<RectangleObj*> Areas;
 	vector<vector<int>> grid;
-	vector<vector<bool>> m_areaArr;
+
+	//vector<vector<Vector2i>> m_areaArrPos;
+	vector<vector<bool>> m_areaArr;//본인 공격범위
 
 	int m_count;
 	int m_Height;
@@ -30,14 +32,18 @@ public:
 	//그리드 받아와서 셋해줌
 	void SetFloodFill(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos, string targetType);
 
-	void GetGeneralInfo(vector<Character*>& map, string targetType);
+
+	/////////////////////////////////////////
+
+
+	void SetGeneralArr(vector<GameObj*>& map, string targetType);
+	vector<Vector2i> GetGeneralInfo(vector<GameObj*>& map, string targetType);
+
+	GameObj* GetNearEnemy(vector<GameObj*>& map, Vector2i myPos, string targetType);
 
 	bool isInRange(int col, int row);
 	bool isDestination(int grid);
 	bool IsAttack();
 
-
-	const int crossX[100] = { 0, 0, 0, 1, -1,-1, 1, };
-	const int crossY[100] = { 0, -1, 1, 0, 0,-1, -1 };
 };
 

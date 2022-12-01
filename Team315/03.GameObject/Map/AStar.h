@@ -23,7 +23,7 @@ class AStar
 protected:
 	int ROW;
 	int COL;
-	char zmap[14][7];
+	//char zmap[14][7];
 	vector<vector<int>> grid;
 
 	EnemyInfo enemyInfo;
@@ -34,14 +34,16 @@ protected:
 
 	Vector2i m_pair;
 	pair<double, Vector2i> m_pPair;
+
+	Vector2i m_nearEnPos;
+	int m_nearLeng;
 public:
-	static int counter;
 
 	AStar();
 	~AStar();
 
 	EnemyInfo AstarSearch(vector<GameObj*>& map,Vector2i myPos, Vector2i enPos);
-
+	Vector2i AstarSearch(vector<GameObj*>& map, Vector2i myPos, vector<Vector2i> GeneralArr);
 	//현재좌표가 도착지점과 일치하다면 참, 아니면 거짓을 반환하는 함수.
 	bool isDestination(int row, int col, Vector2i dst);
 

@@ -3,7 +3,7 @@
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	attackRangeType(false), isBattle(false),
-	noSkill(false), ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f)
+	noSkill(false), ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 5.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -53,11 +53,19 @@ void Character::Reset()
 	attack = false;
 	move = false;
 	isAlive = true;
+	Stat& hp = stat[Stats::HP];
+	hp.ResetStat();
+	shieldAmount = shieldAmountMin;
+	hpBar->SetRatio(hp.GetModifier(), hp.GetCurrent(), shieldAmount);
+	stat[Stats::MP].SetCurrent(0.f);
 	SetState(AnimStates::Idle);
 }
 
 void Character::Update(float dt)
 {
+	if (!isAlive)
+		return;
+
 	hpBar->Update(dt);
 	// Dev key start
 	{
@@ -83,14 +91,20 @@ void Character::Update(float dt)
 
 	if (isBattle)
 	{
+		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+		Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
+
 		if (!move && !attack && isAttack())
 		{
 			if (m_attackDelay <= 0.f)
 			{
 				SetState(AnimStates::Attack);
+				dynamic_cast<Character*>(m_floodFill.GetNearEnemy(mainGrid, mypos, targetType))->TakeDamage(this);
+
 				attack = true;
 				Stat& mp = stat[Stats::MP];
 				mp.TranslateCurrent(15.f);
+
 				if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
 				{
 					cout << name << " fire skill !" << endl;
@@ -168,6 +182,8 @@ void Character::SetStatsInit(json data)
 	stat.insert({ Stats::MS, Stat(data["MS"]) });
 	string arType = data["ARTYPE"];
 	attackRangeType = arType.compare("cross") ? true : false;
+
+	stat[Stats::AS].SetIsAddition(true);
 }
 
 void Character::TakeDamage(GameObj* attacker, bool attackType)
@@ -198,6 +214,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		// death
 		CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
 		isAlive = false;
+		GAME_MGR->RemoveFromMainGrid(this);
 	}
 }
 
@@ -220,8 +237,7 @@ void Character::UpgradeStar()
 		CLOG::Print3String("upgrade 2");
 	star->UpdateTexture();
 	UpgradeCharacterSet();
-
-	// upgrade stat
+	UpgradeStats();
 
 	m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
 }
@@ -233,6 +249,14 @@ void Character::UpgradeCharacterSet()
 		1.0f + (GetStarNumber() * 0.05f) });
 }
 
+void Character::UpgradeStats()
+{
+	stat[Stats::HP].UpgradeBase(GAME_MGR->hpIncreaseRate);
+	stat[Stats::AD].UpgradeBase(GAME_MGR->adIncreaseRate);
+	stat[Stats::AP].UpgradeBase(GAME_MGR->apIncreaseRate);
+	stat[Stats::AS].UpgradeBase(GAME_MGR->asIncrease);
+}
+
 void Character::IsSetState(AnimStates newState)
 {
 	if (newState != AnimStates::Attack && currState == AnimStates::Attack)
@@ -240,6 +264,22 @@ void Character::IsSetState(AnimStates newState)
 		attack = false;
 		m_attackDelay = 1.f / stat[Stats::AS].GetModifier();
 	}
+}
+
+void Character::SetGeneralArr()
+{
+
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+
+	//for (auto& target : mainGrid)
+	//{
+	//	if (target != nullptr && !target->GetType().compare(targetType))
+	//	{
+
+			m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
+
+	//	}
+	//}
 }
 
 unordered_map<Stats, Stat>& Character::GetStat()
@@ -259,7 +299,9 @@ bool Character::isAttack()
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 
 			if (m_floodFill.FloodFillSearch(mainGrid, mypos, enpos, targetType))
+			{
 				return true;
+			}
 		}
 	}
 
@@ -277,6 +319,8 @@ bool Character::PlayAstar()
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
+
+
 
 			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
 			{
@@ -311,6 +355,8 @@ bool Character::SetTargetDistance()
 			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
+
+			m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
 
 			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
 			{

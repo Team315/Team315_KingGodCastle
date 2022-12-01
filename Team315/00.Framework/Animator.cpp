@@ -26,7 +26,6 @@ void Animator::AddClip(const AnimationClip& newClip)
     {
         return;
     }
-    //cout << newClip.id << endl;
     clips[newClip.id] = newClip;
 }
 
@@ -94,7 +93,6 @@ void Animator::SetFrame(const AnimationFrame& frame)
     target->setTexture(*frame.texture);
     target->setTextureRect(frame.coord);
     target->setOrigin(frame.origin);
-    //target->setRotation(90.f);
 
     Vector2f scale = target->getScale();
     scale.x = abs(scale.x) * (frame.flipX ? -1 : 1);
@@ -104,8 +102,6 @@ void Animator::SetFrame(const AnimationFrame& frame)
 
 void Animator::Play(string id, bool clearQueue)
 {
-    //if("Shelda_Skill_Effect" == id)
-    //    cout << id << endl;
     if (clearQueue)
     {
         ClearPlayQueue();
