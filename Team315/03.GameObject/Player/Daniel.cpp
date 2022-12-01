@@ -17,6 +17,7 @@ void Daniel::Init()
 {
 	animator.SetTarget(&sprite);
 	attackEffect.SetTarget(&attackSprite);
+	
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Idle"));
 
@@ -45,7 +46,7 @@ void Daniel::Init()
 	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_RightAttack_Effect"));
 	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_UpAttack_Effect"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Skill_Effect"));
+	
 
 	{
 		AnimationEvent ev;
@@ -131,14 +132,24 @@ void Daniel::Init()
 		ev.onEvent = bind(&Daniel::OnCompleteSkill, this);
 		animator.AddEvent(ev);
 	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Daniel_Skill_Effect";
-		ev.frame = 8;
-		ev.onEvent = bind(&Daniel::OnCompleteSkill, this);
-		attackEffect.AddEvent(ev);
-	}
 
+	for (int i = 0; i < 25; ++i)
+	{
+		Sprite* skillSpriteArr = new Sprite();
+		Animator* skillEffectArr = new Animator();
+		skillEffectArr->SetTarget(skillSpriteArr);
+		skillEffectArr->AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Skill_Effect"));
+		{
+			AnimationEvent ev;
+			ev.clipId = "Daniel_Skill_Effect";
+			ev.frame = 8;
+			ev.onEvent = bind(&Daniel::OnCompleteSkill, this);
+			skillEffectArr->AddEvent(ev);
+		}
+		skillEffect.push_back(skillEffectArr);
+		skillSprite.push_back(skillSpriteArr);
+	}
+	
 	SetState(AnimStates::Idle);
 	Character::Init();
 }
@@ -172,6 +183,10 @@ void Daniel::Update(float dt)
 	}
 	animator.Update(dt);
 	attackEffect.Update(dt);
+	for (int i = 0; i < 25; ++i)
+	{
+		skillEffect[i]->Update(dt);
+	}
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -182,6 +197,10 @@ void Daniel::Update(float dt)
 void Daniel::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
+	for (auto skills : skillSprite)
+	{
+		window.draw(*skills);
+	}
 }
 
 void Daniel::SetPos(const Vector2f& pos)
@@ -260,12 +279,43 @@ void Daniel::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Daniel_RightSkill" : "Daniel_LeftSkill");
-			attackEffect.Play("Daniel_Skill_Effect");
+			
+
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Daniel_DownSkill" : "Daniel_UpSkill");
-			attackEffect.Play("Daniel_Skill_Effect");
+		}
+		Vector2f vec = GetTarget()->GetPos();
+		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+		Vector2i targetPos = GAME_MGR->PosToIdx(GetPos());
+		if (mainGrid[targetPos.y * 7 + targetPos.x + 1] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 1]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 1])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 1])->GetPos();
+			skillSprite[0]->setPosition(pos);
+			skillEffect[0]->Play("Daniel_Skill_Effect");
+		}
+		if (mainGrid[targetPos.y * 7 + targetPos.x - 1] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x - 1]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 1])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 1])->GetPos();
+			skillSprite[1]->setPosition(pos);
+			skillEffect[1]->Play("Daniel_Skill_Effect");
+		}
+		if (mainGrid[targetPos.y * 7 + targetPos.x + 7] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 7]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 7])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 7])->GetPos();
+			skillSprite[2]->setPosition(pos);
+			skillEffect[2]->Play("Daniel_Skill_Effect");
+		}
+		if (mainGrid[targetPos.y * 7 + targetPos.x - 7] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x - 7]->GetType().compare(targetType))
+		{
+			dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 7])->TakeDamage(this);
+			Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 7])->GetPos();
+			skillSprite[3]->setPosition(pos);
+			skillEffect[3]->Play("Daniel_Skill_Effect");
 		}
 		break;
 	}
