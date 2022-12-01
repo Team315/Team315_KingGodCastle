@@ -14,7 +14,7 @@ class Character : public GameObj
 protected:
 	Animator attackEffect;
 	Sprite attackSprite;
-	unordered_map<Stats, Stat> stat;
+	unordered_map<StatType, Stat> stat;
 	bool attackRangeType; // true square, false cross
 
 	// UI
@@ -72,7 +72,7 @@ public:
 	}
 	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
 	int GetStarNumber() { return star->GetStarNumber(); }
-	Stat& GetStat(Stats statsEnum) { return stat[statsEnum]; }
+	Stat& GetStat(StatType statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
 	// attackType, true = ad / false = ap
 	void TakeDamage(GameObj* attacker, bool attackType = true);
@@ -92,8 +92,6 @@ public:
 	bool GetAttackRangeType() { return attackRangeType; };
 
 	//FloodFill
-	void SetGeneralArr();
-	unordered_map<Stats, Stat>& GetStat();
 	bool isAttack();
 
 	//Astar

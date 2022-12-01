@@ -32,7 +32,8 @@ struct Stat
 
 	void UpdateStat()
 	{
-		modifier = base + delta;
+		
+		modifier = isAddition ? base + delta : base * delta;
 		ResetStat();
 	}
 
@@ -47,10 +48,7 @@ struct Stat
 
 	void UpgradeDelta(float upgradeFactor)
 	{
-		if (isAddition)
-			delta += upgradeFactor;
-		else
-			delta *= upgradeFactor;
+		delta += upgradeFactor;
 		UpdateStat();
 	}
 

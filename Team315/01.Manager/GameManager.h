@@ -3,6 +3,7 @@
 #include <vector>
 #include <queue>
 #include "FileManager.h"
+#include <unordered_map>
 
 //struct DamageData;
 //class BattleTracker;
@@ -25,6 +26,8 @@ protected:
 	// When the game starts, the characters on the battleGrid are also taken.
 	vector<GameObj*>* mainGrid;
 
+	unordered_map<StatType, vector<float>> itemStatMap;
+
 	//BattleTracker* battleTracker;
 
 	// Additional level up probability (Character)
@@ -42,6 +45,7 @@ public:
 	void Init();
 	const int GetCharacterCount() { return battleCharacterCount; }
 	const int GetExtraLevelUpChance() { return extraLevelUpChance; }
+	const int GetExtraGradeUpChance() { return extraGradeUpChance; }
 
 	Vector2i PosToIdx(Vector2f pos);
 	Vector2f IdxToPos(Vector2i idx);
@@ -70,7 +74,7 @@ public:
 	void TranslateCoin(int coin) { currentCoin += coin; }
 
 	const int characterCost;
-	const int equipmentCost;
+	const int itemCost;
 
 	// Stat increase rate when upgrading, (todo: file input)
 	const float hpIncreaseRate;
@@ -79,6 +83,8 @@ public:
 	const float asIncrease;
 
 	//BattleTracker*& GetTracker();
+
+	float GetItemStatMapElem(StatType statType, int grade);
 };
 
 #define GAME_MGR (GameManager::GetInstance())

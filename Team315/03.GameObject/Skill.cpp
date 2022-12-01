@@ -41,5 +41,5 @@ void Skill::SetState(AnimStates newState)
 
 void Skill::CalculateDamage(Character* character)
 {
-	damage = baseDamage[(starNumber + 1) / 2] * character->GetStat(Stats::AP).GetModifier();
+	damage = baseDamage[(starNumber + 1) / 2] * character->GetStat(StatType::AP).GetModifier();
 }
