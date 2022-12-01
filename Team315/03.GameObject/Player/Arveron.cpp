@@ -189,6 +189,12 @@ void Arveron::Draw(RenderWindow& window)
 	}
 	hpBar->Draw(window);
 	star->Draw(window);
+
+	for (auto& grid : itemGrid)
+	{
+		if (grid->GetActive())
+			grid->Draw(window);
+	}
 }
 
 void Arveron::SetPos(const Vector2f& pos)

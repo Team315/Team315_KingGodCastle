@@ -11,8 +11,8 @@ RectangleObj::~RectangleObj()
 
 void RectangleObj::Draw(RenderWindow& window)
 {
-	Object::Draw(window);
 	window.draw(shape);
+	Object::Draw(window);
 }
 
 void RectangleObj::SetTexture(Texture* tex)

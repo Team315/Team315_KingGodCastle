@@ -1,25 +1,29 @@
 #include "Item.h"
 
 Item::Item(int grade, ItemType type)
-	: grade(grade), type(type), potential(0.f), statType(StatType::None)
+	: grade(grade), itemType(type), potential(0.f), statType(StatType::None)
 {
 	SetType("Item");
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(MakePath()), true);
 	SetOrigin(Origins::BC);
-	if (type != ItemType::Book)
-		potential = GAME_MGR->GetItemStatMapElem(statType, grade);
 
-	switch (type)
+	switch (itemType)
 	{
 	case ItemType::Armor:
 		statType = StatType::HP;
+		break;
 	case ItemType::Bow:
 		statType = StatType::AS;
+		break;
 	case ItemType::Staff:
 		statType = StatType::AP;
+		break;
 	case ItemType::Sword:
 		statType = StatType::AD;
+		break;
 	}
+	//if (itemType != ItemType::Book)
+		potential = GAME_MGR->GetItemStatMapElem(statType, grade);
 }
 
 Item::~Item()
@@ -54,7 +58,7 @@ string Item::MakePath()
 {
 	string path = "graphics/battleScene/Item_";
 
-	switch (type)
+	switch (itemType)
 	{
 	case ItemType::Armor:
 		path += "Armor";
@@ -68,9 +72,9 @@ string Item::MakePath()
 	case ItemType::Sword:
 		path += "Sword";
 		break;
-	case ItemType::Book:
+	/*case ItemType::Book:
 		path += "Book";
-		break;
+		break;*/
 	default:
 		cout << "fail" << endl;
 		return "fail";
@@ -81,7 +85,8 @@ string Item::MakePath()
 
 bool Item::Upgrade()
 {
-	int gradeLimit = type == ItemType::Book ? 2 : 3;
+	//int gradeLimit = itemType == ItemType::Book ? 2 : 3;
+	int gradeLimit = 3;
 	bool ret = false;
 	if (grade < gradeLimit)
 	{
@@ -89,7 +94,7 @@ bool Item::Upgrade()
 		grade++;
 		sprite.setTexture(*RESOURCE_MGR->GetTexture(MakePath()), true);
 		SetOrigin(Origins::BC);
-		if (type != ItemType::Book)
+		//if (itemType != ItemType::Book)
 			potential = GAME_MGR->GetItemStatMapElem(statType, grade);
 	}
 	return ret;

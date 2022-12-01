@@ -1,4 +1,6 @@
 #include "Character.h"
+#include "Item/Item.h"
+#include "Skill.h"
 
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
@@ -12,6 +14,15 @@ Character::Character(int starNumber)
 	hpBar->SetSecondProgressColor(Color::White);
 
 	star = new Star(starNumber);
+	itemGrid.assign(ITEM_LIMIT, nullptr);
+	for (auto& grid : itemGrid)
+	{
+		grid = new SpriteGrid(8.f, 8.f);
+		grid->SetOutline(Color(0, 0, 0, 100.f), -0.5f);
+		grid->SetFillColor(Color(0, 0, 0, 0.f));
+		grid->SetOrigin(Origins::BC);
+		grid->SetActive(false);
+	}
 }
 
 Character::~Character()
@@ -155,14 +166,26 @@ void Character::Draw(RenderWindow& window)
 	window.draw(attackSprite);
 	hpBar->Draw(window);
 	star->Draw(window);
+	for (auto& grid : itemGrid)
+	{
+		if (grid->GetActive())
+			grid->Draw(window);
+	}
 }
 
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	attackSprite.setPosition(GetPos());
+	attackSprite.setPosition(pos);
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
+	
+	float xDelta = -12.f;
+	for (auto& grid : itemGrid)
+	{
+		grid->SetPos(pos + hpBarLocalPos + Vector2f(xDelta, -10.f));
+		xDelta += 30.f;
+	}
 }
 
 void Character::SetState(AnimStates newState)
@@ -183,7 +206,8 @@ void Character::SetStatsInit(json data)
 	string arType = data["ARTYPE"];
 	attackRangeType = arType.compare("cross") ? true : false;
 
-	stat[StatType::AS].SetIsAddition(true);
+	stat[StatType::AS].SetUpgradeMode(true);
+	stat[StatType::AD].SetDeltaMode(true);
 }
 
 void Character::TakeDamage(GameObj* attacker, bool attackType)
@@ -255,6 +279,60 @@ void Character::UpgradeStats()
 	stat[StatType::AD].UpgradeBase(GAME_MGR->adIncreaseRate);
 	stat[StatType::AP].UpgradeBase(GAME_MGR->apIncreaseRate);
 	stat[StatType::AS].UpgradeBase(GAME_MGR->asIncrease);
+}
+
+bool Character::SetItem(Item* item)
+{
+	if (items.size() >= ITEM_LIMIT)
+	{
+		// can combinate ? -> true
+
+		return false;
+	}
+	items.push_back(item);
+
+	string path = "graphics/battleScene/Item_";
+
+	ItemType iType = item->GetItemType();
+	StatType sType = item->GetStatType();
+	switch (iType)
+	{
+	case ItemType::Armor:
+		path += "Armor";
+		shieldAmountMin = item->GetPotential();
+		shieldAmount = item->GetPotential();
+		hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+		break;
+	case ItemType::Bow:
+		path += "Bow";
+		stat[sType].AddDelta(item->GetPotential());
+		break;
+	case ItemType::Staff:
+		path += "Staff";
+		stat[sType].AddDelta(item->GetPotential());
+		break;
+	case ItemType::Sword:
+		path += "Sword";
+		stat[sType].AddDelta(item->GetPotential());
+		break;
+	/*case ItemType::Book:
+		path += "Book";
+		break;*/
+	}
+	path += (to_string(item->GetGrade()) + ".png");
+
+	for (auto& grid : itemGrid)
+	{
+		if (!grid->GetActive())
+		{
+			grid->SetActive(true);
+			grid->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
+			SetPos(position);
+			grid->SetOrigin(Origins::BC);
+			break;
+		}
+	}
+	return true;
 }
 
 void Character::IsSetState(AnimStates newState)

@@ -90,8 +90,13 @@
     <ClCompile Include="03.GameObject\Map\FloodFill.cpp" />
     <ClCompile Include="04.UiObject\TwoFactorProgress.cpp" />
     <ClCompile Include="03.GameObject\Bullet.cpp" />
-    <ClCompile Include="03.GameObject\Item.cpp" />
     <ClCompile Include="03.GameObject\Character.cpp" />
+    <ClCompile Include="03.GameObject\Item\Item.cpp" />
+    <ClCompile Include="03.GameObject\Item\Armor.cpp" />
+    <ClCompile Include="03.GameObject\Item\Bow.cpp" />
+    <ClCompile Include="03.GameObject\Item\Sword.cpp" />
+    <ClCompile Include="03.GameObject\Item\Staff.cpp" />
+    <ClCompile Include="04.UiObject\SpriteGrid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -155,7 +160,6 @@
     <ClInclude Include="03.GameObject\Map\AStar.h" />
     <ClInclude Include="03.GameObject\Player\Daniel.h" />
     <ClInclude Include="03.GameObject\Obstacle.h" />
-    <ClInclude Include="99.Include\CharacterHeaders.h" />
     <ClInclude Include="03.GameObject\Player\Pria.h" />
     <ClInclude Include="03.GameObject\Player\Arveron.h" />
     <ClInclude Include="03.GameObject\Player\LeonHeart.h" />
@@ -192,8 +196,14 @@
     <ClInclude Include="03.GameObject\Map\FloodFill.h" />
     <ClInclude Include="04.UiObject\TwoFactorProgress.h" />
     <ClInclude Include="03.GameObject\Bullet.h" />
-    <ClInclude Include="03.GameObject\Item.h" />
     <ClInclude Include="03.GameObject\Character.h" />
+    <ClInclude Include="99.Include\GameObjHeaders.h" />
+    <ClInclude Include="03.GameObject\Item\Item.h" />
+    <ClInclude Include="03.GameObject\Item\Armor.h" />
+    <ClInclude Include="03.GameObject\Item\Bow.h" />
+    <ClInclude Include="03.GameObject\Item\Sword.h" />
+    <ClInclude Include="03.GameObject\Item\Staff.h" />
+    <ClInclude Include="04.UiObject\SpriteGrid.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

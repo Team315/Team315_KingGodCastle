@@ -190,7 +190,7 @@ Item* GameManager::SpawnItem(int typeIdx)
 	Item* item = nullptr;
 	// 0 ~ 8, 2/9 armor, bow, staff, sword / 1/9 book
 	ItemType type = typeIdx == -1 ?
-		(ItemType) (Utils::RandomRange(0, 2 * ITEM_COUNT - 1) / 2) :
+		(ItemType) (Utils::RandomRange(0, 2 * ITEM_COUNT) / 2) :
 		(ItemType) (typeIdx);
 
 	switch (type)
@@ -205,11 +205,12 @@ Item* GameManager::SpawnItem(int typeIdx)
 		item = new Staff();
 		break;
 	case ItemType::Sword:
+	default:
 		item = new Sword();
 		break;
-	case ItemType::Book:
+	/*case ItemType::Book:
 		item = new Book();
-		break;
+		break;*/
 	}
 	return item;
 }

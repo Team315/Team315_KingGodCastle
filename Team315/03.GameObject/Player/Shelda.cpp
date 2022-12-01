@@ -193,8 +193,6 @@ void Shelda::Update(float dt)
 void Shelda::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
-	//skill->Draw(window);
-	//cout<<skill->GetPos().y << endl;
 }
 
 void Shelda::SetPos(const Vector2f& pos)

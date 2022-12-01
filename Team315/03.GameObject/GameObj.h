@@ -15,5 +15,4 @@ public:
 
 	virtual void Init() override;
 	virtual void SetState(AnimStates newState);
-	Animator GetSkillAnimator() { return animator; }
 };

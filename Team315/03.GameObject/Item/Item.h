@@ -5,7 +5,7 @@ class Item : public GameObj
 {
 protected:
 	int grade;
-	ItemType type;
+	ItemType itemType;
 	float potential;
 	StatType statType;
 
@@ -21,6 +21,7 @@ public:
 	virtual void ApplyToCharacter(Character* character);
 
 	string MakePath();
+	ItemType GetItemType() { return itemType; }
 	int GetGrade() { return grade; }
 	float GetPotential() { return potential; }
 	StatType GetStatType() { return statType; }

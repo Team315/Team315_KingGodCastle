@@ -33,3 +33,4 @@
 #define PREPARE_SIZE (14)
 #define PRESET_SIZE (6)
 #define BATTLE_GRID_ROW (4)
+#define ITEM_LIMIT (3)

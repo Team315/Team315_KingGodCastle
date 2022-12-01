@@ -6,8 +6,10 @@
 #include <unordered_map>
 #include "Map/FloodFill.h"
 #include "Map/AStar.h"
-#include "Bullet.h"
-#include "Skill.h"
+#include "SpriteGrid.h"
+
+class Item;
+class Skill;
 
 class Character : public GameObj
 {
@@ -16,6 +18,8 @@ protected:
 	Sprite attackSprite;
 	unordered_map<StatType, Stat> stat;
 	bool attackRangeType; // true square, false cross
+	vector<Item*> items;
+	vector<SpriteGrid*> itemGrid;
 
 	// UI
 	TwoFactorProgress* hpBar;
@@ -86,6 +90,8 @@ public:
 	void SetNoSkill(bool b) { noSkill = b; };
 	bool GetNoSkill() { return noSkill; }
 	void SetShieldMinValue(float value) { shieldAmountMin = value; }
+	bool SetItem(Item* item);
+	vector<Item*>& GetItems() { return items; }
 
 	//battle
 	void IsSetState(AnimStates newState);

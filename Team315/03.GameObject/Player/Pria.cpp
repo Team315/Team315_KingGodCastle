@@ -195,6 +195,12 @@ void Pria::Draw(RenderWindow& window)
 	}	
 	hpBar->Draw(window);
 	star->Draw(window);
+
+	for (auto& grid : itemGrid)
+	{
+		if (grid->GetActive())
+			grid->Draw(window);
+	}
 }
 
 void Pria::SetPos(const Vector2f& pos)

@@ -253,7 +253,7 @@
     <ClInclude Include="03.GameObject\Item\Bow.h" />
     <ClInclude Include="03.GameObject\Item\Sword.h" />
     <ClInclude Include="03.GameObject\Item\Staff.h" />
-    <ClInclude Include="03.GameObject\Item\Book.h" />
+    <ClInclude Include="04.UiObject\SpriteGrid.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="03.GameObject\GameObj.cpp" />
@@ -304,7 +304,7 @@
     <ClCompile Include="03.GameObject\Character.cpp" />
     <ClCompile Include="03.GameObject\Item\Armor.cpp" />
     <ClCompile Include="03.GameObject\Item\Bow.cpp" />
-    <ClCompile Include="03.GameObject\Item\Book.cpp" />
+    <ClCompile Include="04.UiObject\SpriteGrid.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />

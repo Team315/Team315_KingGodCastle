@@ -9,6 +9,8 @@
 #include "Map/FloodFill.h"
 #include "RectangleObj.h"
 
+using namespace std;
+
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(10),
 	curChapIdx(0), curStageIdx(0), playingBattle(false)
@@ -595,9 +597,12 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 				if ((!playingBattle) || (start == dest))
 				{
 					CLOG::Print3String("character combinate");
+
 					(*dest)[destIdx] = nullptr;
-					destCharacter->Release();
-					delete destCharacter;
+					Character* temp = dynamic_cast<Character*>(pick);
+					pick = destCharacter;
+					temp->Release();
+					delete temp;
 					dynamic_cast<Character*>(pick)->UpgradeStar();
 				}
 				else
@@ -670,14 +675,13 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 				canMove = false;
 			}
 		}
-
-		if (canMove)
-		{
-			// swap in vector container
-			GameObj* temp = (*dest)[destIdx];
-			(*dest)[destIdx] = pick;
-			(*start)[startIdx] = temp;
-		}
+	}
+	if (canMove)
+	{
+		// swap in vector container
+		GameObj* temp = (*dest)[destIdx];
+		(*dest)[destIdx] = pick;
+		(*start)[startIdx] = temp;
 	}
 	pick->SetPos(GAME_MGR->IdxToPos(canMove ? destCoord : startCoord));
 }
@@ -688,14 +692,46 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 	int destIdx = GetIdxFromCoord(destCoord);
 	bool canMove = true;
 
-	if (dest == &battleGrid)
-	{
-		canMove = false;
-		cout << "equipment to the character in battleGrid" << endl;
-	}
-	else if (startCoord == destCoord)
+	if (startCoord == destCoord)
 	{
 		cout << "item pop up" << endl;
+		Item* destItem = dynamic_cast<Item*>((*dest)[destIdx]);
+		string str = "";
+		switch (destItem->GetStatType())
+		{
+		case StatType::HP:
+			str = "hp";
+			break;
+		case StatType::AD:
+			str = "ad";
+			break;
+		case StatType::AP:
+			str = "ap";
+			break;
+		case StatType::AS:
+			str = "as";
+			break;
+		}
+
+		cout << str << " " << destItem->GetPotential() << endl;
+	}
+	else if (dest == &battleGrid)
+	{
+		if ((*dest)[destIdx] != nullptr && IsCharacter((*dest)[destIdx]))
+		{
+			// give a item
+			
+			Character* destCharacter = dynamic_cast<Character*>((*dest)[destIdx]);
+			if (destCharacter->SetItem(dynamic_cast<Item*>(pick)))
+			{
+				(*start)[startIdx] = nullptr;
+			}
+		}
+		else
+		{
+			cout << "equipment to the character in battleGrid" << endl;
+		}
+		canMove = false;
 	}
 	else
 	{
@@ -771,13 +807,13 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 				canMove = false;
 			}
 		}
-		if (canMove)
-		{
-			// swap in vector container
-			GameObj* temp = (*dest)[destIdx];
-			(*dest)[destIdx] = pick;
-			(*start)[startIdx] = temp;
-		}
+	}
+	if (canMove)
+	{
+		// swap in vector container
+		GameObj* temp = (*dest)[destIdx];
+		(*dest)[destIdx] = pick;
+		(*start)[startIdx] = temp;
 	}
 	pick->SetPos(GAME_MGR->IdxToPos(canMove ? destCoord : startCoord));
 }
