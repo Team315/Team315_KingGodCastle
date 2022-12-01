@@ -2,7 +2,6 @@
 
 EvanSkill::EvanSkill()
 {
-	
 }
 
 EvanSkill::~EvanSkill()
@@ -13,7 +12,8 @@ void EvanSkill::Init()
 {
 	Skill::Init();
 
-	SetTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/evan_SkillEffect.png"));
+	sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/evan_SkillEffect.png"));
+	//sprite.setScale(1.f, 0.3f);
 }
 
 void EvanSkill::Update(float dt)
@@ -32,7 +32,7 @@ void EvanSkill::SetPos(const Vector2f& pos)
 	Skill::SetPos(pos);
 }
 
-void EvanSkill::SetState(AnimStates newState)
+void EvanSkill::SetRotation(Vector2f dir)
 {
-	Skill::SetState(newState);
+	Skill::SetRotation(dir);
 }

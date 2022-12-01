@@ -30,3 +30,7 @@ void SheldaSkill::Draw(RenderWindow& window)
 {
 	Skill::Draw(window);
 }
+
+void SheldaSkill::SetPos(const Vector2f& pos)
+{
+}

@@ -1,8 +1,10 @@
 #include "Daniel.h"
+#include "Skill/DanielSkill.h"
 
 Daniel::Daniel(int starNumber)
 	: Character(starNumber)
 {
+	//skill = new DanielSkill();
 	SetType("Player");
 	SetName("Daniel");
 }
@@ -42,6 +44,8 @@ void Daniel::Init()
 	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_LeftAttack_Effect"));
 	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_RightAttack_Effect"));
 	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_UpAttack_Effect"));
+
+	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Skill_Effect"));
 
 	{
 		AnimationEvent ev;
@@ -126,6 +130,13 @@ void Daniel::Init()
 		ev.frame = 3;
 		ev.onEvent = bind(&Daniel::OnCompleteSkill, this);
 		animator.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "Daniel_Skill_Effect";
+		ev.frame = 8;
+		ev.onEvent = bind(&Daniel::OnCompleteSkill, this);
+		attackEffect.AddEvent(ev);
 	}
 
 	SetState(AnimStates::Idle);
@@ -249,10 +260,12 @@ void Daniel::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Daniel_RightSkill" : "Daniel_LeftSkill");
+			attackEffect.Play("Daniel_Skill_Effect");
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Daniel_DownSkill" : "Daniel_UpSkill");
+			attackEffect.Play("Daniel_Skill_Effect");
 		}
 		break;
 	}
