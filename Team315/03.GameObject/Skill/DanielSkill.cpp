@@ -11,6 +11,7 @@ DanielSkill::~DanielSkill()
 void DanielSkill::Init()
 {
 	Skill::Init();
+	baseDamage = { 50, 60, 70, 80 };
 }
 
 void DanielSkill::Update(float dt)

@@ -2,7 +2,7 @@
 #include "Character.h"
 
 Skill::Skill()
-	: damage(0.f), startPos(0.f, 0.f), destPos(0.f, 0.f), starNumber(0)
+	: startPos(0.f, 0.f), destPos(0.f, 0.f), starNumber(0)
 {
 	baseDamage.resize(4);
 }
@@ -51,7 +51,9 @@ void Skill::SetState(AnimStates newState)
 	currState = newState;
 }
 
-void Skill::CalculateDamage(Character* character)
+float Skill::CalculateDamage(Character* character)
 {
-	damage = baseDamage[(starNumber + 1) / 2] * character->GetStat(StatType::AP).GetModifier();
+	if (character == nullptr || this == nullptr)
+		return 0.f;
+	return baseDamage[(starNumber + 1) / 2] + character->GetStat(StatType::AP).GetModifier();
 }

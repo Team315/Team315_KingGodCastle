@@ -11,7 +11,6 @@ protected:
 	vector<float> baseDamage; // skill base damage
 	vector<Vector2i> range;    // skill range
 
-	float damage;
 	Vector2i startPos;
 	Vector2i destPos;
 	int starNumber;
@@ -28,5 +27,5 @@ public:
 
 	virtual void SetState(AnimStates newState);
 	AnimStates GetState() { return currState; }
-	void CalculateDamage(Character* character);
+	float CalculateDamage(Character* character);
 };

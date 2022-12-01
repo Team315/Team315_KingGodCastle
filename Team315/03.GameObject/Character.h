@@ -99,6 +99,7 @@ public:
 	void IsSetState(AnimStates newState);
 	bool GetAttackRangeType() { return attackRangeType; };
 	GameObj* GetTarget() { return m_target; };
+	Skill* GetSkill() { return skill; }
 
 	//FloodFill
 	bool isAttack();

@@ -27,6 +27,9 @@ Character::Character(int starNumber)
 
 Character::~Character()
 {
+	hpBar->Release();
+	star->Release();
+	delete skill;
 }
 
 void Character::Init()
@@ -122,6 +125,8 @@ void Character::Update(float dt)
 				{
 					cout << name << " fire skill !" << endl;
 					SetState(AnimStates::Skill);
+					// 범위 지정 할 것
+					dynamic_cast<Character*>(GetTarget())->TakeDamage(this, false);
 					mp.SetCurrent(0.f);
 				}
 			}
@@ -219,7 +224,8 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	if (attackType)
 		damage = dynamic_cast<Character*>(attacker)->GetStat(StatType::AD).GetModifier();
 	else
-		damage = dynamic_cast<Character*>(attacker)->GetStat(StatType::AP).GetModifier();
+		damage = dynamic_cast<Character*>(attacker)->GetSkill()->CalculateDamage(this);
+		//damage = dynamic_cast<Character*>(attacker)->GetStat(StatType::AP).GetModifier();
 
 	if (shieldAmount > 0.f)
 	{

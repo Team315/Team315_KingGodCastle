@@ -10,7 +10,7 @@ AramisSkill::~AramisSkill()
 
 void AramisSkill::Init()
 {
-	
+	baseDamage = { 0, 0, 0, 0 };
 }
 
 void AramisSkill::Update(float dt)

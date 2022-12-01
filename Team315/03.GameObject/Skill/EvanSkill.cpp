@@ -12,6 +12,7 @@ void EvanSkill::Init()
 {
 	Skill::Init();
 
+	baseDamage = { 20, 35, 50, 65 };
 	sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/evan_SkillEffect.png"));
 	//sprite.setScale(1.f, 0.3f);
 }
