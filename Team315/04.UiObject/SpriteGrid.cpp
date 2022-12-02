@@ -30,13 +30,13 @@ void SpriteGrid::SetPos(const Vector2f& pos)
 void SpriteGrid::SetSpriteScale(float x, float y)
 {
 	FloatRect fr = (FloatRect)sprite.getTextureRect();
-	float width = 8.f / fr.width;
-	float height = 8.f / fr.height;
+	float width = x / fr.width;
+	float height = y / fr.height;
 	float min = width > height ? height : width;
 	sprite.setScale(min, min);
 }
 
-void SpriteGrid::SetSpriteTexture(Texture& tex)
+void SpriteGrid::SetSpriteTexture(Texture& tex, bool resetRect)
 {
-	sprite.setTexture(tex, true);
+	sprite.setTexture(tex, resetRect);
 }

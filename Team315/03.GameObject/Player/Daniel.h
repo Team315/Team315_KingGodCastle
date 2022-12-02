@@ -4,6 +4,9 @@
 class Daniel : public Character
 {
 protected:
+	vector<Animator*> skillEffect;
+	vector<Sprite*> skillSprite;
+
 public:
 	Daniel(int starNumber = 0);
 	virtual ~Daniel();

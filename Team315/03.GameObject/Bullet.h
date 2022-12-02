@@ -2,6 +2,7 @@
 #include "SpriteObj.h"
 #include "Include.h"
 
+class Character;
 class Bullet : public SpriteObj
 {
 protected:

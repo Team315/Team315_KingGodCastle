@@ -14,7 +14,7 @@ Pria::~Pria()
 void Pria::Init()
 {
 	animator.SetTarget(&sprite);
-	attackEffect.SetTarget(&attackSprite);
+	effectAnimator.SetTarget(&effectSprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_Idle"));
 
@@ -38,38 +38,38 @@ void Pria::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpSkill"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_DownAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_LeftAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_DownAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_LeftAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpAttack_Effect"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_Skill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_Skill_Effect"));
 
 	{
 		AnimationEvent ev;
 		ev.clipId = "Pria_DownAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Pria_LeftAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Pria_RightAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Pria_UpAttack";
-		ev.frame = 3;
+		ev.frame = 2;
 		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
 		animator.AddEvent(ev);
 	}
@@ -78,28 +78,28 @@ void Pria::Init()
 		ev.clipId = "Pria_DownAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Pria_LeftAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Pria_RightAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Pria_UpAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
@@ -134,9 +134,25 @@ void Pria::Init()
 		ev.clipId = "Pria_Skill_Effect";
 		ev.frame = 2;
 		ev.onEvent = bind(&Pria::OnCompleteSkill, this);
-		animator.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 
+	//for (int i = 0; i < 25; ++i)
+	//{
+	//	Sprite* skillSpriteArr = new Sprite();
+	//	Animator* skillEffectArr = new Animator();
+	//	skillEffectArr->SetTarget(skillSpriteArr);
+	//	skillEffectArr->AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_SkillHit_Effect"));
+	//	{
+	//		AnimationEvent ev;
+	//		ev.clipId = "Pria_SkillHit_Effect";
+	//		ev.frame = 8;
+	//		ev.onEvent = bind(&Pria::OnCompleteSkill, this);
+	//		skillEffectArr->AddEvent(ev);
+	//	}
+	//	skillEffect.push_back(skillEffectArr);
+	//	skillSprite.push_back(skillSpriteArr);
+	//}
 
 	SetState(AnimStates::Idle);
 	Character::Init();
@@ -170,7 +186,12 @@ void Pria::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
-	attackEffect.Update(dt);
+	effectAnimator.Update(dt);
+
+	//for (int i = 0; i < 25; ++i)
+	//{
+	//	skillEffect[i]->Update(dt);
+	//}
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -185,14 +206,18 @@ void Pria::Draw(RenderWindow& window)
 
 	if(GetState() == AnimStates::Skill)
 	{
-		window.draw(attackSprite);
+		window.draw(effectSprite);
 		SpriteObj::Draw(window);
 	}
 	else
 	{
 		SpriteObj::Draw(window);
-		window.draw(attackSprite);
-	}	
+		window.draw(effectSprite);
+	}
+	//for (auto skills : skillSprite)
+	//{
+	//	window.draw(*skills);
+	//}
 	hpBar->Draw(window);
 	star->Draw(window);
 
@@ -244,7 +269,7 @@ void Pria::SetState(AnimStates newState)
 		}
 		if (lastDirection.x)
 		{
-			attackEffect.Play((lastDirection.x > 0.f) ? "Pria_RightAttack_Effect" : "Pria_LeftAttack_Effect");
+			effectAnimator.Play((lastDirection.x > 0.f) ? "Pria_RightAttack_Effect" : "Pria_LeftAttack_Effect");
 		}
 		if (lastDirection.y)
 		{
@@ -252,26 +277,64 @@ void Pria::SetState(AnimStates newState)
 		}
 		if (lastDirection.y)
 		{
-			attackEffect.Play((lastDirection.y > 0.f) ? "Pria_DownAttack_Effect" : "Pria_UpAttack_Effect");
+			effectAnimator.Play((lastDirection.y > 0.f) ? "Pria_DownAttack_Effect" : "Pria_UpAttack_Effect");
 		}
 		break;
 	case AnimStates::Skill:
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Pria_RightSkill" : "Pria_LeftSkill");
-			attackEffect.Play("Pria_Skill_Effect");
+			effectAnimator.Play("Pria_Skill_Effect");
 			Vector2f vec = GetPos();
 			vec.y += 15.f;
-			attackSprite.setPosition(vec);
+			effectSprite.setPosition(vec);
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Pria_DownSkill" : "Pria_UpSkill");
-			attackEffect.Play("Pria_Skill_Effect");
+			effectAnimator.Play("Pria_Skill_Effect");
 			Vector2f vec = GetPos();
 			vec.y += 15.f;
-			attackSprite.setPosition(vec);
+			effectSprite.setPosition(vec);
 		}
+		//Vector2f vec = GetTarget()->GetPos();
+		//vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+		//Vector2i targetPos = GAME_MGR->PosToIdx(vec);
+		//if (mainGrid[targetPos.y * 7 + targetPos.x + 0] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 0]->GetType().compare(targetType))
+		//{
+		//	dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 0])->TakeDamage(this);
+		//	Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 0])->GetPos();
+		//	skillSprite[4]->setPosition(pos);
+		//	skillEffect[4]->Play("Pria_SkillHit_Effect");
+		//}
+		//if (mainGrid[targetPos.y * 7 + targetPos.x + 1] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 1]->GetType().compare(targetType))
+		//{
+		//	dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 1])->TakeDamage(this);
+		//	Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 1])->GetPos();
+		//	skillSprite[0]->setPosition(pos);
+		//	skillEffect[0]->Play("Pria_SkillHit_Effect");
+		//}
+		//if (mainGrid[targetPos.y * 7 + targetPos.x - 1] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x - 1]->GetType().compare(targetType))
+		//{
+		//	dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 1])->TakeDamage(this);
+		//	Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 1])->GetPos();
+		//	skillSprite[1]->setPosition(pos);
+		//	skillEffect[1]->Play("Pria_SkillHit_Effect");
+		//}
+		//if (mainGrid[targetPos.y * 7 + targetPos.x + 7] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 7]->GetType().compare(targetType))
+		//{
+		//	dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 7])->TakeDamage(this);
+		//	Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x + 7])->GetPos();
+		//	skillSprite[2]->setPosition(pos);
+		//	skillEffect[2]->Play("Pria_SkillHit_Effect");
+		//}
+		//if (mainGrid[targetPos.y * 7 + targetPos.x - 7] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x - 7]->GetType().compare(targetType))
+		//{
+		//	dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 7])->TakeDamage(this);
+		//	Vector2f pos = dynamic_cast<Character*>(mainGrid[targetPos.y * 7 + targetPos.x - 7])->GetPos();
+		//	skillSprite[3]->setPosition(pos);
+		//	skillEffect[3]->Play("Pria_SkillHit_Effect");
+		//}
 		break;
 	}
 }

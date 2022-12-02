@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <list>
 #include "Object.h"
 
@@ -30,7 +31,8 @@ protected:
 	View uiView;
 	View toolView;
 	View& currentView;
-	
+
+	Sound bgm;
 public:
 	Scene(Scenes type);
 	virtual ~Scene();

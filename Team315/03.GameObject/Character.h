@@ -14,8 +14,8 @@ class Skill;
 class Character : public GameObj
 {
 protected:
-	Animator attackEffect;
-	Sprite attackSprite;
+	Animator effectAnimator;
+	Sprite effectSprite;
 	unordered_map<StatType, Stat> stat;
 	bool attackRangeType; // true square, false cross
 	vector<Item*> items;
@@ -92,7 +92,8 @@ public:
 	void SetNoSkill(bool b) { noSkill = b; };
 	bool GetNoSkill() { return noSkill; }
 	void SetShieldMinValue(float value) { shieldAmountMin = value; }
-	bool SetItem(Item* item);
+	bool SetItem(Item* newItem);
+	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
 
 	//battle

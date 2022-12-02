@@ -4,7 +4,7 @@
 Evan::Evan(int starNumber)
 	: Character(starNumber), skillSpeed(1500.f)
 {
-	skill = new EvanSkill;
+	//skill = new EvanSkill;
 	SetType("Player");
 	SetName("Evan");
 }
@@ -16,7 +16,7 @@ Evan::~Evan()
 void Evan::Init()
 {
     animator.SetTarget(&sprite);
-	attackEffect.SetTarget(&attackSprite);
+	effectAnimator.SetTarget(&effectSprite);
 
     animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Idle"));
 
@@ -40,15 +40,15 @@ void Evan::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("UpSkill"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_DownAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_LeftAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_RightAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_UpAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_DownAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_LeftAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_RightAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Sword_UpAttack_Effect"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Evan_DownSkill_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Evan_LeftSkill_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Evan_RightSkill_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Evan_UpSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Evan_DownSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Evan_LeftSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Evan_RightSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Evan_UpSkill_Effect"));
 
 	{
 		AnimationEvent ev;
@@ -83,28 +83,28 @@ void Evan::Init()
 		ev.clipId = "Sword_DownAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Sword_LeftAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Sword_RightAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Sword_UpAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
@@ -139,28 +139,28 @@ void Evan::Init()
 		ev.clipId = "Evan_DownSkill_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Evan_LeftSkill_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Evan_RightSkill_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Evan_UpSkill_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Evan::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 
     SetState(AnimStates::Idle);
@@ -202,19 +202,19 @@ void Evan::SetState(AnimStates newState)
 			animator.Play((lastDirection.x > 0.f) ? "RightAttack" : "LeftAttack");
 			if (lastDirection.x > 0.f)
 			{
-				attackEffect.Play("Sword_RightAttack_Effect");
+				effectAnimator.Play("Sword_RightAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 21.f;
 				vec.y += 15.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.x < 0.f)
 			{
-				attackEffect.Play("Sword_LeftAttack_Effect");
+				effectAnimator.Play("Sword_LeftAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x -= 21.f;
 				vec.y += 15.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		if (lastDirection.y)
@@ -222,18 +222,18 @@ void Evan::SetState(AnimStates newState)
 			animator.Play((lastDirection.y > 0.f) ? "DownAttack" : "UpAttack");
 			if (lastDirection.y > 0.f)
 			{
-				attackEffect.Play("Sword_DownAttack_Effect");
+				effectAnimator.Play("Sword_DownAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x -= 11.f;
 				vec.y += 12.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.y < 0.f)
 			{
-				attackEffect.Play("Sword_UpAttack_Effect");
+				effectAnimator.Play("Sword_UpAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 5.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		break;
@@ -243,19 +243,19 @@ void Evan::SetState(AnimStates newState)
 			animator.Play((lastDirection.x > 0.f) ? "RightSkill" : "LeftSkill");
 			if (lastDirection.x > 0.f)
 			{
-				attackEffect.Play("Evan_RightSkill_Effect");
+				effectAnimator.Play("Evan_RightSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.x -= 30.f;
 				vec.y -= 10.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			if (lastDirection.x < 0.f)
 			{
-				attackEffect.Play("Evan_LeftSkill_Effect");
+				effectAnimator.Play("Evan_LeftSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 30.f;
 				vec.y -= 10.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		if (lastDirection.y)
@@ -263,17 +263,17 @@ void Evan::SetState(AnimStates newState)
 			animator.Play((lastDirection.y > 0.f) ? "DownSkill" : "UpSkill");
 			if (lastDirection.y > 0.f)
 			{
-				attackEffect.Play("Evan_DownSkill_Effect");
+				effectAnimator.Play("Evan_DownSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.y -= 10.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			if (lastDirection.y < 0.f)
 			{
-				attackEffect.Play("Evan_UpSkill_Effect");
+				effectAnimator.Play("Evan_UpSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 5.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		break;
@@ -283,7 +283,7 @@ void Evan::SetState(AnimStates newState)
 void Evan::Update(float dt)
 {
 	Character::Update(dt);
-	skill->Translate(lastDirection * skillSpeed * dt);
+	//skill->Translate(lastDirection * skillSpeed * dt);
 	
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -308,7 +308,7 @@ void Evan::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
-	attackEffect.Update(dt);
+	effectAnimator.Update(dt);
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -319,7 +319,7 @@ void Evan::Update(float dt)
 void Evan::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
-	skill->Draw(window);
+	//skill->Draw(window);
 }
 
 void Evan::SetPos(const Vector2f& pos)
@@ -359,16 +359,8 @@ void Evan::UpdateMove(float dt)
 {
 	if (Utils::EqualFloat(direction.x, 0.f) && Utils::EqualFloat(direction.y, 0.f))
 	{
-		SetState(AnimStates::MoveToIdle);
+		SetState(AnimStates::Idle);
 		return;
-	}
-	if (!Utils::EqualFloat(direction.x, lastDirection.x))
-	{
-		animator.Play((direction.x > 0.f) ? "RightMove" : "LeftMove");
-	}
-	if (!Utils::EqualFloat(direction.y, lastDirection.y))
-	{
-		animator.Play((direction.y > 0.f) ? "DownMove" : "UpMove");
 	}
 }
 
@@ -382,30 +374,30 @@ void Evan::UpdateAttack(float dt)
 
 void Evan::UpdateSkill(float dt)
 {
-	skill->Init();
-	skill->SetRotation(lastDirection);
-	Vector2f vec = GetPos();
-	if(lastDirection.y < 0.f)
-	{
-		vec.x += 90.f;
-		vec.y -= 100.f;
-	}
-	else if (lastDirection.y > 0.f)
-	{
-		vec.x -= 90.f;
-		vec.y += 30.f;
-	}
-	else if (lastDirection.x < 0.f)
-	{
-		vec.x -= 80.f;
-		vec.y -= 120.f;
-	}
-	else if (lastDirection.x > 0.f)
-	{
-		vec.x += 80.f;
-		vec.y += 65.f;
-	}
-	skill->SetPos(vec);
+	//skill->Init();
+	//skill->SetRotation(lastDirection);
+	//Vector2f vec = GetPos();
+	//if(lastDirection.y < 0.f)
+	//{
+	//	vec.x += 90.f;
+	//	vec.y -= 100.f;
+	//}
+	//else if (lastDirection.y > 0.f)
+	//{
+	//	vec.x -= 90.f;
+	//	vec.y += 30.f;
+	//}
+	//else if (lastDirection.x < 0.f)
+	//{
+	//	vec.x -= 80.f;
+	//	vec.y -= 120.f;
+	//}
+	//else if (lastDirection.x > 0.f)
+	//{
+	//	vec.x += 80.f;
+	//	vec.y += 65.f;
+	//}
+	//skill->SetPos(vec);
 	
 	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
 	{

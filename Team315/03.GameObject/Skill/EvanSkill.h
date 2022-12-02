@@ -16,4 +16,5 @@ public:
 	virtual void SetPos(const Vector2f& pos) override;
 
 	virtual void SetRotation(Vector2f dir);
+	virtual void CastSkill(Character* caster) override;
 };

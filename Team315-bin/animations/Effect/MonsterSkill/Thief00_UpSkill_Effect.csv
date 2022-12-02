@@ -1,0 +1,8 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+thief00_UpSkill_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/monster/thief00_Effect_00.png,0,0,100,100,50,100,0,1
+graphics/Effect/monster/thief00_Effect_00.png,100,0,100,100,50,100,0,1
+graphics/Effect/monster/thief00_Effect_00.png,200,0,100,100,50,100,0,1
+graphics/Effect/monster/thief00_Effect_00.png,300,0,100,100,50,100,0,1
+graphics/Effect/monster/thief00_Effect_00.png,400,0,100,100,50,100,0,1

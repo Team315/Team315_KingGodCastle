@@ -1,0 +1,10 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Pria_SkillHit_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/pria_HitEffect.png,0,0,70,70,35,70,0,0
+graphics/Effect/player/pria_HitEffect.png,70,0,70,70,35,70,0,0
+graphics/Effect/player/pria_HitEffect.png,140,0,70,70,35,70,0,0
+graphics/Effect/player/pria_HitEffect.png,0,70,70,70,35,70,0,0
+graphics/Effect/player/pria_HitEffect.png,70,70,70,70,35,70,0,0
+graphics/Effect/player/pria_HitEffect.png,140,70,70,70,35,70,0,0
+graphics/Effect/player/pria_HitEffect.png,210,70,70,70,35,70,0,0

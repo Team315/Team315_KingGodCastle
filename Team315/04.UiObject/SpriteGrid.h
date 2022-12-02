@@ -15,5 +15,5 @@ public:
 	virtual void SetPos(const Vector2f& pos) override;
 	
 	void SetSpriteScale(float x, float y);
-	void SetSpriteTexture(Texture& tex);
+	void SetSpriteTexture(Texture& tex, bool resetRect = false);
 };

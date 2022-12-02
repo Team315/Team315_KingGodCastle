@@ -8,8 +8,8 @@ class Character;
 class Skill : public GameObj
 {
 protected:
-	vector<float> baseDamage; // skill base damage
-	vector<Vector2i> range;    // skill range
+	vector<float> baseDamage;			// skill base damage
+	vector<vector<Vector2i>> range;		// skill range
 
 	Vector2i startPos;
 	Vector2i destPos;
@@ -28,4 +28,5 @@ public:
 	virtual void SetState(AnimStates newState);
 	AnimStates GetState() { return currState; }
 	float CalculateDamage(Character* character);
+	virtual void CastSkill(Character* caster);
 };

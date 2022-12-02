@@ -3,6 +3,8 @@
 #include "BattlePanel.h"
 #include "Character.h"
 #include "RectangleObj.h"
+#include "BackrectText.h"
+#include "Item/Item.h"
 #include "StatPopupWindow.h"
 
 BattleSceneUI::BattleSceneUI(Scene* scene)
@@ -15,6 +17,15 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	statPopup->SetOutline(Color::Black, -2.f);
 	statPopup->SetType("Popup");
 	statPopup->SetOrigin(Origins::TL);
+
+	itemPopup = new BackrectText(100, 60);
+	itemPopup->SetOutline(Color::Black, 2.0f);
+	itemPopup->SetFillColor(Color(0, 0, 0, 150.f));
+	itemPopup->SetType("Popup");
+	itemPopup->SetFont(*RESOURCE_MGR->GetFont("GodoB.ttf"));
+	itemPopup->SetTextStyle(Color::White, 20, Color::Black, -1.0f);
+	itemPopup->SetTextLocalPos(Vector2f(10.f, 10.f));
+	itemPopup->SetString("test");
 }
 
 BattleSceneUI::~BattleSceneUI()
@@ -26,6 +37,7 @@ void BattleSceneUI::Init()
 {
 	uiObjList.push_back(panel);
 	uiObjList.push_back(statPopup);
+	uiObjList.push_back(itemPopup);
 	UIMgr::Init();
 }
 
@@ -38,6 +50,7 @@ void BattleSceneUI::Reset()
 {
 	panel->SetPos(Vector2f(0, GAME_SCREEN_HEIGHT * 1.2f));
 	statPopup->SetActive(false);
+	itemPopup->SetActive(false);
 	panel->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 }
 
@@ -107,6 +120,25 @@ void BattleSceneUI::SetStatPopup(bool active, Vector2f viewCenter,
 	if (Utils::EqualFloat(viewCenter.y, GAME_SCREEN_ZOOM_HEIGHT * 0.5f, 3.f) &&
 		(pos.y + statPopup->GetSize().y >= GAME_SCREEN_ZOOM_HEIGHT))
 		modPos.y = GAME_SCREEN_ZOOM_HEIGHT - statPopup->GetSize().y - 5.f;
+
 	statPopup->SetCharacter(character);
 	statPopup->SetPos(modPos);
+}
+
+void BattleSceneUI::SetItemPopup(bool active, Vector2f viewCenter,
+	Item* item, Vector2f pos)
+{
+	itemPopup->SetActive(active);
+	if (!active)
+		return;
+
+	Vector2f modPos = pos;
+	if (pos.x + itemPopup->GetSize().x >= GAME_SCREEN_ZOOM_WIDTH)
+		modPos.x = GAME_SCREEN_ZOOM_WIDTH - itemPopup->GetSize().x;
+	if (Utils::EqualFloat(viewCenter.y, GAME_SCREEN_ZOOM_HEIGHT * 0.5f, 3.f) &&
+		(pos.y + itemPopup->GetSize().y >= GAME_SCREEN_ZOOM_HEIGHT))
+		modPos.y = GAME_SCREEN_ZOOM_HEIGHT - itemPopup->GetSize().y - 5.f;
+
+	itemPopup->SetString(item->GetName() + item->GetStatTypeString() + to_string(item->GetPotential()));
+	itemPopup->SetPos(modPos);
 }
