@@ -294,59 +294,90 @@ void Character::UpgradeStats()
 	stat[StatType::AS].UpgradeBase(GAME_MGR->asIncrease);
 }
 
-bool Character::SetItem(Item* item)
+bool Character::SetItem(Item* newItem)
 {
-	if (items.size() >= ITEM_LIMIT)
+	int combineIdx = 0;
+	for (auto& item : items)
 	{
-		// can combinate ? -> true
-
-		return false;
+		if (!item->GetName().compare(newItem->GetName()) && (item->GetGrade() == newItem->GetGrade()))
+		{
+			newItem->Upgrade();
+			UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential() - item->GetPotential());
+			delete item;
+			item = newItem;
+			break;
+		}
+		combineIdx++;
 	}
-	items.push_back(item);
+	if (items.size() >= ITEM_LIMIT)
+		return false;
+
+	if (combineIdx == items.size())
+		items.push_back(newItem);
 
 	string path = "graphics/battleScene/Item_";
 
-	ItemType iType = item->GetItemType();
-	StatType sType = item->GetStatType();
+	ItemType iType = newItem->GetItemType();
 	switch (iType)
 	{
 	case ItemType::Armor:
 		path += "Armor";
-		shieldAmountMin = item->GetPotential();
-		shieldAmount = item->GetPotential();
-		hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
 		break;
 	case ItemType::Bow:
 		path += "Bow";
-		stat[sType].AddDelta(item->GetPotential());
 		break;
 	case ItemType::Staff:
 		path += "Staff";
-		stat[sType].AddDelta(item->GetPotential());
 		break;
 	case ItemType::Sword:
 		path += "Sword";
-		stat[sType].AddDelta(item->GetPotential());
 		break;
 	/*case ItemType::Book:
 		path += "Book";
 		break;*/
 	}
-	path += (to_string(item->GetGrade()) + ".png");
+	path += (to_string(newItem->GetGrade()) + ".png");
+	UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential());
 
-	for (auto& grid : itemGrid)
+	if (combineIdx != ITEM_LIMIT)
 	{
-		if (!grid->GetActive())
+		itemGrid[combineIdx]->SetActive(true);
+		itemGrid[combineIdx]->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
+		itemGrid[combineIdx]->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
+		itemGrid[combineIdx]->SetOrigin(Origins::BC);
+	}
+	else 
+	{
+		for (auto& grid : itemGrid)
 		{
-			grid->SetActive(true);
-			grid->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
-			grid->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
-			SetPos(position);
-			grid->SetOrigin(Origins::BC);
-			break;
+			if (!grid->GetActive())
+			{
+				grid->SetActive(true);
+				grid->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
+				grid->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
+				grid->SetOrigin(Origins::BC);
+				break;
+			}
 		}
 	}
 	return true;
+}
+
+void Character::UpdateItemDelta(StatType sType, float value)
+{
+	switch (sType)
+	{
+	case StatType::HP:
+		shieldAmountMin += value;
+		shieldAmount += value;
+		hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+		break;
+	case StatType::AD:
+	case StatType::AP:
+	case StatType::AS:
+		stat[sType].AddDelta(value);
+		break;
+	}
 }
 
 void Character::IsSetState(AnimStates newState)

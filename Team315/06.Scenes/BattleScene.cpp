@@ -646,6 +646,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 	int startIdx = GetIdxFromCoord(startCoord);
 	int destIdx = GetIdxFromCoord(destCoord);
 	bool canMove = true;
+	bool combine = false;
 
 	if (startCoord == destCoord)
 	{
@@ -695,7 +696,10 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 			{
 				Character* destCharacter = dynamic_cast<Character*>((*dest)[destIdx]);
 				if (destCharacter->SetItem(dynamic_cast<Item*>(pick)))
+				{
 					(*start)[startIdx] = nullptr;
+					combine = true;
+				}
 			}
 			canMove = false;
 		}
@@ -710,7 +714,8 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 		(*dest)[destIdx] = pick;
 		(*start)[startIdx] = temp;
 	}
-	pick->SetPos(GAME_MGR->IdxToPos(canMove ? destCoord : startCoord));
+	if (!combine)
+		pick->SetPos(GAME_MGR->IdxToPos(canMove ? destCoord : startCoord));
 }
 
 void BattleScene::SetCurrentStage(int chap, int stage)
