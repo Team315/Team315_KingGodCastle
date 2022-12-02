@@ -162,6 +162,21 @@ void BattleScene::Update(float dt)
 				curStageIdx++;
 			SetCurrentStage(curChapIdx, curStageIdx);
 		}
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num5))
+		{
+			CLOG::Print3String("prev chapter test");
+			if (curChapIdx > 0)
+				curChapIdx--;
+			SetCurrentStage(curChapIdx, curStageIdx);
+		}
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num6))
+		{
+			CLOG::Print3String("next chapter test");
+			if (curChapIdx < CHAPTER_MAX_COUNT - 1)
+				curChapIdx++;
+			SetCurrentStage(curChapIdx, curStageIdx);
+		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 		{
 			CLOG::Print3String("devmode switch");
