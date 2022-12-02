@@ -41,6 +41,9 @@ BattleScene::BattleScene()
 		}
 	}
 
+	castleBackground.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/castleBackground.png"));
+	castleBackground.setPosition(0, GAME_SCREEN_HEIGHT - TILE_SIZE);
+
 	ui = new BattleSceneUI(this);
 }
 
@@ -159,6 +162,21 @@ void BattleScene::Update(float dt)
 				curStageIdx++;
 			SetCurrentStage(curChapIdx, curStageIdx);
 		}
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num5))
+		{
+			CLOG::Print3String("prev chapter test");
+			if (curChapIdx > 0)
+				curChapIdx--;
+			SetCurrentStage(curChapIdx, curStageIdx);
+		}
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num6))
+		{
+			CLOG::Print3String("next chapter test");
+			if (curChapIdx < CHAPTER_MAX_COUNT - 1)
+				curChapIdx++;
+			SetCurrentStage(curChapIdx, curStageIdx);
+		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 		{
 			CLOG::Print3String("devmode switch");
@@ -501,31 +519,15 @@ void BattleScene::Update(float dt)
 
 void BattleScene::Draw(RenderWindow& window)
 {
-	Scene::Draw(window);
-	//draw Background
-	
-	for (int j = 0; j < BACKGROUND_WIDTH_COUNT* BACKGROUND_HEIGHT_COUNT; ++j)
+	for (int j = 0; j < BACKGROUND_WIDTH_COUNT * BACKGROUND_HEIGHT_COUNT; ++j)
 	{
 		//cout << ((curChapIdx) * 150) + j << endl;
 		int num = ((curChapIdx) * 150) + j;
 		GAME_MGR->GetTileBackgroundList()[num]->Draw(window);
 	}
-	//for (int  i = 0; i < BACKGROUND_HEIGHT_COUNT; i++)
-	//{
-	//	for (int j = BACKGROUND_WIDTH_COUNT; j < 0; --j)
-	//	{
 
-	//	}
-	//}
-
-	// draw tile
-	for (auto& row : *curStage)
-	{
-		for (auto& tile : row)
-		{
-			tile->Draw(window);
-		}
-	}
+	window.draw(castleBackground);
+	Scene::Draw(window);
 
 	// draw character on prepare area
 	for (auto& gameObj : prepareGrid)
@@ -533,6 +535,15 @@ void BattleScene::Draw(RenderWindow& window)
 		if (gameObj != nullptr)
 		{
 			gameObj->Draw(window);
+		}
+	}
+
+	// draw tile
+	for (auto& row : *curStage)
+	{
+		for (auto& tile : row)
+		{
+			tile->Draw(window);
 		}
 	}
 

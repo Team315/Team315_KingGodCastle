@@ -55,7 +55,7 @@ BattlePanel::BattlePanel()
 		titlebgLocalPos.x, titlebgLocalPos.y, Color(189.f, 172.f, 146.f), 22.f);
 	titleNumberText->SetOutlineColor(Color::Black);
 	titleNumberText->SetOutlineThickness(1.f);
-	dnmTitleTextLocalPos = titleTextLocalPos + Vector2f(120.f, -2.f);
+	dnmTitleTextLocalPos = titleTextLocalPos + Vector2f(112.f, -2.f);
 
 	stageText = new TextObj(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"),
 		L"1/10", beginLocalPos.x, beginLocalPos.y, Color::White, 18.f);

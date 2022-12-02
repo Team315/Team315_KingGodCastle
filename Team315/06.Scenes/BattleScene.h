@@ -13,6 +13,7 @@ class BattleScene : public Scene
 {
 protected:
 	BattleSceneUI* ui;
+	Sprite castleBackground;
 
 	Dir currMoveDir;
 
