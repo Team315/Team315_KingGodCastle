@@ -65,7 +65,7 @@ public:
 		Vector2i startCoord, Vector2i destCoord);
 
 	void SetCurrentStage(int chap, int stage);
-	void SetCurrentBackGround(int chap);
+	
 };
 
 int GetIdxFromCoord(Vector2i coord);

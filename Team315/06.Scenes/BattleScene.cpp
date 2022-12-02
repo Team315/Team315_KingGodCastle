@@ -508,9 +508,17 @@ void BattleScene::Draw(RenderWindow& window)
 	
 	for (int j = 0; j < BACKGROUND_WIDTH_COUNT* BACKGROUND_HEIGHT_COUNT; ++j)
 	{
-		GAME_MGR->GetTileBackgroundList()[((curChapIdx) * 150) + j]->Draw(window);
+		//cout << ((curChapIdx) * 150) + j << endl;
+		int num = ((curChapIdx) * 150) + j;
+		GAME_MGR->GetTileBackgroundList()[num]->Draw(window);
 	}
-	
+	//for (int  i = 0; i < BACKGROUND_HEIGHT_COUNT; i++)
+	//{
+	//	for (int j = BACKGROUND_WIDTH_COUNT; j < 0; --j)
+	//	{
+
+	//	}
+	//}
 
 	// draw tile
 	for (auto& row : *curStage)
@@ -863,16 +871,6 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 
 	ui->GetPanel()->SetStageNumber(curStageIdx + 1);
 	cout << "current chapter, stage (" << curChapIdx << ", " << curStageIdx << ")" << endl;
-}
-
-void BattleScene::SetCurrentBackGround(int chap)
-{
-	if (chap == 1)
-	{
-
-	}
-
-
 }
 
 int GetIdxFromCoord(Vector2i coord)
