@@ -3,15 +3,18 @@
 
 class BattlePanel;
 class Character;
-class VertexArrayObj;
-class RectangleObj;
+class Item;
+class BackrectText;
 class StatPopupWindow;
+class RectangleObj;
+class VertexArrayObj;
 
 class BattleSceneUI : public UIMgr
 {
 protected:
 	BattlePanel* panel;
 	StatPopupWindow* statPopup;
+	BackrectText* itemPopup;
 
 public:
 	BattleSceneUI(Scene* scene);
@@ -29,4 +32,6 @@ public:
 
 	void SetStatPopup(bool active, Vector2f viewCenter,
 		Character* character = nullptr, Vector2f pos = {0, 0});
+	void SetItemPopup(bool active, Vector2f viewCenter,
+		Item* item = nullptr, Vector2f pos = { 0, 0 });
 };

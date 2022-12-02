@@ -92,7 +92,8 @@ public:
 	void SetNoSkill(bool b) { noSkill = b; };
 	bool GetNoSkill() { return noSkill; }
 	void SetShieldMinValue(float value) { shieldAmountMin = value; }
-	bool SetItem(Item* item);
+	bool SetItem(Item* newItem);
+	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
 
 	//battle

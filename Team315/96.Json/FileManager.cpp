@@ -96,7 +96,7 @@ void FileManager::LoadTileData(Chapters& m_PlayTileList)
 	ifs.close();
 }
 
-void FileManager::SaveBackGroundData(json datas)
+void FileManager::SaveBackGroundData(vector<BackGroundData> datas)
 {
 	json data = datas;
 	ofstream ofs("json/BackGroundData.json");

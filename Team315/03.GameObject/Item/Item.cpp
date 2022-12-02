@@ -50,10 +50,6 @@ void Item::SetPos(const Vector2f& pos)
 	sprite.setPosition(position + Vector2f(0, -10.f));
 }
 
-void Item::ApplyToCharacter(Character* character)
-{
-}
-
 string Item::MakePath()
 {
 	string path = "graphics/battleScene/Item_";
@@ -81,6 +77,28 @@ string Item::MakePath()
 	}
 	path += (to_string(grade) + ".png");
 	return path;
+}
+
+string Item::GetStatTypeString()
+{
+	string str = "";
+
+	switch (statType)
+	{
+	case StatType::HP:
+		str = "HP";
+		break;
+	case StatType::AD:
+		str = "AD";
+		break;
+	case StatType::AP:
+		str = "AP";
+		break;
+	case StatType::AS:
+		str = "AS";
+		break;
+	}
+	return str;
 }
 
 bool Item::Upgrade()

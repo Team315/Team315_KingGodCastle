@@ -17,8 +17,8 @@ Character::Character(int starNumber)
 	itemGrid.assign(ITEM_LIMIT, nullptr);
 	for (auto& grid : itemGrid)
 	{
-		grid = new SpriteGrid(8.f, 8.f);
-		grid->SetOutline(Color(0, 0, 0, 100.f), -0.5f);
+		grid = new SpriteGrid(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
+		grid->SetOutline(Color(255, 255, 255, 100.f), -1.f);
 		grid->SetFillColor(Color(0, 0, 0, 0.f));
 		grid->SetOrigin(Origins::BC);
 		grid->SetActive(false);
@@ -29,6 +29,11 @@ Character::~Character()
 {
 	hpBar->Release();
 	star->Release();
+	if (skill != nullptr)
+		skill->Release();
+	
+	delete hpBar;
+	delete star;
 	delete skill;
 }
 
@@ -39,7 +44,7 @@ void Character::Init()
 
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 
-	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 20.f };
+	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 10.f };
 	SetHpBarValue(1.f);
 	hpBar->SetOrigin(Origins::BC);
 	starLocalPos = { 0.f, hpBarLocalPos.y };
@@ -188,15 +193,15 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	effectSprite.setPosition(GetPos());
+	effectSprite.setPosition(pos);
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
 	
-	float xDelta = -12.f;
+	float xDelta = 5.f;
 	for (auto& grid : itemGrid)
 	{
-		grid->SetPos(pos + hpBarLocalPos + Vector2f(xDelta, -10.f));
-		xDelta += 30.f;
+		grid->SetPos(pos + hpBarLocalPos + Vector2f(xDelta, 25.f));
+		xDelta += ITEM_SPRITE_SIZE;
 	}
 }
 
@@ -294,58 +299,90 @@ void Character::UpgradeStats()
 	stat[StatType::AS].UpgradeBase(GAME_MGR->asIncrease);
 }
 
-bool Character::SetItem(Item* item)
+bool Character::SetItem(Item* newItem)
 {
-	if (items.size() >= ITEM_LIMIT)
+	int combineIdx = 0;
+	for (auto& item : items)
 	{
-		// can combinate ? -> true
-
-		return false;
+		if (!item->GetName().compare(newItem->GetName()) && (item->GetGrade() == newItem->GetGrade()) && (newItem->GetGrade() != (TIER_MAX - 1)) )
+		{
+			newItem->Upgrade();
+			UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential() - item->GetPotential());
+			delete item;
+			item = newItem;
+			break;
+		}
+		combineIdx++;
 	}
-	items.push_back(item);
+	if (items.size() >= ITEM_LIMIT)
+		return false;
+
+	if (combineIdx == items.size())
+		items.push_back(newItem);
 
 	string path = "graphics/battleScene/Item_";
 
-	ItemType iType = item->GetItemType();
-	StatType sType = item->GetStatType();
+	ItemType iType = newItem->GetItemType();
 	switch (iType)
 	{
 	case ItemType::Armor:
 		path += "Armor";
-		shieldAmountMin = item->GetPotential();
-		shieldAmount = item->GetPotential();
-		hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
 		break;
 	case ItemType::Bow:
 		path += "Bow";
-		stat[sType].AddDelta(item->GetPotential());
 		break;
 	case ItemType::Staff:
 		path += "Staff";
-		stat[sType].AddDelta(item->GetPotential());
 		break;
 	case ItemType::Sword:
 		path += "Sword";
-		stat[sType].AddDelta(item->GetPotential());
 		break;
 	/*case ItemType::Book:
 		path += "Book";
 		break;*/
 	}
-	path += (to_string(item->GetGrade()) + ".png");
+	path += (to_string(newItem->GetGrade()) + ".png");
+	UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential());
 
-	for (auto& grid : itemGrid)
+	if (combineIdx != ITEM_LIMIT)
 	{
-		if (!grid->GetActive())
+		itemGrid[combineIdx]->SetActive(true);
+		itemGrid[combineIdx]->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
+		itemGrid[combineIdx]->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
+		itemGrid[combineIdx]->SetOrigin(Origins::BC);
+	}
+	else 
+	{
+		for (auto& grid : itemGrid)
 		{
-			grid->SetActive(true);
-			grid->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
-			SetPos(position);
-			grid->SetOrigin(Origins::BC);
-			break;
+			if (!grid->GetActive())
+			{
+				grid->SetActive(true);
+				grid->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
+				grid->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
+				grid->SetOrigin(Origins::BC);
+				break;
+			}
 		}
 	}
 	return true;
+}
+
+void Character::UpdateItemDelta(StatType sType, float value)
+{
+	switch (sType)
+	{
+	case StatType::HP:
+		shieldAmountMin += value;
+		shieldAmount += value;
+		hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+		break;
+	case StatType::AD:
+	case StatType::AP:
+	case StatType::AS:
+		stat[sType].AddDelta(value);
+		break;
+	}
 }
 
 void Character::IsSetState(AnimStates newState)

@@ -18,12 +18,11 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
 
-	virtual void ApplyToCharacter(Character* character);
-
 	string MakePath();
 	ItemType GetItemType() { return itemType; }
 	int GetGrade() { return grade; }
 	float GetPotential() { return potential; }
 	StatType GetStatType() { return statType; }
+	string GetStatTypeString();
 	bool Upgrade();
 };

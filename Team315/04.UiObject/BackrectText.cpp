@@ -61,7 +61,5 @@ void BackrectText::SetString(float num, bool deleteAfterComma)
 	if (!deleteAfterComma)
 		text.setString(to_string(num));
 	else
-	{
 		text.setString(to_string((int)num));
-	}
 }
