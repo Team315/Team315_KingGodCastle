@@ -39,3 +39,4 @@
 #define PRESET_SIZE (6)
 #define BATTLE_GRID_ROW (4)
 #define ITEM_LIMIT (3)
+#define CHARACTER_TIER_MAX (4)

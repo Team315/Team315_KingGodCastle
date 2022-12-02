@@ -57,3 +57,8 @@ float Skill::CalculateDamage(Character* character)
 		return 0.f;
 	return baseDamage[(starNumber + 1) / 2] + character->GetStat(StatType::AP).GetModifier();
 }
+
+void Skill::CastSkill(Character* caster)
+{
+	// ¿µ¿õº°·Î »ó¼Ó¹Þ¾Æ¼­ ¾¸
+}
