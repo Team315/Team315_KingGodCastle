@@ -278,6 +278,7 @@ void Evan::SetState(AnimStates newState)
 		}
 		break;
 	}
+	cout << lastDirection.x << "," << lastDirection.y << endl;
 }
 
 void Evan::Update(float dt)

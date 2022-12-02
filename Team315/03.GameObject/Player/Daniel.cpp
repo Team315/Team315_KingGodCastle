@@ -320,6 +320,7 @@ void Daniel::SetState(AnimStates newState)
 		}
 		break;
 	}
+	cout << lastDirection.x << "," << lastDirection.y << endl;
 }
 
 void Daniel::OnCompleteAttack()

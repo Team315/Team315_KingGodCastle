@@ -114,9 +114,11 @@ void Character::Update(float dt)
 		{
 			if (m_attackDelay <= 0.f)
 			{
+				m_target = m_floodFill.GetNearEnemy(mainGrid, mypos, targetType);
+				lastDirection = Utils::Normalize(dynamic_cast<Character*>(GetTarget())->GetPos()-GetPos());
+				direction = lastDirection;
 				SetState(AnimStates::Attack);
 				//dynamic_cast<Character*>(m_floodFill.GetNearEnemy(mainGrid, mypos, targetType))->TakeDamage(this);
-				m_target = m_floodFill.GetNearEnemy(mainGrid, mypos, targetType);
 				//dynamic_cast<Character*>(m_target)->TakeDamage(this);
 				dynamic_cast<Character*>(GetTarget())->TakeDamage(this);
 				attack = true;
@@ -126,6 +128,7 @@ void Character::Update(float dt)
 				if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
 				{
 					cout << name << " fire skill !" << endl;
+					//lastDirection = Utils::Normalize(dynamic_cast<Character*>(GetTarget())->GetPos() - GetPos());
 					SetState(AnimStates::Skill);
 					// 범위 지정 할 것
 					dynamic_cast<Character*>(GetTarget())->TakeDamage(this, false);
