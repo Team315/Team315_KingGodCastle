@@ -299,7 +299,7 @@ bool Character::SetItem(Item* newItem)
 	int combineIdx = 0;
 	for (auto& item : items)
 	{
-		if (!item->GetName().compare(newItem->GetName()) && (item->GetGrade() == newItem->GetGrade()))
+		if (!item->GetName().compare(newItem->GetName()) && (item->GetGrade() == newItem->GetGrade()) && (newItem->GetGrade() != (TIER_MAX - 1)) )
 		{
 			newItem->Upgrade();
 			UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential() - item->GetPotential());
