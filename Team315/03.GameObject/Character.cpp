@@ -64,6 +64,7 @@ void Character::Init()
 		stat[StatType::AR].GetModifier(),
 		stat[StatType::AR].GetModifier(),
 		attackRangeType);
+
 }
 
 void Character::Reset()

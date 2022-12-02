@@ -761,7 +761,6 @@ void ToolScene::LoadBackGroundData()
 	for (auto TileBackground : TileBackgroundList)
 	{
 		TileBackground->LoadTileBackground(data[i]);
-		cout << i << endl;
 		++i;
 	}
 }

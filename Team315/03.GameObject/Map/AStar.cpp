@@ -89,7 +89,6 @@ EnemyInfo AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enP
 			}
 		}
 	}
-
 	enemyInfo.leng = -1;
 	return enemyInfo;
 }
@@ -140,7 +139,6 @@ void AStar::tracePath(Cell cellDetails[14][7], Vector2i enpos)
 
 	while (!s.empty()) 
 	{
-	//	zmap[s.top().x][s.top().y] = '*';
 		enemyInfo.leng++;
 
 		if (s.size() == num-1)
@@ -173,13 +171,4 @@ void AStar::SetAstar(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos)
 
 	grid[myPos.y][myPos.x] = 0;
 	grid[enPos.y][enPos.x] = 0;
-
-	//for (int i = 0; i < COL; ++i)
-	//{
-	//	for (int j = 0; j < ROW; ++j)
-	//	{
-	//		zmap[i][j] = grid[i][j] + '0';
-	//	}
-	//}
-
 }
