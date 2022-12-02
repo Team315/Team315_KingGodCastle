@@ -17,8 +17,8 @@ Character::Character(int starNumber)
 	itemGrid.assign(ITEM_LIMIT, nullptr);
 	for (auto& grid : itemGrid)
 	{
-		grid = new SpriteGrid(8.f, 8.f);
-		grid->SetOutline(Color(0, 0, 0, 100.f), -0.5f);
+		grid = new SpriteGrid(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
+		grid->SetOutline(Color(255, 255, 255, 100.f), -1.f);
 		grid->SetFillColor(Color(0, 0, 0, 0.f));
 		grid->SetOrigin(Origins::BC);
 		grid->SetActive(false);
@@ -29,6 +29,11 @@ Character::~Character()
 {
 	hpBar->Release();
 	star->Release();
+	if (skill != nullptr)
+		skill->Release();
+	
+	delete hpBar;
+	delete star;
 	delete skill;
 }
 
@@ -39,7 +44,7 @@ void Character::Init()
 
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 
-	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 20.f };
+	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 10.f };
 	SetHpBarValue(1.f);
 	hpBar->SetOrigin(Origins::BC);
 	starLocalPos = { 0.f, hpBarLocalPos.y };
@@ -183,15 +188,15 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	effectSprite.setPosition(GetPos());
+	effectSprite.setPosition(pos);
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
 	
-	float xDelta = -12.f;
+	float xDelta = 5.f;
 	for (auto& grid : itemGrid)
 	{
-		grid->SetPos(pos + hpBarLocalPos + Vector2f(xDelta, -10.f));
-		xDelta += 30.f;
+		grid->SetPos(pos + hpBarLocalPos + Vector2f(xDelta, 25.f));
+		xDelta += ITEM_SPRITE_SIZE;
 	}
 }
 
@@ -335,6 +340,7 @@ bool Character::SetItem(Item* item)
 		{
 			grid->SetActive(true);
 			grid->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
+			grid->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
 			SetPos(position);
 			grid->SetOrigin(Origins::BC);
 			break;

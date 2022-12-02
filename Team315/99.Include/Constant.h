@@ -40,3 +40,4 @@
 #define BATTLE_GRID_ROW (4)
 #define ITEM_LIMIT (3)
 #define CHARACTER_TIER_MAX (4)
+#define ITEM_SPRITE_SIZE (17.f)
