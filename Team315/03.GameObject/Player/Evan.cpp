@@ -4,7 +4,7 @@
 Evan::Evan(int starNumber)
 	: Character(starNumber), skillSpeed(1500.f)
 {
-	skill = new EvanSkill;
+	//skill = new EvanSkill;
 	SetType("Player");
 	SetName("Evan");
 }
@@ -278,13 +278,12 @@ void Evan::SetState(AnimStates newState)
 		}
 		break;
 	}
-	cout << lastDirection.x << "," << lastDirection.y << endl;
 }
 
 void Evan::Update(float dt)
 {
 	Character::Update(dt);
-	skill->Translate(lastDirection * skillSpeed * dt);
+	//skill->Translate(lastDirection * skillSpeed * dt);
 	
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -294,23 +293,18 @@ void Evan::Update(float dt)
 	{
 	case AnimStates::Idle:
 		UpdateIdle(dt);
-		cout << "I" << endl;
 		break;
 	case AnimStates::MoveToIdle:
 		UpdateMoveToIdle(dt);
-		cout << "MTI" << endl;
 		break;
 	case AnimStates::Move:
 		UpdateMove(dt);
-		cout << "M" << endl;
 		break;
 	case AnimStates::Attack:
 		UpdateAttack(dt);
-		cout << "A" << endl;
 		break;
 	case AnimStates::Skill:
 		UpdateSkill(dt);
-		cout << "S" << endl;
 		break;
 	}
 	animator.Update(dt);
@@ -325,7 +319,7 @@ void Evan::Update(float dt)
 void Evan::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
-	skill->Draw(window);
+	//skill->Draw(window);
 }
 
 void Evan::SetPos(const Vector2f& pos)
@@ -380,30 +374,30 @@ void Evan::UpdateAttack(float dt)
 
 void Evan::UpdateSkill(float dt)
 {
-	skill->Init();
-	skill->SetRotation(lastDirection);
-	Vector2f vec = GetPos();
-	if(lastDirection.y < 0.f)
-	{
-		vec.x += 90.f;
-		vec.y -= 100.f;
-	}
-	else if (lastDirection.y > 0.f)
-	{
-		vec.x -= 90.f;
-		vec.y += 30.f;
-	}
-	else if (lastDirection.x < 0.f)
-	{
-		vec.x -= 80.f;
-		vec.y -= 120.f;
-	}
-	else if (lastDirection.x > 0.f)
-	{
-		vec.x += 80.f;
-		vec.y += 65.f;
-	}
-	skill->SetPos(vec);
+	//skill->Init();
+	//skill->SetRotation(lastDirection);
+	//Vector2f vec = GetPos();
+	//if(lastDirection.y < 0.f)
+	//{
+	//	vec.x += 90.f;
+	//	vec.y -= 100.f;
+	//}
+	//else if (lastDirection.y > 0.f)
+	//{
+	//	vec.x -= 90.f;
+	//	vec.y += 30.f;
+	//}
+	//else if (lastDirection.x < 0.f)
+	//{
+	//	vec.x -= 80.f;
+	//	vec.y -= 120.f;
+	//}
+	//else if (lastDirection.x > 0.f)
+	//{
+	//	vec.x += 80.f;
+	//	vec.y += 65.f;
+	//}
+	//skill->SetPos(vec);
 	
 	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
 	{

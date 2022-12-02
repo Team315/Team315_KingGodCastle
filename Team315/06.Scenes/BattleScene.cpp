@@ -89,6 +89,7 @@ void BattleScene::Exit()
 {
 	CLOG::Print3String("battle exit");
 
+	bgm.stop();
 	for (auto& gameObj : prepareGrid)
 	{
 		delete gameObj;

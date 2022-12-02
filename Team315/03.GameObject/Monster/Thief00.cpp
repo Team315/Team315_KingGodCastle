@@ -4,7 +4,7 @@
 Thief00::Thief00(int starNumber)
 	: Character(starNumber)
 {
-	skill = new Thief00Skill();
+	//skill = new Thief00Skill();
 	SetType("Monster");
 	SetName("Thief00");
 }
@@ -222,16 +222,16 @@ void Thief00::SetState(AnimStates newState)
 			if (lastDirection.x > 0.f)
 			{
 				animator.Play("thief00_RightSkill");
-				effectAnimator.Play("thief00_RightSkill_Effect");
-				Vector2f vec = GetPos();
-				effectSprite.setPosition(vec);
+				//effectAnimator.Play("thief00_RightSkill_Effect");
+				//Vector2f vec = GetPos();
+				//effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.x < 0.f)
 			{
 				animator.Play("thief00_LeftSkill");
-				effectAnimator.Play("thief00_LeftSkill_Effect");
-				Vector2f vec = GetPos();
-				effectSprite.setPosition(vec);
+				//effectAnimator.Play("thief00_LeftSkill_Effect");
+				//Vector2f vec = GetPos();
+				//effectSprite.setPosition(vec);
 			}
 		}
 		if (lastDirection.y)
@@ -240,16 +240,16 @@ void Thief00::SetState(AnimStates newState)
 			if (lastDirection.y > 0.f)
 			{
 				animator.Play("thief00_DownSkill");
-				effectAnimator.Play("thief00_DownSkill_Effect");
-				Vector2f vec = GetPos();
-				effectSprite.setPosition(vec);
+				//effectAnimator.Play("thief00_DownSkill_Effect");
+				//Vector2f vec = GetPos();
+				//effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.y < 0.f)
 			{
 				animator.Play("thief00_UpSkill");
-				effectAnimator.Play("thief00_UpSkill_Effect");
-				Vector2f vec = GetPos();
-				effectSprite.setPosition(vec);
+				//effectAnimator.Play("thief00_UpSkill_Effect");
+				//Vector2f vec = GetPos();
+				//effectSprite.setPosition(vec);
 			}
 		}
 		break;

@@ -247,16 +247,16 @@ void Arveron::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Arveron_RightSkill" : "Arveron_LeftSkill");
-			effectAnimator.Play("Arveron_Skill_Effect");
-			Vector2f vec = GetPos();
-			effectSprite.setPosition(vec);
+			//effectAnimator.Play("Arveron_Skill_Effect");
+			//Vector2f vec = GetPos();
+			//effectSprite.setPosition(vec);
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Arveron_DownSkill" : "Arveron_UpSkill");
-			effectAnimator.Play("Arveron_Skill_Effect");
-			Vector2f vec = GetPos();
-			effectSprite.setPosition(vec);
+			//effectAnimator.Play("Arveron_Skill_Effect");
+			//Vector2f vec = GetPos();
+			//effectSprite.setPosition(vec);
 		}
 		break;
 	}

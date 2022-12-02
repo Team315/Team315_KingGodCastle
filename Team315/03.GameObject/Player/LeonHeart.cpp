@@ -283,40 +283,40 @@ void LeonHeart::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "LeonHeart_RightSkill" : "LeonHeart_LeftSkill");
-			if (lastDirection.x > 0.f)
-			{
-				effectAnimator.Play("LeonHeart_RightSkill_Effect");
-				Vector2f vec = GetPos();
-				vec.x += 40.f;
-				vec.y += 51.f;
-				effectSprite.setPosition(vec);
-			}
-			else if (lastDirection.x < 0.f)
-			{
-				effectAnimator.Play("LeonHeart_LeftSkill_Effect");
-				Vector2f vec = GetPos();
-				vec.x -= 40.f;
-				vec.y += 51.f;
-				effectSprite.setPosition(vec);
-			}
+			//if (lastDirection.x > 0.f)
+			//{
+			//	effectAnimator.Play("LeonHeart_RightSkill_Effect");
+			//	Vector2f vec = GetPos();
+			//	vec.x += 40.f;
+			//	vec.y += 51.f;
+			//	effectSprite.setPosition(vec);
+			//}
+			//else if (lastDirection.x < 0.f)
+			//{
+			//	effectAnimator.Play("LeonHeart_LeftSkill_Effect");
+			//	Vector2f vec = GetPos();
+			//	vec.x -= 40.f;
+			//	vec.y += 51.f;
+			//	effectSprite.setPosition(vec);
+			//}
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "LeonHeart_DownSkill" : "LeonHeart_UpSkill");
-			if (lastDirection.y > 0.f)
-			{
-				effectAnimator.Play("LeonHeart_DownSkill_Effect");
-				Vector2f vec = GetPos();
-				vec.y += 51.f;
-				effectSprite.setPosition(vec);
-			}
-			if (lastDirection.y < 0.f)
-			{
-				effectAnimator.Play("LeonHeart_UpSkill_Effect");
-				Vector2f vec = GetPos();
-				vec.y -= 121.f;
-				effectSprite.setPosition(vec);
-			}
+			//if (lastDirection.y > 0.f)
+			//{
+			//	effectAnimator.Play("LeonHeart_DownSkill_Effect");
+			//	Vector2f vec = GetPos();
+			//	vec.y += 51.f;
+			//	effectSprite.setPosition(vec);
+			//}
+			//if (lastDirection.y < 0.f)
+			//{
+			//	effectAnimator.Play("LeonHeart_UpSkill_Effect");
+			//	Vector2f vec = GetPos();
+			//	vec.y -= 121.f;
+			//	effectSprite.setPosition(vec);
+			//}
 		}
 		break;
 	}
