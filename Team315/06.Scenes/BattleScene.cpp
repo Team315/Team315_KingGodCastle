@@ -13,7 +13,7 @@ using namespace std;
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(10),
-	curChapIdx(0), curStageIdx(0), playingBattle(false)
+	curChapIdx(0), curStageIdx(0), playingBattle(false), gameEndTimer(0.f)
 {
 	CLOG::Print3String("battle create");
 
@@ -464,10 +464,20 @@ void BattleScene::Update(float dt)
 	}
 
 	// main grid update
+	int playerCount = 0;
+	int aiCount = 0;
 	for (auto& gameObj : mgref)
 	{
-		if (gameObj != nullptr && IsCharacter(gameObj))
+		if (gameObj != nullptr && !gameObj->GetType().compare("Player"))
+		{
 			gameObj->Update(dt);
+			playerCount++;
+		}
+		else if (gameObj != nullptr && !gameObj->GetType().compare("Monster"))
+		{
+			gameObj->Update(dt);
+			aiCount++;
+		}
 	}
 
 	// main grid stat pop up
@@ -514,6 +524,51 @@ void BattleScene::Update(float dt)
 		pick = nullptr;
 		return;
 	}
+
+	if (gameEndTimer > 0.f)
+	{
+		gameEndTimer -= dt;
+
+		if (gameEndTimer < 0.f)
+		{
+			gameEndTimer = 0.f;
+			CLOG::Print3String("battle end");
+			playingBattle = false;
+
+			int len = battleGrid.size();
+			for (int idx = 0; idx < len; idx++)
+			{
+				if (battleGrid[idx] == nullptr)
+					continue;
+
+				battleGrid[idx]->Reset();
+				battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
+			}
+
+			b_centerPos = false;
+			ZoomOut();
+
+			if (curStageIdx < STAGE_MAX_COUNT - 1)
+				curStageIdx++;
+			SetCurrentStage(curChapIdx, curStageIdx);
+		}
+		return;
+	}
+
+	if (playingBattle)
+	{
+		if (playerCount == 0)
+		{
+			cout << "player defeat!" << endl;
+			gameEndTimer = 2.0f;
+		}
+		else if (aiCount == 0)
+		{
+			cout << "monster defeat!" << endl;
+			gameEndTimer = 2.0f;
+		}
+	}
+
 	// Game Input end
 }
 
