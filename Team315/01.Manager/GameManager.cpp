@@ -2,6 +2,7 @@
 #include "Map/Tile.h"
 #include "GameObj.h"
 #include "GameObjHeaders.h"
+#include "TileBackground.h"
 
 GameManager::GameManager()
 	: battleCharacterCount(8), extraLevelUpChance(0),
@@ -28,7 +29,6 @@ GameManager::GameManager()
 	itemStatMap[StatType::AP] = { 0.4f, 0.7f, 1.2f, 2.f };		// %
 	itemStatMap[StatType::AS] = { 0.25f, 0.4f, 0.7f, 1.2f };	// %
 	itemStatMap[StatType::HP] = { 250, 400, 700, 1200 };		// +
-
 	//battleTracker = new BattleTracker();
 }
 
@@ -100,6 +100,7 @@ Tile* GameManager::GetTile(int chap, int stage, int height, int width)
 void GameManager::SetBackGroundDatas()
 {
 	BackGroundDatas = FILE_MGR->LoadBackGroundData();
+	CreatedBackGround();
 }
 
 json GameManager::GetBackGroundDatas()
@@ -124,6 +125,27 @@ void GameManager::CreatedTiles()
 			}
 		}
 	}
+}
+
+void GameManager::CreatedBackGround()
+{
+	for (int k = 0; k < CHAPTER_MAX_COUNT; ++k)
+	{
+		for (int i = 0; i < TILE_HEIGHT; ++i)
+		{
+			for (int j = 0; j < TILE_WIDTH; ++j)
+			{
+				int num = (k * (TILE_HEIGHT * TILE_WIDTH)) + (i * TILE_WIDTH) + j;
+
+				Vector2f pos = { j * TILE_SIZE, i * TILE_SIZE };
+				TileBackground* tileBackground = new TileBackground();
+				tileBackground->LoadTileBackground(BackGroundDatas[num]);
+				tileBackground->SetPos(pos);
+				m_TileBackground.push_back(tileBackground);
+			}
+		}
+	}
+	
 }
 
 Character* GameManager::SpawnMonster(string name, int grade)

@@ -34,6 +34,8 @@ void TileBackground::SetTileBackground(Vector2i indexArr, Vector2f pos, int chap
 {
 	backGroundData.arrIndex = indexArr;
 	backGroundData.ThemeTypes =  chapter;
+	backGroundData.TileTypes = (int)TileTypes::BackGround;
+	backGroundData.pathIndex = -1;
 	m_ThemeTypes = (ThemeTypes)chapter;
 	SetTexture(*RESOURCE_MGR->GetTexture("graphics/TileSet/Field_02.png"));
 	SetPos(pos);
@@ -48,9 +50,22 @@ void TileBackground::SetTileBackground(Vector2i indexArr, Vector2f pos, int chap
 	//SetHitBoxActive( true);
 }
 
+void TileBackground::LoadTileBackground(ns::BackGroundData Data)
+{
+	backGroundData.arrIndex = Data.arrIndex;
+	backGroundData.ThemeTypes = Data.ThemeTypes;
+	backGroundData.pathIndex = Data.pathIndex;
+	backGroundData.TileTypes = Data.TileTypes;
+	m_ThemeTypes = (ThemeTypes)Data.ThemeTypes;
+
+	sprite.setTexture(*RESOURCE_MGR->GetTexture(GetBackgroundPath((ThemeTypes)backGroundData.ThemeTypes, backGroundData.pathIndex)), true);
+	SetOrigin(Origins::TL);
+}
+
 bool TileBackground::CollisionCheck(Vector2f pos)
 {
 	return OnEdge(sprite.getGlobalBounds().contains(pos));
+
 }
 
 bool TileBackground::OnEdge(bool isCollAble)
@@ -67,8 +82,9 @@ void TileBackground::ChangeTileBackground(ThemeTypes types, int index)
 {
 	backGroundData.ThemeTypes = (int)types;
 	backGroundData.pathIndex = index;
-	m_TileTypes = TileTypes::Obstacle;
+	m_TileTypes = TileTypes::BackGround;
 
+	
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(GetBackgroundPath(types, index)), true);
 	SetOrigin(Origins::TL);
 	CLOG::PrintVectorState(GetPos(), "방금 놓은 타일 포스");
@@ -82,6 +98,9 @@ string TileBackground::GetBackgroundPath(ThemeTypes types, int num)
 	string path = "graphics/TileSet/Field_" + field + "/field_" + field + "_";
 	string sNum = to_string(num / 10) + to_string(num % 10);
 	string png = ".png";
-
+	if (num == -1)
+	{
+		return "graphics/TileSet/Field_02.png";
+	}
 	return path + sNum + png;
 }

@@ -8,7 +8,7 @@ class TileBackground : public SpriteObj
 protected:
 	RectangleObj m_rectHit;
 
-	BackGroundData backGroundData;
+	ns::BackGroundData backGroundData;
 	TileTypes m_TileTypes;
 	ThemeTypes m_ThemeTypes;
 
@@ -24,13 +24,13 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	void SetTileBackground(Vector2i indexArr, Vector2f pos, int chapter);
-
+	void LoadTileBackground(ns::BackGroundData Data);
 	bool CollisionCheck(Vector2f pos);
 	bool OnEdge(bool isCollAble);
 	int GetChapther() { return (int)m_ThemeTypes; };
 	void ChangeTileBackground(ThemeTypes types, int index);
 	string GetBackgroundPath(ThemeTypes types, int num);
-	BackGroundData GetBackGroundData() { return backGroundData; }
+	ns::BackGroundData GetBackGroundData() { return backGroundData; }
 
 };
 

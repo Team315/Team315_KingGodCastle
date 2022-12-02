@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Include.h"
 #include <vector>
+#include "TileBackground.h"
 
 class BattleSceneUI;
 class GameObj;
@@ -22,6 +23,8 @@ protected:
 	float gameScreenTopLimit;
 
 	vector<vector<Tile*>>* curStage;
+	vector<TileBackground*> curBackGround;
+
 	int curChapIdx;
 	int curStageIdx;
 
@@ -62,6 +65,7 @@ public:
 		Vector2i startCoord, Vector2i destCoord);
 
 	void SetCurrentStage(int chap, int stage);
+	void SetCurrentBackGround(int chap);
 };
 
 int GetIdxFromCoord(Vector2i coord);

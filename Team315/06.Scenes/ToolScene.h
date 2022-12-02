@@ -39,6 +39,7 @@ protected:
 	list<SelectMonster*> SelectMonsterList;
 	vector<ToolChapter*> ToolChapterList;
 	vector<TileBackground*> TileBackgroundList;
+
 public:
 	ToolScene();
 	virtual ~ToolScene();
@@ -66,6 +67,7 @@ public:
 	Chapters GetTilesData();
 	void SetTilesData(Chapters& data);
 
-	json SetBackGroundData();
+	void SaveBackGroundData();
+	void LoadBackGroundData();
 
 };

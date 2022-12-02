@@ -12,7 +12,7 @@ private:
 	map<string, map<string, CookieHitBox>> cookieInfo; //find by cookie name and cookie state. return now animation hitbox
 
 	vector<vector<vector<vector<TileData>>>> tiledata;
-
+	vector<BackGroundData> backGroundData;
 public:
 	FileManager();
 	~FileManager();
@@ -30,7 +30,7 @@ public:
 	void LoadTileData(ToolScene& scene);
 	void LoadTileData(Chapters& m_PlayTileList);
 
-	void SaveBackGroundData(json datas);
+	void SaveBackGroundData(vector<BackGroundData> datas);
 	json LoadBackGroundData();
 
 	json LoadCharacterData();
