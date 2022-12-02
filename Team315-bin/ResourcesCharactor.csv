@@ -79,6 +79,9 @@ graphics/Charactor/Monster/Slime/slime04_Attack.png,0
 graphics/Charactor/Monster/Slime/slime05_Idle.png,0
 graphics/Charactor/Monster/Slime/slime05_Move.png,0
 graphics/Charactor/Monster/Slime/slime05_Attack.png,0
+graphics/Charactor/Monster/Slime/slime00_01_Init.png,0
+graphics/Charactor/Monster/Slime/slime00_01_Move.png,0
+graphics/Charactor/Monster/Slime/slime00_01_Attack.png,0
 graphics/Charactor/Portrait/Portrait_Aramis.png,0
 graphics/Charactor/Portrait/Portrait_Arveron.png,0
 graphics/Charactor/Portrait/Portrait_Daniel.png,0
@@ -434,3 +437,13 @@ animations/Monster/slime/slime05_Move/slime05_DownMove.csv,3
 animations/Monster/slime/slime05_Move/slime05_LeftMove.csv,3
 animations/Monster/slime/slime05_Move/slime05_RightMove.csv,3
 animations/Monster/slime/slime05_Move/slime05_UpMove.csv,3
+animations/Monster/slime/slime00_01_Attack/slime00_01_DownAttack.csv,3
+animations/Monster/slime/slime00_01_Attack/slime00_01_LeftAttack.csv,3
+animations/Monster/slime/slime00_01_Attack/slime00_01_RightAttack.csv,3
+animations/Monster/slime/slime00_01_Attack/slime00_01_UpAttack.csv,3
+animations/Monster/slime/slime00_01_Idle/slime00_01_Idle.csv,3
+animations/Monster/slime/slime00_01_Init/slime00_01_Init.csv,3
+animations/Monster/slime/slime00_01_Move/slime00_01_DownMove.csv,3
+animations/Monster/slime/slime00_01_Move/slime00_01_LeftMove.csv,3
+animations/Monster/slime/slime00_01_Move/slime00_01_RightMove.csv,3
+animations/Monster/slime/slime00_01_Move/slime00_01_UpMove.csv,3

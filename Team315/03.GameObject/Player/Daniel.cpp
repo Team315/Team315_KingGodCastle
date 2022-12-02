@@ -16,7 +16,7 @@ Daniel::~Daniel()
 void Daniel::Init()
 {
 	animator.SetTarget(&sprite);
-	attackEffect.SetTarget(&attackSprite);
+	effectAnimator.SetTarget(&effectSprite);
 	
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Idle"));
@@ -41,10 +41,10 @@ void Daniel::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_UpSkill"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_DownAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_LeftAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_RightAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_UpAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_DownAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_LeftAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_RightAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_UpAttack_Effect"));
 
 	
 
@@ -81,28 +81,28 @@ void Daniel::Init()
 		ev.clipId = "Daniel_DownAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Daniel::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Daniel_LeftAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Daniel::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Daniel_RightAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Daniel::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Daniel_UpAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&Daniel::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
@@ -182,7 +182,7 @@ void Daniel::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
-	attackEffect.Update(dt);
+	effectAnimator.Update(dt);
 	for (int i = 0; i < 25; ++i)
 	{
 		skillEffect[i]->Update(dt);
@@ -243,17 +243,17 @@ void Daniel::SetState(AnimStates newState)
 			animator.Play((lastDirection.x > 0.f) ? "Daniel_RightAttack" : "Daniel_LeftAttack");
 			if (lastDirection.x > 0.f)
 			{
-				attackEffect.Play("Daniel_RightAttack_Effect");
+				effectAnimator.Play("Daniel_RightAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 40.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.x < 0.f)
 			{
-				attackEffect.Play("Daniel_LeftAttack_Effect");
+				effectAnimator.Play("Daniel_LeftAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x -= 40.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		if (lastDirection.y)
@@ -261,17 +261,17 @@ void Daniel::SetState(AnimStates newState)
 			animator.Play((lastDirection.y > 0.f) ? "Daniel_DownAttack" : "Daniel_UpAttack");
 			if (lastDirection.y > 0.f)
 			{
-				attackEffect.Play("Daniel_DownAttack_Effect");
+				effectAnimator.Play("Daniel_DownAttack_Effect");
 				Vector2f vec = GetPos();
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			if (lastDirection.y < 0.f)
 			{
-				attackEffect.Play("Daniel_UpAttack_Effect");
+				effectAnimator.Play("Daniel_UpAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 3.f;
 				vec.y -= 51.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		break;

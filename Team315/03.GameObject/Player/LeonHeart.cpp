@@ -14,7 +14,7 @@ LeonHeart::~LeonHeart()
 void LeonHeart::Init()
 {
 	animator.SetTarget(&sprite);
-	attackEffect.SetTarget(&attackSprite);
+	effectAnimator.SetTarget(&effectSprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_Idle"));
 
@@ -38,15 +38,15 @@ void LeonHeart::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_UpSkill"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_DownAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_LeftAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_RightAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_UpAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_DownAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_LeftAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_RightAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_UpAttack_Effect"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_DownSkill_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_LeftSkill_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_RightSkill_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_UpSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_DownSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_LeftSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_RightSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("LeonHeart_UpSkill_Effect"));
 
 	{
 		AnimationEvent ev;
@@ -81,28 +81,28 @@ void LeonHeart::Init()
 		ev.clipId = "LeonHeart_DownAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&LeonHeart::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "LeonHeart_LeftAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&LeonHeart::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "LeonHeart_RightAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&LeonHeart::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "LeonHeart_UpAttack_Effect";
 		ev.frame = 3;
 		ev.onEvent = bind(&LeonHeart::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
@@ -193,7 +193,7 @@ void LeonHeart::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
-	attackEffect.Update(dt);
+	effectAnimator.Update(dt);
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -246,19 +246,19 @@ void LeonHeart::SetState(AnimStates newState)
 			animator.Play((lastDirection.x > 0.f) ? "LeonHeart_RightAttack" : "LeonHeart_LeftAttack");
 			if (lastDirection.x > 0.f)
 			{
-				attackEffect.Play("LeonHeart_RightAttack_Effect");
+				effectAnimator.Play("LeonHeart_RightAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 40.f;
 				vec.y += 21.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.x < 0.f)
 			{
-				attackEffect.Play("LeonHeart_LeftAttack_Effect");
+				effectAnimator.Play("LeonHeart_LeftAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x -= 40.f;
 				vec.y += 21.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		if (lastDirection.y)
@@ -266,16 +266,16 @@ void LeonHeart::SetState(AnimStates newState)
 			animator.Play((lastDirection.y > 0.f) ? "LeonHeart_DownAttack" : "LeonHeart_UpAttack");
 			if (lastDirection.y > 0.f)
 			{
-				attackEffect.Play("LeonHeart_DownAttack_Effect");
+				effectAnimator.Play("LeonHeart_DownAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.y -= 81.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			if (lastDirection.y < 0.f)
 			{
-				attackEffect.Play("LeonHeart_UpAttack_Effect");
+				effectAnimator.Play("LeonHeart_UpAttack_Effect");
 				Vector2f vec = GetPos();
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		break;
@@ -285,19 +285,19 @@ void LeonHeart::SetState(AnimStates newState)
 			animator.Play((lastDirection.x > 0.f) ? "LeonHeart_RightSkill" : "LeonHeart_LeftSkill");
 			if (lastDirection.x > 0.f)
 			{
-				attackEffect.Play("LeonHeart_RightSkill_Effect");
+				effectAnimator.Play("LeonHeart_RightSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 40.f;
 				vec.y += 51.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.x < 0.f)
 			{
-				attackEffect.Play("LeonHeart_LeftSkill_Effect");
+				effectAnimator.Play("LeonHeart_LeftSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.x -= 40.f;
 				vec.y += 51.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		if (lastDirection.y)
@@ -305,17 +305,17 @@ void LeonHeart::SetState(AnimStates newState)
 			animator.Play((lastDirection.y > 0.f) ? "LeonHeart_DownSkill" : "LeonHeart_UpSkill");
 			if (lastDirection.y > 0.f)
 			{
-				attackEffect.Play("LeonHeart_DownSkill_Effect");
+				effectAnimator.Play("LeonHeart_DownSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.y += 51.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			if (lastDirection.y < 0.f)
 			{
-				attackEffect.Play("LeonHeart_UpSkill_Effect");
+				effectAnimator.Play("LeonHeart_UpSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.y -= 121.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		break;

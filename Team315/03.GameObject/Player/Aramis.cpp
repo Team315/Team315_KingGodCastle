@@ -15,7 +15,7 @@ Aramis::~Aramis()
 void Aramis::Init()
 {
 	animator.SetTarget(&sprite);
-	attackEffect.SetTarget(&attackSprite);
+	effectAnimator.SetTarget(&effectSprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_Idle"));
 
@@ -39,15 +39,15 @@ void Aramis::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_UpSkill"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_DownAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_LeftAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_RightAttack_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_UpAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_DownAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_LeftAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_RightAttack_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_UpAttack_Effect"));
 
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_DownSkill_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_LeftSkill_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_RightSkill_Effect"));
-	attackEffect.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_UpSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_DownSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_LeftSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_RightSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Aramis_UpSkill_Effect"));
 
 	{
 		AnimationEvent ev;
@@ -82,28 +82,28 @@ void Aramis::Init()
 		ev.clipId = "Aramis_DownAttack_Effect";
 		ev.frame = 4;
 		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Aramis_LeftAttack_Effect";
 		ev.frame = 4;
 		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Aramis_RightAttack_Effect";
 		ev.frame = 4;
 		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Aramis_UpAttack_Effect";
 		ev.frame = 4;
 		ev.onEvent = bind(&Aramis::OnCompleteAttack, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
@@ -138,28 +138,28 @@ void Aramis::Init()
 		ev.clipId = "Aramis_DownSkill_Effect";
 		ev.frame = 5;
 		ev.onEvent = bind(&Aramis::OnCompleteSkill, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Aramis_LeftSkill_Effect";
 		ev.frame = 5;
 		ev.onEvent = bind(&Aramis::OnCompleteSkill, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Aramis_RightSkill_Effect";
 		ev.frame = 5;
 		ev.onEvent = bind(&Aramis::OnCompleteSkill, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 	{
 		AnimationEvent ev;
 		ev.clipId = "Aramis_UpSkill_Effect";
 		ev.frame = 5;
 		ev.onEvent = bind(&Aramis::OnCompleteSkill, this);
-		attackEffect.AddEvent(ev);
+		effectAnimator.AddEvent(ev);
 	}
 
 	SetState(AnimStates::Idle);
@@ -194,7 +194,7 @@ void Aramis::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
-	attackEffect.Update(dt);
+	effectAnimator.Update(dt);
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -247,19 +247,19 @@ void Aramis::SetState(AnimStates newState)
 			animator.Play((lastDirection.x > 0.f) ? "Aramis_RightAttack" : "Aramis_LeftAttack");
 			if (lastDirection.x > 0.f)
 			{
-				attackEffect.Play("Aramis_RightAttack_Effect");
+				effectAnimator.Play("Aramis_RightAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 81.f;
 				vec.y -= 21.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.x < 0.f)
 			{
-				attackEffect.Play("Aramis_LeftAttack_Effect");
+				effectAnimator.Play("Aramis_LeftAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x -= 81.f;
 				vec.y -= 21.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		if (lastDirection.y)
@@ -267,18 +267,18 @@ void Aramis::SetState(AnimStates newState)
 			animator.Play((lastDirection.y > 0.f) ? "Aramis_DownAttack" : "Aramis_UpAttack");
 			if (lastDirection.y > 0.f)
 			{
-				attackEffect.Play("Aramis_DownAttack_Effect");
+				effectAnimator.Play("Aramis_DownAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.y -= 31.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.y < 0.f)
 			{
-				attackEffect.Play("Aramis_UpAttack_Effect");
+				effectAnimator.Play("Aramis_UpAttack_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 3.f;
 				vec.y -= 71.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		break;
@@ -288,19 +288,19 @@ void Aramis::SetState(AnimStates newState)
 			animator.Play((lastDirection.x > 0.f) ? "Aramis_RightSkill" : "Aramis_LeftSkill");
 			if (lastDirection.x > 0.f)
 			{
-				attackEffect.Play("Aramis_RightSkill_Effect");
+				effectAnimator.Play("Aramis_RightSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 81.f;
 				vec.y -= 21.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.x < 0.f)
 			{
-				attackEffect.Play("Aramis_LeftSkill_Effect");
+				effectAnimator.Play("Aramis_LeftSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.x -= 81.f;
 				vec.y -= 21.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		if (lastDirection.y)
@@ -308,18 +308,18 @@ void Aramis::SetState(AnimStates newState)
 			animator.Play((lastDirection.y > 0.f) ? "Aramis_DownSkill" : "Aramis_UpSkill");
 			if (lastDirection.y > 0.f)
 			{
-				attackEffect.Play("Aramis_DownSkill_Effect");
+				effectAnimator.Play("Aramis_DownSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.y -= 31.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.y < 0.f)
 			{
-				attackEffect.Play("Aramis_UpSkill_Effect");
+				effectAnimator.Play("Aramis_UpSkill_Effect");
 				Vector2f vec = GetPos();
 				vec.x += 3.f;
 				vec.y -= 71.f;
-				attackSprite.setPosition(vec);
+				effectSprite.setPosition(vec);
 			}
 		}
 		break;

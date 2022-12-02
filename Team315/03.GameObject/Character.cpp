@@ -170,7 +170,7 @@ void Character::Draw(RenderWindow& window)
 		return;
 
 	SpriteObj::Draw(window);
-	window.draw(attackSprite);
+	window.draw(effectSprite);
 	hpBar->Draw(window);
 	star->Draw(window);
 	for (auto& grid : itemGrid)
@@ -183,7 +183,7 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	attackSprite.setPosition(pos);
+	effectSprite.setPosition(GetPos());
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
 	
