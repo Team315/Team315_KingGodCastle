@@ -614,9 +614,21 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 			{
 				// combinate condition
 				Character* destCharacter = dynamic_cast<Character*>((*dest)[destIdx]);
+
 				if (!destCharacter->GetName().compare(pick->GetName()) &&
-					destCharacter->GetStarNumber() == dynamic_cast<Character*>(pick)->GetStarNumber())
+					destCharacter->GetStarNumber() == dynamic_cast<Character*>(pick)->GetStarNumber() &&
+					destCharacter->GetStarNumber() != STAR_MAX)
 				{
+					/*vector<Item*>& pickCrtItems = pickCharacter->GetItems();
+					vector<Item*> restItems;
+
+					for (auto& pItem : pickCrtItems)
+					{
+						if (!destCharacter->SetItem(pItem))
+							restItems.push_back(pItem);
+					}
+					cout << "rest: " << restItems.size() << endl;*/
+
 					(*dest)[destIdx] = nullptr;
 					GameObj* temp = pick;
 					pick = destCharacter;

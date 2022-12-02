@@ -26,9 +26,9 @@ void Star::SetPos(const Vector2f& pos)
 bool Star::CalculateRandomChance()
 {
 	bool ret = false;
-	if (starNumber < 6)
+	if (starNumber < STAR_MAX - 1)
 		ret = Utils::RandomRange(0, 100) < GAME_MGR->GetExtraLevelUpChance() ? true : false;
-	if (starNumber != 7)
+	if (starNumber != STAR_MAX)
 		starNumber = ret ? starNumber + 2 : starNumber + 1;
 	return ret;
 }
