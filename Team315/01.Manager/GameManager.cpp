@@ -129,20 +129,23 @@ void GameManager::CreatedTiles()
 
 void GameManager::CreatedBackGround()
 {
+	int n = 0;
+
 	for (int k = 0; k < CHAPTER_MAX_COUNT; ++k)
 	{
 		for (int i = 0; i < TILE_HEIGHT; ++i)
 		{
+			//for (int j = 0; j < TILE_WIDTH; ++j)
 			for (int j = 9; j >= 0; --j)
 			{
 				int num = (k * (TILE_HEIGHT * TILE_WIDTH)) + (i * TILE_WIDTH) + j;
 
 				Vector2f pos = { j * TILE_SIZE, i * TILE_SIZE };
-				cout << pos.x << " " << pos.y << endl;
 				TileBackground* tileBackground = new TileBackground();
-				tileBackground->LoadTileBackground(BackGroundDatas[num]);
+				tileBackground->LoadTileBackground(BackGroundDatas[n]);
 				tileBackground->SetPos(pos);
 				m_TileBackground.push_back(tileBackground);
+				++n;
 			}
 		}
 	}
