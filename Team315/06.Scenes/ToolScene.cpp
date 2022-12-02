@@ -283,6 +283,7 @@ void ToolScene::Update(float dt)
 			save->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 0))
 		{
 			FILE_MGR->SaveTileData(*this);
+			SaveBackGroundData();
 		}
 	}
 
@@ -294,6 +295,7 @@ void ToolScene::Update(float dt)
 			if (InputMgr::GetMouseUp(Mouse::Left))
 			{
 				FILE_MGR->LoadTileData(*this);
+				LoadBackGroundData();
 			}
 		}
 	}
@@ -695,10 +697,27 @@ void ToolScene::SetTilesData(Chapters& data)
 	}
 }
 
-json ToolScene::SetBackGroundData()
+void ToolScene::SaveBackGroundData()
 {
-	json data;
+	vector<BackGroundData> data;
+	
+	for (auto TileBackground:TileBackgroundList)
+	{
+		data.push_back(TileBackground->GetBackGroundData());
+	}
+	FILE_MGR->SaveBackGroundData(data);
+}
 
-	return data;
+void ToolScene::LoadBackGroundData()
+{
+	json data= FILE_MGR->LoadBackGroundData();
+
+	int i = 0;
+	for (auto TileBackground : TileBackgroundList)
+	{
+		TileBackground->LoadTileBackground(data[i]);
+		cout << i << endl;
+		++i;
+	}
 }
 

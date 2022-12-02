@@ -99,6 +99,7 @@ Tile* GameManager::GetTile(int chap, int stage, int height, int width)
 
 void GameManager::SetBackGroundDatas()
 {
+
 	BackGroundDatas = FILE_MGR->LoadBackGroundData();
 }
 

@@ -17,7 +17,7 @@ class GameManager : public Singleton<GameManager>
 protected:
 	Chapters* m_PlayTileList;
 	vector<vector<vector<vector<Tile*>>>> m_tiles;
-	BackGroundData BackGroundDatas;
+	BackGrounds BackGroundDatas;
 
 	json characterDatas;
 
