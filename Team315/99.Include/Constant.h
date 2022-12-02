@@ -27,12 +27,11 @@
 #define BACKGROUND_WIDTH_COUNT (10)
 #define BACKGROUND_HEIGHT_COUNT (15)
 
-
 // Game screen size
 #define GAME_SCREEN_WIDTH (510.f)
 #define GAME_SCREEN_HEIGHT (765.f)
 #define GAME_SCREEN_ZOOM_WIDTH (479.4f)
-#define GAME_SCREEN_ZOOM_HEIGHT (719.1f)
+#define GAME_SCREEN_ZOOM_HEIGHT (716.1f)
 
 // Battle systems
 #define PREPARE_SIZE (14)

@@ -256,6 +256,7 @@ void BattleScene::Update(float dt)
 	if (InputMgr::GetMouseDown(Mouse::Left))
 	{
 		ui->SetStatPopup(false, currentView.getCenter());
+		ui->SetItemPopup(false, currentView.getCenter());
 	}
 
 	vector<Button*>& buttons = ui->GetPanel()->GetButtons();
@@ -626,14 +627,6 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 					destCharacter->GetStarNumber() == dynamic_cast<Character*>(pick)->GetStarNumber() &&
 					destCharacter->GetStarNumber() != STAR_MAX)
 				{
-					/*
-					for (auto& pItem : pickCrtItems)
-					{
-						if (!destCharacter->SetItem(pItem))
-							restItems.push_back(pItem);
-					}
-					cout << "rest: " << restItems.size() << endl;*/
-
 					(*dest)[destIdx] = nullptr;
 					GameObj* temp = pick;
 					vector<Item*>& pickCrtItems = dynamic_cast<Character*>(temp)->GetItems();
@@ -678,24 +671,8 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 	if (startCoord == destCoord)
 	{
 		// pop up item stat window
-		Item* destItem = dynamic_cast<Item*>((*dest)[destIdx]);
-		string str = "";
-		switch (destItem->GetStatType())
-		{
-		case StatType::HP:
-			str = "hp";
-			break;
-		case StatType::AD:
-			str = "ad";
-			break;
-		case StatType::AP:
-			str = "ap";
-			break;
-		case StatType::AS:
-			str = "as";
-			break;
-		}
-		cout << str << " " << destItem->GetPotential() << endl;
+		ui->SetItemPopup(true, currentView.getCenter(), dynamic_cast<Item*>((*dest)[destIdx]),
+			GAME_MGR->SnapToCoord((*dest)[destIdx]->GetPos() + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
 	}
 	else if ((*dest)[destIdx] != nullptr)
 	{
