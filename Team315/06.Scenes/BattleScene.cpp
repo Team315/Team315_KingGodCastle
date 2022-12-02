@@ -626,9 +626,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 					destCharacter->GetStarNumber() == dynamic_cast<Character*>(pick)->GetStarNumber() &&
 					destCharacter->GetStarNumber() != STAR_MAX)
 				{
-					/*vector<Item*>& pickCrtItems = pickCharacter->GetItems();
-					vector<Item*> restItems;
-
+					/*
 					for (auto& pItem : pickCrtItems)
 					{
 						if (!destCharacter->SetItem(pItem))
@@ -638,6 +636,16 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 
 					(*dest)[destIdx] = nullptr;
 					GameObj* temp = pick;
+					vector<Item*>& pickCrtItems = dynamic_cast<Character*>(temp)->GetItems();
+					vector<Item*> restItems;
+					for (auto& pItem : pickCrtItems)
+					{
+						if (!destCharacter->SetItem(pItem))
+							restItems.push_back(pItem);
+					}
+					cout << "rest: " << restItems.size() << endl;
+					// todo rest item -> game mgr maingrid
+
 					pick = destCharacter;
 					temp->Release();
 					delete temp;
