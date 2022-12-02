@@ -97,6 +97,16 @@ Tile* GameManager::GetTile(int chap, int stage, int height, int width)
 	return m_tiles[chap][stage][height][width];
 }
 
+void GameManager::SetBackGroundDatas()
+{
+	BackGroundDatas = FILE_MGR->LoadBackGroundData();
+}
+
+json GameManager::GetBackGroundDatas()
+{
+	return BackGroundDatas;
+}
+
 void GameManager::CreatedTiles()
 {
 	for (int i = 0; i < m_PlayTileList->data.size(); ++i)

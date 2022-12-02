@@ -104,7 +104,11 @@ struct MapData
 	map<string, vector<sf::Vector2f>> jellys; //obstacles draw path, draw position
 	NLOHMANN_DEFINE_TYPE_INTRUSIVE(MapData, backInfo, bottomPath, bottomPos, obstacles, jellys)
 };
-
+struct BackGrounds
+{
+	vector<ns::BackGroundData> data;
+	NLOHMANN_DEFINE_TYPE_INTRUSIVE(BackGrounds, data);
+};
 struct HitBoxInfo
 {
 	vector<ns::CircleInfo> circles;    // rad, pos

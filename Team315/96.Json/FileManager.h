@@ -30,6 +30,9 @@ public:
 	void LoadTileData(ToolScene& scene);
 	void LoadTileData(Chapters& m_PlayTileList);
 
+	void SaveBackGroundData(json datas);
+	json LoadBackGroundData();
+
 	json LoadCharacterData();
 };
 
