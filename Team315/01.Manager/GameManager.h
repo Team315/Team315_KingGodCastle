@@ -11,13 +11,14 @@ class Character;
 class GameObj;
 class Item;
 class Tile;
-
+class TileBackground;
 class GameManager : public Singleton<GameManager>
 {
 protected:
 	Chapters* m_PlayTileList;
 	vector<vector<vector<vector<Tile*>>>> m_tiles;
-	BackGrounds BackGroundDatas;
+	vector<TileBackground*> m_TileBackground;
+	json BackGroundDatas;
 
 	json characterDatas;
 
@@ -55,11 +56,14 @@ public:
 	void SetTilesData();
 	Tile* GetTile(int chap, int stage, int height, int width);
 	vector<vector<Tile*>>* GetStage(int chap, int stage) { return &m_tiles[chap][stage]; }
+	vector<TileBackground*> GetTileBackgroundList() { return m_TileBackground; };
 
 	void SetBackGroundDatas();
 	json GetBackGroundDatas();
 
+
 	void CreatedTiles();
+	void CreatedBackGround();
 	Character* SpawnMonster(string name, int grade);
 	Character* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
 	Character* SpawnPlayer(bool random, bool drawingOnBattle = true);
