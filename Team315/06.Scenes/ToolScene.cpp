@@ -279,23 +279,52 @@ void ToolScene::Update(float dt)
 
 	for (auto save: UiNameList)
 	{
-		if (save->GetStr() == "SAVE" &&
+		if (save->GetStr() == "Save Obj" &&
 			save->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 0))
 		{
-			FILE_MGR->SaveTileData(*this);
-			SaveBackGroundData();
+			if (InputMgr::GetMouseUp(Mouse::Left))
+			{
+				FILE_MGR->SaveTileData(*this);
+				cout << "Save Obj Succese" << endl;
+			}
 		}
 	}
 
 	for (auto load : UiNameList)
 	{
-		if (load->GetStr() == "LOAD" &&
+		if (load->GetStr() == "Load Obj" &&
 			load->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 0))
 		{
 			if (InputMgr::GetMouseUp(Mouse::Left))
 			{
 				FILE_MGR->LoadTileData(*this);
+				cout << "Load Obj Succese" << endl;
+			}
+		}
+	}
+
+	for (auto save : UiNameList)
+	{
+		if (save->GetStr() == "Save Bgd" &&
+			save->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 0))
+		{
+			if (InputMgr::GetMouseUp(Mouse::Left))
+			{
+				SaveBackGroundData();
+				cout << "Save Bgd Succese" << endl;
+			}
+		}
+	}
+
+	for (auto load : UiNameList)
+	{
+		if (load->GetStr() == "Load Bgd" &&
+			load->CollisionCheck(ScreenToToolPos(InputMgr::GetMousePosI()), 0))
+		{
+			if (InputMgr::GetMouseUp(Mouse::Left))
+			{
 				LoadBackGroundData();
+				cout << "Load Bgd Succese" << endl;
 			}
 		}
 	}
@@ -419,21 +448,37 @@ void ToolScene::CreateUiName()
 	UiNameList.push_back(monster);
 	objList.push_back(monster);
 
-	UiName* save = new UiName();
-	save->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
-	save->SetPos({ 600.f, 25.f });
-	save->SetOrigin(Origins::MC);
-	save->SetText("SAVE");
-	UiNameList.push_back(save);
-	objList.push_back(save);
+	UiName* saveObj = new UiName();
+	saveObj->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
+	saveObj->SetPos({ 700.f, 25.f });
+	saveObj->SetOrigin(Origins::MC);
+	saveObj->SetText("Save Obj");
+	UiNameList.push_back(saveObj);
+	objList.push_back(saveObj);
 
-	UiName* load = new UiName();
-	load->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
-	load->SetPos({ 600.f, 70.f });
-	load->SetOrigin(Origins::MC);
-	load->SetText("LOAD");
-	UiNameList.push_back(load);
-	objList.push_back(load);
+	UiName* loadObj = new UiName();
+	loadObj->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
+	loadObj->SetPos({ 700.f, 70.f });
+	loadObj->SetOrigin(Origins::MC);
+	loadObj->SetText("Load Obj");
+	UiNameList.push_back(loadObj);
+	objList.push_back(loadObj);
+
+	UiName* saveBgd = new UiName();
+	saveBgd->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
+	saveBgd->SetPos({ 700.f, 120.f });
+	saveBgd->SetOrigin(Origins::MC);
+	saveBgd->SetText("Save Bgd");
+	UiNameList.push_back(saveBgd);
+	objList.push_back(saveBgd);
+
+	UiName* loadBgd = new UiName();
+	loadBgd->SetTexture(*RESOURCE_MGR->GetTexture("graphics/ToolUi/ToolUICover.png"));
+	loadBgd->SetPos({ 700.f, 165.f });
+	loadBgd->SetOrigin(Origins::MC);
+	loadBgd->SetText("Load Bgd");
+	UiNameList.push_back(loadBgd);
+	objList.push_back(loadBgd);
 }
 
 void ToolScene::CreateChapterNum(int count)

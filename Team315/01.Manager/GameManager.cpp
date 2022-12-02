@@ -133,11 +133,12 @@ void GameManager::CreatedBackGround()
 	{
 		for (int i = 0; i < TILE_HEIGHT; ++i)
 		{
-			for (int j = 0; j < TILE_WIDTH; ++j)
+			for (int j = 9; j >= 0; --j)
 			{
 				int num = (k * (TILE_HEIGHT * TILE_WIDTH)) + (i * TILE_WIDTH) + j;
 
 				Vector2f pos = { j * TILE_SIZE, i * TILE_SIZE };
+				cout << pos.x << " " << pos.y << endl;
 				TileBackground* tileBackground = new TileBackground();
 				tileBackground->LoadTileBackground(BackGroundDatas[num]);
 				tileBackground->SetPos(pos);

@@ -14,7 +14,7 @@ void DanielSkill::Init()
 {
 	Skill::Init();
 	baseDamage = { 50, 60, 70, 80 };
-	range.resize(CHARACTER_TIER_MAX);
+	//range.resize(CHARACTER_TIER_MAX);
 
 	for (int i = 0; i < 25; ++i)
 	{
