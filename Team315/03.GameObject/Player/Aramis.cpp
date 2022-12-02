@@ -1,9 +1,10 @@
 #include "Aramis.h"
-#include "Bullet.h"
+#include "Skill/AramisSkill.h"
 
 Aramis::Aramis(int starNumber)
-	: Character(starNumber)
+	: Character(starNumber), bulletSpeed(2000.f)
 {
+	skill = new AramisSkill();
 	SetType("Player");
 	SetName("Aramis"); 
 }
@@ -166,9 +167,44 @@ void Aramis::Init()
 	Character::Init();
 }
 
+void Aramis::UpdateAttack(float dt)
+{
+	skill->Init();
+	Vector2f vec = GetPos();
+	dynamic_cast<AramisSkill*>(skill)->SetRotation(lastDirection);
+
+	if (lastDirection.y < 0.f)
+	{
+		vec.x -= 5.f;
+		vec.y -= 100.f;
+	}
+	else if (lastDirection.y > 0.f)
+	{
+		vec.x -= 90.f;
+		vec.y += 30.f;
+	}
+	else if (lastDirection.x < 0.f)
+	{
+		vec.x -= 80.f;
+		vec.y -= 120.f;
+	}
+	else if (lastDirection.x > 0.f)
+	{
+		vec.x += 80.f;
+		vec.y += 65.f;
+	}
+	skill->SetPos(vec);
+	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
+	{
+		SetState(AnimStates::MoveToIdle);
+	}
+}
+
 void Aramis::Update(float dt)
 {
 	Character::Update(dt);
+	
+	skill->Translate(lastDirection * bulletSpeed * dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
@@ -205,6 +241,7 @@ void Aramis::Update(float dt)
 void Aramis::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
+	//skill->Draw(window);
 }
 
 void Aramis::SetPos(const Vector2f& pos)
@@ -371,13 +408,39 @@ void Aramis::UpdateMove(float dt)
 	}
 }
 
-void Aramis::UpdateAttack(float dt)
-{
-	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
-	{
-		SetState(AnimStates::MoveToIdle);
-	}
-}
+//void Aramis::UpdateAttack(float dt)
+//{
+//	skill->Init();
+//
+//	dynamic_cast<AramisSkill*>(skill)->SetRotation(lastDirection);
+//	Vector2f vec = GetPos();
+//
+//	if (lastDirection.y < 0.f)
+//	{
+//		vec.x -= 5.f;
+//		vec.y -= 100.f;
+//	}
+//	else if (lastDirection.y > 0.f)
+//	{
+//		vec.x -= 90.f;
+//		vec.y += 30.f;
+//	}
+//	else if (lastDirection.x < 0.f)
+//	{
+//		vec.x -= 80.f;
+//		vec.y -= 120.f;
+//	}
+//	else if (lastDirection.x > 0.f)
+//	{
+//		vec.x += 80.f;
+//		vec.y += 65.f;
+//	}
+//	skill->SetPos(vec);
+//	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
+//	{
+//		SetState(AnimStates::MoveToIdle);
+//	}
+//}
 
 void Aramis::UpdateSkill(float dt)
 {

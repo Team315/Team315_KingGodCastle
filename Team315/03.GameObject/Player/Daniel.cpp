@@ -45,9 +45,7 @@ void Daniel::Init()
 	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_LeftAttack_Effect"));
 	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_RightAttack_Effect"));
 	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_UpAttack_Effect"));
-
 	
-
 	{
 		AnimationEvent ev;
 		ev.clipId = "Daniel_DownAttack";
@@ -149,7 +147,8 @@ void Daniel::Init()
 		skillEffect.push_back(skillEffectArr);
 		skillSprite.push_back(skillSpriteArr);
 	}
-	
+
+	//skill->Init();
 	SetState(AnimStates::Idle);
 	Character::Init();
 }
@@ -183,6 +182,7 @@ void Daniel::Update(float dt)
 	}
 	animator.Update(dt);
 	effectAnimator.Update(dt);
+	//skill->Update(dt);
 	for (int i = 0; i < 25; ++i)
 	{
 		skillEffect[i]->Update(dt);
@@ -197,6 +197,7 @@ void Daniel::Update(float dt)
 void Daniel::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
+	//skill->Draw(window);
 	for (auto skills : skillSprite)
 	{
 		window.draw(*skills);
@@ -206,6 +207,7 @@ void Daniel::Draw(RenderWindow& window)
 void Daniel::SetPos(const Vector2f& pos)
 {
 	Character::SetPos(pos);
+	//skill->SetPos(pos);
 }
 
 void Daniel::SetState(AnimStates newState)
@@ -279,13 +281,12 @@ void Daniel::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Daniel_RightSkill" : "Daniel_LeftSkill");
-			
-
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Daniel_DownSkill" : "Daniel_UpSkill");
 		}
+		//dynamic_cast<DanielSkill*>(skill)->SetState(AnimStates::Skill, GetTarget(), targetType);
 		Vector2f vec = GetTarget()->GetPos();
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 		Vector2i targetPos = GAME_MGR->PosToIdx(GetPos());

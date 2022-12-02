@@ -67,6 +67,8 @@ void Character::Reset()
 	attack = false;
 	move = false;
 	isAlive = true;
+	direction = { 0.f,0.f };
+	lastDirection = { 0.f,0.f };
 	Stat& hp = stat[StatType::HP];
 	hp.ResetStat();
 	shieldAmount = shieldAmountMin;

@@ -293,18 +293,23 @@ void Evan::Update(float dt)
 	{
 	case AnimStates::Idle:
 		UpdateIdle(dt);
+		cout << "I" << endl;
 		break;
 	case AnimStates::MoveToIdle:
 		UpdateMoveToIdle(dt);
+		cout << "MTI" << endl;
 		break;
 	case AnimStates::Move:
 		UpdateMove(dt);
+		cout << "M" << endl;
 		break;
 	case AnimStates::Attack:
 		UpdateAttack(dt);
+		cout << "A" << endl;
 		break;
 	case AnimStates::Skill:
 		UpdateSkill(dt);
+		cout << "S" << endl;
 		break;
 	}
 	animator.Update(dt);
@@ -359,16 +364,8 @@ void Evan::UpdateMove(float dt)
 {
 	if (Utils::EqualFloat(direction.x, 0.f) && Utils::EqualFloat(direction.y, 0.f))
 	{
-		SetState(AnimStates::MoveToIdle);
+		SetState(AnimStates::Idle);
 		return;
-	}
-	if (!Utils::EqualFloat(direction.x, lastDirection.x))
-	{
-		animator.Play((direction.x > 0.f) ? "RightMove" : "LeftMove");
-	}
-	if (!Utils::EqualFloat(direction.y, lastDirection.y))
-	{
-		animator.Play((direction.y > 0.f) ? "DownMove" : "UpMove");
 	}
 }
 

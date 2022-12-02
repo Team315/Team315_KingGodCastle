@@ -1,8 +1,10 @@
 #include "Thief00.h"
+#include "Skill/Thief00Skill.h"
 
 Thief00::Thief00(int starNumber)
 	: Character(starNumber)
 {
+	skill = new Thief00Skill();
 	SetType("Monster");
 	SetName("Thief00");
 }
@@ -14,6 +16,7 @@ Thief00::~Thief00()
 void Thief00::Init()
 {
 	animator.SetTarget(&sprite);
+	effectAnimator.SetTarget(&effectSprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("thief00_Idle"));
 
@@ -36,6 +39,11 @@ void Thief00::Init()
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("thief00_LeftSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("thief00_RightSkill"));
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("thief00_UpSkill"));
+
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("thief00_DownSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("thief00_LeftSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("thief00_RightSkill_Effect"));
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("thief00_UpSkill_Effect"));
 
 	{
 		AnimationEvent ev;
@@ -93,6 +101,34 @@ void Thief00::Init()
 		ev.onEvent = bind(&Thief00::OnCompleteSkill, this);
 		animator.AddEvent(ev);
 	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "thief00_DownSkill_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Thief00::OnCompleteSkill, this);
+		effectAnimator.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "thief00_LeftSkill_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Thief00::OnCompleteSkill, this);
+		effectAnimator.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "thief00_RightSkill_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Thief00::OnCompleteSkill, this);
+		effectAnimator.AddEvent(ev);
+	}
+	{
+		AnimationEvent ev;
+		ev.clipId = "thief00_UpSkill_Effect";
+		ev.frame = 3;
+		ev.onEvent = bind(&Thief00::OnCompleteSkill, this);
+		effectAnimator.AddEvent(ev);
+	}
 
 	SetState(AnimStates::Idle);
 	Character::Init();
@@ -121,6 +157,7 @@ void Thief00::Update(float dt)
 		break;
 	}
 	animator.Update(dt);
+	effectAnimator.Update(dt);
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
@@ -178,13 +215,42 @@ void Thief00::SetState(AnimStates newState)
 		}
 		break;
 	case AnimStates::Skill:
+		Vector2f targetPos = GetTarget()->GetPos();
 		if (lastDirection.x)
 		{
-			animator.Play((lastDirection.x > 0.f) ? "thief00_RightSkill" : "thief00_LeftSkill");
+			//SetPos(targetPos);
+			if (lastDirection.x > 0.f)
+			{
+				animator.Play("thief00_RightSkill");
+				effectAnimator.Play("thief00_RightSkill_Effect");
+				Vector2f vec = GetPos();
+				effectSprite.setPosition(vec);
+			}
+			else if (lastDirection.x < 0.f)
+			{
+				animator.Play("thief00_LeftSkill");
+				effectAnimator.Play("thief00_LeftSkill_Effect");
+				Vector2f vec = GetPos();
+				effectSprite.setPosition(vec);
+			}
 		}
 		if (lastDirection.y)
 		{
-			animator.Play((lastDirection.y > 0.f) ? "thief00_DownSkill" : "thief00_UpSkill");
+			//SetPos(targetPos);
+			if (lastDirection.y > 0.f)
+			{
+				animator.Play("thief00_DownSkill");
+				effectAnimator.Play("thief00_DownSkill_Effect");
+				Vector2f vec = GetPos();
+				effectSprite.setPosition(vec);
+			}
+			else if (lastDirection.y < 0.f)
+			{
+				animator.Play("thief00_UpSkill");
+				effectAnimator.Play("thief00_UpSkill_Effect");
+				Vector2f vec = GetPos();
+				effectSprite.setPosition(vec);
+			}
 		}
 		break;
 	}

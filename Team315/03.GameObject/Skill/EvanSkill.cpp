@@ -24,7 +24,6 @@ void EvanSkill::Init()
 void EvanSkill::Update(float dt)
 {
 	Skill::Update(dt);
-
 }
 
 void EvanSkill::Draw(RenderWindow& window)
