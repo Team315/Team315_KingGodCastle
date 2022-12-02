@@ -97,6 +97,8 @@
     <ClCompile Include="03.GameObject\Item\Sword.cpp" />
     <ClCompile Include="03.GameObject\Item\Staff.cpp" />
     <ClCompile Include="04.UiObject\SpriteGrid.cpp" />
+    <ClCompile Include="02.Object\FloatingObj.cpp" />
+    <ClCompile Include="04.UiObject\DamageText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -204,6 +206,9 @@
     <ClInclude Include="03.GameObject\Item\Sword.h" />
     <ClInclude Include="03.GameObject\Item\Staff.h" />
     <ClInclude Include="04.UiObject\SpriteGrid.h" />
+    <ClInclude Include="02.Object\FloatingObj.h" />
+    <ClInclude Include="98.3rd\ObjectPool.h" />
+    <ClInclude Include="04.UiObject\DamageText.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

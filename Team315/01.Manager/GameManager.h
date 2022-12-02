@@ -2,8 +2,10 @@
 #include "Include.h"
 #include <vector>
 #include <queue>
-#include "FileManager.h"
 #include <unordered_map>
+#include "FileManager.h"
+#include "ObjectPool.h"
+#include "DamageText.h"
 
 //struct DamageData;
 //class BattleTracker;
@@ -89,6 +91,8 @@ public:
 	const float adIncreaseRate;
 	const float apIncreaseRate;
 	const float asIncrease;
+
+	ObjectPool<DamageText> damageUI;
 
 	//BattleTracker*& GetTracker();
 

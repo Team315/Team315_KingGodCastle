@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="02.Object\FloatingObj.h" />
     <ClInclude Include="03.GameObject\Monster\Slime00.h" />
     <ClInclude Include="03.GameObject\Monster\Slime01.h" />
     <ClInclude Include="03.GameObject\Monster\Slime02.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="06.Scenes\BattleScene.h" />
     <ClInclude Include="04.UiObject\Button.h" />
     <ClInclude Include="03.GameObject\GameObj.h" />
+    <ClInclude Include="98.3rd\ObjectPool.h" />
     <ClInclude Include="99.Include\GameObjHeaders.h" />
     <ClInclude Include="99.Include\Constant.h" />
     <ClInclude Include="99.Include\Define.h" />
@@ -254,8 +256,10 @@
     <ClInclude Include="03.GameObject\Item\Sword.h" />
     <ClInclude Include="03.GameObject\Item\Staff.h" />
     <ClInclude Include="04.UiObject\SpriteGrid.h" />
+    <ClInclude Include="04.UiObject\DamageText.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="02.Object\FloatingObj.cpp" />
     <ClCompile Include="03.GameObject\GameObj.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime00.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime01.cpp" />
@@ -305,6 +309,7 @@
     <ClCompile Include="03.GameObject\Item\Armor.cpp" />
     <ClCompile Include="03.GameObject\Item\Bow.cpp" />
     <ClCompile Include="04.UiObject\SpriteGrid.cpp" />
+    <ClCompile Include="04.UiObject\DamageText.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />

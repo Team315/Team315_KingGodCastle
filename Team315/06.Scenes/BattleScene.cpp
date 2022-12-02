@@ -86,6 +86,7 @@ void BattleScene::Enter()
 
 	b_centerPos = false;
 	ZoomOut();
+	GAME_MGR->damageUI.Reset();
 }
 
 void BattleScene::Exit()
@@ -104,11 +105,20 @@ void BattleScene::Exit()
 		delete gameObj;
 	}
 	battleGrid.clear();
+	GAME_MGR->damageUI.Reset();
 }
 
 void BattleScene::Update(float dt)
 {
 	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
+	GAME_MGR->damageUI.Update(dt);
+
+	/*auto& dmgUIlist = GAME_MGR->damageUI.GetUseList();
+	for (auto& dmgUI : dmgUIlist)
+	{
+		if (!dmgUI->GetActive())
+			GAME_MGR->damageUI.Return(dmgUI);
+	}*/
 
 	Scene::Update(dt);
 
@@ -123,6 +133,18 @@ void BattleScene::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
 		{
 			TranslateCoinState(100.f);
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num2))
+		{
+			GAME_MGR->damageUI.Get()->
+				SetDamageUI(Vector2f(102, 102), StatType::AD, 100.f);
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num3))
+		{
+			GAME_MGR->damageUI.Get()->
+				SetDamageUI(Vector2f(102, 102), StatType::AP, 500.f);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
@@ -625,6 +647,11 @@ void BattleScene::Draw(RenderWindow& window)
 	}
 
 	ui->Draw(window);
+	auto& dmgUIlist = GAME_MGR->damageUI.GetUseList();
+	for (auto& dmgUI : dmgUIlist)
+	{
+		dmgUI->Draw(window);
+	}
 }
 
 void BattleScene::ZoomIn()
