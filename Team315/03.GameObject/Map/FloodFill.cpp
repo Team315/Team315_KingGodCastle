@@ -2,7 +2,9 @@
 #include "Include.h"
 #include "GameObj.h"
 #include "Character.h"
+
 FloodFill::FloodFill()
+	:m_count(0), m_isAttackAreas(false)
 {
 }
 
@@ -16,10 +18,18 @@ void FloodFill::Init()
 
 void FloodFill::Update(float dt)
 {
+	for (auto areas : Areas)
+	{
+		areas.Update(dt);
+	}
 }
 
 void FloodFill::Draw(RenderWindow& window)
 {
+	for (auto areas : Areas)
+	{
+		areas.Draw(window);
+	}
 }
 
 bool FloodFill::FloodFillSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos, string targetType)
@@ -75,6 +85,7 @@ void FloodFill::SetArrSize(int height, int width, bool attackType)
 {
 	int Height = m_Height = height * 2 + 1;
 	int Width = m_Width = width * 2 + 1;
+	m_count = 0;
 
 	m_areaArr.resize(Height, vector<bool>(Width, false));
 
@@ -110,9 +121,11 @@ void FloodFill::SetArrSize(int height, int width, bool attackType)
 			for (int j = begin; j <= end; ++j)
 			{
 				m_areaArr[i][j] = true;
+				++m_count;
 			}
 		}
 	}
+	SetAttackAreas(m_count);
 }
 
 void FloodFill::SetFloodFill(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos, string targetType)
@@ -138,23 +151,6 @@ void FloodFill::SetFloodFill(vector<GameObj*>& map, Vector2i myPos, Vector2i enP
 			}
 		}
 	}
-	//grid[myPos.y][myPos.x] = 2;
-	//grid[enPos.y][enPos.x] = 3;
-
-	//for (int i = 0; i < GAME_TILE_HEIGHT; ++i)
-	//{
-	//	for (int j = 0; j < GAME_TILE_WIDTH; ++j)
-	//	{
-	//		if (m_areaArr[i][j] == 2)
-	//		{
-	//			m_areaArr[myPos.y][myPos.x] = 0;
-	//		}
-	//		if (m_areaArr[i][j] == 1)
-	//		{
-	//			m_areaArr[enPos.y][enPos.x] = 0;
-	//		}
-	//	}
-	//}
 }
 
 void FloodFill::SetGeneralArr(vector<GameObj*>& map, string targetType)
@@ -290,6 +286,65 @@ GameObj* FloodFill::GetNearEnemy(vector<GameObj*>& map, Vector2i myPos, string t
 	return nearGameObj;
 }
 
+void FloodFill::SetAttackAreas(int count)
+{
+	Areas.resize(count);
+
+	//for (auto area : Areas)
+	//{
+	//	area.SetSize(TILE_SIZE, TILE_SIZE);
+	//	area.SetFillColor(Color::Red);
+	//	area.SetOrigin(Origins::TL);
+	//	//Character::m_attackAreas.
+	//}
+	for (int i = 0; i < count; ++i)
+	{
+		Areas[i].SetSize(TILE_SIZE, TILE_SIZE);
+		Areas[i].SetFillColor(Color::Red);
+		Areas[i].SetOrigin(Origins::TC);
+	}
+	int x = -(m_Width / 2);
+	int y = -(m_Height / 2);
+
+	for (int i = 0; i < m_Height; ++i,++y)
+	{
+		for (int j = 0; j < m_Width; ++j,++x)
+		{
+			if (m_areaArr[i][j])
+			{
+				m_arr.push_back({ x ,y });
+			}
+		}
+	}
+}
+
+void FloodFill::DrawingAttackAreas(Vector2i myPos)
+{
+	m_isAttackAreas = ~m_isAttackAreas;
+
+	if (!m_isAttackAreas)
+	{
+		for (auto area : Areas)
+		{
+			area.SetActive(false);
+		}
+		return;
+	}
+
+	for (int i = 0; i < m_count; ++i)
+	{
+		Vector2i  pos = m_arr[i];
+		pos.x += myPos.x;
+		pos.y += myPos.y;
+
+		if (isInRange(pos.y, pos.x))
+		{
+			Areas[i].SetActive(true);
+			Areas[i].SetPos(GAME_MGR->IdxToPos(pos));
+		}
+	}
+}
+
 bool FloodFill::isInRange(int col, int row)
 {
 	return (row >= 0 && row < GAME_TILE_WIDTH&& col >= 0 && col < GAME_TILE_HEIGHT);
@@ -299,14 +354,6 @@ bool FloodFill::isDestination(int grid)
 {
 	if (grid == 1)
 		return true;
-
-	return false;
-}
-
-bool FloodFill::IsAttack()
-{
-	/*if (m_Width == dst.x && col == dst.y)
-		return true;*/
 
 	return false;
 }

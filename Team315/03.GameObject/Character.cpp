@@ -31,7 +31,7 @@ Character::~Character()
 	star->Release();
 	if (skill != nullptr)
 		skill->Release();
-	
+
 	delete hpBar;
 	delete star;
 	delete skill;
@@ -61,9 +61,8 @@ void Character::Init()
 		targetType = "None";
 
 	m_floodFill.SetArrSize(
-		stat[StatType::AR].GetModifier(),
-		stat[StatType::AR].GetModifier(),
-		attackRangeType);
+		stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
+
 }
 
 void Character::Reset()
@@ -94,14 +93,19 @@ void Character::Update(float dt)
 		ccTimer -= dt;
 		if (ccTimer <= 0.f)
 			ccTimer = 0.f;
-		
+
 		return;
 	}
 
 	if (isBattle)
 	{
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-		
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::L) && targetType.compare("Monster"))
+		{
+			m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(position));
+		}
+
 		if (!move && !attack)
 		{
 			if (isAttack())
@@ -157,6 +161,8 @@ void Character::Update(float dt)
 			}
 		}
 	}
+
+
 }
 
 void Character::Draw(RenderWindow& window)
@@ -165,6 +171,7 @@ void Character::Draw(RenderWindow& window)
 		return;
 
 	SpriteObj::Draw(window);
+	m_floodFill.Draw(window);
 	window.draw(effectSprite);
 	hpBar->Draw(window);
 	star->Draw(window);
@@ -181,7 +188,7 @@ void Character::SetPos(const Vector2f& pos)
 	effectSprite.setPosition(pos);
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
-	
+
 	float xDelta = 5.f;
 	for (auto& grid : itemGrid)
 	{
@@ -289,7 +296,7 @@ bool Character::SetItem(Item* newItem)
 	int combineIdx = 0;
 	for (auto& item : items)
 	{
-		if (!item->GetName().compare(newItem->GetName()) && (item->GetGrade() == newItem->GetGrade()) && (newItem->GetGrade() != (TIER_MAX - 1)) )
+		if (!item->GetName().compare(newItem->GetName()) && (item->GetGrade() == newItem->GetGrade()) && (newItem->GetGrade() != (TIER_MAX - 1)))
 		{
 			newItem->Upgrade();
 			UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential() - item->GetPotential());
@@ -322,9 +329,9 @@ bool Character::SetItem(Item* newItem)
 	case ItemType::Sword:
 		path += "Sword";
 		break;
-	/*case ItemType::Book:
-		path += "Book";
-		break;*/
+		/*case ItemType::Book:
+			path += "Book";
+			break;*/
 	}
 	path += (to_string(newItem->GetGrade()) + ".png");
 	UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential());
@@ -336,7 +343,7 @@ bool Character::SetItem(Item* newItem)
 		itemGrid[combineIdx]->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
 		itemGrid[combineIdx]->SetOrigin(Origins::BC);
 	}
-	else 
+	else
 	{
 		for (auto& grid : itemGrid)
 		{

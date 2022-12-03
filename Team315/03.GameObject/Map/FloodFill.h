@@ -5,15 +5,18 @@ class GameObj;
 class FloodFill:public RectangleObj
 {
 protected:
-	vector<RectangleObj*> Areas;
+	vector<RectangleObj> Areas;
 	vector<vector<int>> grid;
 
 	//vector<vector<Vector2i>> m_areaArrPos;
 	vector<vector<bool>> m_areaArr;//본인 공격범위
+	vector<Vector2i> m_arr;
 
 	int m_count;
 	int m_Height;
 	int m_Width;
+
+	int m_isAttackAreas;
 	
 public:
 	FloodFill();
@@ -41,9 +44,11 @@ public:
 
 	GameObj* GetNearEnemy(vector<GameObj*>& map, Vector2i myPos, string targetType);
 
+	void SetAttackAreas(int count);
+	void DrawingAttackAreas(Vector2i myPos);
+
 	bool isInRange(int col, int row);
 	bool isDestination(int grid);
-	bool IsAttack();
-
+	bool GetIsAttackAreas() { return m_isAttackAreas; };
 };
 
