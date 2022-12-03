@@ -22,12 +22,7 @@ void DamageText::SetDamageUI(Vector2f pos, StatType sType, float damage)
 	float cSize = 12 + sqrt(damage) * 0.15f;
 
 	SetCharacterSize(cSize);
-	
-	/*if (damage <= 100.f)
-		SetCharacterSize(15.f);
-	else
-		SetCharacterSize(20.f);*/
 
 	SetString(to_string((int)damage));
-	Fire(pos);
+	Fire(pos, {0, -1}, 15.f, 10.f);
 }

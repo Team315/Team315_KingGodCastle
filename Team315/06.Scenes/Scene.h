@@ -16,7 +16,7 @@ enum class Scenes
 	/*Dev1,
 	Dev2,*/
 	Title,
-	Loby,
+	//Loby,
 	Battle,
 	Tool,
 };

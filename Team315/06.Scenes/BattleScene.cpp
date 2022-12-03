@@ -127,7 +127,8 @@ void BattleScene::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 		{
 			CLOG::Print3String("setting window");
-			SCENE_MGR->ChangeScene(Scenes::Loby);
+			//SCENE_MGR->ChangeScene(Scenes::Loby);
+			SCENE_MGR->ChangeScene(Scenes::Title);
 			return;
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num1))

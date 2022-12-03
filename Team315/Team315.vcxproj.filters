@@ -23,7 +23,6 @@
     <ClCompile Include="03.GameObject\Player\Aramis.cpp" />
     <ClCompile Include="03.GameObject\Map\AStar.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="06.Scenes\LobyScene.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
     <ClCompile Include="01.Manager\SceneMgr.cpp" />
     <ClCompile Include="02.Object\SpriteObj.cpp" />
@@ -35,11 +34,8 @@
     <ClCompile Include="05.ToolObject\TileSet.cpp" />
     <ClCompile Include="05.ToolObject\UiName.cpp" />
     <ClCompile Include="05.ToolObject\Theme.cpp" />
-    <ClCompile Include="04.UiObject\LobySceneUI.cpp" />
     <ClCompile Include="04.UiObject\SpriteButton.cpp" />
     <ClCompile Include="04.UiObject\ProgressBar.cpp" />
-    <ClCompile Include="04.UiObject\RssProgressWindow.cpp" />
-    <ClCompile Include="04.UiObject\RssTextWindow.cpp" />
     <ClCompile Include="05.ToolObject\Number.cpp" />
     <ClCompile Include="05.ToolObject\SelectTile.cpp" />
     <ClCompile Include="05.ToolObject\SelectObstacle.cpp" />
@@ -84,7 +80,6 @@
     <ClCompile Include="03.GameObject\Skill\Goblin00Skill.cpp" />
     <ClCompile Include="03.GameObject\Skill\Thief00Skill.cpp" />
     <ClCompile Include="03.GameObject\Skill\Slime00Skill.cpp" />
-    <ClCompile Include="04.UiObject\StatPopupWindow.cpp" />
     <ClCompile Include="04.UiObject\BackgroundText.cpp" />
     <ClCompile Include="04.UiObject\BackrectText.cpp" />
     <ClCompile Include="03.GameObject\Map\FloodFill.cpp" />
@@ -99,6 +94,7 @@
     <ClCompile Include="04.UiObject\SpriteGrid.cpp" />
     <ClCompile Include="02.Object\FloatingObj.cpp" />
     <ClCompile Include="04.UiObject\DamageText.cpp" />
+    <ClCompile Include="04.UiObject\StatPopupWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -125,7 +121,6 @@
     <ClInclude Include="02.Object\Object.h" />
     <ClInclude Include="02.Object\RectangleObj.h" />
     <ClInclude Include="02.Object\VertexArrayObj.h" />
-    <ClInclude Include="06.Scenes\LobyScene.h" />
     <ClInclude Include="06.Scenes\Scene.h" />
     <ClInclude Include="01.Manager\SceneMgr.h" />
     <ClInclude Include="02.Object\SpriteObj.h" />
@@ -139,11 +134,8 @@
     <ClInclude Include="05.ToolObject\TileSet.h" />
     <ClInclude Include="05.ToolObject\UiName.h" />
     <ClInclude Include="05.ToolObject\Theme.h" />
-    <ClInclude Include="04.UiObject\LobySceneUI.h" />
     <ClInclude Include="04.UiObject\SpriteButton.h" />
     <ClInclude Include="04.UiObject\ProgressBar.h" />
-    <ClInclude Include="04.UiObject\RssProgressWindow.h" />
-    <ClInclude Include="04.UiObject\RssTextWindow.h" />
     <ClInclude Include="05.ToolObject\Number.h" />
     <ClInclude Include="05.ToolObject\SelectTile.h" />
     <ClInclude Include="05.ToolObject\SelectObstacle.h" />
@@ -192,7 +184,6 @@
     <ClInclude Include="03.GameObject\Skill\Goblin00Skill.h" />
     <ClInclude Include="03.GameObject\Skill\Thief00Skill.h" />
     <ClInclude Include="03.GameObject\Skill\Slime00Skill.h" />
-    <ClInclude Include="04.UiObject\StatPopupWindow.h" />
     <ClInclude Include="04.UiObject\BackgroundText.h" />
     <ClInclude Include="04.UiObject\BackrectText.h" />
     <ClInclude Include="03.GameObject\Map\FloodFill.h" />
@@ -209,6 +200,7 @@
     <ClInclude Include="02.Object\FloatingObj.h" />
     <ClInclude Include="98.3rd\ObjectPool.h" />
     <ClInclude Include="04.UiObject\DamageText.h" />
+    <ClInclude Include="04.UiObject\StatPopupWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

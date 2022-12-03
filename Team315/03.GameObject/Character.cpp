@@ -248,7 +248,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		if (damage < 0.f)
 			damage = 0.f;
 	}
-	GAME_MGR->damageUI.Get()->SetDamageUI(position, attackType ? StatType::AD : StatType::AP, damage);
+	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), attackType ? StatType::AD : StatType::AP, damage);
 
 	hp.TranslateCurrent(-damage);
 	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
