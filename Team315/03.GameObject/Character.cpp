@@ -108,16 +108,16 @@ void Character::Update(float dt)
 		}
 	}
 	// Dev key end
-
+	if (InputMgr::GetKeyDown(Keyboard::Key::L)/* && targetType.compare("monster")*/);
+	{
+		m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(GetPos()), true);
+	}
 	if (isBattle)
 	{
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 		Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 
-		if (InputMgr::GetKeyDown(Keyboard::Key::L) && targetType.compare("monster"));
-		{
-			m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(GetPos()), true);
-		}
+		
 
 		if (!move && !attack && isAttack())
 		{
@@ -185,8 +185,8 @@ void Character::Draw(RenderWindow& window)
 	if (!isAlive)
 		return;
 
-	SpriteObj::Draw(window);
 	m_floodFill.Draw(window);
+	SpriteObj::Draw(window);
 	window.draw(effectSprite);
 	hpBar->Draw(window);
 	star->Draw(window);
