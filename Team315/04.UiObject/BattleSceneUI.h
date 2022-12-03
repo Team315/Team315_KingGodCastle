@@ -4,6 +4,7 @@
 class BattlePanel;
 class Character;
 class Item;
+class ItemPopupWindow;
 class BackrectText;
 class StatPopupWindow;
 class RectangleObj;
@@ -14,8 +15,10 @@ class BattleSceneUI : public UIMgr
 protected:
 	BattlePanel* panel;
 	StatPopupWindow* statPopup;
-	BackrectText* itemPopup;
+	ItemPopupWindow* itemPopup;
 	BackrectText* stageEndWindow;
+	Sprite stageEndWindowSprite;
+	bool b_stageEndPopup;
 
 public:
 	BattleSceneUI(Scene* scene);

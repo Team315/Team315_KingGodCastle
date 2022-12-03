@@ -95,6 +95,7 @@
     <ClCompile Include="02.Object\FloatingObj.cpp" />
     <ClCompile Include="04.UiObject\DamageText.cpp" />
     <ClCompile Include="04.UiObject\StatPopupWindow.cpp" />
+    <ClCompile Include="04.UiObject\ItemPopupWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -201,6 +202,7 @@
     <ClInclude Include="98.3rd\ObjectPool.h" />
     <ClInclude Include="04.UiObject\DamageText.h" />
     <ClInclude Include="04.UiObject\StatPopupWindow.h" />
+    <ClInclude Include="04.UiObject\ItemPopupWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -6,9 +6,10 @@
 #include "BackrectText.h"
 #include "Item/Item.h"
 #include "StatPopupWindow.h"
+#include "ItemPopupWindow.h"
 
 BattleSceneUI::BattleSceneUI(Scene* scene)
-	: UIMgr(scene)
+	: UIMgr(scene), b_stageEndPopup(false)
 {
 	panel = new BattlePanel();
 	CreateBackground(panel, 1, 3, 188.f, 500.f);
@@ -17,20 +18,17 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	statPopup->SetOutline(Color::Black, -2.f);
 	statPopup->SetOrigin(Origins::TL);
 
-	itemPopup = new BackrectText(100, 60);
-	itemPopup->SetOutline(Color::Black, 2.0f);
-	itemPopup->SetFillColor(Color(0, 0, 0, 150.f));
-	itemPopup->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	itemPopup->SetTextStyle(Color::White, 20, Color::Black, -1.0f);
-	itemPopup->SetTextLocalPos(Vector2f(10.f, 10.f));
+	itemPopup = new ItemPopupWindow(200.f, 70.f);
 
-	stageEndWindow = new BackrectText(GAME_SCREEN_WIDTH, 100.f);
-	stageEndWindow->SetTextLocalPos(Vector2f(-20.f, 0.f));
+	stageEndWindow = new BackrectText(GAME_SCREEN_WIDTH, 80.f);
+	stageEndWindow->SetTextLocalPos(Vector2f(0.f, -10.f));
 	stageEndWindow->SetPos(Vector2f(GAME_SCREEN_WIDTH * 0.5f, 200.f));
 	stageEndWindow->SetFillColor(Color(0, 0, 0, 150.f));
-	stageEndWindow->SetOrigin(Origins::MC);
 	stageEndWindow->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	stageEndWindow->SetTextStyle(Color::White, 20, Color::Black, -1.0f);
+	stageEndWindowSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Start.png"));
+	stageEndWindowSprite.setPosition(Vector2f(GAME_SCREEN_WIDTH * 0.5f, 200.f));
+	Utils::SetOrigin(stageEndWindowSprite, Origins::MC);
 }
 
 BattleSceneUI::~BattleSceneUI()
@@ -68,6 +66,8 @@ void BattleSceneUI::Update(float dt)
 
 void BattleSceneUI::Draw(RenderWindow& window)
 {
+	if (b_stageEndPopup)
+		window.draw(stageEndWindowSprite);
 	UIMgr::Draw(window);
 }
 
@@ -146,15 +146,19 @@ void BattleSceneUI::SetItemPopup(bool active, Vector2f viewCenter,
 		(pos.y + itemPopup->GetSize().y >= GAME_SCREEN_ZOOM_HEIGHT))
 		modPos.y = GAME_SCREEN_ZOOM_HEIGHT - itemPopup->GetSize().y - 5.f;
 
-	itemPopup->SetString(item->GetName() + item->GetStatTypeString() + to_string(item->GetPotential()));
 	itemPopup->SetPos(modPos);
+	//itemPopup->SetSpriteTexture(*RESOURCE_MGR->GetTexture(item->MakePath()), true);
+	string path = "graphics/battleScene/Item_Frame_" + to_string(item->GetGrade()) + ".png";
+	itemPopup->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path), true);
 }
 
 void BattleSceneUI::SetStageEndWindow(bool active, bool result)
 {
+	b_stageEndPopup = active;
 	stageEndWindow->SetActive(active);
 	if (!active)
 		return;
 
 	stageEndWindow->SetString(result ? L"전투 승리!" : L"전투 패배!");
+	stageEndWindow->SetOrigin(Origins::MC);
 }
