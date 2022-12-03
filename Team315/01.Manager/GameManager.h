@@ -20,8 +20,7 @@ protected:
 	Chapters* m_PlayTileList;
 	vector<vector<vector<vector<Tile*>>>> m_tiles;
 	vector<TileBackground*> m_TileBackground;
-	json BackGroundDatas;
-
+	json backGroundDatas;
 	json characterDatas;
 
 	//vector<GameObj*> presetC;
@@ -41,6 +40,7 @@ protected:
 	int battleCharacterCount;
 	int startCoin;
 	int currentCoin;
+	int stageClearCoin;
 
 public:
 	GameManager();
@@ -82,6 +82,7 @@ public:
 
 	int GetCurrentCoin() { return currentCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }
+	void StageEnd(bool result); // true - player win, false - defeat
 
 	const int characterCost;
 	const int itemCost;

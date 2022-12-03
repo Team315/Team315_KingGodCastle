@@ -13,10 +13,10 @@ protected:
 
 	Vector2i startPos;
 	Vector2i destPos;
-	int starNumber;
+	int skillTier; // starNumber
 
 public:
-	Skill();
+	Skill(int starNumber);
 	virtual ~Skill();
 
 	virtual void Init() override;
@@ -28,5 +28,7 @@ public:
 	virtual void SetState(AnimStates newState);
 	AnimStates GetState() { return currState; }
 	float CalculateDamage(Character* character);
+	virtual void SetSkillRange(Vector2f startPos);
 	virtual void CastSkill(Character* caster);
+	void SetSkillTier(int starNumber);
 };

@@ -1,7 +1,7 @@
 #include "Shelda.h"
 
-Shelda::Shelda(int starNumber)
-	: Character(starNumber)
+Shelda::Shelda(int skillTier)
+	: Character(skillTier)
 {
 	//skill = new SheldaSkill();
 	SetType("Player");

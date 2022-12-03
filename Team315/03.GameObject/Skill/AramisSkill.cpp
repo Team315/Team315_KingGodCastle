@@ -1,7 +1,8 @@
 #include "AramisSkill.h"
 #include "Character.h"
 
-AramisSkill::AramisSkill()
+AramisSkill::AramisSkill(int starNumber)
+	: Skill(starNumber)
 {
 }
 

@@ -7,7 +7,7 @@ class EvanSkill : public Skill
 {
 protected:
 public:
-	EvanSkill();
+	EvanSkill(int skillTier);
 	virtual ~EvanSkill();
 
 	virtual void Init() override;

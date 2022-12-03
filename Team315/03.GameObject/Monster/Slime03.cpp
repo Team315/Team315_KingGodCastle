@@ -1,7 +1,7 @@
 #include "Slime03.h"
 
-Slime03::Slime03(int starNumber)
-	: Character(starNumber)
+Slime03::Slime03(int skillTier)
+	: Character(skillTier)
 {
 	SetType("Monster");
 	SetName("Slime03");

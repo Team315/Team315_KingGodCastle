@@ -7,7 +7,7 @@ protected:
 	vector<Animator*> skillEffect;
 	vector<Sprite*> skillSprite;
 public:
-	Goblin00(int starNumber = 0);
+	Goblin00(int skillTier = 0);
 	virtual ~Goblin00();
 
 	virtual void Init() override;

@@ -19,7 +19,7 @@ void DamageText::SetDamageUI(Vector2f pos, StatType sType, float damage)
 		SetColor(Color::Blue);
 		break;
 	}
-	float cSize = 12 + sqrt(damage) * 0.15f;
+	float cSize = 14 + sqrt(damage) * 0.15f;
 
 	SetCharacterSize(cSize);
 

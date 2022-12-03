@@ -5,7 +5,7 @@ class Goblin01 : public Character
 {
 protected:
 public:
-	Goblin01(int starNumber = 0);
+	Goblin01(int skillTier = 0);
 	virtual ~Goblin01();
 
 	virtual void Init() override;

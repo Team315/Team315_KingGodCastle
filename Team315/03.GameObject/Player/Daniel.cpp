@@ -1,9 +1,10 @@
 #include "Daniel.h"
 #include "Skill/DanielSkill.h"
 
-Daniel::Daniel(int starNumber)
-	: Character(starNumber)
+Daniel::Daniel(int skillTier)
+	: Character(skillTier)
 {
+	skill = new Skill(star->GetStarNumber());
 	//skill = new DanielSkill();
 	SetType("Player");
 	SetName("Daniel");

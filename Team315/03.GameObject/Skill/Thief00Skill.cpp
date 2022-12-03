@@ -1,6 +1,7 @@
 #include "Thief00Skill.h"
 
-Thief00Skill::Thief00Skill()
+Thief00Skill::Thief00Skill(int starNumber)
+	: Skill(starNumber)
 {
 }
 

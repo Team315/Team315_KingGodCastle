@@ -6,7 +6,7 @@ class SheldaSkill : public Skill
 protected:
 
 public:
-	SheldaSkill();
+	SheldaSkill(int starNumber);
 	virtual ~SheldaSkill();
 
 	virtual void Init() override;

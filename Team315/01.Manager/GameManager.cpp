@@ -12,9 +12,9 @@ void OnCreate(DamageText* dmgUI)
 }
 
 GameManager::GameManager()
-	: battleCharacterCount(8), extraLevelUpChance(0),
+	: m_PlayTileList(nullptr), battleCharacterCount(8), extraLevelUpChance(0),
 	extraGradeUpChance(0), startCoin(50), // 6
-	characterCost(3), itemCost(5), currentCoin(startCoin),
+	characterCost(3), itemCost(5), currentCoin(startCoin), stageClearCoin(6),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f), apIncreaseRate(1.6f), asIncrease(0.1f)
 {
 	CLOG::Print3String("GameManager Create");
@@ -109,13 +109,13 @@ Tile* GameManager::GetTile(int chap, int stage, int height, int width)
 
 void GameManager::SetBackGroundDatas()
 {
-	BackGroundDatas = FILE_MGR->LoadBackGroundData();
+	backGroundDatas = FILE_MGR->LoadBackGroundData();
 	CreatedBackGround();
 }
 
 json GameManager::GetBackGroundDatas()
 {
-	return BackGroundDatas;
+	return backGroundDatas;
 }
 
 void GameManager::CreatedTiles()
@@ -152,7 +152,7 @@ void GameManager::CreatedBackGround()
 
 				Vector2f pos = { j * TILE_SIZE, i * TILE_SIZE };
 				TileBackground* tileBackground = new TileBackground();
-				tileBackground->LoadTileBackground(BackGroundDatas[n]);
+				tileBackground->LoadTileBackground(backGroundDatas[n]);
 				tileBackground->SetPos(pos);
 				m_TileBackground.push_back(tileBackground);
 				++n;
@@ -285,6 +285,11 @@ void GameManager::RemoveFromMainGrid(GameObj* gameObj)
 			return;
 		}
 	}
+}
+
+void GameManager::StageEnd(bool result)
+{
+	currentCoin += stageClearCoin;
 }
 
 float GameManager::GetItemStatMapElem(StatType statType, int grade)

@@ -116,6 +116,13 @@ void BattlePanel::SetPos(const Vector2f& pos)
 	coinState->SetPos(position + coinLocalPos);
 }
 
+void BattlePanel::ChangeTitleTextString(int chapIdx)
+{
+	wstring chaps[CHAPTER_MAX_COUNT] = { L"고블린", L"도적단", L"슬라임" };
+	wstring wstr = chaps[chapIdx] + L" 습격!     번째 침략";
+	titleText->SetString(wstr);
+}
+
 void BattlePanel::SetStageNumber(int num)
 {
 	titleNumberText->SetString(to_string(num));

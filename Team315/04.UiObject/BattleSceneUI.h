@@ -15,6 +15,7 @@ protected:
 	BattlePanel* panel;
 	StatPopupWindow* statPopup;
 	BackrectText* itemPopup;
+	BackrectText* stageEndWindow;
 
 public:
 	BattleSceneUI(Scene* scene);
@@ -34,4 +35,5 @@ public:
 		Character* character = nullptr, Vector2f pos = {0, 0});
 	void SetItemPopup(bool active, Vector2f viewCenter,
 		Item* item = nullptr, Vector2f pos = { 0, 0 });
+	void SetStageEndWindow(bool active, bool result = false);
 };

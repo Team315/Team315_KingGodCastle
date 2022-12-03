@@ -5,7 +5,7 @@ class PriaSkill : public Skill
 {
 protected:
 public:
-	PriaSkill();
+	PriaSkill(int starNumber);
 	virtual ~PriaSkill();
 
 	virtual void Init() override;

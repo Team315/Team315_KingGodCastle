@@ -5,7 +5,7 @@ class Slime02 : public Character
 {
 protected:
 public:
-	Slime02(int starNumber = 0);
+	Slime02(int skillTier = 0);
 	virtual ~Slime02();
 
 	virtual void Init() override;

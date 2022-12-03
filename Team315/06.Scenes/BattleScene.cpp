@@ -113,13 +113,6 @@ void BattleScene::Update(float dt)
 	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 	GAME_MGR->damageUI.Update(dt);
 
-	/*auto& dmgUIlist = GAME_MGR->damageUI.GetUseList();
-	for (auto& dmgUI : dmgUIlist)
-	{
-		if (!dmgUI->GetActive())
-			GAME_MGR->damageUI.Return(dmgUI);
-	}*/
-
 	Scene::Update(dt);
 
 	// Dev Input start
@@ -183,6 +176,11 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("next stage test");
 			if (curStageIdx < STAGE_MAX_COUNT - 1)
 				curStageIdx++;
+			else
+			{
+				ui->GetPanel()->ChangeTitleTextString(++curChapIdx);
+				curStageIdx = 0;
+			}
 			SetCurrentStage(curChapIdx, curStageIdx);
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num5))
@@ -190,6 +188,7 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("prev chapter test");
 			if (curChapIdx > 0)
 				curChapIdx--;
+			ui->GetPanel()->ChangeTitleTextString(curChapIdx);
 			SetCurrentStage(curChapIdx, curStageIdx);
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num6))
@@ -197,6 +196,7 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("next chapter test");
 			if (curChapIdx < CHAPTER_MAX_COUNT - 1)
 				curChapIdx++;
+			ui->GetPanel()->ChangeTitleTextString(curChapIdx);
 			SetCurrentStage(curChapIdx, curStageIdx);
 		}
 
@@ -555,7 +555,7 @@ void BattleScene::Update(float dt)
 		if (gameEndTimer < 0.f)
 		{
 			gameEndTimer = 0.f;
-			CLOG::Print3String("battle end");
+			ui->SetStageEndWindow(false);
 			playingBattle = false;
 
 			int len = battleGrid.size();
@@ -580,15 +580,27 @@ void BattleScene::Update(float dt)
 
 	if (playingBattle)
 	{
+		bool stageEnd = false;
+		bool stageResult = false;
+
 		if (playerCount == 0)
 		{
-			cout << "player defeat!" << endl;
 			gameEndTimer = 2.0f;
+			stageEnd = true;
+			stageResult = false;
 		}
 		else if (aiCount == 0)
 		{
-			cout << "monster defeat!" << endl;
 			gameEndTimer = 2.0f;
+			stageEnd = true;
+			stageResult = true;
+		}
+
+		if (stageEnd)
+		{
+			// ui.
+			ui->SetStageEndWindow(true, stageResult);
+			GAME_MGR->StageEnd(stageResult);
 		}
 	}
 
@@ -599,7 +611,6 @@ void BattleScene::Draw(RenderWindow& window)
 {
 	for (int j = 0; j < BACKGROUND_WIDTH_COUNT * BACKGROUND_HEIGHT_COUNT; ++j)
 	{
-		//cout << ((curChapIdx) * 150) + j << endl;
 		int num = ((curChapIdx) * 150) + j;
 		GAME_MGR->GetTileBackgroundList()[num]->Draw(window);
 	}
@@ -739,7 +750,6 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 						if (!destCharacter->SetItem(pItem))
 							restItems.push_back(pItem);
 					}
-					cout << "rest: " << restItems.size() << endl;
 					// todo rest item -> game mgr maingrid
 
 					pick = destCharacter;

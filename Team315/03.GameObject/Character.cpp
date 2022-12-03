@@ -2,7 +2,7 @@
 #include "Item/Item.h"
 #include "Skill.h"
 
-Character::Character(int starNumber)
+Character::Character(int skillTier)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	attackRangeType(false), isBattle(false),
 	noSkill(false), ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f)
@@ -13,7 +13,7 @@ Character::Character(int starNumber)
 	hpBar->SetBackgroundOutline(Color::Black, 2.f);
 	hpBar->SetSecondProgressColor(Color::White);
 
-	star = new Star(starNumber);
+	star = new Star(skillTier);
 	itemGrid.assign(ITEM_LIMIT, nullptr);
 	for (auto& grid : itemGrid)
 	{
@@ -72,8 +72,8 @@ void Character::Reset()
 	attack = false;
 	move = false;
 	isAlive = true;
-	direction = { 0.f,0.f };
-	lastDirection = { 0.f,0.f };
+	direction = { 0.f, 0.f };
+	lastDirection = { 0.f, 0.f };
 	Stat& hp = stat[StatType::HP];
 	hp.ResetStat();
 	shieldAmount = shieldAmountMin;
@@ -88,74 +88,59 @@ void Character::Update(float dt)
 		return;
 
 	hpBar->Update(dt);
-	// Dev key start
+
+	if (ccTimer > 0.f)
 	{
-		if (InputMgr::GetKeyDown(Keyboard::Key::S))
-		{
-			TakeCare(this, false);
-			hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
-		}
-
-		if (InputMgr::GetKeyDown(Keyboard::Key::A))
-		{
-			TakeDamage(this);
-			hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
-		}
-
-		if (InputMgr::GetKeyDown(Keyboard::Key::D))
-		{
-			TakeCare(this);
-			hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
-		}
+		ccTimer -= dt;
+		if (ccTimer <= 0.f)
+			ccTimer = 0.f;
+		
+		return;
 	}
-	// Dev key end
 
 	if (isBattle)
 	{
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-		Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
-
-		if (!move && !attack && isAttack())
+		
+		if (!move && !attack)
 		{
-			if (m_attackDelay <= 0.f)
+			if (isAttack())
 			{
-				m_target = m_floodFill.GetNearEnemy(mainGrid, mypos, targetType);
-				lastDirection = Utils::Normalize(dynamic_cast<Character*>(GetTarget())->GetPos()-GetPos());
-				direction = lastDirection;
-				SetState(AnimStates::Attack);
-				//dynamic_cast<Character*>(m_floodFill.GetNearEnemy(mainGrid, mypos, targetType))->TakeDamage(this);
-				//dynamic_cast<Character*>(m_target)->TakeDamage(this);
-				dynamic_cast<Character*>(GetTarget())->TakeDamage(this);
-				attack = true;
-				Stat& mp = stat[StatType::MP];
-				mp.TranslateCurrent(15.f);
-
-				if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
+				if (m_attackDelay <= 0.f)
 				{
-					cout << name << " fire skill !" << endl;
-					//lastDirection = Utils::Normalize(dynamic_cast<Character*>(GetTarget())->GetPos() - GetPos());
-					SetState(AnimStates::Skill);
-					// 범위 지정 할 것
-					dynamic_cast<Character*>(GetTarget())->TakeDamage(this, false);
-					mp.SetCurrent(0.f);
+					m_target = m_floodFill.GetNearEnemy(mainGrid, GAME_MGR->PosToIdx(position), targetType);
+					lastDirection = Utils::Normalize(dynamic_cast<Character*>(m_target)->position - position);
+					direction = lastDirection;
+					SetState(AnimStates::Attack);
+					dynamic_cast<Character*>(m_target)->TakeDamage(this);
+					attack = true;
+					Stat& mp = stat[StatType::MP];
+					mp.TranslateCurrent(15.f);
+
+					if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
+					{
+						SetState(AnimStates::Skill);
+						mp.SetCurrent(0.f);
+						if (skill != nullptr)
+							skill->CastSkill(dynamic_cast<Character*>(GetTarget()));
+					}
 				}
+				m_attackDelay -= dt;
 			}
-			m_attackDelay -= dt;
-		}
-		else if (!move && !attack)
-		{
-			astarDelay -= dt;
-			if (astarDelay <= 0.f)
+			else
 			{
-				//destination = GetPos();
-				if (SetTargetDistance())
+				astarDelay -= dt;
+				if (astarDelay <= 0.f)
 				{
-					move = true;
-				}
-				else
-				{
-					move = false;
-					astarDelay = 0.1f;
+					if (SetTargetDistance())
+					{
+						move = true;
+					}
+					else
+					{
+						move = false;
+						astarDelay = 0.1f;
+					}
 				}
 			}
 		}
@@ -235,7 +220,6 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		damage = dynamic_cast<Character*>(attacker)->GetStat(StatType::AD).GetModifier();
 	else
 		damage = dynamic_cast<Character*>(attacker)->GetSkill()->CalculateDamage(this);
-		//damage = dynamic_cast<Character*>(attacker)->GetStat(StatType::AP).GetModifier();
 
 	if (shieldAmount > 0.f)
 	{

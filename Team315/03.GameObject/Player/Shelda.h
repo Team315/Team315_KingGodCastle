@@ -7,7 +7,7 @@ class Shelda : public Character
 protected:
 	float skillDelay;
 public:
-	Shelda(int starNumber = 0);
+	Shelda(int skillTier = 0);
 	virtual ~Shelda();
 
 	virtual void Init() override;

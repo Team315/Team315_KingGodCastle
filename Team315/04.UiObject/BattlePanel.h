@@ -50,6 +50,7 @@ public:
 	TextObj* GetTitleNumberText() { return titleNumberText; }
 	vector<Button*>& GetButtons() { return buttons; }
 
+	void ChangeTitleTextString(int chapIdx);
 	void SetStageNumber(int num);
 	void SetCurrentCoin(int num);
 };
