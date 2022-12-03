@@ -6,7 +6,7 @@
 #include "BackrectText.h"
 #include "Item/Item.h"
 #include "StatPopupWindow.h"
-#include "ItemPopupWindow.h"
+#include "ItemInfoWindow.h"
 
 BattleSceneUI::BattleSceneUI(Scene* scene)
 	: UIMgr(scene), b_stageEndPopup(false)
@@ -18,7 +18,9 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	statPopup->SetOutline(Color::Black, -2.f);
 	statPopup->SetOrigin(Origins::TL);
 
-	itemPopup = new ItemPopupWindow(200.f, 70.f);
+	itemPopups.resize(3);
+	for (auto& popup : itemPopups)
+		popup = new ItemInfoWindow(200.f, 60.f);
 
 	stageEndWindow = new BackrectText(GAME_SCREEN_WIDTH, 80.f);
 	stageEndWindow->SetTextLocalPos(Vector2f(0.f, -10.f));
@@ -26,6 +28,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	stageEndWindow->SetFillColor(Color(0, 0, 0, 150.f));
 	stageEndWindow->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	stageEndWindow->SetTextStyle(Color::White, 20, Color::Black, -1.0f);
+
 	stageEndWindowSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Start.png"));
 	stageEndWindowSprite.setPosition(Vector2f(GAME_SCREEN_WIDTH * 0.5f, 200.f));
 	Utils::SetOrigin(stageEndWindowSprite, Origins::MC);
@@ -40,7 +43,8 @@ void BattleSceneUI::Init()
 {
 	uiObjList.push_back(panel);
 	uiObjList.push_back(statPopup);
-	uiObjList.push_back(itemPopup);
+	for (auto& popup : itemPopups)
+		uiObjList.push_back(popup);
 	uiObjList.push_back(stageEndWindow);
 	UIMgr::Init();
 }
@@ -54,7 +58,8 @@ void BattleSceneUI::Reset()
 {
 	panel->SetPos(Vector2f(0, GAME_SCREEN_HEIGHT * 1.2f));
 	statPopup->SetActive(false);
-	itemPopup->SetActive(false);
+	for (auto& popup : itemPopups)
+		popup->SetActive(false);
 	stageEndWindow->SetActive(false);
 	panel->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 }
@@ -121,35 +126,47 @@ void BattleSceneUI::SetStatPopup(bool active, Vector2f viewCenter,
 	if (!active)
 		return;
 
+	statPopup->SetCharacter(character);
+	vector<Item*>& items = character->GetItems();
+	int len = items.size();
+
 	Vector2f modPos = pos;
-	if (pos.x + statPopup->GetSize().x >= GAME_SCREEN_ZOOM_WIDTH)
-		modPos.x = GAME_SCREEN_ZOOM_WIDTH - statPopup->GetSize().x ;
+	if (pos.x + statPopup->GetSize().x + (len > 0 ? 205.f : 0.f) >= GAME_SCREEN_ZOOM_WIDTH)
+		modPos.x = GAME_SCREEN_ZOOM_WIDTH - statPopup->GetSize().x - (len > 0 ? 205.f : 0.f);
 	if (Utils::EqualFloat(viewCenter.y, GAME_SCREEN_ZOOM_HEIGHT * 0.5f, 3.f) &&
 		(pos.y + statPopup->GetSize().y >= GAME_SCREEN_ZOOM_HEIGHT))
 		modPos.y = GAME_SCREEN_ZOOM_HEIGHT - statPopup->GetSize().y - 5.f;
 
-	statPopup->SetCharacter(character);
 	statPopup->SetPos(modPos);
+
+	modPos.x += 205.f;
+	modPos.y -= 20.f;
+	for (int i = 0; i < len; i++)
+	{
+		itemPopups[i]->SetActive(true);
+		itemPopups[i]->SetItem(items[i]);
+		itemPopups[i]->SetPos(modPos);
+		modPos.y += 65.f;
+	}
 }
 
 void BattleSceneUI::SetItemPopup(bool active, Vector2f viewCenter,
 	Item* item, Vector2f pos)
 {
-	itemPopup->SetActive(active);
+	itemPopups[0]->SetActive(active);
+	itemPopups[1]->SetActive(active);
+	itemPopups[2]->SetActive(active);
 	if (!active)
 		return;
 
 	Vector2f modPos = pos;
-	if (pos.x + itemPopup->GetSize().x >= GAME_SCREEN_ZOOM_WIDTH)
-		modPos.x = GAME_SCREEN_ZOOM_WIDTH - itemPopup->GetSize().x;
+	if (pos.x + itemPopups[0]->GetSize().x >= GAME_SCREEN_ZOOM_WIDTH)
+		modPos.x = GAME_SCREEN_ZOOM_WIDTH - itemPopups[0]->GetSize().x;
 	if (Utils::EqualFloat(viewCenter.y, GAME_SCREEN_ZOOM_HEIGHT * 0.5f, 3.f) &&
-		(pos.y + itemPopup->GetSize().y >= GAME_SCREEN_ZOOM_HEIGHT))
-		modPos.y = GAME_SCREEN_ZOOM_HEIGHT - itemPopup->GetSize().y - 5.f;
-
-	itemPopup->SetPos(modPos);
-	//itemPopup->SetSpriteTexture(*RESOURCE_MGR->GetTexture(item->MakePath()), true);
-	string path = "graphics/battleScene/Item_Frame_" + to_string(item->GetGrade()) + ".png";
-	itemPopup->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path), true);
+		(pos.y + itemPopups[0]->GetSize().y >= GAME_SCREEN_ZOOM_HEIGHT))
+		modPos.y = GAME_SCREEN_ZOOM_HEIGHT - itemPopups[0]->GetSize().y - 5.f;
+	itemPopups[0]->SetItem(item);
+	itemPopups[0]->SetPos(modPos);
 }
 
 void BattleSceneUI::SetStageEndWindow(bool active, bool result)

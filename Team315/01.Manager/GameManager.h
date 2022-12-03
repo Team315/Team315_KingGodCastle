@@ -81,8 +81,8 @@ public:
 	void RemoveFromMainGrid(GameObj* gameObj);
 
 	int GetCurrentCoin() { return currentCoin; }
+	int GetClearCoin() { return stageClearCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }
-	void StageEnd(bool result); // true - player win, false - defeat
 
 	const int characterCost;
 	const int itemCost;

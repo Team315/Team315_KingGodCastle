@@ -287,11 +287,6 @@ void GameManager::RemoveFromMainGrid(GameObj* gameObj)
 	}
 }
 
-void GameManager::StageEnd(bool result)
-{
-	currentCoin += stageClearCoin;
-}
-
 float GameManager::GetItemStatMapElem(StatType statType, int grade)
 {
 	if (statType == StatType::None)

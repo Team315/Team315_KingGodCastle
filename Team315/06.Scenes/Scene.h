@@ -31,8 +31,7 @@ protected:
 	View uiView;
 	View toolView;
 	View& currentView;
-
-	Sound bgm;
+	
 public:
 	Scene(Scenes type);
 	virtual ~Scene();

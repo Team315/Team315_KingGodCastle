@@ -253,7 +253,7 @@
     <ClInclude Include="03.GameObject\Item\Staff.h" />
     <ClInclude Include="04.UiObject\SpriteGrid.h" />
     <ClInclude Include="04.UiObject\DamageText.h" />
-    <ClInclude Include="04.UiObject\ItemPopupWindow.h" />
+    <ClInclude Include="04.UiObject\ItemInfoWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="02.Object\FloatingObj.cpp" />
@@ -308,7 +308,7 @@
     <ClCompile Include="03.GameObject\Item\Bow.cpp" />
     <ClCompile Include="04.UiObject\SpriteGrid.cpp" />
     <ClCompile Include="04.UiObject\DamageText.cpp" />
-    <ClCompile Include="04.UiObject\ItemPopupWindow.cpp" />
+    <ClCompile Include="04.UiObject\ItemInfoWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
     <ClCompile Include="01.Manager\SceneMgr.cpp" />

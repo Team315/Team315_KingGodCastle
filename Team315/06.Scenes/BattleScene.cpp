@@ -93,7 +93,6 @@ void BattleScene::Exit()
 {
 	CLOG::Print3String("battle exit");
 
-	bgm.stop();
 	for (auto& gameObj : prepareGrid)
 	{
 		delete gameObj;
@@ -598,9 +597,8 @@ void BattleScene::Update(float dt)
 
 		if (stageEnd)
 		{
-			// ui.
 			ui->SetStageEndWindow(true, stageResult);
-			GAME_MGR->StageEnd(stageResult);
+			TranslateCoinState(GAME_MGR->GetClearCoin());
 		}
 	}
 
