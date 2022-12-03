@@ -61,9 +61,7 @@ void Character::Init()
 		targetType = "None";
 
 	m_floodFill.SetArrSize(
-		stat[StatType::AR].GetModifier(),
-		stat[StatType::AR].GetModifier(),
-		attackRangeType);
+		stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(),	attackRangeType);
 
 }
 
@@ -116,12 +114,17 @@ void Character::Update(float dt)
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 		Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 
+		if (InputMgr::GetKeyDown(Keyboard::Key::L) && targetType.compare("monster"));
+		{
+			m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(GetPos()), true);
+		}
+
 		if (!move && !attack && isAttack())
 		{
 			if (m_attackDelay <= 0.f)
 			{
 				m_target = m_floodFill.GetNearEnemy(mainGrid, mypos, targetType);
-				lastDirection = Utils::Normalize(dynamic_cast<Character*>(GetTarget())->GetPos()-GetPos());
+				lastDirection = Utils::Normalize(dynamic_cast<Character*>(GetTarget())->GetPos() - GetPos());
 				direction = lastDirection;
 				SetState(AnimStates::Attack);
 				//dynamic_cast<Character*>(m_floodFill.GetNearEnemy(mainGrid, mypos, targetType))->TakeDamage(this);
@@ -173,6 +176,8 @@ void Character::Update(float dt)
 			}
 		}
 	}
+
+
 }
 
 void Character::Draw(RenderWindow& window)
@@ -181,6 +186,7 @@ void Character::Draw(RenderWindow& window)
 		return;
 
 	SpriteObj::Draw(window);
+	m_floodFill.Draw(window);
 	window.draw(effectSprite);
 	hpBar->Draw(window);
 	star->Draw(window);

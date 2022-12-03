@@ -330,14 +330,14 @@ void ToolScene::Update(float dt)
 	}
 
 	// 삭제 예정
-	if (InputMgr::GetKeyDown(Keyboard::Key::F3))
+	/*if (InputMgr::GetKeyDown(Keyboard::Key::F3))
 	{
 		FILE_MGR->SaveTileData(*this);
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::F4))
 	{
 		FILE_MGR->LoadTileData(*this);
-	}
+	}*/
 
 	Scene::Update(dt);
 }

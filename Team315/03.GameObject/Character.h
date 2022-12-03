@@ -50,6 +50,7 @@ protected:
 	//FloodFill
 	FloodFill m_floodFill;
 	vector<Vector2i> m_GeneralArr;
+	vector<RectangleObj*> m_attackAreas;
 
 	//Astar
 	AStar m_aStar;
