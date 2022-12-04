@@ -28,7 +28,10 @@ void FloodFill::Draw(RenderWindow& window)
 {
 	for (auto areas : Areas)
 	{
-		areas.Draw(window);
+		if (areas.GetActive())
+		{
+			areas.Draw(window);
+		}
 	}
 }
 
@@ -87,17 +90,21 @@ void FloodFill::SetArrSize(int height, int width, bool attackType)
 	int Width = m_Width = width * 2 + 1;
 	m_count = 0;
 
-	m_areaArr.resize(Height, vector<bool>(Width, false));
+	//m_areaArr.resize(Height, vector<bool>(Width, false));
 
 	if (attackType == true)
 	{
-		for (int i = 0; i < Height; ++i)
+		m_areaArr.resize(Height, vector<bool>(Width, true));
+		m_count = Height * Width;
+		/*for (int i = 0; i < Height; ++i)
 		{
 			for (int j = 0; j < Width; ++j)
 			{
+
 				m_areaArr[i][j] = true;
+				++m_count;
 			}
-		}
+		}*/
 	}
 	else if (attackType == false)
 	{
@@ -105,6 +112,7 @@ void FloodFill::SetArrSize(int height, int width, bool attackType)
 		int end = 0;
 		int center = height;
 		int max = Height;
+		m_areaArr.resize(Height, vector<bool>(Width, false));
 
 		for (int i = 0; i < Height; ++i)
 		{
@@ -301,14 +309,15 @@ void FloodFill::SetAttackAreas(int count)
 	{
 		Areas[i].SetSize(TILE_SIZE, TILE_SIZE);
 		Areas[i].SetFillColor(Color::Red);
+		Areas[i].SetFillColorAlpha(100);
+		Areas[i].SetOutline(Color::Red, -1.f);
 		Areas[i].SetOrigin(Origins::TC);
 	}
-	int x = -(m_Width / 2);
-	int y = -(m_Height / 2);
+	
 
-	for (int i = 0; i < m_Height; ++i,++y)
+	for (int i = 0, y = -(m_Height / 2); i < m_Height; ++i,++y)
 	{
-		for (int j = 0; j < m_Width; ++j,++x)
+		for (int j = 0, x = -(m_Width / 2); j < m_Width; ++j,++x)
 		{
 			if (m_areaArr[i][j])
 			{
@@ -334,13 +343,17 @@ void FloodFill::DrawingAttackAreas(Vector2i myPos)
 	for (int i = 0; i < m_count; ++i)
 	{
 		Vector2i  pos = m_arr[i];
-		pos.x += myPos.x;
-		pos.y += myPos.y;
+		pos.x += myPos.x /*- (m_Width / 2)*/;
+		pos.y += myPos.y-1 /*- (m_Height / 2)*/;
 
 		if (isInRange(pos.y, pos.x))
 		{
 			Areas[i].SetActive(true);
 			Areas[i].SetPos(GAME_MGR->IdxToPos(pos));
+		}
+		else
+		{
+			Areas[i].SetActive(false);
 		}
 	}
 }

@@ -170,8 +170,8 @@ void Character::Draw(RenderWindow& window)
 	if (!isAlive)
 		return;
 
-	SpriteObj::Draw(window);
 	m_floodFill.Draw(window);
+	SpriteObj::Draw(window);
 	window.draw(effectSprite);
 	hpBar->Draw(window);
 	star->Draw(window);

@@ -17,6 +17,7 @@ public:
 	void SetTexture(Texture* tex);
 	void SetScale(float x, float y);
 	void SetFillColor(Color color);
+	void SetFillColorAlpha(int alpha);
 	void SetOutline(Color outlColor, float outlThickness);
 	void SetSize(float x, float y);
 	void SetRotate(float rotate);

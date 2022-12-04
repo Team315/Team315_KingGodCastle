@@ -41,6 +41,14 @@ void RectangleObj::SetFillColor(Color color)
 	shape.setFillColor(color);
 }
 
+void RectangleObj::SetFillColorAlpha(int alpha)
+{
+	Color color = shape.getFillColor();
+	color.a = alpha;
+
+	SetFillColor(color);
+}
+
 void RectangleObj::SetOutline(Color outlColor, float outlThickness)
 {
 	shape.setOutlineColor(outlColor);
