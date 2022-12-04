@@ -45,6 +45,7 @@ BattleScene::BattleScene()
 	castleBackground.setPosition(0, GAME_SCREEN_HEIGHT - TILE_SIZE);
 
 	ui = new BattleSceneUI(this);
+	bgm.setBuffer(*RESOURCE_MGR->GetSoundBuffer("sounds/Battle.wav"));
 }
 
 BattleScene::~BattleScene()
@@ -67,6 +68,7 @@ void BattleScene::Enter()
 {
 	CLOG::Print3String("battle enter");
 
+
 	FRAMEWORK->GetWindow().setSize(
 		Vector2u((unsigned int)GAME_SCREEN_WIDTH, (unsigned int)GAME_SCREEN_HEIGHT));
 	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
@@ -87,12 +89,15 @@ void BattleScene::Enter()
 	b_centerPos = false;
 	ZoomOut();
 	GAME_MGR->damageUI.Reset();
+
+	bgm.play();
 }
 
 void BattleScene::Exit()
 {
 	CLOG::Print3String("battle exit");
 
+	bgm.stop();
 	for (auto& gameObj : prepareGrid)
 	{
 		delete gameObj;
