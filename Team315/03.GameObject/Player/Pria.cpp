@@ -1,7 +1,7 @@
 #include "Pria.h"
 
-Pria::Pria(int starNumber)
-	: Character(starNumber)
+Pria::Pria(int skillTier)
+	: Character(skillTier)
 {
 	SetType("Player");
 	SetName("Pria");

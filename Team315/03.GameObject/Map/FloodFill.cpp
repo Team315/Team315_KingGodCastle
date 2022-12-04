@@ -327,9 +327,9 @@ void FloodFill::SetAttackAreas(int count)
 	}
 }
 
-void FloodFill::DrawingAttackAreas(Vector2i myPos, bool onOff)
+void FloodFill::DrawingAttackAreas(Vector2i myPos)
 {
-	m_isAttackAreas = onOff;
+	m_isAttackAreas = ~m_isAttackAreas;
 
 	if (!m_isAttackAreas)
 	{

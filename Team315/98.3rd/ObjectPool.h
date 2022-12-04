@@ -30,7 +30,6 @@ public:
 template <typename T>
 ObjectPool<T>::ObjectPool() : OnCreate(nullptr)
 {
-	Init();
 }
 
 template <typename T>

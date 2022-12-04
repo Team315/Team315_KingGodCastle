@@ -2,7 +2,7 @@
 #include "Item/Item.h"
 #include "Skill.h"
 
-Character::Character(int starNumber)
+Character::Character(int skillTier)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	attackRangeType(false), isBattle(false),
 	noSkill(false), ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f)
@@ -13,7 +13,7 @@ Character::Character(int starNumber)
 	hpBar->SetBackgroundOutline(Color::Black, 2.f);
 	hpBar->SetSecondProgressColor(Color::White);
 
-	star = new Star(starNumber);
+	star = new Star(skillTier);
 	itemGrid.assign(ITEM_LIMIT, nullptr);
 	for (auto& grid : itemGrid)
 	{
@@ -31,7 +31,7 @@ Character::~Character()
 	star->Release();
 	if (skill != nullptr)
 		skill->Release();
-	
+
 	delete hpBar;
 	delete star;
 	delete skill;
@@ -61,7 +61,7 @@ void Character::Init()
 		targetType = "None";
 
 	m_floodFill.SetArrSize(
-		stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(),	attackRangeType);
+		stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
 
 }
 
@@ -71,8 +71,8 @@ void Character::Reset()
 	attack = false;
 	move = false;
 	isAlive = true;
-	direction = { 0.f,0.f };
-	lastDirection = { 0.f,0.f };
+	direction = { 0.f, 0.f };
+	lastDirection = { 0.f, 0.f };
 	Stat& hp = stat[StatType::HP];
 	hp.ResetStat();
 	shieldAmount = shieldAmountMin;
@@ -87,79 +87,64 @@ void Character::Update(float dt)
 		return;
 
 	hpBar->Update(dt);
-	// Dev key start
-	{
-		if (InputMgr::GetKeyDown(Keyboard::Key::S))
-		{
-			TakeCare(this, false);
-			hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
-		}
 
-		if (InputMgr::GetKeyDown(Keyboard::Key::A))
-		{
-			TakeDamage(this);
-			hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
-		}
-
-		if (InputMgr::GetKeyDown(Keyboard::Key::D))
-		{
-			TakeCare(this);
-			hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
-		}
-	}
-	// Dev key end
-	if (InputMgr::GetKeyDown(Keyboard::Key::L)/* && targetType.compare("monster")*/);
+	if (ccTimer > 0.f)
 	{
-		m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(GetPos()), true);
+		ccTimer -= dt;
+		if (ccTimer <= 0.f)
+			ccTimer = 0.f;
+
+		return;
 	}
+
 	if (isBattle)
 	{
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-		Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 
-		
-
-		if (!move && !attack && isAttack())
+		if (InputMgr::GetKeyDown(Keyboard::Key::L) && targetType.compare("Monster"))
 		{
-			if (m_attackDelay <= 0.f)
-			{
-				m_target = m_floodFill.GetNearEnemy(mainGrid, mypos, targetType);
-				lastDirection = Utils::Normalize(dynamic_cast<Character*>(GetTarget())->GetPos() - GetPos());
-				direction = lastDirection;
-				SetState(AnimStates::Attack);
-				//dynamic_cast<Character*>(m_floodFill.GetNearEnemy(mainGrid, mypos, targetType))->TakeDamage(this);
-				//dynamic_cast<Character*>(m_target)->TakeDamage(this);
-				dynamic_cast<Character*>(GetTarget())->TakeDamage(this);
-				attack = true;
-				Stat& mp = stat[StatType::MP];
-				mp.TranslateCurrent(15.f);
-
-				if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
-				{
-					cout << name << " fire skill !" << endl;
-					//lastDirection = Utils::Normalize(dynamic_cast<Character*>(GetTarget())->GetPos() - GetPos());
-					SetState(AnimStates::Skill);
-					// 범위 지정 할 것
-					dynamic_cast<Character*>(GetTarget())->TakeDamage(this, false);
-					mp.SetCurrent(0.f);
-				}
-			}
-			m_attackDelay -= dt;
+			m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(position));
 		}
-		else if (!move && !attack)
+
+		if (!move && !attack)
 		{
-			astarDelay -= dt;
-			if (astarDelay <= 0.f)
+			if (isAttack())
 			{
-				//destination = GetPos();
-				if (SetTargetDistance())
+				if (m_attackDelay <= 0.f)
 				{
-					move = true;
+					m_target = m_floodFill.GetNearEnemy(mainGrid, GAME_MGR->PosToIdx(position), targetType);
+					lastDirection = Utils::Normalize(dynamic_cast<Character*>(m_target)->position - position);
+					direction = lastDirection;
+					SetState(AnimStates::Attack);
+					dynamic_cast<Character*>(m_target)->TakeDamage(this);
+					attack = true;
+					Stat& mp = stat[StatType::MP];
+					mp.TranslateCurrent(15.f);
+
+					if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
+					{
+						SetState(AnimStates::Skill);
+						mp.SetCurrent(0.f);
+						if (skill != nullptr)
+							skill->CastSkill(dynamic_cast<Character*>(GetTarget()));
+					}
 				}
-				else
+				m_attackDelay -= dt;
+			}
+			else
+			{
+				astarDelay -= dt;
+				if (astarDelay <= 0.f)
 				{
-					move = false;
-					astarDelay = 0.1f;
+					if (SetTargetDistance())
+					{
+						move = true;
+					}
+					else
+					{
+						move = false;
+						astarDelay = 0.1f;
+					}
 				}
 			}
 		}
@@ -203,7 +188,7 @@ void Character::SetPos(const Vector2f& pos)
 	effectSprite.setPosition(pos);
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
-	
+
 	float xDelta = 5.f;
 	for (auto& grid : itemGrid)
 	{
@@ -242,7 +227,6 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		damage = dynamic_cast<Character*>(attacker)->GetStat(StatType::AD).GetModifier();
 	else
 		damage = dynamic_cast<Character*>(attacker)->GetSkill()->CalculateDamage(this);
-		//damage = dynamic_cast<Character*>(attacker)->GetStat(StatType::AP).GetModifier();
 
 	if (shieldAmount > 0.f)
 	{
@@ -255,6 +239,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		if (damage < 0.f)
 			damage = 0.f;
 	}
+	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), attackType ? StatType::AD : StatType::AP, damage);
 
 	hp.TranslateCurrent(-damage);
 	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
@@ -311,7 +296,7 @@ bool Character::SetItem(Item* newItem)
 	int combineIdx = 0;
 	for (auto& item : items)
 	{
-		if (!item->GetName().compare(newItem->GetName()) && (item->GetGrade() == newItem->GetGrade()) && (newItem->GetGrade() != (TIER_MAX - 1)) )
+		if (!item->GetName().compare(newItem->GetName()) && (item->GetGrade() == newItem->GetGrade()) && (newItem->GetGrade() != (TIER_MAX - 1)))
 		{
 			newItem->Upgrade();
 			UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential() - item->GetPotential());
@@ -344,9 +329,9 @@ bool Character::SetItem(Item* newItem)
 	case ItemType::Sword:
 		path += "Sword";
 		break;
-	/*case ItemType::Book:
-		path += "Book";
-		break;*/
+		/*case ItemType::Book:
+			path += "Book";
+			break;*/
 	}
 	path += (to_string(newItem->GetGrade()) + ".png");
 	UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential());
@@ -358,7 +343,7 @@ bool Character::SetItem(Item* newItem)
 		itemGrid[combineIdx]->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
 		itemGrid[combineIdx]->SetOrigin(Origins::BC);
 	}
-	else 
+	else
 	{
 		for (auto& grid : itemGrid)
 		{

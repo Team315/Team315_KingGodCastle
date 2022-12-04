@@ -4,6 +4,7 @@
 class BattlePanel;
 class Character;
 class Item;
+class ItemInfoWindow;
 class BackrectText;
 class StatPopupWindow;
 class RectangleObj;
@@ -14,7 +15,10 @@ class BattleSceneUI : public UIMgr
 protected:
 	BattlePanel* panel;
 	StatPopupWindow* statPopup;
-	BackrectText* itemPopup;
+	vector<ItemInfoWindow*> itemPopups;
+	BackrectText* stageEndWindow;
+	Sprite stageEndWindowSprite;
+	bool b_stageEndPopup;
 
 public:
 	BattleSceneUI(Scene* scene);
@@ -34,4 +38,5 @@ public:
 		Character* character = nullptr, Vector2f pos = {0, 0});
 	void SetItemPopup(bool active, Vector2f viewCenter,
 		Item* item = nullptr, Vector2f pos = { 0, 0 });
+	void SetStageEndWindow(bool active, bool result = false);
 };

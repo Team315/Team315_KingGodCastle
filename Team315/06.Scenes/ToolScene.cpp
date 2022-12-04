@@ -94,7 +94,8 @@ void ToolScene::Update(float dt)
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 	{
-		SCENE_MGR->ChangeScene(Scenes::Loby);
+		//SCENE_MGR->ChangeScene(Scenes::Loby);
+		SCENE_MGR->ChangeScene(Scenes::Title);
 		return;
 	}
 

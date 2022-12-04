@@ -16,7 +16,7 @@ enum class Scenes
 	/*Dev1,
 	Dev2,*/
 	Title,
-	Loby,
+	//Loby,
 	Battle,
 	Tool,
 };
@@ -33,6 +33,8 @@ protected:
 	View& currentView;
 
 	Sound bgm;
+	Sound click;
+	Sound changeScene;
 public:
 	Scene(Scenes type);
 	virtual ~Scene();

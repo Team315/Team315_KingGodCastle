@@ -13,6 +13,10 @@ LobyScene::LobyScene()
 	CLOG::Print3String("loby create");
 	ui = new LobySceneUI(this);
 	tabSize = ui->GetTabSize();
+
+	bgm.setBuffer(*RESOURCE_MGR->GetSoundBuffer("sounds/Lobby.wav"));
+	click.setBuffer(*RESOURCE_MGR->GetSoundBuffer("sounds/Lobby_bottomBT.wav"));
+	changeScene.setBuffer(*RESOURCE_MGR->GetSoundBuffer("sounds/Battel_enter.wav"));
 }
 
 LobyScene::~LobyScene()
@@ -52,6 +56,8 @@ void LobyScene::Enter()
 {
 	CLOG::Print3String("loby enter");
 
+	bgm.play();
+
 	FRAMEWORK->SetWindowSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	ui->Reset();
 	currentView = gameView;
@@ -64,6 +70,7 @@ void LobyScene::Enter()
 void LobyScene::Exit()
 {
 	CLOG::Print3String("loby exit");
+	bgm.stop();
 }
 
 void LobyScene::Update(float dt)
@@ -134,6 +141,7 @@ void LobyScene::Update(float dt)
 			{
 				curViewCenterDest = Vector2f(GAME_SCREEN_WIDTH * (idx + 0.5f), GAME_SCREEN_HEIGHT * 0.5f);
 				translateView = true;
+				click.play();
 				break;
 			}
 		}

@@ -7,7 +7,7 @@ protected:
 	vector<Animator*> skillEffect;
 	vector<Sprite*> skillSprite;
 public:
-	DanielSkill();
+	DanielSkill(int starNumber);
 	virtual ~DanielSkill();
 
 	virtual void Init() override;

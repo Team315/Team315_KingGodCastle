@@ -1,7 +1,7 @@
 #include "Arveron.h"
 
-Arveron::Arveron(int starNumber)
-	: Character(starNumber)
+Arveron::Arveron(int skillTier)
+	: Character(skillTier)
 {
 	SetType("Player");
 	SetName("Arveron");

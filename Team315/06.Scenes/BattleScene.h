@@ -42,6 +42,9 @@ protected:
 	GameObj* pick;
 	Vector2f beforeDragPos;
 	int battleCharacterCount;
+
+	float gameEndTimer;
+
 public:
 	BattleScene();
 	virtual ~BattleScene();

@@ -1,7 +1,7 @@
 #include "Thief04.h"
 
-Thief04::Thief04(int starNumber)
-	: Character(starNumber)
+Thief04::Thief04(int skillTier)
+	: Character(skillTier)
 {
 	SetType("Monster");
 	SetName("Thief04");
