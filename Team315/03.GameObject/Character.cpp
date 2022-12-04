@@ -294,6 +294,8 @@ void Character::UpgradeStats()
 bool Character::SetItem(Item* newItem)
 {
 	int combineIdx = 0;
+	bool isCombine = false;
+
 	for (auto& item : items)
 	{
 		if (!item->GetName().compare(newItem->GetName()) && (item->GetGrade() == newItem->GetGrade()) && (newItem->GetGrade() != (TIER_MAX - 1)))
@@ -302,15 +304,19 @@ bool Character::SetItem(Item* newItem)
 			UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential() - item->GetPotential());
 			delete item;
 			item = newItem;
+			isCombine = true;
 			break;
 		}
 		combineIdx++;
 	}
-	if (items.size() >= ITEM_LIMIT)
-		return false;
 
-	if (combineIdx == items.size())
+	if (!isCombine)
+	{
+		if (items.size() == ITEM_LIMIT)
+			return false;
+		
 		items.push_back(newItem);
+	}
 
 	string path = "graphics/battleScene/Item_";
 
@@ -336,27 +342,10 @@ bool Character::SetItem(Item* newItem)
 	path += (to_string(newItem->GetGrade()) + ".png");
 	UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential());
 
-	if (combineIdx != ITEM_LIMIT)
-	{
-		itemGrid[combineIdx]->SetActive(true);
-		itemGrid[combineIdx]->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
-		itemGrid[combineIdx]->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
-		itemGrid[combineIdx]->SetOrigin(Origins::BC);
-	}
-	else
-	{
-		for (auto& grid : itemGrid)
-		{
-			if (!grid->GetActive())
-			{
-				grid->SetActive(true);
-				grid->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
-				grid->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
-				grid->SetOrigin(Origins::BC);
-				break;
-			}
-		}
-	}
+	itemGrid[combineIdx]->SetActive(true);
+	itemGrid[combineIdx]->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
+	itemGrid[combineIdx]->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
+	itemGrid[combineIdx]->SetOrigin(Origins::BC);
 	return true;
 }
 
@@ -374,6 +363,16 @@ void Character::UpdateItemDelta(StatType sType, float value)
 	case StatType::AS:
 		stat[sType].AddDelta(value);
 		break;
+	}
+}
+
+void Character::SetItemGrid()
+{
+	int count = 0;
+	for (auto& grid : itemGrid)
+	{
+		grid->SetSpriteTexture(*RESOURCE_MGR->GetTexture(items[count]->MakePath()), true);
+		count++;
 	}
 }
 

@@ -395,7 +395,6 @@ void BattleScene::Update(float dt)
 						cout << "not enough coin" << endl;
 						break;
 					}
-					CLOG::Print3String("equipment");
 					break;
 				}
 			}
@@ -439,7 +438,7 @@ void BattleScene::Update(float dt)
 					else
 					{
 						float delta =
-							pow(2, dynamic_cast<Item*>(temp)->GetGrade() - 1) *
+							pow(2, dynamic_cast<Item*>(temp)->GetGrade()) *
 							GAME_MGR->itemCost * 3 / 5;
 						cout << "sell item, +" << to_string((int)delta) << endl;
 						TranslateCoinState(delta);
@@ -749,13 +748,20 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 				{
 					(*dest)[destIdx] = nullptr;
 					GameObj* temp = pick;
-					vector<Item*>& pickCrtItems = dynamic_cast<Character*>(temp)->GetItems();
+					/*vector<Item*>& pickCrtItems = dynamic_cast<Character*>(temp)->GetItems();
 					vector<Item*> restItems;
 					for (auto& pItem : pickCrtItems)
 					{
 						if (!destCharacter->SetItem(pItem))
-							restItems.push_back(pItem);
+						{
+							restItems.push_back(pItem); 
+							cout << pItem->GetName() << pItem->GetGrade() << endl;
+						}
 					}
+					cout << restItems.size() << endl;*/
+
+					//destCharacter->SetItemGrid();
+
 					// todo rest item -> game mgr maingrid
 
 					pick = destCharacter;

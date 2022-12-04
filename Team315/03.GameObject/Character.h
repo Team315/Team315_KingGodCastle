@@ -96,6 +96,7 @@ public:
 	bool SetItem(Item* newItem);
 	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
+	void SetItemGrid();
 
 	//battle
 	void IsSetState(AnimStates newState);

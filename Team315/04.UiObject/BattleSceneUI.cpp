@@ -131,7 +131,7 @@ void BattleSceneUI::SetStatPopup(bool active, Vector2f viewCenter,
 	int len = items.size();
 
 	Vector2f modPos = pos;
-	if (pos.x + statPopup->GetSize().x + (len > 0 ? 205.f : 0.f) >= GAME_SCREEN_ZOOM_WIDTH)
+	if (pos.x >= GAME_SCREEN_ZOOM_WIDTH - statPopup->GetSize().x - (len > 0 ? 205.f : 0.f))
 		modPos.x = GAME_SCREEN_ZOOM_WIDTH - statPopup->GetSize().x - (len > 0 ? 205.f : 0.f);
 	if (Utils::EqualFloat(viewCenter.y, GAME_SCREEN_ZOOM_HEIGHT * 0.5f, 3.f) &&
 		(pos.y + statPopup->GetSize().y >= GAME_SCREEN_ZOOM_HEIGHT))
