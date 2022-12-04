@@ -90,6 +90,8 @@ void BattleScene::Enter()
 	ZoomOut();
 
 	bgm.play();
+	bgm.setVolume(50.f);
+	bgm.setLoop(true);
 }
 
 void BattleScene::Exit()
