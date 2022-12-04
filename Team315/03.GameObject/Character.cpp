@@ -101,9 +101,9 @@ void Character::Update(float dt)
 	{
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
-		if (InputMgr::GetKeyDown(Keyboard::Key::L) && targetType.compare("Monster"))
+		if (InputMgr::GetKeyDown(Keyboard::Key::L))
 		{
-			m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(position));
+			OnOffAttackAreas(true);
 		}
 
 		if (!move && !attack)
@@ -405,6 +405,11 @@ bool Character::isAttack()
 	}
 
 	return false;
+}
+
+void Character::OnOffAttackAreas(bool onOff)
+{
+	m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(position), onOff);
 }
 
 bool Character::PlayAstar()
