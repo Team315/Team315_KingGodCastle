@@ -16,7 +16,7 @@ enum class Scenes
 	/*Dev1,
 	Dev2,*/
 	Title,
-	Loby,
+	//Loby,
 	Battle,
 	Tool,
 };
@@ -31,7 +31,7 @@ protected:
 	View uiView;
 	View toolView;
 	View& currentView;
-
+	
 	Sound bgm;
 	Sound click;
 	Sound changeScene;

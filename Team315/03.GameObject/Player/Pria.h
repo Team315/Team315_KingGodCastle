@@ -7,7 +7,7 @@ protected:
 	vector<Animator*> skillEffect;
 	vector<Sprite*> skillSprite;
 public:
-	Pria(int starNumber = 0);
+	Pria(int skillTier = 0);
 	virtual ~Pria();
 
 	virtual void Init() override;

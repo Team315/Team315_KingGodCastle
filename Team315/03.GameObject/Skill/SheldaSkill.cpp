@@ -1,6 +1,7 @@
 #include "SheldaSkill.h"
 
-SheldaSkill::SheldaSkill()
+SheldaSkill::SheldaSkill(int starNumber)
+	: Skill(starNumber)
 {
 }
 

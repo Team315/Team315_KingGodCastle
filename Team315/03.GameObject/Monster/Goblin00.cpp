@@ -1,7 +1,7 @@
 #include "Goblin00.h"
 
-Goblin00::Goblin00(int starNumber)
-	: Character(starNumber)
+Goblin00::Goblin00(int skillTier)
+	: Character(skillTier)
 {
 	SetType("Monster");
 	SetName("Goblin00");

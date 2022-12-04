@@ -5,7 +5,7 @@ class Thief03 : public Character
 {
 protected:
 public:
-	Thief03(int starNumber = 0);
+	Thief03(int skillTier = 0);
 	virtual ~Thief03();
 
 	virtual void Init() override;

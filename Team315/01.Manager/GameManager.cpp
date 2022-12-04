@@ -4,10 +4,17 @@
 #include "GameObjHeaders.h"
 #include "TileBackground.h"
 
+void OnCreate(DamageText* dmgUI)
+{
+	dmgUI->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	dmgUI->SetOutlineColor(Color::Black);
+	dmgUI->SetOutlineThickness(2.0f);
+}
+
 GameManager::GameManager()
-	: battleCharacterCount(8), extraLevelUpChance(0),
+	: m_PlayTileList(nullptr), battleCharacterCount(8), extraLevelUpChance(0),
 	extraGradeUpChance(0), startCoin(50), // 6
-	characterCost(3), itemCost(5), currentCoin(startCoin),
+	characterCost(3), itemCost(5), currentCoin(startCoin), stageClearCoin(6),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f), apIncreaseRate(1.6f), asIncrease(0.1f)
 {
 	CLOG::Print3String("GameManager Create");
@@ -30,6 +37,9 @@ GameManager::GameManager()
 	itemStatMap[StatType::AS] = { 0.25f, 0.4f, 0.7f, 1.2f };	// %
 	itemStatMap[StatType::HP] = { 250, 400, 700, 1200 };		// +
 	//battleTracker = new BattleTracker();
+
+	damageUI.OnCreate = OnCreate;
+	damageUI.Init();
 }
 
 GameManager::~GameManager()
@@ -99,13 +109,13 @@ Tile* GameManager::GetTile(int chap, int stage, int height, int width)
 
 void GameManager::SetBackGroundDatas()
 {
-	BackGroundDatas = FILE_MGR->LoadBackGroundData();
+	backGroundDatas = FILE_MGR->LoadBackGroundData();
 	CreatedBackGround();
 }
 
 json GameManager::GetBackGroundDatas()
 {
-	return BackGroundDatas;
+	return backGroundDatas;
 }
 
 void GameManager::CreatedTiles()
@@ -142,7 +152,7 @@ void GameManager::CreatedBackGround()
 
 				Vector2f pos = { j * TILE_SIZE, i * TILE_SIZE };
 				TileBackground* tileBackground = new TileBackground();
-				tileBackground->LoadTileBackground(BackGroundDatas[n]);
+				tileBackground->LoadTileBackground(backGroundDatas[n]);
 				tileBackground->SetPos(pos);
 				m_TileBackground.push_back(tileBackground);
 				++n;

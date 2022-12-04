@@ -23,7 +23,6 @@ class AStar
 protected:
 	int ROW;
 	int COL;
-	//char zmap[14][7];
 	vector<vector<int>> grid;
 
 	EnemyInfo enemyInfo;

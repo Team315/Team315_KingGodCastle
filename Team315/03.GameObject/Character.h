@@ -50,6 +50,7 @@ protected:
 	//FloodFill
 	FloodFill m_floodFill;
 	vector<Vector2i> m_GeneralArr;
+	vector<RectangleObj*> m_attackAreas;
 
 	//Astar
 	AStar m_aStar;
@@ -59,7 +60,7 @@ protected:
 	float astarDelay;
 
 public:
-	Character(int starNumber = 0);
+	Character(int skillTier = 0);
 	virtual ~Character();
 
 	virtual void Init() override;

@@ -2,7 +2,8 @@
 #include "Character.h"
 #include "Player/Daniel.h"
 
-DanielSkill::DanielSkill()
+DanielSkill::DanielSkill(int starNumber)
+	: Skill(starNumber)
 {
 }
 

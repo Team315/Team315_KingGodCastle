@@ -50,6 +50,7 @@ void FloatingObj::Fire(const Vector2f pos, const Vector2f dir, float speed, floa
 {
 	SetActive(true);
 	SetPos(pos);
+	SetOrigin(Origins::BC);
 
 	this->dir = dir;
 	this->speed = speed;

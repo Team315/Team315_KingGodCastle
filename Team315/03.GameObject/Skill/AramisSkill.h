@@ -6,7 +6,7 @@ class AramisSkill : public Skill
 protected:
 
 public:
-	AramisSkill();
+	AramisSkill(int starNumber);
 	virtual ~AramisSkill();
 
 	virtual void Init() override;

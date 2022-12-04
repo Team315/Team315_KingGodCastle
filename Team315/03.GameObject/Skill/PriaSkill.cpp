@@ -1,6 +1,7 @@
 #include "PriaSkill.h"
 
-PriaSkill::PriaSkill()
+PriaSkill::PriaSkill(int starNumber)
+	: Skill(starNumber)
 {
 }
 

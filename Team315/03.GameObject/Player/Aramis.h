@@ -9,7 +9,7 @@ protected:
 	Bullet* bullet;
 	float bulletSpeed;
 public:
-	Aramis(int starNumber = 0);
+	Aramis(int skillTier = 0);
 	virtual ~Aramis();
 
 	virtual void Init() override;

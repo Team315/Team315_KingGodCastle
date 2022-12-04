@@ -1,8 +1,8 @@
 #include "Thief00.h"
 #include "Skill/Thief00Skill.h"
 
-Thief00::Thief00(int starNumber)
-	: Character(starNumber)
+Thief00::Thief00(int skillTier)
+	: Character(skillTier)
 {
 	//skill = new Thief00Skill();
 	SetType("Monster");

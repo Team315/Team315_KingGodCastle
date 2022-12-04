@@ -94,7 +94,8 @@ void ToolScene::Update(float dt)
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 	{
-		SCENE_MGR->ChangeScene(Scenes::Loby);
+		//SCENE_MGR->ChangeScene(Scenes::Loby);
+		SCENE_MGR->ChangeScene(Scenes::Title);
 		return;
 	}
 
@@ -330,14 +331,14 @@ void ToolScene::Update(float dt)
 	}
 
 	// 삭제 예정
-	if (InputMgr::GetKeyDown(Keyboard::Key::F3))
+	/*if (InputMgr::GetKeyDown(Keyboard::Key::F3))
 	{
 		FILE_MGR->SaveTileData(*this);
 	}
 	if (InputMgr::GetKeyDown(Keyboard::Key::F4))
 	{
 		FILE_MGR->LoadTileData(*this);
-	}
+	}*/
 
 	Scene::Update(dt);
 }
@@ -761,7 +762,6 @@ void ToolScene::LoadBackGroundData()
 	for (auto TileBackground : TileBackgroundList)
 	{
 		TileBackground->LoadTileBackground(data[i]);
-		cout << i << endl;
 		++i;
 	}
 }

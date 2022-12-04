@@ -1,8 +1,8 @@
 #include "Evan.h"
 #include "Skill/EvanSkill.h"
 
-Evan::Evan(int starNumber)
-	: Character(starNumber), skillSpeed(1500.f)
+Evan::Evan(int skillTier)
+	: Character(skillTier), skillSpeed(1500.f)
 {
 	//skill = new EvanSkill;
 	SetType("Player");

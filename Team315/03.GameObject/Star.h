@@ -14,7 +14,7 @@ public:
 	virtual void SetPos(const Vector2f& pos) override;
 
 	void SetStarNumber(int num) { starNumber = num; }
-	int GetStarNumber() { return starNumber; }
+	int& GetStarNumber() { return starNumber; }
 	bool CalculateRandomChance();
 	void UpdateTexture();
 };

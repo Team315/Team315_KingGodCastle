@@ -19,7 +19,7 @@ Scene* SceneMgr::GetScene(Scenes scene)
 bool SceneMgr::Init()
 {
 	sceneMap[Scenes::Title] = new TitleScene();
-	sceneMap[Scenes::Loby] = new LobyScene();
+	//sceneMap[Scenes::Loby] = new LobyScene();
 	sceneMap[Scenes::Battle] = new BattleScene();
 	sceneMap[Scenes::Tool] = new ToolScene();
 

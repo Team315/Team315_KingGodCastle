@@ -2,8 +2,10 @@
 #include "Include.h"
 #include <vector>
 #include <queue>
-#include "FileManager.h"
 #include <unordered_map>
+#include "FileManager.h"
+#include "ObjectPool.h"
+#include "DamageText.h"
 
 //struct DamageData;
 //class BattleTracker;
@@ -18,8 +20,7 @@ protected:
 	Chapters* m_PlayTileList;
 	vector<vector<vector<vector<Tile*>>>> m_tiles;
 	vector<TileBackground*> m_TileBackground;
-	json BackGroundDatas;
-
+	json backGroundDatas;
 	json characterDatas;
 
 	//vector<GameObj*> presetC;
@@ -39,6 +40,7 @@ protected:
 	int battleCharacterCount;
 	int startCoin;
 	int currentCoin;
+	int stageClearCoin;
 
 public:
 	GameManager();
@@ -79,6 +81,7 @@ public:
 	void RemoveFromMainGrid(GameObj* gameObj);
 
 	int GetCurrentCoin() { return currentCoin; }
+	int GetClearCoin() { return stageClearCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }
 
 	const int characterCost;
@@ -89,6 +92,8 @@ public:
 	const float adIncreaseRate;
 	const float apIncreaseRate;
 	const float asIncrease;
+
+	ObjectPool<DamageText> damageUI;
 
 	//BattleTracker*& GetTracker();
 
