@@ -333,9 +333,9 @@ void FloodFill::DrawingAttackAreas(Vector2i myPos, bool onOff)
 
 	if (!m_isAttackAreas)
 	{
-		for (auto area : Areas)
+		for (int i = 0; i < m_count; ++i)
 		{
-			area.SetActive(false);
+			Areas[i];
 		}
 		return;
 	}
