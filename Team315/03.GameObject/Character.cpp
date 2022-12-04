@@ -90,6 +90,8 @@ void Character::Update(float dt)
 
 	if (ccTimer > 0.f)
 	{
+		cout << name << endl;
+
 		ccTimer -= dt;
 		if (ccTimer <= 0.f)
 			ccTimer = 0.f;
@@ -100,7 +102,6 @@ void Character::Update(float dt)
 	if (isBattle)
 	{
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-
 		if (InputMgr::GetKeyDown(Keyboard::Key::L))
 		{
 			OnOffAttackAreas(true);
@@ -151,9 +152,11 @@ void Character::Update(float dt)
 
 		if (move && !attack)
 		{
-			SetState(AnimStates::Move);
+
 			direction = destination - position;
 			Translate(Utils::Normalize(direction) * 0.5f);
+			//if (GetState() != AnimStates::Move)
+				SetState(AnimStates::Move);
 			if (destination == position)
 			{
 				move = false;
@@ -169,8 +172,11 @@ void Character::Draw(RenderWindow& window)
 {
 	if (!isAlive)
 		return;
-
-	m_floodFill.Draw(window);
+	//cout << name << endl;
+	if (isBattle)
+	{
+		m_floodFill.Draw(window);
+	}
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
 	hpBar->Draw(window);
@@ -415,23 +421,16 @@ void Character::OnOffAttackAreas(bool onOff)
 bool Character::PlayAstar()
 {
 	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
+	Vector2i mypos = GAME_MGR->PosToIdx(position);
 
 	for (auto& target : mainGrid)
 	{
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
-			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
-			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
-			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
-
-
-			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
-			{
-				enemyInfo = nowEnemyInfo;
-			}
 		}
-	}
+	} 
 
 	if (enemyInfo.leng == 99999)
 	{
@@ -448,19 +447,19 @@ bool Character::PlayAstar()
 
 bool Character::SetTargetDistance()
 {
-	//move = true;
-
 	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	Vector2i mypos = GAME_MGR->PosToIdx(position);
+
+	m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
 
 	for (auto& target : mainGrid)
 	{
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
-			Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
+			//Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
-			m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
 
 			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
 			{

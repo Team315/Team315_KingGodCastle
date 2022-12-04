@@ -45,6 +45,7 @@ public:
 	Vector2i AstarSearch(vector<GameObj*>& map, Vector2i myPos, vector<Vector2i> GeneralArr);
 	//현재좌표가 도착지점과 일치하다면 참, 아니면 거짓을 반환하는 함수.
 	bool isDestination(int row, int col, Vector2i dst);
+	bool isDestination(int row, int col, vector<Vector2i> GeneralArr);
 
 	//현재좌표가 전체 맵안에 존재하면 , 아니면 거짓을 반환하는 함수.
 	bool isInRange(int row, int col);
@@ -54,6 +55,7 @@ public:
 
 	//현재좌표로부터 도착지점까지의 거리를 계산하는 함수.
 	double GethValue(int row, int col, Vector2i dst);
+	double GethValue(int row, int col, vector<Vector2i> GeneralArr);
 
 	//backtracking을 이용하여 최단경로를 탐색하는 함수.
 	void tracePath(Cell cellDetails[14][7], Vector2i enpos);

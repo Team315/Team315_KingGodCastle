@@ -90,7 +90,7 @@ void BattleScene::Enter()
 	GAME_MGR->damageUI.Reset();
 
 
-	SOUND_MGR->Play("sounds/Battle.wav", 30.f, true);
+	SOUND_MGR->Play("sounds/Battle.wav", 5.f, true);
 	GAME_MGR->damageUI.Reset();
 }
 
