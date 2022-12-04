@@ -91,6 +91,8 @@ void BattleScene::Enter()
 	GAME_MGR->damageUI.Reset();
 
 	bgm.play();
+	bgm.setVolume(50.f);
+	bgm.setLoop(true);
 }
 
 void BattleScene::Exit()
@@ -98,6 +100,7 @@ void BattleScene::Exit()
 	CLOG::Print3String("battle exit");
 
 	bgm.stop();
+
 	for (auto& gameObj : prepareGrid)
 	{
 		delete gameObj;
