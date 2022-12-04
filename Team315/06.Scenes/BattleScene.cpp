@@ -45,7 +45,6 @@ BattleScene::BattleScene()
 	castleBackground.setPosition(0, GAME_SCREEN_HEIGHT - TILE_SIZE);
 
 	ui = new BattleSceneUI(this);
-	bgm.setBuffer(*RESOURCE_MGR->GetSoundBuffer("sounds/Battle.wav"));
 }
 
 BattleScene::~BattleScene()
@@ -89,17 +88,14 @@ void BattleScene::Enter()
 	b_centerPos = false;
 	ZoomOut();
 
-	bgm.play();
-	bgm.setVolume(50.f);
-	bgm.setLoop(true);
+	SOUND_MGR->Play("sounds/Battle.wav", 30.f, true);
 	GAME_MGR->damageUI.Reset();
 }
 
 void BattleScene::Exit()
 {
 	CLOG::Print3String("battle exit");
-
-	bgm.stop();
+	SOUND_MGR->StopAll();
 
 	for (auto& gameObj : prepareGrid)
 	{
@@ -342,7 +338,6 @@ void BattleScene::Update(float dt)
 							dynamic_cast<Character*>(gameObj)->SetIsBattle(true);
 						}
 					}
-
 					playingBattle = true;
 					break;
 				}
