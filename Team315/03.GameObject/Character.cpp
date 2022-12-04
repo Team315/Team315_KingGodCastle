@@ -223,10 +223,11 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 {
 	Stat& hp = stat[StatType::HP];
 	float damage = 0.f;
+	Character* attackerCharacter = dynamic_cast<Character*>(attacker);
 	if (attackType)
-		damage = dynamic_cast<Character*>(attacker)->GetStat(StatType::AD).GetModifier();
+		damage = attackerCharacter->GetStat(StatType::AD).GetModifier();
 	else
-		damage = dynamic_cast<Character*>(attacker)->GetSkill()->CalculatePotential(this);
+		damage = attackerCharacter->GetSkill()->CalculatePotential(attackerCharacter);
 
 	if (shieldAmount > 0.f)
 	{

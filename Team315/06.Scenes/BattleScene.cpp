@@ -441,8 +441,13 @@ void BattleScene::Update(float dt)
 					GameObj*& temp = gameObj;
 					if (IsCharacter(temp))
 					{
+						Character* tempCharacter = dynamic_cast<Character*>(temp);
+						vector<Item*> tempItems = tempCharacter->GetItems();
+						for (auto item : tempItems)
+							GAME_MGR->waitQueue.push(item);
+
 						float delta =
-							pow(2, dynamic_cast<Character*>(temp)->GetStarNumber() - 1) *
+							pow(2, tempCharacter->GetStarNumber() - 1) *
 							GAME_MGR->characterCost * 2 / 3;
 						cout << "sell character, +" << to_string((int)delta) << endl;
 						TranslateCoinState(delta);
@@ -491,11 +496,17 @@ void BattleScene::Update(float dt)
 					if (pick == nullptr)
 					{
 						GameObj* temp = gameObj;
-						if (temp->GetType().compare("Item"))
+						if (IsCharacter(temp))
 						{
+							Character* tempCharacter = dynamic_cast<Character*>(temp);
+							vector<Item*> tempItems = tempCharacter->GetItems();
+							for (auto item : tempItems)
+								GAME_MGR->waitQueue.push(item);
+
 							float delta =
-								dynamic_cast<Character*>(temp)->GetStarNumber() *
+								pow(2, tempCharacter->GetStarNumber() - 1) *
 								GAME_MGR->characterCost * 2 / 3;
+							cout << "sell character, +" << to_string((int)delta) << endl;
 							TranslateCoinState(delta);
 							gameObj = nullptr;
 							delete temp;

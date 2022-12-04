@@ -182,7 +182,7 @@ void Shelda::Update(float dt)
 	}
 	animator.Update(dt);
 	effectAnimator.Update(dt);
-	skill->Update(dt);
+	//skill->Update(dt);
 
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{

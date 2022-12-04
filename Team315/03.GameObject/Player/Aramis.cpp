@@ -4,7 +4,6 @@
 Aramis::Aramis(int skillTier)
 	: Character(skillTier), bulletSpeed(2000.f)
 {
-	//skill = new AramisSkill();
 	SetType("Player");
 	SetName("Aramis"); 
 }
@@ -165,6 +164,7 @@ void Aramis::Init()
 
 	SetState(AnimStates::Idle);
 	Character::Init();
+	skill = new AramisSkill(star->GetStarNumber());
 }
 
 void Aramis::Update(float dt)

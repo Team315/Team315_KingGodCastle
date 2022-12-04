@@ -20,7 +20,7 @@ void AramisSkill::Init()
 
 void AramisSkill::Update(float dt)
 {
-	Skill::Update(dt);
+	animator.Update(dt);
 }
 
 void AramisSkill::Draw(RenderWindow& window)
@@ -33,12 +33,8 @@ void AramisSkill::SetPos(const Vector2f& pos)
 	Skill::SetPos(pos);
 }
 
-void AramisSkill::SetRotation(Vector2f dir)
+void AramisSkill::CastSkill(Character* caster)
 {
-	sprite.setRotation(Utils::Angle(dir));
-}
-
-void AramisSkill::SetState(AnimStates newState)
-{
-	Skill::SetState(newState);
+	Character* target = dynamic_cast<Character*>(caster->GetTarget());
+	target->TakeDamage(caster, false);
 }
