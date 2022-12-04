@@ -117,6 +117,19 @@ void BattleScene::Update(float dt)
 {
 	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 	GAME_MGR->damageUI.Update(dt);
+	if (!GAME_MGR->waitQueue.empty())
+	{
+		int idx = GetZeroElem(prepareGrid);
+		if (idx != -1)
+		{
+			Item* item = GAME_MGR->waitQueue.front();
+			item->SetPos(prepareGridRect[idx]->GetPos());
+			item->Init();
+			prepareGrid[idx] = item;
+
+			GAME_MGR->waitQueue.pop();
+		}
+	}
 
 	Scene::Update(dt);
 
@@ -316,10 +329,6 @@ void BattleScene::Update(float dt)
 				// battle start
 				if (!button->GetName().compare("begin") && !playingBattle)
 				{
-					b_centerPos = true;
-					ZoomIn();
-
-					int monsterGridCoordR = 70;
 					int monsterGridCoordC = 0;
 					int curBattleCharacterCount = 0;
 
@@ -328,11 +337,16 @@ void BattleScene::Update(float dt)
 						if (character != nullptr)
 							curBattleCharacterCount++;
 
-						mgref[monsterGridCoordC + monsterGridCoordR] = character;
+						mgref[monsterGridCoordC + 70] = character;
 						monsterGridCoordC++;
 					}
 					if (curBattleCharacterCount != battleCharacterCount)
+					{
 						CLOG::Print3String("need more battle character");
+						if (curBattleCharacterCount == 0)
+							break;
+					}
+
 					for (auto& gameObj : mgref)
 					{
 						if (gameObj != nullptr && IsCharacter(gameObj))
@@ -340,6 +354,10 @@ void BattleScene::Update(float dt)
 							dynamic_cast<Character*>(gameObj)->SetIsBattle(true);
 						}
 					}
+
+					b_centerPos = true;
+					ZoomIn();
+
 					playingBattle = true;
 					break;
 				}
@@ -745,21 +763,15 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 				{
 					(*dest)[destIdx] = nullptr;
 					GameObj* temp = pick;
-					/*vector<Item*>& pickCrtItems = dynamic_cast<Character*>(temp)->GetItems();
-					vector<Item*> restItems;
+					vector<Item*>& pickCrtItems = dynamic_cast<Character*>(temp)->GetItems();
+					
 					for (auto& pItem : pickCrtItems)
 					{
 						if (!destCharacter->SetItem(pItem))
 						{
-							restItems.push_back(pItem); 
-							cout << pItem->GetName() << pItem->GetGrade() << endl;
+							GAME_MGR->waitQueue.push(pItem);
 						}
 					}
-					cout << restItems.size() << endl;*/
-
-					//destCharacter->SetItemGrid();
-
-					// todo rest item -> game mgr maingrid
 
 					pick = destCharacter;
 					temp->Release();

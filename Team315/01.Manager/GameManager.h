@@ -63,7 +63,6 @@ public:
 	void SetBackGroundDatas();
 	json GetBackGroundDatas();
 
-
 	void CreatedTiles();
 	void CreatedBackGround();
 	Character* SpawnMonster(string name, int grade);
@@ -94,6 +93,7 @@ public:
 	const float asIncrease;
 
 	ObjectPool<DamageText> damageUI;
+	queue<Item*> waitQueue;
 
 	//BattleTracker*& GetTracker();
 

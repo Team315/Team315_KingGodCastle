@@ -3,6 +3,7 @@
 #include "GameObj.h"
 #include "GameObjHeaders.h"
 #include "TileBackground.h"
+#include "Item/Item.h"
 
 void OnCreate(DamageText* dmgUI)
 {
