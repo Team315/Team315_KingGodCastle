@@ -173,10 +173,10 @@ void Aramis::Update(float dt)
 	
 	//skill->Translate(lastDirection * bulletSpeed * dt);
 
-	if (InputMgr::GetKeyDown(Keyboard::Z))
-	{
-		SetState(AnimStates::Skill);
-	}
+	//if (InputMgr::GetKeyDown(Keyboard::Z))
+	//{
+	//	SetState(AnimStates::Skill);
+	//}
 
 	switch (currState)
 	{

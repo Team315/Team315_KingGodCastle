@@ -10,15 +10,14 @@ class Skill : public GameObj
 protected:
 	vector<float> baseDamage;			// skill base damage
 	vector<vector<Vector2i>> range;		// skill range
-
-	Vector2i startPos;
-	Vector2i destPos;
-	int skillTier; // starNumber
+	int skillTier;						// starNumber
+	vector<Vector2i> applyArea;
 
 public:
 	Skill(int starNumber);
 	virtual ~Skill();
 
+	virtual void Update(float dt) override;
 	virtual void SetRotation(Vector2f dir);
 
 	virtual void SetState(AnimStates newState);

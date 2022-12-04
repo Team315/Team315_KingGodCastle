@@ -67,7 +67,6 @@ void BattleScene::Enter()
 {
 	CLOG::Print3String("battle enter");
 
-
 	FRAMEWORK->GetWindow().setSize(
 		Vector2u((unsigned int)GAME_SCREEN_WIDTH, (unsigned int)GAME_SCREEN_HEIGHT));
 	screenCenterPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT);
@@ -147,18 +146,6 @@ void BattleScene::Update(float dt)
 			TranslateCoinState(100.f);
 		}
 
-		if (InputMgr::GetKeyDown(Keyboard::Key::Num2))
-		{
-			GAME_MGR->damageUI.Get()->
-				SetDamageUI(Vector2f(102, 102), StatType::AD, 100.f);
-		}
-
-		if (InputMgr::GetKeyDown(Keyboard::Key::Num3))
-		{
-			GAME_MGR->damageUI.Get()->
-				SetDamageUI(Vector2f(102, 102), StatType::AP, 500.f);
-		}
-
 		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
 		{
 			CLOG::Print3String("battle end");
@@ -223,67 +210,67 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("devmode switch");
 			FRAMEWORK->devMode = !FRAMEWORK->devMode;
 		}
-		if (InputMgr::GetKeyDown(Keyboard::Key::F8))
-		{
-			int count = 0;
-			CLOG::Print3String("main grid state");
-			for (auto& gameObj : mgref)
-			{
-				string str = "";
-				if (gameObj == nullptr)
-					str += ".. ";
-				else
-				{
-					if (gameObj->GetName().compare("Obstacle"))
-						str += (gameObj->GetName().substr(0, 2) + " ");
-					else
-						str += "Ob ";
-				}
-				count++;
-				if ((count % GAME_TILE_WIDTH) == 0)
-					str += "\n";
-				cout << str;
-			}
-			cout << endl;
-		}
+		//if (InputMgr::GetKeyDown(Keyboard::Key::F8))
+		//{
+		//	int count = 0;
+		//	CLOG::Print3String("main grid state");
+		//	for (auto& gameObj : mgref)
+		//	{
+		//		string str = "";
+		//		if (gameObj == nullptr)
+		//			str += ".. ";
+		//		else
+		//		{
+		//			if (gameObj->GetName().compare("Obstacle"))
+		//				str += (gameObj->GetName().substr(0, 2) + " ");
+		//			else
+		//				str += "Ob ";
+		//		}
+		//		count++;
+		//		if ((count % GAME_TILE_WIDTH) == 0)
+		//			str += "\n";
+		//		cout << str;
+		//	}
+		//	cout << endl;
+		//}
 
-		if (InputMgr::GetKeyDown(Keyboard::Key::F9))
-		{
-			int count = 0;
-			CLOG::Print3String("battle grid state");
-			for (auto& gameObj : battleGrid)
-			{
-				string str = "";
-				if (gameObj == nullptr)
-					str += ".. ";
-				else
-				{
-					str += (gameObj->GetName().substr(0, 2) + " ");
-				}
-				count++;
-				if ((count % GAME_TILE_WIDTH) == 0)
-					str += "\n";
-				cout << str;
-			}
-			cout << endl;
+		//if (InputMgr::GetKeyDown(Keyboard::Key::F9))
+		//{
+		//	int count = 0;
+		//	CLOG::Print3String("battle grid state");
+		//	for (auto& gameObj : battleGrid)
+		//	{
+		//		string str = "";
+		//		if (gameObj == nullptr)
+		//			str += ".. ";
+		//		else
+		//		{
+		//			str += (gameObj->GetName().substr(0, 2) + " ");
+		//		}
+		//		count++;
+		//		if ((count % GAME_TILE_WIDTH) == 0)
+		//			str += "\n";
+		//		cout << str;
+		//	}
+		//	cout << endl;
 
-			CLOG::Print3String("prepare grid state");
-			for (auto& gameObj : prepareGrid)
-			{
-				string str = "";
-				if (gameObj == nullptr)
-					str += ".. ";
-				else
-				{
-					str += (gameObj->GetName().substr(0, 2) + " ");
-				}
-				count++;
-				if ((count % GAME_TILE_WIDTH) == 0)
-					str += "\n";
-				cout << str;
-			}
-			cout << endl;
-		}
+		//	CLOG::Print3String("prepare grid state");
+		//	for (auto& gameObj : prepareGrid)
+		//	{
+		//		string str = "";
+		//		if (gameObj == nullptr)
+		//			str += ".. ";
+		//		else
+		//		{
+		//			str += (gameObj->GetName().substr(0, 2) + " ");
+		//		}
+		//		count++;
+		//		if ((count % GAME_TILE_WIDTH) == 0)
+		//			str += "\n";
+		//		cout << str;
+		//	}
+		//	cout << endl;
+		//}
 	}
 	// Dev Input end
 

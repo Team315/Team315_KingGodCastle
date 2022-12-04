@@ -154,8 +154,8 @@ void BattleSceneUI::SetItemPopup(bool active, Vector2f viewCenter,
 	Item* item, Vector2f pos)
 {
 	itemPopups[0]->SetActive(active);
-	itemPopups[1]->SetActive(active);
-	itemPopups[2]->SetActive(active);
+	itemPopups[1]->SetActive(false);
+	itemPopups[2]->SetActive(false);
 	if (!active)
 		return;
 

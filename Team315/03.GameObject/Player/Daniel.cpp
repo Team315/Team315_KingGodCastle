@@ -1,11 +1,9 @@
 #include "Daniel.h"
 #include "Skill/DanielSkill.h"
 
-Daniel::Daniel(int skillTier)
-	: Character(skillTier)
+Daniel::Daniel(int starNumber)
+	: Character(starNumber)
 {
-	skill = new Skill(star->GetStarNumber());
-	//skill = new DanielSkill();
 	SetType("Player");
 	SetName("Daniel");
 }
@@ -19,7 +17,6 @@ void Daniel::Init()
 	animator.SetTarget(&sprite);
 	effectAnimator.SetTarget(&effectSprite);
 	
-
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Idle"));
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_DownIdle"));
@@ -152,16 +149,17 @@ void Daniel::Init()
 	//skill->Init();
 	SetState(AnimStates::Idle);
 	Character::Init();
+	skill = new DanielSkill(star->GetStarNumber());
 }
 
 void Daniel::Update(float dt)
 {
 	Character::Update(dt);
 
-	if (InputMgr::GetKeyDown(Keyboard::Z))
-	{
-		SetState(AnimStates::Attack);
-	}
+	//if (InputMgr::GetKeyDown(Keyboard::Z))
+	//{
+	//	SetState(AnimStates::Attack);
+	//}
 
 	switch (currState)
 	{

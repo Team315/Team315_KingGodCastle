@@ -8,6 +8,7 @@ class Aramis : public Character
 protected:
 	Bullet* bullet;
 	float bulletSpeed;
+
 public:
 	Aramis(int skillTier = 0);
 	virtual ~Aramis();
@@ -28,4 +29,3 @@ public:
 	void UpdateAttack(float dt);
 	void UpdateSkill(float dt);
 };
-

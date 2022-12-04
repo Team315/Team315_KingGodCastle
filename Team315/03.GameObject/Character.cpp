@@ -2,7 +2,7 @@
 #include "Item/Item.h"
 #include "Skill.h"
 
-Character::Character(int skillTier)
+Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	attackRangeType(false), isBattle(false),
 	noSkill(false), ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f)
@@ -13,7 +13,7 @@ Character::Character(int skillTier)
 	hpBar->SetBackgroundOutline(Color::Black, 2.f);
 	hpBar->SetSecondProgressColor(Color::White);
 
-	star = new Star(skillTier);
+	star = new Star(starNumber);
 	itemGrid.assign(ITEM_LIMIT, nullptr);
 	for (auto& grid : itemGrid)
 	{
@@ -120,11 +120,10 @@ void Character::Update(float dt)
 					Stat& mp = stat[StatType::MP];
 					mp.TranslateCurrent(15.f);
 
-					if (Utils::EqualFloat(mp.GetCurRatio(), 1.f))
+					if (!noSkill && Utils::EqualFloat(mp.GetCurRatio(), 1.f))
 					{
 						SetState(AnimStates::Skill);
 						mp.SetCurrent(0.f);
-						//if (!noSkill)
 						if (skill != nullptr)
 							skill->CastSkill(this);
 					}
@@ -217,6 +216,15 @@ void Character::SetStatsInit(json data)
 	stat[StatType::AD].SetDeltaMode(true);
 	if (stat[StatType::MP].GetBase() == 0.f)
 		noSkill = true;
+
+	int starNumber = GetStarNumber();
+	while (starNumber-- > 1)
+	{
+		UpgradeStats();
+	}
+	UpgradeCharacterSet();
+	if (skill != nullptr)
+		skill->SetSkillTier(GetStarNumber());
 }
 
 void Character::TakeDamage(GameObj* attacker, bool attackType)
@@ -274,6 +282,8 @@ void Character::UpgradeStar()
 	star->UpdateTexture();
 	UpgradeCharacterSet();
 	UpgradeStats();
+	if (skill != nullptr)
+		skill->SetSkillTier(star->GetStarNumber());
 
 	m_attackDelay = 1.f / stat[StatType::AS].GetModifier();
 }

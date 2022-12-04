@@ -285,10 +285,11 @@ void Evan::Update(float dt)
 	Character::Update(dt);
 	//skill->Translate(lastDirection * skillSpeed * dt);
 	
-	if (InputMgr::GetKeyDown(Keyboard::Z))
+	/*if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
 		SetState(AnimStates::Attack);
-	}
+	}*/
+
 	switch (currState)
 	{
 	case AnimStates::Idle:

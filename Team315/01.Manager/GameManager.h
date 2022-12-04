@@ -77,6 +77,7 @@ public:
 	json GetCharacterData(string name);
 
 	vector<GameObj*>& GetMainGridRef() { return *mainGrid; }
+	GameObj* GetGameObjInMainGrid(Vector2i coord);
 	void RemoveFromMainGrid(GameObj* gameObj);
 
 	int GetCurrentCoin() { return currentCoin; }

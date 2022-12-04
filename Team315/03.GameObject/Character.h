@@ -60,7 +60,7 @@ protected:
 	float astarDelay;
 
 public:
-	Character(int skillTier = 0);
+	Character(int starNumber = 0);
 	virtual ~Character();
 
 	virtual void Init() override;
@@ -81,7 +81,7 @@ public:
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(StatType statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
-	// attackType, true = ad / false = ap
+	// attackType, true = ad / false = ap(skill)
 	void TakeDamage(GameObj* attacker, bool attackType = true);
 	// careType, true = heal / false = shield
 	void TakeCare(GameObj* caster, bool careType = true);
@@ -96,6 +96,7 @@ public:
 	bool SetItem(Item* newItem);
 	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
+	void SetCrowdControl(float time) { ccTimer = time; }
 
 	//battle
 	void IsSetState(AnimStates newState);

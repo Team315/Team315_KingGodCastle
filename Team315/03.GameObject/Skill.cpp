@@ -2,14 +2,19 @@
 #include "Character.h"
 
 Skill::Skill(int starNumber)
-	: startPos(0.f, 0.f), destPos(0.f, 0.f), skillTier(starNumber)
+	: skillTier(starNumber)
 {
 	SetSkillTier(starNumber);
-	baseDamage.resize(4);
+	baseDamage.resize(TIER_MAX);
 }
 
 Skill::~Skill()
 {
+}
+
+void Skill::Update(float dt)
+{
+	animator.Update(dt);
 }
 
 void Skill::SetRotation(Vector2f dir)
@@ -35,9 +40,9 @@ void Skill::SetState(AnimStates newState)
 
 float Skill::CalculatePotential(Character* character)
 {
-	if (character == nullptr || this == nullptr)
+	if (character == nullptr)
 		return 0.f;
-	return baseDamage[skillTier] + character->GetStat(StatType::AP).GetModifier();
+	return baseDamage[skillTier - 1] + character->GetStat(StatType::AP).GetModifier();
 }
 
 void Skill::SetSkillRange(Vector2f startPos)

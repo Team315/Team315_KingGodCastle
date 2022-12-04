@@ -4,8 +4,8 @@
 class DanielSkill : public Skill
 {
 protected:
-	vector<Animator*> skillEffect;
-	vector<Sprite*> skillSprite;
+	/*vector<Animator*> skillEffect;
+	vector<Sprite*> skillSprite;*/
 public:
 	DanielSkill(int starNumber);
 	virtual ~DanielSkill();
@@ -16,5 +16,6 @@ public:
 	virtual void SetPos(const Vector2f& pos) override;
 	virtual void SetState(AnimStates newState, GameObj* target, String t);
 
+	virtual void SetSkillRange(Vector2f startPos) override;
 	virtual void CastSkill(Character* caster) override;
 };

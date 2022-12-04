@@ -157,10 +157,10 @@ void Shelda::Update(float dt)
 {
 	Character::Update(dt);
 
-	if (InputMgr::GetKeyDown(Keyboard::Z))
+	/*if (InputMgr::GetKeyDown(Keyboard::Z))
 	{
 		SetState(AnimStates::Skill);
-	}
+	}*/
 
 	switch (currState)
 	{

@@ -4,6 +4,7 @@
 AramisSkill::AramisSkill(int starNumber)
 	: Skill(starNumber)
 {
+	baseDamage = { 0, 0, 0, 0 };
 }
 
 AramisSkill::~AramisSkill()
@@ -12,15 +13,11 @@ AramisSkill::~AramisSkill()
 
 void AramisSkill::Init()
 {
-	Skill::Init();
-	baseDamage = { 0, 0, 0, 0 };
-
-	sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/bullet.png"));
+	//sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/bullet.png"));
 }
 
 void AramisSkill::Update(float dt)
 {
-	animator.Update(dt);
 }
 
 void AramisSkill::Draw(RenderWindow& window)
