@@ -177,7 +177,10 @@ void Arveron::Draw(RenderWindow& window)
 	if (!isAlive)
 		return;
 
-	m_floodFill.Draw(window);
+	if (isBattle)
+	{
+		m_floodFill.Draw(window);
+	}
 
 	if (GetState() == AnimStates::Skill)
 	{

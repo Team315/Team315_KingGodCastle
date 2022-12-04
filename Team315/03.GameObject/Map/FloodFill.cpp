@@ -281,8 +281,8 @@ GameObj* FloodFill::GetNearEnemy(vector<GameObj*>& map, Vector2i myPos, string t
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
 			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
-
 			nowDistance = Utils::Distance(enpos, myPos);
+
 			if (minDistance > nowDistance)
 			{
 				minDistance = nowDistance;
@@ -298,13 +298,6 @@ void FloodFill::SetAttackAreas(int count)
 {
 	Areas.resize(count);
 
-	//for (auto area : Areas)
-	//{
-	//	area.SetSize(TILE_SIZE, TILE_SIZE);
-	//	area.SetFillColor(Color::Red);
-	//	area.SetOrigin(Origins::TL);
-	//	//Character::m_attackAreas.
-	//}
 	for (int i = 0; i < count; ++i)
 	{
 		Areas[i].SetSize(TILE_SIZE, TILE_SIZE);

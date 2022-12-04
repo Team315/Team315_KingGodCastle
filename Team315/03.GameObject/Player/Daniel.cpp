@@ -212,7 +212,7 @@ void Daniel::SetPos(const Vector2f& pos)
 void Daniel::SetState(AnimStates newState)
 {
 	Character::SetState(newState);
-
+	//cout << (int)currState << endl;
 	switch (currState)
 	{
 	case AnimStates::Idle:
