@@ -206,15 +206,15 @@ Character* GameManager::SpawnMonster(string name, int grade)
 Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBattle)
 {
 	Character* character = nullptr;
-	//int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
-	int num = 2;
+	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
+	//int num = 2;
 
 	if (!name.compare("Aramis") || num == 0)
 		character = new Aramis();
 	else if (!name.compare("Arveron") || num == 1)
 		character = new Arveron();
 	else if (!name.compare("Daniel") || num == 2)
-		character = new Daniel(7);
+		character = new Daniel();
 	else if (!name.compare("Evan") || num == 3)
 		character = new Evan();
 	else if (!name.compare("LeonHeart") || num == 4)
