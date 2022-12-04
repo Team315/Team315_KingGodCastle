@@ -18,10 +18,10 @@ void FloodFill::Init()
 
 void FloodFill::Update(float dt)
 {
-	for (auto areas : Areas)
-	{
-		areas.Update(dt);
-	}
+	//for (auto areas : Areas)
+	//{
+	//	areas.Update(dt);
+	//}
 }
 
 void FloodFill::Draw(RenderWindow& window)
@@ -312,6 +312,7 @@ void FloodFill::SetAttackAreas(int count)
 		Areas[i].SetFillColorAlpha(100);
 		Areas[i].SetOutline(Color::Red, -1.f);
 		Areas[i].SetOrigin(Origins::TC);
+		Areas[i].SetActive(false);
 	}
 	
 
@@ -327,15 +328,15 @@ void FloodFill::SetAttackAreas(int count)
 	}
 }
 
-void FloodFill::DrawingAttackAreas(Vector2i myPos)
+void FloodFill::DrawingAttackAreas(Vector2i myPos, bool onOff)
 {
-	m_isAttackAreas = ~m_isAttackAreas;
+	m_isAttackAreas = onOff;
 
 	if (!m_isAttackAreas)
 	{
-		for (auto area : Areas)
+		for (int i = 0; i < m_count; ++i)
 		{
-			area.SetActive(false);
+			Areas[i].SetActive(false);
 		}
 		return;
 	}

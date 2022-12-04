@@ -32,9 +32,6 @@ protected:
 	View toolView;
 	View& currentView;
 
-	Sound bgm;
-	Sound click;
-	Sound changeScene;
 public:
 	Scene(Scenes type);
 	virtual ~Scene();

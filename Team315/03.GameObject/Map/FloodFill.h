@@ -45,7 +45,7 @@ public:
 	GameObj* GetNearEnemy(vector<GameObj*>& map, Vector2i myPos, string targetType);
 
 	void SetAttackAreas(int count);
-	void DrawingAttackAreas(Vector2i myPos);
+	void DrawingAttackAreas(Vector2i myPos, bool onOff);
 
 	bool isInRange(int col, int row);
 	bool isDestination(int grid);

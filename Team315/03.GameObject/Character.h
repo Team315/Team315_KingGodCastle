@@ -106,6 +106,7 @@ public:
 
 	//FloodFill
 	bool isAttack();
+	void OnOffAttackAreas(bool onOff);
 
 	//Astar
 	bool PlayAstar();
