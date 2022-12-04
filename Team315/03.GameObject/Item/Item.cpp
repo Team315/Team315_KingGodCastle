@@ -3,6 +3,7 @@
 Item::Item(int grade, ItemType type)
 	: grade(grade), itemType(type), potential(0.f), statType(StatType::None)
 {
+	this->grade = Utils::RandomRange(0, 100) < GAME_MGR->GetExtraGradeUpChance() ? this->grade + 1 : this->grade;
 	SetType("Item");
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(MakePath()), true);
 	SetOrigin(Origins::BC);
@@ -27,15 +28,6 @@ Item::Item(int grade, ItemType type)
 }
 
 Item::~Item()
-{
-}
-
-void Item::Init()
-{
-	GameObj::Init();
-}
-
-void Item::Update(float dt)
 {
 }
 

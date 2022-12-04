@@ -13,8 +13,8 @@ void OnCreate(DamageText* dmgUI)
 }
 
 GameManager::GameManager()
-	: m_PlayTileList(nullptr), battleCharacterCount(8), extraLevelUpChance(0),
-	extraGradeUpChance(0), startCoin(50), // 6
+	: m_PlayTileList(nullptr), battleCharacterCount(8), extraLevelUpChance(20),
+	extraGradeUpChance(20), startCoin(50), // 6
 	characterCost(3), itemCost(5), currentCoin(startCoin), stageClearCoin(6),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f), apIncreaseRate(1.6f), asIncrease(0.1f)
 {
@@ -73,8 +73,8 @@ GameManager::~GameManager()
 void GameManager::Init()
 {
 	currentCoin = startCoin;
-	extraLevelUpChance = 0;
-	extraGradeUpChance = 0;
+	extraLevelUpChance = 20;
+	extraGradeUpChance = 20;
 }
 
 Vector2i GameManager::PosToIdx(Vector2f pos)

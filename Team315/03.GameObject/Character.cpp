@@ -62,7 +62,6 @@ void Character::Init()
 
 	m_floodFill.SetArrSize(
 		stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
-
 }
 
 void Character::Reset()
@@ -125,8 +124,9 @@ void Character::Update(float dt)
 					{
 						SetState(AnimStates::Skill);
 						mp.SetCurrent(0.f);
+						//if (!noSkill)
 						if (skill != nullptr)
-							skill->CastSkill(dynamic_cast<Character*>(GetTarget()));
+							skill->CastSkill(this);
 					}
 				}
 				m_attackDelay -= dt;
@@ -161,8 +161,6 @@ void Character::Update(float dt)
 			}
 		}
 	}
-
-
 }
 
 void Character::Draw(RenderWindow& window)
@@ -217,6 +215,8 @@ void Character::SetStatsInit(json data)
 
 	stat[StatType::AS].SetUpgradeMode(true);
 	stat[StatType::AD].SetDeltaMode(true);
+	if (stat[StatType::MP].GetBase() == 0.f)
+		noSkill = true;
 }
 
 void Character::TakeDamage(GameObj* attacker, bool attackType)
@@ -226,7 +226,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	if (attackType)
 		damage = dynamic_cast<Character*>(attacker)->GetStat(StatType::AD).GetModifier();
 	else
-		damage = dynamic_cast<Character*>(attacker)->GetSkill()->CalculateDamage(this);
+		damage = dynamic_cast<Character*>(attacker)->GetSkill()->CalculatePotential(this);
 
 	if (shieldAmount > 0.f)
 	{
@@ -255,7 +255,8 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 void Character::TakeCare(GameObj* caster, bool careType)
 {
 	Stat& hp = stat[StatType::HP];
-	float careAmount = dynamic_cast<Character*>(caster)->GetStat(StatType::AP).GetModifier();
+	Character* casterCharacter = dynamic_cast<Character*>(caster);
+	float careAmount = casterCharacter->GetSkill()->CalculatePotential(casterCharacter);
 
 	if (careType)
 		hp.TranslateCurrent(careAmount);
@@ -340,7 +341,8 @@ bool Character::SetItem(Item* newItem)
 			break;*/
 	}
 	path += (to_string(newItem->GetGrade()) + ".png");
-	UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential());
+	if (!isCombine)
+		UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential());
 
 	itemGrid[combineIdx]->SetActive(true);
 	itemGrid[combineIdx]->SetSpriteTexture(*RESOURCE_MGR->GetTexture(path));
@@ -363,16 +365,6 @@ void Character::UpdateItemDelta(StatType sType, float value)
 	case StatType::AS:
 		stat[sType].AddDelta(value);
 		break;
-	}
-}
-
-void Character::SetItemGrid()
-{
-	int count = 0;
-	for (auto& grid : itemGrid)
-	{
-		grid->SetSpriteTexture(*RESOURCE_MGR->GetTexture(items[count]->MakePath()), true);
-		count++;
 	}
 }
 

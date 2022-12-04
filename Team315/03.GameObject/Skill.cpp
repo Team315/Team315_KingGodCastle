@@ -12,25 +12,6 @@ Skill::~Skill()
 {
 }
 
-void Skill::Init()
-{
-	GameObj::Init();
-}
-
-void Skill::Update(float dt)
-{
-}
-
-void Skill::Draw(RenderWindow& window)
-{
-	SpriteObj::Draw(window);
-}
-
-void Skill::SetPos(const Vector2f& pos)
-{
-	SpriteObj::SetPos(pos);
-}
-
 void Skill::SetRotation(Vector2f dir)
 {
 	if (dir.y < 0.f)
@@ -52,7 +33,7 @@ void Skill::SetState(AnimStates newState)
 	currState = newState;
 }
 
-float Skill::CalculateDamage(Character* character)
+float Skill::CalculatePotential(Character* character)
 {
 	if (character == nullptr || this == nullptr)
 		return 0.f;
