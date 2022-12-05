@@ -130,8 +130,9 @@ void DanielSkill::CastSkill(Character* caster)
 
 	for (auto& cell : applyArea)
 	{
+		GAME_MGR->rangePreview.Get()->Fire(GAME_MGR->IdxToPos(cell));
 		GameObj* target = GAME_MGR->GetGameObjInMainGrid(cell);
-		if (target != nullptr && !target->GetType().compare("Monster"))
+		if (target != nullptr && !target->GetType().compare(caster->GetTarget()->GetType()))
 		{
 			CLOG::PrintVectorState(GAME_MGR->PosToIdx(target->GetPos()), target->GetName());
 			dynamic_cast<Character*>(target)->TakeDamage(caster, false);

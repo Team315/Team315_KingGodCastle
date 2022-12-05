@@ -28,7 +28,8 @@ public:
 };
 
 template <typename T>
-ObjectPool<T>::ObjectPool() : OnCreate(nullptr)
+ObjectPool<T>::ObjectPool()
+	: OnCreate(nullptr)
 {
 }
 
@@ -102,7 +103,7 @@ T* ObjectPool<T>::Get()
 			ptr->SetActive(false);
 			unuse.push_back(ptr);
 
-			if ( OnCreate != nullptr )
+			if (OnCreate != nullptr )
 			{
 				OnCreate(ptr);
 			}

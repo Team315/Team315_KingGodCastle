@@ -244,7 +244,6 @@
     <ClInclude Include="04.UiObject\BackgroundText.h" />
     <ClInclude Include="04.UiObject\BackrectText.h" />
     <ClInclude Include="03.GameObject\Map\FloodFill.h" />
-    <ClInclude Include="03.GameObject\Bullet.h" />
     <ClInclude Include="03.GameObject\Item\Item.h" />
     <ClInclude Include="03.GameObject\Character.h" />
     <ClInclude Include="03.GameObject\Item\Armor.h" />
@@ -254,6 +253,7 @@
     <ClInclude Include="04.UiObject\SpriteGrid.h" />
     <ClInclude Include="04.UiObject\DamageText.h" />
     <ClInclude Include="04.UiObject\ItemInfoWindow.h" />
+    <ClInclude Include="03.GameObject\RangePreview.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="02.Object\FloatingObj.cpp" />
@@ -301,7 +301,6 @@
     <ClCompile Include="03.GameObject\Skill\Goblin00Skill.cpp" />
     <ClCompile Include="04.UiObject\BackrectText.cpp" />
     <ClCompile Include="03.GameObject\Map\FloodFill.cpp" />
-    <ClCompile Include="03.GameObject\Bullet.cpp" />
     <ClCompile Include="03.GameObject\Item\Item.cpp" />
     <ClCompile Include="03.GameObject\Character.cpp" />
     <ClCompile Include="03.GameObject\Item\Armor.cpp" />
@@ -351,6 +350,7 @@
     <ClCompile Include="04.UiObject\BackgroundText.cpp" />
     <ClCompile Include="03.GameObject\Item\Sword.cpp" />
     <ClCompile Include="03.GameObject\Item\Staff.cpp" />
+    <ClCompile Include="03.GameObject\RangePreview.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

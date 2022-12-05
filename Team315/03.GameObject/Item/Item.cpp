@@ -24,7 +24,7 @@ Item::Item(int grade, ItemType type)
 		break;
 	}
 	//if (itemType != ItemType::Book)
-		potential = GAME_MGR->GetItemStatMapElem(statType, grade);
+	potential = GAME_MGR->GetItemStatMapElem(statType, this->grade);
 }
 
 Item::~Item()

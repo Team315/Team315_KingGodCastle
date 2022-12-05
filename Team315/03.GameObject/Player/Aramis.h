@@ -1,12 +1,11 @@
 #pragma once
 #include "Character.h"
 #include "Bullet.h"
-#include "Skill/AramisSkill.h"
 
 class Aramis : public Character
 {
 protected:
-	Bullet* bullet;
+	//Bullet* bullet;
 	float bulletSpeed;
 
 public:

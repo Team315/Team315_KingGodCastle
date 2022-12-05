@@ -116,6 +116,7 @@ void BattleScene::Update(float dt)
 {
 	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 	GAME_MGR->damageUI.Update(dt);
+	GAME_MGR->rangePreview.Update(dt);
 	if (!GAME_MGR->waitQueue.empty())
 	{
 		int idx = GetZeroElem(prepareGrid);
@@ -652,6 +653,12 @@ void BattleScene::Draw(RenderWindow& window)
 		{
 			tile->Draw(window);
 		}
+	}
+
+	auto& rangePreview = GAME_MGR->rangePreview.GetUseList();
+	for (auto& preview : rangePreview)
+	{
+		preview->Draw(window);
 	}
 
 	// draw character on gmae screen area

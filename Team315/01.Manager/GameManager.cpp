@@ -5,11 +5,16 @@
 #include "TileBackground.h"
 #include "Item/Item.h"
 
-void OnCreate(DamageText* dmgUI)
+void DmgUIOnCreate(DamageText* dmgUI)
 {
 	dmgUI->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	dmgUI->SetOutlineColor(Color::Black);
 	dmgUI->SetOutlineThickness(2.0f);
+}
+
+void RangePreviewOnCreate(RangePreview* rangePreview)
+{
+	rangePreview->SetActive(false);
 }
 
 GameManager::GameManager()
@@ -39,8 +44,10 @@ GameManager::GameManager()
 	itemStatMap[StatType::HP] = { 250, 400, 700, 1200 };		// +
 	//battleTracker = new BattleTracker();
 
-	damageUI.OnCreate = OnCreate;
+	damageUI.OnCreate = DmgUIOnCreate;
 	damageUI.Init();
+	rangePreview.OnCreate = RangePreviewOnCreate;
+	rangePreview.Init(200);
 }
 
 GameManager::~GameManager()
@@ -235,7 +242,7 @@ Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
 Item* GameManager::SpawnItem(int typeIdx)
 {
 	Item* item = nullptr;
-	// 0 ~ 8, 2/9 armor, bow, staff, sword / 1/9 book
+	// 0 ~ 8, 1/4 armor, bow, staff, sword / 0 book
 	ItemType type = typeIdx == -1 ?
 		(ItemType) (Utils::RandomRange(0, 2 * ITEM_COUNT) / 2) :
 		(ItemType) (typeIdx);

@@ -6,6 +6,7 @@
 #include "FileManager.h"
 #include "ObjectPool.h"
 #include "DamageText.h"
+#include "RangePreview.h"
 
 //struct DamageData;
 //class BattleTracker;
@@ -14,6 +15,7 @@ class GameObj;
 class Item;
 class Tile;
 class TileBackground;
+
 class GameManager : public Singleton<GameManager>
 {
 protected:
@@ -94,6 +96,7 @@ public:
 	const float asIncrease;
 
 	ObjectPool<DamageText> damageUI;
+	ObjectPool<RangePreview> rangePreview;
 	queue<Item*> waitQueue;
 
 	//BattleTracker*& GetTracker();

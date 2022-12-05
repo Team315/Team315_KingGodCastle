@@ -84,7 +84,6 @@
     <ClCompile Include="04.UiObject\BackrectText.cpp" />
     <ClCompile Include="03.GameObject\Map\FloodFill.cpp" />
     <ClCompile Include="04.UiObject\TwoFactorProgress.cpp" />
-    <ClCompile Include="03.GameObject\Bullet.cpp" />
     <ClCompile Include="03.GameObject\Character.cpp" />
     <ClCompile Include="03.GameObject\Item\Item.cpp" />
     <ClCompile Include="03.GameObject\Item\Armor.cpp" />
@@ -95,7 +94,8 @@
     <ClCompile Include="02.Object\FloatingObj.cpp" />
     <ClCompile Include="04.UiObject\DamageText.cpp" />
     <ClCompile Include="04.UiObject\StatPopupWindow.cpp" />
-    <ClCompile Include="04.UiObject\ItemPopupWindow.cpp" />
+    <ClCompile Include="04.UiObject\ItemInfoWindow.cpp" />
+    <ClCompile Include="03.GameObject\RangePreview.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -189,7 +189,6 @@
     <ClInclude Include="04.UiObject\BackrectText.h" />
     <ClInclude Include="03.GameObject\Map\FloodFill.h" />
     <ClInclude Include="04.UiObject\TwoFactorProgress.h" />
-    <ClInclude Include="03.GameObject\Bullet.h" />
     <ClInclude Include="03.GameObject\Character.h" />
     <ClInclude Include="99.Include\GameObjHeaders.h" />
     <ClInclude Include="03.GameObject\Item\Item.h" />
@@ -202,7 +201,8 @@
     <ClInclude Include="98.3rd\ObjectPool.h" />
     <ClInclude Include="04.UiObject\DamageText.h" />
     <ClInclude Include="04.UiObject\StatPopupWindow.h" />
-    <ClInclude Include="04.UiObject\ItemPopupWindow.h" />
+    <ClInclude Include="04.UiObject\ItemInfoWindow.h" />
+    <ClInclude Include="03.GameObject\RangePreview.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
