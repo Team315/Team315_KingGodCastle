@@ -873,6 +873,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 				{
 					(*start)[startIdx] = nullptr;
 					combine = true;
+					destCharacter->ArrangeItems();
 				}
 			}
 			canMove = false;
