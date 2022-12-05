@@ -50,9 +50,6 @@ void Character::Init()
 	starLocalPos = { 0.f, hpBarLocalPos.y };
 	SetPos(position);
 
-	FloatRect Rect;
-	SetHitbox(Rect, Origins::BC, 51.f, 51.f);
-
 	//battle
 	enemyInfo.leng = 99999;
 
@@ -138,9 +135,8 @@ void Character::Update(float dt)
 				astarDelay -= dt;
 				if (astarDelay <= 0.f)
 				{
-					if (PlayAstar()/*SetTargetDistance()*/)
+					if (/*PlayAstar()*/SetTargetDistance())
 					{
-
 						move = true;
 					}
 					else
