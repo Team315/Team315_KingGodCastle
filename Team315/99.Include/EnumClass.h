@@ -67,3 +67,11 @@ enum class ItemType
 	//Book,
 	Count,
 };
+
+enum class Dir
+{
+	Down,
+	Up,
+	Left,
+	Right,
+};

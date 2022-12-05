@@ -5,6 +5,7 @@ class LeonHeartSkill : public Skill
 {
 protected:
 	vector<float> crowdControlTimer;
+	Dir dir;
 
 public:
 	LeonHeartSkill(int starNumber);
@@ -12,4 +13,5 @@ public:
 
 	virtual void SetSkillRange(Vector2f startPos) override;
 	virtual void CastSkill(Character* caster) override;
+	void SetDir(Vector2f direction);
 };
