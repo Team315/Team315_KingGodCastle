@@ -1,10 +1,12 @@
 #include "BattleScene.h"
+#include "BackrectText.h"
 #include "BattleSceneUI.h"
 #include "BattlePanel.h"
 #include "Button.h"
-#include "GameObjHeaders.h"
 #include "Constant.h"
+#include "DamageTrackerUI.h"
 #include "GameManager.h"
+#include "GameObjHeaders.h"
 #include "Map/Tile.h"
 #include "Map/FloodFill.h"
 #include "RectangleObj.h"
@@ -88,9 +90,7 @@ void BattleScene::Enter()
 	ZoomOut();
 	GAME_MGR->damageUI.Reset();
 
-
 	SOUND_MGR->Play("sounds/Battle.wav", 20.f, true);
-	GAME_MGR->damageUI.Reset();
 }
 
 void BattleScene::Exit()
@@ -408,6 +408,29 @@ void BattleScene::Update(float dt)
 						break;
 					}
 					break;
+				}
+			}
+		}
+	}
+
+	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons() ;
+	for (auto& button : trackerButtons)
+	{
+		if (button->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				if (!button->GetName().compare("OnOff"))
+				{
+					ui->GetTracker()->ShowWindow();
+				}
+				if (!button->GetName().compare("Given"))
+				{
+					ui->GetTracker()->ShowGiven();
+				}
+				if (!button->GetName().compare("Taken"))
+				{
+					ui->GetTracker()->ShowTaken();
 				}
 			}
 		}

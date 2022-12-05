@@ -313,6 +313,7 @@ float GameManager::GetItemStatMapElem(StatType statType, int grade)
 
 // Battle Tracker
 BattleTracker::BattleTracker()
+	: trackerMode(true)
 {
 }
 
@@ -332,6 +333,16 @@ void BattleTracker::SetDatas()
 			datas.push_back(dynamic_cast<Character*>(character));
 		}
 	}
+}
+
+bool ascendGiven(DamageData a, DamageData b)
+{
+	return (a.givenAD + a.givenAP) > (b.givenAD + b.givenAP);
+}
+
+bool ascendTaken(DamageData a, DamageData b)
+{
+	return (a.takenAD + a.takenAP) > (b.takenAD + b.takenAP);
 }
 
 void BattleTracker::UpdateData(Character* character, float damage,
@@ -355,6 +366,10 @@ void BattleTracker::UpdateData(Character* character, float damage,
 			}
 		}
 	}
+	if (trackerMode)
+		sort(datas.begin(), datas.end(), ascendGiven);
+	else
+		sort(datas.begin(), datas.end(), ascendTaken);
 }
 
 void BattleTracker::PrintAllData()

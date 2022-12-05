@@ -96,6 +96,7 @@
     <ClCompile Include="04.UiObject\StatPopupWindow.cpp" />
     <ClCompile Include="04.UiObject\ItemInfoWindow.cpp" />
     <ClCompile Include="03.GameObject\RangePreview.cpp" />
+    <ClCompile Include="04.UiObject\DamageTrackerUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="04.UiObject\StatPopupWindow.h" />
     <ClInclude Include="04.UiObject\ItemInfoWindow.h" />
     <ClInclude Include="03.GameObject\RangePreview.h" />
+    <ClInclude Include="04.UiObject\DamageTrackerUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

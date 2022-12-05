@@ -1,12 +1,13 @@
 #include "BattleSceneUI.h"
-#include "Include.h"
 #include "BattlePanel.h"
-#include "Character.h"
-#include "RectangleObj.h"
 #include "BackrectText.h"
-#include "Item/Item.h"
-#include "StatPopupWindow.h"
+#include "Character.h"
+#include "DamageTrackerUI.h"
+#include "Include.h"
 #include "ItemInfoWindow.h"
+#include "Item/Item.h"
+#include "RectangleObj.h"
+#include "StatPopupWindow.h"
 
 BattleSceneUI::BattleSceneUI(Scene* scene)
 	: UIMgr(scene), b_stageEndPopup(false)
@@ -32,6 +33,9 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	stageEndWindowSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Start.png"));
 	stageEndWindowSprite.setPosition(Vector2f(GAME_SCREEN_WIDTH * 0.5f, 200.f));
 	Utils::SetOrigin(stageEndWindowSprite, Origins::MC);
+
+	dmgTrackerUI = new DamageTrackerUI();
+	dmgTrackerUI->SetPos(Vector2f(400.f, 200.f));
 }
 
 BattleSceneUI::~BattleSceneUI()
@@ -46,6 +50,7 @@ void BattleSceneUI::Init()
 	for (auto& popup : itemPopups)
 		uiObjList.push_back(popup);
 	uiObjList.push_back(stageEndWindow);
+	uiObjList.push_back(dmgTrackerUI);
 	UIMgr::Init();
 }
 

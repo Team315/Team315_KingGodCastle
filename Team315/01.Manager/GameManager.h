@@ -124,6 +124,7 @@ class BattleTracker
 {
 protected:
 	vector<DamageData> datas;
+	bool trackerMode; // true - given / false - taken
 
 public:
 	BattleTracker();
