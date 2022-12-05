@@ -325,18 +325,21 @@ void FloodFill::DrawingAttackAreas(Vector2i myPos, bool onOff)
 {
 	m_isAttackAreas = onOff;
 
-	if (!m_isAttackAreas)
+	//if (!m_isAttackAreas)
 	{
 		for (int i = 0; i < m_count; ++i)
 		{
 			Areas[i].SetActive(false);
 		}
-		return;
+		//return;
 	}
+
+	if (!m_isAttackAreas)
+		return;
 
 	for (int i = 0; i < m_count; ++i)
 	{
-		Vector2i  pos = m_arr[i];
+		Vector2i pos = m_arr[i];
 		pos.x += myPos.x /*- (m_Width / 2)*/;
 		pos.y += myPos.y-1 /*- (m_Height / 2)*/;
 

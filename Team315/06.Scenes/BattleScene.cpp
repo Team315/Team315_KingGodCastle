@@ -211,7 +211,7 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("devmode switch");
 			FRAMEWORK->devMode = !FRAMEWORK->devMode;
 		}
-		if (InputMgr::GetKeyDown(Keyboard::Key::F8))
+		/*if (InputMgr::GetKeyDown(Keyboard::Key::F8))
 		{
 			int count = 0;
 			CLOG::Print3String("main grid state");
@@ -233,7 +233,7 @@ void BattleScene::Update(float dt)
 				cout << str;
 			}
 			cout << endl;
-		}
+		}*/
 
 		//if (InputMgr::GetKeyDown(Keyboard::Key::F9))
 		//{
@@ -305,6 +305,14 @@ void BattleScene::Update(float dt)
 	{
 		ui->SetStatPopup(false, currentView.getCenter());
 		ui->SetItemPopup(false, currentView.getCenter());
+
+		for (auto& gameObj : battleGrid)
+		{
+			if (gameObj != nullptr && IsCharacter(gameObj))
+			{
+				dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(false);
+			}
+		}
 	}
 
 	vector<Button*>& buttons = ui->GetPanel()->GetButtons();
@@ -476,6 +484,7 @@ void BattleScene::Update(float dt)
 					if (pick == nullptr)
 					{
 						PickUpGameObj(gameObj);
+						dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(true);
 						break;
 					}
 				}
@@ -564,6 +573,7 @@ void BattleScene::Update(float dt)
 			PutDownItem(&beforeContainer, &destContainer, beforeCoord, destCoord);
 
 		pick->SetHitBoxActive(true);
+		dynamic_cast<Character*>(pick)->OnOffAttackAreas(true);
 		pick = nullptr;
 		return;
 	}

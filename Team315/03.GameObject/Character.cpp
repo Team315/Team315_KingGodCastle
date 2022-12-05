@@ -168,11 +168,10 @@ void Character::Draw(RenderWindow& window)
 {
 	if (!isAlive)
 		return;
-	//cout << name << endl;
-	if (isBattle)
-	{
+
+	if (!isBattle)
 		m_floodFill.Draw(window);
-	}
+
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
 	hpBar->Draw(window);
@@ -417,10 +416,10 @@ bool Character::isAttack()
 
 void Character::OnOffAttackAreas(bool onOff)
 {
-	m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(position), onOff);
+	m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(position + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)), onOff);
 }
 
-bool Character::PlayAstar()
+bool Character::PlayAstar() 
 {
 	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 	m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);

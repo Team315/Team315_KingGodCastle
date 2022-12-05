@@ -206,12 +206,15 @@ void Pria::Draw(RenderWindow& window)
 	if (!isAlive)
 		return;
 
-	if (isBattle)
+	Character::Draw(window);
+	window.draw(effectSprite);
+
+	/*if (!isBattle)
 	{
 		m_floodFill.Draw(window);
 	}
 
-	if(GetState() == AnimStates::Skill)
+	if (GetState() == AnimStates::Skill)
 	{
 		window.draw(effectSprite);
 		SpriteObj::Draw(window);
@@ -232,7 +235,7 @@ void Pria::Draw(RenderWindow& window)
 	{
 		if (grid->GetActive())
 			grid->Draw(window);
-	}
+	}*/
 }
 
 void Pria::SetPos(const Vector2f& pos)
