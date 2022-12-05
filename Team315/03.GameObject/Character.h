@@ -107,6 +107,7 @@ public:
 	//FloodFill
 	bool isAttack();
 	void OnOffAttackAreas(bool onOff);
+	vector<RectangleObj>* GetAreas() { return m_floodFill.GetAreas(); }
 
 	//Astar
 	bool PlayAstar();

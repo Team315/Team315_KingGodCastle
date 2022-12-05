@@ -22,7 +22,8 @@ protected:
 	float gameScreenTopLimit;
 
 	vector<vector<Tile*>>* curStage;
-	vector<TileBackground*> curBackGround;
+	vector<TileBackground*> curBackGround; 
+	vector<RectangleObj>* pickAttackRangeRect;
 
 	int curChapIdx;
 	int curStageIdx;

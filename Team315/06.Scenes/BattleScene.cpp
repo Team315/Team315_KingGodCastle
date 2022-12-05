@@ -311,6 +311,7 @@ void BattleScene::Update(float dt)
 			if (gameObj != nullptr && IsCharacter(gameObj))
 			{
 				dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(false);
+				pickAttackRangeRect = nullptr;
 			}
 		}
 	}
@@ -484,7 +485,11 @@ void BattleScene::Update(float dt)
 					if (pick == nullptr)
 					{
 						PickUpGameObj(gameObj);
-						dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(true);
+						if (InBattleGrid(GAME_MGR->PosToIdx(pick->GetPos())))
+						{
+							dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(true);
+							pickAttackRangeRect = dynamic_cast<Character*>(gameObj)->GetAreas();
+						}
 						break;
 					}
 				}
@@ -543,6 +548,9 @@ void BattleScene::Update(float dt)
 				{
 					ui->SetStatPopup(true, currentView.getCenter(), dynamic_cast<Character*>(gameObj),
 						GAME_MGR->SnapToCoord(gameObj->GetPos()));
+
+					dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(true);
+					pickAttackRangeRect = dynamic_cast<Character*>(gameObj)->GetAreas();
 				}
 			}
 		}
@@ -573,7 +581,11 @@ void BattleScene::Update(float dt)
 			PutDownItem(&beforeContainer, &destContainer, beforeCoord, destCoord);
 
 		pick->SetHitBoxActive(true);
-		dynamic_cast<Character*>(pick)->OnOffAttackAreas(true);
+		if (InBattleGrid(GAME_MGR->PosToIdx(pick->GetPos())))
+		{
+			dynamic_cast<Character*>(pick)->OnOffAttackAreas(true);
+			pickAttackRangeRect = dynamic_cast<Character*>(pick)->GetAreas();
+		}
 		pick = nullptr;
 		return;
 	}
@@ -662,6 +674,15 @@ void BattleScene::Draw(RenderWindow& window)
 		for (auto& tile : row)
 		{
 			tile->Draw(window);
+		}
+	}
+
+	if (pickAttackRangeRect != nullptr)
+	{
+		for (auto& rect : *pickAttackRangeRect)
+		{
+			if (rect.GetActive())
+				rect.Draw(window);
 		}
 	}
 

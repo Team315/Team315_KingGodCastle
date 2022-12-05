@@ -100,10 +100,10 @@ void Character::Update(float dt)
 	if (isBattle)
 	{
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-		if (InputMgr::GetKeyDown(Keyboard::Key::L))
-		{
-			OnOffAttackAreas(true);
-		}
+		//if (InputMgr::GetKeyDown(Keyboard::Key::L))
+		//{
+		//	OnOffAttackAreas(true);
+		//}
 
 		if (!move && !attack)
 		{
@@ -169,8 +169,8 @@ void Character::Draw(RenderWindow& window)
 	if (!isAlive)
 		return;
 
-	if (!isBattle)
-		m_floodFill.Draw(window);
+	//if (!isBattle)
+	//	m_floodFill.Draw(window);
 
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
@@ -416,7 +416,7 @@ bool Character::isAttack()
 
 void Character::OnOffAttackAreas(bool onOff)
 {
-	m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(position + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)), onOff);
+	m_floodFill.DrawingAttackAreas(onOff, GAME_MGR->PosToIdx(position + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
 }
 
 bool Character::PlayAstar() 
