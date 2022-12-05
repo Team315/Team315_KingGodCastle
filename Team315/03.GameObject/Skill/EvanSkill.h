@@ -6,15 +6,13 @@ class Character;
 class EvanSkill : public Skill
 {
 protected:
+	Dir dir;
+
 public:
 	EvanSkill(int skillTier);
 	virtual ~EvanSkill();
 
-	virtual void Init() override;
-	virtual void Update(float dt) override;
-	virtual void Draw(RenderWindow& window) override;
-	virtual void SetPos(const Vector2f& pos) override;
-
-	virtual void SetRotation(Vector2f dir);
+	virtual void SetSkillRange(Vector2f startPos) override;
 	virtual void CastSkill(Character* caster) override;
+	void SetDir(Vector2f direction);
 };

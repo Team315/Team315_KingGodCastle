@@ -4,7 +4,7 @@
 
 Character::Character(int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
-	attackRangeType(false), isBattle(false),
+	attackRangeType(false), isBattle(false), moveSpeed(0.f),
 	noSkill(false), ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 5.f);
@@ -103,10 +103,10 @@ void Character::Update(float dt)
 	if (isBattle)
 	{
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-		if (InputMgr::GetKeyDown(Keyboard::Key::L))
-		{
-			OnOffAttackAreas(true);
-		}
+		//if (InputMgr::GetKeyDown(Keyboard::Key::L))
+		//{
+		//	OnOffAttackAreas(true);
+		//}
 
 		if (!move && !attack)
 		{
@@ -155,11 +155,13 @@ void Character::Update(float dt)
 		if (move && !attack)
 		{
 			direction = destination - position;
-			Translate(Utils::Normalize(direction) * /*dt * */0.5f);
-			//if (GetState() != AnimStates::Move)
+
+			Translate(Utils::Normalize(direction) * dt * moveSpeed);
+			if (currState != AnimStates::Move)
 				SetState(AnimStates::Move);
-			if (destination == position)
+			if (Utils::EqualFloat(Utils::Distance(destination, position), 0.f, dt * moveSpeed))
 			{
+				SetPos(destination);
 				move = false;
 				SetState(AnimStates::MoveToIdle);
 			}
@@ -171,11 +173,10 @@ void Character::Draw(RenderWindow& window)
 {
 	if (!isAlive)
 		return;
-	//cout << name << endl;
-	if (isBattle)
-	{
-		m_floodFill.Draw(window);
-	}
+
+	//if (!isBattle)
+	//	m_floodFill.Draw(window);
+
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
 	hpBar->Draw(window);
@@ -225,6 +226,7 @@ void Character::SetStatsInit(json data)
 	if (stat[StatType::MP].GetBase() == 0.f)
 		noSkill = true;
 
+	moveSpeed = stat[StatType::MS].GetBase();
 	int starNumber = GetStarNumber();
 	while (starNumber-- > 1)
 	{
@@ -419,10 +421,10 @@ bool Character::isAttack()
 
 void Character::OnOffAttackAreas(bool onOff)
 {
-	m_floodFill.DrawingAttackAreas(GAME_MGR->PosToIdx(position), onOff);
+	m_floodFill.DrawingAttackAreas(onOff, GAME_MGR->PosToIdx(position + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
 }
 
-bool Character::PlayAstar()
+bool Character::PlayAstar() 
 {
 	Vector2i goingPos;
 	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();

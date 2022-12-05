@@ -1,4 +1,5 @@
 #include "Goblin00.h"
+#include "Skill/Goblin00Skill.h"
 
 Goblin00::Goblin00(int skillTier)
 	: Character(skillTier)
@@ -113,6 +114,7 @@ void Goblin00::Init()
 
 	SetState(AnimStates::Idle);
 	Character::Init();
+	skill = new Goblin00Skill(GetStarNumber());
 }
 
 void Goblin00::Update(float dt)
