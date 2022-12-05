@@ -46,11 +46,13 @@ void TitleScene::Enter()
 
 	FRAMEWORK->SetWindowSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	currentView = gameView;
+	SOUND_MGR->Play("sounds/Lobby.wav", 20.f, true);
 }
 
 void TitleScene::Exit()
 {
 	CLOG::Print3String("title exit");
+	SOUND_MGR->StopAll();
 }
 
 void TitleScene::Update(float dt)

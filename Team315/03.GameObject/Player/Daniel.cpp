@@ -241,6 +241,7 @@ void Daniel::SetState(AnimStates newState)
 	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
+			SOUND_MGR->Play("sounds/Daniel_atk.wav", 20.f, false);
 			animator.Play((lastDirection.x > 0.f) ? "Daniel_RightAttack" : "Daniel_LeftAttack");
 			if (lastDirection.x > 0.f)
 			{
@@ -259,6 +260,7 @@ void Daniel::SetState(AnimStates newState)
 		}
 		if (lastDirection.y)
 		{
+			SOUND_MGR->Play("sounds/Daniel_atk.wav", 20.f, false);
 			animator.Play((lastDirection.y > 0.f) ? "Daniel_DownAttack" : "Daniel_UpAttack");
 			if (lastDirection.y > 0.f)
 			{

@@ -46,7 +46,7 @@ void SoundMgr::Play(string id, float volume, bool loop)
 	Sound* sound = waiting.front();
 	waiting.pop_front();
 
-	SoundBuffer* sBuffer = RESOURCE_MGR->GetSoundBuffer(id);
+ 	SoundBuffer* sBuffer = RESOURCE_MGR->GetSoundBuffer(id);
 	sound->setBuffer(*sBuffer);
 	sound->setLoop(loop);
 	sound->setVolume(globalVolume > volume ? volume : globalVolume);

@@ -248,6 +248,7 @@ void Aramis::SetState(AnimStates newState)
 	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
+			SOUND_MGR->Play("sounds/Aramis_atk.wav", 20.f, false);
 			animator.Play((lastDirection.x > 0.f) ? "Aramis_RightAttack" : "Aramis_LeftAttack");
 			if (lastDirection.x > 0.f)
 			{
@@ -268,6 +269,7 @@ void Aramis::SetState(AnimStates newState)
 		}
 		if (lastDirection.y)
 		{
+			SOUND_MGR->Play("sounds/Aramis_atk.wav", 20.f, false);
 			animator.Play((lastDirection.y > 0.f) ? "Aramis_DownAttack" : "Aramis_UpAttack");
 			if (lastDirection.y > 0.f)
 			{
