@@ -95,7 +95,11 @@ EnemyInfo AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enP
 
 Vector2i AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, vector<Vector2i> GeneralArr)
 {
+	vector<Vector2i> generalArr = GeneralArr;
+
 	grid.assign(COL, vector<int>(ROW));
+	nCount = 0;
+	maxNum = 999;
 
 	for (int i = 0; i < COL; ++i)
 	{
@@ -153,42 +157,36 @@ Vector2i AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, vector<Vector
 
 		double ng, nf, nh;
 
-		// 직선
-		//for (int i = 0; i < 4; ++i)
-		//{
-		//	int nx = y + crossY1[i];
-		//	int ny = x + crossX1[i];
+		 //직선
+		for (int i = 0; i < 4; ++i)
+		{
+			int nx = y + crossY1[i];
+			int ny = x + crossX1[i];
 
-		//	if (isInRange(ny, nx))
-		//	{
-		//		if (isDestination(ny, nx, GeneralArr))
-		//		{
-		//			cellDetails[nx][ny].parent.y = y;
-		//			cellDetails[nx][ny].parent.x = x;
-		//			tracePath(cellDetails, enPos);
-		//			return enemyInfo;
-		//		}
-		//		else if (!closedList[nx][ny] && isUnBlocked(grid, ny, nx))
-		//		{
-		//			ng = cellDetails[y][x].g + 1.0;//출발 점부터 이 좌표와의 거리
-		//			nh = GethValue(ny, nx, enPos);
-		//			nf = ng + nh;
+			if (isInRange(ny, nx))
+			{
+				if (isDestination(ny, nx, generalArr))
+				{
+					cellDetails[nx][ny].parent.y = y;
+					cellDetails[nx][ny].parent.x = x;
+					tracePath(cellDetails, generalArr);
 
-		//			if (cellDetails[nx][ny].f == INF || cellDetails[nx][ny].f > nf)
-		//			{
-		//				cellDetails[nx][ny].f = nf;// 현제 간 좌표에 총거리 넣어줌
-		//				cellDetails[nx][ny].g = ng;//시작 지점부터 여기까지의 거리는 넣어줌
-		//				cellDetails[nx][ny].h = nh;// 현재 노드 위치부터 목표점까지의 heuristic한 거리 넣어줌
-		//				cellDetails[nx][ny].parent.x = x;//여기다 시작지점의 좌표를 넣어줌
-		//				cellDetails[nx][ny].parent.y = y; // 여기다 시작지점의 좌표를 넣어줌
-		//				openList.insert({ nf, { nx, ny } });
-		//			}
-		//		}
-		//	}
-		//}
+					if (generalArr.empty())
+						return Vec;
+				}
+				else if (!closedList[nx][ny] && isUnBlocked(grid, ny, nx))
+				{
+					cellDetails[nx][ny].parent.x = x;
+					cellDetails[nx][ny].parent.y = y;
+					openList.insert({ nf, { nx, ny } });
+				}
+			}
+		}
 	}
 
-	return Vector2i();
+	Vec.x = -1;
+	Vec.y = -1;
+	return Vec;
 }
 
 bool AStar::isDestination(int row, int col, Vector2i dst)
@@ -199,9 +197,13 @@ bool AStar::isDestination(int row, int col, Vector2i dst)
 
 bool AStar::isDestination(int row, int col, vector<Vector2i> GeneralArr)
 {
-	for (auto general: GeneralArr)
+	for (int i = 0; i < GeneralArr.size(); ++i)
 	{
-		if (row == general.x && col == general.y) return true;
+		if (row == GeneralArr[i].x && col == GeneralArr[i].y)
+		{
+			nCount = i;
+			return true;
+		}
 	}
 
 	return false;
@@ -256,6 +258,50 @@ void AStar::tracePath(Cell cellDetails[14][7], Vector2i enpos)
 		}
 		s.pop();
 	}
+}
+
+void AStar::tracePath(Cell cellDetails[14][7], vector<Vector2i>& GeneralArr)
+{
+	stack<Vector2i> s;
+	int x = GeneralArr[nCount].x;
+	int y = GeneralArr[nCount].y;
+	auto it = GeneralArr.begin() + nCount;
+	GeneralArr.erase(it);
+
+	s.push({ y, x });
+
+	while (!(cellDetails[y][x].parent.x == x && cellDetails[y][x].parent.y == y))
+	{
+		int tempy = cellDetails[y][x].parent.y;
+		int tempx = cellDetails[y][x].parent.x;
+		y = tempy;
+		x = tempx;
+		s.push({ x, y });
+	}
+
+	if (maxNum > (int)s.size())
+	{
+		maxNum = (int)s.size();
+		s.pop();
+		Vec = s.top();
+		//Vec.x = s.top().x;
+		//Vec.y = s.top().y;
+	}
+
+	//int num = (int)s.size();
+
+	//while (!s.empty())
+	//{
+	//	enemyInfo.leng++;
+
+	//	if (s.size() == num - 1)
+	//	{
+	//		enemyInfo.destPos.x = s.top().y;
+	//		enemyInfo.destPos.y = s.top().x;
+	//	}
+	//	s.pop();
+	//}
+
 }
 
 void AStar::SetAstar(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos)

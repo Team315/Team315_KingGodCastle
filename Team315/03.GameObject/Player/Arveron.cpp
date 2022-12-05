@@ -244,6 +244,7 @@ void Arveron::SetState(AnimStates newState)
 	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
+			SOUND_MGR->Play("sounds/Arveron_atk.wav", 20.f, false);
 			animator.Play((lastDirection.x > 0.f) ? "Arveron_RightAttack" : "Arveron_LeftAttack");
 			effectAnimator.Play((lastDirection.x > 0.f) ? "Arveron_RightAttack_Effect" : "Arveron_LeftAttack_Effect");
 
@@ -253,6 +254,7 @@ void Arveron::SetState(AnimStates newState)
 		}
 		if (lastDirection.y)
 		{
+			SOUND_MGR->Play("sounds/Arveron_atk.wav", 20.f, false);
 			animator.Play((lastDirection.y > 0.f) ? "Arveron_DownAttack" : "Arveron_UpAttack");
 			effectAnimator.Play((lastDirection.y > 0.f) ? "Arveron_DownAttack_Effect" : "Arveron_UpAttack_Effect");
 

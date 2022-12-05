@@ -89,7 +89,7 @@ void BattleScene::Enter()
 	GAME_MGR->damageUI.Reset();
 
 
-	SOUND_MGR->Play("sounds/Battle.wav", 5.f, true);
+	SOUND_MGR->Play("sounds/Battle.wav", 20.f, true);
 	GAME_MGR->damageUI.Reset();
 }
 
@@ -138,13 +138,12 @@ void BattleScene::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 		{
 			CLOG::Print3String("setting window");
-			//SCENE_MGR->ChangeScene(Scenes::Loby);
-			SCENE_MGR->ChangeScene(Scenes::Title);
 			return;
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
 		{
 			TranslateCoinState(100.f);
+			SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
@@ -435,6 +434,8 @@ void BattleScene::Update(float dt)
 			{
 				if (pick == nullptr)
 				{
+					SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
+					//SOUND_MGR->Release();
 					GameObj*& temp = gameObj;
 					if (IsCharacter(temp))
 					{
@@ -497,6 +498,7 @@ void BattleScene::Update(float dt)
 				{
 					if (pick == nullptr)
 					{
+						SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
 						GameObj* temp = gameObj;
 						if (IsCharacter(temp))
 						{

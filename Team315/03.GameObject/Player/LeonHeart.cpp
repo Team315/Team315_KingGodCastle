@@ -245,6 +245,7 @@ void LeonHeart::SetState(AnimStates newState)
 	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
+			SOUND_MGR->Play("sounds/LeonHeart_atk.wav", 20.f, false);
 			animator.Play((lastDirection.x > 0.f) ? "LeonHeart_RightAttack" : "LeonHeart_LeftAttack");
 			if (lastDirection.x > 0.f)
 			{
@@ -265,6 +266,7 @@ void LeonHeart::SetState(AnimStates newState)
 		}
 		if (lastDirection.y)
 		{
+			SOUND_MGR->Play("sounds/LeonHeart_atk.wav", 20.f, false);
 			animator.Play((lastDirection.y > 0.f) ? "LeonHeart_DownAttack" : "LeonHeart_UpAttack");
 			if (lastDirection.y > 0.f)
 			{
