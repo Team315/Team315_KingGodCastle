@@ -97,10 +97,12 @@ void Slime03::SetState(AnimStates newState)
 	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
+			SOUND_MGR->Play("sounds/monster_punch.wav", 20.f, false);
 			animator.Play((lastDirection.x > 0.f) ? "slime03_RightAttack" : "slime03_LeftAttack");
 		}
 		if (lastDirection.y)
 		{
+			SOUND_MGR->Play("sounds/monster_punch.wav", 20.f, false);
 			animator.Play((lastDirection.y > 0.f) ? "slime03_DownAttack" : "slime03_UpAttack");
 		}
 		break;

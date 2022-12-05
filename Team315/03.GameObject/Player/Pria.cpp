@@ -272,6 +272,7 @@ void Pria::SetState(AnimStates newState)
 	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
+			SOUND_MGR->Play("sounds/Pria_atk.wav", 20.f, false);
 			animator.Play((lastDirection.x > 0.f) ? "Pria_RightAttack" : "Pria_LeftAttack");
 			effectAnimator.Play((lastDirection.x > 0.f) ? "Pria_RightAttack_Effect" : "Pria_LeftAttack_Effect");
 
@@ -281,6 +282,7 @@ void Pria::SetState(AnimStates newState)
 		}
 		if (lastDirection.y)
 		{
+			SOUND_MGR->Play("sounds/Pria_atk.wav", 20.f, false);
 			animator.Play((lastDirection.y > 0.f) ? "Pria_DownAttack" : "Pria_UpAttack");
 			effectAnimator.Play((lastDirection.y > 0.f) ? "Pria_DownAttack_Effect" : "Pria_UpAttack_Effect");
 

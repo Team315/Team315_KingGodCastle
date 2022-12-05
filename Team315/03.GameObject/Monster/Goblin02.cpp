@@ -97,10 +97,12 @@ void Goblin02::SetState(AnimStates newState)
 	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
+			SOUND_MGR->Play("sounds/monster_shoot3.wav", 20.f, false);
 			animator.Play((lastDirection.x > 0.f) ? "goblin02_RightAttack" : "goblin02_LeftAttack");
 		}
 		if (lastDirection.y)
 		{
+			SOUND_MGR->Play("sounds/monster_shoot3.wav", 20.f, false);
 			animator.Play((lastDirection.y > 0.f) ? "goblin02_DownAttack" : "goblin02_UpAttack");
 		}
 		break;

@@ -97,10 +97,12 @@ void Thief02::SetState(AnimStates newState)
 	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
+			SOUND_MGR->Play("sounds/monster_sword.wav", 20.f, false);
 			animator.Play((lastDirection.x > 0.f) ? "thief02_RightAttack" : "thief02_LeftAttack");
 		}
 		if (lastDirection.y)
 		{
+			SOUND_MGR->Play("sounds/monster_sword.wav", 20.f, false);
 			animator.Play((lastDirection.y > 0.f) ? "thief02_DownAttack" : "thief02_UpAttack");
 		}
 		break;

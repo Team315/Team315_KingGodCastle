@@ -199,6 +199,7 @@ void Evan::SetState(AnimStates newState)
 	case AnimStates::Attack:
 		if (lastDirection.x)
 		{
+			SOUND_MGR->Play("sounds/Evan_atk.wav", 20.f, false);
 			animator.Play((lastDirection.x > 0.f) ? "RightAttack" : "LeftAttack");
 			if (lastDirection.x > 0.f)
 			{
@@ -206,7 +207,7 @@ void Evan::SetState(AnimStates newState)
 				Vector2f vec = GetPos();
 				vec.x += 21.f;
 				vec.y += 15.f;
-				effectSprite.setPosition(vec);
+				effectSprite.setPosition(vec); 
 			}
 			else if (lastDirection.x < 0.f)
 			{
@@ -219,6 +220,7 @@ void Evan::SetState(AnimStates newState)
 		}
 		if (lastDirection.y)
 		{
+			SOUND_MGR->Play("sounds/Evan_atk.wav", 20.f, false);
 			animator.Play((lastDirection.y > 0.f) ? "DownAttack" : "UpAttack");
 			if (lastDirection.y > 0.f)
 			{
