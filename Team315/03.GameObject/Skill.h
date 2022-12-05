@@ -18,7 +18,7 @@ public:
 	virtual ~Skill();
 
 	virtual void Update(float dt) override;
-	virtual void SetRotation(Vector2f dir);
+	//virtual void SetRotation(Vector2f dir);
 
 	virtual void SetState(AnimStates newState);
 	AnimStates GetState() { return currState; }

@@ -97,6 +97,7 @@ public:
 	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
 	void SetCrowdControl(float time) { ccTimer = time; }
+	Vector2f GetDirection() { return direction; }
 
 	//battle
 	void IsSetState(AnimStates newState);
