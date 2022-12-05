@@ -193,6 +193,8 @@ vector<Vector2i> FloodFill::GetGeneralInfo(vector<GameObj*>& map, string targetT
 {
 	grid.assign(GAME_TILE_HEIGHT, vector<int>(GAME_TILE_WIDTH, 0));
 
+	//int Height = m_Height = attackRange * 2 + 1;
+	//int Width = m_Width = attackRange * 2 + 1;
 
 	vector<Vector2i> targetArrs;
 
@@ -200,8 +202,8 @@ vector<Vector2i> FloodFill::GetGeneralInfo(vector<GameObj*>& map, string targetT
 	{
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
-			int attackRange = dynamic_cast<Character*>(target)->GetStat(StatType::AR).GetBase();
-			bool attackType = dynamic_cast<Character*>(target)->GetAttackRangeType();
+			//bool attackType = dynamic_cast<Character*>(target)->GetAttackRangeType();
+			//int attackRange = dynamic_cast<Character*>(target)->GetStat(StatType::AR).GetBase();
 
 			vector<vector<bool>> areaArr;
 
@@ -262,7 +264,10 @@ vector<Vector2i> FloodFill::GetGeneralInfo(vector<GameObj*>& map, string targetT
 		{
 			if (grid[i][j] == 1)
 			{
-				targetArrs.push_back({ j,i });
+				Vector2i vec;
+				vec.x = j;
+				vec.y = i;
+				targetArrs.push_back(vec);
 			}
 		}
 	}
