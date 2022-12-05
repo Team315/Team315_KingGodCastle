@@ -90,18 +90,14 @@ public:
 	void UpgradeStar();
 	void UpgradeCharacterSet();
 	void UpgradeStats();
-	void SetNoSkill(bool b) { noSkill = b; };
-	bool GetNoSkill() { return noSkill; }
-	void SetShieldMinValue(float value) { shieldAmountMin = value; }
 	bool SetItem(Item* newItem);
-	void ArrangeItems();
+	//void ArrangeItems();
 	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
 	void SetCrowdControl(float time) { ccTimer = time; }
 
 	//battle
 	void IsSetState(AnimStates newState);
-	bool GetAttackRangeType() { return attackRangeType; };
 	GameObj* GetTarget() { return m_target; };
 	Skill* GetSkill() { return skill; }
 

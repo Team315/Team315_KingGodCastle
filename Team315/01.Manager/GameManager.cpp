@@ -42,12 +42,13 @@ GameManager::GameManager()
 	itemStatMap[StatType::AP] = { 0.4f, 0.7f, 1.2f, 2.f };		// %
 	itemStatMap[StatType::AS] = { 0.25f, 0.4f, 0.7f, 1.2f };	// %
 	itemStatMap[StatType::HP] = { 250, 400, 700, 1200 };		// +
-	//battleTracker = new BattleTracker();
 
 	damageUI.OnCreate = DmgUIOnCreate;
 	damageUI.Init();
 	rangePreview.OnCreate = RangePreviewOnCreate;
 	rangePreview.Init(200);
+	
+	battleTracker = new BattleTracker();
 }
 
 GameManager::~GameManager()
@@ -311,27 +312,61 @@ float GameManager::GetItemStatMapElem(StatType statType, int grade)
 }
 
 // Battle Tracker
-//BattleTracker::BattleTracker()
-//{
-//}
-//
-//BattleTracker::~BattleTracker()
-//{
-//}
-//
-//void BattleTracker::SetDatas()
-//{
-//	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
-//	for (auto& character : mgref)
-//	{
-//		if (character != nullptr && !character->GetType().compare("Player"))
-//		{
-//			datas.push_back(character);
-//		}
-//	}
-//}
-//
-//BattleTracker *&GameManager::GetTracker()
-//{
-//	return battleTracker;
-//}
+BattleTracker::BattleTracker()
+{
+}
+
+BattleTracker::~BattleTracker()
+{
+}
+
+
+void BattleTracker::SetDatas()
+{
+	datas.clear();
+	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
+	for (auto& character : mgref)
+	{
+		if (character != nullptr && !character->GetType().compare("Player"))
+		{
+			datas.push_back(dynamic_cast<Character*>(character));
+		}
+	}
+}
+
+void BattleTracker::UpdateData(Character* character, float damage,
+	bool givenOrTaken, bool dmgType)
+{
+	for (auto& data : datas)
+	{
+		if (data.character->GetObjId() == character->GetObjId())
+		{
+			if (givenOrTaken)
+			{
+				(dmgType) ?
+					data.givenAD += damage :
+					data.givenAP += damage;
+			}
+			else
+			{
+				(dmgType) ? 
+					data.takenAD += damage :
+					data.takenAP += damage;
+			}
+		}
+	}
+}
+
+void BattleTracker::PrintAllData()
+{
+	for (auto& data : datas)
+	{
+		cout << data.character->GetName() << data.character->GetStarNumber() << endl;
+		cout << "givenAD: " << data.givenAD << endl;
+		cout << "givenAP: " << data.givenAP << endl;
+		cout << "givenTotal: " << data.givenAD + data.givenAP << endl;
+		cout << "takenAD: " << data.takenAD << endl;
+		cout << "takenAP: " << data.takenAP << endl;
+		cout << "takenTotal: " << data.takenAD + data.takenAP << endl;
+	}
+}

@@ -350,6 +350,7 @@ void BattleScene::Update(float dt)
 							dynamic_cast<Character*>(gameObj)->SetIsBattle(true);
 						}
 					}
+					TRACKER->SetDatas();
 
 					b_centerPos = true;
 					ZoomIn();
@@ -578,16 +579,18 @@ void BattleScene::Update(float dt)
 		vector<GameObj*>& destContainer = dest ? battleGrid : prepareGrid;
 
 		if (IsCharacter(pick))
+		{
 			PutDownCharacter(&beforeContainer, &destContainer, beforeCoord, destCoord);
+			if (InBattleGrid(GAME_MGR->PosToIdx(pick->GetPos())))
+			{
+				dynamic_cast<Character*>(pick)->OnOffAttackAreas(true);
+				pickAttackRangeRect = dynamic_cast<Character*>(pick)->GetAreas();
+			}
+		}
 		else // item
 			PutDownItem(&beforeContainer, &destContainer, beforeCoord, destCoord);
 
 		pick->SetHitBoxActive(true);
-		if (InBattleGrid(GAME_MGR->PosToIdx(pick->GetPos())))
-		{
-			dynamic_cast<Character*>(pick)->OnOffAttackAreas(true);
-			pickAttackRangeRect = dynamic_cast<Character*>(pick)->GetAreas();
-		}
 		pick = nullptr;
 		return;
 	}
@@ -618,6 +621,7 @@ void BattleScene::Update(float dt)
 			if (curStageIdx < STAGE_MAX_COUNT - 1)
 				curStageIdx++;
 			SetCurrentStage(curChapIdx, curStageIdx);
+			TRACKER->PrintAllData();
 		}
 		return;
 	}

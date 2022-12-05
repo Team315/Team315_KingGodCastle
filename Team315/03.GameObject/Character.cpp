@@ -239,6 +239,9 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	else
 		damage = attackerCharacter->GetSkill()->CalculatePotential(attackerCharacter);
 
+	TRACKER->UpdateData(this, damage, false, attackType);
+	TRACKER->UpdateData(attackerCharacter, damage, true, attackType);
+
 	if (shieldAmount > 0.f)
 	{
 		float damageTemp = damage;
@@ -257,7 +260,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	if (stat[StatType::HP].GetCurrent() <= 0.f)
 	{
 		// death
-		CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
+		//CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
 		isAlive = false;
 		GAME_MGR->RemoveFromMainGrid(this);
 	}
