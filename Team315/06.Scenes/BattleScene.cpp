@@ -211,29 +211,29 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("devmode switch");
 			FRAMEWORK->devMode = !FRAMEWORK->devMode;
 		}
-		//if (InputMgr::GetKeyDown(Keyboard::Key::F8))
-		//{
-		//	int count = 0;
-		//	CLOG::Print3String("main grid state");
-		//	for (auto& gameObj : mgref)
-		//	{
-		//		string str = "";
-		//		if (gameObj == nullptr)
-		//			str += ".. ";
-		//		else
-		//		{
-		//			if (gameObj->GetName().compare("Obstacle"))
-		//				str += (gameObj->GetName().substr(0, 2) + " ");
-		//			else
-		//				str += "Ob ";
-		//		}
-		//		count++;
-		//		if ((count % GAME_TILE_WIDTH) == 0)
-		//			str += "\n";
-		//		cout << str;
-		//	}
-		//	cout << endl;
-		//}
+		if (InputMgr::GetKeyDown(Keyboard::Key::F8))
+		{
+			int count = 0;
+			CLOG::Print3String("main grid state");
+			for (auto& gameObj : mgref)
+			{
+				string str = "";
+				if (gameObj == nullptr)
+					str += ".. ";
+				else
+				{
+					if (gameObj->GetName().compare("Obstacle"))
+						str += (gameObj->GetName().substr(0, 2) + " ");
+					else
+						str += "Ob ";
+				}
+				count++;
+				if ((count % GAME_TILE_WIDTH) == 0)
+					str += "\n";
+				cout << str;
+			}
+			cout << endl;
+		}
 
 		//if (InputMgr::GetKeyDown(Keyboard::Key::F9))
 		//{
