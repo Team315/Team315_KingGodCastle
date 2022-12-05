@@ -2,7 +2,7 @@
 #include "Character.h"
 
 EvanSkill::EvanSkill(int skillTier)
-	: Skill(skillTier), dir(Dir::Up)
+	: Skill(skillTier), dir(Dir::Left)
 {
 	//sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/evan_SkillEffect.png"));
 	baseDamage = { 20, 35, 50, 65 };
@@ -79,7 +79,7 @@ void EvanSkill::SetSkillRange(Vector2f startPos)
 
 void EvanSkill::CastSkill(Character* caster)
 {
-	SetDir(caster->GetDirection());
+	SetDir(caster->GetTarget()->GetPos() - caster->GetPos());
 	SetSkillRange(caster->GetPos());
 
 	for (auto& cell : applyArea)
