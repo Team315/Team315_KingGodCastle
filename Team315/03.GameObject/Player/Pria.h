@@ -26,4 +26,3 @@ public:
 	void UpdateAttack(float dt);
 	void UpdateSkill(float dt);
 };
-

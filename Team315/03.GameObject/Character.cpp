@@ -89,12 +89,11 @@ void Character::Update(float dt)
 
 	if (ccTimer > 0.f)
 	{
-		cout << name << endl;
-
 		ccTimer -= dt;
-		if (ccTimer <= 0.f)
+		if (ccTimer < 0.f)
+		{
 			ccTimer = 0.f;
-
+		}
 		return;
 	}
 
@@ -151,7 +150,6 @@ void Character::Update(float dt)
 
 		if (move && !attack)
 		{
-
 			direction = destination - position;
 			Translate(Utils::Normalize(direction) * 0.5f);
 			//if (GetState() != AnimStates::Move)

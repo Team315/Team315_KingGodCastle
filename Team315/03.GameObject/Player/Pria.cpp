@@ -1,4 +1,5 @@
 #include "Pria.h"
+#include "Skill/PriaSkill.h"
 
 Pria::Pria(int skillTier)
 	: Character(skillTier)
@@ -156,6 +157,7 @@ void Pria::Init()
 
 	SetState(AnimStates::Idle);
 	Character::Init();
+	skill = new PriaSkill(star->GetStarNumber());
 }
 
 void Pria::Update(float dt)
