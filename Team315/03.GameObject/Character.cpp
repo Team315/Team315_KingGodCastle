@@ -100,10 +100,6 @@ void Character::Update(float dt)
 	if (isBattle)
 	{
 		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-		//if (InputMgr::GetKeyDown(Keyboard::Key::L))
-		//{
-		//	OnOffAttackAreas(true);
-		//}
 
 		if (!move && !attack)
 		{
@@ -427,7 +423,7 @@ bool Character::PlayAstar()
 	m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
 	Vector2i mypos = GAME_MGR->PosToIdx(position);
 
-	m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
+	//m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
 	goingPos = m_aStar.AstarSearch(mainGrid, mypos, m_GeneralArr);
 
 
@@ -461,22 +457,35 @@ bool Character::SetTargetDistance()
 	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 	Vector2i mypos = GAME_MGR->PosToIdx(position);
 
-	//m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
+	m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
 
-	for (auto& target : mainGrid)
+	for (auto& target : m_GeneralArr)
 	{
-		if (target != nullptr && !target->GetType().compare(targetType))
-		{
-			//Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
-			Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
-			EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
 
-			if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
-			{
-				enemyInfo = nowEnemyInfo;
-			}
+		//Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
+		//Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
+		EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, target);
+
+		if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
+		{
+			enemyInfo = nowEnemyInfo;
 		}
 	}
+
+	//for (auto& target : mainGrid)
+	//{
+	//	if (target != nullptr && !target->GetType().compare(targetType))
+	//	{
+	//		//Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
+	//		Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
+	//		EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
+
+	//		if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
+	//		{
+	//			enemyInfo = nowEnemyInfo;
+	//		}
+	//	}
+	//}
 
 	if (enemyInfo.leng == 99999)
 	{
