@@ -4,7 +4,6 @@
 Evan::Evan(int skillTier)
 	: Character(skillTier), skillSpeed(1500.f)
 {
-	//skill = new EvanSkill;
 	SetType("Player");
 	SetName("Evan");
 }
@@ -165,6 +164,7 @@ void Evan::Init()
 
     SetState(AnimStates::Idle);
 	Character::Init();
+	skill = new EvanSkill(GetStarNumber());
 }
 
 void Evan::SetState(AnimStates newState)
@@ -377,9 +377,8 @@ void Evan::UpdateAttack(float dt)
 
 void Evan::UpdateSkill(float dt)
 {
-	//skill->Init();
 	//skill->SetRotation(lastDirection);
-	//Vector2f vec = GetPos();
+	//Vector2f vec = position;
 	//if(lastDirection.y < 0.f)
 	//{
 	//	vec.x += 90.f;

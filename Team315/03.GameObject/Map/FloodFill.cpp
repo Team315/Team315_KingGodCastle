@@ -193,6 +193,8 @@ vector<Vector2i> FloodFill::GetGeneralInfo(vector<GameObj*>& map, string targetT
 {
 	grid.assign(GAME_TILE_HEIGHT, vector<int>(GAME_TILE_WIDTH, 0));
 
+	//int Height = m_Height = attackRange * 2 + 1;
+	//int Width = m_Width = attackRange * 2 + 1;
 
 	vector<Vector2i> targetArrs;
 
@@ -200,8 +202,8 @@ vector<Vector2i> FloodFill::GetGeneralInfo(vector<GameObj*>& map, string targetT
 	{
 		if (target != nullptr && !target->GetType().compare(targetType))
 		{
-			int attackRange = dynamic_cast<Character*>(target)->GetStat(StatType::AR).GetBase();
-			bool attackType = dynamic_cast<Character*>(target)->GetAttackRangeType();
+			//bool attackType = dynamic_cast<Character*>(target)->GetAttackRangeType();
+			//int attackRange = dynamic_cast<Character*>(target)->GetStat(StatType::AR).GetBase();
 
 			vector<vector<bool>> areaArr;
 
@@ -262,7 +264,10 @@ vector<Vector2i> FloodFill::GetGeneralInfo(vector<GameObj*>& map, string targetT
 		{
 			if (grid[i][j] == 1)
 			{
-				targetArrs.push_back({ j,i });
+				Vector2i vec;
+				vec.x = j;
+				vec.y = i;
+				targetArrs.push_back(vec);
 			}
 		}
 	}
@@ -304,14 +309,13 @@ void FloodFill::SetAttackAreas(int count)
 		Areas[i].SetFillColor(Color::Red);
 		Areas[i].SetFillColorAlpha(100);
 		Areas[i].SetOutline(Color::Red, -1.f);
-		Areas[i].SetOrigin(Origins::TC);
+		Areas[i].SetOrigin(Origins::BC);
 		Areas[i].SetActive(false);
 	}
-	
 
-	for (int i = 0, y = -(m_Height / 2); i < m_Height; ++i,++y)
+	for (int i = 0, y = -(m_Height / 2); i < m_Height; ++i, ++y)
 	{
-		for (int j = 0, x = -(m_Width / 2); j < m_Width; ++j,++x)
+		for (int j = 0, x = -(m_Width / 2); j < m_Width; ++j, ++x)
 		{
 			if (m_areaArr[i][j])
 			{
@@ -321,24 +325,23 @@ void FloodFill::SetAttackAreas(int count)
 	}
 }
 
-void FloodFill::DrawingAttackAreas(Vector2i myPos, bool onOff)
+void FloodFill::DrawingAttackAreas(bool onOff, Vector2i myPos)
 {
 	m_isAttackAreas = onOff;
 
-	if (!m_isAttackAreas)
+	for (int i = 0; i < m_count; ++i)
 	{
-		for (int i = 0; i < m_count; ++i)
-		{
-			Areas[i].SetActive(false);
-		}
-		return;
+		Areas[i].SetActive(false);
 	}
+
+	if (!m_isAttackAreas)
+		return;
 
 	for (int i = 0; i < m_count; ++i)
 	{
-		Vector2i  pos = m_arr[i];
-		pos.x += myPos.x /*- (m_Width / 2)*/;
-		pos.y += myPos.y-1 /*- (m_Height / 2)*/;
+		Vector2i pos = m_arr[i];
+		pos.x += myPos.x; // -(m_Width / 2)
+		pos.y += myPos.y; // -(m_Height / 2) - 1
 
 		if (isInRange(pos.y, pos.x))
 		{
@@ -354,13 +357,10 @@ void FloodFill::DrawingAttackAreas(Vector2i myPos, bool onOff)
 
 bool FloodFill::isInRange(int col, int row)
 {
-	return (row >= 0 && row < GAME_TILE_WIDTH&& col >= 0 && col < GAME_TILE_HEIGHT);
+	return (row >= 0 && row < GAME_TILE_WIDTH && col >= 0 && col < GAME_TILE_HEIGHT);
 }
 
 bool FloodFill::isDestination(int grid)
 {
-	if (grid == 1)
-		return true;
-
-	return false;
+	return (grid == 1);
 }

@@ -17,17 +17,17 @@ void Skill::Update(float dt)
 	animator.Update(dt);
 }
 
-void Skill::SetRotation(Vector2f dir)
-{
-	if (dir.y < 0.f)
-		sprite.setRotation(90.f);
-	else if (dir.y > 0.f)
-		sprite.setRotation(270.f);
-	else if (dir.x < 0.f)
-		sprite.setRotation(0.f);
-	else if (dir.x > 0.f)
-		sprite.setRotation(180.f);
-}
+//void Skill::SetRotation(Vector2f dir)
+//{
+//	if (dir.y < 0.f)
+//		sprite.setRotation(90.f);
+//	else if (dir.y > 0.f)
+//		sprite.setRotation(270.f);
+//	else if (dir.x < 0.f)
+//		sprite.setRotation(0.f);
+//	else if (dir.x > 0.f)
+//		sprite.setRotation(180.f);
+//}
 
 void Skill::SetState(AnimStates newState)
 {

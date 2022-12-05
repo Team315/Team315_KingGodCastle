@@ -114,9 +114,9 @@ void DanielSkill::SetSkillRange(Vector2f startPos)
 
 	for (int i = 0; i < skillTier; i++)
 	{
-		for (auto& delta : range[i])
+		for (auto& coord : range[i])
 		{
-			Vector2i tempCoord = startCoord + delta;
+			Vector2i tempCoord = startCoord + coord;
 
 			if (tempCoord.x < 0 || tempCoord.x >= GAME_TILE_WIDTH ||
 				tempCoord.y < 0 || tempCoord.y >= GAME_TILE_HEIGHT)

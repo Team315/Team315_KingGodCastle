@@ -4,7 +4,6 @@
 Thief00::Thief00(int skillTier)
 	: Character(skillTier)
 {
-	//skill = new Thief00Skill();
 	SetType("Monster");
 	SetName("Thief00");
 }
@@ -132,6 +131,7 @@ void Thief00::Init()
 
 	SetState(AnimStates::Idle);
 	Character::Init();
+	skill = new Thief00Skill(GetStarNumber());
 }
 
 void Thief00::Update(float dt)

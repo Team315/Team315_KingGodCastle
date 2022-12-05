@@ -179,7 +179,10 @@ void Arveron::Draw(RenderWindow& window)
 	if (!isAlive)
 		return;
 
-	if (isBattle)
+	Character::Draw(window);
+	window.draw(effectSprite);
+
+	/*if (!isBattle)
 	{
 		m_floodFill.Draw(window);
 	}
@@ -201,7 +204,7 @@ void Arveron::Draw(RenderWindow& window)
 	{
 		if (grid->GetActive())
 			grid->Draw(window);
-	}
+	}*/
 }
 
 void Arveron::SetPos(const Vector2f& pos)

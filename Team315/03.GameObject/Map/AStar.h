@@ -27,7 +27,9 @@ protected:
 
 	EnemyInfo enemyInfo;
 	int count;
-
+	int nCount;
+	int maxNum;
+	Vector2i Vec;
 	const int crossX1[4] = { 0, 0, 1, -1 };
 	const int crossY1[4] = { -1, 1, 0, 0 };
 
@@ -59,6 +61,7 @@ public:
 
 	//backtracking을 이용하여 최단경로를 탐색하는 함수.
 	void tracePath(Cell cellDetails[14][7], Vector2i enpos);
+	void tracePath(Cell cellDetails[14][7], vector<Vector2i>& GeneralArr);
 
 	void SetAstar(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos);
 };

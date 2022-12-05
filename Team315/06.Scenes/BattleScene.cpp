@@ -210,29 +210,29 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("devmode switch");
 			FRAMEWORK->devMode = !FRAMEWORK->devMode;
 		}
-		//if (InputMgr::GetKeyDown(Keyboard::Key::F8))
-		//{
-		//	int count = 0;
-		//	CLOG::Print3String("main grid state");
-		//	for (auto& gameObj : mgref)
-		//	{
-		//		string str = "";
-		//		if (gameObj == nullptr)
-		//			str += ".. ";
-		//		else
-		//		{
-		//			if (gameObj->GetName().compare("Obstacle"))
-		//				str += (gameObj->GetName().substr(0, 2) + " ");
-		//			else
-		//				str += "Ob ";
-		//		}
-		//		count++;
-		//		if ((count % GAME_TILE_WIDTH) == 0)
-		//			str += "\n";
-		//		cout << str;
-		//	}
-		//	cout << endl;
-		//}
+		/*if (InputMgr::GetKeyDown(Keyboard::Key::F8))
+		{
+			int count = 0;
+			CLOG::Print3String("main grid state");
+			for (auto& gameObj : mgref)
+			{
+				string str = "";
+				if (gameObj == nullptr)
+					str += ".. ";
+				else
+				{
+					if (gameObj->GetName().compare("Obstacle"))
+						str += (gameObj->GetName().substr(0, 2) + " ");
+					else
+						str += "Ob ";
+				}
+				count++;
+				if ((count % GAME_TILE_WIDTH) == 0)
+					str += "\n";
+				cout << str;
+			}
+			cout << endl;
+		}*/
 
 		//if (InputMgr::GetKeyDown(Keyboard::Key::F9))
 		//{
@@ -304,6 +304,15 @@ void BattleScene::Update(float dt)
 	{
 		ui->SetStatPopup(false, currentView.getCenter());
 		ui->SetItemPopup(false, currentView.getCenter());
+
+		for (auto& gameObj : battleGrid)
+		{
+			if (gameObj != nullptr && IsCharacter(gameObj))
+			{
+				dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(false);
+				pickAttackRangeRect = nullptr;
+			}
+		}
 	}
 
 	vector<Button*>& buttons = ui->GetPanel()->GetButtons();
@@ -477,6 +486,11 @@ void BattleScene::Update(float dt)
 					if (pick == nullptr)
 					{
 						PickUpGameObj(gameObj);
+						if (InBattleGrid(GAME_MGR->PosToIdx(pick->GetPos())))
+						{
+							dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(true);
+							pickAttackRangeRect = dynamic_cast<Character*>(gameObj)->GetAreas();
+						}
 						break;
 					}
 				}
@@ -536,6 +550,9 @@ void BattleScene::Update(float dt)
 				{
 					ui->SetStatPopup(true, currentView.getCenter(), dynamic_cast<Character*>(gameObj),
 						GAME_MGR->SnapToCoord(gameObj->GetPos()));
+
+					dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(true);
+					pickAttackRangeRect = dynamic_cast<Character*>(gameObj)->GetAreas();
 				}
 			}
 		}
@@ -566,6 +583,11 @@ void BattleScene::Update(float dt)
 			PutDownItem(&beforeContainer, &destContainer, beforeCoord, destCoord);
 
 		pick->SetHitBoxActive(true);
+		if (InBattleGrid(GAME_MGR->PosToIdx(pick->GetPos())))
+		{
+			dynamic_cast<Character*>(pick)->OnOffAttackAreas(true);
+			pickAttackRangeRect = dynamic_cast<Character*>(pick)->GetAreas();
+		}
 		pick = nullptr;
 		return;
 	}
@@ -654,6 +676,15 @@ void BattleScene::Draw(RenderWindow& window)
 		for (auto& tile : row)
 		{
 			tile->Draw(window);
+		}
+	}
+
+	if (pickAttackRangeRect != nullptr)
+	{
+		for (auto& rect : *pickAttackRangeRect)
+		{
+			if (rect.GetActive())
+				rect.Draw(window);
 		}
 	}
 

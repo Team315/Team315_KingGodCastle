@@ -8,7 +8,6 @@ protected:
 	vector<RectangleObj> Areas;
 	vector<vector<int>> grid;
 
-	//vector<vector<Vector2i>> m_areaArrPos;
 	vector<vector<bool>> m_areaArr;//본인 공격범위
 	vector<Vector2i> m_arr;
 
@@ -45,10 +44,11 @@ public:
 	GameObj* GetNearEnemy(vector<GameObj*>& map, Vector2i myPos, string targetType);
 
 	void SetAttackAreas(int count);
-	void DrawingAttackAreas(Vector2i myPos, bool onOff);
+	void DrawingAttackAreas(bool onOff, Vector2i myPos);
 
 	bool isInRange(int col, int row);
 	bool isDestination(int grid);
 	bool GetIsAttackAreas() { return m_isAttackAreas; };
-};
 
+	vector<RectangleObj>* GetAreas() { return &Areas; }
+};
