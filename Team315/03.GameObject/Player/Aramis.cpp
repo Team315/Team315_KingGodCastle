@@ -164,7 +164,7 @@ void Aramis::Init()
 
 	SetState(AnimStates::Idle);
 	Character::Init();
-	skill = new AramisSkill(star->GetStarNumber());
+	skill = new AramisSkill(GetStarNumber());
 }
 
 void Aramis::Update(float dt)

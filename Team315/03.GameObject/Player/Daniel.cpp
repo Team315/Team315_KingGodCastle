@@ -149,7 +149,7 @@ void Daniel::Init()
 	//skill->Init();
 	SetState(AnimStates::Idle);
 	Character::Init();
-	skill = new DanielSkill(star->GetStarNumber());
+	skill = new DanielSkill(GetStarNumber());
 }
 
 void Daniel::Update(float dt)

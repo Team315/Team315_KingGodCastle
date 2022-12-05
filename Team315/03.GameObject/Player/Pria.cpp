@@ -157,7 +157,7 @@ void Pria::Init()
 
 	SetState(AnimStates::Idle);
 	Character::Init();
-	skill = new PriaSkill(star->GetStarNumber());
+	skill = new PriaSkill(GetStarNumber());
 }
 
 void Pria::Update(float dt)

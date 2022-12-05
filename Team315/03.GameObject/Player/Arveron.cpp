@@ -1,4 +1,5 @@
 #include "Arveron.h"
+#include "Skill/ArveronSkill.h"
 
 Arveron::Arveron(int skillTier)
 	: Character(skillTier)
@@ -139,6 +140,7 @@ void Arveron::Init()
 
 	SetState(AnimStates::Idle);
 	Character::Init();
+	skill = new ArveronSkill(GetStarNumber());
 }
 
 void Arveron::Update(float dt)
