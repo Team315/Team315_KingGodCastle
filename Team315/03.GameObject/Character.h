@@ -94,6 +94,7 @@ public:
 	bool GetNoSkill() { return noSkill; }
 	void SetShieldMinValue(float value) { shieldAmountMin = value; }
 	bool SetItem(Item* newItem);
+	void ArrangeItems();
 	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
 	void SetCrowdControl(float time) { ccTimer = time; }

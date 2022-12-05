@@ -312,7 +312,9 @@ bool Character::SetItem(Item* newItem)
 
 	for (auto& item : items)
 	{
-		if (!item->GetName().compare(newItem->GetName()) && (item->GetGrade() == newItem->GetGrade()) && (newItem->GetGrade() != (TIER_MAX - 1)))
+		if (!item->GetName().compare(newItem->GetName()) &&
+			(item->GetGrade() == newItem->GetGrade()) &&
+			(newItem->GetGrade() != (TIER_MAX - 1)))
 		{
 			newItem->Upgrade();
 			UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential() - item->GetPotential());
@@ -362,6 +364,38 @@ bool Character::SetItem(Item* newItem)
 	itemGrid[combineIdx]->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
 	itemGrid[combineIdx]->SetOrigin(Origins::BC);
 	return true;
+}
+
+void Character::ArrangeItems()
+{
+	int combineIdx = 0;
+	//Item* combineItem = nullptr;
+	for (auto& aItem : items)
+	{
+		combineIdx = 0;
+		//combineItem = nullptr;
+		for (auto& bItem : items)
+		{
+			if (aItem->GetObjId() == bItem->GetObjId())
+				continue;
+			else
+			{
+				if (!aItem->GetName().compare(bItem->GetName()) &&
+					(aItem->GetGrade() == bItem->GetGrade()) &&
+					(bItem->GetGrade() != (TIER_MAX - 1)))
+				{
+					bItem->Upgrade();
+					UpdateItemDelta(bItem->GetStatType(), bItem->GetPotential() - aItem->GetPotential());
+					delete aItem;
+					//aItem = bItem;
+					//combineItem = bItem;
+					break;
+				}
+			}
+			combineIdx++;
+		}
+	}
+
 }
 
 void Character::UpdateItemDelta(StatType sType, float value)
@@ -416,7 +450,7 @@ void Character::OnOffAttackAreas(bool onOff)
 	m_floodFill.DrawingAttackAreas(onOff, GAME_MGR->PosToIdx(position + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
 }
 
-bool Character::PlayAstar() 
+bool Character::PlayAstar()
 {
 	Vector2i goingPos;
 	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
