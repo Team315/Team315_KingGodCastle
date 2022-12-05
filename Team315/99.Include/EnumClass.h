@@ -43,14 +43,6 @@ enum class AnimStates
 	Skill,
 };
 
-enum class Dir
-{
-	Up,
-	Down,
-	Left,
-	Right,
-};
-
 enum class StatType
 {
 	None = -1,

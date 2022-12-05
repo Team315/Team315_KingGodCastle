@@ -273,36 +273,32 @@ void Pria::SetState(AnimStates newState)
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Pria_RightAttack" : "Pria_LeftAttack");
-		}
-		if (lastDirection.x)
-		{
 			effectAnimator.Play((lastDirection.x > 0.f) ? "Pria_RightAttack_Effect" : "Pria_LeftAttack_Effect");
+
+			Vector2f vec = m_target->GetPos();
+			vec.y += 15.f;
+			effectSprite.setPosition(vec);
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Pria_DownAttack" : "Pria_UpAttack");
-		}
-		if (lastDirection.y)
-		{
 			effectAnimator.Play((lastDirection.y > 0.f) ? "Pria_DownAttack_Effect" : "Pria_UpAttack_Effect");
+
+			Vector2f vec = m_target->GetPos();
+			vec.y += 15.f;
+			effectSprite.setPosition(vec);
 		}
 		break;
 	case AnimStates::Skill:
 		if (lastDirection.x)
 		{
 			animator.Play((lastDirection.x > 0.f) ? "Pria_RightSkill" : "Pria_LeftSkill");
-			effectAnimator.Play("Pria_Skill_Effect");
-			Vector2f vec = GetPos();
-			vec.y += 15.f;
-			effectSprite.setPosition(vec);
+			//effectAnimator.Play("Pria_Skill_Effect");
 		}
 		if (lastDirection.y)
 		{
 			animator.Play((lastDirection.y > 0.f) ? "Pria_DownSkill" : "Pria_UpSkill");
-			effectAnimator.Play("Pria_Skill_Effect");
-			Vector2f vec = GetPos();
-			vec.y += 15.f;
-			effectSprite.setPosition(vec);
+			//effectAnimator.Play("Pria_Skill_Effect");
 		}
 		//Vector2f vec = GetTarget()->GetPos();
 		//vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();

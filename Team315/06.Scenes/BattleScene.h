@@ -15,8 +15,6 @@ protected:
 	BattleSceneUI* ui;
 	Sprite castleBackground;
 
-	Dir currMoveDir;
-
 	Vector2f screenCenterPos;
 	Vector2u screenSize;
 	bool b_centerPos;

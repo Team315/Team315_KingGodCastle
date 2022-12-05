@@ -4,8 +4,8 @@
 class Pria : public Character
 {
 protected:
-	vector<Animator*> skillEffect;
-	vector<Sprite*> skillSprite;
+	//vector<Animator*> skillEffect;
+	//vector<Sprite*> skillSprite;
 public:
 	Pria(int skillTier = 0);
 	virtual ~Pria();

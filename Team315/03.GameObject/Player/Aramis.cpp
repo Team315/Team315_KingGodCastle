@@ -252,7 +252,7 @@ void Aramis::SetState(AnimStates newState)
 			if (lastDirection.x > 0.f)
 			{
 				effectAnimator.Play("Aramis_RightAttack_Effect");
-				Vector2f vec = GetPos();
+				Vector2f vec = position;
 				vec.x += 81.f;
 				vec.y -= 21.f;
 				effectSprite.setPosition(vec);
@@ -260,7 +260,7 @@ void Aramis::SetState(AnimStates newState)
 			else if (lastDirection.x < 0.f)
 			{
 				effectAnimator.Play("Aramis_LeftAttack_Effect");
-				Vector2f vec = GetPos();
+				Vector2f vec = position;
 				vec.x -= 81.f;
 				vec.y -= 21.f;
 				effectSprite.setPosition(vec);
@@ -272,14 +272,14 @@ void Aramis::SetState(AnimStates newState)
 			if (lastDirection.y > 0.f)
 			{
 				effectAnimator.Play("Aramis_DownAttack_Effect");
-				Vector2f vec = GetPos();
+				Vector2f vec = position;
 				vec.y -= 31.f;
 				effectSprite.setPosition(vec);
 			}
 			else if (lastDirection.y < 0.f)
 			{
 				effectAnimator.Play("Aramis_UpAttack_Effect");
-				Vector2f vec = GetPos();
+				Vector2f vec = position;
 				vec.x += 3.f;
 				vec.y -= 71.f;
 				effectSprite.setPosition(vec);

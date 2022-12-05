@@ -1,4 +1,5 @@
 #include "LeonHeart.h"
+#include "Skill/LeonHeartSkill.h"
 
 LeonHeart::LeonHeart(int skillTier)
 	: Character(skillTier)
@@ -163,6 +164,7 @@ void LeonHeart::Init()
 
 	SetState(AnimStates::Idle);
 	Character::Init();
+	skill = new LeonHeartSkill(GetStarNumber());
 }
 
 void LeonHeart::Update(float dt)
