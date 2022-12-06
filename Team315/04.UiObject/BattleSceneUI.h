@@ -6,6 +6,7 @@ class Character;
 class Item;
 class ItemInfoWindow;
 class BackrectText;
+class DamageTrackerUI;
 class StatPopupWindow;
 class RectangleObj;
 class VertexArrayObj;
@@ -19,6 +20,7 @@ protected:
 	BackrectText* stageEndWindow;
 	Sprite stageEndWindowSprite;
 	bool b_stageEndPopup;
+	DamageTrackerUI* dmgTrackerUI;
 
 public:
 	BattleSceneUI(Scene* scene);
@@ -32,6 +34,7 @@ public:
 	virtual void SetOrigin(Origins origin) override;
 
 	BattlePanel* GetPanel() { return panel; }
+	DamageTrackerUI* GetTracker() { return dmgTrackerUI; }
 	void CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight);
 
 	void SetStatPopup(bool active, Vector2f viewCenter,

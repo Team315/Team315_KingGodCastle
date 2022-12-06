@@ -131,14 +131,15 @@ void Character::Update(float dt)
 				astarDelay -= dt;
 				if (astarDelay <= 0.f)
 				{
-					if (/*PlayAstar()*/SetTargetDistance())
+					if (SetTargetDistance())
 					{
 						move = true;
 					}
 					else
 					{
 						move = false;
-						astarDelay = 0.1f;
+						SetState(AnimStates::MoveToIdle);
+						//astarDelay = 1.0f;
 					}
 				}
 			}
@@ -165,9 +166,6 @@ void Character::Draw(RenderWindow& window)
 {
 	if (!isAlive)
 		return;
-
-	//if (!isBattle)
-	//	m_floodFill.Draw(window);
 
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
@@ -239,6 +237,9 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	else
 		damage = attackerCharacter->GetSkill()->CalculatePotential(attackerCharacter);
 
+	TRACKER->UpdateData(this, damage, false, attackType);
+	TRACKER->UpdateData(attackerCharacter, damage, true, attackType);
+
 	if (shieldAmount > 0.f)
 	{
 		float damageTemp = damage;
@@ -257,7 +258,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	if (stat[StatType::HP].GetCurrent() <= 0.f)
 	{
 		// death
-		CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
+		//CLOG::Print3String(name, to_string(GetStarNumber()), " is die");
 		isAlive = false;
 		GAME_MGR->RemoveFromMainGrid(this);
 	}
@@ -366,37 +367,37 @@ bool Character::SetItem(Item* newItem)
 	return true;
 }
 
-void Character::ArrangeItems()
-{
-	int combineIdx = 0;
-	//Item* combineItem = nullptr;
-	for (auto& aItem : items)
-	{
-		combineIdx = 0;
-		//combineItem = nullptr;
-		for (auto& bItem : items)
-		{
-			if (aItem->GetObjId() == bItem->GetObjId())
-				continue;
-			else
-			{
-				if (!aItem->GetName().compare(bItem->GetName()) &&
-					(aItem->GetGrade() == bItem->GetGrade()) &&
-					(bItem->GetGrade() != (TIER_MAX - 1)))
-				{
-					bItem->Upgrade();
-					UpdateItemDelta(bItem->GetStatType(), bItem->GetPotential() - aItem->GetPotential());
-					delete aItem;
-					//aItem = bItem;
-					//combineItem = bItem;
-					break;
-				}
-			}
-			combineIdx++;
-		}
-	}
-
-}
+//void Character::ArrangeItems()
+//{
+//	int combineIdx = 0;
+//	//Item* combineItem = nullptr;
+//	for (auto& aItem : items)
+//	{
+//		combineIdx = 0;
+//		//combineItem = nullptr;
+//		for (auto& bItem : items)
+//		{
+//			if (aItem->GetObjId() == bItem->GetObjId())
+//				continue;
+//			else
+//			{
+//				if (!aItem->GetName().compare(bItem->GetName()) &&
+//					(aItem->GetGrade() == bItem->GetGrade()) &&
+//					(bItem->GetGrade() != (TIER_MAX - 1)))
+//				{
+//					bItem->Upgrade();
+//					UpdateItemDelta(bItem->GetStatType(), bItem->GetPotential() - aItem->GetPotential());
+//					delete aItem;
+//					//aItem = bItem;
+//					//combineItem = bItem;
+//					break;
+//				}
+//			}
+//			combineIdx++;
+//		}
+//	}
+//
+//}
 
 void Character::UpdateItemDelta(StatType sType, float value)
 {
@@ -461,28 +462,16 @@ bool Character::PlayAstar()
 	goingPos = m_aStar.AstarSearch(mainGrid, mypos, m_GeneralArr);
 
 
-	if (goingPos.x == -1 && goingPos.x == -1)
+	if (goingPos.x == -1.f && goingPos.x == -1.f)
 	{
 		return false;
 	}
-	/*for (auto& target : mainGrid)
-	{
-		if (target != nullptr && !target->GetType().compare(targetType))
-		{
-
-		}
-	} */
-
-	/*if (enemyInfo.leng == 99999)
-	{
-		return false;
-	}*/
 
 	Vector2i coord = GAME_MGR->PosToIdx(position);
 	SetDestination(GAME_MGR->IdxToPos(goingPos));
 	SetMainGrid(coord.y, coord.x, nullptr);
 	SetMainGrid(goingPos.y, goingPos.x, this);
-	//enemyInfo.leng = 99999;
+
 	return true;
 }
 
@@ -495,9 +484,6 @@ bool Character::SetTargetDistance()
 
 	for (auto& target : m_GeneralArr)
 	{
-
-		//Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
-		//Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
 		EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, target);
 
 		if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
@@ -505,21 +491,6 @@ bool Character::SetTargetDistance()
 			enemyInfo = nowEnemyInfo;
 		}
 	}
-
-	//for (auto& target : mainGrid)
-	//{
-	//	if (target != nullptr && !target->GetType().compare(targetType))
-	//	{
-	//		//Vector2i mypos = GAME_MGR->PosToIdx(GetPos());
-	//		Vector2i enpos = GAME_MGR->PosToIdx(target->GetPos());
-	//		EnemyInfo nowEnemyInfo = m_aStar.AstarSearch(mainGrid, mypos, enpos);
-
-	//		if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
-	//		{
-	//			enemyInfo = nowEnemyInfo;
-	//		}
-	//	}
-	//}
 
 	if (enemyInfo.leng == 99999)
 	{

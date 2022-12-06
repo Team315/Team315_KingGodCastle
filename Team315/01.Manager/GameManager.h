@@ -8,8 +8,8 @@
 #include "DamageText.h"
 #include "RangePreview.h"
 
-//struct DamageData;
-//class BattleTracker;
+struct DamageData;
+class BattleTracker;
 class Character;
 class GameObj;
 class Item;
@@ -33,7 +33,7 @@ protected:
 
 	unordered_map<StatType, vector<float>> itemStatMap;
 
-	//BattleTracker* battleTracker;
+	BattleTracker* battleTracker;
 
 	// Additional level up probability (Character)
 	int extraLevelUpChance;
@@ -99,32 +99,43 @@ public:
 	ObjectPool<RangePreview> rangePreview;
 	queue<Item*> waitQueue;
 
-	//BattleTracker*& GetTracker();
-
+	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
 };
 
 #define GAME_MGR (GameManager::GetInstance())
+#define TRACKER (GAME_MGR->GetBattleTracker())
 
-//struct DamageData
-//{
-//	GameObj* character;
-//	float given;
-//	float receive;
-//	DamageData(GameObj* character = nullptr)
-//		: character(character), given(0.f), receive(0.f)
-//	{
-//	}
-//};
-//
-//class BattleTracker
-//{
-//protected:
-//	vector<DamageData> datas;
-//
-//public:
-//	BattleTracker();
-//	~BattleTracker();
-//
-//	void SetDatas();
-//};
+struct DamageData
+{
+	Character* character;
+	float givenAD;
+	float takenAD;
+	float givenAP;
+	float takenAP;
+	DamageData(Character* character = nullptr)
+		: character(character), givenAD(0.f), takenAD(0.f),
+		givenAP(0.f), takenAP(0.f)
+	{ 
+	}
+};
+
+class BattleTracker
+{
+protected:
+	vector<DamageData> datas;
+	bool trackerMode; // true - given / false - taken
+
+public:
+	BattleTracker();
+	~BattleTracker();
+
+	void SetDatas();
+	// true - given, false - taken / true - AD, false - AP
+	void UpdateData(Character* character, float damage,
+		bool givenOrTaken, bool dmgType);
+	void PrintAllData();
+	void SetTrackerMode(bool val) { trackerMode = val; }
+	vector<DamageData>* GetDatas() { return &datas; }
+	void DataSort();
+};

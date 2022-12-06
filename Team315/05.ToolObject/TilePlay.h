@@ -9,6 +9,7 @@ class TilePlay :public SpriteObj
 {
 protected:
 	Sprite m_Obj;
+	Sprite m_Star;
 	RectangleShape m_playerArea;
 
 	TileInfo m_TileInfo;

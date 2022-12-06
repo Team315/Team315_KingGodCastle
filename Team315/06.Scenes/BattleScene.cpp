@@ -1,10 +1,12 @@
 #include "BattleScene.h"
+#include "BackrectText.h"
 #include "BattleSceneUI.h"
 #include "BattlePanel.h"
 #include "Button.h"
-#include "GameObjHeaders.h"
 #include "Constant.h"
+#include "DamageTrackerUI.h"
 #include "GameManager.h"
+#include "GameObjHeaders.h"
 #include "Map/Tile.h"
 #include "Map/FloodFill.h"
 #include "RectangleObj.h"
@@ -88,9 +90,7 @@ void BattleScene::Enter()
 	ZoomOut();
 	GAME_MGR->damageUI.Reset();
 
-
 	SOUND_MGR->Play("sounds/Battle.wav", 20.f, true);
-	GAME_MGR->damageUI.Reset();
 }
 
 void BattleScene::Exit()
@@ -351,11 +351,15 @@ void BattleScene::Update(float dt)
 							dynamic_cast<Character*>(gameObj)->SetIsBattle(true);
 						}
 					}
+					TRACKER->SetDatas();
 
 					b_centerPos = true;
 					ZoomIn();
 
 					playingBattle = true;
+
+					ui->GetTracker()->ShowGiven();
+					ui->GetTracker()->ShowWindow(true);
 					break;
 				}
 				// summon character
@@ -408,6 +412,29 @@ void BattleScene::Update(float dt)
 						break;
 					}
 					break;
+				}
+			}
+		}
+	}
+
+	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons() ;
+	for (auto& button : trackerButtons)
+	{
+		if (button->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				if (!button->GetName().compare("OnOff"))
+				{
+					ui->GetTracker()->ShowWindow();
+				}
+				if (!button->GetName().compare("Given"))
+				{
+					ui->GetTracker()->ShowGiven();
+				}
+				if (!button->GetName().compare("Taken"))
+				{
+					ui->GetTracker()->ShowTaken();
 				}
 			}
 		}
@@ -579,16 +606,18 @@ void BattleScene::Update(float dt)
 		vector<GameObj*>& destContainer = dest ? battleGrid : prepareGrid;
 
 		if (IsCharacter(pick))
+		{
 			PutDownCharacter(&beforeContainer, &destContainer, beforeCoord, destCoord);
+			if (InBattleGrid(GAME_MGR->PosToIdx(pick->GetPos())))
+			{
+				dynamic_cast<Character*>(pick)->OnOffAttackAreas(true);
+				pickAttackRangeRect = dynamic_cast<Character*>(pick)->GetAreas();
+			}
+		}
 		else // item
 			PutDownItem(&beforeContainer, &destContainer, beforeCoord, destCoord);
 
 		pick->SetHitBoxActive(true);
-		if (InBattleGrid(GAME_MGR->PosToIdx(pick->GetPos())))
-		{
-			dynamic_cast<Character*>(pick)->OnOffAttackAreas(true);
-			pickAttackRangeRect = dynamic_cast<Character*>(pick)->GetAreas();
-		}
 		pick = nullptr;
 		return;
 	}
@@ -601,6 +630,8 @@ void BattleScene::Update(float dt)
 		{
 			gameEndTimer = 0.f;
 			ui->SetStageEndWindow(false);
+			ui->GetTracker()->ShowWindow(false);
+			ui->GetTracker()->ProfilesReturn();
 			playingBattle = false;
 
 			int len = battleGrid.size();
@@ -619,6 +650,7 @@ void BattleScene::Update(float dt)
 			if (curStageIdx < STAGE_MAX_COUNT - 1)
 				curStageIdx++;
 			SetCurrentStage(curChapIdx, curStageIdx);
+			TRACKER->PrintAllData();
 		}
 		return;
 	}
@@ -630,13 +662,13 @@ void BattleScene::Update(float dt)
 
 		if (playerCount == 0)
 		{
-			gameEndTimer = 2.0f;
+			gameEndTimer = 5.0f;
 			stageEnd = true;
 			stageResult = false;
 		}
 		else if (aiCount == 0)
 		{
-			gameEndTimer = 2.0f;
+			gameEndTimer = 5.0f;
 			stageEnd = true;
 			stageResult = true;
 		}
@@ -876,7 +908,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 				{
 					(*start)[startIdx] = nullptr;
 					combine = true;
-					destCharacter->ArrangeItems();
+					//destCharacter->ArrangeItems();
 				}
 			}
 			canMove = false;
