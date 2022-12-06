@@ -55,7 +55,7 @@ void DamageTrackerUI::Init()
 
 	profiles.Init(10);
 
-	tracker = GAME_MGR->GetBattleTracker();
+	tracker = TRACKER;
 }
 
 void DamageTrackerUI::Update(float dt)
@@ -79,6 +79,7 @@ void DamageTrackerUI::Update(float dt)
 				maxTotal = sum;
 		}
 	}
+	ProfileSetPos();
 
 	for (auto& profile : profileUse)
 	{
@@ -149,8 +150,8 @@ void DamageTrackerUI::ShowGiven()
 	givenOrTaken = true;
 
 	profiles.Reset();
-	GAME_MGR->GetBattleTracker()->SetTrackerMode(givenOrTaken);
-	GAME_MGR->GetBattleTracker()->DataSort();
+	TRACKER->SetTrackerMode(givenOrTaken);
+	TRACKER->DataSort();
 	auto datas = tracker->GetDatas();
 	for (auto& data : *datas)
 	{
@@ -169,8 +170,8 @@ void DamageTrackerUI::ShowTaken()
 	givenOrTaken = false;
 
 	profiles.Reset();
-	GAME_MGR->GetBattleTracker()->SetTrackerMode(givenOrTaken);
-	GAME_MGR->GetBattleTracker()->DataSort();
+	TRACKER->SetTrackerMode(givenOrTaken);
+	TRACKER->DataSort();
 	auto datas = tracker->GetDatas();
 	for (auto& data : *datas)
 	{
