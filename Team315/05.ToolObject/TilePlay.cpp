@@ -33,6 +33,7 @@ void TilePlay::Draw(RenderWindow& window)
 	case TileTypes::Obstacle:
 	case TileTypes::Monster:
 		window.draw(m_Obj);
+		window.draw(m_Star);
 		break;
 	case TileTypes::PlayerArea:
 		window.draw(m_playerArea);
@@ -123,9 +124,18 @@ void TilePlay::SetMonster(ThemeTypes themeTypes, int monsterIndex, int grade)
 	m_TileData.pathIndex = monsterIndex;
 	m_TileData.grade = grade;
 	m_TileTypes = TileTypes::Monster;
-
 	m_Obj.setTexture(*RESOURCE_MGR->GetTexture(GetMonsterName(themeTypes, monsterIndex)), true);
 	m_Obj.setPosition(GetPos());
+
+	FloatRect getsize= m_Obj.getGlobalBounds();
+	Vector2f pos = { position.x,position.y-getsize.height +23.f};
+
+	string star = "graphics/ToolUi/star/Star_0";
+	star += to_string(grade)+".png";
+	m_Star.setTexture(*RESOURCE_MGR->GetTexture(star), true);
+	m_Star.setScale(0.55,0.55);
+	Utils::SetOrigin(m_Star, Origins::BC);
+	m_Star.setPosition(pos);
 
 	CLOG::PrintVectorState(GetPos(), "방금 놓은 몬스터 포스");
 
