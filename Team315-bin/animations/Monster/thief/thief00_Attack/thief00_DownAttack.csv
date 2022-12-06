@@ -1,7 +1,7 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
 thief00_DownAttack,0,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Charactor/Monster/Thief/thief00_Attack.png,0,0,150,100,75,100,0,0
-graphics/Charactor/Monster/Thief/thief00_Attack.png,150,0,150,100,75,100,0,0
-graphics/Charactor/Monster/Thief/thief00_Attack.png,300,0,150,100,75,100,0,0
-graphics/Charactor/Monster/Thief/thief00_Attack.png,0,0,150,100,75,100,0,0
+graphics/Character/Monster/Thief/thief00_Attack.png,0,0,150,100,75,100,0,0
+graphics/Character/Monster/Thief/thief00_Attack.png,150,0,150,100,75,100,0,0
+graphics/Character/Monster/Thief/thief00_Attack.png,300,0,150,100,75,100,0,0
+graphics/Character/Monster/Thief/thief00_Attack.png,0,0,150,100,75,100,0,0

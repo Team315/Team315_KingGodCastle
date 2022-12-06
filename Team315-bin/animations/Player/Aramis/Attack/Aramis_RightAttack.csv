@@ -1,7 +1,7 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
 Aramis_RightAttack,0,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Charactor/Player/Aramis/AramisAttack.png,0,100,100,100,50,100,1,0
-graphics/Charactor/Player/Aramis/AramisAttack.png,100,100,100,100,50,100,1,0
-graphics/Charactor/Player/Aramis/AramisAttack.png,200,100,100,100,50,100,1,0
-graphics/Charactor/Player/Aramis/AramisAttack.png,0,100,100,100,50,100,1,0
+graphics/Character/Player/Aramis/AramisAttack.png,0,100,100,100,50,100,1,0
+graphics/Character/Player/Aramis/AramisAttack.png,100,100,100,100,50,100,1,0
+graphics/Character/Player/Aramis/AramisAttack.png,200,100,100,100,50,100,1,0
+graphics/Character/Player/Aramis/AramisAttack.png,0,100,100,100,50,100,1,0

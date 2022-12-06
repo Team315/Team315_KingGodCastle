@@ -1,8 +1,8 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
 slime02_DownIdle,1,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Charactor/Monster/Slime/slime02_Move.png,0,0,100,80,50,80,0,0
-graphics/Charactor/Monster/Slime/slime02_Move.png,100,0,100,80,50,80,0,0
-graphics/Charactor/Monster/Slime/slime02_Move.png,200,0,100,80,50,80,0,0
-graphics/Charactor/Monster/Slime/slime02_Move.png,300,0,100,80,50,80,0,0
-graphics/Charactor/Monster/Slime/slime02_Move.png,400,0,100,80,50,80,0,0
+graphics/Character/Monster/Slime/slime02_Move.png,0,0,100,80,50,80,0,0
+graphics/Character/Monster/Slime/slime02_Move.png,100,0,100,80,50,80,0,0
+graphics/Character/Monster/Slime/slime02_Move.png,200,0,100,80,50,80,0,0
+graphics/Character/Monster/Slime/slime02_Move.png,300,0,100,80,50,80,0,0
+graphics/Character/Monster/Slime/slime02_Move.png,400,0,100,80,50,80,0,0

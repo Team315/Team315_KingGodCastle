@@ -138,6 +138,7 @@ void BattleScene::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 		{
 			CLOG::Print3String("setting window");
+			SOUND_MGR->StopAll();
 			return;
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num1))

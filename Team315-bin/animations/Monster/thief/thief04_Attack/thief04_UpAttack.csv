@@ -1,7 +1,7 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
 thief04_UpAttack,0,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Charactor/Monster/Thief/thief04_Attack.png,0,240,120,120,60,120,0,0
-graphics/Charactor/Monster/Thief/thief04_Attack.png,120,240,120,120,60,120,0,0
-graphics/Charactor/Monster/Thief/thief04_Attack.png,240,240,120,120,60,120,0,0
-graphics/Charactor/Monster/Thief/thief04_Attack.png,0,240,120,120,60,120,0,0
+graphics/Character/Monster/Thief/thief04_Attack.png,0,240,120,120,60,120,0,0
+graphics/Character/Monster/Thief/thief04_Attack.png,120,240,120,120,60,120,0,0
+graphics/Character/Monster/Thief/thief04_Attack.png,240,240,120,120,60,120,0,0
+graphics/Character/Monster/Thief/thief04_Attack.png,0,240,120,120,60,120,0,0

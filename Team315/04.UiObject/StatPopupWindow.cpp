@@ -49,9 +49,9 @@ StatPopupWindow::StatPopupWindow(float x, float y)
 	asText->SetFillColor(Color(0x1B, 0x1B, 0x1B));
 	asText->SetOutline(Color::Black, 1.f);
 
-	adImg.setTexture(*RESOURCE_MGR->GetTexture("graphics/Charactor/Stat/StatIcon_01.png"));
-	apImg.setTexture(*RESOURCE_MGR->GetTexture("graphics/Charactor/Stat/StatIcon_02.png"));
-	asImg.setTexture(*RESOURCE_MGR->GetTexture("graphics/Charactor/Stat/StatIcon_03.png"));
+	adImg.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Stat/StatIcon_01.png"));
+	apImg.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Stat/StatIcon_02.png"));
+	asImg.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Stat/StatIcon_03.png"));
 	
 	adImg.setScale(0.5f, 0.5f);
 	apImg.setScale(0.5f, 0.5f);
