@@ -135,4 +135,7 @@ public:
 	void UpdateData(Character* character, float damage,
 		bool givenOrTaken, bool dmgType);
 	void PrintAllData();
+	void SetTrackerMode(bool val) { trackerMode = val; }
+	vector<DamageData>* GetDatas() { return &datas; }
+	void DataSort();
 };

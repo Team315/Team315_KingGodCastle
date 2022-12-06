@@ -2,7 +2,7 @@
 #include "Character.h"
 
 EvanSkill::EvanSkill(int skillTier)
-	: Skill(skillTier), dir(Dir::Left)
+	: Skill(skillTier), dir(Dir::Right)
 {
 	//sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/evan_SkillEffect.png"));
 	baseDamage = { 20, 35, 50, 65 };
@@ -52,10 +52,10 @@ void EvanSkill::SetSkillRange(Vector2f startPos)
 	{
 		for (auto& coord : range[i])
 		{
-			Vector2i modCoord;
-			if (dir == Dir::Right)
+			Vector2i modCoord = coord;
+			if (dir == Dir::Left)
 			{
-				modCoord = { coord.x, -coord.y };
+				modCoord = { -coord.x, coord.y };
 			}
 			else if (dir == Dir::Down)
 			{

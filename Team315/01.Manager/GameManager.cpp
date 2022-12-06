@@ -366,10 +366,7 @@ void BattleTracker::UpdateData(Character* character, float damage,
 			}
 		}
 	}
-	if (trackerMode)
-		sort(datas.begin(), datas.end(), ascendGiven);
-	else
-		sort(datas.begin(), datas.end(), ascendTaken);
+	DataSort();
 }
 
 void BattleTracker::PrintAllData()
@@ -384,4 +381,12 @@ void BattleTracker::PrintAllData()
 		cout << "takenAP: " << data.takenAP << endl;
 		cout << "takenTotal: " << data.takenAD + data.takenAP << endl;
 	}
+}
+
+void BattleTracker::DataSort()
+{
+	if (trackerMode)
+		sort(datas.begin(), datas.end(), ascendGiven);
+	else
+		sort(datas.begin(), datas.end(), ascendTaken);
 }

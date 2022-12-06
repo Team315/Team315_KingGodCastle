@@ -197,7 +197,6 @@
     <ClInclude Include="05.ToolObject\TileSet.h" />
     <ClInclude Include="05.ToolObject\UiName.h" />
     <ClInclude Include="05.ToolObject\Theme.h" />
-    <ClInclude Include="04.UiObject\SpriteButton.h" />
     <ClInclude Include="04.UiObject\ProgressBar.h" />
     <ClInclude Include="05.ToolObject\Number.h" />
     <ClInclude Include="05.ToolObject\SelectTile.h" />
@@ -255,6 +254,7 @@
     <ClInclude Include="04.UiObject\ItemInfoWindow.h" />
     <ClInclude Include="03.GameObject\RangePreview.h" />
     <ClInclude Include="04.UiObject\DamageTrackerUI.h" />
+    <ClInclude Include="04.UiObject\TrackerProfile.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="02.Object\FloatingObj.cpp" />
@@ -322,7 +322,6 @@
     <ClCompile Include="05.ToolObject\TileSet.cpp" />
     <ClCompile Include="05.ToolObject\UiName.cpp" />
     <ClCompile Include="05.ToolObject\Theme.cpp" />
-    <ClCompile Include="04.UiObject\SpriteButton.cpp" />
     <ClCompile Include="04.UiObject\ProgressBar.cpp" />
     <ClCompile Include="05.ToolObject\Number.cpp" />
     <ClCompile Include="05.ToolObject\SelectTile.cpp" />
@@ -353,6 +352,7 @@
     <ClCompile Include="03.GameObject\Item\Sword.cpp" />
     <ClCompile Include="03.GameObject\Item\Staff.cpp" />
     <ClCompile Include="03.GameObject\RangePreview.cpp" />
+    <ClCompile Include="04.UiObject\TrackerProfile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

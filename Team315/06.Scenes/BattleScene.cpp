@@ -356,6 +356,9 @@ void BattleScene::Update(float dt)
 					ZoomIn();
 
 					playingBattle = true;
+
+					ui->GetTracker()->ShowGiven();
+					ui->GetTracker()->ShowWindow(true);
 					break;
 				}
 				// summon character
@@ -626,6 +629,8 @@ void BattleScene::Update(float dt)
 		{
 			gameEndTimer = 0.f;
 			ui->SetStageEndWindow(false);
+			ui->GetTracker()->ShowWindow(false);
+			ui->GetTracker()->ProfilesReturn();
 			playingBattle = false;
 
 			int len = battleGrid.size();
@@ -656,13 +661,13 @@ void BattleScene::Update(float dt)
 
 		if (playerCount == 0)
 		{
-			gameEndTimer = 2.0f;
+			gameEndTimer = 5.0f;
 			stageEnd = true;
 			stageResult = false;
 		}
 		else if (aiCount == 0)
 		{
-			gameEndTimer = 2.0f;
+			gameEndTimer = 5.0f;
 			stageEnd = true;
 			stageResult = true;
 		}
