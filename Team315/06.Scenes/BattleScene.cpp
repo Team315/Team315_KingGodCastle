@@ -288,7 +288,7 @@ void BattleScene::Update(float dt)
 	{
 		if (screenCenterPos.y >= gameScreenTopLimit)
 		{
-			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenTopLimit) * 25.f;
+			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenTopLimit) * 5.f;
 			gameView.setCenter(screenCenterPos);
 		}
 	}
@@ -296,7 +296,7 @@ void BattleScene::Update(float dt)
 	{
 		if (screenCenterPos.y <= gameScreenBottomLimit)
 		{
-			screenCenterPos.y += dt * (gameScreenBottomLimit - screenCenterPos.y) * 25.f;
+			screenCenterPos.y += dt * (gameScreenBottomLimit - screenCenterPos.y) * 5.f;
 			gameView.setCenter(screenCenterPos);
 		}
 	}
@@ -599,6 +599,8 @@ void BattleScene::Update(float dt)
 		{
 			CLOG::PrintVectorState(destCoord, "can not move");
 			pick->SetPos(beforeDragPos);
+			pick->SetHitBoxActive(true);
+			pick = nullptr;
 			return;
 		}
 		Vector2i beforeCoord = GAME_MGR->PosToIdx(beforeDragPos);
