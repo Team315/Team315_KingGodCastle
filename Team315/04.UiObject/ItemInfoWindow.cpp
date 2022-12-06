@@ -55,7 +55,7 @@ void ItemInfoWindow::SetItem(Item* item)
 {
 	itemSprite.setTexture(*RESOURCE_MGR->GetTexture(item->MakePath()), true);
 
-	string sTypeSpritePath = "graphics/Charactor/Stat/StatIcon_0"; 
+	string sTypeSpritePath = "graphics/Character/Stat/StatIcon_0"; 
 	StatType sType = item->GetStatType();
 	switch (sType)
 	{

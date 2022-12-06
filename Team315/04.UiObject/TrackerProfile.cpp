@@ -80,7 +80,7 @@ void TrackerProfile::SetSource(DamageData* data)
 
 void TrackerProfile::Parse()
 {
-	string portraitPath = "graphics/Charactor/Portrait/Portrait_";
+	string portraitPath = "graphics/Character/Portrait/Portrait_";
 	string starPath = "graphics/commonUI/Level_Star_";
 	string ext = ".png";
 	

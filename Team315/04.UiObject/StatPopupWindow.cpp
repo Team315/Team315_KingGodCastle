@@ -143,7 +143,7 @@ void StatPopupWindow::SetCharacter(Character* character)
 {
 	target = character;
 
-	string texPath = "graphics/Charactor/Portrait/Portrait_" + character->GetName() + ".png";
+	string texPath = "graphics/Character/Portrait/Portrait_" + character->GetName() + ".png";
 	portrait.setTexture(*RESOURCE_MGR->GetTexture(texPath), true);
 	FloatRect fr = (FloatRect)portrait.getTextureRect();
 	float width = 90 / fr.width;

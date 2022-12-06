@@ -126,6 +126,7 @@ void BattlePanel::ChangeTitleTextString(int chapIdx)
 void BattlePanel::SetStageNumber(int num)
 {
 	titleNumberText->SetString(to_string(num));
+	stageText->SetString(to_string(num) + "/10");
 }
 
 void BattlePanel::SetCurrentCoin(int num)
