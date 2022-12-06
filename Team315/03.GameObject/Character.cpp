@@ -280,13 +280,23 @@ void Character::TakeCare(GameObj* caster, bool careType)
 
 void Character::UpgradeStar()
 {
+	bool upgradeTwice = false;
 	if (star->CalculateRandomChance())
+	{
 		CLOG::Print3String("upgrade 2");
+		upgradeTwice = true;
+	}
 	star->UpdateTexture();
 	UpgradeCharacterSet();
 	UpgradeStats();
+	if (upgradeTwice)
+	{
+		UpgradeCharacterSet();
+		UpgradeStats();
+	}
+
 	if (skill != nullptr)
-		skill->SetSkillTier(star->GetStarNumber());
+		skill->SetSkillTier(GetStarNumber());
 
 	m_attackDelay = 1.f / stat[StatType::AS].GetModifier();
 }
