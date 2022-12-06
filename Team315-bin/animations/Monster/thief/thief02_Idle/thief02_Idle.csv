@@ -1,8 +1,8 @@
 ID,LOOPTYPE (0: Single 1: Idle),FPS,,,,,,
 thief02_Idle,1,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Charactor/Monster/Thief/thief02_Idle.png,0,0,100,100,50,100,0,0
-graphics/Charactor/Monster/Thief/thief02_Idle.png,100,0,100,100,50,100,0,0
-graphics/Charactor/Monster/Thief/thief02_Idle.png,200,0,100,100,50,100,0,0
-graphics/Charactor/Monster/Thief/thief02_Idle.png,300,0,100,100,50,100,0,0
-graphics/Charactor/Monster/Thief/thief02_Idle.png,400,0,100,100,50,100,0,0
+graphics/Character/Monster/Thief/thief02_Idle.png,0,0,100,100,50,100,0,0
+graphics/Character/Monster/Thief/thief02_Idle.png,100,0,100,100,50,100,0,0
+graphics/Character/Monster/Thief/thief02_Idle.png,200,0,100,100,50,100,0,0
+graphics/Character/Monster/Thief/thief02_Idle.png,300,0,100,100,50,100,0,0
+graphics/Character/Monster/Thief/thief02_Idle.png,400,0,100,100,50,100,0,0

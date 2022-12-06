@@ -1,9 +1,8 @@
-ID,LOOPTYPE (0: Single 1: Move),FPS
-Shelda_RightIdle,1,10
-
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Shelda_RightIdle,1,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FlipX,FlipY
-graphics/Charactor/Player/Shelda/SheldaMove.png,0,100,100,100,50,100,1,0
-graphics/Charactor/Player/Shelda/SheldaMove.png,100,100,100,100,50,100,1,0
-graphics/Charactor/Player/Shelda/SheldaMove.png,200,100,100,100,50,100,1,0
-graphics/Charactor/Player/Shelda/SheldaMove.png,300,100,100,100,50,100,1,0
-graphics/Charactor/Player/Shelda/SheldaMove.png,400,100,100,100,50,100,1,0
+graphics/Character/Player/Shelda/SheldaMove.png,0,100,100,100,50,100,1,0
+graphics/Character/Player/Shelda/SheldaMove.png,100,100,100,100,50,100,1,0
+graphics/Character/Player/Shelda/SheldaMove.png,200,100,100,100,50,100,1,0
+graphics/Character/Player/Shelda/SheldaMove.png,300,100,100,100,50,100,1,0
+graphics/Character/Player/Shelda/SheldaMove.png,400,100,100,100,50,100,1,0

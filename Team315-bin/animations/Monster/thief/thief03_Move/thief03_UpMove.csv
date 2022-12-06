@@ -1,8 +1,8 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
 thief03_UpMove,1,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
-graphics/Charactor/Monster/Thief/thief03_Move.png,0,160,80,80,40,80,0,0
-graphics/Charactor/Monster/Thief/thief03_Move.png,80,160,80,80,40,80,0,0
-graphics/Charactor/Monster/Thief/thief03_Move.png,160,160,80,80,40,80,0,0
-graphics/Charactor/Monster/Thief/thief03_Move.png,240,160,80,80,40,80,0,0
-graphics/Charactor/Monster/Thief/thief03_Move.png,320,160,80,80,40,80,0,0
+graphics/Character/Monster/Thief/thief03_Move.png,0,160,80,80,40,80,0,0
+graphics/Character/Monster/Thief/thief03_Move.png,80,160,80,80,40,80,0,0
+graphics/Character/Monster/Thief/thief03_Move.png,160,160,80,80,40,80,0,0
+graphics/Character/Monster/Thief/thief03_Move.png,240,160,80,80,40,80,0,0
+graphics/Character/Monster/Thief/thief03_Move.png,320,160,80,80,40,80,0,0

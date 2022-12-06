@@ -1,9 +1,8 @@
-ID,LOOPTYPE (0: Single 1: Move),FPS
-LeonHeart_LeftIdle,1,10
-
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+LeonHeart_LeftIdle,1,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FlipX,FlipY
-graphics/Charactor/Player/LeonHeart/LeonHeartMove.png,0,100,100,100,50,100,0,0
-graphics/Charactor/Player/LeonHeart/LeonHeartMove.png,100,100,100,100,50,100,0,0
-graphics/Charactor/Player/LeonHeart/LeonHeartMove.png,200,100,100,100,50,100,0,0
-graphics/Charactor/Player/LeonHeart/LeonHeartMove.png,300,100,100,100,50,100,0,0
-graphics/Charactor/Player/LeonHeart/LeonHeartMove.png,400,100,100,100,50,100,0,0
+graphics/Character/Player/LeonHeart/LeonHeartMove.png,0,100,100,100,50,100,0,0
+graphics/Character/Player/LeonHeart/LeonHeartMove.png,100,100,100,100,50,100,0,0
+graphics/Character/Player/LeonHeart/LeonHeartMove.png,200,100,100,100,50,100,0,0
+graphics/Character/Player/LeonHeart/LeonHeartMove.png,300,100,100,100,50,100,0,0
+graphics/Character/Player/LeonHeart/LeonHeartMove.png,400,100,100,100,50,100,0,0
