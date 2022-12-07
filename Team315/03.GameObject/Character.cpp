@@ -108,7 +108,7 @@ void Character::Update(float dt)
 				if (m_attackDelay <= 0.f)
 				{
 					m_target = m_floodFill.GetNearEnemy(mainGrid, GAME_MGR->PosToIdx(position), targetType);
-					lastDirection = Utils::Normalize(dynamic_cast<Character*>(m_target)->position - position);
+					lastDirection = Utils::Normalize(dynamic_cast<Character*>(m_target)->GetPos() - position);
 					direction = lastDirection;
 					SetState(AnimStates::Attack);
 					dynamic_cast<Character*>(m_target)->TakeDamage(this);
@@ -237,8 +237,8 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	else
 		damage = attackerCharacter->GetSkill()->CalculatePotential(attackerCharacter);
 
-	TRACKER->UpdateData(this, damage, false, attackType);
-	TRACKER->UpdateData(attackerCharacter, damage, true, attackType);
+	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, attackType);
+	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, attackType);
 
 	if (shieldAmount > 0.f)
 	{

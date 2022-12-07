@@ -19,7 +19,7 @@ void RangePreviewOnCreate(RangePreview* rangePreview)
 
 GameManager::GameManager()
 	: m_PlayTileList(nullptr), battleCharacterCount(8), extraLevelUpChance(20),
-	extraGradeUpChance(20), startCoin(50), // 6
+	extraGradeUpChance(20), startCoin(50), playingBattle(false), // 6
 	characterCost(3), itemCost(5), currentCoin(startCoin), stageClearCoin(6),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f), apIncreaseRate(1.6f), asIncrease(0.1f)
 {
@@ -80,6 +80,7 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
+	playingBattle = false;
 	currentCoin = startCoin;
 	extraLevelUpChance = 20;
 	extraGradeUpChance = 20;
@@ -364,6 +365,7 @@ void BattleTracker::UpdateData(Character* character, float damage,
 					data.takenAD += damage :
 					data.takenAP += damage;
 			}
+			break;
 		}
 	}
 	DataSort();

@@ -44,6 +44,8 @@ protected:
 	int currentCoin;
 	int stageClearCoin;
 
+	bool playingBattle;
+
 public:
 	GameManager();
 	virtual ~GameManager();
@@ -78,6 +80,9 @@ public:
 	void SetCharacterDatas();
 	json GetCharacterData(string name);
 
+	void SetPlayingBattle(bool val) { playingBattle = val; }
+	bool GetPlayingBattle() { return playingBattle; }
+
 	vector<GameObj*>& GetMainGridRef() { return *mainGrid; }
 	GameObj* GetGameObjInMainGrid(Vector2i coord);
 	void RemoveFromMainGrid(GameObj* gameObj);
@@ -104,7 +109,6 @@ public:
 };
 
 #define GAME_MGR (GameManager::GetInstance())
-#define TRACKER (GAME_MGR->GetBattleTracker())
 
 struct DamageData
 {

@@ -15,7 +15,7 @@ using namespace std;
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(10),
-	curChapIdx(0), curStageIdx(0), playingBattle(false), gameEndTimer(0.f)
+	curChapIdx(0), curStageIdx(0), gameEndTimer(0.f)
 {
 	CLOG::Print3String("battle create");
 
@@ -47,6 +47,8 @@ BattleScene::BattleScene()
 	castleBackground.setPosition(0, GAME_SCREEN_HEIGHT - TILE_SIZE);
 
 	ui = new BattleSceneUI(this);
+
+	
 }
 
 BattleScene::~BattleScene()
@@ -78,7 +80,6 @@ void BattleScene::Enter()
 	prepareGrid.assign(PREPARE_SIZE, nullptr);
 	battleGrid.assign(BATTLE_GRID_ROW * GAME_TILE_WIDTH, nullptr);
 
-	playingBattle = false;
 	GAME_MGR->Init();
 	ui->Reset();
 
@@ -150,7 +151,7 @@ void BattleScene::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
 		{
 			CLOG::Print3String("battle end");
-			playingBattle = false;
+			GAME_MGR->SetPlayingBattle(false);
 
 			int len = battleGrid.size();
 			for (int idx = 0; idx < len; idx++)
@@ -324,7 +325,7 @@ void BattleScene::Update(float dt)
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
 				// battle start
-				if (!button->GetName().compare("begin") && !playingBattle)
+				if (!button->GetName().compare("begin") && !GAME_MGR->GetPlayingBattle())
 				{
 					int monsterGridCoordC = 0;
 					int curBattleCharacterCount = 0;
@@ -351,19 +352,19 @@ void BattleScene::Update(float dt)
 							dynamic_cast<Character*>(gameObj)->SetIsBattle(true);
 						}
 					}
-					TRACKER->SetDatas();
+					GAME_MGR->GetBattleTracker()->SetDatas();
 
 					b_centerPos = true;
 					ZoomIn();
 
-					playingBattle = true;
+					GAME_MGR->SetPlayingBattle(true);
 
 					ui->GetTracker()->ShowGiven();
 					ui->GetTracker()->ShowWindow(true);
 					break;
 				}
 				// summon character
-				if (!button->GetName().compare("summon"))
+				else if (!button->GetName().compare("summon"))
 				{
 					int idx = GetZeroElem(prepareGrid);
 					if (idx == -1)
@@ -388,7 +389,7 @@ void BattleScene::Update(float dt)
 					break;
 				}
 				// Item
-				if (!button->GetName().compare("item"))
+				else if (!button->GetName().compare("item"))
 				{
 					int idx = GetZeroElem(prepareGrid);
 					if (idx == -1)
@@ -428,11 +429,11 @@ void BattleScene::Update(float dt)
 				{
 					ui->GetTracker()->ShowWindow();
 				}
-				if (!button->GetName().compare("Given"))
+				else if (!button->GetName().compare("Given"))
 				{
 					ui->GetTracker()->ShowGiven();
 				}
-				if (!button->GetName().compare("Taken"))
+				else if (!button->GetName().compare("Taken"))
 				{
 					ui->GetTracker()->ShowTaken();
 				}
@@ -463,7 +464,6 @@ void BattleScene::Update(float dt)
 				if (pick == nullptr)
 				{
 					SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
-					//SOUND_MGR->Release();
 					GameObj*& temp = gameObj;
 					if (IsCharacter(temp))
 					{
@@ -497,7 +497,7 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	if (!playingBattle)
+	if (!GAME_MGR->GetPlayingBattle())
 	{
 		for (auto& gameObj : battleGrid)
 		{
@@ -634,7 +634,7 @@ void BattleScene::Update(float dt)
 			ui->SetStageEndWindow(false);
 			ui->GetTracker()->ShowWindow(false);
 			ui->GetTracker()->ProfilesReturn();
-			playingBattle = false;
+			GAME_MGR->SetPlayingBattle(false);
 
 			int len = battleGrid.size();
 			for (int idx = 0; idx < len; idx++)
@@ -652,12 +652,12 @@ void BattleScene::Update(float dt)
 			if (curStageIdx < STAGE_MAX_COUNT - 1)
 				curStageIdx++;
 			SetCurrentStage(curChapIdx, curStageIdx);
-			TRACKER->PrintAllData();
+			GAME_MGR->GetBattleTracker()->PrintAllData();
 		}
 		return;
 	}
 
-	if (playingBattle)
+	if (GAME_MGR->GetPlayingBattle())
 	{
 		bool stageEnd = false;
 		bool stageResult = false;
@@ -740,7 +740,7 @@ void BattleScene::Draw(RenderWindow& window)
 	}
 
 	// draw character on battle area
-	if (!playingBattle)
+	if (!GAME_MGR->GetPlayingBattle())
 	{
 		for (auto& gameObj : battleGrid)
 		{
@@ -796,7 +796,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 	else if ((*dest)[destIdx] == nullptr) // move to empty cell
 	{
 		// add to new character in battleGrid from prepare (prepare -> battleGrid)
-		if (playingBattle && !(start == &prepareGrid && dest == &prepareGrid))
+		if (GAME_MGR->GetPlayingBattle() && !(start == &prepareGrid && dest == &prepareGrid))
 			canMove = false;
 		else
 		{
@@ -825,7 +825,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 		}
 		else
 		{
-			if (!playingBattle || (start == &prepareGrid && dest == &prepareGrid))
+			if (!GAME_MGR->GetPlayingBattle() || (start == &prepareGrid && dest == &prepareGrid))
 			{
 				// combinate condition
 				Character* destCharacter = dynamic_cast<Character*>((*dest)[destIdx]);
@@ -903,7 +903,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 		}
 		else // give a item to the character
 		{
-			if (!playingBattle || dest == &prepareGrid)
+			if (!GAME_MGR->GetPlayingBattle() || dest == &prepareGrid)
 			{
 				Character* destCharacter = dynamic_cast<Character*>((*dest)[destIdx]);
 				if (destCharacter->SetItem(dynamic_cast<Item*>(pick)))

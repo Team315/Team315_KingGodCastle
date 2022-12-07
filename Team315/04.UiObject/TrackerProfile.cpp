@@ -39,14 +39,12 @@ void TrackerProfile::Update(float dt)
 	
 	if (givenOrTaken)
 	{
-		//bar->SetRatio(data->givenAD + data->givenAP, data->givenAD, data->givenAP);
 		bar->SetRatio(maxTotal, data->givenAD, data->givenAP);
 		int sum = data->givenAD + data->givenAP;
 		quantity.setString(to_string(sum));
 	}
 	else
 	{
-		//bar->SetRatio(data->takenAD + data->takenAP, data->takenAD, data->takenAP);
 		bar->SetRatio(maxTotal, data->takenAD, data->takenAP);
 		int sum = data->takenAD + data->takenAP;
 		quantity.setString(to_string(sum));
