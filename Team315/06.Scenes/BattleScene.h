@@ -1,7 +1,6 @@
 #pragma once
 #include "Scene.h"
 #include "Include.h"
-#include <vector>
 #include "TileBackground.h"
 
 class BattleSceneUI;

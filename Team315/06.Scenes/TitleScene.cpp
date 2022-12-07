@@ -2,7 +2,7 @@
 #include "Include.h"
 
 TitleScene::TitleScene()
-	: Scene(Scenes::Title), duration(0.5f), timer(duration), isMode(false), isPick(false)
+	: Scene(Scenes::Title), duration(0.5f), timer(duration), isMode(false), m_pickNum(0)
 {
 	CLOG::Print3String("title create");
 	background = new SpriteObj();
@@ -102,18 +102,37 @@ void TitleScene::Update(float dt)
 	if (isMode)
 	{
 
-		if (InputMgr::GetKeyDown(Keyboard::Key::Up) || InputMgr::GetKeyDown(Keyboard::Key::Down))
+		if (InputMgr::GetKeyDown(Keyboard::Key::Up))
 		{
-			IsPick();
+			if (m_pickNum != 0)
+			{
+				--m_pickNum;
+				IsPick(m_pickNum);
+			}
 		}
+		else if (InputMgr::GetKeyDown(Keyboard::Key::Down))
+		{
+			if (m_pickNum != 2)
+			{
+				++m_pickNum;
+				IsPick(m_pickNum);
+			}
+
+		}
+	
+		
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::Space) || InputMgr::GetKeyDown(Keyboard::Key::Enter))
 		{
-			if (!isPick)
+			if (m_pickNum == 0)
 			{
 				SCENE_MGR->ChangeScene(Scenes::Battle);
 			}
-			else
+			else if (m_pickNum == 1)
+			{
+				SCENE_MGR->ChangeScene(Scenes::Altar);
+			}
+			else if (m_pickNum == 2)
 			{
 				SCENE_MGR->ChangeScene(Scenes::Tool);
 			}
@@ -163,8 +182,15 @@ void TitleScene::CreatButton()
 	m_gameStart->SetOrigin(Origins::ML);
 	buttonList.push_back(m_gameStart);
 
+	m_altarStart = new TextObj(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
+		"Altar Start", 160.f, 440.f, Color::White, 35.f);
+	m_altarStart->SetOutlineColor(Color::Black);
+	m_altarStart->SetOutlineThickness(2.f);
+	m_altarStart->SetOrigin(Origins::ML);
+	buttonList.push_back(m_altarStart);
+
 	m_tool = new TextObj(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
-		"Tool Start", 160.f, 440.f, Color::White, 35.f);
+		"Tool Start", 160.f, 520.f, Color::White, 35.f);
 	m_tool->SetOutlineColor(Color::Black);
 	m_tool->SetOutlineThickness(2.f);
 	m_tool->SetOrigin(Origins::ML);
@@ -172,20 +198,30 @@ void TitleScene::CreatButton()
 
 }
 
-void TitleScene::IsPick()
+void TitleScene::IsPick(int picNum)
 {
-	isPick = !isPick;
+	//isPick = !isPick;
 
-	if (!isPick)
+	if (picNum == 0)
 	{
 		m_pick->SetPos({ 160.f,365.f });
 		m_gameStart->SetCharacterSize(45);
 		m_tool->SetCharacterSize(35);
+		m_altarStart->SetCharacterSize(35);
 	}
-	else
+	else if(picNum == 1)
 	{
 		m_pick->SetPos({ 160.f,445.f });
-		m_tool->SetCharacterSize(45);
 		m_gameStart->SetCharacterSize(35);
+		m_altarStart->SetCharacterSize(45);
+		m_tool->SetCharacterSize(35);
+	}
+
+	else if (picNum == 2)
+	{
+		m_pick->SetPos({ 160.f,525.f });
+		m_gameStart->SetCharacterSize(35);
+		m_altarStart->SetCharacterSize(35);
+		m_tool->SetCharacterSize(45);
 	}
 }

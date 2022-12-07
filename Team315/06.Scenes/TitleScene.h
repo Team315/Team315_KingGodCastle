@@ -11,9 +11,10 @@ protected:
 	//sel mode
 	SpriteObj* m_pick;
 	TextObj* m_gameStart;
+	TextObj* m_altarStart;
 	TextObj* m_tool;
 	bool isMode;
-	bool isPick;
+	int m_pickNum;
 	vector<Object*> buttonList;
 
 	float duration;
@@ -33,5 +34,5 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 	void SetModePick(Vector2f pos);
 	void CreatButton();
-	void IsPick();
+	void IsPick(int picNum);
 };
