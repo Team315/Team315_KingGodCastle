@@ -91,7 +91,6 @@ public:
 	void UpgradeCharacterSet();
 	void UpgradeStats();
 	bool SetItem(Item* newItem);
-	//void ArrangeItems();
 	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
 	void SetCrowdControl(float time) { ccTimer = time; }

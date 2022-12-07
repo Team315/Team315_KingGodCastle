@@ -104,17 +104,11 @@ void FileManager::SaveBackGroundData(vector<BackGroundData> datas)
 	ofs.close();
 }
 
-json FileManager::LoadBackGroundData()
+json FileManager::LoadByFilePath(string filePath)
 {
-	ifstream ifs("json/BackGroundData.json");
-	json data = json::parse(ifs);
-	ifs.close();
-	return data;
-}
-
-json FileManager::LoadCharacterData()
-{
-	ifstream ifs("json/CharacterData.json");
+	ifstream ifs(filePath);
+	/*if (ifs.fail())
+		return nullptr;*/
 	json data = json::parse(ifs);
 	ifs.close();
 	return data;

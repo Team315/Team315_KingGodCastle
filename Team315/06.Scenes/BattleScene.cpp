@@ -80,7 +80,7 @@ void BattleScene::Enter()
 	prepareGrid.assign(PREPARE_SIZE, nullptr);
 	battleGrid.assign(BATTLE_GRID_ROW * GAME_TILE_WIDTH, nullptr);
 
-	GAME_MGR->Init();
+	GAME_MGR->Reset();
 	ui->Reset();
 
 	curChapIdx = 0;
@@ -934,7 +934,7 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 {
 	curStage = GAME_MGR->GetStage(chap, stage);
 
-	GAME_MGR->Reset();
+	GAME_MGR->MainGridReset();
 
 	int row = GAME_TILE_HEIGHT - BATTLE_GRID_ROW; // player zone X
 	int col = GAME_TILE_WIDTH;

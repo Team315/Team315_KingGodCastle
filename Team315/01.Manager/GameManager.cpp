@@ -18,37 +18,29 @@ void RangePreviewOnCreate(RangePreview* rangePreview)
 }
 
 GameManager::GameManager()
-	: m_PlayTileList(nullptr), battleCharacterCount(8), extraLevelUpChance(20),
-	extraGradeUpChance(20), startCoin(50), playingBattle(false), // 6
-	characterCost(3), itemCost(5), currentCoin(startCoin), stageClearCoin(6),
-	hpIncreaseRate(1.6f), adIncreaseRate(1.5f), apIncreaseRate(1.6f), asIncrease(0.1f)
+	: m_PlayTileList(nullptr), playingBattle(false),
+	battleCharacterCount(8), extraLevelUpChance(20),
+	extraGradeUpChance(20), startCoin(50),
+	characterCost(3), itemCost(5), stageClearCoin(6),
+	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
+	apIncreaseRate(1.6f), asIncrease(0.1f)
 {
 	CLOG::Print3String("GameManager Create");
+	
+	
 	m_tiles.assign(
 		CHAPTER_MAX_COUNT,
 		vector<vector<vector<Tile*>>>(STAGE_MAX_COUNT,
 			vector<vector<Tile*>>(GAME_TILE_HEIGHT,
 				vector<Tile*>(GAME_TILE_WIDTH))));
 	mainGrid = new vector<GameObj*>();
-
-	/*
-	ad		25	40	70	 120
-	ap		40% 70% 120% 200%
-	as		25% 40% 70%  120%
-	armor	250 400 700  120
-	*/
-
-	itemStatMap[StatType::AD] = { 25, 40, 70, 120 };			// +
-	itemStatMap[StatType::AP] = { 0.4f, 0.7f, 1.2f, 2.f };		// %
-	itemStatMap[StatType::AS] = { 0.25f, 0.4f, 0.7f, 1.2f };	// %
-	itemStatMap[StatType::HP] = { 250, 400, 700, 1200 };		// +
+	battleTracker = new BattleTracker();
+	Init();
 
 	damageUI.OnCreate = DmgUIOnCreate;
 	damageUI.Init();
 	rangePreview.OnCreate = RangePreviewOnCreate;
 	rangePreview.Init(200);
-	
-	battleTracker = new BattleTracker();
 }
 
 GameManager::~GameManager()
@@ -80,10 +72,48 @@ GameManager::~GameManager()
 
 void GameManager::Init()
 {
+	json initSetting = FILE_MGR->LoadByFilePath("json/InitSetting.json");
+	json gameSetting = initSetting["InitialGameSetting"];
+
+	battleCharacterCount = gameSetting["BattleCharacterCount"];
+	extraLevelUpChance = gameSetting["ExtraLevelUpChance"];
+	extraGradeUpChance = gameSetting["ExtraGradeUpChance"];
+	startCoin = gameSetting["StartCoin"];
+	stageClearCoin = gameSetting["StageClearCoin"];
+	characterCost = gameSetting["CharacterCost"];
+	itemCost = gameSetting["ItemCost"];
+
+	json statIncreaseRate = initSetting["LevelUpStatIncreaseRate"];
+	adIncreaseRate = (1.f + statIncreaseRate["AdIncreaseRate"]);
+	apIncreaseRate = (1.f + statIncreaseRate["ApIncreaseRate"]);
+	asIncrease = (1.f + statIncreaseRate["AsIncrease"]);
+	hpIncreaseRate = (1.f + statIncreaseRate["HpIncreaseRate"]);
+
+	json ItemStats = initSetting["ItemStat"];
+	itemStatMap.insert({ StatType::HP, ItemStats["Armor"] });
+	itemStatMap.insert({ StatType::AP, ItemStats["Staff"] });
+	itemStatMap.insert({ StatType::AS, ItemStats["Bow"]});
+	itemStatMap.insert({ StatType::AD, ItemStats["Sword"] });
+
+	/*
+	ad		25	40	70	 120
+	ap		40% 70% 120% 200%
+	as		25% 40% 70%  120%
+	armor	250 400 700  120
+	*/
+
+	//itemStatMap[StatType::AD] = { 25, 40, 70, 120 };			// +
+	//itemStatMap[StatType::AP] = { 0.4f, 0.7f, 1.2f, 2.f };	// %
+	//itemStatMap[StatType::AS] = { 0.25f, 0.4f, 0.7f, 1.2f };	// %
+	//itemStatMap[StatType::HP] = { 250, 400, 700, 1200 };		// +
+}
+
+void GameManager::Reset()
+{
 	playingBattle = false;
 	currentCoin = startCoin;
-	extraLevelUpChance = 20;
-	extraGradeUpChance = 20;
+	/*extraLevelUpChance = 20;
+	extraGradeUpChance = 20;*/
 }
 
 Vector2i GameManager::PosToIdx(Vector2f pos)
@@ -119,7 +149,7 @@ Tile* GameManager::GetTile(int chap, int stage, int height, int width)
 
 void GameManager::SetBackGroundDatas()
 {
-	backGroundDatas = FILE_MGR->LoadBackGroundData();
+	backGroundDatas = FILE_MGR->LoadByFilePath("json/BackGroundData.json");
 	CreatedBackGround();
 }
 
@@ -271,14 +301,14 @@ Item* GameManager::SpawnItem(int typeIdx)
 	return item;
 }
 
-void GameManager::Reset()
+void GameManager::MainGridReset()
 {
 	mainGrid->assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);
 }
 
 void GameManager::SetCharacterDatas()
 {
-	characterDatas = FILE_MGR->LoadCharacterData();
+	characterDatas = FILE_MGR->LoadByFilePath("json/CharacterData.json");
 }
 
 json GameManager::GetCharacterData(string name)

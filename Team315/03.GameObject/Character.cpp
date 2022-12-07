@@ -367,38 +367,6 @@ bool Character::SetItem(Item* newItem)
 	return true;
 }
 
-//void Character::ArrangeItems()
-//{
-//	int combineIdx = 0;
-//	//Item* combineItem = nullptr;
-//	for (auto& aItem : items)
-//	{
-//		combineIdx = 0;
-//		//combineItem = nullptr;
-//		for (auto& bItem : items)
-//		{
-//			if (aItem->GetObjId() == bItem->GetObjId())
-//				continue;
-//			else
-//			{
-//				if (!aItem->GetName().compare(bItem->GetName()) &&
-//					(aItem->GetGrade() == bItem->GetGrade()) &&
-//					(bItem->GetGrade() != (TIER_MAX - 1)))
-//				{
-//					bItem->Upgrade();
-//					UpdateItemDelta(bItem->GetStatType(), bItem->GetPotential() - aItem->GetPotential());
-//					delete aItem;
-//					//aItem = bItem;
-//					//combineItem = bItem;
-//					break;
-//				}
-//			}
-//			combineIdx++;
-//		}
-//	}
-//
-//}
-
 void Character::UpdateItemDelta(StatType sType, float value)
 {
 	switch (sType)
@@ -462,7 +430,7 @@ bool Character::PlayAstar()
 	goingPos = m_aStar.AstarSearch(mainGrid, mypos, m_GeneralArr);
 
 
-	if (goingPos.x == -1.f && goingPos.x == -1.f)
+	if (goingPos.x == -1.f)// && goingPos.x == -1.f)
 	{
 		return false;
 	}
