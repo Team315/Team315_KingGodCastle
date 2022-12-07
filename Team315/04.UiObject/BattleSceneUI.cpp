@@ -7,6 +7,7 @@
 #include "ItemInfoWindow.h"
 #include "Item/Item.h"
 #include "RectangleObj.h"
+#include "SpriteObj.h"
 #include "StatPopupWindow.h"
 
 BattleSceneUI::BattleSceneUI(Scene* scene)

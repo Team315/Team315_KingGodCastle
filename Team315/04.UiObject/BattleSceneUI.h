@@ -2,11 +2,11 @@
 #include "UIMgr.h"
 
 class BattlePanel;
+class BackrectText;
 class Character;
+class DamageTrackerUI;
 class Item;
 class ItemInfoWindow;
-class BackrectText;
-class DamageTrackerUI;
 class StatPopupWindow;
 class RectangleObj;
 class VertexArrayObj;

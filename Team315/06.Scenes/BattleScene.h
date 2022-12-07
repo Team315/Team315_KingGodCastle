@@ -24,6 +24,7 @@ protected:
 	vector<vector<Tile*>>* curStage;
 	vector<TileBackground*> curBackGround; 
 	vector<RectangleObj>* pickAttackRangeRect;
+	vector<SpriteObj*> flags;
 
 	int curChapIdx;
 	int curStageIdx;
@@ -43,6 +44,9 @@ protected:
 	int battleCharacterCount;
 
 	float gameEndTimer;
+
+	int remainLife;
+	bool isGameOver;
 
 public:
 	BattleScene();
@@ -67,7 +71,7 @@ public:
 		Vector2i startCoord, Vector2i destCoord);
 
 	void SetCurrentStage(int chap, int stage);
-	
+	void LoseFlag();
 };
 
 int GetIdxFromCoord(Vector2i coord);
