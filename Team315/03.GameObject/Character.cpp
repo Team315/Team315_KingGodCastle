@@ -108,7 +108,7 @@ void Character::Update(float dt)
 				if (m_attackDelay <= 0.f)
 				{
 					m_target = m_floodFill.GetNearEnemy(mainGrid, GAME_MGR->PosToIdx(position), targetType);
-					lastDirection = Utils::Normalize(dynamic_cast<Character*>(m_target)->position - position);
+					lastDirection = Utils::Normalize(dynamic_cast<Character*>(m_target)->GetPos() - position);
 					direction = lastDirection;
 					SetState(AnimStates::Attack);
 					dynamic_cast<Character*>(m_target)->TakeDamage(this);
@@ -237,8 +237,8 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	else
 		damage = attackerCharacter->GetSkill()->CalculatePotential(attackerCharacter);
 
-	TRACKER->UpdateData(this, damage, false, attackType);
-	TRACKER->UpdateData(attackerCharacter, damage, true, attackType);
+	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, attackType);
+	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, attackType);
 
 	if (shieldAmount > 0.f)
 	{
@@ -377,38 +377,6 @@ bool Character::SetItem(Item* newItem)
 	return true;
 }
 
-//void Character::ArrangeItems()
-//{
-//	int combineIdx = 0;
-//	//Item* combineItem = nullptr;
-//	for (auto& aItem : items)
-//	{
-//		combineIdx = 0;
-//		//combineItem = nullptr;
-//		for (auto& bItem : items)
-//		{
-//			if (aItem->GetObjId() == bItem->GetObjId())
-//				continue;
-//			else
-//			{
-//				if (!aItem->GetName().compare(bItem->GetName()) &&
-//					(aItem->GetGrade() == bItem->GetGrade()) &&
-//					(bItem->GetGrade() != (TIER_MAX - 1)))
-//				{
-//					bItem->Upgrade();
-//					UpdateItemDelta(bItem->GetStatType(), bItem->GetPotential() - aItem->GetPotential());
-//					delete aItem;
-//					//aItem = bItem;
-//					//combineItem = bItem;
-//					break;
-//				}
-//			}
-//			combineIdx++;
-//		}
-//	}
-//
-//}
-
 void Character::UpdateItemDelta(StatType sType, float value)
 {
 	switch (sType)
@@ -472,7 +440,7 @@ bool Character::PlayAstar()
 	goingPos = m_aStar.AstarSearch(mainGrid, mypos, m_GeneralArr);
 
 
-	if (goingPos.x == -1.f && goingPos.x == -1.f)
+	if (goingPos.x == -1.f)// && goingPos.x == -1.f)
 	{
 		return false;
 	}

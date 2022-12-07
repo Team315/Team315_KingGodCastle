@@ -28,7 +28,7 @@ protected:
 	int curChapIdx;
 	int curStageIdx;
 
-	bool playingBattle;
+	// bool playingBattle;
 
 	// Create player character when summon (2x7) x(0, 6) y(16, 17)
 	vector<GameObj*> prepareGrid;
