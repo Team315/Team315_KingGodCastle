@@ -15,7 +15,8 @@ using namespace std;
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(10),
-	curChapIdx(0), curStageIdx(0), gameEndTimer(0.f)
+	curChapIdx(0), curStageIdx(0), gameEndTimer(0.f),
+	remainLife(3), isGameOver(false)
 {
 	CLOG::Print3String("battle create");
 
@@ -48,7 +49,18 @@ BattleScene::BattleScene()
 
 	ui = new BattleSceneUI(this);
 
-	
+	flags.resize(3);
+	Vector2f flagPos(GAME_SCREEN_WIDTH * 0.5f - 70.f, GAME_SCREEN_HEIGHT + TILE_SIZE_HALF);
+	for (auto& flag : flags)
+	{
+		flag = new SpriteObj();
+		flag->SetTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Flag.png"));
+		flag->SetPos(flagPos);
+		flag->SetScale(0.7f, 0.7f);
+		flag->SetOrigin(Origins::BC);
+		flagPos.x += 70.f;
+		objList.push_back(flag);
+	}
 }
 
 BattleScene::~BattleScene()
@@ -115,6 +127,12 @@ void BattleScene::Exit()
 
 void BattleScene::Update(float dt)
 {
+	if (isGameOver)
+	{
+		cout << "Game Over !!" << endl;
+		return;
+	}
+
 	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 	GAME_MGR->damageUI.Update(dt);
 	GAME_MGR->rangePreview.Update(dt);
@@ -634,7 +652,6 @@ void BattleScene::Update(float dt)
 			ui->SetStageEndWindow(false);
 			ui->GetTracker()->ShowWindow(false);
 			ui->GetTracker()->ProfilesReturn();
-			GAME_MGR->SetPlayingBattle(false);
 
 			int len = battleGrid.size();
 			for (int idx = 0; idx < len; idx++)
@@ -664,15 +681,18 @@ void BattleScene::Update(float dt)
 
 		if (playerCount == 0)
 		{
-			gameEndTimer = 5.0f;
+			gameEndTimer = 3.5f;
 			stageEnd = true;
 			stageResult = false;
+			GAME_MGR->SetPlayingBattle(false);
+			LoseFlag();
 		}
 		else if (aiCount == 0)
 		{
-			gameEndTimer = 5.0f;
+			gameEndTimer = 3.5f;
 			stageEnd = true;
 			stageResult = true;
+			GAME_MGR->SetPlayingBattle(false);
 		}
 
 		if (stageEnd)
@@ -968,6 +988,14 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 
 	ui->GetPanel()->SetStageNumber(curStageIdx + 1);
 	cout << "current chapter, stage (" << curChapIdx << ", " << curStageIdx << ")" << endl;
+}
+
+void BattleScene::LoseFlag()
+{
+	remainLife--;
+	flags[remainLife]->SetActive(false);
+	if (!remainLife)
+		isGameOver = true;
 }
 
 int GetIdxFromCoord(Vector2i coord)
