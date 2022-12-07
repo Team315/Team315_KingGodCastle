@@ -756,7 +756,7 @@ void ToolScene::SaveBackGroundData()
 
 void ToolScene::LoadBackGroundData()
 {
-	json data= FILE_MGR->LoadBackGroundData();
+	json data = FILE_MGR->LoadByFilePath("json/BackGroundData.json");
 
 	int i = 0;
 	for (auto TileBackground : TileBackgroundList)

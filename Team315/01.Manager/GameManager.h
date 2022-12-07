@@ -44,11 +44,15 @@ protected:
 	int currentCoin;
 	int stageClearCoin;
 
+	bool playingBattle;
+
 public:
 	GameManager();
 	virtual ~GameManager();
 
 	void Init();
+	void Reset();
+
 	const int GetCharacterCount() { return battleCharacterCount; }
 	const int GetExtraLevelUpChance() { return extraLevelUpChance; }
 	const int GetExtraGradeUpChance() { return extraGradeUpChance; }
@@ -73,10 +77,13 @@ public:
 	
 	Item* SpawnItem(int typeIdx = -1);
 
-	void Reset();
+	void MainGridReset();
 
 	void SetCharacterDatas();
 	json GetCharacterData(string name);
+
+	void SetPlayingBattle(bool val) { playingBattle = val; }
+	bool GetPlayingBattle() { return playingBattle; }
 
 	vector<GameObj*>& GetMainGridRef() { return *mainGrid; }
 	GameObj* GetGameObjInMainGrid(Vector2i coord);
@@ -86,14 +93,14 @@ public:
 	int GetClearCoin() { return stageClearCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }
 
-	const int characterCost;
-	const int itemCost;
+	int characterCost;
+	int itemCost;
 
 	// Stat increase rate when upgrading, (todo: file input)
-	const float hpIncreaseRate;
-	const float adIncreaseRate;
-	const float apIncreaseRate;
-	const float asIncrease;
+	float hpIncreaseRate;
+	float adIncreaseRate;
+	float apIncreaseRate;
+	float asIncrease;
 
 	ObjectPool<DamageText> damageUI;
 	ObjectPool<RangePreview> rangePreview;
@@ -104,7 +111,6 @@ public:
 };
 
 #define GAME_MGR (GameManager::GetInstance())
-#define TRACKER (GAME_MGR->GetBattleTracker())
 
 struct DamageData
 {

@@ -75,6 +75,10 @@ void Object::Draw(RenderWindow& window)
 	}
 }
 
+void Object::SetOrigin(Origins origin)
+{
+}
+
 void Object::SetHitbox(const FloatRect rect, Origins origin, int ltDelta, int whDelta)
 {
 	hitBoxRect = rect;

@@ -7,6 +7,7 @@
 #include "ItemInfoWindow.h"
 #include "Item/Item.h"
 #include "RectangleObj.h"
+#include "SpriteObj.h"
 #include "StatPopupWindow.h"
 
 BattleSceneUI::BattleSceneUI(Scene* scene)
@@ -79,10 +80,6 @@ void BattleSceneUI::Draw(RenderWindow& window)
 	if (b_stageEndPopup)
 		window.draw(stageEndWindowSprite);
 	UIMgr::Draw(window);
-}
-
-void BattleSceneUI::SetOrigin(Origins origin)
-{
 }
 
 void BattleSceneUI::CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight)
