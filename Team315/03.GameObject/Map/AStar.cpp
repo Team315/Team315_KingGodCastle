@@ -13,6 +13,8 @@ AStar::~AStar()
 
 EnemyInfo AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos)
 {
+	enemyInfo.leng = 0;
+
 	SetAstar(map, myPos, enPos);
 
 	bool closedList[14][7];
@@ -96,7 +98,7 @@ EnemyInfo AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enP
 Vector2i AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, vector<Vector2i> GeneralArr)
 {
 	vector<Vector2i> generalArr = GeneralArr;
-
+	enemyInfo.leng = 0;
 	grid.assign(COL, vector<int>(ROW));
 	nCount = 0;
 	maxNum = 999;
@@ -186,6 +188,8 @@ Vector2i AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, vector<Vector
 
 	Vec.x = -1;
 	Vec.y = -1;
+	enemyInfo.leng = 99999;
+
 	return Vec;
 }
 
