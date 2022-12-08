@@ -1,9 +1,18 @@
 #include "Item.h"
 
-Item::Item(int grade, ItemType type)
-	: grade(grade), itemType(type), potential(0.f), statType(StatType::None)
+Item::Item(int grade, bool useExtraChance, ItemType iType)
+	: grade(grade), itemType(iType), potential(0.f), statType(StatType::None)
 {
-	this->grade = Utils::RandomRange(0, 100) < GAME_MGR->GetExtraGradeUpChance() ? this->grade + 1 : this->grade;
+	bool extraUpgrade =
+		Utils::RandomRange(0, 100) < GAME_MGR->GetExtraGradeUpChance() ?
+		true : false;
+	if (useExtraChance && extraUpgrade && grade + 1 != TIER_MAX)
+	{
+		cout << "item 2 upgrade" << endl;
+		this->grade = grade + 1;
+	}
+	else this->grade = grade;
+
 	SetType("Item");
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(MakePath()), true);
 	SetOrigin(Origins::BC);
@@ -25,6 +34,8 @@ Item::Item(int grade, ItemType type)
 	}
 	//if (itemType != ItemType::Book)
 	potential = GAME_MGR->GetItemStatMapElem(statType, this->grade);
+
+	Init();
 }
 
 Item::~Item()
@@ -95,8 +106,8 @@ string Item::GetStatTypeString()
 
 bool Item::Upgrade()
 {
-	//int gradeLimit = itemType == ItemType::Book ? 2 : 3;
-	int gradeLimit = 3;
+	//int gradeLimit = itemType == ItemType::Book ? TIER_MAX - 2 : TIER_MAX - 1;
+	int gradeLimit = TIER_MAX - 1;
 	bool ret = false;
 	if (grade < gradeLimit)
 	{

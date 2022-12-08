@@ -344,6 +344,43 @@ float GameManager::GetItemStatMapElem(StatType statType, int grade)
 	return (itemStatMap[statType])[grade];
 }
 
+Item* GameManager::CombineItem(Item* obj1, Item* obj2)
+{
+	// return null is can't combine
+	/*if (!obj1->GetName().compare("Book") ||
+		!obj2->GetName().compare("Book"))
+	{
+		return nullptr;
+	}*/
+
+	Item* newItem = nullptr;
+	if (obj1->GetGrade() != TIER_MAX - 1 && 
+		!obj1->GetName().compare(obj2->GetName()) &&
+		obj1->GetGrade() == obj2->GetGrade())
+	{
+		ItemType it = obj1->GetItemType();
+		switch (it)
+		{
+		case ItemType::Armor:
+			newItem = new Armor(obj1->GetGrade() + 1);
+			break;
+		case ItemType::Bow:
+			newItem = new Bow(obj1->GetGrade() + 1);
+			break;
+		case ItemType::Staff:
+			newItem = new Staff(obj1->GetGrade() + 1);
+			break;
+		case ItemType::Sword:
+			newItem = new Sword(obj1->GetGrade() + 1);
+			break;
+		default:
+			break;
+		}
+		return newItem;
+	}
+	return nullptr;
+}
+
 // Battle Tracker
 BattleTracker::BattleTracker()
 	: trackerMode(true)

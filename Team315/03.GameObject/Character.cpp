@@ -321,20 +321,29 @@ bool Character::SetItem(Item* newItem)
 	int combineIdx = 0;
 	bool isCombine = false;
 
+	Item* combineItem = nullptr;
 	for (auto& item : items)
 	{
-		if (!item->GetName().compare(newItem->GetName()) &&
-			(item->GetGrade() == newItem->GetGrade()) &&
-			(newItem->GetGrade() != (TIER_MAX - 1)))
+		combineItem = GAME_MGR->CombineItem(item, newItem);
+		if (combineItem != nullptr)
 		{
-			newItem->Upgrade();
-			UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential() - item->GetPotential());
-			delete item;
-			item = newItem;
-			isCombine = true;
-			break;
+			PutItem(item);
+			delete newItem;
+			return SetItem(combineItem);
 		}
 		combineIdx++;
+
+		//if (!item->GetName().compare(newItem->GetName()) &&
+		//	(item->GetGrade() == newItem->GetGrade()) &&
+		//	(newItem->GetGrade() != (TIER_MAX - 1)))
+		//{
+		//	newItem->Upgrade();
+		//	UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential() - item->GetPotential());
+		//	delete item;
+		//	item = newItem;
+		//	isCombine = true;
+		//	break;
+		//}
 	}
 
 	if (!isCombine)
@@ -375,6 +384,33 @@ bool Character::SetItem(Item* newItem)
 	itemGrid[combineIdx]->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
 	itemGrid[combineIdx]->SetOrigin(Origins::BC);
 	return true;
+}
+
+void Character::PutItem(Item* putItem)
+{
+	int i = 0;
+	for (auto it = items.begin(); it != items.end();)
+	{
+		if (putItem->GetObjId() == (*it)->GetObjId())
+		{
+			UpdateItemDelta((*it)->GetStatType(), -(*it)->GetPotential());
+			delete *it;
+			it = items.erase(it);
+		}
+		else it++;
+		i++;
+	}
+}
+
+void Character::UpdateItems()
+{
+	int curSize = items.size();
+
+	for (int i = 0; i < ITEM_LIMIT; i++)
+	{
+		if (i >= curSize)
+			itemGrid[i]->SetActive(false);
+	}
 }
 
 void Character::UpdateItemDelta(StatType sType, float value)

@@ -25,8 +25,6 @@ protected:
 	json backGroundDatas;
 	json characterDatas;
 
-	//vector<GameObj*> presetC;
-
 	// Set monster character locate before battle with data imported from GameManager
 	// When the game starts, the characters on the battleGrid are also taken.
 	vector<GameObj*>* mainGrid;
@@ -96,7 +94,6 @@ public:
 	int characterCost;
 	int itemCost;
 
-	// Stat increase rate when upgrading, (todo: file input)
 	float hpIncreaseRate;
 	float adIncreaseRate;
 	float apIncreaseRate;
@@ -108,6 +105,7 @@ public:
 
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
+	Item* CombineItem(Item* obj1, Item* obj2);
 };
 
 #define GAME_MGR (GameManager::GetInstance())

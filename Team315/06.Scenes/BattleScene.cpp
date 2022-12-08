@@ -292,6 +292,27 @@ void BattleScene::Update(float dt)
 			}
 			cout << endl;
 		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::F10))
+		{
+			CLOG::Print3String("prepare grid objId");
+			int count = 0;
+			for (auto& gameObj : prepareGrid)
+			{
+				string str = "";
+				if (gameObj == nullptr)
+					str += "[....] ";
+				else
+				{
+					str += ("[" + to_string(gameObj->GetObjId()) + "] ");
+				}
+				count++;
+				if ((count % GAME_TILE_WIDTH) == 0)
+					str += "\n";
+				cout << str;
+			}
+			cout << endl;
+		}
 	}
 	// Dev Input end
 
@@ -423,7 +444,6 @@ void BattleScene::Update(float dt)
 
 						Item* item = GAME_MGR->SpawnItem();
 						item->SetPos(prepareGridRect[idx]->GetPos());
-						item->Init();
 						prepareGrid[idx] = item;
 					}
 					else
@@ -638,8 +658,11 @@ void BattleScene::Update(float dt)
 		else // item
 			PutDownItem(&beforeContainer, &destContainer, beforeCoord, destCoord);
 
-		pick->SetHitBoxActive(true);
-		pick = nullptr;
+		if (pick != nullptr)
+		{
+			pick->SetHitBoxActive(true);
+			pick = nullptr;
+		}
 		return;
 	}
 
@@ -851,9 +874,10 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 				// combinate condition
 				Character* destCharacter = dynamic_cast<Character*>((*dest)[destIdx]);
 
-				if (!destCharacter->GetName().compare(pick->GetName()) &&
-					destCharacter->GetStarNumber() == dynamic_cast<Character*>(pick)->GetStarNumber() &&
-					destCharacter->GetStarNumber() != STAR_MAX)
+				if (destCharacter->GetStarNumber() != STAR_MAX &&
+					!destCharacter->GetName().compare(pick->GetName()) &&
+					destCharacter->GetStarNumber() ==
+					dynamic_cast<Character*>(pick)->GetStarNumber())
 				{
 					(*dest)[destIdx] = nullptr;
 					GameObj* temp = pick;
@@ -868,6 +892,8 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 					}
 
 					pick = destCharacter;
+					destCharacter->UpdateItems();
+
 					temp->Release();
 					delete temp;
 					dynamic_cast<Character*>(pick)->UpgradeStar();
@@ -904,34 +930,37 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 	}
 	else if ((*dest)[destIdx] != nullptr)
 	{
-		if (IsItem((*dest)[destIdx])) // item swap or combinate
+		if (IsItem((*dest)[destIdx]))
 		{
 			Item* destItem = dynamic_cast<Item*>((*dest)[destIdx]);
 			Item* pickItem = dynamic_cast<Item*>(pick);
-			if (!destItem->GetName().compare(pick->GetName()) &&
-				destItem->GetGrade() == pickItem->GetGrade())
+			
+			Item* newItem = GAME_MGR->CombineItem(destItem, pickItem);
+			if (newItem != nullptr) // item + item combinate
 			{
-				if (pickItem->Upgrade())
-				{
-					CLOG::Print3String("item combinate");
-					(*dest)[destIdx] = nullptr;
-					destItem->Release();
-					delete destItem;
-				}
-				else canMove = false;
+				CLOG::Print3String("item combinate");
+				pick = newItem;
+				(*start)[startIdx] = nullptr;
+				(*dest)[destIdx] = nullptr;
+				destItem->Release();
+				pickItem->Release();
+				delete destItem;
+				delete pickItem;
 			}
-			else destItem->SetPos(beforeDragPos);
+			else destItem->SetPos(beforeDragPos); // swap
 		}
 		else // give a item to the character
 		{
 			if (!GAME_MGR->GetPlayingBattle() || dest == &prepareGrid)
 			{
 				Character* destCharacter = dynamic_cast<Character*>((*dest)[destIdx]);
+
 				if (destCharacter->SetItem(dynamic_cast<Item*>(pick)))
 				{
 					(*start)[startIdx] = nullptr;
 					combine = true;
-					//destCharacter->ArrangeItems();
+					destCharacter->UpdateItems();
+					pick = nullptr;
 				}
 			}
 			canMove = false;

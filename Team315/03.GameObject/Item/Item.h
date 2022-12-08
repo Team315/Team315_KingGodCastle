@@ -10,7 +10,7 @@ protected:
 	StatType statType;
 
 public:
-	Item(int grade = 0, ItemType type = ItemType::None);
+	Item(int grade = 0, bool useExtraChance = false, ItemType iType = ItemType::None);
 	virtual ~Item();
 
 	virtual void Draw(RenderWindow& window) override;
