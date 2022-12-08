@@ -1,5 +1,5 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
-UpSkill,0,10,,,,,,
+Evan_UpSkill,0,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
 graphics/Character/Player/Evan/EvanSkill.png,0,200,100,100,50,100,0,0
 graphics/Character/Player/Evan/EvanSkill.png,300,200,100,100,50,100,0,0

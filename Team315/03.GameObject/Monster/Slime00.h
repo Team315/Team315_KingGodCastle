@@ -17,8 +17,6 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
 
-	virtual void SetState(AnimStates newState) override;
-
 	void OnCompleteSkill();
 
 	void UpdateIdle(float dt);

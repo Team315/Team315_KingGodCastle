@@ -1,5 +1,5 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
-RightAttack,0,10,,,,,,
+Evan_RightAttack,0,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
 graphics/Character/Player/Evan/EvanAttack.png,0,100,100,100,50,100,1,0
 graphics/Character/Player/Evan/EvanAttack.png,100,100,100,100,50,100,1,0
