@@ -111,7 +111,6 @@ public:
 };
 
 #define GAME_MGR (GameManager::GetInstance())
-#define TRACKER (GAME_MGR->GetBattleTracker())
 
 struct DamageData
 {
