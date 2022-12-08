@@ -31,10 +31,16 @@ Character::~Character()
 	star->Release();
 	if (skill != nullptr)
 		skill->Release();
+	for (auto& item : items)
+	{
+		item->Release();
+		delete item;
+	}
 
 	delete hpBar;
 	delete star;
 	delete skill;
+	items.clear();
 }
 
 void Character::Init()
@@ -278,10 +284,13 @@ void Character::TakeCare(GameObj* caster, bool careType)
 	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
 }
 
-void Character::UpgradeStar()
+void Character::UpgradeStar(bool useExtraUpgrade)
 {
+	if (GetStarNumber() == STAR_MAX)
+		return;
+
 	bool upgradeTwice = false;
-	if (star->CalculateRandomChance())
+	if (star->CalculateRandomChance(useExtraUpgrade))
 	{
 		CLOG::Print3String("upgrade 2");
 		upgradeTwice = true;
@@ -332,18 +341,6 @@ bool Character::SetItem(Item* newItem)
 			return SetItem(combineItem);
 		}
 		combineIdx++;
-
-		//if (!item->GetName().compare(newItem->GetName()) &&
-		//	(item->GetGrade() == newItem->GetGrade()) &&
-		//	(newItem->GetGrade() != (TIER_MAX - 1)))
-		//{
-		//	newItem->Upgrade();
-		//	UpdateItemDelta(newItem->GetStatType(), newItem->GetPotential() - item->GetPotential());
-		//	delete item;
-		//	item = newItem;
-		//	isCombine = true;
-		//	break;
-		//}
 	}
 
 	if (!isCombine)

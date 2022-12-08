@@ -23,8 +23,13 @@ void Star::SetPos(const Vector2f& pos)
 	SpriteObj::SetPos(pos);
 }
 
-bool Star::CalculateRandomChance()
+bool Star::CalculateRandomChance(bool useExtraUpgrade)
 {
+	if (!useExtraUpgrade)
+	{
+		starNumber++;
+		return false;
+	}
 	bool ret = false;
 	if (starNumber < STAR_MAX - 1)
 		ret = Utils::RandomRange(0, 100) < GAME_MGR->GetExtraLevelUpChance() ? true : false;

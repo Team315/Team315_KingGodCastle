@@ -313,6 +313,66 @@ void BattleScene::Update(float dt)
 			}
 			cout << endl;
 		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::Y))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+					dynamic_cast<Character*>(gameObj)->UpgradeStar(false);
+			}
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::U))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+					dynamic_cast<Character*>(gameObj)->SetItem(new Armor());
+			}
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::I))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+					dynamic_cast<Character*>(gameObj)->SetItem(new Sword());
+			}
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::O))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+					dynamic_cast<Character*>(gameObj)->SetItem(new Staff());
+			}
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::P))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+					dynamic_cast<Character*>(gameObj)->SetItem(new Bow());
+			}
+		}
 	}
 	// Dev Input end
 
