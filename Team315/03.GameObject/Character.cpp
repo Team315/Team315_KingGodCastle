@@ -470,7 +470,7 @@ bool Character::SetTargetDistance()
 		}
 	}
 
-	if (enemyInfo.leng == 99999)
+	if (enemyInfo.leng == -1)
 	{
 		return false;
 	}
