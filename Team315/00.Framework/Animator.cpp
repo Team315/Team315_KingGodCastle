@@ -114,7 +114,6 @@ void Animator::Play(string id, bool clearQueue)
     totalFrame = currClip->frames.size();
     frameDuration = 1.f / currClip->fps;
     SetFrame(currClip->frames[0]);
-    cout << "0" << endl;
 }
 
 void Animator::PlayQueue(string id)

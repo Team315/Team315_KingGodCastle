@@ -68,7 +68,6 @@ void Pria::Init()
 	//	skillSprite.push_back(skillSpriteArr);
 	//}
 	Character::Init();
-	Character::AnimationInit();
 	skill = new PriaSkill(GetStarNumber());
 }
 

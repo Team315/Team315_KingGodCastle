@@ -44,11 +44,7 @@ void Character::Init()
 
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 
-	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 10.f };
-	SetHpBarValue(1.f);
-	hpBar->SetOrigin(Origins::BC);
-	starLocalPos = { 0.f, hpBarLocalPos.y };
-	SetPos(position);
+	
 
 	//battle
 	enemyInfo.leng = 99999;
@@ -62,6 +58,14 @@ void Character::Init()
 
 	m_floodFill.SetArrSize(
 		stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
+
+	AnimationInit();
+
+	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 10.f };
+	SetHpBarValue(1.f);
+	hpBar->SetOrigin(Origins::BC);
+	starLocalPos = { 0.f, hpBarLocalPos.y };
+	SetPos(position);
 }
 
 void Character::Reset()
@@ -169,13 +173,16 @@ void Character::Update(float dt)
 		UpdateIdle(dt);
 		break;
 	case AnimStates::MoveToIdle:
-		UpdateMoveToIdle(dt);
+		if(name.compare("Slime00"))
+			UpdateMoveToIdle(dt);
 		break;
 	case AnimStates::Move:
-		UpdateMove(dt);
+		if (name.compare("Slime00"))
+			UpdateMove(dt);
 		break;
 	case AnimStates::Attack:
-		UpdateAttack(dt);
+		if (name.compare("Slime00"))
+			UpdateAttack(dt);
 		break;
 	case AnimStates::Skill:
 		UpdateSkill(dt);
@@ -229,22 +236,23 @@ void Character::SetState(AnimStates newState)
 	switch (currState)
 	{
 	case AnimStates::Idle:
-		Idle();
+		IdleAnimation();
 		break;
 	case AnimStates::MoveToIdle:
-		MoveToIdle();
+		if(name.compare("Slime00"))
+			MoveToIdleAnimation();
 		break;
 	case AnimStates::Move:
-		Move();
+		if (name.compare("Slime00"))
+			MoveAnimation();
 		break;
 	case AnimStates::Attack:
-		Attack(attackPos[dirType]);
+		if (name.compare("Slime00"))
+			AttackAnimation(attackPos[dirType]);
 		break;
 	case AnimStates::Skill:
 		if(!noSkill)
-		{
-			Skill(attackPos[dirType]);
-		}
+			SkillAnimation(attackPos[dirType]);
 		break;
 	}
 }
@@ -579,29 +587,28 @@ void Character::AnimationInit()
 	effectAnimator.SetTarget(&effectSprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::Idle]));
+	if(name.compare("Slime00"))
+	{
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::DownIdle]));
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftIdle]));
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightIdle]));
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpIdle]));
 
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::DownIdle]));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftIdle]));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightIdle]));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpIdle]));
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::DownMove]));
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftMove]));
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightMove]));
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpMove]));
 
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::DownMove]));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftMove]));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightMove]));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpMove]));
-
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::DownAttack]));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftAttack]));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightAttack]));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpAttack]));
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftAttack]));
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightAttack]));
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpAttack]));
+		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::DownAttack]));
+	}
 
 
 	if (!noSkill)
 	{
 		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::DownSkill]));
-		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftSkill]));
-		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightSkill]));
-		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpSkill]));
 		{
 			AnimationEvent ev;
 			ev.clipId = resStringTypes[ResStringType::DownSkill];
@@ -609,26 +616,33 @@ void Character::AnimationInit()
 			ev.onEvent = bind(&Character::OnCompleteSkill, this);
 			animator.AddEvent(ev);
 		}
+		if(name.compare("Slime00"))
 		{
-			AnimationEvent ev;
-			ev.clipId = resStringTypes[ResStringType::LeftSkill];
-			ev.frame = 2;
-			ev.onEvent = bind(&Character::OnCompleteSkill, this);
-			animator.AddEvent(ev);
-		}
-		{
-			AnimationEvent ev;
-			ev.clipId = resStringTypes[ResStringType::RightSkill];
-			ev.frame = 2;
-			ev.onEvent = bind(&Character::OnCompleteSkill, this);
-			animator.AddEvent(ev);
-		}
-		{
-			AnimationEvent ev;
-			ev.clipId = resStringTypes[ResStringType::UpSkill];
-			ev.frame = 2;
-			ev.onEvent = bind(&Character::OnCompleteSkill, this);
-			animator.AddEvent(ev);
+			animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftSkill]));
+			animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightSkill]));
+			animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpSkill]));
+
+			{
+				AnimationEvent ev;
+				ev.clipId = resStringTypes[ResStringType::LeftSkill];
+				ev.frame = 2;
+				ev.onEvent = bind(&Character::OnCompleteSkill, this);
+				animator.AddEvent(ev);
+			}
+			{
+				AnimationEvent ev;
+				ev.clipId = resStringTypes[ResStringType::RightSkill];
+				ev.frame = 2;
+				ev.onEvent = bind(&Character::OnCompleteSkill, this);
+				animator.AddEvent(ev);
+			}
+			{
+				AnimationEvent ev;
+				ev.clipId = resStringTypes[ResStringType::UpSkill];
+				ev.frame = 2;
+				ev.onEvent = bind(&Character::OnCompleteSkill, this);
+				animator.AddEvent(ev);
+			}
 		}
 	}
 	if(!type.compare("Player"))
@@ -706,45 +720,47 @@ void Character::AnimationInit()
 			effectAnimator.AddEvent(ev);
 		}
 	}
-
+	if(name.compare("Slime00"))
 	{
-		AnimationEvent ev;
-		ev.clipId = resStringTypes[ResStringType::DownAttack];
-		ev.frame = 3;
-		ev.onEvent = bind(&Character::OnCompleteAttack, this);
-		animator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = resStringTypes[ResStringType::LeftAttack];
-		ev.frame = 3;
-		ev.onEvent = bind(&Character::OnCompleteAttack, this);
-		animator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = resStringTypes[ResStringType::RightAttack];
-		ev.frame = 3;
-		ev.onEvent = bind(&Character::OnCompleteAttack, this);
-		animator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = resStringTypes[ResStringType::UpAttack];
-		ev.frame = 3;
-		ev.onEvent = bind(&Character::OnCompleteAttack, this);
-		animator.AddEvent(ev);
+		{
+			AnimationEvent ev;
+			ev.clipId = resStringTypes[ResStringType::DownAttack];
+			ev.frame = 2;
+			ev.onEvent = bind(&Character::OnCompleteAttack, this);
+			animator.AddEvent(ev);
+		}
+		{
+			AnimationEvent ev;
+			ev.clipId = resStringTypes[ResStringType::LeftAttack];
+			ev.frame = 2;
+			ev.onEvent = bind(&Character::OnCompleteAttack, this);
+			animator.AddEvent(ev);
+		}
+		{
+			AnimationEvent ev;
+			ev.clipId = resStringTypes[ResStringType::RightAttack];
+			ev.frame = 2;
+			ev.onEvent = bind(&Character::OnCompleteAttack, this);
+			animator.AddEvent(ev);
+		}
+		{
+			AnimationEvent ev;
+			ev.clipId = resStringTypes[ResStringType::UpAttack];
+			ev.frame = 2;
+			ev.onEvent = bind(&Character::OnCompleteAttack, this);
+			animator.AddEvent(ev);
+		}
 	}
 
 	SetState(AnimStates::Idle);
 }
 
-void Character::Idle()
+void Character::IdleAnimation()
 {
 	animator.Play(resStringTypes[ResStringType::Idle]);
 }
 
-void Character::MoveToIdle()
+void Character::MoveToIdleAnimation()
 {
 	if (lastDirection.x)
 	{
@@ -756,7 +772,7 @@ void Character::MoveToIdle()
 	}
 }
 
-void Character::Move()
+void Character::MoveAnimation()
 {
 	if (direction.y)
 	{
@@ -768,7 +784,7 @@ void Character::Move()
 	}
 }
 
-void Character::Attack(Vector2f attackPos)
+void Character::AttackAnimation(Vector2f attackPos)
 {
 	SOUND_MGR->Play(resStringTypes[ResStringType::atkSound], 20.f, false);
 	if (lastDirection.x > 0.f)
@@ -809,31 +825,23 @@ void Character::Attack(Vector2f attackPos)
 	}
 }
 
-void Character::Skill(Vector2f skillPos)
+void Character::SkillAnimation(Vector2f skillPos)
 {
-	if (lastDirection.x > 0.f)
+	if (lastDirection.y)
 	{
-		animator.Play(resStringTypes[ResStringType::RightSkill]);
-		effectAnimator.Play(resStringTypes[ResStringType::RightSkillEfect]);
+		animator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkill] : resStringTypes[ResStringType::UpSkill]);
+		effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEfect] : resStringTypes[ResStringType::UpSkillEfect]);
+		effectSprite.setPosition(position + skillPos);	
+	}
+	else if (lastDirection.x)
+	{
+		animator.Play(lastDirection.x > 0.f ? resStringTypes[ResStringType::RightSkill] : resStringTypes[ResStringType::LeftSkill]);
+		effectAnimator.Play(lastDirection.x > 0.f ? resStringTypes[ResStringType::RightSkillEfect] : resStringTypes[ResStringType::LeftSkillEfect]);		
 		effectSprite.setPosition(position + skillPos);
 	}
-	else if (lastDirection.x < 0.f)
-	{
-		animator.Play(resStringTypes[ResStringType::LeftSkill]);
-		effectAnimator.Play(resStringTypes[ResStringType::LeftSkillEfect]);
-		effectSprite.setPosition(position + skillPos);
-	}
-	else if (lastDirection.y > 0.f)
+	else
 	{
 		animator.Play(resStringTypes[ResStringType::DownSkill]);
-		effectAnimator.Play(resStringTypes[ResStringType::DownSkillEfect]);
-		effectSprite.setPosition(position + skillPos);
-	}
-	else if (lastDirection.y < 0.f)
-	{
-		animator.Play(resStringTypes[ResStringType::UpSkill]);
-		effectAnimator.Play(resStringTypes[ResStringType::UpSkillEfect]);
-		effectSprite.setPosition(position + skillPos);
 	}
 }
 
@@ -844,16 +852,30 @@ void Character::OnCompleteAttack()
 
 void Character::OnCompleteSkill()
 {
-	SetState(AnimStates::Attack);
+	if (!name.compare("Slime00"))
+	{
+		SetState(AnimStates::Idle);
+	}
+	else
+	{
+		SetState(AnimStates::Attack);
+	}
 }
 
 void Character::UpdateIdle(float dt)
 {
+
 	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	{
-		SetState(AnimStates::Move);
+		if (!name.compare("Slime00"))
+		{
+			SetState(AnimStates::Skill);
+		}
+		else
+			SetState(AnimStates::Move);
 		return;
 	}
+
 }
 
 void Character::UpdateMoveToIdle(float dt)
@@ -896,8 +918,18 @@ void Character::UpdateAttack(float dt)
 
 void Character::UpdateSkill(float dt)
 {
-	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
+	if (!name.compare("Slime00"))
 	{
-		SetState(AnimStates::MoveToIdle);
+		if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
+		{
+			SetState(AnimStates::Idle);
+		}
+	}
+	else
+	{
+		if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
+		{
+			SetState(AnimStates::MoveToIdle);
+		}
 	}
 }

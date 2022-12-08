@@ -120,11 +120,11 @@ public:
 
 	//State
 	void AnimationInit();
-	void Idle();
-	void MoveToIdle();
-	void Move();
-	void Attack(Vector2f attackPos);
-	void Skill(Vector2f skillPos);
+	void IdleAnimation();
+	void MoveToIdleAnimation();
+	void MoveAnimation();
+	void AttackAnimation(Vector2f attackPos);
+	void SkillAnimation(Vector2f skillPos);
 
 	void OnCompleteAttack();
 	void OnCompleteSkill();

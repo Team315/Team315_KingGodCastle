@@ -52,7 +52,6 @@ LeonHeart::~LeonHeart()
 void LeonHeart::Init()
 {
 	Character::Init();
-	Character::AnimationInit();
 	skill = new LeonHeartSkill(GetStarNumber());
 }
 

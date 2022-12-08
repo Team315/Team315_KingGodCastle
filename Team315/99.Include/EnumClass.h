@@ -70,6 +70,7 @@ enum class ItemType
 
 enum class Dir
 {
+	None = -1,
 	Down,
 	Up,
 	Left,

@@ -69,7 +69,6 @@ void Daniel::Init()
 	//}
 	//skill->Init();
 	Character::Init();
-	Character::AnimationInit();
 	skill = new DanielSkill(GetStarNumber());
 }
 

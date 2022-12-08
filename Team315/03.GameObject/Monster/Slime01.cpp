@@ -31,7 +31,6 @@ Slime01::~Slime01()
 void Slime01::Init()
 {
 	Character::Init();
-	Character::AnimationInit();
 }
 
 //void Slime01::SetState(AnimStates newState)

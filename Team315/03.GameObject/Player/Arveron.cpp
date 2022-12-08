@@ -52,7 +52,6 @@ Arveron::~Arveron()
 void Arveron::Init()
 {
 	Character::Init();
-	Character::AnimationInit();
 	skill = new ArveronSkill(GetStarNumber());
 }
 

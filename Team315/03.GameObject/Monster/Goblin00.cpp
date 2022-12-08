@@ -59,7 +59,6 @@ void Goblin00::Init()
 	//}
 
 	Character::Init();
-	Character::AnimationInit();
 	skill = new Goblin00Skill(GetStarNumber());
 }
 

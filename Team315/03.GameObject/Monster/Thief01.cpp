@@ -31,7 +31,6 @@ Thief01::~Thief01()
 void Thief01::Init()
 {
 	Character::Init();
-	Character::AnimationInit();
 }
 
 //void Thief01::SetState(AnimStates newState)

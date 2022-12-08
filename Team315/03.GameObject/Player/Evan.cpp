@@ -52,7 +52,6 @@ Evan::~Evan()
 void Evan::Init()
 {
 	Character::Init();
-	Character::AnimationInit();
 	//skill = new EvanSkill(GetStarNumber());
 }
 

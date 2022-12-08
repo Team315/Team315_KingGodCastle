@@ -52,7 +52,6 @@ Aramis::~Aramis()
 void Aramis::Init()
 {
 	Character::Init();
-	Character::AnimationInit();
 	skill = new AramisSkill(GetStarNumber());
 }
 

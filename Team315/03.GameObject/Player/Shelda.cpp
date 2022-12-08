@@ -51,7 +51,6 @@ Shelda::~Shelda()
 void Shelda::Init()
 {
 	Character::Init();
-	Character::AnimationInit();
 	skill = new SheldaSkill(star->GetStarNumber());
 
 	// shelda skill init

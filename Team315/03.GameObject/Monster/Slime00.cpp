@@ -7,7 +7,7 @@ Slime00::Slime00(int skillTier)
 	SetType("Monster");
 	SetName("Slime00");
 	resStringTypes.insert({ ResStringType::Idle,"slime00_Idle" });
-	resStringTypes.insert({ ResStringType::UpSkill,"slime00_DownSkill" });
+	resStringTypes.insert({ ResStringType::DownSkill,"slime00_DownSkill" });
 }
 
 Slime00::~Slime00()
@@ -17,7 +17,6 @@ Slime00::~Slime00()
 void Slime00::Init()
 {
 	Character::Init();
-	Character::AnimationInit();
 	skill = new Slime00Skill(GetStarNumber());
 }
 
@@ -65,6 +64,7 @@ void Slime00::Update(float dt)
 			}
 		}
 	}
+	animator.Update(dt);
 
 	//switch (currState)
 	//{
@@ -88,24 +88,24 @@ void Slime00::SetPos(const Vector2f& pos)
 	Character::SetPos(pos);
 }
 
-void Slime00::OnCompleteSkill()
-{
-	SetState(AnimStates::Idle);
-}
-
-void Slime00::UpdateIdle(float dt)
-{
-	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-	{
-		SetState(AnimStates::Skill);
-		return;
-	}
-}
-
-void Slime00::UpdateSkill(float dt)
-{
-	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
-	{
-		SetState(AnimStates::Idle);
-	}
-}
+//void Slime00::OnCompleteSkill()
+//{
+//	SetState(AnimStates::Idle);
+//}
+//
+//void Slime00::UpdateIdle(float dt)
+//{
+//	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
+//	{
+//		SetState(AnimStates::Skill);
+//		return;
+//	}
+//}
+//
+//void Slime00::UpdateSkill(float dt)
+//{
+//	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
+//	{
+//		SetState(AnimStates::Idle);
+//	}
+//}

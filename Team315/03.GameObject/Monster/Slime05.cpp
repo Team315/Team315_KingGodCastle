@@ -31,7 +31,6 @@ Slime05::~Slime05()
 void Slime05::Init()
 {
 	Character::Init();
-	Character::AnimationInit();
 }
 
 //void Slime05::SetState(AnimStates newState)

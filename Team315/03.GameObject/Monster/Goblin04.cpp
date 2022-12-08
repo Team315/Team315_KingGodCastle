@@ -31,7 +31,6 @@ Goblin04::~Goblin04()
 void Goblin04::Init()
 {
 	Character::Init();
-	Character::AnimationInit();
 }
 
 //void Goblin04::SetState(AnimStates newState)

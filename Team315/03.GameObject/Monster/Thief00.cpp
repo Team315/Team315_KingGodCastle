@@ -32,12 +32,12 @@ Thief00::Thief00(int skillTier)
 	//resStringTypes.insert({ ResStringType::RightSkillEfect,"thief00_Skill_Effect" });
 	//resStringTypes.insert({ ResStringType::UpSkillEfect,"thief00_Skill_Effect" });
 
-	Vector2f targetPos = GetTarget()->GetPos();
+	//Vector2f targetPos = GetTarget()->GetPos();
 
-	attackPos.insert({ Dir::Right, targetPos });
-	attackPos.insert({ Dir::Left, targetPos });
-	attackPos.insert({ Dir::Down, targetPos });
-	attackPos.insert({ Dir::Up, targetPos });
+	//attackPos.insert({ Dir::Right, targetPos });
+	//attackPos.insert({ Dir::Left, targetPos });
+	//attackPos.insert({ Dir::Down, targetPos });
+	//attackPos.insert({ Dir::Up, targetPos });
 
 	resStringTypes.insert({ ResStringType::atkSound, "sounds/monster_claw.wav" });
 }
@@ -49,7 +49,6 @@ Thief00::~Thief00()
 void Thief00::Init()
 {
 	Character::Init();
-	Character::AnimationInit();
 	skill = new Thief00Skill(GetStarNumber());
 }
 
