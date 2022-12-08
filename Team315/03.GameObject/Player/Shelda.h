@@ -1,13 +1,12 @@
 #pragma once
 #include "Character.h"
-#include "Skill/SheldaSkill.h"
 
 class Shelda : public Character
 {
 protected:
 	float skillDelay;
 public:
-	Shelda(int skillTier = 0);
+	Shelda(bool mode = false, bool fixedStar = false, int skillTier = 0);
 	virtual ~Shelda();
 
 	virtual void Init() override;

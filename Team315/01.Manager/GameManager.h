@@ -9,6 +9,7 @@
 #include "RangePreview.h"
 
 struct DamageData;
+struct AltarData;
 class BattleTracker;
 class Character;
 class DamageText;
@@ -34,8 +35,10 @@ protected:
 
 	BattleTracker* battleTracker;
 
-	// Additional level up probability (Character)
-	int extraLevelUpChance;
+	// Additional level up probability when summon (Character)
+	int extraLevelUpSummon;
+	// Additional level up probability when combinate (Character)
+	int extraLevelUpCombinate;
 	// Additional grade up probability (Item)
 	int extraGradeUpChance;
 	int battleCharacterCount;
@@ -53,7 +56,8 @@ public:
 	void Reset();
 
 	const int GetCharacterCount() { return battleCharacterCount; }
-	const int GetExtraLevelUpChance() { return extraLevelUpChance; }
+	const int GetExtraLevelUpSummon() { return extraLevelUpSummon; }
+	const int GetExtraLevelUpCombinate() { return extraLevelUpCombinate; }
 	const int GetExtraGradeUpChance() { return extraGradeUpChance; }
 
 	Vector2i PosToIdx(Vector2f pos);
@@ -110,6 +114,11 @@ public:
 };
 
 #define GAME_MGR (GameManager::GetInstance())
+
+//struct AltarData
+//{
+//
+//};
 
 struct DamageData
 {

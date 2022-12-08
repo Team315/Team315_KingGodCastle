@@ -66,7 +66,8 @@ protected:
 	float astarDelay;
 
 public:
-	Character(int starNumber = 0);
+	// mode false - summon, true - combine
+	Character(bool mode = false, bool fixedStar = false, int starNumber = 0);
 	virtual ~Character();
 
 	virtual void Init() override;

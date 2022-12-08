@@ -7,7 +7,8 @@ protected:
 	int starNumber;
 
 public:
-	Star(int starNumber = 0);
+	// mode false - summon, true - combine
+	Star(bool mode = false, bool fixedStar = false, int starNumber = 0);
 	virtual ~Star();
 
 	virtual void Draw(RenderWindow& window) override;
@@ -15,6 +16,6 @@ public:
 
 	void SetStarNumber(int num) { starNumber = num; }
 	int& GetStarNumber() { return starNumber; }
-	bool CalculateRandomChance(bool useExtraUpgrade = true);
+	bool CalculateRandomChance(bool mode = false, bool fixedStar = false);
 	void UpdateTexture();
 };

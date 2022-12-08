@@ -2,10 +2,10 @@
 #include "Item/Item.h"
 #include "Skill.h"
 
-Character::Character(int starNumber)
+Character::Character(bool mode, bool fixedStar, int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
-	attackRangeType(false), isBattle(false), moveSpeed(0.f),
-	noSkill(false), ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f)
+	attackRangeType(false), isBattle(false), moveSpeed(0.f), noSkill(false),
+	ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 5.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -13,7 +13,7 @@ Character::Character(int starNumber)
 	hpBar->SetBackgroundOutline(Color::Black, 2.f);
 	hpBar->SetSecondProgressColor(Color::White);
 
-	star = new Star(starNumber);
+	star = new Star(mode, fixedStar, starNumber);
 	itemGrid.assign(ITEM_LIMIT, nullptr);
 	for (auto& grid : itemGrid)
 	{
@@ -49,8 +49,6 @@ void Character::Init()
 	UpgradeCharacterSet();
 
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
-
-	
 
 	//battle
 	enemyInfo.leng = 99999;

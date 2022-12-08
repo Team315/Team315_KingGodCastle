@@ -19,7 +19,8 @@ void RangePreviewOnCreate(RangePreview* rangePreview)
 
 GameManager::GameManager()
 	: m_PlayTileList(nullptr), playingBattle(false),
-	battleCharacterCount(8), extraLevelUpChance(20),
+	battleCharacterCount(8), extraLevelUpSummon(20),
+	extraLevelUpCombinate(100),
 	extraGradeUpChance(20), startCoin(50),
 	characterCost(3), itemCost(5), stageClearCoin(6),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
@@ -75,12 +76,22 @@ void GameManager::Init()
 	json gameSetting = initSetting["InitialGameSetting"];
 
 	battleCharacterCount = gameSetting["BattleCharacterCount"];
-	extraLevelUpChance = gameSetting["ExtraLevelUpChance"];
+	extraLevelUpSummon = gameSetting["ExtraLevelUpSummon"];
+	extraLevelUpCombinate = gameSetting["ExtraLevelUpCombinate"];
 	extraGradeUpChance = gameSetting["ExtraGradeUpChance"];
 	startCoin = gameSetting["StartCoin"];
 	stageClearCoin = gameSetting["StageClearCoin"];
 	characterCost = gameSetting["CharacterCost"];
 	itemCost = gameSetting["ItemCost"];
+
+	cout << "부대 배치 제한: " << battleCharacterCount << endl;
+	cout << "소환시 2업 확률: " << extraLevelUpSummon << endl;
+	cout << "합성시 2업 확률: " << extraLevelUpCombinate << endl;
+	cout << "아이템 2업 확률(X): " << extraGradeUpChance << endl;
+	cout << "게임 시작시 코인: " << startCoin << endl;
+	cout << "스테이지 클리어시 보상 코인: " << stageClearCoin << endl;
+	cout << "캐릭터 뽑기 가격: " << characterCost << endl;
+	cout << "아이템 뽑기 가격: " << itemCost << endl;
 
 	json statIncreaseRate = initSetting["LevelUpStatIncreaseRate"];
 	adIncreaseRate = statIncreaseRate["AdIncreaseRate"];
@@ -90,6 +101,11 @@ void GameManager::Init()
 	hpIncreaseRate += 1.f;
 	adIncreaseRate += 1.f;
 	apIncreaseRate += 1.f;
+
+	cout << "캐릭터 강화 시 체력 상승률: " << hpIncreaseRate << endl;
+	cout << "캐릭터 강화 시 공격 상승률: " << adIncreaseRate << endl;
+	cout << "캐릭터 강화 시 주문 상승률: " << apIncreaseRate << endl;
+	cout << "캐릭터 강화 시 공속 상승치: " << asIncrease << endl;
 
 	json ItemStats = initSetting["ItemStat"];
 	itemStatMap.insert({ StatType::HP, ItemStats["Armor"] });
@@ -108,6 +124,24 @@ void GameManager::Init()
 	//itemStatMap[StatType::AP] = { 0.4f, 0.7f, 1.2f, 2.f };	// %
 	//itemStatMap[StatType::AS] = { 0.25f, 0.4f, 0.7f, 1.2f };	// %
 	//itemStatMap[StatType::HP] = { 250, 400, 700, 1200 };		// +
+
+	cout << "--- 개발용 치트 키 현황 ---" << endl;
+	cout << "ESC - 타이틀 씬으로" << endl;
+	cout << "Num1 - 돈 +100" << endl;
+	cout << "F4 - 전투 강제 종료-> 다음 스테이지" << endl;
+	cout << "F5 - 다음 스테이지" << endl;
+	cout << "F6 - 이전 스테이지" << endl;
+	cout << "F7 - Hitbox 스위치" << endl;
+	cout << "F8 - 게임 맵 배치 현황" << endl;
+	cout << "F9 - 전투 배치, 뽑기 창 현황" << endl;
+	cout << "슷자5 - 다음 챕터(+10 스테이지)" << endl;
+	cout << "슷자6 - 이전 챕터(-10 스테이지)" << endl;
+	cout << "Y - 적 모두 1성 증가" << endl;
+	cout << "U - 적 모두 갑옷 1성 주기" << endl;
+	cout << "I - 적 모두 칼 1성 주기" << endl;
+	cout << "O - 적 모두 스태프 1성 주기" << endl;
+	cout << "P - 적 모두 활 1성 주기" << endl;
+
 }
 
 void GameManager::Reset()
@@ -208,39 +242,39 @@ Character* GameManager::SpawnMonster(string name, int grade)
 {
 	Character* character = nullptr;
 	if (!name.compare("Goblin00"))
-		character = new Goblin00(grade);
+		character = new Goblin00(false, false, grade);
 	else if (!name.compare("Goblin01"))
-		character = new Goblin01(grade);
+		character = new Goblin01(false, false, grade);
 	else if (!name.compare("Goblin02"))
-		character = new Goblin02(grade);
+		character = new Goblin02(false, false, grade);
 	else if (!name.compare("Goblin03"))
-		character = new Goblin03(grade);
+		character = new Goblin03(false, false, grade);
 	else if (!name.compare("Goblin04"))
 
-		character = new Goblin04(grade);
+		character = new Goblin04(false, false, grade);
 	else if (!name.compare("Thief00"))
-		character = new Thief00(grade);
+		character = new Thief00(false, false, grade);
 	else if (!name.compare("Thief01"))
-		character = new Thief01(grade);
+		character = new Thief01(false, false, grade);
 	else if (!name.compare("Thief02"))
-		character = new Thief02(grade);
+		character = new Thief02(false, false, grade);
 	else if (!name.compare("Thief03"))
-		character = new Thief03(grade);
+		character = new Thief03(false, false, grade);
 	else if (!name.compare("Thief04"))
-		character = new Thief04(grade);
+		character = new Thief04(false, false, grade);
 
 	else if (!name.compare("Slime00"))
-		character = new Slime00(grade);
+		character = new Slime00(false, false, grade);
 	else if (!name.compare("Slime01"))
-		character = new Slime01(grade);
+		character = new Slime01(false, false, grade);
 	else if (!name.compare("Slime02"))
-		character = new Slime02(grade);
+		character = new Slime02(false, false, grade);
 	else if (!name.compare("Slime03"))
-		character = new Slime03(grade);
+		character = new Slime03(false, false, grade);
 	else if (!name.compare("Slime04"))
-		character = new Slime04(grade);
+		character = new Slime04(false, false, grade);
 	else if (!name.compare("Slime05"))
-		character = new Slime05(grade);
+		character = new Slime05(false, false, grade);
 	return character;
 }
 
@@ -251,19 +285,19 @@ Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBatt
 	//int num = 6;
 
 	if (!name.compare("Aramis") || num == 0)
-		character = new Aramis();
+		character = new Aramis(false, false);
 	else if (!name.compare("Arveron") || num == 1)
-		character = new Arveron();
+		character = new Arveron(false, false);
 	else if (!name.compare("Daniel") || num == 2)
-		character = new Daniel();
+		character = new Daniel(false, false);
 	else if (!name.compare("Evan") || num == 3)
-		character = new Evan();
+		character = new Evan(false, false);
 	else if (!name.compare("LeonHeart") || num == 4)
-		character = new LeonHeart();
+		character = new LeonHeart(false, false);
 	else if (!name.compare("Pria") || num == 5)
-		character = new Pria();
+		character = new Pria(false, false);
 	else if (!name.compare("Shelda") || num == 6)
-		character = new Shelda();
+		character = new Shelda(false, false);
 
 	return character;
 }

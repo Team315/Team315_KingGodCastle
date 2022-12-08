@@ -1,7 +1,7 @@
 #include "Slime02.h"
 
-Slime02::Slime02(int skillTier)
-	: Character(skillTier)
+Slime02::Slime02(bool mode, bool fixedStar, int skillTier)
+	: Character(mode, fixedStar, skillTier)
 {
 	SetType("Monster");
 	SetName("Slime02");

@@ -6,7 +6,7 @@ class Evan : public Character
 protected:
 	float skillSpeed;
 public:
-	Evan(int skillTier = 0);
+	Evan(bool mode = false, bool fixedStar = false, int skillTier = 0);
 	virtual ~Evan();
 
 	virtual void Init() override;

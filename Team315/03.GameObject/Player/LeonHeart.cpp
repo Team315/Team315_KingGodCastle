@@ -1,8 +1,8 @@
 #include "LeonHeart.h"
 #include "Skill/LeonHeartSkill.h"
 
-LeonHeart::LeonHeart(int skillTier)
-	: Character(skillTier)
+LeonHeart::LeonHeart(bool mode, bool fixedStar, int skillTier)
+	: Character(mode, fixedStar, skillTier)
 {
 	SetType("Player");
 	SetName("LeonHeart");

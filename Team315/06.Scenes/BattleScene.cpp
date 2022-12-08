@@ -203,7 +203,8 @@ void BattleScene::Update(float dt)
 				curStageIdx++;
 			else
 			{
-				ui->GetPanel()->ChangeTitleTextString(++curChapIdx);
+				if (curChapIdx != 2)
+					ui->GetPanel()->ChangeTitleTextString(++curChapIdx);
 				curStageIdx = 0;
 			}
 			SetCurrentStage(curChapIdx, curStageIdx);
@@ -285,27 +286,6 @@ void BattleScene::Update(float dt)
 				else
 				{
 					str += (gameObj->GetName().substr(0, 2) + " ");
-				}
-				count++;
-				if ((count % GAME_TILE_WIDTH) == 0)
-					str += "\n";
-				cout << str;
-			}
-			cout << endl;
-		}
-
-		if (InputMgr::GetKeyDown(Keyboard::Key::F10))
-		{
-			CLOG::Print3String("prepare grid objId");
-			int count = 0;
-			for (auto& gameObj : prepareGrid)
-			{
-				string str = "";
-				if (gameObj == nullptr)
-					str += "[....] ";
-				else
-				{
-					str += ("[" + to_string(gameObj->GetObjId()) + "] ");
 				}
 				count++;
 				if ((count % GAME_TILE_WIDTH) == 0)
@@ -957,7 +937,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 
 					temp->Release();
 					delete temp;
-					dynamic_cast<Character*>(pick)->UpgradeStar();
+					dynamic_cast<Character*>(pick)->UpgradeStar(true);
 				}
 				else (*dest)[destIdx]->SetPos(beforeDragPos);
 			}

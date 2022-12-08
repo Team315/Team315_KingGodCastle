@@ -8,7 +8,7 @@ protected:
 	float duration;
 
 public:
-	Slime00(int skillTier = 0);
+	Slime00(bool mode, bool fixedStar, int skillTier = 0);
 	virtual ~Slime00();
 
 	virtual void Init() override;

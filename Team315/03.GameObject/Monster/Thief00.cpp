@@ -1,8 +1,8 @@
 #include "Thief00.h"
 #include "Skill/Thief00Skill.h"
 
-Thief00::Thief00(int skillTier)
-	: Character(skillTier)
+Thief00::Thief00(bool mode, bool fixedStar, int skillTier)
+	: Character(mode, fixedStar, skillTier)
 {
 	SetType("Monster");
 	SetName("Thief00");

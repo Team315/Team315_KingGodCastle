@@ -1,11 +1,11 @@
 #include "Star.h"
 #include "Include.h"
 
-Star::Star(int starNumber)
+Star::Star(bool mode, bool fixedStar, int starNumber)
 	: starNumber(starNumber)
 {
 	if (starNumber == 0)
-		CalculateRandomChance();
+		CalculateRandomChance(mode, fixedStar);
 	UpdateTexture();
 }
 
@@ -23,18 +23,25 @@ void Star::SetPos(const Vector2f& pos)
 	SpriteObj::SetPos(pos);
 }
 
-bool Star::CalculateRandomChance(bool useExtraUpgrade)
+bool Star::CalculateRandomChance(bool mode, bool fixedStar)
 {
-	if (!useExtraUpgrade)
-	{
-		starNumber++;
+	starNumber++;
+	if (fixedStar)
 		return false;
-	}
+
+	float probabilty = 0.f;
+	if (mode)
+		probabilty = GAME_MGR->GetExtraLevelUpCombinate();
+	else
+		probabilty = GAME_MGR->GetExtraLevelUpSummon();
+
 	bool ret = false;
 	if (starNumber < STAR_MAX - 1)
-		ret = Utils::RandomRange(0, 100) < GAME_MGR->GetExtraLevelUpChance() ? true : false;
-	if (starNumber != STAR_MAX)
-		starNumber = ret ? starNumber + 2 : starNumber + 1;
+	{
+		ret = Utils::RandomRange(0, 100) < probabilty ? true : false;
+		if (starNumber < STAR_MAX)
+			starNumber = ret ? starNumber + 1 : starNumber;
+	}
 	return ret;
 }
 
