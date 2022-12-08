@@ -145,6 +145,15 @@ void AltarScene::Update(float dt)
 		CLOG::PrintVectorState(testPos, "now pos");
 	}
 
+	if (InputMgr::GetMouseUp(Mouse::Left))
+	{
+		for (auto Altar : AltarList)
+		{
+			int num = Altar->GetButtonCall(ScreenToWorldPos(InputMgr::GetMousePosI()));
+				//Altar->AddCount(num);
+		}
+	}
+	
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 		SCENE_MGR->ChangeScene(Scenes::Title);
@@ -161,7 +170,7 @@ void AltarScene::Draw(RenderWindow& window)
 
 void AltarScene::SetAltar()
 {
-	Altar* mana = new Altar({ 0.f,0.f }, 0);
+	Altar* mana = new Altar({ 0.f,0.f }, 0,L"마나의 제단");
 	AltarList.push_back(mana);
-
 }
+

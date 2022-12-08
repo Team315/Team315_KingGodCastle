@@ -1,8 +1,9 @@
 #include "Altar.h"
 
-Altar::Altar(Vector2f mainPos, int index)
-	:m_Index(index)
+Altar::Altar(Vector2f mainPos, int index, wstring AltarName)
+	:m_Index(index), m_grade(0)
 {
+
 	string background = "graphics/Altar/Altar_0" + to_string(index) + ".png";
 	SetTexture(*RESOURCE_MGR->GetTexture(background));
 	SetScale(0.5f, 0.5f);
@@ -27,7 +28,7 @@ Altar::Altar(Vector2f mainPos, int index)
 
 	Vector2f numberPos = { 59.f,19.f };
 	m_number.SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	m_number.SetString("15");
+	m_number.SetString("0");
 	m_number.SetColor({ 254,113,235,255 });
 	m_number.SetOutlineThickness(2.f);
 	m_number.SetOutlineColor({ 254,113,235,100 });
@@ -35,17 +36,27 @@ Altar::Altar(Vector2f mainPos, int index)
 	m_number.SetPos(mainPos + numberPos);
 	m_number.SetOrigin(Origins::MC);
 
-	Vector2f altarNamePos = { 59.f,19.f };
+	Vector2f altarNamePos = { 60.f,159.f };
 	m_altarName.SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	m_altarName.SetString("15");
+	m_altarName.SetString(AltarName);
 	m_altarName.SetColor({ 254,113,235,255 });
-	m_altarName.SetOutlineThickness(1.f);
+	m_altarName.SetOutlineThickness(2.f);
 	m_altarName.SetOutlineColor(Color::Black);
-	m_altarName.SetCharacterSize(15);
+	m_altarName.SetCharacterSize(14);
 	m_altarName.SetPos(mainPos + altarNamePos);
 	m_altarName.SetOrigin(Origins::MC);
 
+	Vector2f altarbutton1 = { 9.f,238.f };
+	m_button1.SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/Altar_Button1.png"));
+	m_button1.SetScale(0.5f, 0.5f);
+	m_button1.SetPos(mainPos + altarbutton1);
+	m_button1.SetOrigin(Origins::TL);
 
+	Vector2f altarbutton5 = { 61.f,238.f };
+	m_button5.SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/Altar_Button5.png"));
+	m_button5.SetScale(0.5f, 0.5f);
+	m_button5.SetPos(mainPos + altarbutton5);
+	m_button5.SetOrigin(Origins::TL);
 }
 
 Altar::~Altar()
@@ -66,6 +77,7 @@ void Altar::Release()
 void Altar::Update(float dt)
 {
 	SpriteObj::Update(dt);
+
 }
 
 void Altar::Draw(RenderWindow& window)
@@ -100,12 +112,15 @@ void Altar::Draw(RenderWindow& window)
 
 	m_altarName.Draw(window);
 
+	m_button1.Draw(window);
+	m_button5.Draw(window);
+
 }
 
 void Altar::MoveSetPos(Vector2f movepos)
 {
 	//SetPos(GetPos() + movepos);
-	m_altarName.SetPos(movepos);
+	m_button5.SetPos(movepos);
 }
 
 void Altar::SetRomaNumber(Vector2f mainPos, int index)
@@ -219,4 +234,34 @@ void Altar::SetDot(Vector2f mainPos, int index)
 	m_romaNum14.SetOrigin(Origins::TL);
 }
 
+int Altar::GetButtonCall(Vector2f nowMousePos)
+{
+	if (m_button1.GetGlobalBounds().contains(nowMousePos))
+	{
+		++m_grade;
+		if (m_grade > 15)
+			m_grade = 15;
+		cout << m_grade << endl;
+
+	}
+	else if (m_button5.GetGlobalBounds().contains(nowMousePos))
+	{
+		m_grade += 5;
+		if (m_grade > 15)
+			m_grade = 15;
+
+		cout << m_grade << endl;
+	}
+	else
+	return 0;
+}
+
+void Altar::AddCount(int count)
+{
+	m_grade = count;
+
+	if (m_grade > 15)
+		m_grade = 15;
+
+}
 

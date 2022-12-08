@@ -99,3 +99,4 @@ Object* Scene::FindGameObj(string name)
 	}
 	return nullptr;
 }
+

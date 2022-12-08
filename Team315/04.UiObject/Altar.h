@@ -4,9 +4,10 @@
 #include "Include.h"
 
 class Altar :  public SpriteObj
-
 {
 protected:
+	int m_grade;
+
 	SpriteObj m_altarEffect;
 	SpriteObj m_altarLight;
 	//roma
@@ -27,14 +28,18 @@ protected:
 	SpriteObj m_romaNum13;
 	SpriteObj m_romaNum14;
 
+	SpriteObj m_button1;
+	SpriteObj m_button5;
+
 	TextObj m_number;
 	TextObj m_altarName;
 	Vector2f altarPos;
 	int m_Index;
 
 
+
 public:
-	Altar(Vector2f mainPos, int index);
+	Altar(Vector2f mainPos, int index, wstring AltarName);
 	~Altar();
 
 	virtual void Init() override;
@@ -46,5 +51,8 @@ public:
 	int GetIndex() { return m_Index; };
 	void SetRomaNumber(Vector2f mainPos, int index);
 	void SetDot(Vector2f mainPos, int index);
+
+	int GetButtonCall(Vector2f nowMousePos);
+	void AddCount(int count);
 };
 
