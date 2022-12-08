@@ -11,8 +11,6 @@
 #include "Map/FloodFill.h"
 #include "RectangleObj.h"
 
-using namespace std;
-
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(10),
 	curChapIdx(0), curStageIdx(0), gameEndTimer(0.f),
@@ -160,6 +158,7 @@ void BattleScene::Update(float dt)
 			SOUND_MGR->StopAll();
 			return;
 		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
 		{
 			TranslateCoinState(100.f);
@@ -208,6 +207,7 @@ void BattleScene::Update(float dt)
 			}
 			SetCurrentStage(curChapIdx, curStageIdx);
 		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num5))
 		{
 			CLOG::Print3String("prev chapter test");
@@ -216,6 +216,7 @@ void BattleScene::Update(float dt)
 			ui->GetPanel()->ChangeTitleTextString(curChapIdx);
 			SetCurrentStage(curChapIdx, curStageIdx);
 		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num6))
 		{
 			CLOG::Print3String("next chapter test");
@@ -230,7 +231,8 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("devmode switch");
 			FRAMEWORK->devMode = !FRAMEWORK->devMode;
 		}
-		/*if (InputMgr::GetKeyDown(Keyboard::Key::F8))
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::F8))
 		{
 			int count = 0;
 			CLOG::Print3String("main grid state");
@@ -252,45 +254,44 @@ void BattleScene::Update(float dt)
 				cout << str;
 			}
 			cout << endl;
-		}*/
+		}
 
-		//if (InputMgr::GetKeyDown(Keyboard::Key::F9))
-		//{
-		//	int count = 0;
-		//	CLOG::Print3String("battle grid state");
-		//	for (auto& gameObj : battleGrid)
-		//	{
-		//		string str = "";
-		//		if (gameObj == nullptr)
-		//			str += ".. ";
-		//		else
-		//		{
-		//			str += (gameObj->GetName().substr(0, 2) + " ");
-		//		}
-		//		count++;
-		//		if ((count % GAME_TILE_WIDTH) == 0)
-		//			str += "\n";
-		//		cout << str;
-		//	}
-		//	cout << endl;
-
-		//	CLOG::Print3String("prepare grid state");
-		//	for (auto& gameObj : prepareGrid)
-		//	{
-		//		string str = "";
-		//		if (gameObj == nullptr)
-		//			str += ".. ";
-		//		else
-		//		{
-		//			str += (gameObj->GetName().substr(0, 2) + " ");
-		//		}
-		//		count++;
-		//		if ((count % GAME_TILE_WIDTH) == 0)
-		//			str += "\n";
-		//		cout << str;
-		//	}
-		//	cout << endl;
-		//}
+		if (InputMgr::GetKeyDown(Keyboard::Key::F9))
+		{
+			int count = 0;
+			CLOG::Print3String("battle grid state");
+			for (auto& gameObj : battleGrid)
+			{
+				string str = "";
+				if (gameObj == nullptr)
+					str += ".. ";
+				else
+				{
+					str += (gameObj->GetName().substr(0, 2) + " ");
+				}
+				count++;
+				if ((count % GAME_TILE_WIDTH) == 0)
+					str += "\n";
+				cout << str;
+			}
+			cout << endl;
+			CLOG::Print3String("prepare grid state");
+			for (auto& gameObj : prepareGrid)
+			{
+				string str = "";
+				if (gameObj == nullptr)
+					str += ".. ";
+				else
+				{
+					str += (gameObj->GetName().substr(0, 2) + " ");
+				}
+				count++;
+				if ((count % GAME_TILE_WIDTH) == 0)
+					str += "\n";
+				cout << str;
+			}
+			cout << endl;
+		}
 	}
 	// Dev Input end
 

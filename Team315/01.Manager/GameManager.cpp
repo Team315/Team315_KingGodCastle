@@ -27,7 +27,6 @@ GameManager::GameManager()
 {
 	CLOG::Print3String("GameManager Create");
 	
-	
 	m_tiles.assign(
 		CHAPTER_MAX_COUNT,
 		vector<vector<vector<Tile*>>>(STAGE_MAX_COUNT,
@@ -84,10 +83,13 @@ void GameManager::Init()
 	itemCost = gameSetting["ItemCost"];
 
 	json statIncreaseRate = initSetting["LevelUpStatIncreaseRate"];
-	adIncreaseRate = (1.f + statIncreaseRate["AdIncreaseRate"]);
-	apIncreaseRate = (1.f + statIncreaseRate["ApIncreaseRate"]);
-	asIncrease = (1.f + statIncreaseRate["AsIncrease"]);
-	hpIncreaseRate = (1.f + statIncreaseRate["HpIncreaseRate"]);
+	adIncreaseRate = statIncreaseRate["AdIncreaseRate"];
+	apIncreaseRate = statIncreaseRate["ApIncreaseRate"];
+	asIncrease = statIncreaseRate["AsIncrease"];
+	hpIncreaseRate = statIncreaseRate["HpIncreaseRate"];
+	hpIncreaseRate += 1.f;
+	adIncreaseRate += 1.f;
+	apIncreaseRate += 1.f;
 
 	json ItemStats = initSetting["ItemStat"];
 	itemStatMap.insert({ StatType::HP, ItemStats["Armor"] });
