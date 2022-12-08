@@ -156,6 +156,7 @@ void BattleScene::Update(float dt)
 		{
 			CLOG::Print3String("setting window");
 			SOUND_MGR->StopAll();
+			SCENE_MGR->ChangeScene(Scenes::Title);
 			return;
 		}
 

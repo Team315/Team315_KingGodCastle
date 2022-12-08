@@ -1,5 +1,5 @@
 ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
-LeftMove,1,10,,,,,,
+Evan_LeftMove,1,10,,,,,,
 TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
 graphics/Character/Player/Evan/EvanMove.png,0,100,100,100,50,100,0,0
 graphics/Character/Player/Evan/EvanMove.png,100,100,100,100,50,100,0,0

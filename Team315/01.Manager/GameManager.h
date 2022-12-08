@@ -11,6 +11,7 @@
 struct DamageData;
 class BattleTracker;
 class Character;
+class DamageText;
 class GameObj;
 class Item;
 class Tile;

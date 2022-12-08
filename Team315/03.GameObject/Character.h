@@ -21,6 +21,12 @@ protected:
 	vector<Item*> items;
 	vector<SpriteGrid*> itemGrid;
 
+	//Resource
+	unordered_map<ResStringType, string> resStringTypes;
+	unordered_map<Dir, Vector2f> attackPos;
+	unordered_map<Dir, Vector2f> skillPos;
+	Dir dirType;
+
 	// UI
 	TwoFactorProgress* hpBar;
 	Star* star;
@@ -112,4 +118,21 @@ public:
 	bool SetTargetDistance();
 	void SetMainGrid(int r, int c, GameObj* character);
 	void SetIsBattle(bool battleOnOff) { isBattle = battleOnOff; }
+
+	//State
+	void AnimationInit();
+	void IdleAnimation();
+	void MoveToIdleAnimation();
+	void MoveAnimation();
+	void AttackAnimation(Vector2f attackPos);
+	void SkillAnimation(Vector2f skillPos);
+
+	void OnCompleteAttack();
+	void OnCompleteSkill();
+
+	void UpdateIdle(float dt);
+	void UpdateMoveToIdle(float dt);
+	void UpdateMove(float dt);
+	void UpdateAttack(float dt);
+	void UpdateSkill(float dt);
 };
