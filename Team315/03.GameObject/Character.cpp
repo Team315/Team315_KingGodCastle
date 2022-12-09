@@ -169,9 +169,12 @@ void Character::Update(float dt)
 					}
 
 					//타겟의 포지션
+
 					lastDirection = Utils::Normalize(dynamic_cast<Character*>(m_target)->GetPos() - position);
 
 					direction = lastDirection;
+					SetDir(direction);
+
 					SetState(AnimStates::Attack);
 					dynamic_cast<Character*>(m_target)->TakeDamage(this);
 					attack = true;
@@ -186,7 +189,7 @@ void Character::Update(float dt)
 					if (SetTargetDistance())
 					{
 						//move = true;
-						SetState(AnimStates::Move);
+						//SetState(AnimStates::Move);
 					}
 					else
 					{
@@ -197,6 +200,7 @@ void Character::Update(float dt)
 				}
 			}
 		}
+		//attack = false;
 
 		if (move && !attack)
 		{
@@ -402,7 +406,7 @@ void Character::UpgradeStar(bool useExtraUpgrade)
 	if (skill != nullptr)
 		skill->SetSkillTier(GetStarNumber());
 
-	m_attackDelay = 1.f / stat[StatType::AS].GetModifier();
+	//m_attackDelay = 1.f / stat[StatType::AS].GetModifier();
 }
 
 void Character::UpgradeCharacterSet()
@@ -799,9 +803,11 @@ void Character::AttackAnimation(Vector2f attackPos)
 {
 	if (attack)
 		return;
+	Vector2f temp = direction;
 	SOUND_MGR->Play(resStringTypes[ResStringType::atkSound], 20.f, false);
 	if (dirType == Dir::Up)
 	{
+		direction.x = 0.f;
 		animator.Play(resStringTypes[ResStringType::UpAttack]);
 		if (!type.compare("Player"))
 		{
@@ -821,6 +827,7 @@ void Character::AttackAnimation(Vector2f attackPos)
 	}
 	else if (dirType == Dir::Down)
 	{
+		direction.x = 0.f;
 		animator.Play(resStringTypes[ResStringType::DownAttack]);
 		if (!type.compare("Player"))
 		{
@@ -840,6 +847,7 @@ void Character::AttackAnimation(Vector2f attackPos)
 	}
 	else if (dirType == Dir::Right)
 	{
+		direction.y = 0.f;
 		animator.Play(resStringTypes[ResStringType::RightAttack]);
 		if (!type.compare("Player"))
 		{
@@ -859,6 +867,7 @@ void Character::AttackAnimation(Vector2f attackPos)
 	}
 	else if (dirType == Dir::Left)
 	{
+		direction.y = 0.f;
 		animator.Play(resStringTypes[ResStringType::LeftAttack]);
 		if (!type.compare("Player"))
 		{
@@ -876,6 +885,8 @@ void Character::AttackAnimation(Vector2f attackPos)
 			}
 		}
 	}
+	direction = temp;
+
 	attack = true;
 	move = false;
 }
@@ -909,7 +920,6 @@ void Character::SkillAnimation(Vector2f skillPos)
 	{
 		animator.Play(resStringTypes[ResStringType::DownSkill]);
 	}
-	attack = false;
 	move = false;
 }
 
@@ -978,10 +988,10 @@ void Character::UpdateMove(float dt)
 
 void Character::UpdateAttack(float dt)
 {
-	if (!Utils::EqualFloat(direction.y, 0.f) && !Utils::EqualFloat(direction.x, 0.f))
+	if (Utils::EqualFloat(direction.y, 0.f) && Utils::EqualFloat(direction.x, 0.f))
 	{
-		SetState(AnimStates::MoveToIdle);
-		attack = false;
+		//SetState(AnimStates::MoveToIdle);
+		//attack = false;
 	}
 }
 
@@ -1004,10 +1014,10 @@ void Character::UpdateSkill(float dt)
 }
 
 void Character::SetDir(Vector2f direction)
-{
+{/*
 	float angle = Utils::Angle(direction, { 1, 0 }) * 2.f;
 
-	if (!name.compare("Aramis"))
+	if (!name.compare("Evan"))
 		cout << angle << endl;
 
 	if (angle >= 45.f && angle < 135.f)
@@ -1025,10 +1035,31 @@ void Character::SetDir(Vector2f direction)
 	else
 	{
 		dirType = Dir::Left;
+	}*/
+
+	if (abs(direction.x) < abs(direction.y)|| abs(direction.x) == abs(direction.y))
+	{
+		if (direction.y > 0.f)
+		{
+			dirType = Dir::Down;
+		}
+		else if (direction.y < 0.f)
+		{
+			dirType = Dir::Up;
+		}
 	}
-
-
-	/*if (direction.y > 0.f)
+	else
+	{
+		if (direction.x > 0.f)
+		{
+			dirType = Dir::Right;
+		}
+		else if (direction.x < 0.f)
+		{
+			dirType = Dir::Left;
+		}
+	}/*
+	if (direction.y > 0.f)
 	{
 		dirType = Dir::Down;
 	}
