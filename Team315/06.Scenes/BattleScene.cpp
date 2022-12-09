@@ -1003,13 +1003,28 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 			if (!GAME_MGR->GetPlayingBattle() || dest == &prepareGrid)
 			{
 				Character* destCharacter = dynamic_cast<Character*>((*dest)[destIdx]);
-
-				if (destCharacter->SetItem(dynamic_cast<Item*>(pick)))
+				Item* pickItem = dynamic_cast<Item*>(pick);
+				if (pickItem->GetItemType() == ItemType::Book)
 				{
-					(*start)[startIdx] = nullptr;
-					combine = true;
-					destCharacter->UpdateItems();
-					pick = nullptr;
+					if (pickItem->GetGrade() == (destCharacter->GetStarNumber() - 1) / 2)
+					{
+						destCharacter->UpgradeStar(false);
+						(*start)[startIdx] = nullptr;
+						pickItem->Release();
+						delete pickItem;
+						combine = true;
+						pick = nullptr;
+					}
+				}
+				else 
+				{
+					if (destCharacter->SetItem(pickItem))
+					{
+						(*start)[startIdx] = nullptr;
+						combine = true;
+						destCharacter->UpdateItems();
+						pick = nullptr;
+					}
 				}
 			}
 			canMove = false;

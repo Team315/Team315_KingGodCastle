@@ -22,10 +22,10 @@ ItemInfoWindow::ItemInfoWindow(float x, float y)
 	status->SetTextStyle(Color::White, 18, Color::Black, -1.0f);
 	status->SetTextLocalPos(Vector2f(10.f, 0.f));
 
-	additional = new BackrectText(130.f, 25.f);
+	additional = new BackrectText(130.f, 35.f);
 	additional->SetFillColor(Color(0x08, 0x08, 0x08, 150.f));
 	additional->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	additional->SetTextStyle(Color::White, 15, Color::Black, -1.0f);
+	additional->SetTextStyle(Color::White, 13, Color::Black, -1.0f);
 	additional->SetTextLocalPos(Vector2f(10.f, 0.f));
 }
 
@@ -39,9 +39,10 @@ void ItemInfoWindow::Draw(RenderWindow& window)
 	name->Draw(window);
 	status->Draw(window);
 	window.draw(itemSprite);
-	window.draw(statSprite);
 	if (needAdditional)
 		additional->Draw(window);
+	else
+		window.draw(statSprite);
 }
 
 void ItemInfoWindow::SetOrigin(Origins origin)
@@ -57,67 +58,65 @@ void ItemInfoWindow::SetPos(const Vector2f& pos)
 	name->SetPos(pos + Vector2f(130.f, 3.f));
 	name->SetOrigin(Origins::TC);
 	status->SetPos(pos + Vector2f(65.f, 31.f));
-	statSprite.setPosition(pos + Vector2f(120.f, 30.f));
 	if (needAdditional)
-		additional->SetPos(pos + Vector2f(65.f, 59.f));
+		additional->SetPos(pos + Vector2f(65.f, 62.f));
+	else
+		statSprite.setPosition(pos + Vector2f(120.f, 30.f));
 }
 
 void ItemInfoWindow::SetItem(Item* item)
 {
 	itemSprite.setTexture(*RESOURCE_MGR->GetTexture(item->MakePath()), true);
 
-	string sTypeSpritePath = "graphics/Character/Stat/StatIcon_0"; 
-	StatType sType = item->GetStatType();
-	switch (sType)
-	{
-	case StatType::AD:
-		sTypeSpritePath += "1.png";
-		break;
-	case StatType::AP:
-		sTypeSpritePath += "2.png";
-		break;
-	case StatType::AS:
-		sTypeSpritePath += "3.png";
-		break;
-	case StatType::HP:
-		sTypeSpritePath += "4.png";
-		break;
-	case StatType::None:
-		sTypeSpritePath += "5.png";
-		break;
-	}
-
-	statSprite.setTexture(*RESOURCE_MGR->GetTexture(sTypeSpritePath), true);
-	statSprite.setScale(0.5f, 0.5f);
 	int grade = item->GetGrade();
 	string framePath = "graphics/battleScene/Item_Frame_" + to_string(grade) + ".png";
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(framePath), true);
 	name->SetString(item->GetName());
 	float poten = item->GetPotential();
 
+	StatType sType = item->GetStatType();
 	wstring statusText =
-		to_wstring(grade + 1) + L"티어     ";
+		to_wstring(grade + 1) + L"티어 ";
 	
 	if (sType == StatType::AP || sType == StatType::AS)
-		statusText += (to_wstring((int)(poten * 100)) + "%");
+		statusText += ("    " + to_wstring((int)(poten * 100)) + "%");
 	else if (sType == StatType::None)
-		statusText += L"특수";
+		statusText += L"특별 도구";
 	else
-		statusText += to_wstring((int)poten);
-	
-	if (item->GetItemType() == ItemType::Book)
-		needAdditional = true;
-	else needAdditional = false;
-
-	if (needAdditional)
-		SetSize(200.f, 88.f);
-	else
-		SetSize(200.f, 60.f);
-
+		statusText += ("    " + to_wstring((int)poten));
 	status->SetString(statusText);
 
-	
-	wstring temp = STRING_TABLE->Get("book_explain1");
-	temp[9] = '\n';
-	additional->SetString(temp);
+	if (item->GetItemType() == ItemType::Book)
+	{
+		needAdditional = true;
+		SetSize(200.f, 100.f);
+		wstring temp = STRING_TABLE->Get("book_explain" + to_string(grade + 1));
+		temp[9] = '\n';
+		additional->SetString(temp);
+	}
+	else
+	{
+		needAdditional = false;
+		SetSize(200.f, 60.f);
+
+		string sTypeSpritePath = "graphics/Character/Stat/StatIcon_0";
+		switch (sType)
+		{
+		case StatType::AD:
+			sTypeSpritePath += "1.png";
+			break;
+		case StatType::AP:
+			sTypeSpritePath += "2.png";
+			break;
+		case StatType::AS:
+			sTypeSpritePath += "3.png";
+			break;
+		case StatType::HP:
+			sTypeSpritePath += "4.png";
+			break;
+		}
+
+		statSprite.setTexture(*RESOURCE_MGR->GetTexture(sTypeSpritePath), true);
+		statSprite.setScale(0.5f, 0.5f);
+	}
 }

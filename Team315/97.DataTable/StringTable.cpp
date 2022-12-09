@@ -8,7 +8,6 @@ StringTable::StringTable()
 {
 	fileNames.push_back("tables/StringTable_Kor.csv");
 	//fileNames.push_back("tables/StringTable_Eng.csv");
-	cout << "string table" << endl;
 }
 
 StringTable::~StringTable()

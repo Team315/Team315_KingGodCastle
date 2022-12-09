@@ -6,7 +6,7 @@ Item::Item(int grade, bool useExtraChance, ItemType iType)
 	bool extraUpgrade =
 		Utils::RandomRange(0, 100) < GAME_MGR->GetExtraGradeUpChance() ?
 		true : false;
-	if (useExtraChance && extraUpgrade && grade + 1 != TIER_MAX)
+	if (useExtraChance && extraUpgrade && (grade + 1) != TIER_MAX)
 	{
 		cout << "item 2 upgrade" << endl;
 		this->grade = grade + 1;

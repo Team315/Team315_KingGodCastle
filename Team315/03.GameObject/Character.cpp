@@ -503,6 +503,13 @@ void Character::UpdateItems()
 	{
 		if (i >= curSize)
 			itemGrid[i]->SetActive(false);
+		else
+		{
+			itemGrid[i]->SetSpriteTexture(
+				*RESOURCE_MGR->GetTexture(items[i]->MakePath()), true);
+			itemGrid[i]->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
+			itemGrid[i]->SetOrigin(Origins::BC);
+		}
 	}
 }
 
