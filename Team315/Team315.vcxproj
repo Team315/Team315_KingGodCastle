@@ -263,6 +263,7 @@
     <ClInclude Include="04.UiObject\TrackerProfile.h" />
     <ClInclude Include="06.Scenes\AltarScene.h" />
     <ClInclude Include="04.UiObject\Altar.h" />
+    <ClInclude Include="04.UiObject\Brazier.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="02.Object\FloatingObj.cpp" />
@@ -324,6 +325,7 @@
     <ClCompile Include="97.DataTable\DataTable.cpp" />
     <ClCompile Include="97.DataTable\DataTableMgr.cpp" />
     <ClCompile Include="97.DataTable\StringTable.cpp" />
+    <ClCompile Include="04.UiObject\Brazier.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
     <ClCompile Include="01.Manager\SceneMgr.cpp" />

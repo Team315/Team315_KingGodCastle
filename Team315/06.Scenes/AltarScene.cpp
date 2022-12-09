@@ -1,5 +1,6 @@
 #include "AltarScene.h"
 #include "Altar.h"
+#include "Brazier.h"
 
 AltarScene::AltarScene()
 	: Scene(Scenes::Battle), testPos({0.f,0.f})
@@ -135,12 +136,13 @@ void AltarScene::Update(float dt)
 	if (InputMgr::GetKeyDown(Keyboard::Key::D))
 	{
 		testPos.x += 10.f;
-		for (auto aa : AltarList)
+		for (auto aa : objList)
 		{
-			if (aa->GetIndex() == 0)
-			{
+			/*if (aa->GetIndex() == 0)
+			{*/
+			Brazier::aa->MoveSetPos();
 				aa->MoveSetPos(testPos);
-			}
+			//}
 		}
 		CLOG::PrintVectorState(testPos, "now pos");
 	}
@@ -154,6 +156,14 @@ void AltarScene::Update(float dt)
 		}
 	}
 	
+	if (InputMgr::GetKeyDown(Keyboard::Key::F))
+	{
+		for (auto aa : AltarList)
+		{
+			aa->ResetCount();;
+		}
+		cout << "reset grade" << endl;
+	}
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 		SCENE_MGR->ChangeScene(Scenes::Title);
@@ -162,15 +172,27 @@ void AltarScene::Update(float dt)
 
 void AltarScene::Draw(RenderWindow& window)
 {
+	for (auto obj : objList)
+	{
+		obj->Draw(window);
+	}
 	for (auto obj : AltarList)
 	{
 		obj->Draw(window);
 	}
+
 }
 
 void AltarScene::SetAltar()
 {
 	Altar* mana = new Altar({ 0.f,0.f }, 0,L"마나의 제단");
 	AltarList.push_back(mana);
+}
+
+void AltarScene::SetBrazier()
+{
+	Brazier* m_Brazier = new Brazier();
+	BrazierList.push_back(m_Brazier);
+
 }
 

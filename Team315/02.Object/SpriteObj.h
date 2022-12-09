@@ -15,12 +15,14 @@ public:
     void SetTexture(Texture& tex);
 	void SetScale(float x, float y);
 	void SetColor(Color color);
+	void SetAlhpa(int num);
 
 	void SetTextureRect(const IntRect& rect);
 	const IntRect& GetTextureRect() const;
 
 	Vector2f GetSize()const;
 	FloatRect GetGlobalBounds() const;
-
+	Color GetColor() const;
+	
 	virtual void SetPos(const Vector2f& pos) override;
 };

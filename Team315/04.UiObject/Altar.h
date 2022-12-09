@@ -10,6 +10,8 @@ protected:
 
 	SpriteObj m_altarEffect;
 	SpriteObj m_altarLight;
+
+	vector<SpriteObj> numList;
 	//roma
 	SpriteObj m_romaNum01;
 	SpriteObj m_romaNum05;
@@ -54,5 +56,10 @@ public:
 
 	int GetButtonCall(Vector2f nowMousePos);
 	void AddCount(int count);
+
+	void ResetCount();
+
+	void ChangeAltarNum(int Num);
+	void ChangeObjAlhpa(int num);
 };
 
