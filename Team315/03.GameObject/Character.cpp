@@ -787,6 +787,7 @@ void Character::AnimationInit()
 void Character::IdleAnimation()
 {
 	animator.Play(resStringTypes[ResStringType::Idle]);
+	attack = false;
 }
 
 void Character::MoveToIdleAnimation()
@@ -799,6 +800,7 @@ void Character::MoveToIdleAnimation()
 	{
 		animator.Play((lastDirection.x > 0.f) ? resStringTypes[ResStringType::RightIdle] : resStringTypes[ResStringType::LeftIdle]);
 	}
+	attack = false;
 }
 
 void Character::MoveAnimation()
@@ -811,6 +813,7 @@ void Character::MoveAnimation()
 	{
 		animator.Play((direction.x > 0.f) ? resStringTypes[ResStringType::RightMove] : resStringTypes[ResStringType::LeftMove]);
 	}
+	attack = false;
 }
 
 void Character::AttackAnimation(Vector2f attackPos)
@@ -899,6 +902,7 @@ void Character::AttackAnimation(Vector2f attackPos)
 		}
 	}
 	attack = true;
+	move = false;
 }
 
 void Character::SkillAnimation(Vector2f skillPos)
@@ -930,6 +934,8 @@ void Character::SkillAnimation(Vector2f skillPos)
 	{
 		animator.Play(resStringTypes[ResStringType::DownSkill]);
 	}
+	attack = false;
+	move = false;
 }
 
 void Character::OnCompleteAttack()
