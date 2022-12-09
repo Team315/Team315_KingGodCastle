@@ -98,6 +98,7 @@
     <ClCompile Include="04.UiObject\DamageTrackerUI.cpp" />
     <ClCompile Include="04.UiObject\TrackerProfile.cpp" />
     <ClCompile Include="06.Scenes\AltarScene.cpp" />
+    <ClCompile Include="04.UiObject\Altar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -207,6 +208,7 @@
     <ClInclude Include="04.UiObject\DamageTrackerUI.h" />
     <ClInclude Include="04.UiObject\TrackerProfile.h" />
     <ClInclude Include="06.Scenes\AltarScene.h" />
+    <ClInclude Include="04.UiObject\Altar.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
