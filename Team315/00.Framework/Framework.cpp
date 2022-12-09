@@ -42,8 +42,8 @@ bool Framework::Init(int width, int height, std::string title)
     window.create(VideoMode(windowSize.x, windowSize.y), title);
 
     RESOURCE_MGR->LoadAll();
+    DATATABLE_MGR->Init();
     SOUND_MGR->Init();
-    //DATATABLE_MGR->Init();
     SCENE_MGR->Init();
     InputMgr::Init();
 

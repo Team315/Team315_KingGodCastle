@@ -2,6 +2,7 @@
 #include "Include.h"
 #include "BackrectText.h"
 #include "Item/Item.h"
+#include "StringTable.h"
 
 ItemInfoWindow::ItemInfoWindow(float x, float y)
 	: SpriteGrid(x, y), needAdditional(false)
@@ -93,8 +94,6 @@ void ItemInfoWindow::SetItem(Item* item)
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(framePath), true);
 	name->SetString(item->GetName());
 	float poten = item->GetPotential();
-	if (sType == StatType::AP || sType == StatType::AS)
-		poten *= 100;
 
 	wstring statusText =
 		to_wstring(grade + 1) + L"Æ¼¾î     ";
@@ -116,5 +115,8 @@ void ItemInfoWindow::SetItem(Item* item)
 		SetSize(200.f, 60.f);
 
 	status->SetString(statusText);
-	additional->SetString("test");
+
+	wstring temp = DT_CUR_TABLE->Get("book_explain1");
+	temp[10] = '\n';
+	additional->SetString(temp);
 }

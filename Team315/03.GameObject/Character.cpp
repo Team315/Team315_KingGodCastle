@@ -1027,7 +1027,6 @@ void Character::SetDir(Vector2f direction)
 		dirType = Dir::Left;
 	}
 
-
 	/*if (direction.y > 0.f)
 	{
 		dirType = Dir::Down;
