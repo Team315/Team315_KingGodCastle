@@ -25,7 +25,7 @@ ItemInfoWindow::ItemInfoWindow(float x, float y)
 	additional = new BackrectText(130.f, 25.f);
 	additional->SetFillColor(Color(0x08, 0x08, 0x08, 150.f));
 	additional->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	additional->SetTextStyle(Color::White, 18, Color::Black, -1.0f);
+	additional->SetTextStyle(Color::White, 15, Color::Black, -1.0f);
 	additional->SetTextLocalPos(Vector2f(10.f, 0.f));
 }
 
@@ -117,6 +117,6 @@ void ItemInfoWindow::SetItem(Item* item)
 	status->SetString(statusText);
 
 	wstring temp = DT_CUR_TABLE->Get("book_explain1");
-	temp[10] = '\n';
+	temp[9] = '\n';
 	additional->SetString(temp);
 }
