@@ -8,10 +8,10 @@ Character::Character(bool mode, bool fixedStar, int starNumber)
 	ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f),
 	dirType(Dir::None)
 {
-	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 5.f);
+	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 3.f);
 	hpBar->SetProgressColor(Color::Green);
 	hpBar->SetBackgroundColor(Color(0, 0, 0, 100));
-	hpBar->SetBackgroundOutline(Color::Black, 2.f);
+	hpBar->SetBackgroundOutline(Color::Black, 1.f);
 	hpBar->SetSecondProgressColor(Color::White);
 
 	star = new Star(mode, fixedStar, starNumber);
@@ -71,6 +71,9 @@ void Character::Init()
 	hpBar->SetOrigin(Origins::BC);
 	starLocalPos = { 0.f, hpBarLocalPos.y };
 	SetPos(position);
+
+	CLOG::PrintVectorState(hpBarLocalPos);
+	CLOG::PrintVectorState(position);
 }
 
 void Character::Reset()

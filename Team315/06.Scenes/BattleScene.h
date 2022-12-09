@@ -47,6 +47,9 @@ protected:
 	int remainLife;
 	bool isGameOver;
 
+	bool stageEnd;
+	bool stageResult;
+
 public:
 	BattleScene();
 	virtual ~BattleScene();

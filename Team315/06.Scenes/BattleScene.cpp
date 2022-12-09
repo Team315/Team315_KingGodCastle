@@ -14,7 +14,7 @@
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(10),
 	curChapIdx(0), curStageIdx(0), gameEndTimer(0.f),
-	remainLife(3), isGameOver(false)
+	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false)
 {
 	CLOG::Print3String("battle create");
 
@@ -102,6 +102,8 @@ void BattleScene::Enter()
 	GAME_MGR->damageUI.Reset();
 
 	SOUND_MGR->Play("sounds/Battle.wav", 20.f, true);
+	stageResult = false;
+	stageEnd = false;
 }
 
 void BattleScene::Exit()
@@ -723,6 +725,7 @@ void BattleScene::Update(float dt)
 			ui->SetStageEndWindow(false);
 			ui->GetTracker()->ShowWindow(false);
 			ui->GetTracker()->ProfilesReturn();
+			GAME_MGR->SetPlayingBattle(false);
 
 			int len = battleGrid.size();
 			for (int idx = 0; idx < len; idx++)
@@ -737,9 +740,12 @@ void BattleScene::Update(float dt)
 			b_centerPos = false;
 			ZoomOut();
 
-			if (curStageIdx < STAGE_MAX_COUNT - 1)
-				curStageIdx++;
-			SetCurrentStage(curChapIdx, curStageIdx);
+			if (stageResult)
+			{
+				if (curStageIdx < STAGE_MAX_COUNT - 1)
+					curStageIdx++;
+				SetCurrentStage(curChapIdx, curStageIdx);
+			}
 			GAME_MGR->GetBattleTracker()->PrintAllData();
 		}
 		return;
@@ -747,15 +753,11 @@ void BattleScene::Update(float dt)
 
 	if (GAME_MGR->GetPlayingBattle())
 	{
-		bool stageEnd = false;
-		bool stageResult = false;
-
 		if (playerCount == 0)
 		{
 			gameEndTimer = 3.5f;
 			stageEnd = true;
 			stageResult = false;
-			GAME_MGR->SetPlayingBattle(false);
 			LoseFlag();
 		}
 		else if (aiCount == 0)
@@ -763,7 +765,6 @@ void BattleScene::Update(float dt)
 			gameEndTimer = 3.5f;
 			stageEnd = true;
 			stageResult = true;
-			GAME_MGR->SetPlayingBattle(false);
 		}
 
 		if (stageEnd)
