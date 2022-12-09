@@ -38,9 +38,14 @@ Evan::Evan(bool mode, bool fixedStar, int skillTier)
 	resStringTypes.insert({ ResStringType::UpSkillEfect,"Evan_UpSkill_Effect" });
 
 	attackPos.insert({ Dir::Right, { 21.f, 15.f } });
-	attackPos.insert({ Dir::Left, {-21.f, 15.f} });
-	attackPos.insert({ Dir::Down, {-11.f,12.f} });
-	attackPos.insert({ Dir::Up, {5.f,0.f} });
+	attackPos.insert({ Dir::Left, { -10.f, 0.f } });
+	attackPos.insert({ Dir::Down, { -11.f, 12.f } });
+	attackPos.insert({ Dir::Up, { -10.f, 0.f } });
+
+	skillPos.insert({ Dir::Right, { -30.f, -10.f } });
+	skillPos.insert({ Dir::Left, { 30.f, -10.f } });
+	skillPos.insert({ Dir::Down, { 0.f, -10.f } });
+	skillPos.insert({ Dir::Up, { 5.f, 0.f } });
 
 	resStringTypes.insert({ ResStringType::atkSound, "sounds/Evan_atk.wav" });
 }

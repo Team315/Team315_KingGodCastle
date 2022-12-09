@@ -136,4 +136,6 @@ public:
 	void UpdateMove(float dt);
 	void UpdateAttack(float dt);
 	void UpdateSkill(float dt);
+
+	void SetDir(Vector2f direction);
 };

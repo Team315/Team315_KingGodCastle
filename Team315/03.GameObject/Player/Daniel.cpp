@@ -38,9 +38,9 @@ Daniel::Daniel(bool mode, bool fixedStar, int starNumber)
 	resStringTypes.insert({ ResStringType::UpSkillEfect,"Daniel_Skill_Effect" });
 
 	attackPos.insert({ Dir::Right, { 40.f, 0.f } });
-	attackPos.insert({ Dir::Left, {-40.f, 0.f} });
+	attackPos.insert({ Dir::Left, { -40.f, 0.f} });
 	attackPos.insert({ Dir::Down, { 0.f, 0.f} });
-	attackPos.insert({ Dir::Up, { 3.0f, -51.f} });
+	attackPos.insert({ Dir::Up, { 3.f, -51.f} });
 
 	resStringTypes.insert({ ResStringType::atkSound, "sounds/Daniel_atk.wav" });
 }

@@ -42,6 +42,11 @@ Aramis::Aramis(bool mode, bool fixedStar, int skillTier)
 	attackPos.insert({ Dir::Down, { 0.f, -31.f} });
 	attackPos.insert({ Dir::Up, { 3.f, -71.f} });
 
+	skillPos.insert({ Dir::Right, { 81.f, -21.f } });
+	skillPos.insert({ Dir::Left, { -81.f, -21.f} });
+	skillPos.insert({ Dir::Down, { 0.f, -31.f} });
+	skillPos.insert({ Dir::Up, { 3.f, -71.f} });
+
 	resStringTypes.insert({ ResStringType::atkSound, "sounds/Aramis_atk.wav" });
 }
 

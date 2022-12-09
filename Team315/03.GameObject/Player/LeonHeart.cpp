@@ -42,6 +42,11 @@ LeonHeart::LeonHeart(bool mode, bool fixedStar, int skillTier)
 	attackPos.insert({ Dir::Down, { 0.f, 81.f} });
 	attackPos.insert({ Dir::Up, { 0.f, 0.f} });
 
+	skillPos.insert({ Dir::Right, { 40.f, 51.f } });
+	skillPos.insert({ Dir::Left, { -40.f, 51.f } });
+	skillPos.insert({ Dir::Down, { 0.f, 51.f } });
+	skillPos.insert({ Dir::Up, { 0.f, -121.f } });
+
 	resStringTypes.insert({ ResStringType::atkSound, "sounds/LeonHeart_atk.wav" });
 }
 
