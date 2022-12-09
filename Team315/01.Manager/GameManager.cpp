@@ -24,7 +24,8 @@ GameManager::GameManager()
 	extraGradeUpChance(20), startCoin(50),
 	characterCost(3), itemCost(5), stageClearCoin(6),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
-	apIncreaseRate(1.6f), asIncrease(0.1f)
+	apIncreaseRate(1.6f), asIncrease(0.1f),
+	manaPerAttack(15.f), manaPerHit(5.f)
 {
 	CLOG::Print3String("GameManager Create");
 	
@@ -83,6 +84,8 @@ void GameManager::Init()
 	stageClearCoin = gameSetting["StageClearCoin"];
 	characterCost = gameSetting["CharacterCost"];
 	itemCost = gameSetting["ItemCost"];
+	manaPerAttack = gameSetting["ManaPerAttack"];
+	manaPerHit = gameSetting["ManaPerHit"];
 
 	cout << "부대 배치 제한: " << battleCharacterCount << endl;
 	cout << "소환시 2업 확률: " << extraLevelUpSummon << endl;
@@ -136,6 +139,7 @@ void GameManager::Init()
 	cout << "F9 - 전투 배치, 뽑기 창 현황" << endl;
 	cout << "슷자5 - 다음 챕터(+10 스테이지)" << endl;
 	cout << "슷자6 - 이전 챕터(-10 스테이지)" << endl;
+	cout << "슷자7 - 부대 확장 + 1" << endl;
 	cout << "Y - 적 모두 1성 증가" << endl;
 	cout << "U - 적 모두 갑옷 1성 주기" << endl;
 	cout << "I - 적 모두 칼 1성 주기" << endl;

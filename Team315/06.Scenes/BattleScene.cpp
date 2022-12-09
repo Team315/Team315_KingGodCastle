@@ -228,6 +228,12 @@ void BattleScene::Update(float dt)
 			SetCurrentStage(curChapIdx, curStageIdx);
 		}
 
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num7))
+		{
+			CLOG::Print3String("troop expansion");
+			GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() + 1);
+		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 		{
 			CLOG::Print3String("devmode switch");

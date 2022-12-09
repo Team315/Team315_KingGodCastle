@@ -95,20 +95,18 @@ void Character::Update(float dt)
 		return;
 
 	hpBar->Update(dt);
-	
-	if (ccTimer > 0.f)
-	{
-		ccTimer -= dt;
-		if (ccTimer < 0.f)
-		{
-			ccTimer = 0.f;
-		}
-		return;
-	}
 
 	if (isBattle)
 	{
-		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+		if (ccTimer > 0.f)
+		{
+			ccTimer -= dt;
+			if (ccTimer < 0.f)
+			{
+				ccTimer = 0.f;
+			}
+			return;
+		}
 
 		if (!move && !attack)
 		{
@@ -117,7 +115,11 @@ void Character::Update(float dt)
 				if (m_attackDelay <= 0.f)
 				{
 					//m_target = 공격가능할때 가장 가까운 상대 정보
-					m_target = m_floodFill.GetNearEnemy(mainGrid, GAME_MGR->PosToIdx(position), targetType);
+					m_target = m_floodFill.GetNearEnemy(
+						GAME_MGR->GetMainGridRef(),
+						GAME_MGR->PosToIdx(position), targetType);
+
+					stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
 
 					//타겟의 포지션
 					lastDirection = Utils::Normalize(dynamic_cast<Character*>(m_target)->GetPos() - position);
@@ -126,16 +128,6 @@ void Character::Update(float dt)
 					SetState(AnimStates::Attack);
 					dynamic_cast<Character*>(m_target)->TakeDamage(this);
 					attack = true;
-					Stat& mp = stat[StatType::MP];
-					mp.TranslateCurrent(15.f);
-
-					if (!noSkill && Utils::EqualFloat(mp.GetCurRatio(), 1.f))
-					{
-						SetState(AnimStates::Skill);
-						mp.SetCurrent(0.f);
-						if (skill != nullptr)
-							skill->CastSkill(this);
-					}
 				}
 				m_attackDelay -= dt;
 			}
@@ -173,15 +165,32 @@ void Character::Update(float dt)
 				SetState(AnimStates::MoveToIdle);
 			}
 		}
+
+		if (!noSkill && Utils::EqualFloat(stat[StatType::MP].GetCurRatio(), 1.f))
+		{
+			SetState(AnimStates::Skill);
+			stat[StatType::MP].SetCurrent(0.f);
+			if (skill != nullptr)
+				skill->CastSkill(this);
+		}
 	}
 
+	animator.Update(dt);
+	effectAnimator.Update(dt);
+
+	SetDir(direction);
+
+	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
+	{
+		lastDirection = direction;
+	}
 	switch (currState)
 	{
 	case AnimStates::Idle:
 		UpdateIdle(dt);
 		break;
 	case AnimStates::MoveToIdle:
-		if(name.compare("Slime00"))
+		if (name.compare("Slime00"))
 			UpdateMoveToIdle(dt);
 		break;
 	case AnimStates::Move:
@@ -196,14 +205,6 @@ void Character::Update(float dt)
 		UpdateSkill(dt);
 		break;
 	}
-	animator.Update(dt);
-	effectAnimator.Update(dt);
-
-	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-	{
-		lastDirection = direction;
-	}
-	SetDir(direction);
 }
 
 void Character::Draw(RenderWindow& window)
@@ -304,6 +305,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	else
 		damage = attackerCharacter->GetSkill()->CalculatePotential(attackerCharacter);
 
+	stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerHit);
 	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, attackType);
 	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, attackType);
 

@@ -8,7 +8,9 @@
         "StartCoin":100,
         "StageClearCoin":20,
         "CharacterCost":3,
-        "ItemCost":5
+        "ItemCost":5,
+        "ManaPerAttack":15,
+        "ManaPerHit":5
     },
     "LevelUpStatIncreaseRate" :
     {

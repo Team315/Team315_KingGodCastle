@@ -56,6 +56,7 @@ public:
 	void Reset();
 
 	const int GetCharacterCount() { return battleCharacterCount; }
+	void SetCharacterCount(int newCharacterCount) { battleCharacterCount = newCharacterCount; }
 	const int GetExtraLevelUpSummon() { return extraLevelUpSummon; }
 	const int GetExtraLevelUpCombinate() { return extraLevelUpCombinate; }
 	const int GetExtraGradeUpChance() { return extraGradeUpChance; }
@@ -103,6 +104,8 @@ public:
 	float adIncreaseRate;
 	float apIncreaseRate;
 	float asIncrease;
+	float manaPerAttack;
+	float manaPerHit;
 
 	ObjectPool<DamageText> damageUI;
 	ObjectPool<RangePreview> rangePreview;
