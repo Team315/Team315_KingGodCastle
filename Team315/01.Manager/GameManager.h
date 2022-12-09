@@ -11,11 +11,12 @@
 struct AltarData
 {
 	// 강화, 신체, 은화, 마나 제단 순
-	AltarData(int enhance = 0, int physical = 0, int wealth = 0, int mana = 0)
+	AltarData() {}
+
+	void Init(int enhance = 0, int physical = 0, int wealth = 0, int mana = 0)
 	{
 
 	}
-
 
 };
 
@@ -57,6 +58,8 @@ protected:
 	int startCoin;
 	int currentCoin;
 	int stageClearCoin;
+
+	float itemDropProbability;
 
 	bool playingBattle;
 
@@ -109,6 +112,9 @@ public:
 	int GetClearCoin() { return stageClearCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }
 
+	int curChapIdx;
+	int curStageIdx;
+
 	int characterCost;
 	int itemCost;
 
@@ -126,6 +132,7 @@ public:
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
 	Item* CombineItem(Item* obj1, Item* obj2);
+	Item* DropItem(Character* monster);
 };
 
 #define GAME_MGR (GameManager::GetInstance())

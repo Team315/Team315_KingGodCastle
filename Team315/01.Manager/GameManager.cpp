@@ -19,13 +19,14 @@ void RangePreviewOnCreate(RangePreview* rangePreview)
 
 GameManager::GameManager()
 	: m_PlayTileList(nullptr), playingBattle(false),
+	curChapIdx(0), curStageIdx(0),
 	battleCharacterCount(8), extraLevelUpSummon(20),
 	extraLevelUpCombinate(100),
 	extraGradeUpChance(20), startCoin(50),
 	characterCost(3), itemCost(5), stageClearCoin(6),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
 	apIncreaseRate(1.6f), asIncrease(0.1f),
-	manaPerAttack(15.f), manaPerHit(5.f)
+	manaPerAttack(15.f), manaPerHit(5.f), itemDropProbability(10.f)
 {
 	CLOG::Print3String("GameManager Create");
 	
@@ -79,22 +80,26 @@ void GameManager::Init()
 	battleCharacterCount = gameSetting["BattleCharacterCount"];
 	extraLevelUpSummon = gameSetting["ExtraLevelUpSummon"];
 	extraLevelUpCombinate = gameSetting["ExtraLevelUpCombinate"];
-	extraGradeUpChance = gameSetting["ExtraGradeUpChance"];
+	//extraGradeUpChance = gameSetting["ExtraGradeUpChance"];
 	startCoin = gameSetting["StartCoin"];
 	stageClearCoin = gameSetting["StageClearCoin"];
 	characterCost = gameSetting["CharacterCost"];
-	itemCost = gameSetting["ItemCost"];
+	//itemCost = gameSetting["ItemCost"];
 	manaPerAttack = gameSetting["ManaPerAttack"];
 	manaPerHit = gameSetting["ManaPerHit"];
+	itemDropProbability = gameSetting["ItemDropProbability"];
 
 	cout << "부대 배치 제한: " << battleCharacterCount << endl;
 	cout << "소환시 2업 확률: " << extraLevelUpSummon << endl;
 	cout << "합성시 2업 확률: " << extraLevelUpCombinate << endl;
-	cout << "아이템 2업 확률(X): " << extraGradeUpChance << endl;
+	//cout << "아이템 2업 확률(X): " << extraGradeUpChance << endl;
 	cout << "게임 시작시 코인: " << startCoin << endl;
 	cout << "스테이지 클리어시 보상 코인: " << stageClearCoin << endl;
 	cout << "캐릭터 뽑기 가격: " << characterCost << endl;
-	cout << "아이템 뽑기 가격: " << itemCost << endl;
+	//cout << "아이템 뽑기 가격: " << itemCost << endl;
+	cout << "공격시 마나 획득: " << manaPerAttack << endl;
+	cout << "피격시 마나 획득: " << manaPerHit << endl;
+	cout << "아이템 드랍 확률(%): " << itemDropProbability << endl;
 
 	json statIncreaseRate = initSetting["LevelUpStatIncreaseRate"];
 	adIncreaseRate = statIncreaseRate["AdIncreaseRate"];
@@ -152,6 +157,7 @@ void GameManager::Reset()
 {
 	playingBattle = false;
 	currentCoin = startCoin;
+	altarData.Init();
 	/*extraLevelUpChance = 20;
 	extraGradeUpChance = 20;*/
 }
@@ -416,6 +422,13 @@ Item* GameManager::CombineItem(Item* obj1, Item* obj2)
 		}
 		return newItem;
 	}
+	return nullptr;
+}
+
+Item* GameManager::DropItem(Character* monster)
+{
+
+
 	return nullptr;
 }
 

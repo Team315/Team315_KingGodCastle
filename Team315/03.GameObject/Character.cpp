@@ -117,7 +117,6 @@ void Character::Update(float dt)
 
 	if (isBattle)
 	{
-
 		if (ccTimer > 0.f)
 		{
 			ccTimer -= dt;

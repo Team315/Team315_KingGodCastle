@@ -25,9 +25,6 @@ protected:
 	vector<RectangleObj>* pickAttackRangeRect;
 	vector<SpriteObj*> flags;
 
-	int curChapIdx;
-	int curStageIdx;
-
 	// bool playingBattle;
 
 	// Create player character when summon (2x7) x(0, 6) y(16, 17)
@@ -40,7 +37,6 @@ protected:
 
 	GameObj* pick;
 	Vector2f beforeDragPos;
-	int battleCharacterCount;
 
 	float gameEndTimer;
 

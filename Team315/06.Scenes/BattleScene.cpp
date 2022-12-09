@@ -12,8 +12,7 @@
 #include "RectangleObj.h"
 
 BattleScene::BattleScene()
-	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(10),
-	curChapIdx(0), curStageIdx(0), gameEndTimer(0.f),
+	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f),
 	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false)
 {
 	CLOG::Print3String("battle create");
@@ -93,9 +92,9 @@ void BattleScene::Enter()
 	GAME_MGR->Reset();
 	ui->Reset();
 
-	curChapIdx = 0;
-	curStageIdx = 0;
-	SetCurrentStage(curChapIdx, curStageIdx);
+	GAME_MGR->curChapIdx = 0;
+	GAME_MGR->curStageIdx = 0;
+	SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 
 	b_centerPos = false;
 	ZoomOut();
@@ -186,48 +185,50 @@ void BattleScene::Update(float dt)
 			b_centerPos = false;
 			ZoomOut();
 
-			if (curStageIdx < STAGE_MAX_COUNT - 1)
-				curStageIdx++;
-			SetCurrentStage(curChapIdx, curStageIdx);
+			if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
+				GAME_MGR->curStageIdx++;
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F5))
 		{
 			CLOG::Print3String("prev stage test");
-			if (curStageIdx > 0)
-				curStageIdx--;
-			SetCurrentStage(curChapIdx, curStageIdx);
+			if (GAME_MGR->curStageIdx > 0)
+				GAME_MGR->curStageIdx--;
+			else
+				GAME_MGR->curStageIdx = STAGE_MAX_COUNT - 1;
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F6))
 		{
 			CLOG::Print3String("next stage test");
-			if (curStageIdx < STAGE_MAX_COUNT - 1)
-				curStageIdx++;
+			if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
+				GAME_MGR->curStageIdx++;
 			else
 			{
-				if (curChapIdx != 2)
-					ui->GetPanel()->ChangeTitleTextString(++curChapIdx);
-				curStageIdx = 0;
+				if (GAME_MGR->curChapIdx != 2)
+					ui->GetPanel()->ChangeTitleTextString(++GAME_MGR->curChapIdx);
+				GAME_MGR->curStageIdx = 0;
 			}
-			SetCurrentStage(curChapIdx, curStageIdx);
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num5))
 		{
 			CLOG::Print3String("prev chapter test");
-			if (curChapIdx > 0)
-				curChapIdx--;
-			ui->GetPanel()->ChangeTitleTextString(curChapIdx);
-			SetCurrentStage(curChapIdx, curStageIdx);
+			if (GAME_MGR->curChapIdx > 0)
+				GAME_MGR->curChapIdx--;
+			ui->GetPanel()->ChangeTitleTextString(GAME_MGR->curChapIdx);
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num6))
 		{
 			CLOG::Print3String("next chapter test");
-			if (curChapIdx < CHAPTER_MAX_COUNT - 1)
-				curChapIdx++;
-			ui->GetPanel()->ChangeTitleTextString(curChapIdx);
-			SetCurrentStage(curChapIdx, curStageIdx);
+			if (GAME_MGR->curChapIdx < CHAPTER_MAX_COUNT - 1)
+				GAME_MGR->curChapIdx++;
+			ui->GetPanel()->ChangeTitleTextString(GAME_MGR->curChapIdx);
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num7))
@@ -427,7 +428,7 @@ void BattleScene::Update(float dt)
 						mgref[monsterGridCoordC + 70] = character;
 						monsterGridCoordC++;
 					}
-					if (curBattleCharacterCount != battleCharacterCount)
+					if (curBattleCharacterCount != GAME_MGR->GetCharacterCount())
 					{
 						CLOG::Print3String("need more battle character");
 						if (curBattleCharacterCount == 0)
@@ -743,10 +744,10 @@ void BattleScene::Update(float dt)
 
 			if (stageResult)
 			{
-				if (curStageIdx < STAGE_MAX_COUNT - 1)
-					curStageIdx++;
+				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
+					GAME_MGR->curStageIdx++;
 			}
-			SetCurrentStage(curChapIdx, curStageIdx);
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 			GAME_MGR->GetBattleTracker()->PrintAllData();
 		}
 		return;
@@ -782,7 +783,7 @@ void BattleScene::Draw(RenderWindow& window)
 {
 	for (int j = 0; j < BACKGROUND_WIDTH_COUNT * BACKGROUND_HEIGHT_COUNT; ++j)
 	{
-		int num = ((curChapIdx) * 150) + j;
+		int num = ((GAME_MGR->curChapIdx) * 150) + j;
 		GAME_MGR->GetTileBackgroundList()[num]->Draw(window);
 	}
 
@@ -902,7 +903,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 						continue;
 					count++;
 				}
-				if (count >= battleCharacterCount)
+				if (count >= GAME_MGR->GetCharacterCount())
 					canMove = false;
 			}
 		}
@@ -1080,8 +1081,8 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 		}
 	}
 
-	ui->GetPanel()->SetStageNumber(curStageIdx + 1);
-	cout << "current chapter, stage (" << curChapIdx << ", " << curStageIdx << ")" << endl;
+	ui->GetPanel()->SetStageNumber(GAME_MGR->curStageIdx + 1);
+	cout << "current chapter, stage (" << GAME_MGR->curChapIdx << ", " << GAME_MGR->curStageIdx << ")" << endl;
 }
 
 void BattleScene::LoseFlag()
