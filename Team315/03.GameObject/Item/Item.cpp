@@ -31,9 +31,12 @@ Item::Item(int grade, bool useExtraChance, ItemType iType)
 	case ItemType::Sword:
 		statType = StatType::AD;
 		break;
+	case ItemType::Book:
+		statType = StatType::None;
+		break;
 	}
-	//if (itemType != ItemType::Book)
-	potential = GAME_MGR->GetItemStatMapElem(statType, this->grade);
+	if (itemType != ItemType::Book)
+		potential = GAME_MGR->GetItemStatMapElem(statType, this->grade);
 
 	Init();
 }
@@ -71,9 +74,9 @@ string Item::MakePath()
 	case ItemType::Sword:
 		path += "Sword";
 		break;
-	/*case ItemType::Book:
+	case ItemType::Book:
 		path += "Book";
-		break;*/
+		break;
 	default:
 		cout << "fail" << endl;
 		return "fail";
@@ -106,7 +109,6 @@ string Item::GetStatTypeString()
 
 bool Item::Upgrade()
 {
-	//int gradeLimit = itemType == ItemType::Book ? TIER_MAX - 2 : TIER_MAX - 1;
 	int gradeLimit = TIER_MAX - 1;
 	bool ret = false;
 	if (grade < gradeLimit)
@@ -115,8 +117,7 @@ bool Item::Upgrade()
 		grade++;
 		sprite.setTexture(*RESOURCE_MGR->GetTexture(MakePath()), true);
 		SetOrigin(Origins::BC);
-		//if (itemType != ItemType::Book)
-			potential = GAME_MGR->GetItemStatMapElem(statType, grade);
+		potential = GAME_MGR->GetItemStatMapElem(statType, grade);
 	}
 	return ret;
 }

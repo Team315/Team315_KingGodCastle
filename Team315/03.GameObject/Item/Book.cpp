@@ -1,7 +1,7 @@
 #include "Book.h"
 
-Book::Book(int grade, ItemType type)
-	: Item(grade, type)
+Book::Book(int grade, bool useExtraChance, ItemType type)
+	: Item(grade, useExtraChance, type)
 {
 	SetName("Book");
 }

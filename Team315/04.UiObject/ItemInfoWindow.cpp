@@ -72,6 +72,11 @@ void ItemInfoWindow::SetItem(Item* item)
 		sTypeSpritePath += "4.png";
 		break;
 	}
+	if (item->GetItemType() == ItemType::Book)
+	{
+
+		return;
+	}
 
 	statSprite.setTexture(*RESOURCE_MGR->GetTexture(sTypeSpritePath), true);
 	statSprite.setScale(0.5f, 0.5f);

@@ -163,7 +163,10 @@ void Character::Update(float dt)
 						GAME_MGR->PosToIdx(position), targetType);
 
 					if (!noSkill)
+					{
 						stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
+						mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
+					}
 
 					//타겟의 포지션
 					lastDirection = Utils::Normalize(dynamic_cast<Character*>(m_target)->GetPos() - position);
@@ -328,9 +331,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		damage = attackerCharacter->GetStat(StatType::AD).GetModifier();
 	else
 		damage = attackerCharacter->GetSkill()->CalculatePotential(attackerCharacter);
-	
-	if (!noSkill)
-		stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerHit);
+
 	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, attackType);
 	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, attackType);
 
@@ -349,8 +350,13 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 
 	hp.TranslateCurrent(-damage);
 	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+
 	if (!noSkill)
+	{
+		stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
 		mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
+	}
+
 	if (stat[StatType::HP].GetCurrent() <= 0.f)
 	{
 		// death
@@ -457,9 +463,6 @@ bool Character::SetItem(Item* newItem)
 	case ItemType::Sword:
 		path += "Sword";
 		break;
-		/*case ItemType::Book:
-			path += "Book";
-			break;*/
 	}
 	path += (to_string(newItem->GetGrade()) + ".png");
 	if (!isCombine)

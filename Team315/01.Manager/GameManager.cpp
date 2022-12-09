@@ -314,9 +314,9 @@ Character* GameManager::SpawnPlayer(bool random)
 Item* GameManager::SpawnItem(int typeIdx)
 {
 	Item* item = nullptr;
-	// 0 ~ 8, 1/4 armor, bow, staff, sword / 0 book
+	// 0 ~ 4, 1/5 armor, bow, staff, sword, book
 	ItemType type = typeIdx == -1 ?
-		(ItemType) (Utils::RandomRange(0, 2 * ITEM_COUNT) / 2) :
+		(ItemType) (Utils::RandomRange(0, ITEM_COUNT)) :
 		(ItemType) (typeIdx);
 
 	switch (type)
@@ -334,9 +334,9 @@ Item* GameManager::SpawnItem(int typeIdx)
 	default:
 		item = new Sword();
 		break;
-	/*case ItemType::Book:
+	case ItemType::Book:
 		item = new Book();
-		break;*/
+		break;
 	}
 	return item;
 }
@@ -385,11 +385,11 @@ float GameManager::GetItemStatMapElem(StatType statType, int grade)
 Item* GameManager::CombineItem(Item* obj1, Item* obj2)
 {
 	// return null is can't combine
-	/*if (!obj1->GetName().compare("Book") ||
+	if (!obj1->GetName().compare("Book") ||
 		!obj2->GetName().compare("Book"))
 	{
 		return nullptr;
-	}*/
+	}
 
 	Item* newItem = nullptr;
 	if (obj1->GetGrade() != TIER_MAX - 1 && 

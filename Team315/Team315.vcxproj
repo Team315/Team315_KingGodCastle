@@ -121,7 +121,6 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>./SFML-2.5.1/include;./00.Framework;./01.Manager;./02.Object;./03.GameObject;./04.UiObject;./05.ToolObject;./06.Scenes;./96.Json;./97.DataTable;./98.3rd;./99.Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <MinUnityFiles>2</MinUnityFiles>
     </ClCompile>
@@ -153,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="02.Object\FloatingObj.h" />
+    <ClInclude Include="03.GameObject\Item\Book.h" />
     <ClInclude Include="03.GameObject\Monster\Slime00.h" />
     <ClInclude Include="03.GameObject\Monster\Slime01.h" />
     <ClInclude Include="03.GameObject\Monster\Slime02.h" />
@@ -264,6 +264,7 @@
   <ItemGroup>
     <ClCompile Include="02.Object\FloatingObj.cpp" />
     <ClCompile Include="03.GameObject\GameObj.cpp" />
+    <ClCompile Include="03.GameObject\Item\Book.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime00.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime01.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime02.cpp" />

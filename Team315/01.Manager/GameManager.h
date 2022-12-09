@@ -8,7 +8,17 @@
 #include "DamageText.h"
 #include "RangePreview.h"
 
-struct DamageData;
+struct AltarData
+{
+	// 강화, 신체, 은화, 마나 제단 순
+	AltarData(int enhance = 0, int physical = 0, int wealth = 0, int mana = 0)
+	{
+
+	}
+
+
+};
+
 struct AltarData;
 class BattleTracker;
 class Character;
@@ -26,6 +36,8 @@ protected:
 	vector<TileBackground*> m_TileBackground;
 	json backGroundDatas;
 	json characterDatas;
+
+	AltarData altarData;
 
 	// Set monster character locate before battle with data imported from GameManager
 	// When the game starts, the characters on the battleGrid are also taken.
@@ -117,11 +129,6 @@ public:
 };
 
 #define GAME_MGR (GameManager::GetInstance())
-
-//struct AltarData
-//{
-//
-//};
 
 struct DamageData
 {
