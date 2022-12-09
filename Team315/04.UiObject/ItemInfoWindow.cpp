@@ -116,7 +116,8 @@ void ItemInfoWindow::SetItem(Item* item)
 
 	status->SetString(statusText);
 
-	wstring temp = DT_CUR_TABLE->Get("book_explain1");
+	
+	wstring temp = STRING_TABLE->Get("book_explain1");
 	temp[9] = '\n';
 	additional->SetString(temp);
 }

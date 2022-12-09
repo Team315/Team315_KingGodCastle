@@ -34,4 +34,4 @@ inline T* DataTableMgr::Get(DataTable::Types type)
 }
 
 #define DATATABLE_MGR (DataTableMgr::GetInstance())
-#define DT_CUR_TABLE (DataTableMgr::GetInstance()->Get<StringTable>(DataTable::Types::String))
+#define STRING_TABLE (DataTableMgr::GetInstance()->Get<StringTable>(DataTable::Types::String))

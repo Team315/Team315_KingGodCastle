@@ -136,13 +136,12 @@ void AltarScene::Update(float dt)
 	if (InputMgr::GetKeyDown(Keyboard::Key::D))
 	{
 		testPos.x += 10.f;
-		for (auto aa : objList)
+		for (auto aa : AltarList)
 		{
-			/*if (aa->GetIndex() == 0)
-			{*/
-			Brazier::aa->MoveSetPos();
+			if (aa->GetIndex() == 0)
+			{
 				aa->MoveSetPos(testPos);
-			//}
+			}
 		}
 		CLOG::PrintVectorState(testPos, "now pos");
 	}
@@ -195,4 +194,3 @@ void AltarScene::SetBrazier()
 	BrazierList.push_back(m_Brazier);
 
 }
-
