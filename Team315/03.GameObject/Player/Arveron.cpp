@@ -1,8 +1,8 @@
 #include "Arveron.h"
 #include "Skill/ArveronSkill.h"
 
-Arveron::Arveron(bool mode, bool fixedStar, int skillTier)
-	: Character(mode, fixedStar, skillTier)
+Arveron::Arveron(bool mode, bool useExtraUpgrade, int skillTier)
+	: Character(mode, useExtraUpgrade, skillTier)
 {
 	SetType("Player");
 	SetName("Arveron");

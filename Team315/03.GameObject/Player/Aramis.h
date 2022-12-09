@@ -9,7 +9,7 @@ protected:
 	float bulletSpeed;
 
 public:
-	Aramis(bool mode = false, bool fixedStar = false, int skillTier = 0);
+	Aramis(bool mode = false, bool useExtraUpgrade = false, int skillTier = 0);
 	virtual ~Aramis();
 
 	virtual void Init() override;

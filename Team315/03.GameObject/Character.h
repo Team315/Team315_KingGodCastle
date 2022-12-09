@@ -29,6 +29,7 @@ protected:
 
 	// UI
 	TwoFactorProgress* hpBar;
+	ProgressBar* mpBar;
 	Star* star;
 
 	Vector2f hpBarLocalPos;
@@ -67,7 +68,7 @@ protected:
 
 public:
 	// mode false - summon, true - combine
-	Character(bool mode = false, bool fixedStar = false, int starNumber = 0);
+	Character(bool mode = false, bool useExtraUpgrade = false, int starNumber = 0);
 	virtual ~Character();
 
 	virtual void Init() override;
@@ -84,7 +85,6 @@ public:
 		move = true;
 		destination = dest;
 	}
-	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(StatType statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);

@@ -76,8 +76,8 @@ public:
 	void CreatedTiles();
 	void CreatedBackGround();
 	Character* SpawnMonster(string name, int grade);
-	Character* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
-	Character* SpawnPlayer(bool random, bool drawingOnBattle = true);
+	Character* SpawnPlayer(string name, bool random);
+	Character* SpawnPlayer(bool random);
 	
 	Item* SpawnItem(int typeIdx = -1);
 

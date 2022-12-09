@@ -8,7 +8,7 @@ protected:
 	vector<Sprite*> skillSprite;
 
 public:
-	Daniel(bool mode = false, bool fixedStar = false, int starNumber = 0);
+	Daniel(bool mode = false, bool useExtraUpgrade = false, int starNumber = 0);
 	virtual ~Daniel();
 
 	virtual void Init() override;

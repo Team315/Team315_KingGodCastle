@@ -282,33 +282,33 @@ Character* GameManager::SpawnMonster(string name, int grade)
 	return character;
 }
 
-Character* GameManager::SpawnPlayer(string name, bool random, bool drawingOnBattle)
+Character* GameManager::SpawnPlayer(string name, bool random)
 {
 	Character* character = nullptr;
 	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
 	//int num = 1;
 
 	if (!name.compare("Aramis") || num == 0)
-		character = new Aramis(false, false);
+		character = new Aramis(false, true);
 	else if (!name.compare("Arveron") || num == 1)
-		character = new Arveron(false, false);
+		character = new Arveron(false, true);
 	else if (!name.compare("Daniel") || num == 2)
-		character = new Daniel(false, false);
+		character = new Daniel(false, true);
 	else if (!name.compare("Evan") || num == 3)
-		character = new Evan(false, false);
+		character = new Evan(false, true);
 	else if (!name.compare("LeonHeart") || num == 4)
-		character = new LeonHeart(false, false);
+		character = new LeonHeart(false, true);
 	else if (!name.compare("Pria") || num == 5)
-		character = new Pria(false, false);
+		character = new Pria(false, true);
 	else if (!name.compare("Shelda") || num == 6)
-		character = new Shelda(false, false);
+		character = new Shelda(false, true);
 
 	return character;
 }
 
-Character* GameManager::SpawnPlayer(bool random, bool drawingOnBattle)
+Character* GameManager::SpawnPlayer(bool random)
 {
-	return SpawnPlayer("", random, drawingOnBattle);
+	return SpawnPlayer("", random);
 }
 
 Item* GameManager::SpawnItem(int typeIdx)

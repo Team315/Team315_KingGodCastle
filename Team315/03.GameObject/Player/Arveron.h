@@ -5,7 +5,7 @@ class Arveron : public Character
 {
 protected:
 public:
-	Arveron(bool mode = false, bool fixedStar = false, int skillTier = 0);
+	Arveron(bool mode = false, bool useExtraUpgrade = false, int skillTier = 0);
 	virtual ~Arveron();
 
 	virtual void Init() override;

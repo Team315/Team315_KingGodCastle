@@ -1,8 +1,8 @@
 #include "Daniel.h"
 #include "Skill/DanielSkill.h"
 
-Daniel::Daniel(bool mode, bool fixedStar, int starNumber)
-	: Character(mode, fixedStar, starNumber)
+Daniel::Daniel(bool mode, bool useExtraUpgrade, int starNumber)
+	: Character(mode, useExtraUpgrade, starNumber)
 {
 	SetType("Player");
 	SetName("Daniel");

@@ -2,9 +2,9 @@
 #include "Item/Item.h"
 #include "Skill.h"
 
-Character::Character(bool mode, bool fixedStar, int starNumber)
+Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
-	attackRangeType(false), isBattle(false), moveSpeed(0.f), noSkill(false),
+	attackRangeType(false), isBattle(false), moveSpeed(0.f), noSkill(true),
 	ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f),
 	dirType(Dir::None)
 {
@@ -14,7 +14,7 @@ Character::Character(bool mode, bool fixedStar, int starNumber)
 	hpBar->SetBackgroundOutline(Color::Black, 1.f);
 	hpBar->SetSecondProgressColor(Color::White);
 
-	star = new Star(mode, fixedStar, starNumber);
+	star = new Star(mode, useExtraUpgrade, starNumber);
 	itemGrid.assign(ITEM_LIMIT, nullptr);
 	for (auto& grid : itemGrid)
 	{
@@ -38,6 +38,12 @@ Character::~Character()
 		delete item;
 	}
 
+	if (mpBar != nullptr)
+	{
+		mpBar->Release();
+		delete mpBar;
+	}
+
 	delete hpBar;
 	delete star;
 	delete skill;
@@ -48,7 +54,6 @@ void Character::Init()
 {
 	GameObj::Init();
 	UpgradeCharacterSet();
-
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 
 	//battle
@@ -65,15 +70,18 @@ void Character::Init()
 		stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
 
 	AnimationInit();
-
+	if (!noSkill)
+	{
+		mpBar = new ProgressBar(TILE_SIZE * 0.8f, 3.f);
+		mpBar->SetProgressColor(Color(0x00, 0x40, 0xFF));
+		mpBar->SetBackgroundColor(Color(0, 0, 0, 100));
+		mpBar->SetBackgroundOutline(Color::Black, 1.f);
+		mpBar->SetProgressValue(0.f);
+	}
 	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 10.f };
-	SetHpBarValue(1.f);
-	hpBar->SetOrigin(Origins::BC);
+	hpBar->SetProgressValue(1.0f);
 	starLocalPos = { 0.f, hpBarLocalPos.y };
 	SetPos(position);
-
-	CLOG::PrintVectorState(hpBarLocalPos);
-	CLOG::PrintVectorState(position);
 }
 
 void Character::Reset()
@@ -88,7 +96,11 @@ void Character::Reset()
 	hp.ResetStat();
 	shieldAmount = shieldAmountMin;
 	hpBar->SetRatio(hp.GetModifier(), hp.GetCurrent(), shieldAmount);
-	stat[StatType::MP].SetCurrent(0.f);
+	if (!noSkill)
+	{
+		stat[StatType::MP].SetCurrent(0.f);
+		mpBar->SetProgressValue(0.f);
+	}
 	SetState(AnimStates::Idle);
 }
 
@@ -98,9 +110,14 @@ void Character::Update(float dt)
 		return;
 
 	hpBar->Update(dt);
+	animator.Update(dt);
+	effectAnimator.Update(dt);
+	if (!noSkill)
+		mpBar->Update(dt);
 
 	if (isBattle)
 	{
+
 		if (ccTimer > 0.f)
 		{
 			ccTimer -= dt;
@@ -111,6 +128,29 @@ void Character::Update(float dt)
 			return;
 		}
 
+		SetDir(direction);
+
+		switch (currState)
+		{
+		case AnimStates::Idle:
+			UpdateIdle(dt);
+			break;
+		case AnimStates::MoveToIdle:
+			if (name.compare("Slime00"))
+				UpdateMoveToIdle(dt);
+			break;
+		case AnimStates::Move:
+			if (name.compare("Slime00"))
+				UpdateMove(dt);
+			break;
+		case AnimStates::Attack:
+			if (name.compare("Slime00"))
+				UpdateAttack(dt);
+			break;
+		case AnimStates::Skill:
+			UpdateSkill(dt);
+			break;
+		}
 		if (!move && !attack)
 		{
 			if (isAttack())
@@ -122,7 +162,8 @@ void Character::Update(float dt)
 						GAME_MGR->GetMainGridRef(),
 						GAME_MGR->PosToIdx(position), targetType);
 
-					stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
+					if (!noSkill)
+						stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
 
 					//타겟의 포지션
 					lastDirection = Utils::Normalize(dynamic_cast<Character*>(m_target)->GetPos() - position);
@@ -176,37 +217,11 @@ void Character::Update(float dt)
 			if (skill != nullptr)
 				skill->CastSkill(this);
 		}
-	}
 
-	animator.Update(dt);
-	effectAnimator.Update(dt);
-
-	SetDir(direction);
-
-	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-	{
-		lastDirection = direction;
-	}
-	switch (currState)
-	{
-	case AnimStates::Idle:
-		UpdateIdle(dt);
-		break;
-	case AnimStates::MoveToIdle:
-		if (name.compare("Slime00"))
-			UpdateMoveToIdle(dt);
-		break;
-	case AnimStates::Move:
-		if (name.compare("Slime00"))
-			UpdateMove(dt);
-		break;
-	case AnimStates::Attack:
-		if (name.compare("Slime00"))
-			UpdateAttack(dt);
-		break;
-	case AnimStates::Skill:
-		UpdateSkill(dt);
-		break;
+		if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
+		{
+			lastDirection = direction;
+		}
 	}
 }
 
@@ -224,6 +239,8 @@ void Character::Draw(RenderWindow& window)
 		if (grid->GetActive())
 			grid->Draw(window);
 	}
+	if (!noSkill)
+		mpBar->Draw(window);
 }
 
 void Character::SetPos(const Vector2f& pos)
@@ -239,6 +256,9 @@ void Character::SetPos(const Vector2f& pos)
 		grid->SetPos(pos + hpBarLocalPos + Vector2f(xDelta, 25.f));
 		xDelta += ITEM_SPRITE_SIZE;
 	}
+
+	if (!noSkill)
+		mpBar->SetPos(pos + hpBarLocalPos + Vector2f(0, 4.f));
 }
 
 void Character::SetState(AnimStates newState)
@@ -284,8 +304,8 @@ void Character::SetStatsInit(json data)
 
 	stat[StatType::AS].SetUpgradeMode(true);
 	stat[StatType::AD].SetDeltaMode(true);
-	if (stat[StatType::MP].GetBase() == 0.f)
-		noSkill = true;
+	if (stat[StatType::MP].GetBase() > 0.f)
+		noSkill = false;
 
 	moveSpeed = stat[StatType::MS].GetBase();
 	int starNumber = GetStarNumber();
@@ -307,8 +327,9 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		damage = attackerCharacter->GetStat(StatType::AD).GetModifier();
 	else
 		damage = attackerCharacter->GetSkill()->CalculatePotential(attackerCharacter);
-
-	stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerHit);
+	
+	if (!noSkill)
+		stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerHit);
 	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, attackType);
 	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, attackType);
 
@@ -327,6 +348,8 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 
 	hp.TranslateCurrent(-damage);
 	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+	if (!noSkill)
+		mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
 	if (stat[StatType::HP].GetCurrent() <= 0.f)
 	{
 		// death
@@ -795,7 +818,6 @@ void Character::MoveAnimation()
 
 void Character::AttackAnimation(Vector2f attackPos)
 {
-	CLOG::PrintVectorState(attackPos);
 	SOUND_MGR->Play(resStringTypes[ResStringType::atkSound], 20.f, false);
 	if (dirType == Dir::Down)
 	{

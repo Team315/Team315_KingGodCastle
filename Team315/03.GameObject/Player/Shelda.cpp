@@ -1,8 +1,8 @@
 #include "Shelda.h"
 #include "Skill/SheldaSkill.h"
 
-Shelda::Shelda(bool mode, bool fixedStar, int skillTier)
-	: Character(mode, fixedStar, skillTier)
+Shelda::Shelda(bool mode, bool useExtraUpgrade, int skillTier)
+	: Character(mode, useExtraUpgrade, skillTier)
 {
 	SetType("Player");
 	SetName("Shelda");

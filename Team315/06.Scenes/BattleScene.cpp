@@ -471,7 +471,7 @@ void BattleScene::Update(float dt)
 						cout << "not enough coin" << endl;
 						break;
 					}
-					Character* newPick = GAME_MGR->SpawnPlayer(true, true);
+					Character* newPick = GAME_MGR->SpawnPlayer(true);
 					newPick->SetPos(prepareGridRect[idx]->GetPos());
 					newPick->Init();
 					prepareGrid[idx] = newPick;
@@ -722,6 +722,7 @@ void BattleScene::Update(float dt)
 		if (gameEndTimer < 0.f)
 		{
 			gameEndTimer = 0.f;
+			stageEnd = false;
 			ui->SetStageEndWindow(false);
 			ui->GetTracker()->ShowWindow(false);
 			ui->GetTracker()->ProfilesReturn();

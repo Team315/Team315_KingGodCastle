@@ -1,8 +1,8 @@
 #include "Pria.h"
 #include "Skill/PriaSkill.h"
 
-Pria::Pria(bool mode, bool fixedStar, int skillTier)
-	: Character(mode, fixedStar, skillTier)
+Pria::Pria(bool mode, bool useExtraUpgrade, int skillTier)
+	: Character(mode, useExtraUpgrade, skillTier)
 {
 	SetType("Player");
 	SetName("Pria");

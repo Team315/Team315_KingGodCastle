@@ -5,7 +5,7 @@ class Thief04 : public Character
 {
 protected:
 public:
-	Thief04(bool mode = false, bool fixedStar = false, int skillTier = 0);
+	Thief04(bool mode = false, bool useExtraUpgrade = false, int skillTier = 0);
 	virtual ~Thief04();
 
 	virtual void Init() override;

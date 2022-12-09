@@ -5,7 +5,7 @@ class Slime03 : public Character
 {
 protected:
 public:
-	Slime03(bool mode = false, bool fixedStar = false, int skillTier = 0);
+	Slime03(bool mode = false, bool useExtraUpgrade = false, int skillTier = 0);
 	virtual ~Slime03();
 
 	virtual void Init() override;
