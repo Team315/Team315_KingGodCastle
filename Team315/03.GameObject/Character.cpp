@@ -554,30 +554,6 @@ void Character::OnOffAttackAreas(bool onOff)
 	m_floodFill.DrawingAttackAreas(onOff, GAME_MGR->PosToIdx(position + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
 }
 
-bool Character::PlayAstar()
-{
-	Vector2i goingPos;
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-	m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
-	Vector2i mypos = GAME_MGR->PosToIdx(position);
-
-	//m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
-	goingPos = m_aStar.AstarSearch(mainGrid, mypos, m_GeneralArr);
-
-
-	if (goingPos.x == -1.f)// && goingPos.x == -1.f)
-	{
-		return false;
-	}
-
-	Vector2i coord = GAME_MGR->PosToIdx(position);
-	SetDestination(GAME_MGR->IdxToPos(goingPos));
-	SetMainGrid(coord.y, coord.x, nullptr);
-	SetMainGrid(goingPos.y, goingPos.x, this);
-
-	return true;
-}
-
 bool Character::SetTargetDistance()
 {
 	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
@@ -790,6 +766,7 @@ void Character::AnimationInit()
 void Character::IdleAnimation()
 {
 	animator.Play(resStringTypes[ResStringType::Idle]);
+	attack = false;
 }
 
 void Character::MoveToIdleAnimation()
@@ -802,6 +779,7 @@ void Character::MoveToIdleAnimation()
 	{
 		animator.Play((lastDirection.x > 0.f) ? resStringTypes[ResStringType::RightIdle] : resStringTypes[ResStringType::LeftIdle]);
 	}
+	attack = false;
 }
 
 void Character::MoveAnimation()
@@ -814,6 +792,7 @@ void Character::MoveAnimation()
 	{
 		animator.Play((direction.x > 0.f) ? resStringTypes[ResStringType::RightMove] : resStringTypes[ResStringType::LeftMove]);
 	}
+	attack = false;
 }
 
 void Character::AttackAnimation(Vector2f attackPos)
@@ -823,7 +802,6 @@ void Character::AttackAnimation(Vector2f attackPos)
 	SOUND_MGR->Play(resStringTypes[ResStringType::atkSound], 20.f, false);
 	if (dirType == Dir::Up)
 	{
-		direction.x = 0.f;
 		animator.Play(resStringTypes[ResStringType::UpAttack]);
 		if (!type.compare("Player"))
 		{
@@ -843,7 +821,6 @@ void Character::AttackAnimation(Vector2f attackPos)
 	}
 	else if (dirType == Dir::Down)
 	{
-		direction.x = 0.f;
 		animator.Play(resStringTypes[ResStringType::DownAttack]);
 		if (!type.compare("Player"))
 		{
@@ -863,7 +840,6 @@ void Character::AttackAnimation(Vector2f attackPos)
 	}
 	else if (dirType == Dir::Right)
 	{
-		direction.y = 0.f;
 		animator.Play(resStringTypes[ResStringType::RightAttack]);
 		if (!type.compare("Player"))
 		{
@@ -883,7 +859,6 @@ void Character::AttackAnimation(Vector2f attackPos)
 	}
 	else if (dirType == Dir::Left)
 	{
-		direction.y = 0.f;
 		animator.Play(resStringTypes[ResStringType::LeftAttack]);
 		if (!type.compare("Player"))
 		{
@@ -902,6 +877,7 @@ void Character::AttackAnimation(Vector2f attackPos)
 		}
 	}
 	attack = true;
+	move = false;
 }
 
 void Character::SkillAnimation(Vector2f skillPos)
@@ -933,6 +909,8 @@ void Character::SkillAnimation(Vector2f skillPos)
 	{
 		animator.Play(resStringTypes[ResStringType::DownSkill]);
 	}
+	attack = false;
+	move = false;
 }
 
 void Character::OnCompleteAttack()
@@ -1027,7 +1005,30 @@ void Character::UpdateSkill(float dt)
 
 void Character::SetDir(Vector2f direction)
 {
-	if (direction.y > 0.f)
+	float angle = Utils::Angle(direction, { 1, 0 }) * 2.f;
+
+	if (!name.compare("Aramis"))
+		cout << angle << endl;
+
+	if (angle >= 45.f && angle < 135.f)
+	{
+		dirType = Dir::Up;
+	}
+	else if (angle >= 135.f && angle < 225.f)
+	{
+		dirType = Dir::Right;
+	}
+	else if (angle >= 225.f && angle < 315.f)
+	{
+		dirType = Dir::Down;
+	}
+	else
+	{
+		dirType = Dir::Left;
+	}
+
+
+	/*if (direction.y > 0.f)
 	{
 		dirType = Dir::Down;
 	}
@@ -1042,5 +1043,5 @@ void Character::SetDir(Vector2f direction)
 	else if (direction.x < 0.f)
 	{
 		dirType = Dir::Left;
-	}
+	}*/
 }

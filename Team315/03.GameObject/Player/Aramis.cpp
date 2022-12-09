@@ -63,39 +63,6 @@ void Aramis::Init()
 void Aramis::Update(float dt)
 {
 	Character::Update(dt);
-	
-	//skill->Translate(lastDirection * bulletSpeed * dt);
-	//
-	//if (InputMgr::GetKeyDown(Keyboard::Z))
-	//{
-	//	SetState(AnimStates::Skill);
-	//}
-	//
-	//switch (currState)
-	//{
-	//case AnimStates::Idle:
-	//	UpdateIdle(dt);
-	//	break;
-	//case AnimStates::MoveToIdle:
-	//	UpdateMoveToIdle(dt);
-	//	break;
-	//case AnimStates::Move:
-	//	UpdateMove(dt);
-	//	break;
-	//case AnimStates::Attack:
-	//	UpdateAttack(dt);
-	//	break;
-	//case AnimStates::Skill:
-	//	UpdateSkill(dt);
-	//	break;
-	//}
-	//animator.Update(dt);
-	//effectAnimator.Update(dt);
-	//
-	//if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-	//{
-	//	lastDirection = direction;
-	//}
 }
 
 void Aramis::Draw(RenderWindow& window)

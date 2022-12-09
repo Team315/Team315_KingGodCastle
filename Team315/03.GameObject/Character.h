@@ -115,7 +115,6 @@ public:
 	vector<RectangleObj>* GetAreas() { return m_floodFill.GetAreas(); }
 
 	//Astar
-	bool PlayAstar();
 	bool SetTargetDistance();
 	void SetMainGrid(int r, int c, GameObj* character);
 	void SetIsBattle(bool battleOnOff) { isBattle = battleOnOff; }

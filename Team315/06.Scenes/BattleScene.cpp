@@ -745,8 +745,8 @@ void BattleScene::Update(float dt)
 			{
 				if (curStageIdx < STAGE_MAX_COUNT - 1)
 					curStageIdx++;
-				SetCurrentStage(curChapIdx, curStageIdx);
 			}
+			SetCurrentStage(curChapIdx, curStageIdx);
 			GAME_MGR->GetBattleTracker()->PrintAllData();
 		}
 		return;
