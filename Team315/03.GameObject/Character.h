@@ -21,8 +21,15 @@ protected:
 	vector<Item*> items;
 	vector<SpriteGrid*> itemGrid;
 
+	//Resource
+	unordered_map<ResStringType, string> resStringTypes;
+	unordered_map<Dir, Vector2f> attackPos;
+	unordered_map<Dir, Vector2f> skillPos;
+	Dir dirType;
+
 	// UI
 	TwoFactorProgress* hpBar;
+	ProgressBar* mpBar;
 	Star* star;
 
 	Vector2f hpBarLocalPos;
@@ -60,7 +67,8 @@ protected:
 	float astarDelay;
 
 public:
-	Character(int starNumber = 0);
+	// mode false - summon, true - combine
+	Character(bool mode = false, bool useExtraUpgrade = false, int starNumber = 0);
 	virtual ~Character();
 
 	virtual void Init() override;
@@ -77,7 +85,6 @@ public:
 		move = true;
 		destination = dest;
 	}
-	void SetHpBarValue(float val) { hpBar->SetProgressValue(val); }
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(StatType statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
@@ -87,11 +94,12 @@ public:
 	void TakeCare(GameObj* caster, bool careType = true);
 	void AddShieldAmount(float amount) { shieldAmount += amount; }
 	float GetShieldAmount() { return shieldAmount; }
-	void UpgradeStar();
+	void UpgradeStar(bool useExtraUpgrade = false);
 	void UpgradeCharacterSet();
 	void UpgradeStats();
 	bool SetItem(Item* newItem);
-	//void ArrangeItems();
+	void PutItem(Item* putItem);
+	void UpdateItems();
 	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
 	void SetCrowdControl(float time) { ccTimer = time; }
@@ -111,4 +119,23 @@ public:
 	bool SetTargetDistance();
 	void SetMainGrid(int r, int c, GameObj* character);
 	void SetIsBattle(bool battleOnOff) { isBattle = battleOnOff; }
+
+	//State
+	void AnimationInit();
+	void IdleAnimation();
+	void MoveToIdleAnimation();
+	void MoveAnimation();
+	void AttackAnimation(Vector2f attackPos);
+	void SkillAnimation(Vector2f skillPos);
+
+	void OnCompleteAttack();
+	void OnCompleteSkill();
+
+	void UpdateIdle(float dt);
+	void UpdateMoveToIdle(float dt);
+	void UpdateMove(float dt);
+	void UpdateAttack(float dt);
+	void UpdateSkill(float dt);
+
+	void SetDir(Vector2f direction);
 };

@@ -70,7 +70,7 @@ StatPopupWindow::StatPopupWindow(float x, float y)
 	currentHp.setOutlineThickness(1.f);
 	
 	mpBar = new ProgressBar(190.f, 11.f);
-	mpBar->SetProgressColor(Color(0.f, 0.f, 200.f));
+	mpBar->SetProgressColor(Color(0x00, 0x40, 0xFF));
 	mpBar->SetBackgroundColor(Color(0x1B, 0x1B, 0x1B));
 	mpBar->SetBackgroundOutline(Color::Black, 1.f);
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "Scene.h"
 #include "Include.h"
-#include <vector>
 #include "TileBackground.h"
 
 class BattleSceneUI;
@@ -24,11 +23,12 @@ protected:
 	vector<vector<Tile*>>* curStage;
 	vector<TileBackground*> curBackGround; 
 	vector<RectangleObj>* pickAttackRangeRect;
+	vector<SpriteObj*> flags;
 
 	int curChapIdx;
 	int curStageIdx;
 
-	bool playingBattle;
+	// bool playingBattle;
 
 	// Create player character when summon (2x7) x(0, 6) y(16, 17)
 	vector<GameObj*> prepareGrid;
@@ -43,6 +43,12 @@ protected:
 	int battleCharacterCount;
 
 	float gameEndTimer;
+
+	int remainLife;
+	bool isGameOver;
+
+	bool stageEnd;
+	bool stageResult;
 
 public:
 	BattleScene();
@@ -67,7 +73,7 @@ public:
 		Vector2i startCoord, Vector2i destCoord);
 
 	void SetCurrentStage(int chap, int stage);
-	
+	void LoseFlag();
 };
 
 int GetIdxFromCoord(Vector2i coord);

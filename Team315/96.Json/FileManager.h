@@ -31,9 +31,7 @@ public:
 	void LoadTileData(Chapters& m_PlayTileList);
 
 	void SaveBackGroundData(vector<BackGroundData> datas);
-	json LoadBackGroundData();
-
-	json LoadCharacterData();
+	json LoadByFilePath(string filePath);
 };
 
 #define FILE_MGR (FileManager::GetInstance())

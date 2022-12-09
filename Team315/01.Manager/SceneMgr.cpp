@@ -5,6 +5,7 @@
 #include "LobyScene.h"
 #include "BattleScene.h"
 #include "ToolScene.h"
+#include "AltarScene.h"
 
 Scenes SceneMgr::GetCurrScene() const
 {
@@ -21,6 +22,7 @@ bool SceneMgr::Init()
 	sceneMap[Scenes::Title] = new TitleScene();
 	//sceneMap[Scenes::Loby] = new LobyScene();
 	sceneMap[Scenes::Battle] = new BattleScene();
+	sceneMap[Scenes::Altar] = new AltarScene();
 	sceneMap[Scenes::Tool] = new ToolScene();
 
 	for (auto& i : sceneMap)

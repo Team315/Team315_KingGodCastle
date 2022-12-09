@@ -9,8 +9,10 @@
 #include "RangePreview.h"
 
 struct DamageData;
+struct AltarData;
 class BattleTracker;
 class Character;
+class DamageText;
 class GameObj;
 class Item;
 class Tile;
@@ -25,8 +27,6 @@ protected:
 	json backGroundDatas;
 	json characterDatas;
 
-	//vector<GameObj*> presetC;
-
 	// Set monster character locate before battle with data imported from GameManager
 	// When the game starts, the characters on the battleGrid are also taken.
 	vector<GameObj*>* mainGrid;
@@ -35,8 +35,10 @@ protected:
 
 	BattleTracker* battleTracker;
 
-	// Additional level up probability (Character)
-	int extraLevelUpChance;
+	// Additional level up probability when summon (Character)
+	int extraLevelUpSummon;
+	// Additional level up probability when combinate (Character)
+	int extraLevelUpCombinate;
 	// Additional grade up probability (Item)
 	int extraGradeUpChance;
 	int battleCharacterCount;
@@ -44,13 +46,19 @@ protected:
 	int currentCoin;
 	int stageClearCoin;
 
+	bool playingBattle;
+
 public:
 	GameManager();
 	virtual ~GameManager();
 
 	void Init();
+	void Reset();
+
 	const int GetCharacterCount() { return battleCharacterCount; }
-	const int GetExtraLevelUpChance() { return extraLevelUpChance; }
+	void SetCharacterCount(int newCharacterCount) { battleCharacterCount = newCharacterCount; }
+	const int GetExtraLevelUpSummon() { return extraLevelUpSummon; }
+	const int GetExtraLevelUpCombinate() { return extraLevelUpCombinate; }
 	const int GetExtraGradeUpChance() { return extraGradeUpChance; }
 
 	Vector2i PosToIdx(Vector2f pos);
@@ -68,15 +76,18 @@ public:
 	void CreatedTiles();
 	void CreatedBackGround();
 	Character* SpawnMonster(string name, int grade);
-	Character* SpawnPlayer(string name, bool random, bool drawingOnBattle = true);
-	Character* SpawnPlayer(bool random, bool drawingOnBattle = true);
+	Character* SpawnPlayer(string name, bool random);
+	Character* SpawnPlayer(bool random);
 	
 	Item* SpawnItem(int typeIdx = -1);
 
-	void Reset();
+	void MainGridReset();
 
 	void SetCharacterDatas();
 	json GetCharacterData(string name);
+
+	void SetPlayingBattle(bool val) { playingBattle = val; }
+	bool GetPlayingBattle() { return playingBattle; }
 
 	vector<GameObj*>& GetMainGridRef() { return *mainGrid; }
 	GameObj* GetGameObjInMainGrid(Vector2i coord);
@@ -86,14 +97,15 @@ public:
 	int GetClearCoin() { return stageClearCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }
 
-	const int characterCost;
-	const int itemCost;
+	int characterCost;
+	int itemCost;
 
-	// Stat increase rate when upgrading, (todo: file input)
-	const float hpIncreaseRate;
-	const float adIncreaseRate;
-	const float apIncreaseRate;
-	const float asIncrease;
+	float hpIncreaseRate;
+	float adIncreaseRate;
+	float apIncreaseRate;
+	float asIncrease;
+	float manaPerAttack;
+	float manaPerHit;
 
 	ObjectPool<DamageText> damageUI;
 	ObjectPool<RangePreview> rangePreview;
@@ -101,10 +113,15 @@ public:
 
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
+	Item* CombineItem(Item* obj1, Item* obj2);
 };
 
 #define GAME_MGR (GameManager::GetInstance())
-#define TRACKER (GAME_MGR->GetBattleTracker())
+
+//struct AltarData
+//{
+//
+//};
 
 struct DamageData
 {

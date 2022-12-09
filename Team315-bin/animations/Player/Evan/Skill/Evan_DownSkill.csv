@@ -1,0 +1,7 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Evan_DownSkill,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Character/Player/Evan/EvanSkill.png,0,0,100,100,50,100,0,0
+graphics/Character/Player/Evan/EvanSkill.png,300,0,100,100,50,100,0,0
+graphics/Character/Player/Evan/EvanSkill.png,0,300,100,100,50,100,0,0
+graphics/Character/Player/Evan/EvanSkill.png,400,0,100,100,50,100,0,0

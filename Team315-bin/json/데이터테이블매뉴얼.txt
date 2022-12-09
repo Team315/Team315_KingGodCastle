@@ -1,0 +1,42 @@
+[InitialGameSetting] 초기 설정
+"BattleCharacterCount": 부대 배치 제한
+"ExtraLevelUpSummon": 소환시 추가 등급 상승 확률 % (캐릭터)
+"ExtraLevelUpCombinate": 합성시 추가 등급 상승 확률 % (캐릭터)
+"ExtraGradeUpChance": 추가 등급 상승 확률 % (아이템)
+"StartCoin": 시작 시 코인
+"StageClearCoin": 스테이지 클리어 시 획득하는 코인
+"CharacterCost": 캐릭터 뽑기 가격
+"ItemCost": 아이템 뽑기 가격
+
+[LevelUpStatIncreaseRate] 캐릭터 등급 상승 시 스탯 증가량
+"AdIncreaseRate": 공격력 증가량 (%)
+"ApIncreaseRate": 주문력 증가량 (%)
+"AsIncrease": 공격속도 증가치 (+)
+"HpIncreaseRate": 체력 증가량 (%)
+
+[ItemStat]
+"Armor": 단계 별 초기 쉴드 증가치 (+)
+"Bow": 단계 별 공격속도 증가량 (%)
+"Staff": 단계 별 주문력 증가량 (%)
+"Sword": 단계 별 공격력 증가치 (+)
+
+[CharacterData.json]
+캐릭터 이름을 영문으로 검색
+개별 스탯 수정 가능.
+
+정수 입력
+HP, MP, AD(Attack Damage 물리 공격력(평타)),
+AP(Ability Power 주문력), AR(공격 사거리), MS(이동 속도)
+
+실수 입력
+AS(Attack Speed 공격 속도)
+
+ARTYPE: "square", "cross 두 종류
+square - 8방향, 대각선으로도 사거리 구현. (사거리 2일때 5x5)
+cross - 4방향, 십자모양, 택시거리로 사거리 구현
+(사거리 2일때)
+____ㅁ
+__ㅁㅁㅁ
+ㅁㅁㅁㅁㅁ
+__ㅁㅁㅁ
+____ㅁ

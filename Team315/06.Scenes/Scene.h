@@ -16,6 +16,7 @@ enum class Scenes
 	/*Dev1,
 	Dev2,*/
 	Title,
+	Altar,
 	//Loby,
 	Battle,
 	Tool,
@@ -60,4 +61,7 @@ public:
 	{
 		objList.push_back(obj);
 	}
+
+
+
 };

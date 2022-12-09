@@ -5,7 +5,7 @@ class LeonHeart : public Character
 {
 protected:
 public:
-	LeonHeart(int skillTier = 0);
+	LeonHeart(bool mode = false, bool useExtraUpgrade = false, int skillTier = 0);
 	virtual ~LeonHeart();
 
 	virtual void Init() override;
@@ -13,15 +13,15 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
 
-	virtual void SetState(AnimStates newState) override;
+	//virtual void SetState(AnimStates newState) override;
 
-	void OnCompleteAttack();
-	void OnCompleteSkill();
+	//void OnCompleteAttack();
+	//void OnCompleteSkill();
 
-	void UpdateIdle(float dt);
-	void UpdateMoveToIdle(float dt);
-	void UpdateMove(float dt);
-	void UpdateAttack(float dt);
-	void UpdateSkill(float dt);
+	//void UpdateIdle(float dt);
+	//void UpdateMoveToIdle(float dt);
+	//void UpdateMove(float dt);
+	//void UpdateAttack(float dt);
+	//void UpdateSkill(float dt);
 };
 

@@ -14,7 +14,9 @@ struct Cell
 
 struct EnemyInfo
 {
+	//제일 가까운 타겟 가는 길 사이즈
 	int leng;
+	//가야할 한칸의 포스
 	Vector2i destPos;
 	EnemyInfo() { leng = 0; destPos = { 0,0 }; }
 };

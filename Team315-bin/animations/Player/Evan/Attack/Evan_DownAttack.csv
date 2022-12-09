@@ -1,0 +1,7 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Evan_DownAttack,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Character/Player/Evan/EvanAttack.png,0,0,100,100,50,100,0,0
+graphics/Character/Player/Evan/EvanAttack.png,100,0,100,100,50,100,0,0
+graphics/Character/Player/Evan/EvanAttack.png,200,0,100,100,50,100,0,0
+graphics/Character/Player/Evan/EvanAttack.png,0,0,100,100,50,100,0,0

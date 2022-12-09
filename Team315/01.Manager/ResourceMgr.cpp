@@ -10,6 +10,7 @@ ResourceMgr::ResourceMgr()
 	filePaths.push_back("ResourcesCharacter.csv");
 	filePaths.push_back("ResourcesTileSet.csv");
 	filePaths.push_back("ResourcesToolUi.csv");
+	filePaths.push_back("ResourcesAltar.csv");
 	filePaths.push_back("ResourcesEffects.csv");
 	filePaths.push_back("ResourcesSounds.csv");
 }

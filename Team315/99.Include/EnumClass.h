@@ -70,8 +70,39 @@ enum class ItemType
 
 enum class Dir
 {
+	None = -1,
 	Down,
 	Up,
 	Left,
 	Right,
+};
+
+enum class ResStringType
+{
+	Idle,
+	DownIdle,
+	LeftIdle,
+	RightIdle,
+	UpIdle,
+	DownMove,
+	LeftMove,
+	RightMove,
+	UpMove,
+	DownAttack,
+	LeftAttack,
+	RightAttack,
+	UpAttack,
+	DownSkill,
+	LeftSkill,
+	RightSkill,
+	UpSkill,
+	DownAttackEffect,
+	LeftAttackEffect,
+	RightAttackEffect,
+	UpAttackEffect,
+	DownSkillEfect,
+	LeftSkillEfect,
+	RightSkillEfect,
+	UpSkillEfect,
+	atkSound,
 };

@@ -6,6 +6,6 @@ class Armor : public Item
 protected:
 
 public:
-	Armor(int grade = 0, ItemType type = ItemType::Armor);
+	Armor(int grade = 0, bool useExtraChance = false, ItemType iType = ItemType::Armor);
 	virtual ~Armor();
 };
