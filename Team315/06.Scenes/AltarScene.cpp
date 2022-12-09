@@ -192,7 +192,7 @@ void AltarScene::SetAltar()
 void AltarScene::SetBrazier()
 {
 	Brazier* m_Brazier = new Brazier();
-	objList.push_back(m_Brazier);
+	BrazierList.push_back(m_Brazier);
 
 }
 
