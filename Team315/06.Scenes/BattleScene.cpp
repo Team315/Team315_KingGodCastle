@@ -192,6 +192,18 @@ void BattleScene::Update(float dt)
 			GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem());
 		}
 
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num3))
+		{
+			cout << "create New Item" << endl;
+			GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem(1));
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num4))
+		{
+			cout << "create New Item" << endl;
+			GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem(2));
+		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
 		{
 			CLOG::Print3String("battle end");

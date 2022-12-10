@@ -137,7 +137,10 @@ void GameManager::Init()
 
 	cout << "--- 개발용 치트 키 현황 ---" << endl;
 	cout << "ESC - 타이틀 씬으로" << endl;
-	cout << "Num1 - 돈 +100" << endl;
+	cout << "숫자1 - 돈 +100" << endl;
+	cout << "숫자2 - 랜덤 1티어 아이템" << endl;
+	cout << "숫자3 - 랜덤 2티어 아이템" << endl;
+	cout << "숫자4 - 랜덤 3티어 아이템" << endl;
 	cout << "F4 - 전투 강제 종료-> 다음 스테이지" << endl;
 	cout << "F5 - 다음 스테이지" << endl;
 	cout << "F6 - 이전 스테이지" << endl;
