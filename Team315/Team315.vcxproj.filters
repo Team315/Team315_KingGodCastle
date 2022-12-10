@@ -99,6 +99,11 @@
     <ClCompile Include="04.UiObject\TrackerProfile.cpp" />
     <ClCompile Include="06.Scenes\AltarScene.cpp" />
     <ClCompile Include="04.UiObject\Altar.cpp" />
+    <ClCompile Include="03.GameObject\Item\Book.cpp" />
+    <ClCompile Include="97.DataTable\DataTable.cpp" />
+    <ClCompile Include="97.DataTable\DataTableMgr.cpp" />
+    <ClCompile Include="97.DataTable\StringTable.cpp" />
+    <ClCompile Include="04.UiObject\Brazier.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -209,6 +214,11 @@
     <ClInclude Include="04.UiObject\TrackerProfile.h" />
     <ClInclude Include="06.Scenes\AltarScene.h" />
     <ClInclude Include="04.UiObject\Altar.h" />
+    <ClInclude Include="03.GameObject\Item\Book.h" />
+    <ClInclude Include="97.DataTable\StringTable.h" />
+    <ClInclude Include="97.DataTable\DataTable.h" />
+    <ClInclude Include="97.DataTable\DataTableMgr.h" />
+    <ClInclude Include="04.UiObject\Brazier.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

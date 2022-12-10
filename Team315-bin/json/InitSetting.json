@@ -2,17 +2,18 @@
     "InitialGameSetting":
     {
         "BattleCharacterCount":3,
-        "ExtraLevelUpSummon":20,
-        "ExtraLevelUpCombinate":20,
-        "ExtraGradeUpChance":20,
-        "StartCoin":100,
+        "ExtraLevelUpSummon":15,
+        "ExtraLevelUpCombinate":30,
+        "StartCoin":500,
         "StageClearCoin":20,
         "CharacterCost":3,
         "ItemCost":5,
+        "ExpansionCost":5,
         "ManaPerAttack":15,
-        "ManaPerHit":5
+        "ManaPerHit":5,
+        "ItemDropProbability":10
     },
-    "LevelUpStatIncreaseRate" :
+    "LevelUpStatIncreaseRate":
     {
         "AdIncreaseRate":0.5,
         "ApIncreaseRate":0.6, 

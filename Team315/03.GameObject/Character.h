@@ -20,6 +20,7 @@ protected:
 	bool attackRangeType; // true square, false cross
 	vector<Item*> items;
 	vector<SpriteGrid*> itemGrid;
+	Sprite shadow;
 
 	//Resource
 	unordered_map<ResStringType, string> resStringTypes;
@@ -94,7 +95,7 @@ public:
 	void TakeCare(GameObj* caster, bool careType = true);
 	void AddShieldAmount(float amount) { shieldAmount += amount; }
 	float GetShieldAmount() { return shieldAmount; }
-	void UpgradeStar(bool useExtraUpgrade = false);
+	void UpgradeStar(bool mode = false, bool useExtraUpgrade = false);
 	void UpgradeCharacterSet();
 	void UpgradeStats();
 	bool SetItem(Item* newItem);
@@ -115,7 +116,6 @@ public:
 	vector<RectangleObj>* GetAreas() { return m_floodFill.GetAreas(); }
 
 	//Astar
-	bool PlayAstar();
 	bool SetTargetDistance();
 	void SetMainGrid(int r, int c, GameObj* character);
 	void SetIsBattle(bool battleOnOff) { isBattle = battleOnOff; }

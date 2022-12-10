@@ -8,8 +8,18 @@
 #include "DamageText.h"
 #include "RangePreview.h"
 
-struct DamageData;
-struct AltarData;
+struct AltarData
+{
+	// 강화, 신체, 은화, 마나 제단 순
+	AltarData() {}
+
+	void Init(int enhance = 0, int physical = 0, int wealth = 0, int mana = 0)
+	{
+
+	}
+
+};
+
 class BattleTracker;
 class Character;
 class DamageText;
@@ -26,6 +36,8 @@ protected:
 	vector<TileBackground*> m_TileBackground;
 	json backGroundDatas;
 	json characterDatas;
+
+	AltarData altarData;
 
 	// Set monster character locate before battle with data imported from GameManager
 	// When the game starts, the characters on the battleGrid are also taken.
@@ -45,6 +57,11 @@ protected:
 	int startCoin;
 	int currentCoin;
 	int stageClearCoin;
+
+	int expansionCost;
+	int expansionCount;
+
+	int itemDropProbability;
 
 	bool playingBattle;
 
@@ -79,7 +96,7 @@ public:
 	Character* SpawnPlayer(string name, bool random);
 	Character* SpawnPlayer(bool random);
 	
-	Item* SpawnItem(int typeIdx = -1);
+	Item* SpawnItem(int tier = 0, int typeIdx = -1);
 
 	void MainGridReset();
 
@@ -96,6 +113,11 @@ public:
 	int GetCurrentCoin() { return currentCoin; }
 	int GetClearCoin() { return stageClearCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }
+	int GetCurrentExpansionCost() { return expansionCost * pow(2, expansionCount); }
+	void TranslateExpansionCount(int val) { expansionCount += val; }
+
+	int curChapIdx;
+	int curStageIdx;
 
 	int characterCost;
 	int itemCost;
@@ -110,18 +132,15 @@ public:
 	ObjectPool<DamageText> damageUI;
 	ObjectPool<RangePreview> rangePreview;
 	queue<Item*> waitQueue;
+	vector<Item*> drops;
 
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
 	Item* CombineItem(Item* obj1, Item* obj2);
+	Item* DropItem(Character* monster);
 };
 
 #define GAME_MGR (GameManager::GetInstance())
-
-//struct AltarData
-//{
-//
-//};
 
 struct DamageData
 {
@@ -153,6 +172,7 @@ public:
 		bool givenOrTaken, bool dmgType);
 	void PrintAllData();
 	void SetTrackerMode(bool val) { trackerMode = val; }
+	bool GetTrackerMode() { return trackerMode; }
 	vector<DamageData>* GetDatas() { return &datas; }
 	void DataSort();
 };

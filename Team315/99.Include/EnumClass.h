@@ -64,7 +64,7 @@ enum class ItemType
 	Bow,
 	Staff,
 	Sword,
-	//Book,
+	Book,
 	Count,
 };
 

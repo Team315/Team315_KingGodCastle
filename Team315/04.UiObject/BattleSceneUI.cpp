@@ -36,7 +36,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	Utils::SetOrigin(stageEndWindowSprite, Origins::MC);
 
 	dmgTrackerUI = new DamageTrackerUI();
-	dmgTrackerUI->SetPos(Vector2f(350.f, 200.f));
+	dmgTrackerUI->SetPos(Vector2f(500.f, 200.f));
 }
 
 BattleSceneUI::~BattleSceneUI()

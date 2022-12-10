@@ -38,11 +38,11 @@ BattlePanel::BattlePanel()
 
 	equipment = new Button();
 	equipment->SetButton(*RESOURCE_MGR->GetTexture("graphics/battleScene/Button_02.png"),
-		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), L"장비구입",
+		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), L"진영확장",
 		textLocalPos.x, textLocalPos.y);
 	equipment->SetTextStyle(Color::White, 20, Color::Black, 1.f);
 	expansionLocalPos = Vector2f(GAME_SCREEN_WIDTH * 0.75f, 200.f);
-	equipment->SetName("item");
+	equipment->SetName("expansion");
 
 	titleText = new TextObj(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"),
 		L"고블린 습격!     번째 침략",

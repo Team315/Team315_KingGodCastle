@@ -35,6 +35,13 @@ void SpriteObj::SetColor(Color color)
 	sprite.setColor(color);
 }
 
+void SpriteObj::SetAlhpa(int num)
+{
+	Color color = sprite.getColor();
+	color.a = num;
+	SetColor(color);
+}
+
 void SpriteObj::SetTextureRect(const IntRect& rect)
 {
 	sprite.setTextureRect(rect);
@@ -55,6 +62,11 @@ Vector2f SpriteObj::GetSize() const
 FloatRect SpriteObj::GetGlobalBounds() const
 {
 	return sprite.getGlobalBounds();
+}
+
+Color SpriteObj::GetColor() const
+{
+	return sprite.getColor();
 }
 
 void SpriteObj::SetPos(const Vector2f& pos)

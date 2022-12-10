@@ -24,6 +24,9 @@ Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 		grid->SetOrigin(Origins::BC);
 		grid->SetActive(false);
 	}
+
+	shadow.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Shadow.png"));
+	shadow.setScale(0.4f, 0.4f);
 }
 
 Character::~Character()
@@ -81,6 +84,8 @@ void Character::Init()
 	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 10.f };
 	hpBar->SetProgressValue(1.0f);
 	starLocalPos = { 0.f, hpBarLocalPos.y };
+
+	Utils::SetOrigin(shadow, Origins::BC);
 	SetPos(position);
 }
 
@@ -117,7 +122,6 @@ void Character::Update(float dt)
 
 	if (isBattle)
 	{
-
 		if (ccTimer > 0.f)
 		{
 			ccTimer -= dt;
@@ -163,12 +167,18 @@ void Character::Update(float dt)
 						GAME_MGR->PosToIdx(position), targetType);
 
 					if (!noSkill)
+					{
 						stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
+						mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
+					}
 
 					//타겟의 포지션
+
 					lastDirection = Utils::Normalize(dynamic_cast<Character*>(m_target)->GetPos() - position);
 
 					direction = lastDirection;
+					SetDir(direction);
+
 					SetState(AnimStates::Attack);
 					dynamic_cast<Character*>(m_target)->TakeDamage(this);
 					attack = true;
@@ -183,7 +193,7 @@ void Character::Update(float dt)
 					if (SetTargetDistance())
 					{
 						//move = true;
-						SetState(AnimStates::Move);
+						//SetState(AnimStates::Move);
 					}
 					else
 					{
@@ -194,6 +204,7 @@ void Character::Update(float dt)
 				}
 			}
 		}
+		//attack = false;
 
 		if (move && !attack)
 		{
@@ -215,6 +226,7 @@ void Character::Update(float dt)
 		{
 			SetState(AnimStates::Skill);
 			stat[StatType::MP].SetCurrent(0.f);
+			mpBar->SetProgressValue(0.f);
 			if (skill != nullptr)
 				skill->CastSkill(this);
 		}
@@ -231,6 +243,7 @@ void Character::Draw(RenderWindow& window)
 	if (!isAlive)
 		return;
 
+	window.draw(shadow);
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
 	hpBar->Draw(window);
@@ -247,6 +260,7 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
+	shadow.setPosition(pos);
 	effectSprite.setPosition(pos);
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
@@ -328,9 +342,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		damage = attackerCharacter->GetStat(StatType::AD).GetModifier();
 	else
 		damage = attackerCharacter->GetSkill()->CalculatePotential(attackerCharacter);
-	
-	if (!noSkill)
-		stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerHit);
+
 	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, attackType);
 	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, attackType);
 
@@ -349,12 +361,18 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 
 	hp.TranslateCurrent(-damage);
 	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+
 	if (!noSkill)
+	{
+		stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
 		mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
+	}
+
 	if (stat[StatType::HP].GetCurrent() <= 0.f)
 	{
 		// death
 		isAlive = false;
+		Item* drop = GAME_MGR->DropItem(this);
 		GAME_MGR->RemoveFromMainGrid(this);
 	}
 }
@@ -373,15 +391,15 @@ void Character::TakeCare(GameObj* caster, bool careType)
 	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
 }
 
-void Character::UpgradeStar(bool useExtraUpgrade)
+void Character::UpgradeStar(bool mode, bool useExtraUpgrade)
 {
 	if (GetStarNumber() == STAR_MAX)
 		return;
 
 	bool upgradeTwice = false;
-	if (star->CalculateRandomChance(useExtraUpgrade))
+	if (star->CalculateRandomChance(mode, useExtraUpgrade))
 	{
-		CLOG::Print3String("upgrade 2");
+		CLOG::Print3String("upgrade 2 level");
 		upgradeTwice = true;
 	}
 	star->UpdateTexture();
@@ -396,7 +414,7 @@ void Character::UpgradeStar(bool useExtraUpgrade)
 	if (skill != nullptr)
 		skill->SetSkillTier(GetStarNumber());
 
-	m_attackDelay = 1.f / stat[StatType::AS].GetModifier();
+	//m_attackDelay = 1.f / stat[StatType::AS].GetModifier();
 }
 
 void Character::UpgradeCharacterSet()
@@ -437,6 +455,7 @@ bool Character::SetItem(Item* newItem)
 		if (items.size() == ITEM_LIMIT)
 			return false;
 		
+		newItem->SetActive(false);
 		items.push_back(newItem);
 	}
 
@@ -457,9 +476,6 @@ bool Character::SetItem(Item* newItem)
 	case ItemType::Sword:
 		path += "Sword";
 		break;
-		/*case ItemType::Book:
-			path += "Book";
-			break;*/
 	}
 	path += (to_string(newItem->GetGrade()) + ".png");
 	if (!isCombine)
@@ -496,6 +512,13 @@ void Character::UpdateItems()
 	{
 		if (i >= curSize)
 			itemGrid[i]->SetActive(false);
+		else
+		{
+			itemGrid[i]->SetSpriteTexture(
+				*RESOURCE_MGR->GetTexture(items[i]->MakePath()), true);
+			itemGrid[i]->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
+			itemGrid[i]->SetOrigin(Origins::BC);
+		}
 	}
 }
 
@@ -549,30 +572,6 @@ bool Character::isAttack()
 void Character::OnOffAttackAreas(bool onOff)
 {
 	m_floodFill.DrawingAttackAreas(onOff, GAME_MGR->PosToIdx(position + Vector2f(TILE_SIZE_HALF, TILE_SIZE_HALF)));
-}
-
-bool Character::PlayAstar()
-{
-	Vector2i goingPos;
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-	m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
-	Vector2i mypos = GAME_MGR->PosToIdx(position);
-
-	//m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
-	goingPos = m_aStar.AstarSearch(mainGrid, mypos, m_GeneralArr);
-
-
-	if (goingPos.x == -1.f)// && goingPos.x == -1.f)
-	{
-		return false;
-	}
-
-	Vector2i coord = GAME_MGR->PosToIdx(position);
-	SetDestination(GAME_MGR->IdxToPos(goingPos));
-	SetMainGrid(coord.y, coord.x, nullptr);
-	SetMainGrid(goingPos.y, goingPos.x, this);
-
-	return true;
 }
 
 bool Character::SetTargetDistance()
@@ -787,6 +786,7 @@ void Character::AnimationInit()
 void Character::IdleAnimation()
 {
 	animator.Play(resStringTypes[ResStringType::Idle]);
+	attack = false;
 }
 
 void Character::MoveToIdleAnimation()
@@ -799,6 +799,7 @@ void Character::MoveToIdleAnimation()
 	{
 		animator.Play((lastDirection.x > 0.f) ? resStringTypes[ResStringType::RightIdle] : resStringTypes[ResStringType::LeftIdle]);
 	}
+	attack = false;
 }
 
 void Character::MoveAnimation()
@@ -811,12 +812,14 @@ void Character::MoveAnimation()
 	{
 		animator.Play((direction.x > 0.f) ? resStringTypes[ResStringType::RightMove] : resStringTypes[ResStringType::LeftMove]);
 	}
+	attack = false;
 }
 
 void Character::AttackAnimation(Vector2f attackPos)
 {
 	if (attack)
 		return;
+	Vector2f temp = direction;
 	SOUND_MGR->Play(resStringTypes[ResStringType::atkSound], 20.f, false);
 	if (dirType == Dir::Up)
 	{
@@ -898,7 +901,10 @@ void Character::AttackAnimation(Vector2f attackPos)
 			}
 		}
 	}
+	direction = temp;
+
 	attack = true;
+	move = false;
 }
 
 void Character::SkillAnimation(Vector2f skillPos)
@@ -930,6 +936,7 @@ void Character::SkillAnimation(Vector2f skillPos)
 	{
 		animator.Play(resStringTypes[ResStringType::DownSkill]);
 	}
+	move = false;
 }
 
 void Character::OnCompleteAttack()
@@ -997,10 +1004,10 @@ void Character::UpdateMove(float dt)
 
 void Character::UpdateAttack(float dt)
 {
-	if (!Utils::EqualFloat(direction.y, 0.f) && !Utils::EqualFloat(direction.x, 0.f))
+	if (Utils::EqualFloat(direction.y, 0.f) && Utils::EqualFloat(direction.x, 0.f))
 	{
-		SetState(AnimStates::MoveToIdle);
-		attack = false;
+		//SetState(AnimStates::MoveToIdle);
+		//attack = false;
 	}
 }
 
@@ -1024,7 +1031,53 @@ void Character::UpdateSkill(float dt)
 
 void Character::SetDir(Vector2f direction)
 {
-	if (direction.y > 0.f)
+	/*
+	float angle = Utils::Angle(direction, { 1, 0 }) * 2.f;
+
+	if (!name.compare("Evan"))
+		cout << angle << endl;
+
+	if (angle >= 45.f && angle < 135.f)
+	{
+		dirType = Dir::Up;
+	}
+	else if (angle >= 135.f && angle < 225.f)
+	{
+		dirType = Dir::Right;
+	}
+	else if (angle >= 225.f && angle < 315.f)
+	{
+		dirType = Dir::Down;
+	}
+	else
+	{
+		dirType = Dir::Left;
+	}*/
+
+	if (abs(direction.x) < abs(direction.y)|| abs(direction.x) == abs(direction.y))
+	{
+		if (direction.y > 0.f)
+		{
+			dirType = Dir::Down;
+		}
+		else if (direction.y < 0.f)
+		{
+			dirType = Dir::Up;
+		}
+	}
+	else
+	{
+		if (direction.x > 0.f)
+		{
+			dirType = Dir::Right;
+		}
+		else if (direction.x < 0.f)
+		{
+			dirType = Dir::Left;
+		}
+	}
+
+	/*if (direction.y > 0.f)
 	{
 		dirType = Dir::Down;
 	}
@@ -1039,5 +1092,5 @@ void Character::SetDir(Vector2f direction)
 	else if (direction.x < 0.f)
 	{
 		dirType = Dir::Left;
-	}
+	}*/
 }

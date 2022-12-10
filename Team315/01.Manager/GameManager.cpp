@@ -19,13 +19,14 @@ void RangePreviewOnCreate(RangePreview* rangePreview)
 
 GameManager::GameManager()
 	: m_PlayTileList(nullptr), playingBattle(false),
-	battleCharacterCount(8), extraLevelUpSummon(20),
-	extraLevelUpCombinate(100),
-	extraGradeUpChance(20), startCoin(50),
-	characterCost(3), itemCost(5), stageClearCoin(6),
+	curChapIdx(0), curStageIdx(0),
+	battleCharacterCount(3), extraLevelUpSummon(15),
+	extraLevelUpCombinate(30), extraGradeUpChance(20),
+	startCoin(50), stageClearCoin(6),
+	characterCost(3), itemCost(5), expansionCost(5), expansionCount(0),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
 	apIncreaseRate(1.6f), asIncrease(0.1f),
-	manaPerAttack(15.f), manaPerHit(5.f)
+	manaPerAttack(15.f), manaPerHit(5.f), itemDropProbability(10)
 {
 	CLOG::Print3String("GameManager Create");
 	
@@ -79,22 +80,28 @@ void GameManager::Init()
 	battleCharacterCount = gameSetting["BattleCharacterCount"];
 	extraLevelUpSummon = gameSetting["ExtraLevelUpSummon"];
 	extraLevelUpCombinate = gameSetting["ExtraLevelUpCombinate"];
-	extraGradeUpChance = gameSetting["ExtraGradeUpChance"];
+	//extraGradeUpChance = gameSetting["ExtraGradeUpChance"];
 	startCoin = gameSetting["StartCoin"];
 	stageClearCoin = gameSetting["StageClearCoin"];
 	characterCost = gameSetting["CharacterCost"];
+	expansionCost = gameSetting["ExpansionCost"];
 	itemCost = gameSetting["ItemCost"];
 	manaPerAttack = gameSetting["ManaPerAttack"];
 	manaPerHit = gameSetting["ManaPerHit"];
+	itemDropProbability = gameSetting["ItemDropProbability"];
 
 	cout << "부대 배치 제한: " << battleCharacterCount << endl;
 	cout << "소환시 2업 확률: " << extraLevelUpSummon << endl;
 	cout << "합성시 2업 확률: " << extraLevelUpCombinate << endl;
-	cout << "아이템 2업 확률(X): " << extraGradeUpChance << endl;
+	//cout << "아이템 2업 확률(X): " << extraGradeUpChance << endl;
 	cout << "게임 시작시 코인: " << startCoin << endl;
 	cout << "스테이지 클리어시 보상 코인: " << stageClearCoin << endl;
 	cout << "캐릭터 뽑기 가격: " << characterCost << endl;
-	cout << "아이템 뽑기 가격: " << itemCost << endl;
+	cout << "부대 확장 초기 가격: " << expansionCost << endl;
+	cout << "1티어 아이템 가격: " << itemCost << endl;
+	cout << "공격시 마나 획득: " << manaPerAttack << endl;
+	cout << "피격시 마나 획득: " << manaPerHit << endl;
+	cout << "아이템 드랍 확률(%): " << itemDropProbability << endl;
 
 	json statIncreaseRate = initSetting["LevelUpStatIncreaseRate"];
 	adIncreaseRate = statIncreaseRate["AdIncreaseRate"];
@@ -130,7 +137,10 @@ void GameManager::Init()
 
 	cout << "--- 개발용 치트 키 현황 ---" << endl;
 	cout << "ESC - 타이틀 씬으로" << endl;
-	cout << "Num1 - 돈 +100" << endl;
+	cout << "숫자1 - 돈 +100" << endl;
+	cout << "숫자2 - 랜덤 1티어 아이템" << endl;
+	cout << "숫자3 - 랜덤 2티어 아이템" << endl;
+	cout << "숫자4 - 랜덤 3티어 아이템" << endl;
 	cout << "F4 - 전투 강제 종료-> 다음 스테이지" << endl;
 	cout << "F5 - 다음 스테이지" << endl;
 	cout << "F6 - 이전 스테이지" << endl;
@@ -139,19 +149,19 @@ void GameManager::Init()
 	cout << "F9 - 전투 배치, 뽑기 창 현황" << endl;
 	cout << "슷자5 - 다음 챕터(+10 스테이지)" << endl;
 	cout << "슷자6 - 이전 챕터(-10 스테이지)" << endl;
-	cout << "슷자7 - 부대 확장 + 1" << endl;
 	cout << "Y - 적 모두 1성 증가" << endl;
 	cout << "U - 적 모두 갑옷 1성 주기" << endl;
 	cout << "I - 적 모두 칼 1성 주기" << endl;
 	cout << "O - 적 모두 스태프 1성 주기" << endl;
 	cout << "P - 적 모두 활 1성 주기" << endl;
-
 }
 
 void GameManager::Reset()
 {
 	playingBattle = false;
 	currentCoin = startCoin;
+	altarData.Init();
+	expansionCount = 0;
 	/*extraLevelUpChance = 20;
 	extraGradeUpChance = 20;*/
 }
@@ -311,32 +321,32 @@ Character* GameManager::SpawnPlayer(bool random)
 	return SpawnPlayer("", random);
 }
 
-Item* GameManager::SpawnItem(int typeIdx)
+Item* GameManager::SpawnItem(int tier, int typeIdx)
 {
 	Item* item = nullptr;
-	// 0 ~ 8, 1/4 armor, bow, staff, sword / 0 book
+	// 0 ~ 4, 1/5 armor, bow, staff, sword, book
 	ItemType type = typeIdx == -1 ?
-		(ItemType) (Utils::RandomRange(0, 2 * ITEM_COUNT) / 2) :
+		(ItemType) (Utils::RandomRange(0, ITEM_COUNT)) :
 		(ItemType) (typeIdx);
 
 	switch (type)
 	{
 	case ItemType::Armor:
-		item = new Armor();
+		item = new Armor(tier);
 		break;
 	case ItemType::Bow:
-		item = new Bow();
+		item = new Bow(tier);
 		break;
 	case ItemType::Staff:
-		item = new Staff();
+		item = new Staff(tier);
 		break;
 	case ItemType::Sword:
 	default:
-		item = new Sword();
+		item = new Sword(tier);
 		break;
-	/*case ItemType::Book:
-		item = new Book();
-		break;*/
+	case ItemType::Book:
+		item = new Book(tier);
+		break;
 	}
 	return item;
 }
@@ -385,11 +395,11 @@ float GameManager::GetItemStatMapElem(StatType statType, int grade)
 Item* GameManager::CombineItem(Item* obj1, Item* obj2)
 {
 	// return null is can't combine
-	/*if (!obj1->GetName().compare("Book") ||
+	if (!obj1->GetName().compare("Book") ||
 		!obj2->GetName().compare("Book"))
 	{
 		return nullptr;
-	}*/
+	}
 
 	Item* newItem = nullptr;
 	if (obj1->GetGrade() != TIER_MAX - 1 && 
@@ -417,6 +427,23 @@ Item* GameManager::CombineItem(Item* obj1, Item* obj2)
 		return newItem;
 	}
 	return nullptr;
+}
+
+Item* GameManager::DropItem(Character* monster)
+{
+	if (monster->GetType().compare("Monster"))
+		return nullptr;
+
+	bool percent = Utils::RandomRange(0, 100) < itemDropProbability;
+	Item* drop = nullptr;
+	if (percent)
+	{
+		int tier = (monster->GetStarNumber() - 1) / 2;
+		drop = SpawnItem(tier);
+		drop->SetPos(monster->GetPos());
+		drops.push_back(drop);
+	}
+	return drop;
 }
 
 // Battle Tracker
