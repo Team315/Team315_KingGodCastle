@@ -9,7 +9,8 @@
         "CharacterCost":3,
         "ManaPerAttack":15,
         "ManaPerHit":5,
-        "ItemDropProbability":10
+        "ItemDropProbability":10,
+        "ExpansionTroopCost":5
     },
     "LevelUpStatIncreaseRate" :
     {

@@ -143,6 +143,7 @@ void BattleScene::Update(float dt)
 			Item* item = GAME_MGR->waitQueue.front();
 			item->SetPos(prepareGridRect[idx]->GetPos());
 			item->Init();
+			item->SetActive(true);
 			prepareGrid[idx] = item;
 
 			GAME_MGR->waitQueue.pop();

@@ -24,6 +24,9 @@ Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 		grid->SetOrigin(Origins::BC);
 		grid->SetActive(false);
 	}
+
+	shadow.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Shadow.png"));
+	shadow.setScale(0.4f, 0.4f);
 }
 
 Character::~Character()
@@ -237,6 +240,7 @@ void Character::Draw(RenderWindow& window)
 	if (!isAlive)
 		return;
 
+	window.draw(shadow);
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
 	hpBar->Draw(window);
@@ -253,6 +257,8 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
+	Utils::SetOrigin(shadow, Origins::BC);
+	shadow.setPosition(pos);
 	effectSprite.setPosition(pos);
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
@@ -446,6 +452,7 @@ bool Character::SetItem(Item* newItem)
 		if (items.size() == ITEM_LIMIT)
 			return false;
 		
+		newItem->SetActive(false);
 		items.push_back(newItem);
 	}
 

@@ -1,7 +1,7 @@
 #include "Item.h"
 
 Item::Item(int grade, bool useExtraChance, ItemType iType)
-	: grade(grade), itemType(iType), potential(0.f), statType(StatType::None)
+	: grade(grade), itemType(iType), potential(0.f), statType(StatType::None), delta(0.f)
 {
 	bool extraUpgrade =
 		Utils::RandomRange(0, 100) < GAME_MGR->GetExtraGradeUpChance() ?
@@ -16,6 +16,7 @@ Item::Item(int grade, bool useExtraChance, ItemType iType)
 	SetType("Item");
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(MakePath()), true);
 	SetOrigin(Origins::BC);
+	shadow.setScale(0.4f, 0.4f);
 
 	switch (itemType)
 	{
@@ -38,6 +39,8 @@ Item::Item(int grade, bool useExtraChance, ItemType iType)
 	if (itemType != ItemType::Book)
 		potential = GAME_MGR->GetItemStatMapElem(statType, this->grade);
 
+	shadow.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Shadow.png"));
+	spriteLocalPos = Vector2f(0, -10.f);
 	Init();
 }
 
@@ -45,15 +48,28 @@ Item::~Item()
 {
 }
 
+void Item::Update(float dt)
+{
+	if (!enabled)
+		return;
+
+	spriteLocalPos.y += cos(delta) * 0.02f; // amplitude
+	SetPos(position);
+	delta += (dt * 3.f); // floating speed
+}
+
 void Item::Draw(RenderWindow& window)
 {
+	window.draw(shadow);
 	SpriteObj::Draw(window);
 }
 
 void Item::SetPos(const Vector2f& pos)
 {
 	Object::SetPos(pos);
-	sprite.setPosition(position + Vector2f(0, -10.f));
+	sprite.setPosition(position + spriteLocalPos);
+	shadow.setPosition(position);
+	Utils::SetOrigin(shadow, Origins::BC);
 }
 
 string Item::MakePath()
