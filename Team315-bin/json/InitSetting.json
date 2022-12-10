@@ -2,8 +2,8 @@
     "InitialGameSetting":
     {
         "BattleCharacterCount":3,
-        "ExtraLevelUpSummon":20,
-        "ExtraLevelUpCombinate":20,
+        "ExtraLevelUpSummon":15,
+        "ExtraLevelUpCombinate":30,
         "StartCoin":500,
         "StageClearCoin":20,
         "CharacterCost":3,

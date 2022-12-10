@@ -20,8 +20,8 @@ void RangePreviewOnCreate(RangePreview* rangePreview)
 GameManager::GameManager()
 	: m_PlayTileList(nullptr), playingBattle(false),
 	curChapIdx(0), curStageIdx(0),
-	battleCharacterCount(8), extraLevelUpSummon(20),
-	extraLevelUpCombinate(100),
+	battleCharacterCount(3), extraLevelUpSummon(15),
+	extraLevelUpCombinate(30),
 	extraGradeUpChance(20), startCoin(50),
 	characterCost(3), itemCost(5), stageClearCoin(6),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),

@@ -382,13 +382,13 @@ void Character::TakeCare(GameObj* caster, bool careType)
 	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
 }
 
-void Character::UpgradeStar(bool useExtraUpgrade)
+void Character::UpgradeStar(bool mode, bool useExtraUpgrade)
 {
 	if (GetStarNumber() == STAR_MAX)
 		return;
 
 	bool upgradeTwice = false;
-	if (star->CalculateRandomChance(useExtraUpgrade))
+	if (star->CalculateRandomChance(mode, useExtraUpgrade))
 	{
 		CLOG::Print3String("upgrade 2");
 		upgradeTwice = true;

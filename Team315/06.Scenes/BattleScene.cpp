@@ -312,7 +312,7 @@ void BattleScene::Update(float dt)
 					continue;
 
 				if (!gameObj->GetType().compare("Monster"))
-					dynamic_cast<Character*>(gameObj)->UpgradeStar(false);
+					dynamic_cast<Character*>(gameObj)->UpgradeStar(false, false);
 			}
 		}
 
@@ -946,7 +946,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 
 					temp->Release();
 					delete temp;
-					dynamic_cast<Character*>(pick)->UpgradeStar(true);
+					dynamic_cast<Character*>(pick)->UpgradeStar(true, true);
 				}
 				else (*dest)[destIdx]->SetPos(beforeDragPos);
 			}
@@ -1009,7 +1009,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 				{
 					if (pickItem->GetGrade() == (destCharacter->GetStarNumber() - 1) / 2)
 					{
-						destCharacter->UpgradeStar(false);
+						destCharacter->UpgradeStar(false, false);
 						(*start)[startIdx] = nullptr;
 						pickItem->Release();
 						delete pickItem;

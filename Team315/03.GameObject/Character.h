@@ -94,7 +94,7 @@ public:
 	void TakeCare(GameObj* caster, bool careType = true);
 	void AddShieldAmount(float amount) { shieldAmount += amount; }
 	float GetShieldAmount() { return shieldAmount; }
-	void UpgradeStar(bool useExtraUpgrade = false);
+	void UpgradeStar(bool mode = false, bool useExtraUpgrade = false);
 	void UpgradeCharacterSet();
 	void UpgradeStats();
 	bool SetItem(Item* newItem);
