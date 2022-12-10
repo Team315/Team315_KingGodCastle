@@ -85,7 +85,6 @@ void DamageTrackerUI::Update(float dt)
 		profile->SetMaxTotal(maxTotal);
 		profile->Update(dt);
 	}
-	TrackerUpdate();
 }
 
 void DamageTrackerUI::Draw(RenderWindow& window)

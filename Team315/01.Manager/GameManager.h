@@ -58,6 +58,9 @@ protected:
 	int currentCoin;
 	int stageClearCoin;
 
+	int expansionCost;
+	int expansionCount;
+
 	int itemDropProbability;
 
 	bool playingBattle;
@@ -110,6 +113,8 @@ public:
 	int GetCurrentCoin() { return currentCoin; }
 	int GetClearCoin() { return stageClearCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }
+	int GetCurrentExpansionCost() { return expansionCost * pow(2, expansionCount); }
+	void TranslateExpansionCount(int val) { expansionCount += val; }
 
 	int curChapIdx;
 	int curStageIdx;

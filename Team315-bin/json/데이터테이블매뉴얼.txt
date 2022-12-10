@@ -5,6 +5,8 @@
 "StartCoin": 시작 시 코인
 "StageClearCoin": 스테이지 클리어 시 획득하는 코인
 "CharacterCost": 캐릭터 뽑기 가격
+"ItemCost": 1티어 아이템 가치
+"ExpansionCost": 첫 번째 부대확장 가격
 "ManaPerAttack": 공격당 마나 획득량
 "ManaPerHit": 피격당 마나 획득량
 "ItemDropProbability": 아이템 드랍 확률

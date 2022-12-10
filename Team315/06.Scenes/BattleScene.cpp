@@ -256,12 +256,6 @@ void BattleScene::Update(float dt)
 			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
 
-		if (InputMgr::GetKeyDown(Keyboard::Key::Num7))
-		{
-			CLOG::Print3String("troop expansion");
-			GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() + 1);
-		}
-
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
 		{
 			CLOG::Print3String("devmode switch");
@@ -465,7 +459,7 @@ void BattleScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				// battle start
+				// Start battle
 				if (!button->GetName().compare("begin") && !GAME_MGR->GetPlayingBattle())
 				{
 					int monsterGridCoordC = 0;
@@ -504,7 +498,7 @@ void BattleScene::Update(float dt)
 					ui->GetTracker()->ShowWindow(false);
 					break;
 				}
-				// summon character
+				// Summon character
 				else if (!button->GetName().compare("summon"))
 				{
 					int idx = GetZeroElem(prepareGrid);
@@ -529,10 +523,24 @@ void BattleScene::Update(float dt)
 					prepareGrid[idx] = newPick;
 					break;
 				}
-				// Item
-				else if (!button->GetName().compare("item"))
+				// Expansion
+				else if (!button->GetName().compare("expansion"))
 				{
-					int idx = GetZeroElem(prepareGrid);
+					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->GetCurrentExpansionCost())
+					{
+						cout << "expansion troops" << endl;
+						GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() + 1);
+						TranslateCoinState(-GAME_MGR->GetCurrentExpansionCost());
+						GAME_MGR->TranslateExpansionCount(1);
+						break;
+					}
+					else
+					{
+						cout << "not enough coin" << endl;
+						break;
+					}
+
+					/*int idx = GetZeroElem(prepareGrid);
 					if (idx == -1)
 					{
 						CLOG::Print3String("can not create item");
@@ -552,7 +560,7 @@ void BattleScene::Update(float dt)
 						cout << "not enough coin" << endl;
 						break;
 					}
-					break;
+					break;*/
 				}
 			}
 		}

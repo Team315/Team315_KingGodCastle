@@ -7,12 +7,13 @@
         "StartCoin":500,
         "StageClearCoin":20,
         "CharacterCost":3,
+        "ItemCost":5,
+        "ExpansionCost":5,
         "ManaPerAttack":15,
         "ManaPerHit":5,
-        "ItemDropProbability":10,
-        "ExpansionTroopCost":5
+        "ItemDropProbability":10
     },
-    "LevelUpStatIncreaseRate" :
+    "LevelUpStatIncreaseRate":
     {
         "AdIncreaseRate":0.5,
         "ApIncreaseRate":0.6, 

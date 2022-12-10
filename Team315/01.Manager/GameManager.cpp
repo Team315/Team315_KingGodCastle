@@ -21,9 +21,9 @@ GameManager::GameManager()
 	: m_PlayTileList(nullptr), playingBattle(false),
 	curChapIdx(0), curStageIdx(0),
 	battleCharacterCount(3), extraLevelUpSummon(15),
-	extraLevelUpCombinate(30),
-	extraGradeUpChance(20), startCoin(50),
-	characterCost(3), itemCost(5), stageClearCoin(6),
+	extraLevelUpCombinate(30), extraGradeUpChance(20),
+	startCoin(50), stageClearCoin(6),
+	characterCost(3), itemCost(5), expansionCost(5), expansionCount(0),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
 	apIncreaseRate(1.6f), asIncrease(0.1f),
 	manaPerAttack(15.f), manaPerHit(5.f), itemDropProbability(10)
@@ -84,7 +84,8 @@ void GameManager::Init()
 	startCoin = gameSetting["StartCoin"];
 	stageClearCoin = gameSetting["StageClearCoin"];
 	characterCost = gameSetting["CharacterCost"];
-	//itemCost = gameSetting["ItemCost"];
+	expansionCost = gameSetting["ExpansionCost"];
+	itemCost = gameSetting["ItemCost"];
 	manaPerAttack = gameSetting["ManaPerAttack"];
 	manaPerHit = gameSetting["ManaPerHit"];
 	itemDropProbability = gameSetting["ItemDropProbability"];
@@ -96,7 +97,8 @@ void GameManager::Init()
 	cout << "게임 시작시 코인: " << startCoin << endl;
 	cout << "스테이지 클리어시 보상 코인: " << stageClearCoin << endl;
 	cout << "캐릭터 뽑기 가격: " << characterCost << endl;
-	//cout << "아이템 뽑기 가격: " << itemCost << endl;
+	cout << "부대 확장 초기 가격: " << expansionCost << endl;
+	cout << "1티어 아이템 가격: " << itemCost << endl;
 	cout << "공격시 마나 획득: " << manaPerAttack << endl;
 	cout << "피격시 마나 획득: " << manaPerHit << endl;
 	cout << "아이템 드랍 확률(%): " << itemDropProbability << endl;
@@ -144,13 +146,11 @@ void GameManager::Init()
 	cout << "F9 - 전투 배치, 뽑기 창 현황" << endl;
 	cout << "슷자5 - 다음 챕터(+10 스테이지)" << endl;
 	cout << "슷자6 - 이전 챕터(-10 스테이지)" << endl;
-	cout << "슷자7 - 부대 확장 + 1" << endl;
 	cout << "Y - 적 모두 1성 증가" << endl;
 	cout << "U - 적 모두 갑옷 1성 주기" << endl;
 	cout << "I - 적 모두 칼 1성 주기" << endl;
 	cout << "O - 적 모두 스태프 1성 주기" << endl;
 	cout << "P - 적 모두 활 1성 주기" << endl;
-
 }
 
 void GameManager::Reset()
@@ -158,6 +158,7 @@ void GameManager::Reset()
 	playingBattle = false;
 	currentCoin = startCoin;
 	altarData.Init();
+	expansionCount = 0;
 	/*extraLevelUpChance = 20;
 	extraGradeUpChance = 20;*/
 }
