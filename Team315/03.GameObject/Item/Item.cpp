@@ -1,11 +1,11 @@
 #include "Item.h"
 
 Item::Item(int grade, bool useExtraChance, ItemType iType)
-	: grade(grade), itemType(iType), potential(0.f), statType(StatType::None), delta(0.f)
+	: grade(grade), itemType(iType), potential(0.f), 
+	statType(StatType::None), delta(0.f), moveSpeed(150.f)
 {
 	bool extraUpgrade =
-		Utils::RandomRange(0, 100) < GAME_MGR->GetExtraGradeUpChance() ?
-		true : false;
+		Utils::RandomRange(0, 100) < GAME_MGR->GetExtraGradeUpChance();
 	if (useExtraChance && extraUpgrade && (grade + 1) != TIER_MAX)
 	{
 		cout << "item 2 upgrade" << endl;
@@ -56,6 +56,17 @@ void Item::Update(float dt)
 	spriteLocalPos.y += cos(delta) * 0.02f; // amplitude
 	SetPos(position);
 	delta += (dt * 3.f); // floating speed
+
+	if (move)
+	{
+		Translate(Utils::Normalize(destination - position) * dt * moveSpeed);
+		if (Utils::EqualFloat(Utils::Distance(destination, position), 0.f, dt * moveSpeed))
+		{
+			SetPos(destination);
+			move = false;
+			SetHitBoxActive(true);
+		}
+	}
 }
 
 void Item::Draw(RenderWindow& window)
@@ -136,4 +147,11 @@ bool Item::Upgrade()
 		potential = GAME_MGR->GetItemStatMapElem(statType, grade);
 	}
 	return ret;
+}
+
+void Item::SetDestination(Vector2f dest)
+{
+	move = true;
+	destination = dest;
+	SetHitBoxActive(false);
 }

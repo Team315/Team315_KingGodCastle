@@ -20,7 +20,6 @@ struct AltarData
 
 };
 
-struct AltarData;
 class BattleTracker;
 class Character;
 class DamageText;
@@ -59,7 +58,7 @@ protected:
 	int currentCoin;
 	int stageClearCoin;
 
-	float itemDropProbability;
+	int itemDropProbability;
 
 	bool playingBattle;
 
@@ -94,7 +93,7 @@ public:
 	Character* SpawnPlayer(string name, bool random);
 	Character* SpawnPlayer(bool random);
 	
-	Item* SpawnItem(int typeIdx = -1);
+	Item* SpawnItem(int tier = 0, int typeIdx = -1);
 
 	void MainGridReset();
 
@@ -128,6 +127,7 @@ public:
 	ObjectPool<DamageText> damageUI;
 	ObjectPool<RangePreview> rangePreview;
 	queue<Item*> waitQueue;
+	vector<Item*> drops;
 
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
@@ -167,6 +167,7 @@ public:
 		bool givenOrTaken, bool dmgType);
 	void PrintAllData();
 	void SetTrackerMode(bool val) { trackerMode = val; }
+	bool GetTrackerMode() { return trackerMode; }
 	vector<DamageData>* GetDatas() { return &datas; }
 	void DataSort();
 };

@@ -12,6 +12,10 @@ protected:
 	Vector2f spriteLocalPos;
 	float delta;
 
+	Vector2f destination;
+	float moveSpeed;
+	bool move;
+
 public:
 	Item(int grade = 0, bool useExtraChance = false, ItemType iType = ItemType::None);
 	virtual ~Item();
@@ -27,4 +31,6 @@ public:
 	StatType GetStatType() { return statType; }
 	string GetStatTypeString();
 	bool Upgrade();
+
+	void SetDestination(Vector2f dest);
 };

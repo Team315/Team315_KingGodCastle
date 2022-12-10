@@ -26,7 +26,7 @@ GameManager::GameManager()
 	characterCost(3), itemCost(5), stageClearCoin(6),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
 	apIncreaseRate(1.6f), asIncrease(0.1f),
-	manaPerAttack(15.f), manaPerHit(5.f), itemDropProbability(10.f)
+	manaPerAttack(15.f), manaPerHit(5.f), itemDropProbability(10)
 {
 	CLOG::Print3String("GameManager Create");
 	
@@ -317,7 +317,7 @@ Character* GameManager::SpawnPlayer(bool random)
 	return SpawnPlayer("", random);
 }
 
-Item* GameManager::SpawnItem(int typeIdx)
+Item* GameManager::SpawnItem(int tier, int typeIdx)
 {
 	Item* item = nullptr;
 	// 0 ~ 4, 1/5 armor, bow, staff, sword, book
@@ -328,20 +328,20 @@ Item* GameManager::SpawnItem(int typeIdx)
 	switch (type)
 	{
 	case ItemType::Armor:
-		item = new Armor();
+		item = new Armor(tier);
 		break;
 	case ItemType::Bow:
-		item = new Bow();
+		item = new Bow(tier);
 		break;
 	case ItemType::Staff:
-		item = new Staff();
+		item = new Staff(tier);
 		break;
 	case ItemType::Sword:
 	default:
-		item = new Sword();
+		item = new Sword(tier);
 		break;
 	case ItemType::Book:
-		item = new Book();
+		item = new Book(tier);
 		break;
 	}
 	return item;
@@ -427,9 +427,19 @@ Item* GameManager::CombineItem(Item* obj1, Item* obj2)
 
 Item* GameManager::DropItem(Character* monster)
 {
+	if (monster->GetType().compare("Monster"))
+		return nullptr;
 
-
-	return nullptr;
+	bool percent = Utils::RandomRange(0, 100) < itemDropProbability;
+	Item* drop = nullptr;
+	if (percent)
+	{
+		int tier = (monster->GetStarNumber() - 1) / 2;
+		drop = SpawnItem(tier);
+		drop->SetPos(monster->GetPos());
+		drops.push_back(drop);
+	}
+	return drop;
 }
 
 // Battle Tracker

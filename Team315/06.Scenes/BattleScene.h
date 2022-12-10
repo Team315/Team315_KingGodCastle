@@ -59,10 +59,6 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	void ZoomIn();
-	void ZoomOut();
-	void PickUpGameObj(GameObj* gameObj);
-	void TranslateCoinState(float delta);
 	void PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest,
 		Vector2i startCoord, Vector2i destCoord);
 	void PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest,
@@ -70,6 +66,10 @@ public:
 
 	void SetCurrentStage(int chap, int stage);
 	void LoseFlag();
+	void ZoomIn();
+	void ZoomOut();
+	void PickUpGameObj(GameObj* gameObj);
+	void TranslateCoinState(float delta);
 };
 
 int GetIdxFromCoord(Vector2i coord);

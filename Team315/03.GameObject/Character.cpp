@@ -84,6 +84,8 @@ void Character::Init()
 	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 10.f };
 	hpBar->SetProgressValue(1.0f);
 	starLocalPos = { 0.f, hpBarLocalPos.y };
+
+	Utils::SetOrigin(shadow, Origins::BC);
 	SetPos(position);
 }
 
@@ -224,6 +226,7 @@ void Character::Update(float dt)
 		{
 			SetState(AnimStates::Skill);
 			stat[StatType::MP].SetCurrent(0.f);
+			mpBar->SetProgressValue(0.f);
 			if (skill != nullptr)
 				skill->CastSkill(this);
 		}
@@ -257,7 +260,6 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
-	Utils::SetOrigin(shadow, Origins::BC);
 	shadow.setPosition(pos);
 	effectSprite.setPosition(pos);
 	hpBar->SetPos(pos + hpBarLocalPos);
@@ -370,6 +372,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	{
 		// death
 		isAlive = false;
+		Item* drop = GAME_MGR->DropItem(this);
 		GAME_MGR->RemoveFromMainGrid(this);
 	}
 }
@@ -396,7 +399,7 @@ void Character::UpgradeStar(bool mode, bool useExtraUpgrade)
 	bool upgradeTwice = false;
 	if (star->CalculateRandomChance(mode, useExtraUpgrade))
 	{
-		CLOG::Print3String("upgrade 2");
+		CLOG::Print3String("upgrade 2 level");
 		upgradeTwice = true;
 	}
 	star->UpdateTexture();

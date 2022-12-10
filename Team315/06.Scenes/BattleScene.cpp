@@ -150,6 +150,24 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	vector<Item*>& drops = GAME_MGR->drops;
+	for (auto it = drops.begin(); it != drops.end();)
+	{
+		(*it)->Update(dt);
+		if ((*it)->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				int idx = GetZeroElem(prepareGrid);
+				(*it)->SetDestination(prepareGridRect[idx]->GetPos());
+				prepareGrid[idx] = (*it);
+				it = drops.erase(it);
+			}
+			else it++;
+		}
+		else it++;
+	}
+
 	Scene::Update(dt);
 
 	// Dev Input start
@@ -166,6 +184,12 @@ void BattleScene::Update(float dt)
 		{
 			TranslateCoinState(100.f);
 			SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num2))
+		{
+			cout << "create New Item" << endl;
+			GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem());
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
@@ -370,6 +394,32 @@ void BattleScene::Update(float dt)
 	// Game Input start
 
 	// wheel control
+	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons();
+	for (auto& button : trackerButtons)
+	{
+		if (button->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				if (!button->GetName().compare("OnOff"))
+				{
+					ui->GetTracker()->ShowWindow();
+					return;
+				}
+				else if (!button->GetName().compare("Given"))
+				{
+					ui->GetTracker()->ShowGiven();
+					return;
+				}
+				else if (!button->GetName().compare("Taken"))
+				{
+					ui->GetTracker()->ShowTaken();
+					return;
+				}
+			}
+		}
+	}
+
 	float wheel = InputMgr::GetMouseWheel();
 	if (wheel != 0)
 	{
@@ -451,7 +501,7 @@ void BattleScene::Update(float dt)
 					GAME_MGR->SetPlayingBattle(true);
 
 					ui->GetTracker()->ShowGiven();
-					ui->GetTracker()->ShowWindow(true);
+					ui->GetTracker()->ShowWindow(false);
 					break;
 				}
 				// summon character
@@ -503,29 +553,6 @@ void BattleScene::Update(float dt)
 						break;
 					}
 					break;
-				}
-			}
-		}
-	}
-
-	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons() ;
-	for (auto& button : trackerButtons)
-	{
-		if (button->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
-			if (InputMgr::GetMouseDown(Mouse::Left))
-			{
-				if (!button->GetName().compare("OnOff"))
-				{
-					ui->GetTracker()->ShowWindow();
-				}
-				else if (!button->GetName().compare("Given"))
-				{
-					ui->GetTracker()->ShowGiven();
-				}
-				else if (!button->GetName().compare("Taken"))
-				{
-					ui->GetTracker()->ShowTaken();
 				}
 			}
 		}
@@ -617,7 +644,7 @@ void BattleScene::Update(float dt)
 					if (pick == nullptr)
 					{
 						SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
-						GameObj* temp = gameObj;
+						GameObj*& temp = gameObj;
 						if (IsCharacter(temp))
 						{
 							Character* tempCharacter = dynamic_cast<Character*>(temp);
@@ -728,6 +755,7 @@ void BattleScene::Update(float dt)
 			ui->SetStageEndWindow(false);
 			ui->GetTracker()->ShowWindow(false);
 			ui->GetTracker()->ProfilesReturn();
+
 			GAME_MGR->SetPlayingBattle(false);
 
 			int len = battleGrid.size();
@@ -739,7 +767,6 @@ void BattleScene::Update(float dt)
 				battleGrid[idx]->Reset();
 				battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
 			}
-
 			b_centerPos = false;
 			ZoomOut();
 
@@ -749,7 +776,19 @@ void BattleScene::Update(float dt)
 					GAME_MGR->curStageIdx++;
 			}
 			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
-			GAME_MGR->GetBattleTracker()->PrintAllData();
+
+			ui->SetStatPopup(false, currentView.getCenter());
+			ui->SetItemPopup(false, currentView.getCenter());
+
+			for (auto& gameObj : battleGrid)
+			{
+				if (gameObj != nullptr && IsCharacter(gameObj))
+				{
+					dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(false);
+					pickAttackRangeRect = nullptr;
+				}
+			}
+			//GAME_MGR->GetBattleTracker()->PrintAllData();
 		}
 		return;
 	}
@@ -834,6 +873,12 @@ void BattleScene::Draw(RenderWindow& window)
 		}
 	}
 
+	vector<Item*>& drops = GAME_MGR->drops;
+	for (auto& dropItem : drops)
+	{
+		dropItem->Draw(window);
+	}
+
 	// draw character on battle area
 	if (!GAME_MGR->GetPlayingBattle())
 	{
@@ -852,29 +897,6 @@ void BattleScene::Draw(RenderWindow& window)
 	{
 		dmgUI->Draw(window);
 	}
-}
-
-void BattleScene::ZoomIn()
-{
-	currentView.setSize(GAME_SCREEN_ZOOM_WIDTH, GAME_SCREEN_ZOOM_HEIGHT);
-}
-
-void BattleScene::ZoomOut()
-{
-	currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
-}
-
-void BattleScene::PickUpGameObj(GameObj* gameObj)
-{
-	beforeDragPos = gameObj->GetPos();
-	pick = gameObj;
-	pick->SetHitBoxActive(false);
-}
-
-void BattleScene::TranslateCoinState(float delta)
-{
-	GAME_MGR->TranslateCoin(delta);
-	ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 }
 
 void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)
@@ -933,7 +955,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 					(*dest)[destIdx] = nullptr;
 					GameObj* temp = pick;
 					vector<Item*>& pickCrtItems = dynamic_cast<Character*>(temp)->GetItems();
-					
+
 					for (auto& pItem : pickCrtItems)
 					{
 						if (!destCharacter->SetItem(pItem))
@@ -985,7 +1007,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 		{
 			Item* destItem = dynamic_cast<Item*>((*dest)[destIdx]);
 			Item* pickItem = dynamic_cast<Item*>(pick);
-			
+
 			Item* newItem = GAME_MGR->CombineItem(destItem, pickItem);
 			if (newItem != nullptr) // item + item combinate
 			{
@@ -1018,7 +1040,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 						pick = nullptr;
 					}
 				}
-				else 
+				else
 				{
 					if (destCharacter->SetItem(pickItem))
 					{
@@ -1092,6 +1114,29 @@ void BattleScene::LoseFlag()
 	flags[remainLife]->SetActive(false);
 	if (!remainLife)
 		isGameOver = true;
+}
+
+void BattleScene::ZoomIn()
+{
+	currentView.setSize(GAME_SCREEN_ZOOM_WIDTH, GAME_SCREEN_ZOOM_HEIGHT);
+}
+
+void BattleScene::ZoomOut()
+{
+	currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
+}
+
+void BattleScene::PickUpGameObj(GameObj* gameObj)
+{
+	beforeDragPos = gameObj->GetPos();
+	pick = gameObj;
+	pick->SetHitBoxActive(false);
+}
+
+void BattleScene::TranslateCoinState(float delta)
+{
+	GAME_MGR->TranslateCoin(delta);
+	ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 }
 
 int GetIdxFromCoord(Vector2i coord)
