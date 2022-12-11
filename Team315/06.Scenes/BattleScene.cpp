@@ -89,7 +89,7 @@ void BattleScene::Enter()
 	prepareGrid.assign(PREPARE_SIZE, nullptr);
 	battleGrid.assign(BATTLE_GRID_ROW * GAME_TILE_WIDTH, nullptr);
 
-	GAME_MGR->Reset();
+	GAME_MGR->GMReset();
 	ui->Reset();
 
 	GAME_MGR->curChapIdx = 0;

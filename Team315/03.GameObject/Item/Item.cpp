@@ -2,16 +2,17 @@
 
 Item::Item(int grade, bool useExtraChance, ItemType iType)
 	: grade(grade), itemType(iType), potential(0.f), 
-	statType(StatType::None), delta(0.f), moveSpeed(150.f)
+	statType(StatType::None), delta(0.f), moveSpeed(300.f)
 {
-	bool extraUpgrade =
+	/*bool extraUpgrade =
 		Utils::RandomRange(0, 100) < GAME_MGR->GetExtraGradeUpChance();
 	if (useExtraChance && extraUpgrade && (grade + 1) != TIER_MAX)
 	{
 		cout << "item 2 upgrade" << endl;
 		this->grade = grade + 1;
 	}
-	else this->grade = grade;
+	else */
+	this->grade = grade;
 
 	SetType("Item");
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(MakePath()), true);

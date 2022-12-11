@@ -20,11 +20,25 @@ struct AltarData
 
 };
 
+struct WaveReward
+{
+	int chap;
+	int stage;
+	int exp;
+	int forge;
+	int power;
+	
+	WaveReward(int chap = 0, int stage = 0, int exp = 0, int forge = 0, int power = 0)
+		: chap(chap), stage(stage), exp(exp), forge(forge), power(power)
+	{}
+};
+
 class BattleTracker;
 class Character;
 class DamageText;
 class GameObj;
 class Item;
+class Skill;
 class Tile;
 class TileBackground;
 
@@ -37,30 +51,29 @@ protected:
 	json backGroundDatas;
 	json characterDatas;
 
-	AltarData altarData;
-
 	// Set monster character locate before battle with data imported from GameManager
 	// When the game starts, the characters on the battleGrid are also taken.
 	vector<GameObj*>* mainGrid;
 
 	unordered_map<StatType, vector<float>> itemStatMap;
+	map<string, WaveReward> waveRewardMap;
 
 	BattleTracker* battleTracker;
+
+	Skill* panelSkill;
 
 	// Additional level up probability when summon (Character)
 	int extraLevelUpSummon;
 	// Additional level up probability when combinate (Character)
 	int extraLevelUpCombinate;
 	// Additional grade up probability (Item)
-	int extraGradeUpChance;
+	// int extraGradeUpChance;
 	int battleCharacterCount;
 	int startCoin;
 	int currentCoin;
 	int stageClearCoin;
-
 	int expansionCost;
 	int expansionCount;
-
 	int itemDropProbability;
 
 	bool playingBattle;
@@ -69,14 +82,15 @@ public:
 	GameManager();
 	virtual ~GameManager();
 
-	void Init();
-	void Reset();
+	void GMInit();
+	void GMReset();
+	void PrintDevKey();
 
 	const int GetCharacterCount() { return battleCharacterCount; }
 	void SetCharacterCount(int newCharacterCount) { battleCharacterCount = newCharacterCount; }
 	const int GetExtraLevelUpSummon() { return extraLevelUpSummon; }
 	const int GetExtraLevelUpCombinate() { return extraLevelUpCombinate; }
-	const int GetExtraGradeUpChance() { return extraGradeUpChance; }
+	//const int GetExtraGradeUpChance() { return extraGradeUpChance; }
 
 	Vector2i PosToIdx(Vector2f pos);
 	Vector2f IdxToPos(Vector2i idx);
@@ -133,11 +147,13 @@ public:
 	ObjectPool<RangePreview> rangePreview;
 	queue<Item*> waitQueue;
 	vector<Item*> drops;
+	AltarData altarData;
 
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
 	Item* CombineItem(Item* obj1, Item* obj2);
 	Item* DropItem(Character* monster);
+	void GetBalanceDatas();
 };
 
 #define GAME_MGR (GameManager::GetInstance())

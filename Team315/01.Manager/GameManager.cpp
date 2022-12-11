@@ -4,6 +4,7 @@
 #include "GameObjHeaders.h"
 #include "TileBackground.h"
 #include "Item/Item.h"
+#include "rapidcsv.h"
 
 void DmgUIOnCreate(DamageText* dmgUI)
 {
@@ -21,7 +22,7 @@ GameManager::GameManager()
 	: m_PlayTileList(nullptr), playingBattle(false),
 	curChapIdx(0), curStageIdx(0),
 	battleCharacterCount(3), extraLevelUpSummon(15),
-	extraLevelUpCombinate(30), extraGradeUpChance(20),
+	extraLevelUpCombinate(30), //extraGradeUpChance(20),
 	startCoin(50), stageClearCoin(6),
 	characterCost(3), itemCost(5), expansionCost(5), expansionCount(0),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
@@ -37,12 +38,13 @@ GameManager::GameManager()
 				vector<Tile*>(GAME_TILE_WIDTH))));
 	mainGrid = new vector<GameObj*>();
 	battleTracker = new BattleTracker();
-	Init();
-
 	damageUI.OnCreate = DmgUIOnCreate;
 	damageUI.Init();
 	rangePreview.OnCreate = RangePreviewOnCreate;
 	rangePreview.Init(200);
+	GMInit();
+	GetBalanceDatas();
+	PrintDevKey();
 }
 
 GameManager::~GameManager()
@@ -72,7 +74,7 @@ GameManager::~GameManager()
 	mainGrid->clear();
 }
 
-void GameManager::Init()
+void GameManager::GMInit()
 {
 	json initSetting = FILE_MGR->LoadByFilePath("json/InitSetting.json");
 	json gameSetting = initSetting["InitialGameSetting"];
@@ -134,7 +136,19 @@ void GameManager::Init()
 	//itemStatMap[StatType::AP] = { 0.4f, 0.7f, 1.2f, 2.f };	// %
 	//itemStatMap[StatType::AS] = { 0.25f, 0.4f, 0.7f, 1.2f };	// %
 	//itemStatMap[StatType::HP] = { 250, 400, 700, 1200 };		// +
+}
 
+void GameManager::GMReset()
+{
+	GMInit();
+	playingBattle = false;
+	currentCoin = startCoin;
+	altarData.Init();
+	expansionCount = 0;
+}
+
+void GameManager::PrintDevKey()
+{
 	cout << "--- 개발용 치트 키 현황 ---" << endl;
 	cout << "ESC - 타이틀 씬으로" << endl;
 	cout << "숫자1 - 돈 +100" << endl;
@@ -154,16 +168,6 @@ void GameManager::Init()
 	cout << "I - 적 모두 칼 1성 주기" << endl;
 	cout << "O - 적 모두 스태프 1성 주기" << endl;
 	cout << "P - 적 모두 활 1성 주기" << endl;
-}
-
-void GameManager::Reset()
-{
-	playingBattle = false;
-	currentCoin = startCoin;
-	altarData.Init();
-	expansionCount = 0;
-	/*extraLevelUpChance = 20;
-	extraGradeUpChance = 20;*/
 }
 
 Vector2i GameManager::PosToIdx(Vector2f pos)
@@ -444,6 +448,28 @@ Item* GameManager::DropItem(Character* monster)
 		drops.push_back(drop);
 	}
 	return drop;
+}
+
+void GameManager::GetBalanceDatas()
+{
+	string filePath = "tables/WaveRewardTable.csv";
+	int pathSize = filePath.size();
+	for (int i = 0; i < pathSize; i++)
+	{
+		rapidcsv::Document doc(filePath, rapidcsv::LabelParams(0, -1));
+
+		auto key = doc.GetColumn<string>(0);
+		auto chap = doc.GetColumn<int>(1);
+		auto stage = doc.GetColumn<int>(2);
+		auto exp = doc.GetColumn<int>(3);
+		auto forge = doc.GetColumn<int>(4);
+		auto power = doc.GetColumn<int>(5);
+
+		for (int j = 0; j < doc.GetRowCount(); j++)
+		{
+			waveRewardMap.insert({ key[j], WaveReward(chap[j], stage[j], exp[j], forge[j], power[j])});
+		}
+	}
 }
 
 // Battle Tracker
