@@ -4,6 +4,8 @@
 #include "Character.h"
 #include "TwoFactorProgress.h"
 #include "Include.h"
+#include "DataTableMgr.h"
+#include "StringTable.h"
 
 StatPopupWindow::StatPopupWindow(float x, float y)
 	: RectangleObj(x, y), useOptional(false)
@@ -20,7 +22,7 @@ StatPopupWindow::StatPopupWindow(float x, float y)
 	starText = new BackgroundText();
 	starText->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	starText->SetTextStyle(Color::White, 22, Color::Black, 2.f);
-	starText->SetTexture(*RESOURCE_MGR->GetTexture("graphics/commonUI/Level_Frame_02.png"));
+	starText->SetTexture(*RESOURCE_MGR->GetTexture("graphics/commonUI/Level_Frame_0.png"));
 	starText->SetScale(0.4f, 0.4f);
 
 	/*portraitRect.setSize(Vector2f(90.f, 90.f));
@@ -150,8 +152,11 @@ void StatPopupWindow::SetCharacter(Character* character)
 	float height = 90 / fr.height;
 	float min = width > height ? height : width;
 	portrait.setScale(min, min);
-	nameText->SetString(character->GetName());
-	starText->SetString(to_string(character->GetStarNumber()));
+	nameText->SetString(STRING_TABLE->Get(character->GetName()));
+	int starNumber = character->GetStarNumber();
+	starText->SetString(to_string(starNumber));
+	string framePath = "graphics/commonUI/Level_Frame_" + to_string((starNumber - 1) / 2) + ".png";
+	starText->SetTexture(*RESOURCE_MGR->GetTexture(framePath));
 	starText->SetOrigin(Origins::TC);
 	adText->SetString(character->GetStat(StatType::AD).GetModifier(), true);
 	apText->SetString(character->GetStat(StatType::AP).GetModifier(), true);

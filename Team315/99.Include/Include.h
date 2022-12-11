@@ -12,7 +12,6 @@
 #include "ConsoleLogger.h"
 #include "SceneMgr.h"
 #include "GameManager.h"
-#include "DataTableMgr.h"
 
 using namespace std;
 using namespace sf;

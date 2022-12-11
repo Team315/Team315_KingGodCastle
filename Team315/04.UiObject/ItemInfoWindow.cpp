@@ -2,6 +2,7 @@
 #include "Include.h"
 #include "BackrectText.h"
 #include "Item/Item.h"
+#include "DataTableMgr.h"
 #include "StringTable.h"
 
 ItemInfoWindow::ItemInfoWindow(float x, float y)
