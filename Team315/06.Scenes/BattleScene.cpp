@@ -159,9 +159,13 @@ void BattleScene::Update(float dt)
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
 				int idx = GetZeroElem(prepareGrid);
-				(*it)->SetDestination(prepareGridRect[idx]->GetPos());
-				prepareGrid[idx] = (*it);
-				it = drops.erase(it);
+				if (idx != -1)
+				{
+					(*it)->SetDestination(prepareGridRect[idx]->GetPos());
+					prepareGrid[idx] = (*it);
+					it = drops.erase(it);
+				}
+				else it++;
 			}
 			else it++;
 		}
@@ -538,12 +542,14 @@ void BattleScene::Update(float dt)
 				// Expansion
 				else if (!button->GetName().compare("expansion"))
 				{
-					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->GetCurrentExpansionCost())
+					int cost = GAME_MGR->GetCurrentExpansionCost();
+					if (GAME_MGR->GetCurrentCoin() >= cost)
 					{
 						cout << "expansion troops" << endl;
 						GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() + 1);
-						TranslateCoinState(-GAME_MGR->GetCurrentExpansionCost());
+						TranslateCoinState(-cost);
 						GAME_MGR->TranslateExpansionCount(1);
+						ui->GetPanel()->SetExpansionCostText(GAME_MGR->GetCurrentExpansionCost());
 						break;
 					}
 					else
