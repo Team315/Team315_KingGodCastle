@@ -2,6 +2,7 @@
 #include "SpriteObj.h"
 #include "TextObj.h"
 #include "Include.h"
+#include "Animator.h"
 
 class Altar :  public SpriteObj
 {
@@ -36,12 +37,20 @@ protected:
 	TextObj m_number;
 	TextObj m_altarName;
 	Vector2f altarPos;
+
+	TextObj m_buff1;
+	TextObj m_buff2;
+	TextObj m_buff3;
+
+	Sprite m_sFlame;
+	Animator m_Flame;
+
 	int m_Index;
 
 
 
 public:
-	Altar(Vector2f mainPos, int index, wstring AltarName);
+	Altar(Vector2f mainPos, int index, wstring AltarName, Color color);
 	~Altar();
 
 	virtual void Init() override;
@@ -53,8 +62,9 @@ public:
 	int GetIndex() { return m_Index; };
 	void SetRomaNumber(Vector2f mainPos, int index);
 	void SetDot(Vector2f mainPos, int index);
+	void SetBuffString(Vector2f mainpos);
 
-	int GetButtonCall(Vector2f nowMousePos);
+	int GetButtonCall(Vector2f nowMousePos, int count);
 	void AddCount(int count);
 
 	void ResetCount();
