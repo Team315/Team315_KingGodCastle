@@ -16,7 +16,7 @@ protected:
 
 	Button* summon;
 	Button* begin;
-	Button* equipment;
+	Button* expansion;
 	vector<Button*> buttons;
 
 	TextObj* titleText;
@@ -37,6 +37,11 @@ protected:
 
 	Sprite coinSprite;
 	BackrectText* coinState;
+	
+	Sprite characterCostSprite;
+	BackrectText* characterCostText;
+	Sprite expansionCostSprite;
+	BackrectText* expansionCostText;
 
 public:
 	BattlePanel();
@@ -53,4 +58,5 @@ public:
 	void ChangeTitleTextString(int chapIdx);
 	void SetStageNumber(int num);
 	void SetCurrentCoin(int num);
+	void SetExpansionCostText(int num);
 };
