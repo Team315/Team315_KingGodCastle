@@ -19,54 +19,67 @@ DanielSkill::DanielSkill(int starNumber)
 		{1, -2}, {-1, -2}, {1, 2}, {-1, 2},
 		{-2, -2}, {-2, -1}, {-2, 1}, {-2, 2},
 	};
+
+	//for (int i = 0; i < 25; ++i)
+	//{
+	//	Sprite* skillSpriteArr = new Sprite();
+	//	Animator* skillEffectArr = new Animator();
+	//	skillEffectArr->SetTarget(skillSpriteArr);
+	//	skillEffectArr->AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Skill_Effect"));
+
+	//	skillSprite.push_back(skillSpriteArr);
+	//	skillEffect.push_back(skillEffectArr);
+	//}
 }
 
 DanielSkill::~DanielSkill()
 {
 }
 
-//void DanielSkill::Init()
-//{
-//	//for (int i = 0; i < 25; ++i)
-//	//{
-//	//	Sprite* skillSpriteArr = new Sprite();
-//	//	Animator* skillEffectArr = new Animator();
-//	//	skillEffectArr->SetTarget(skillSpriteArr);
-//	//	skillEffectArr->AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Skill_Effect"));
-//	//	//{
-//	//	//	AnimationEvent ev;
-//	//	//	ev.clipId = "Daniel_Skill_Effect";
-//	//	//	ev.frame = 8;
-//	//	//	ev.onEvent = bind(&Daniel::OnCompleteSkill, this);
-//	//	//	skillEffectArr->AddEvent(ev);
-//	//	//}
-//	//	skillEffect.push_back(skillEffectArr);
-//	//	skillSprite.push_back(skillSpriteArr);
-//	//}
-//}
-//
-//void DanielSkill::Update(float dt)
-//{
-//	/*for (int i = 0; i < 25; ++i)
-//	{
-//		skillEffect[i]->Update(dt);
-//	}*/
-//}
-//
-//void DanielSkill::Draw(RenderWindow& window)
-//{
-//	Skill::Draw(window);
-//
-//	/*for (auto skills : skillSprite)
-//	{
-//		window.draw(*skills);
-//	}*/
-//}
-//
-//void DanielSkill::SetPos(const Vector2f& pos)
-//{
-//	Skill::SetPos(pos);
-//}
+void DanielSkill::Init()
+{
+	Skill::Init();
+	//for (int i = 0; i < 25; ++i)
+	//{
+	//	Sprite* skillSpriteArr = new Sprite();
+	//	Animator* skillEffectArr = new Animator();
+	//	skillEffectArr->SetTarget(skillSpriteArr);
+	//	skillEffectArr->AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Skill_Effect"));
+	//	//{
+	//	//	AnimationEvent ev;
+	//	//	ev.clipId = "Daniel_Skill_Effect";
+	//	//	ev.frame = 8;
+	//	//	ev.onEvent = bind(&Daniel::OnCompleteSkill, this);
+	//	//	skillEffectArr->AddEvent(ev);
+	//	//}
+	//	skillEffect.push_back(skillEffectArr);
+	//	skillSprite.push_back(skillSpriteArr);
+	//}
+}
+
+void DanielSkill::Update(float dt)
+{
+	Skill::Update(dt);
+	//for (int i = 0; i < 25; ++i)
+	//{
+	//	skillEffect[i]->Update(dt);
+	//}
+}
+
+void DanielSkill::Draw(RenderWindow& window)
+{
+	Skill::Draw(window);
+
+	//for (auto skills : skillSprite)
+	//{
+	//	window.draw(*skills);
+	//}
+}
+
+void DanielSkill::SetPos(const Vector2f& pos)
+{
+	Skill::SetPos(pos);
+}
 
 //void DanielSkill::SetState(AnimStates newState, GameObj* target, String t)
 //{
