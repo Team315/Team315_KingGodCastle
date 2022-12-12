@@ -37,7 +37,12 @@ void AltarScene::Enter()
 	CLOG::Print3String("AltarScene enter");
 	for (auto Altar : AltarList)
 	{
-		//Altar.
+		Altar->Enter();
+	}
+
+	for (auto Brazier : BrazierList)
+	{
+		Brazier->Enter();
 	}
 }
 
@@ -171,7 +176,10 @@ void AltarScene::Update(float dt)
 	}
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
+	{
+		SaveData();
 		SCENE_MGR->ChangeScene(Scenes::Title);
+	}
 
 	if (InputMgr::GetMouseUp(Mouse::Left))
 	{
@@ -229,7 +237,7 @@ void AltarScene::Draw(RenderWindow& window)
 
 void AltarScene::SetAltar()
 {
-	AltarData data = GAME_MGR->altarData;
+	AltarData& data = GAME_MGR->altarData;
 	Altar* mana = new Altar({ GAME_SCREEN_WIDTH * 0.15f,GAME_SCREEN_HEIGHT * 0.05f }, 0, L"마나의 제단", { 254,113,235,255 }, data.mana);
 	AltarList.push_back(mana);
 
@@ -249,4 +257,15 @@ void AltarScene::SetBrazier()
 	m_Brazier->Init();
 	BrazierList.push_back(m_Brazier);
 
+}
+
+void AltarScene::SaveData()
+{
+	AltarData data;
+	data.mana = AltarList[0]->GetGrade();
+	data.silver = AltarList[1]->GetGrade();
+	data.physical = AltarList[2]->GetGrade();
+	data.enforce = AltarList[3]->GetGrade();
+
+	GAME_MGR->altarData.Init(data.mana, data.silver, data.physical, data.enforce);
 }

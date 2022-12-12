@@ -76,6 +76,11 @@ void Brazier::Draw(RenderWindow& window)
 	
 }
 
+void Brazier::Enter()
+{
+	PlayAni(0);
+}
+
 bool Brazier::ClickButton(Vector2f nowMousePos)
 {
 	if (m_collectSprite.GetGlobalBounds().contains(nowMousePos))

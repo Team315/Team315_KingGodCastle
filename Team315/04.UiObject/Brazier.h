@@ -24,6 +24,7 @@ public:
 	virtual void Release() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
+	virtual void Enter();
 
 	bool ClickButton(Vector2f nowMousePos);
 	void PlayAni(int grade);

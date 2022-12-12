@@ -135,6 +135,12 @@ void Altar::Draw(RenderWindow& window)
 	}
 }
 
+void Altar::Enter()
+{
+	ChangeAltarNum(m_grade);
+	ChangeObjAlhpa(m_grade);
+}
+
 void Altar::MoveSetPos(Vector2f movepos)
 {
 	m_Flame.Play("Flame00_4");

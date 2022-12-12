@@ -58,8 +58,12 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
+	virtual void Enter();
+	
 	void MoveSetPos(Vector2f movepos);
 	int GetIndex() { return m_Index; };
+	int GetGrade() { return m_grade; };
+
 	void SetRomaNumber(Vector2f mainPos, int index);
 	void SetDot(Vector2f mainPos, int index);
 	void SetBuffString(Vector2f mainpos);
