@@ -98,19 +98,19 @@ void Brazier::PlayAni(int grade)
 	m_levelNumber.SetString(to_string(m_grade));
 	m_levelNumber.SetOrigin(Origins::MC);
 
-	if (grade >= 1 && grade <= 5)
+	if (m_grade >= 1 && m_grade <= 5)
 	{
 		m_Flame.Play("Flame1");
 	}
-	else if (grade >= 6 && grade <= 10)
+	else if (m_grade >= 6 && m_grade <= 10)
 	{
 		m_Flame.Play("Flame2");
 	}
-	else if (grade >= 10 && grade <= 15)
+	else if (m_grade >= 10 && m_grade <= 15)
 	{
 		m_Flame.Play("Flame3");
 	}
-	else if (grade >= 16 && grade <= 20)
+	else if (m_grade >= 16 && m_grade <= 20)
 	{
 		m_Flame.Play("Flame4");
 	}

@@ -1,7 +1,7 @@
 #include "Altar.h"
 
-Altar::Altar(Vector2f mainPos, int index, wstring AltarName, Color color)
-	:m_Index(index), m_grade(0)
+Altar::Altar(Vector2f mainPos, int index, wstring AltarName, Color color, int loadGrade)
+	:m_Index(index), m_grade(loadGrade)
 {
 	Color acolor = color;
 	acolor.a = 100;

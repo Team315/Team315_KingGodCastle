@@ -50,7 +50,7 @@ protected:
 
 
 public:
-	Altar(Vector2f mainPos, int index, wstring AltarName, Color color);
+	Altar(Vector2f mainPos, int index, wstring AltarName, Color color, int loadGrade);
 	~Altar();
 
 	virtual void Init() override;

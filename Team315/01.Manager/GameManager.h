@@ -10,10 +10,14 @@
 
 struct AltarData
 {
-	// 강화, 신체, 은화, 마나 제단 순
+	int mana;
+	int silver;
+	int physical;
+	int enforce;
+	// 마나, 은화, 신체, 강화 제단 순
 	AltarData() {}
 
-	void Init(int enhance = 0, int physical = 0, int wealth = 0, int mana = 0)
+	void Init(int mana = 0 ,int silver = 0, int physical = 0, int enforce = 0)
 	{
 
 	}
