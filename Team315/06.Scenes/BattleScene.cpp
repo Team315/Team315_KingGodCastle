@@ -348,6 +348,23 @@ void BattleScene::Update(float dt)
 			cout << endl;
 		}
 
+		if (InputMgr::GetKeyDown(Keyboard::Key::T))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+				{
+					/*dynamic_cast<Character*>(gameObj)->TakeBuff(StatType::AD, 20);
+					dynamic_cast<Character*>(gameObj)->TakeBuff(StatType::AP, 20);
+					dynamic_cast<Character*>(gameObj)->TakeBuff(StatType::AS, 20);*/
+					dynamic_cast<Character*>(gameObj)->TakeBuff(StatType::AR, 1);
+				}
+			}
+		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::Y))
 		{
 			for (auto& gameObj : mgref)
@@ -356,7 +373,9 @@ void BattleScene::Update(float dt)
 					continue;
 
 				if (!gameObj->GetType().compare("Monster"))
+				{
 					dynamic_cast<Character*>(gameObj)->UpgradeStar(false, false);
+				}
 			}
 		}
 

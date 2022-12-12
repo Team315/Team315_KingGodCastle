@@ -50,8 +50,6 @@ protected:
 	int expansionCost;
 	int expansionCount;
 	int itemDropProbability;
-	float manaPerAttack;
-	float manaPerDamage;
 
 	bool playingBattle;
 
@@ -129,6 +127,9 @@ public:
 	vector<Item*> drops;
 	AltarData altarData;
 	AccountInfo accountInfo;
+
+	float manaPerAttack;
+	float manaPerDamage;
 
 	float GetManaPerAttack()
 	{
