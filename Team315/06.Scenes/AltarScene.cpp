@@ -269,4 +269,5 @@ void AltarScene::SaveData()
 	data.enforce = AltarList[3]->GetGrade();
 
 	GAME_MGR->SaveAltarData(data.mana, data.silver, data.physical, data.enforce);
+	GAME_MGR->LoadAltarEffectFromTable();
 }

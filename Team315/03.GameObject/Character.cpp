@@ -168,7 +168,8 @@ void Character::Update(float dt)
 
 					if (!noSkill)
 					{
-						stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
+						stat[StatType::MP].TranslateCurrent(GAME_MGR->GetManaPerAttack());
+						cout << name << " attack: " << GAME_MGR->GetManaPerAttack() << endl;
 						mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
 					}
 
@@ -364,7 +365,8 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 
 	if (!noSkill)
 	{
-		stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
+		stat[StatType::MP].TranslateCurrent(GAME_MGR->GetManaPerDamage());
+		cout << name << " damage: " << GAME_MGR->GetManaPerDamage() << endl;
 		mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
 	}
 
@@ -372,6 +374,14 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	{
 		// death
 		isAlive = false;
+		if (!attackerCharacter->GetNoSkill())
+		{
+			Stat attackerMp = attackerCharacter->GetStat(StatType::MP);
+			float killReward = attackerMp.GetBase() * (0.01f * GAME_MGR->altarData.gainManaWhenKill);
+			attackerMp.TranslateCurrent(killReward);
+			cout << attacker->GetName() << " kill reward: " << killReward << endl;
+			attackerCharacter->GetMpBar()->SetProgressValue(stat[StatType::MP].GetCurRatio());
+		}
 		Item* drop = GAME_MGR->DropItem(this);
 		GAME_MGR->RemoveFromMainGrid(this);
 	}

@@ -1074,7 +1074,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 				Item* pickItem = dynamic_cast<Item*>(pick);
 				if (pickItem->GetItemType() == ItemType::Book)
 				{
-					if (pickItem->GetGrade() == (destCharacter->GetStarNumber() - 1) / 2)
+					if (pickItem->GetGrade() >= (destCharacter->GetStarNumber() - 1) / 2)
 					{
 						destCharacter->UpgradeStar(false, false);
 						(*start)[startIdx] = nullptr;

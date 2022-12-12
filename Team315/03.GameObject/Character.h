@@ -138,4 +138,6 @@ public:
 	void UpdateSkill(float dt);
 
 	void SetDir(Vector2f direction);
+	bool GetNoSkill() { return noSkill; }
+	ProgressBar* GetMpBar() { return mpBar; }
 };
