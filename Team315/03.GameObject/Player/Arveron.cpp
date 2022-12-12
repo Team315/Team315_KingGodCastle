@@ -32,10 +32,10 @@ Arveron::Arveron(bool mode, bool useExtraUpgrade, int skillTier)
 	resStringTypes.insert({ ResStringType::RightAttackEffect,"Arveron_RightAttack_Effect" });
 	resStringTypes.insert({ ResStringType::UpAttackEffect,"Arveron_UpAttack_Effect" });
 
-	resStringTypes.insert({ ResStringType::DownSkillEfect,"Arveron_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::LeftSkillEfect,"Arveron_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::RightSkillEfect,"Arveron_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::UpSkillEfect,"Arveron_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::DownSkillEffect,"Arveron_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::LeftSkillEffect,"Arveron_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::RightSkillEffect,"Arveron_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::UpSkillEffect,"Arveron_Skill_Effect" });
 
 	attackPos.insert({ Dir::Right, { 0.f, 0.f } });
 	attackPos.insert({ Dir::Left, { 0.f, 0.f } });
@@ -58,32 +58,6 @@ void Arveron::Init()
 void Arveron::Update(float dt)
 {
 	Character::Update(dt);
-
-	//switch (currState)
-	//{
-	//case AnimStates::Idle:
-	//	UpdateIdle(dt);
-	//	break;
-	//case AnimStates::MoveToIdle:
-	//	UpdateMoveToIdle(dt);
-	//	break;
-	//case AnimStates::Move:
-	//	UpdateMove(dt);
-	//	break;
-	//case AnimStates::Attack:
-	//	UpdateAttack(dt);
-	//	break;
-	//case AnimStates::Skill:
-	//	UpdateSkill(dt);
-	//	break;
-	//}
-	//animator.Update(dt);
-	//effectAnimator.Update(dt);
-	//
-	//if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-	//{
-	//	lastDirection = direction;
-	//}
 }
 
 void Arveron::Draw(RenderWindow& window)
@@ -91,32 +65,26 @@ void Arveron::Draw(RenderWindow& window)
 	if (!isAlive)
 		return;
 
-	Character::Draw(window);
+	SpriteObj::Draw(window);
 	window.draw(effectSprite);
+
+	//Character::Draw(window);
+	//window.draw(effectSprite);
 
 	//if (!isBattle)
 	//{
 	//	m_floodFill.Draw(window);
 	//}
 	//
-	//if (GetState() == AnimStates::Skill)
-	//{
-	//	window.draw(effectSprite);
-	//	SpriteObj::Draw(window);
-	//}
-	//else
-	//{
-	//	SpriteObj::Draw(window);
-	//	window.draw(effectSprite);
-	//}
-	//hpBar->Draw(window);
-	//star->Draw(window);
-	//
-	//for (auto& grid : itemGrid)
-	//{
-	//	if (grid->GetActive())
-	//		grid->Draw(window);
-	//}
+
+	hpBar->Draw(window);
+	star->Draw(window);
+	
+	for (auto& grid : itemGrid)
+	{
+		if (grid->GetActive())
+			grid->Draw(window);
+	}
 }
 
 void Arveron::SetPos(const Vector2f& pos)

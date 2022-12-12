@@ -100,6 +100,7 @@ void EvanSkill::CastSkill(Character* caster)
 {
 	SetDir(caster->GetTarget()->GetPos() - caster->GetPos());
 	SetSkillRange(caster->GetPos());
+
 	sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/evan_SkillEffect.png"));
 	SetOrigin(Origins::MC);
 	if(dir == Dir::Up || dir == Dir::Down)
@@ -132,21 +133,26 @@ void EvanSkill::SetDir(Vector2f direction)
 	if (direction.y < 0.f)
 	{
 		dir = Dir::Up;
+		direction.x = 0.f;
 		sprite.setRotation(90.f);
 	}
 	else if (direction.y > 0.f)
 	{
 		dir = Dir::Down;
+		direction.x = 0.f;
 		sprite.setRotation(270.f);
 	}
 	else if (direction.x > 0.f)
 	{
 		dir = Dir::Right;
+		direction.y = 0.f;
 		sprite.setRotation(180.f);
 	}
 	else if (direction.x < 0.f)
 	{
 		dir = Dir::Left;
+		direction.y = 0.f;
 		sprite.setRotation(0.f);
 	}
 }
+

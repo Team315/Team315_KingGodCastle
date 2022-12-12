@@ -32,10 +32,10 @@ Aramis::Aramis(bool mode, bool useExtraUpgrade, int skillTier)
 	resStringTypes.insert({ ResStringType::RightAttackEffect,"Aramis_RightAttack_Effect" });
 	resStringTypes.insert({ ResStringType::UpAttackEffect,"Aramis_UpAttack_Effect" });
 
-	resStringTypes.insert({ ResStringType::DownSkillEfect,"Aramis_DownSkill_Effect" });
-	resStringTypes.insert({ ResStringType::LeftSkillEfect,"Aramis_LeftSkill_Effect" });
-	resStringTypes.insert({ ResStringType::RightSkillEfect,"Aramis_RightSkill_Effect" });
-	resStringTypes.insert({ ResStringType::UpSkillEfect,"Aramis_UpSkill_Effect" });
+	resStringTypes.insert({ ResStringType::DownSkillEffect,"Aramis_DownSkill_Effect" });
+	resStringTypes.insert({ ResStringType::LeftSkillEffect,"Aramis_LeftSkill_Effect" });
+	resStringTypes.insert({ ResStringType::RightSkillEffect,"Aramis_RightSkill_Effect" });
+	resStringTypes.insert({ ResStringType::UpSkillEffect,"Aramis_UpSkill_Effect" });
 
 	attackPos.insert({ Dir::Right, { 81.f, -21.f } });
 	attackPos.insert({ Dir::Left, { -81.f, -21.f} });

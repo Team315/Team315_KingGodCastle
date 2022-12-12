@@ -100,9 +100,9 @@ enum class ResStringType
 	LeftAttackEffect,
 	RightAttackEffect,
 	UpAttackEffect,
-	DownSkillEfect,
-	LeftSkillEfect,
-	RightSkillEfect,
-	UpSkillEfect,
+	DownSkillEffect,
+	LeftSkillEffect,
+	RightSkillEffect,
+	UpSkillEffect,
 	atkSound,
 };

@@ -32,20 +32,15 @@ Daniel::Daniel(bool mode, bool useExtraUpgrade, int starNumber)
 	resStringTypes.insert({ ResStringType::RightAttackEffect,"Daniel_RightAttack_Effect" });
 	resStringTypes.insert({ ResStringType::UpAttackEffect,"Daniel_UpAttack_Effect" });
 
-	resStringTypes.insert({ ResStringType::DownSkillEfect,"Daniel_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::LeftSkillEfect,"Daniel_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::RightSkillEfect,"Daniel_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::UpSkillEfect,"Daniel_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::DownSkillEffect,"Daniel_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::LeftSkillEffect,"Daniel_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::RightSkillEffect,"Daniel_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::UpSkillEffect,"Daniel_Skill_Effect" });
 
 	attackPos.insert({ Dir::Right, { 40.f, 0.f } });
 	attackPos.insert({ Dir::Left, { -40.f, 0.f} });
 	attackPos.insert({ Dir::Down, { 0.f, 51.f} });
 	attackPos.insert({ Dir::Up, { 3.f, -51.f} });
-
-	skillPos.insert({ Dir::Right, {GetTarget()->GetPos()} });
-	skillPos.insert({ Dir::Left, {GetTarget()->GetPos()} });
-	skillPos.insert({ Dir::Down, {GetTarget()->GetPos()} });
-	skillPos.insert({ Dir::Up, {GetTarget()->GetPos()} });
 
 	resStringTypes.insert({ ResStringType::atkSound, "sounds/Daniel_atk.wav" });
 }

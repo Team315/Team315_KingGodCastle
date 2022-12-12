@@ -32,10 +32,10 @@ Pria::Pria(bool mode, bool useExtraUpgrade, int skillTier)
 	resStringTypes.insert({ ResStringType::RightAttackEffect,"Pria_RightAttack_Effect" });
 	resStringTypes.insert({ ResStringType::UpAttackEffect,"Pria_UpAttack_Effect" });
 
-	resStringTypes.insert({ ResStringType::DownSkillEfect,"Pria_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::LeftSkillEfect,"Pria_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::RightSkillEfect,"Pria_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::UpSkillEfect,"Pria_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::DownSkillEffect,"Pria_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::LeftSkillEffect,"Pria_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::RightSkillEffect,"Pria_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::UpSkillEffect,"Pria_Skill_Effect" });
 
 	attackPos.insert({ Dir::Right, { 0.f, 0.f } });
 	attackPos.insert({ Dir::Left, { 0.f, 0.f } });
