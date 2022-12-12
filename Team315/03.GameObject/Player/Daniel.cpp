@@ -39,7 +39,7 @@ Daniel::Daniel(bool mode, bool useExtraUpgrade, int starNumber)
 
 	attackPos.insert({ Dir::Right, { 40.f, 0.f } });
 	attackPos.insert({ Dir::Left, { -40.f, 0.f} });
-	attackPos.insert({ Dir::Down, { 0.f, 0.f} });
+	attackPos.insert({ Dir::Down, { 0.f, 51.f} });
 	attackPos.insert({ Dir::Up, { 3.f, -51.f} });
 
 	resStringTypes.insert({ ResStringType::atkSound, "sounds/Daniel_atk.wav" });
@@ -67,7 +67,6 @@ void Daniel::Init()
 	//	skillEffect.push_back(skillEffectArr);
 	//	skillSprite.push_back(skillSpriteArr);
 	//}
-	//skill->Init();
 	Character::Init();
 	skill = new DanielSkill(GetStarNumber());
 }
@@ -75,52 +74,12 @@ void Daniel::Init()
 void Daniel::Update(float dt)
 {
 	Character::Update(dt);
-
-	//if (InputMgr::GetKeyDown(Keyboard::Z))
-	//{
-	//	SetState(AnimStates::Attack);
-	//}
-	//
-	//switch (currState)
-	//{
-	//case AnimStates::Idle:
-	//	UpdateIdle(dt);
-	//	break;
-	//case AnimStates::MoveToIdle:
-	//	UpdateMoveToIdle(dt);
-	//	break;
-	//case AnimStates::Move:
-	//	UpdateMove(dt);
-	//	break;
-	//case AnimStates::Attack:
-	//	UpdateAttack(dt);
-	//	break;
-	//case AnimStates::Skill:
-	//	UpdateSkill(dt);
-	//	break;
-	//}
-	//animator.Update(dt);
-	//effectAnimator.Update(dt);
-	////skill->Update(dt);
-	//for (int i = 0; i < 25; ++i)
-	//{
-	//	skillEffect[i]->Update(dt);
-	//}
-	//
-	//if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-	//{
-	//	lastDirection = direction;
-	//}
 }
 
 void Daniel::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
-	//skill->Draw(window);
-	//for (auto skills : skillSprite)
-	//{
-	//	window.draw(*skills);
-	//}
+	skill->Draw(window);
 }
 
 void Daniel::SetPos(const Vector2f& pos)

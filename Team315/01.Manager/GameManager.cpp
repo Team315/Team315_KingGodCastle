@@ -450,8 +450,8 @@ float GameManager::GetItemStatMapElem(StatType statType, int grade)
 const WaveReward& GameManager::GetWaveRewardMapElem()
 {
 	string key =
-		(curChapIdx > 10 ? "0" : "") + to_string(curChapIdx) +
-		(curStageIdx > 10 ? "0" : "") + to_string(curStageIdx);
+		(curChapIdx + 1 > 9 ? "" : "0") + to_string(curChapIdx + 1) +
+		(curStageIdx + 1 > 9 ? "" : "0") + to_string(curStageIdx + 1);
 	return waveRewardMap[key];
 }
 

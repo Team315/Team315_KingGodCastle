@@ -6,15 +6,31 @@ Skill::Skill(int starNumber)
 {
 	SetSkillTier(starNumber);
 	baseDamage.resize(TIER_MAX);
+
+	
 }
 
 Skill::~Skill()
 {
 }
 
+void Skill::Init()
+{
+	GameObj::Init();
+}
+
 void Skill::Update(float dt)
 {
 	animator.Update(dt);
+}
+
+void Skill::Reset()
+{
+}
+
+void Skill::Draw(RenderWindow& window)
+{
+	SpriteObj::Draw(window);
 }
 
 //void Skill::SetRotation(Vector2f dir)

@@ -2,9 +2,8 @@
 #include "Character.h"
 
 EvanSkill::EvanSkill(int skillTier)
-	: Skill(skillTier), dir(Dir::Right)
+	: Skill(skillTier)
 {
-	//sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/evan_SkillEffect.png"));
 	baseDamage = { 20, 35, 50, 65 };
 	range.resize(TIER_MAX);
 	
@@ -41,6 +40,26 @@ EvanSkill::EvanSkill(int skillTier)
 
 EvanSkill::~EvanSkill()
 {
+}
+
+void EvanSkill::Init()
+{
+	Skill::Init();
+}
+
+void EvanSkill::Update(float dt)
+{
+	Skill::Update(dt);
+}
+
+void EvanSkill::Draw(RenderWindow& window)
+{
+	Skill::Draw(window);
+}
+
+void EvanSkill::SetPos(const Vector2f& pos)
+{
+	Skill::SetPos(pos);
 }
 
 void EvanSkill::SetSkillRange(Vector2f startPos)
@@ -81,6 +100,20 @@ void EvanSkill::CastSkill(Character* caster)
 {
 	SetDir(caster->GetTarget()->GetPos() - caster->GetPos());
 	SetSkillRange(caster->GetPos());
+	sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/evan_SkillEffect.png"));
+	SetOrigin(Origins::MC);
+	if(dir == Dir::Up || dir == Dir::Down)
+	{
+		Vector2f sPos = caster->GetPos();
+		sPos.x += 15.f;
+		SetPos(caster->GetPos());
+	}
+	else if (dir == Dir::Left || dir == Dir::Right)
+	{
+		Vector2f sPos = caster->GetPos();
+		sPos.y -= 30.f;
+		SetPos(sPos);
+	}
 
 	for (auto& cell : applyArea)
 	{
@@ -96,12 +129,24 @@ void EvanSkill::CastSkill(Character* caster)
 
 void EvanSkill::SetDir(Vector2f direction)
 {
-	if (direction.x > 0.f)
-		dir = Dir::Right;
-	else if (direction.x < 0.f)
-		dir = Dir::Left;
-	else if (direction.y > 0.f)
-		dir = Dir::Down;
-	else if (direction.y < 0.f)
+	if (direction.y < 0.f)
+	{
 		dir = Dir::Up;
+		sprite.setRotation(90.f);
+	}
+	else if (direction.y > 0.f)
+	{
+		dir = Dir::Down;
+		sprite.setRotation(270.f);
+	}
+	else if (direction.x > 0.f)
+	{
+		dir = Dir::Right;
+		sprite.setRotation(180.f);
+	}
+	else if (direction.x < 0.f)
+	{
+		dir = Dir::Left;
+		sprite.setRotation(0.f);
+	}
 }

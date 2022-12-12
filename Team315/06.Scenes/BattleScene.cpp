@@ -809,13 +809,13 @@ void BattleScene::Update(float dt)
 			if (stageResult)
 			{
 				WaveReward wr = GAME_MGR->GetWaveRewardMapElem();
-				cout << wr.exp << wr.forge << wr.power << endl;
+				cout << "wave reward: " << wr.exp << wr.forge << wr.power << endl;
 				if (wr.forge)
 					cout << "reward is forge" << endl;
 				else if (wr.power)
 					cout << "reward is power" << endl;
 				GAME_MGR->cumulativeExp += wr.exp;
-				cout << "현재 누적 경험치: " << wr.exp << endl;
+				cout << "현재 누적 경험치: " << GAME_MGR->cumulativeExp << endl;
 
 				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
 					GAME_MGR->curStageIdx++;
