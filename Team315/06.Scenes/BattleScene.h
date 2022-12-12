@@ -42,6 +42,7 @@ protected:
 
 	int remainLife;
 	bool isGameOver;
+	float gameOverTimer;
 
 	bool stageEnd;
 	bool stageResult;

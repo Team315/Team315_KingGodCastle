@@ -8,29 +8,6 @@
 #include "DamageText.h"
 #include "RangePreview.h"
 
-struct AltarData
-{
-	// 강화, 신체, 은화, 마나 제단 순
-	AltarData() {}
-
-	void Init(int enhance = 0, int physical = 0, int wealth = 0, int mana = 0)
-	{
-
-	}
-
-};
-
-struct WaveReward
-{
-	int exp;
-	int forge;
-	int power;
-	
-	WaveReward(int exp = 0, int forge = 0, int power = 0)
-		: exp(exp), forge(forge), power(power)
-	{}
-};
-
 class BattleTracker;
 class Character;
 class DamageText;
@@ -82,6 +59,7 @@ public:
 
 	void GMInit();
 	void GMReset();
+	void GameEnd();
 	void PrintDevKey();
 
 	const int GetCharacterCount() { return battleCharacterCount; }
@@ -141,18 +119,21 @@ public:
 	float manaPerAttack;
 	float manaPerHit;
 
+	int accountExpLimit;
+	int cumulativeExp;
+
 	ObjectPool<DamageText> damageUI;
 	ObjectPool<RangePreview> rangePreview;
 	queue<Item*> waitQueue;
 	vector<Item*> drops;
 	AltarData altarData;
+	AccountInfo accountInfo;
 
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
-	WaveReward& GetWaveRewardMapElem(string key);
+	const WaveReward& GetWaveRewardMapElem();
 	Item* CombineItem(Item* obj1, Item* obj2);
 	Item* DropItem(Character* monster);
-	void GetBalanceDatas();
 };
 
 #define GAME_MGR (GameManager::GetInstance())
