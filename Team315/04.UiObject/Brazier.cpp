@@ -12,9 +12,6 @@ Brazier::~Brazier()
 
 void Brazier::Init()
 {
-	
-
-
 	sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/Altar_Brazier.png"),true);
 	Vector2f vec = { GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT * 0.95f };
 	SetPos(vec);
