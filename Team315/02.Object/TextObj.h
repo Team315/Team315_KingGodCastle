@@ -35,4 +35,5 @@ public:
     void SetOutlineThickness(float thickness);
     void SetOutlineColor(const Color& color);
     void SetAlhpa(int Alhpa);
+    void SetLetterSpacing(float spacingFactor);
 };
