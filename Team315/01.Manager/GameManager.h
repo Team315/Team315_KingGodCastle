@@ -60,6 +60,7 @@ public:
 	void GMInit();
 	void GMReset();
 	void GameEnd();
+	void SaveAltarData(int mana, int silver, int physical, int enforce);
 	void PrintDevKey();
 
 	const int GetCharacterCount() { return battleCharacterCount; }

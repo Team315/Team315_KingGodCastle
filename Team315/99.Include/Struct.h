@@ -2,19 +2,19 @@
 
 struct AltarData
 {
-	int enhance;
-	int physical;
-	int wealth;
 	int mana;
-
+	int silver;
+	int physical;
+	int enforce;
+	// 마나, 은화, 신체, 강화 제단 순
 	AltarData() {}
 
-	void Init(int enhance = 0, int physical = 0, int wealth = 0, int mana = 0)
+	void Init(int mana = 0, int silver = 0, int physical = 0, int enforce = 0)
 	{
-		this->enhance = enhance;
-		this->physical = physical;
-		this->wealth = wealth;
 		this->mana = mana;
+		this->silver = silver;
+		this->physical = physical;
+		this->enforce = enforce;
 	}
 };
 

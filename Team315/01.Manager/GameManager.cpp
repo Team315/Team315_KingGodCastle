@@ -130,11 +130,21 @@ void GameManager::GMInit()
 
 	string accInfoPath = "data/accInfo.csv";
 
-	rapidcsv::Document doc(accInfoPath, rapidcsv::LabelParams(0, -1));
-	auto level = doc.GetColumn<int>(0);
-	auto exp = doc.GetColumn<int>(1);
+	rapidcsv::Document infoDoc(accInfoPath, rapidcsv::LabelParams(0, -1));
+	auto level = infoDoc.GetColumn<int>(0);
+	auto exp = infoDoc.GetColumn<int>(1);
 	accountInfo.Load(level[0], exp[0]);
-	doc.Clear();
+	infoDoc.Clear();
+
+	string altarDataPath = "data/altarData.csv";
+
+	rapidcsv::Document altarDoc(altarDataPath, rapidcsv::LabelParams(0, -1));
+	auto mana = altarDoc.GetColumn<int>(0);
+	auto silver = altarDoc.GetColumn<int>(1);
+	auto physical = altarDoc.GetColumn<int>(2);
+	auto enforce = altarDoc.GetColumn<int>(3);
+	altarData.Init(mana[0], silver[0], physical[0], enforce[0]);
+	altarDoc.Clear();
 
 	string rewardPath = "data/WaveRewardTable.csv";
 	int pathSize = rewardPath.size();
@@ -152,7 +162,6 @@ void GameManager::GMInit()
 			waveRewardMap.insert({ wave[j], WaveReward(exp[j], forge[j], power[j]) });
 		}
 	}
-	doc.Clear();
 }
 
 void GameManager::GMReset()
@@ -160,7 +169,6 @@ void GameManager::GMReset()
 	GMInit();
 	playingBattle = false;
 	currentCoin = startCoin;
-	altarData.Init();
 	expansionCount = 0;
 	cumulativeExp = 0;
 
@@ -174,6 +182,18 @@ void GameManager::GameEnd()
 	CSVWriter csv(",");
 	csv.newRow() << "level" << "exp";
 	csv.newRow() << accountInfo.level << accountInfo.exp;
+
+	csv.writeToFile(accInfoPath);
+}
+
+void GameManager::SaveAltarData(int mana, int silver, int physical, int enforce)
+{
+	string accInfoPath = "data/altarData.csv";
+
+	CSVWriter csv(",");
+	csv.newRow() << "mana" << "silver" << "physical" << "enforce";
+	csv.newRow() << mana << silver << physical << enforce;
+	altarData.Init(mana, silver, physical, enforce);
 
 	csv.writeToFile(accInfoPath);
 }
