@@ -22,14 +22,12 @@ struct AltarData
 
 struct WaveReward
 {
-	int chap;
-	int stage;
 	int exp;
 	int forge;
 	int power;
 	
-	WaveReward(int chap = 0, int stage = 0, int exp = 0, int forge = 0, int power = 0)
-		: chap(chap), stage(stage), exp(exp), forge(forge), power(power)
+	WaveReward(int exp = 0, int forge = 0, int power = 0)
+		: exp(exp), forge(forge), power(power)
 	{}
 };
 
@@ -151,6 +149,7 @@ public:
 
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
+	WaveReward& GetWaveRewardMapElem(string key);
 	Item* CombineItem(Item* obj1, Item* obj2);
 	Item* DropItem(Character* monster);
 	void GetBalanceDatas();
