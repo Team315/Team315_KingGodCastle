@@ -67,8 +67,8 @@ public:
 
 	const int GetCharacterCount() { return battleCharacterCount; }
 	void SetCharacterCount(int newCharacterCount) { battleCharacterCount = newCharacterCount; }
-	const int GetExtraLevelUpSummon() { return extraLevelUpSummon; }
-	const int GetExtraLevelUpCombinate() { return extraLevelUpCombinate; }
+	const int GetExtraLevelUpSummon() { return extraLevelUpSummon + altarData.twiceUpWhenSummon; }
+	const int GetExtraLevelUpCombinate() { return extraLevelUpCombinate + altarData.twiceUpWhenCombine; }
 	//const int GetExtraGradeUpChance() { return extraGradeUpChance; }
 
 	Vector2i PosToIdx(Vector2f pos);
@@ -104,7 +104,7 @@ public:
 	void RemoveFromMainGrid(GameObj* gameObj);
 
 	int GetCurrentCoin() { return currentCoin; }
-	int GetClearCoin() { return stageClearCoin; }
+	int GetClearCoin() { return stageClearCoin + altarData.startCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }
 	int GetCurrentExpansionCost() { return expansionCost * pow(2, expansionCount); }
 	void TranslateExpansionCount(int val) { expansionCount += val; }

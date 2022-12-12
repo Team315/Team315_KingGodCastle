@@ -154,7 +154,7 @@ void GameManager::GMReset()
 {
 	GMInit();
 	playingBattle = false;
-	currentCoin = startCoin;
+	currentCoin = startCoin + altarData.startCoin;
 	expansionCount = 0;
 	cumulativeExp = 0;
 

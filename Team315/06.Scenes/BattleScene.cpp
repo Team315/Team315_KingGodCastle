@@ -546,6 +546,15 @@ void BattleScene::Update(float dt)
 					newPick->SetPos(prepareGridRect[idx]->GetPos());
 					newPick->Init();
 					prepareGrid[idx] = newPick;
+
+					int extraBookChance = GAME_MGR->altarData.summonBookPercent;
+					bool summonBook = Utils::RandomRange(0, 100) < extraBookChance;
+
+					if (summonBook)
+					{
+						cout << "extra book!" << endl;
+						GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem(0, 4));
+					}
 					break;
 				}
 				// Expansion
