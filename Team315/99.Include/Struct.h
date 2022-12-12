@@ -1,5 +1,58 @@
 #pragma once
 
+struct AltarData
+{
+	int mana;
+	int silver;
+	int physical;
+	int enforce;
+	// 마나, 은화, 신체, 강화 제단 순
+	AltarData() {}
+
+	void Init(int mana = 0, int silver = 0, int physical = 0, int enforce = 0)
+	{
+		this->mana = mana;
+		this->silver = silver;
+		this->physical = physical;
+		this->enforce = enforce;
+	}
+};
+
+struct AccountInfo
+{
+	int level;
+	int exp;
+	AccountInfo() : level(1), exp(0)
+	{}
+	void Load(int level, int exp)
+	{
+		this->level = level;
+		this->exp = exp;
+	}
+
+	void AddExp(int adder)
+	{
+		exp += adder;
+	}
+
+	void UpdateLevel(int expLimit)
+	{
+		level += (exp / expLimit);
+		exp %= expLimit;
+	}
+};
+
+struct WaveReward
+{
+	int exp;
+	int forge;
+	int power;
+
+	WaveReward(int exp = 0, int forge = 0, int power = 0)
+		: exp(exp), forge(forge), power(power)
+	{}
+};
+
 struct TileInfo
 {
 	Vector2i m_arrIndex;

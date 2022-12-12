@@ -238,6 +238,7 @@ void AltarScene::Draw(RenderWindow& window)
 void AltarScene::SetAltar()
 {
 	AltarData& data = GAME_MGR->altarData;
+
 	Altar* mana = new Altar({ GAME_SCREEN_WIDTH * 0.15f,GAME_SCREEN_HEIGHT * 0.05f }, 0, L"마나의 제단", { 254,113,235,255 }, data.mana);
 	AltarList.push_back(mana);
 
@@ -267,5 +268,5 @@ void AltarScene::SaveData()
 	data.physical = AltarList[2]->GetGrade();
 	data.enforce = AltarList[3]->GetGrade();
 
-	GAME_MGR->altarData.Init(data.mana, data.silver, data.physical, data.enforce);
+	GAME_MGR->SaveAltarData(data.mana, data.silver, data.physical, data.enforce);
 }

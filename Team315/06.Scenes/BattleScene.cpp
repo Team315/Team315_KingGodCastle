@@ -12,7 +12,7 @@
 #include "RectangleObj.h"
 
 BattleScene::BattleScene()
-	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f),
+	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f), gameOverTimer(0.f),
 	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false)
 {
 	CLOG::Print3String("battle create");
@@ -128,7 +128,11 @@ void BattleScene::Update(float dt)
 {
 	if (isGameOver)
 	{
-		cout << "Game Over !!" << endl;
+		gameOverTimer -= dt;
+		if (gameOverTimer < 0.f)
+		{
+			SCENE_MGR->ChangeScene(Scenes::Title);
+		}
 		return;
 	}
 
@@ -206,6 +210,11 @@ void BattleScene::Update(float dt)
 		{
 			cout << "create New Item" << endl;
 			GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem(2));
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::F3))
+		{
+			LoseFlag();
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
@@ -799,8 +808,14 @@ void BattleScene::Update(float dt)
 			// when stage clear
 			if (stageResult)
 			{
-				WaveReward wr = GAME_MGR->GetWaveRewardMapElem("0101");
+				WaveReward wr = GAME_MGR->GetWaveRewardMapElem();
 				cout << wr.exp << wr.forge << wr.power << endl;
+				if (wr.forge)
+					cout << "reward is forge" << endl;
+				else if (wr.power)
+					cout << "reward is power" << endl;
+				GAME_MGR->cumulativeExp += wr.exp;
+				cout << "현재 누적 경험치: " << wr.exp << endl;
 
 				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
 					GAME_MGR->curStageIdx++;
@@ -1142,7 +1157,15 @@ void BattleScene::LoseFlag()
 	remainLife--;
 	flags[remainLife]->SetActive(false);
 	if (!remainLife)
+	{
 		isGameOver = true;
+		gameOverTimer = 5.f;
+
+		cout << "Game Over !!" << endl;
+		GAME_MGR->accountInfo.AddExp(GAME_MGR->cumulativeExp);
+		GAME_MGR->accountInfo.UpdateLevel(GAME_MGR->accountExpLimit);
+		GAME_MGR->GameEnd();
+	}
 }
 
 void BattleScene::ZoomIn()

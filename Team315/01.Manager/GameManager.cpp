@@ -5,6 +5,7 @@
 #include "TileBackground.h"
 #include "Item/Item.h"
 #include "rapidcsv.h"
+#include "CSVWriter.h"
 
 void DmgUIOnCreate(DamageText* dmgUI)
 {
@@ -27,7 +28,8 @@ GameManager::GameManager()
 	characterCost(3), itemCost(5), expansionCost(5), expansionCount(0),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
 	apIncreaseRate(1.6f), asIncrease(0.1f),
-	manaPerAttack(15.f), manaPerHit(5.f), itemDropProbability(10)
+	manaPerAttack(15.f), manaPerHit(5.f), itemDropProbability(10),
+	accountExpLimit(6), cumulativeExp(0)
 {
 	CLOG::Print3String("GameManager Create");
 	
@@ -43,7 +45,6 @@ GameManager::GameManager()
 	rangePreview.OnCreate = RangePreviewOnCreate;
 	rangePreview.Init(200);
 	GMInit();
-	GetBalanceDatas();
 	PrintDevKey();
 }
 
@@ -91,10 +92,11 @@ void GameManager::GMInit()
 	manaPerAttack = gameSetting["ManaPerAttack"];
 	manaPerHit = gameSetting["ManaPerHit"];
 	itemDropProbability = gameSetting["ItemDropProbability"];
+	accountExpLimit = gameSetting["AccountExpLimit"];
 
 	cout << "부대 배치 제한: " << battleCharacterCount << endl;
-	cout << "소환시 2업 확률: " << extraLevelUpSummon << endl;
-	cout << "합성시 2업 확률: " << extraLevelUpCombinate << endl;
+	cout << "소환시 2업 확률(%): " << extraLevelUpSummon << endl;
+	cout << "합성시 2업 확률(%): " << extraLevelUpCombinate << endl;
 	//cout << "아이템 2업 확률(X): " << extraGradeUpChance << endl;
 	cout << "게임 시작시 코인: " << startCoin << endl;
 	cout << "스테이지 클리어시 보상 코인: " << stageClearCoin << endl;
@@ -104,6 +106,7 @@ void GameManager::GMInit()
 	cout << "공격시 마나 획득: " << manaPerAttack << endl;
 	cout << "피격시 마나 획득: " << manaPerHit << endl;
 	cout << "아이템 드랍 확률(%): " << itemDropProbability << endl;
+	cout << "레벨당 필요 경험치량: " << accountExpLimit << endl;
 
 	json statIncreaseRate = initSetting["LevelUpStatIncreaseRate"];
 	adIncreaseRate = statIncreaseRate["AdIncreaseRate"];
@@ -125,17 +128,40 @@ void GameManager::GMInit()
 	itemStatMap.insert({ StatType::AS, ItemStats["Bow"]});
 	itemStatMap.insert({ StatType::AD, ItemStats["Sword"] });
 
-	/*
-	ad		25	40	70	 120
-	ap		40% 70% 120% 200%
-	as		25% 40% 70%  120%
-	armor	250 400 700  120
-	*/
+	string accInfoPath = "data/accInfo.csv";
 
-	//itemStatMap[StatType::AD] = { 25, 40, 70, 120 };			// +
-	//itemStatMap[StatType::AP] = { 0.4f, 0.7f, 1.2f, 2.f };	// %
-	//itemStatMap[StatType::AS] = { 0.25f, 0.4f, 0.7f, 1.2f };	// %
-	//itemStatMap[StatType::HP] = { 250, 400, 700, 1200 };		// +
+	rapidcsv::Document infoDoc(accInfoPath, rapidcsv::LabelParams(0, -1));
+	auto level = infoDoc.GetColumn<int>(0);
+	auto exp = infoDoc.GetColumn<int>(1);
+	accountInfo.Load(level[0], exp[0]);
+	infoDoc.Clear();
+
+	string altarDataPath = "data/altarData.csv";
+
+	rapidcsv::Document altarDoc(altarDataPath, rapidcsv::LabelParams(0, -1));
+	auto mana = altarDoc.GetColumn<int>(0);
+	auto silver = altarDoc.GetColumn<int>(1);
+	auto physical = altarDoc.GetColumn<int>(2);
+	auto enforce = altarDoc.GetColumn<int>(3);
+	altarData.Init(mana[0], silver[0], physical[0], enforce[0]);
+	altarDoc.Clear();
+
+	string rewardPath = "data/WaveRewardTable.csv";
+	int pathSize = rewardPath.size();
+	for (int i = 0; i < pathSize; i++)
+	{
+		rapidcsv::Document doc(rewardPath, rapidcsv::LabelParams(0, -1));
+
+		auto wave = doc.GetColumn<string>(0);
+		auto exp = doc.GetColumn<int>(1);
+		auto forge = doc.GetColumn<int>(2);
+		auto power = doc.GetColumn<int>(3);
+
+		for (int j = 0; j < doc.GetRowCount(); j++)
+		{
+			waveRewardMap.insert({ wave[j], WaveReward(exp[j], forge[j], power[j]) });
+		}
+	}
 }
 
 void GameManager::GMReset()
@@ -143,10 +169,33 @@ void GameManager::GMReset()
 	GMInit();
 	playingBattle = false;
 	currentCoin = startCoin;
-	altarData.Init();
 	expansionCount = 0;
+	cumulativeExp = 0;
 
 	// panelSkill = ?
+}
+
+void GameManager::GameEnd()
+{
+	string accInfoPath = "data/accInfo.csv";
+	
+	CSVWriter csv(",");
+	csv.newRow() << "level" << "exp";
+	csv.newRow() << accountInfo.level << accountInfo.exp;
+
+	csv.writeToFile(accInfoPath);
+}
+
+void GameManager::SaveAltarData(int mana, int silver, int physical, int enforce)
+{
+	string accInfoPath = "data/altarData.csv";
+
+	CSVWriter csv(",");
+	csv.newRow() << "mana" << "silver" << "physical" << "enforce";
+	csv.newRow() << mana << silver << physical << enforce;
+	altarData.Init(mana, silver, physical, enforce);
+
+	csv.writeToFile(accInfoPath);
 }
 
 void GameManager::PrintDevKey()
@@ -398,8 +447,11 @@ float GameManager::GetItemStatMapElem(StatType statType, int grade)
 	return (itemStatMap[statType])[grade];
 }
 
-WaveReward& GameManager::GetWaveRewardMapElem(string key)
+const WaveReward& GameManager::GetWaveRewardMapElem()
 {
+	string key =
+		(curChapIdx > 10 ? "0" : "") + to_string(curChapIdx) +
+		(curStageIdx > 10 ? "0" : "") + to_string(curStageIdx);
 	return waveRewardMap[key];
 }
 
@@ -455,27 +507,6 @@ Item* GameManager::DropItem(Character* monster)
 		drops.push_back(drop);
 	}
 	return drop;
-}
-
-void GameManager::GetBalanceDatas()
-{
-	string filePath = "tables/WaveRewardTable.csv";
-	int pathSize = filePath.size();
-	for (int i = 0; i < pathSize; i++)
-	{
-		rapidcsv::Document doc(filePath, rapidcsv::LabelParams(0, -1));
-
-		//auto key = doc.GetColumn<string>(0);
-		auto wave = doc.GetColumn<string>(1);
-		auto exp = doc.GetColumn<int>(2);
-		auto forge = doc.GetColumn<int>(3);
-		auto power = doc.GetColumn<int>(4);
-
-		for (int j = 0; j < doc.GetRowCount(); j++)
-		{
-			waveRewardMap.insert({ wave[j], WaveReward(exp[j], forge[j], power[j])});
-		}
-	}
 }
 
 // Battle Tracker
