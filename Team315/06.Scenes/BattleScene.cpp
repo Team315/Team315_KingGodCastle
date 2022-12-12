@@ -796,13 +796,16 @@ void BattleScene::Update(float dt)
 			b_centerPos = false;
 			ZoomOut();
 
+			// when stage clear
 			if (stageResult)
 			{
+				WaveReward wr = GAME_MGR->GetWaveRewardMapElem("0101");
+				cout << wr.exp << wr.forge << wr.power << endl;
+
 				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
 					GAME_MGR->curStageIdx++;
 			}
 			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
-
 			ui->SetStatPopup(false, currentView.getCenter());
 			ui->SetItemPopup(false, currentView.getCenter());
 

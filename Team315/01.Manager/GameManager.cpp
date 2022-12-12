@@ -145,6 +145,8 @@ void GameManager::GMReset()
 	currentCoin = startCoin;
 	altarData.Init();
 	expansionCount = 0;
+
+	// panelSkill = ?
 }
 
 void GameManager::PrintDevKey()
@@ -396,6 +398,11 @@ float GameManager::GetItemStatMapElem(StatType statType, int grade)
 	return (itemStatMap[statType])[grade];
 }
 
+WaveReward& GameManager::GetWaveRewardMapElem(string key)
+{
+	return waveRewardMap[key];
+}
+
 Item* GameManager::CombineItem(Item* obj1, Item* obj2)
 {
 	// return null is can't combine
@@ -458,16 +465,15 @@ void GameManager::GetBalanceDatas()
 	{
 		rapidcsv::Document doc(filePath, rapidcsv::LabelParams(0, -1));
 
-		auto key = doc.GetColumn<string>(0);
-		auto chap = doc.GetColumn<int>(1);
-		auto stage = doc.GetColumn<int>(2);
-		auto exp = doc.GetColumn<int>(3);
-		auto forge = doc.GetColumn<int>(4);
-		auto power = doc.GetColumn<int>(5);
+		//auto key = doc.GetColumn<string>(0);
+		auto wave = doc.GetColumn<string>(1);
+		auto exp = doc.GetColumn<int>(2);
+		auto forge = doc.GetColumn<int>(3);
+		auto power = doc.GetColumn<int>(4);
 
 		for (int j = 0; j < doc.GetRowCount(); j++)
 		{
-			waveRewardMap.insert({ key[j], WaveReward(chap[j], stage[j], exp[j], forge[j], power[j])});
+			waveRewardMap.insert({ wave[j], WaveReward(exp[j], forge[j], power[j])});
 		}
 	}
 }
