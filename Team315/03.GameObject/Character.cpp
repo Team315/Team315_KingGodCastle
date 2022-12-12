@@ -698,14 +698,6 @@ void Character::AnimationInit()
 			*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftAttackEffect]));
 		effectAnimator.AddClip(
 			*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightAttackEffect]));
-		effectAnimator.AddClip(
-			*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpSkillEffect]));
-		effectAnimator.AddClip(
-			*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::DownSkillEffect]));
-		effectAnimator.AddClip(
-			*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftSkillEffect]));
-		effectAnimator.AddClip(
-			*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightSkillEffect]));
 		{
 			AnimationEvent ev;
 			ev.clipId = resStringTypes[ResStringType::UpAttackEffect];
@@ -734,61 +726,41 @@ void Character::AnimationInit()
 			ev.onEvent = bind(&Character::OnCompleteAttack, this);
 			effectAnimator.AddEvent(ev);
 		}
+		if(name.compare("Arveron") || name.compare("Daniel"))
 		{
-			AnimationEvent ev;
-			ev.clipId = resStringTypes[ResStringType::UpSkillEffect];
-			ev.frame = 3;
-			ev.onEvent = bind(&Character::OnCompleteAttack, this);
-			effectAnimator.AddEvent(ev);
-		}
-		{
-			AnimationEvent ev;
-			ev.clipId = resStringTypes[ResStringType::DownSkillEffect];
-			ev.frame = 3;
-			ev.onEvent = bind(&Character::OnCompleteAttack, this);
-			effectAnimator.AddEvent(ev);
-		}
-		{
-			AnimationEvent ev;
-			ev.clipId = resStringTypes[ResStringType::LeftSkillEffect];
-			ev.frame = 3;
-			ev.onEvent = bind(&Character::OnCompleteAttack, this);
-			effectAnimator.AddEvent(ev);
-		}
-		{
-			AnimationEvent ev;
-			ev.clipId = resStringTypes[ResStringType::RightSkillEffect];
-			ev.frame = 3;
-			ev.onEvent = bind(&Character::OnCompleteAttack, this);
-			effectAnimator.AddEvent(ev);
-		}
-		if (!name.compare("Arveron"))
-		{
+			effectAnimator.AddClip(
+				*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpSkillEffect]));
+			effectAnimator.AddClip(
+				*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::DownSkillEffect]));
+			effectAnimator.AddClip(
+				*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftSkillEffect]));
+			effectAnimator.AddClip(
+				*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightSkillEffect]));
 			{
 				AnimationEvent ev;
 				ev.clipId = resStringTypes[ResStringType::UpSkillEffect];
-				ev.frame = 6;
+				ev.frame = 3;
 				ev.onEvent = bind(&Character::OnCompleteAttack, this);
 				effectAnimator.AddEvent(ev);
 			}
 			{
 				AnimationEvent ev;
 				ev.clipId = resStringTypes[ResStringType::DownSkillEffect];
-				ev.frame = 6;
+				ev.frame = 3;
 				ev.onEvent = bind(&Character::OnCompleteAttack, this);
 				effectAnimator.AddEvent(ev);
 			}
 			{
 				AnimationEvent ev;
 				ev.clipId = resStringTypes[ResStringType::LeftSkillEffect];
-				ev.frame = 6;
+				ev.frame = 3;
 				ev.onEvent = bind(&Character::OnCompleteAttack, this);
 				effectAnimator.AddEvent(ev);
 			}
 			{
 				AnimationEvent ev;
 				ev.clipId = resStringTypes[ResStringType::RightSkillEffect];
-				ev.frame = 6;
+				ev.frame = 3;
 				ev.onEvent = bind(&Character::OnCompleteAttack, this);
 				effectAnimator.AddEvent(ev);
 			}
@@ -928,25 +900,32 @@ void Character::SkillAnimation(Vector2f skillPos)
 	if (lastDirection.y)
 	{
 		animator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkill] : resStringTypes[ResStringType::UpSkill]);
-		effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
-		effectSprite.setPosition(position + skillPos);
+		if(name.compare("Arveron") || name.compare("Daniel"))
+		{
+			effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
+			effectSprite.setPosition(position + skillPos);
+		}
 		//if (!name.compare("Pria"))
 		//{
-		//	effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEfect] : resStringTypes[ResStringType::UpSkillEfect]);
+		//	effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
 		//	Vector2f tPos = m_target->GetPos();
-		//	effectSprite.setPosition(position + skillPos);
+		//	effectSprite.setPosition(position);
+		//	
 		//}
 		//else
 		//{
-		//	effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEfect] : resStringTypes[ResStringType::UpSkillEfect]);
-		//	effectSprite.setPosition(position + skillPos);
-		//}		
+		//	effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
+		//	effectSprite.setPosition(position);
+		//}
 	}
 	else if (lastDirection.x)
 	{
 		animator.Play(lastDirection.x > 0.f ? resStringTypes[ResStringType::RightSkill] : resStringTypes[ResStringType::LeftSkill]);
-		effectAnimator.Play(lastDirection.x > 0.f ? resStringTypes[ResStringType::RightSkillEffect] : resStringTypes[ResStringType::LeftSkillEffect]);		
-		effectSprite.setPosition(position + skillPos);
+		if (name.compare("Arveron") || name.compare("Daniel"))
+		{
+			effectAnimator.Play(lastDirection.x > 0.f ? resStringTypes[ResStringType::RightSkillEffect] : resStringTypes[ResStringType::LeftSkillEffect]);
+			effectSprite.setPosition(position + skillPos);
+		}
 	}
 	else
 	{

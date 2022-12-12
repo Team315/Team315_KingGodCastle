@@ -75,6 +75,7 @@ void Pria::Update(float dt)
 {
 	Character::Update(dt);
 
+	skill->GetAnimator()->Update(dt);
 	//if (InputMgr::GetKeyDown(Keyboard::Z))
 	//{
 	//	SetState(AnimStates::Skill);
@@ -105,7 +106,7 @@ void Pria::Update(float dt)
 	//{
 	//	skillEffect[i]->Update(dt);
 	//}
-	//
+	
 	//if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 	//{
 	//	lastDirection = direction;
@@ -119,34 +120,36 @@ void Pria::Draw(RenderWindow& window)
 
 	Character::Draw(window);
 	window.draw(effectSprite);
+	if (isBattle)
+		skill->Draw(window);
 
-	/*if (!isBattle)
-	{
-		m_floodFill.Draw(window);
-	}
+	//if (!isBattle)
+	//{
+	//	m_floodFill.Draw(window);
+	//}
 
-	if (GetState() == AnimStates::Skill)
-	{
-		window.draw(effectSprite);
-		SpriteObj::Draw(window);
-	}
-	else
-	{
-		SpriteObj::Draw(window);
-		window.draw(effectSprite);
-	}
+	//if (GetState() == AnimStates::Skill)
+	//{
+	//	window.draw(effectSprite);
+	//	SpriteObj::Draw(window);
+	//}
+	//else
+	//{
+	//	SpriteObj::Draw(window);
+	//	window.draw(effectSprite);
+	//}
 	//for (auto skills : skillSprite)
 	//{
 	//	window.draw(*skills);
 	//}
-	hpBar->Draw(window);
-	star->Draw(window);
+	//hpBar->Draw(window);
+	//star->Draw(window);
 
-	for (auto& grid : itemGrid)
-	{
-		if (grid->GetActive())
-			grid->Draw(window);
-	}*/
+	//for (auto& grid : itemGrid)
+	//{
+	//	if (grid->GetActive())
+	//		grid->Draw(window);
+	//}
 }
 
 void Pria::SetPos(const Vector2f& pos)

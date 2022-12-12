@@ -6,8 +6,6 @@ Skill::Skill(int starNumber)
 {
 	SetSkillTier(starNumber);
 	baseDamage.resize(TIER_MAX);
-
-	
 }
 
 Skill::~Skill()

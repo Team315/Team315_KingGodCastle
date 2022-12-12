@@ -58,6 +58,7 @@ void Arveron::Init()
 void Arveron::Update(float dt)
 {
 	Character::Update(dt);
+	skill->GetAnimator()->Update(dt);
 }
 
 void Arveron::Draw(RenderWindow& window)
@@ -65,10 +66,12 @@ void Arveron::Draw(RenderWindow& window)
 	if (!isAlive)
 		return;
 
-	SpriteObj::Draw(window);
+	Character::Draw(window);
 	window.draw(effectSprite);
+	if (isBattle)
+		skill->Draw(window);
 
-	//Character::Draw(window);
+	//SpriteObj::Draw(window);
 	//window.draw(effectSprite);
 
 	//if (!isBattle)
@@ -77,14 +80,14 @@ void Arveron::Draw(RenderWindow& window)
 	//}
 	//
 
-	hpBar->Draw(window);
-	star->Draw(window);
-	
-	for (auto& grid : itemGrid)
-	{
-		if (grid->GetActive())
-			grid->Draw(window);
-	}
+	//hpBar->Draw(window);
+	//star->Draw(window);
+	//
+	//for (auto& grid : itemGrid)
+	//{
+	//	if (grid->GetActive())
+	//		grid->Draw(window);
+	//}
 }
 
 void Arveron::SetPos(const Vector2f& pos)

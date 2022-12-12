@@ -144,6 +144,13 @@ void DanielSkill::CastSkill(Character* caster)
 {
 	SetSkillRange(caster->GetPos());
 
+	animator.SetTarget(&sprite);
+
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Daniel_Skill_Effect"));
+	animator.Play("Daniel_Skill_Effect");
+
+	SetPos(caster->GetPos());
+
 	for (auto& cell : applyArea)
 	{
 		GAME_MGR->rangePreview.Get()->Fire(GAME_MGR->IdxToPos(cell));

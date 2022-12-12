@@ -74,12 +74,14 @@ void Daniel::Init()
 void Daniel::Update(float dt)
 {
 	Character::Update(dt);
+	skill->GetAnimator()->Update(dt);
 }
 
 void Daniel::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
-	skill->Draw(window);
+	if (isBattle)
+		skill->Draw(window);
 }
 
 void Daniel::SetPos(const Vector2f& pos)
