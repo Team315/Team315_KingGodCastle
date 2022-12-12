@@ -36,13 +36,13 @@ BattlePanel::BattlePanel()
 	beginLocalPos = Vector2f((GAME_SCREEN_WIDTH - begin->GetSize().x) * 0.5f, 180.f);
 	begin->SetName("begin");
 
-	equipment = new Button();
-	equipment->SetButton(*RESOURCE_MGR->GetTexture("graphics/battleScene/Button_02.png"),
-		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), L"장비구입",
+	expansion = new Button();
+	expansion->SetButton(*RESOURCE_MGR->GetTexture("graphics/battleScene/Button_02.png"),
+		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), L"진영확장",
 		textLocalPos.x, textLocalPos.y);
-	equipment->SetTextStyle(Color::White, 20, Color::Black, 1.f);
+	expansion->SetTextStyle(Color::White, 20, Color::Black, 1.f);
 	expansionLocalPos = Vector2f(GAME_SCREEN_WIDTH * 0.75f, 200.f);
-	equipment->SetName("item");
+	expansion->SetName("expansion");
 
 	titleText = new TextObj(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"),
 		L"고블린 습격!     번째 침략",
@@ -63,7 +63,8 @@ BattlePanel::BattlePanel()
 	stageText->SetOutlineThickness(1.f);
 	stageTextLocalPos = beginLocalPos + Vector2f(50.f, 40.f);
 
-	coinSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/coin_01.png"));
+	coinSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Item_Coin0.png"));
+	coinSprite.setScale(2.f, 2.f);
 
 	coinState = new BackrectText(70.f, 30.f);
 	coinState->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
@@ -74,9 +75,27 @@ BattlePanel::BattlePanel()
 	coinState->SetOutline(Color::Black, 1.f);
 	coinLocalPos = Vector2f((GAME_SCREEN_WIDTH - coinState->GetSize().x) * 0.5f, 150.f);
 
+	characterCostSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Item_Coin0.png")); ;
+	characterCostText = new BackrectText();
+	characterCostText->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	characterCostText->SetString(to_string(GAME_MGR->characterCost));
+	characterCostText->SetTextStyle(Color::White, 15, Color::Black, 1.f);
+	characterCostText->SetTextLocalPos(Vector2f(20.f, 2.f));
+	//characterCostText->SetFillColor(Color(0x1B, 0x1B, 0x1B, 180.f));
+	//characterCostText->SetOutline(Color::Black, 1.f);
+
+	expansionCostSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Item_Coin0.png")); ;
+	expansionCostText = new BackrectText();
+	expansionCostText->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	expansionCostText->SetString(to_string(GAME_MGR->GetCurrentExpansionCost()));
+	expansionCostText->SetTextStyle(Color::White, 15, Color::Black, 1.f);
+	expansionCostText->SetTextLocalPos(Vector2f(20.f, 2.f));
+	//expansionCostText->SetFillColor(Color(0x1B, 0x1B, 0x1B, 180.f));
+	//expansionCostText->SetOutline(Color::Black, 1.f);
+
 	buttons.push_back(summon);
 	buttons.push_back(begin);
-	buttons.push_back(equipment);
+	buttons.push_back(expansion);
 }
 
 BattlePanel::~BattlePanel()
@@ -91,12 +110,18 @@ void BattlePanel::Draw(RenderWindow& window)
 	window.draw(bottomGradiant);
 	summon->Draw(window);
 	begin->Draw(window);
-	equipment->Draw(window);
+	expansion->Draw(window);
 	titleText->Draw(window);
 	stageText->Draw(window);
 	titleNumberText->Draw(window);
+	
 	coinState->Draw(window);
+	characterCostText->Draw(window);
+	expansionCostText->Draw(window);
+	
 	window.draw(coinSprite);
+	window.draw(characterCostSprite);
+	window.draw(expansionCostSprite);
 }
 
 void BattlePanel::SetPos(const Vector2f& pos)
@@ -107,13 +132,22 @@ void BattlePanel::SetPos(const Vector2f& pos)
 	bottomGradiant.setPosition(position + gradiantLocalPos);
 	summon->SetPos(position + summonLocalPos);
 	begin->SetPos(position + beginLocalPos);
-	equipment->SetPos(position + expansionLocalPos);
+	expansion->SetPos(position + expansionLocalPos);
 	titleText->SetPos(position + titleTextLocalPos);
 	stageText->SetPos(position + stageTextLocalPos);
 	titleNumberText->SetPos(position + dnmTitleTextLocalPos);
-	coinSprite.setScale(2.f, 2.f);
-	coinSprite.setPosition(position + coinLocalPos + Vector2f(-coinSprite.getTextureRect().width * 0.75f, 5.f));
+	
 	coinState->SetPos(position + coinLocalPos);
+	coinSprite.setPosition(
+		position + coinLocalPos + Vector2f(-coinSprite.getTextureRect().width * 0.75f, 5.f));
+	
+	characterCostText->SetPos(position + summonLocalPos + Vector2f(30.f, 65.f));
+	characterCostSprite.setPosition(
+		position + summonLocalPos + Vector2f(30.f, 70.f));
+	
+	expansionCostText->SetPos(position + expansionLocalPos + Vector2f(30.f, 65.f));
+	expansionCostSprite.setPosition(
+		position + expansionLocalPos + Vector2f(30.f, 70.f));
 }
 
 void BattlePanel::ChangeTitleTextString(int chapIdx)
@@ -132,4 +166,9 @@ void BattlePanel::SetStageNumber(int num)
 void BattlePanel::SetCurrentCoin(int num)
 {
 	coinState->SetString(to_string(num));
+}
+
+void BattlePanel::SetExpansionCostText(int num)
+{
+	expansionCostText->SetString(to_string(num));
 }

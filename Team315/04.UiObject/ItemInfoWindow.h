@@ -11,6 +11,8 @@ protected:
 	BackrectText* status;
 	Sprite itemSprite;
 	Sprite statSprite;
+	BackrectText* additional;
+	bool needAdditional;
 
 public:
 	ItemInfoWindow(float x = 0, float y = 0);

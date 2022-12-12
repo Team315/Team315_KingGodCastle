@@ -8,11 +8,19 @@ protected:
 	ItemType itemType;
 	float potential;
 	StatType statType;
+	Sprite shadow;
+	Vector2f spriteLocalPos;
+	float delta;
+
+	Vector2f destination;
+	float moveSpeed;
+	bool move;
 
 public:
-	Item(int grade = 0, ItemType type = ItemType::None);
+	Item(int grade = 0, bool useExtraChance = false, ItemType iType = ItemType::None);
 	virtual ~Item();
 
+	virtual void Update(float dt);
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
 
@@ -23,4 +31,6 @@ public:
 	StatType GetStatType() { return statType; }
 	string GetStatTypeString();
 	bool Upgrade();
+
+	void SetDestination(Vector2f dest);
 };

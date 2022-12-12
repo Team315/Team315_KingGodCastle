@@ -11,12 +11,9 @@
 #include "Map/FloodFill.h"
 #include "RectangleObj.h"
 
-using namespace std;
-
 BattleScene::BattleScene()
-	: Scene(Scenes::Battle), pick(nullptr), battleCharacterCount(10),
-	curChapIdx(0), curStageIdx(0), gameEndTimer(0.f),
-	remainLife(3), isGameOver(false)
+	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f),
+	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false)
 {
 	CLOG::Print3String("battle create");
 
@@ -92,18 +89,20 @@ void BattleScene::Enter()
 	prepareGrid.assign(PREPARE_SIZE, nullptr);
 	battleGrid.assign(BATTLE_GRID_ROW * GAME_TILE_WIDTH, nullptr);
 
-	GAME_MGR->Reset();
+	GAME_MGR->GMReset();
 	ui->Reset();
 
-	curChapIdx = 0;
-	curStageIdx = 0;
-	SetCurrentStage(curChapIdx, curStageIdx);
+	GAME_MGR->curChapIdx = 0;
+	GAME_MGR->curStageIdx = 0;
+	SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 
 	b_centerPos = false;
 	ZoomOut();
 	GAME_MGR->damageUI.Reset();
 
 	SOUND_MGR->Play("sounds/Battle.wav", 20.f, true);
+	stageResult = false;
+	stageEnd = false;
 }
 
 void BattleScene::Exit()
@@ -144,10 +143,33 @@ void BattleScene::Update(float dt)
 			Item* item = GAME_MGR->waitQueue.front();
 			item->SetPos(prepareGridRect[idx]->GetPos());
 			item->Init();
+			item->SetActive(true);
 			prepareGrid[idx] = item;
 
 			GAME_MGR->waitQueue.pop();
 		}
+	}
+
+	vector<Item*>& drops = GAME_MGR->drops;
+	for (auto it = drops.begin(); it != drops.end();)
+	{
+		(*it)->Update(dt);
+		if ((*it)->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				int idx = GetZeroElem(prepareGrid);
+				if (idx != -1)
+				{
+					(*it)->SetDestination(prepareGridRect[idx]->GetPos());
+					prepareGrid[idx] = (*it);
+					it = drops.erase(it);
+				}
+				else it++;
+			}
+			else it++;
+		}
+		else it++;
 	}
 
 	Scene::Update(dt);
@@ -158,12 +180,32 @@ void BattleScene::Update(float dt)
 		{
 			CLOG::Print3String("setting window");
 			SOUND_MGR->StopAll();
+			SCENE_MGR->ChangeScene(Scenes::Title);
 			return;
 		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
 		{
 			TranslateCoinState(100.f);
 			SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num2))
+		{
+			cout << "create New Item" << endl;
+			GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem());
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num3))
+		{
+			cout << "create New Item" << endl;
+			GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem(1));
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::Num4))
+		{
+			cout << "create New Item" << endl;
+			GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem(2));
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F4))
@@ -184,45 +226,50 @@ void BattleScene::Update(float dt)
 			b_centerPos = false;
 			ZoomOut();
 
-			if (curStageIdx < STAGE_MAX_COUNT - 1)
-				curStageIdx++;
-			SetCurrentStage(curChapIdx, curStageIdx);
+			if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
+				GAME_MGR->curStageIdx++;
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F5))
 		{
 			CLOG::Print3String("prev stage test");
-			if (curStageIdx > 0)
-				curStageIdx--;
-			SetCurrentStage(curChapIdx, curStageIdx);
+			if (GAME_MGR->curStageIdx > 0)
+				GAME_MGR->curStageIdx--;
+			else
+				GAME_MGR->curStageIdx = STAGE_MAX_COUNT - 1;
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
 		if (InputMgr::GetKeyDown(Keyboard::Key::F6))
 		{
 			CLOG::Print3String("next stage test");
-			if (curStageIdx < STAGE_MAX_COUNT - 1)
-				curStageIdx++;
+			if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
+				GAME_MGR->curStageIdx++;
 			else
 			{
-				ui->GetPanel()->ChangeTitleTextString(++curChapIdx);
-				curStageIdx = 0;
+				if (GAME_MGR->curChapIdx != 2)
+					ui->GetPanel()->ChangeTitleTextString(++GAME_MGR->curChapIdx);
+				GAME_MGR->curStageIdx = 0;
 			}
-			SetCurrentStage(curChapIdx, curStageIdx);
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num5))
 		{
 			CLOG::Print3String("prev chapter test");
-			if (curChapIdx > 0)
-				curChapIdx--;
-			ui->GetPanel()->ChangeTitleTextString(curChapIdx);
-			SetCurrentStage(curChapIdx, curStageIdx);
+			if (GAME_MGR->curChapIdx > 0)
+				GAME_MGR->curChapIdx--;
+			ui->GetPanel()->ChangeTitleTextString(GAME_MGR->curChapIdx);
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num6))
 		{
 			CLOG::Print3String("next chapter test");
-			if (curChapIdx < CHAPTER_MAX_COUNT - 1)
-				curChapIdx++;
-			ui->GetPanel()->ChangeTitleTextString(curChapIdx);
-			SetCurrentStage(curChapIdx, curStageIdx);
+			if (GAME_MGR->curChapIdx < CHAPTER_MAX_COUNT - 1)
+				GAME_MGR->curChapIdx++;
+			ui->GetPanel()->ChangeTitleTextString(GAME_MGR->curChapIdx);
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F7))
@@ -230,7 +277,8 @@ void BattleScene::Update(float dt)
 			CLOG::Print3String("devmode switch");
 			FRAMEWORK->devMode = !FRAMEWORK->devMode;
 		}
-		/*if (InputMgr::GetKeyDown(Keyboard::Key::F8))
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::F8))
 		{
 			int count = 0;
 			CLOG::Print3String("main grid state");
@@ -252,51 +300,136 @@ void BattleScene::Update(float dt)
 				cout << str;
 			}
 			cout << endl;
-		}*/
+		}
 
-		//if (InputMgr::GetKeyDown(Keyboard::Key::F9))
-		//{
-		//	int count = 0;
-		//	CLOG::Print3String("battle grid state");
-		//	for (auto& gameObj : battleGrid)
-		//	{
-		//		string str = "";
-		//		if (gameObj == nullptr)
-		//			str += ".. ";
-		//		else
-		//		{
-		//			str += (gameObj->GetName().substr(0, 2) + " ");
-		//		}
-		//		count++;
-		//		if ((count % GAME_TILE_WIDTH) == 0)
-		//			str += "\n";
-		//		cout << str;
-		//	}
-		//	cout << endl;
+		if (InputMgr::GetKeyDown(Keyboard::Key::F9))
+		{
+			int count = 0;
+			CLOG::Print3String("battle grid state");
+			for (auto& gameObj : battleGrid)
+			{
+				string str = "";
+				if (gameObj == nullptr)
+					str += ".. ";
+				else
+				{
+					str += (gameObj->GetName().substr(0, 2) + " ");
+				}
+				count++;
+				if ((count % GAME_TILE_WIDTH) == 0)
+					str += "\n";
+				cout << str;
+			}
+			cout << endl;
+			CLOG::Print3String("prepare grid state");
+			for (auto& gameObj : prepareGrid)
+			{
+				string str = "";
+				if (gameObj == nullptr)
+					str += ".. ";
+				else
+				{
+					str += (gameObj->GetName().substr(0, 2) + " ");
+				}
+				count++;
+				if ((count % GAME_TILE_WIDTH) == 0)
+					str += "\n";
+				cout << str;
+			}
+			cout << endl;
+		}
 
-		//	CLOG::Print3String("prepare grid state");
-		//	for (auto& gameObj : prepareGrid)
-		//	{
-		//		string str = "";
-		//		if (gameObj == nullptr)
-		//			str += ".. ";
-		//		else
-		//		{
-		//			str += (gameObj->GetName().substr(0, 2) + " ");
-		//		}
-		//		count++;
-		//		if ((count % GAME_TILE_WIDTH) == 0)
-		//			str += "\n";
-		//		cout << str;
-		//	}
-		//	cout << endl;
-		//}
+		if (InputMgr::GetKeyDown(Keyboard::Key::Y))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+					dynamic_cast<Character*>(gameObj)->UpgradeStar(false, false);
+			}
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::U))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+					dynamic_cast<Character*>(gameObj)->SetItem(new Armor());
+			}
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::I))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+					dynamic_cast<Character*>(gameObj)->SetItem(new Sword());
+			}
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::O))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+					dynamic_cast<Character*>(gameObj)->SetItem(new Staff());
+			}
+		}
+
+		if (InputMgr::GetKeyDown(Keyboard::Key::P))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+					dynamic_cast<Character*>(gameObj)->SetItem(new Bow());
+			}
+		}
 	}
 	// Dev Input end
 
 	// Game Input start
 
 	// wheel control
+	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons();
+	for (auto& button : trackerButtons)
+	{
+		if (button->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				if (!button->GetName().compare("OnOff"))
+				{
+					ui->GetTracker()->ShowWindow();
+					return;
+				}
+				else if (!button->GetName().compare("Given"))
+				{
+					ui->GetTracker()->ShowGiven();
+					return;
+				}
+				else if (!button->GetName().compare("Taken"))
+				{
+					ui->GetTracker()->ShowTaken();
+					return;
+				}
+			}
+		}
+	}
+
 	float wheel = InputMgr::GetMouseWheel();
 	if (wheel != 0)
 	{
@@ -342,7 +475,7 @@ void BattleScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				// battle start
+				// Start battle
 				if (!button->GetName().compare("begin") && !GAME_MGR->GetPlayingBattle())
 				{
 					int monsterGridCoordC = 0;
@@ -356,7 +489,7 @@ void BattleScene::Update(float dt)
 						mgref[monsterGridCoordC + 70] = character;
 						monsterGridCoordC++;
 					}
-					if (curBattleCharacterCount != battleCharacterCount)
+					if (curBattleCharacterCount != GAME_MGR->GetCharacterCount())
 					{
 						CLOG::Print3String("need more battle character");
 						if (curBattleCharacterCount == 0)
@@ -378,10 +511,10 @@ void BattleScene::Update(float dt)
 					GAME_MGR->SetPlayingBattle(true);
 
 					ui->GetTracker()->ShowGiven();
-					ui->GetTracker()->ShowWindow(true);
+					ui->GetTracker()->ShowWindow(false);
 					break;
 				}
-				// summon character
+				// Summon character
 				else if (!button->GetName().compare("summon"))
 				{
 					int idx = GetZeroElem(prepareGrid);
@@ -400,16 +533,32 @@ void BattleScene::Update(float dt)
 						cout << "not enough coin" << endl;
 						break;
 					}
-					Character* newPick = GAME_MGR->SpawnPlayer(true, true);
+					Character* newPick = GAME_MGR->SpawnPlayer(true);
 					newPick->SetPos(prepareGridRect[idx]->GetPos());
 					newPick->Init();
 					prepareGrid[idx] = newPick;
 					break;
 				}
-				// Item
-				else if (!button->GetName().compare("item"))
+				// Expansion
+				else if (!button->GetName().compare("expansion"))
 				{
-					int idx = GetZeroElem(prepareGrid);
+					int cost = GAME_MGR->GetCurrentExpansionCost();
+					if (GAME_MGR->GetCurrentCoin() >= cost)
+					{
+						cout << "expansion troops" << endl;
+						GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() + 1);
+						TranslateCoinState(-cost);
+						GAME_MGR->TranslateExpansionCount(1);
+						ui->GetPanel()->SetExpansionCostText(GAME_MGR->GetCurrentExpansionCost());
+						break;
+					}
+					else
+					{
+						cout << "not enough coin" << endl;
+						break;
+					}
+
+					/*int idx = GetZeroElem(prepareGrid);
 					if (idx == -1)
 					{
 						CLOG::Print3String("can not create item");
@@ -422,7 +571,6 @@ void BattleScene::Update(float dt)
 
 						Item* item = GAME_MGR->SpawnItem();
 						item->SetPos(prepareGridRect[idx]->GetPos());
-						item->Init();
 						prepareGrid[idx] = item;
 					}
 					else
@@ -430,30 +578,7 @@ void BattleScene::Update(float dt)
 						cout << "not enough coin" << endl;
 						break;
 					}
-					break;
-				}
-			}
-		}
-	}
-
-	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons() ;
-	for (auto& button : trackerButtons)
-	{
-		if (button->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
-			if (InputMgr::GetMouseDown(Mouse::Left))
-			{
-				if (!button->GetName().compare("OnOff"))
-				{
-					ui->GetTracker()->ShowWindow();
-				}
-				else if (!button->GetName().compare("Given"))
-				{
-					ui->GetTracker()->ShowGiven();
-				}
-				else if (!button->GetName().compare("Taken"))
-				{
-					ui->GetTracker()->ShowTaken();
+					break;*/
 				}
 			}
 		}
@@ -545,7 +670,7 @@ void BattleScene::Update(float dt)
 					if (pick == nullptr)
 					{
 						SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
-						GameObj* temp = gameObj;
+						GameObj*& temp = gameObj;
 						if (IsCharacter(temp))
 						{
 							Character* tempCharacter = dynamic_cast<Character*>(temp);
@@ -637,8 +762,11 @@ void BattleScene::Update(float dt)
 		else // item
 			PutDownItem(&beforeContainer, &destContainer, beforeCoord, destCoord);
 
-		pick->SetHitBoxActive(true);
-		pick = nullptr;
+		if (pick != nullptr)
+		{
+			pick->SetHitBoxActive(true);
+			pick = nullptr;
+		}
 		return;
 	}
 
@@ -649,9 +777,12 @@ void BattleScene::Update(float dt)
 		if (gameEndTimer < 0.f)
 		{
 			gameEndTimer = 0.f;
+			stageEnd = false;
 			ui->SetStageEndWindow(false);
 			ui->GetTracker()->ShowWindow(false);
 			ui->GetTracker()->ProfilesReturn();
+
+			GAME_MGR->SetPlayingBattle(false);
 
 			int len = battleGrid.size();
 			for (int idx = 0; idx < len; idx++)
@@ -662,29 +793,39 @@ void BattleScene::Update(float dt)
 				battleGrid[idx]->Reset();
 				battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
 			}
-
 			b_centerPos = false;
 			ZoomOut();
 
-			if (curStageIdx < STAGE_MAX_COUNT - 1)
-				curStageIdx++;
-			SetCurrentStage(curChapIdx, curStageIdx);
-			GAME_MGR->GetBattleTracker()->PrintAllData();
+			if (stageResult)
+			{
+				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
+					GAME_MGR->curStageIdx++;
+			}
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
+
+			ui->SetStatPopup(false, currentView.getCenter());
+			ui->SetItemPopup(false, currentView.getCenter());
+
+			for (auto& gameObj : battleGrid)
+			{
+				if (gameObj != nullptr && IsCharacter(gameObj))
+				{
+					dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(false);
+					pickAttackRangeRect = nullptr;
+				}
+			}
+			//GAME_MGR->GetBattleTracker()->PrintAllData();
 		}
 		return;
 	}
 
 	if (GAME_MGR->GetPlayingBattle())
 	{
-		bool stageEnd = false;
-		bool stageResult = false;
-
 		if (playerCount == 0)
 		{
 			gameEndTimer = 3.5f;
 			stageEnd = true;
 			stageResult = false;
-			GAME_MGR->SetPlayingBattle(false);
 			LoseFlag();
 		}
 		else if (aiCount == 0)
@@ -692,7 +833,6 @@ void BattleScene::Update(float dt)
 			gameEndTimer = 3.5f;
 			stageEnd = true;
 			stageResult = true;
-			GAME_MGR->SetPlayingBattle(false);
 		}
 
 		if (stageEnd)
@@ -709,7 +849,7 @@ void BattleScene::Draw(RenderWindow& window)
 {
 	for (int j = 0; j < BACKGROUND_WIDTH_COUNT * BACKGROUND_HEIGHT_COUNT; ++j)
 	{
-		int num = ((curChapIdx) * 150) + j;
+		int num = ((GAME_MGR->curChapIdx) * 150) + j;
 		GAME_MGR->GetTileBackgroundList()[num]->Draw(window);
 	}
 
@@ -759,6 +899,12 @@ void BattleScene::Draw(RenderWindow& window)
 		}
 	}
 
+	vector<Item*>& drops = GAME_MGR->drops;
+	for (auto& dropItem : drops)
+	{
+		dropItem->Draw(window);
+	}
+
 	// draw character on battle area
 	if (!GAME_MGR->GetPlayingBattle())
 	{
@@ -777,29 +923,6 @@ void BattleScene::Draw(RenderWindow& window)
 	{
 		dmgUI->Draw(window);
 	}
-}
-
-void BattleScene::ZoomIn()
-{
-	currentView.setSize(GAME_SCREEN_ZOOM_WIDTH, GAME_SCREEN_ZOOM_HEIGHT);
-}
-
-void BattleScene::ZoomOut()
-{
-	currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
-}
-
-void BattleScene::PickUpGameObj(GameObj* gameObj)
-{
-	beforeDragPos = gameObj->GetPos();
-	pick = gameObj;
-	pick->SetHitBoxActive(false);
-}
-
-void BattleScene::TranslateCoinState(float delta)
-{
-	GAME_MGR->TranslateCoin(delta);
-	ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 }
 
 void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)
@@ -829,7 +952,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 						continue;
 					count++;
 				}
-				if (count >= battleCharacterCount)
+				if (count >= GAME_MGR->GetCharacterCount())
 					canMove = false;
 			}
 		}
@@ -850,14 +973,15 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 				// combinate condition
 				Character* destCharacter = dynamic_cast<Character*>((*dest)[destIdx]);
 
-				if (!destCharacter->GetName().compare(pick->GetName()) &&
-					destCharacter->GetStarNumber() == dynamic_cast<Character*>(pick)->GetStarNumber() &&
-					destCharacter->GetStarNumber() != STAR_MAX)
+				if (destCharacter->GetStarNumber() != STAR_MAX &&
+					!destCharacter->GetName().compare(pick->GetName()) &&
+					destCharacter->GetStarNumber() ==
+					dynamic_cast<Character*>(pick)->GetStarNumber())
 				{
 					(*dest)[destIdx] = nullptr;
 					GameObj* temp = pick;
 					vector<Item*>& pickCrtItems = dynamic_cast<Character*>(temp)->GetItems();
-					
+
 					for (auto& pItem : pickCrtItems)
 					{
 						if (!destCharacter->SetItem(pItem))
@@ -867,9 +991,11 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 					}
 
 					pick = destCharacter;
+					destCharacter->UpdateItems();
+
 					temp->Release();
 					delete temp;
-					dynamic_cast<Character*>(pick)->UpgradeStar();
+					dynamic_cast<Character*>(pick)->UpgradeStar(true, true);
 				}
 				else (*dest)[destIdx]->SetPos(beforeDragPos);
 			}
@@ -903,34 +1029,52 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 	}
 	else if ((*dest)[destIdx] != nullptr)
 	{
-		if (IsItem((*dest)[destIdx])) // item swap or combinate
+		if (IsItem((*dest)[destIdx]))
 		{
 			Item* destItem = dynamic_cast<Item*>((*dest)[destIdx]);
 			Item* pickItem = dynamic_cast<Item*>(pick);
-			if (!destItem->GetName().compare(pick->GetName()) &&
-				destItem->GetGrade() == pickItem->GetGrade())
+
+			Item* newItem = GAME_MGR->CombineItem(destItem, pickItem);
+			if (newItem != nullptr) // item + item combinate
 			{
-				if (pickItem->Upgrade())
-				{
-					CLOG::Print3String("item combinate");
-					(*dest)[destIdx] = nullptr;
-					destItem->Release();
-					delete destItem;
-				}
-				else canMove = false;
+				CLOG::Print3String("item combinate");
+				pick = newItem;
+				(*start)[startIdx] = nullptr;
+				(*dest)[destIdx] = nullptr;
+				destItem->Release();
+				pickItem->Release();
+				delete destItem;
+				delete pickItem;
 			}
-			else destItem->SetPos(beforeDragPos);
+			else destItem->SetPos(beforeDragPos); // swap
 		}
 		else // give a item to the character
 		{
 			if (!GAME_MGR->GetPlayingBattle() || dest == &prepareGrid)
 			{
 				Character* destCharacter = dynamic_cast<Character*>((*dest)[destIdx]);
-				if (destCharacter->SetItem(dynamic_cast<Item*>(pick)))
+				Item* pickItem = dynamic_cast<Item*>(pick);
+				if (pickItem->GetItemType() == ItemType::Book)
 				{
-					(*start)[startIdx] = nullptr;
-					combine = true;
-					//destCharacter->ArrangeItems();
+					if (pickItem->GetGrade() == (destCharacter->GetStarNumber() - 1) / 2)
+					{
+						destCharacter->UpgradeStar(false, false);
+						(*start)[startIdx] = nullptr;
+						pickItem->Release();
+						delete pickItem;
+						combine = true;
+						pick = nullptr;
+					}
+				}
+				else
+				{
+					if (destCharacter->SetItem(pickItem))
+					{
+						(*start)[startIdx] = nullptr;
+						combine = true;
+						destCharacter->UpdateItems();
+						pick = nullptr;
+					}
 				}
 			}
 			canMove = false;
@@ -986,8 +1130,8 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 		}
 	}
 
-	ui->GetPanel()->SetStageNumber(curStageIdx + 1);
-	cout << "current chapter, stage (" << curChapIdx << ", " << curStageIdx << ")" << endl;
+	ui->GetPanel()->SetStageNumber(GAME_MGR->curStageIdx + 1);
+	cout << "current chapter, stage (" << GAME_MGR->curChapIdx << ", " << GAME_MGR->curStageIdx << ")" << endl;
 }
 
 void BattleScene::LoseFlag()
@@ -996,6 +1140,29 @@ void BattleScene::LoseFlag()
 	flags[remainLife]->SetActive(false);
 	if (!remainLife)
 		isGameOver = true;
+}
+
+void BattleScene::ZoomIn()
+{
+	currentView.setSize(GAME_SCREEN_ZOOM_WIDTH, GAME_SCREEN_ZOOM_HEIGHT);
+}
+
+void BattleScene::ZoomOut()
+{
+	currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
+}
+
+void BattleScene::PickUpGameObj(GameObj* gameObj)
+{
+	beforeDragPos = gameObj->GetPos();
+	pick = gameObj;
+	pick->SetHitBoxActive(false);
+}
+
+void BattleScene::TranslateCoinState(float delta)
+{
+	GAME_MGR->TranslateCoin(delta);
+	ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 }
 
 int GetIdxFromCoord(Vector2i coord)

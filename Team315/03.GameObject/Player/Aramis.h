@@ -9,7 +9,7 @@ protected:
 	float bulletSpeed;
 
 public:
-	Aramis(int skillTier = 0);
+	Aramis(bool mode = false, bool useExtraUpgrade = false, int skillTier = 0);
 	virtual ~Aramis();
 
 	virtual void Init() override;
@@ -17,14 +17,9 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
 
-	virtual void SetState(AnimStates newState) override;
-
-	void OnCompleteAttack();
-	void OnCompleteSkill();
-
-	void UpdateIdle(float dt);
-	void UpdateMoveToIdle(float dt);
-	void UpdateMove(float dt);
-	void UpdateAttack(float dt);
-	void UpdateSkill(float dt);
+	//void UpdateIdle(float dt);
+	//void UpdateMoveToIdle(float dt);
+	//void UpdateMove(float dt);
+	//void UpdateAttack(float dt);
+	//void UpdateSkill(float dt);
 };

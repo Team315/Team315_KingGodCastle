@@ -2,12 +2,12 @@
 #include "rapidcsv.h"
 #include <SFML/Graphics.hpp>
 
-Languages StringTable::currentLang(Languages::ENG);
+Languages StringTable::currentLang(Languages::KOR);
 StringTable::StringTable()
 	: DataTable(Types::String)
 {
 	fileNames.push_back("tables/StringTable_Kor.csv");
-	fileNames.push_back("tables/StringTable_Eng.csv");
+	//fileNames.push_back("tables/StringTable_Eng.csv");
 }
 
 StringTable::~StringTable()
@@ -27,7 +27,6 @@ void StringTable::SetLanguage(Languages lang)
 	{
 		if (table.find(keys[j]) != table.end())
 		{
-			//¿?·ù
 			return;
 		}
 		table.insert({ keys[j], s2w(values[j]) });

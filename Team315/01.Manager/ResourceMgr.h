@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "AnimationClip.h"
+#include "Singleton.h"
 
 #define RESOURCE_MGR (ResourceMgr::GetInstance())
 

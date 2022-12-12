@@ -7,7 +7,7 @@ protected:
 	//vector<Animator*> skillEffect;
 	//vector<Sprite*> skillSprite;
 public:
-	Pria(int skillTier = 0);
+	Pria(bool mode = false, bool useExtraUpgrade = false, int skillTier = 0);
 	virtual ~Pria();
 
 	virtual void Init() override;
@@ -15,14 +15,9 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
 
-	virtual void SetState(AnimStates newState) override;
-
-	void OnCompleteAttack();
-	void OnCompleteSkill();
-
-	void UpdateIdle(float dt);
-	void UpdateMoveToIdle(float dt);
-	void UpdateMove(float dt);
-	void UpdateAttack(float dt);
-	void UpdateSkill(float dt);
+	//void UpdateIdle(float dt);
+	//void UpdateMoveToIdle(float dt);
+	//void UpdateMove(float dt);
+	//void UpdateAttack(float dt);
+	//void UpdateSkill(float dt);
 };

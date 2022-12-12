@@ -1,12 +1,23 @@
 #include "Item.h"
 
-Item::Item(int grade, ItemType type)
-	: grade(grade), itemType(type), potential(0.f), statType(StatType::None)
+Item::Item(int grade, bool useExtraChance, ItemType iType)
+	: grade(grade), itemType(iType), potential(0.f), 
+	statType(StatType::None), delta(0.f), moveSpeed(300.f)
 {
-	this->grade = Utils::RandomRange(0, 100) < GAME_MGR->GetExtraGradeUpChance() ? this->grade + 1 : this->grade;
+	/*bool extraUpgrade =
+		Utils::RandomRange(0, 100) < GAME_MGR->GetExtraGradeUpChance();
+	if (useExtraChance && extraUpgrade && (grade + 1) != TIER_MAX)
+	{
+		cout << "item 2 upgrade" << endl;
+		this->grade = grade + 1;
+	}
+	else */
+	this->grade = grade;
+
 	SetType("Item");
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(MakePath()), true);
 	SetOrigin(Origins::BC);
+	shadow.setScale(0.4f, 0.4f);
 
 	switch (itemType)
 	{
@@ -22,24 +33,55 @@ Item::Item(int grade, ItemType type)
 	case ItemType::Sword:
 		statType = StatType::AD;
 		break;
+	case ItemType::Book:
+		statType = StatType::None;
+		break;
 	}
-	//if (itemType != ItemType::Book)
-	potential = GAME_MGR->GetItemStatMapElem(statType, this->grade);
+	if (itemType != ItemType::Book)
+		potential = GAME_MGR->GetItemStatMapElem(statType, this->grade);
+
+	shadow.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Shadow.png"));
+	spriteLocalPos = Vector2f(0, -10.f);
+	Init();
 }
 
 Item::~Item()
 {
 }
 
+void Item::Update(float dt)
+{
+	if (!enabled)
+		return;
+
+	spriteLocalPos.y += cos(delta) * 0.02f; // amplitude
+	SetPos(position);
+	delta += (dt * 3.f); // floating speed
+
+	if (move)
+	{
+		Translate(Utils::Normalize(destination - position) * dt * moveSpeed);
+		if (Utils::EqualFloat(Utils::Distance(destination, position), 0.f, dt * moveSpeed))
+		{
+			SetPos(destination);
+			move = false;
+			SetHitBoxActive(true);
+		}
+	}
+}
+
 void Item::Draw(RenderWindow& window)
 {
+	window.draw(shadow);
 	SpriteObj::Draw(window);
 }
 
 void Item::SetPos(const Vector2f& pos)
 {
 	Object::SetPos(pos);
-	sprite.setPosition(position + Vector2f(0, -10.f));
+	sprite.setPosition(position + spriteLocalPos);
+	shadow.setPosition(position);
+	Utils::SetOrigin(shadow, Origins::BC);
 }
 
 string Item::MakePath()
@@ -60,9 +102,9 @@ string Item::MakePath()
 	case ItemType::Sword:
 		path += "Sword";
 		break;
-	/*case ItemType::Book:
+	case ItemType::Book:
 		path += "Book";
-		break;*/
+		break;
 	default:
 		cout << "fail" << endl;
 		return "fail";
@@ -95,8 +137,7 @@ string Item::GetStatTypeString()
 
 bool Item::Upgrade()
 {
-	//int gradeLimit = itemType == ItemType::Book ? 2 : 3;
-	int gradeLimit = 3;
+	int gradeLimit = TIER_MAX - 1;
 	bool ret = false;
 	if (grade < gradeLimit)
 	{
@@ -104,8 +145,14 @@ bool Item::Upgrade()
 		grade++;
 		sprite.setTexture(*RESOURCE_MGR->GetTexture(MakePath()), true);
 		SetOrigin(Origins::BC);
-		//if (itemType != ItemType::Book)
-			potential = GAME_MGR->GetItemStatMapElem(statType, grade);
+		potential = GAME_MGR->GetItemStatMapElem(statType, grade);
 	}
 	return ret;
+}
+
+void Item::SetDestination(Vector2f dest)
+{
+	move = true;
+	destination = dest;
+	SetHitBoxActive(false);
 }

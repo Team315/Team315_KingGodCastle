@@ -6,6 +6,6 @@ class Staff : public Item
 protected:
 
 public:
-	Staff(int grade = 0, ItemType type = ItemType::Staff);
+	Staff(int grade = 0, bool useExtraChance = false, ItemType iType = ItemType::Staff);
 	virtual ~Staff();
 };

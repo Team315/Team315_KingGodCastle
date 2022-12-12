@@ -1,11 +1,48 @@
 #include "Pria.h"
 #include "Skill/PriaSkill.h"
 
-Pria::Pria(int skillTier)
-	: Character(skillTier)
+Pria::Pria(bool mode, bool useExtraUpgrade, int skillTier)
+	: Character(mode, useExtraUpgrade, skillTier)
 {
 	SetType("Player");
 	SetName("Pria");
+	resStringTypes.insert({ ResStringType::Idle,"Pria_Idle" });
+	resStringTypes.insert({ ResStringType::DownIdle,"Pria_DownIdle" });
+	resStringTypes.insert({ ResStringType::LeftIdle,"Pria_LeftIdle" });
+	resStringTypes.insert({ ResStringType::RightIdle,"Pria_RightIdle" });
+	resStringTypes.insert({ ResStringType::UpIdle,"Pria_UpIdle" });
+
+	resStringTypes.insert({ ResStringType::DownMove,"Pria_DownMove" });
+	resStringTypes.insert({ ResStringType::LeftMove,"Pria_LeftMove" });
+	resStringTypes.insert({ ResStringType::RightMove,"Pria_RightMove" });
+	resStringTypes.insert({ ResStringType::UpMove,"Pria_UpMove" });
+
+	resStringTypes.insert({ ResStringType::DownAttack,"Pria_DownAttack" });
+	resStringTypes.insert({ ResStringType::LeftAttack,"Pria_LeftAttack" });
+	resStringTypes.insert({ ResStringType::RightAttack,"Pria_RightAttack" });
+	resStringTypes.insert({ ResStringType::UpAttack,"Pria_UpAttack" });
+
+	resStringTypes.insert({ ResStringType::DownSkill,"Pria_DownSkill" });
+	resStringTypes.insert({ ResStringType::LeftSkill,"Pria_LeftSkill" });
+	resStringTypes.insert({ ResStringType::RightSkill,"Pria_RightSkill" });
+	resStringTypes.insert({ ResStringType::UpSkill,"Pria_UpSkill" });
+
+	resStringTypes.insert({ ResStringType::DownAttackEffect,"Pria_DownAttack_Effect" });
+	resStringTypes.insert({ ResStringType::LeftAttackEffect,"Pria_LeftAttack_Effect" });
+	resStringTypes.insert({ ResStringType::RightAttackEffect,"Pria_RightAttack_Effect" });
+	resStringTypes.insert({ ResStringType::UpAttackEffect,"Pria_UpAttack_Effect" });
+
+	resStringTypes.insert({ ResStringType::DownSkillEfect,"Pria_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::LeftSkillEfect,"Pria_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::RightSkillEfect,"Pria_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::UpSkillEfect,"Pria_Skill_Effect" });
+
+	attackPos.insert({ Dir::Right, { 0.f, 0.f } });
+	attackPos.insert({ Dir::Left, { 0.f, 0.f } });
+	attackPos.insert({ Dir::Down, { 0.f, 0.f } });
+	attackPos.insert({ Dir::Up, { 0.f, 0.f } });
+
+	resStringTypes.insert({ ResStringType::atkSound, "sounds/Pria_atk.wav" });
 }
 
 Pria::~Pria()
@@ -14,130 +51,6 @@ Pria::~Pria()
 
 void Pria::Init()
 {
-	animator.SetTarget(&sprite);
-	effectAnimator.SetTarget(&effectSprite);
-
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_Idle"));
-
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_DownIdle"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_LeftIdle"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightIdle"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpIdle"));
-
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_DownMove"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_LeftMove"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightMove"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpMove"));
-
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_DownAttack"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_LeftAttack"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightAttack"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpAttack"));
-
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_DownSkill"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_LeftSkill"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightSkill"));
-	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpSkill"));
-
-	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_DownAttack_Effect"));
-	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_LeftAttack_Effect"));
-	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_RightAttack_Effect"));
-	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_UpAttack_Effect"));
-
-	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_Skill_Effect"));
-
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_DownAttack";
-		ev.frame = 2;
-		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		animator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_LeftAttack";
-		ev.frame = 2;
-		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		animator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_RightAttack";
-		ev.frame = 2;
-		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		animator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_UpAttack";
-		ev.frame = 2;
-		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		animator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_DownAttack_Effect";
-		ev.frame = 3;
-		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		effectAnimator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_LeftAttack_Effect";
-		ev.frame = 3;
-		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		effectAnimator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_RightAttack_Effect";
-		ev.frame = 3;
-		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		effectAnimator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_UpAttack_Effect";
-		ev.frame = 3;
-		ev.onEvent = bind(&Pria::OnCompleteAttack, this);
-		effectAnimator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_DownSkill";
-		ev.frame = 3;
-		ev.onEvent = bind(&Pria::OnCompleteSkill, this);
-		animator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_LeftSkill";
-		ev.frame = 3;
-		ev.onEvent = bind(&Pria::OnCompleteSkill, this);
-		animator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_RightSkill";
-		ev.frame = 3;
-		ev.onEvent = bind(&Pria::OnCompleteSkill, this);
-		animator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_UpSkill";
-		ev.frame = 3;
-		ev.onEvent = bind(&Pria::OnCompleteSkill, this);
-		animator.AddEvent(ev);
-	}
-	{
-		AnimationEvent ev;
-		ev.clipId = "Pria_Skill_Effect";
-		ev.frame = 2;
-		ev.onEvent = bind(&Pria::OnCompleteSkill, this);
-		effectAnimator.AddEvent(ev);
-	}
-
 	//for (int i = 0; i < 25; ++i)
 	//{
 	//	Sprite* skillSpriteArr = new Sprite();
@@ -154,8 +67,6 @@ void Pria::Init()
 	//	skillEffect.push_back(skillEffectArr);
 	//	skillSprite.push_back(skillSpriteArr);
 	//}
-
-	SetState(AnimStates::Idle);
 	Character::Init();
 	skill = new PriaSkill(GetStarNumber());
 }
@@ -164,41 +75,41 @@ void Pria::Update(float dt)
 {
 	Character::Update(dt);
 
-	/*if (InputMgr::GetKeyDown(Keyboard::Z))
-	{
-		SetState(AnimStates::Skill);
-	}*/
-
-	switch (currState)
-	{
-	case AnimStates::Idle:
-		UpdateIdle(dt);
-		break;
-	case AnimStates::MoveToIdle:
-		UpdateMoveToIdle(dt);
-		break;
-	case AnimStates::Move:
-		UpdateMove(dt);
-		break;
-	case AnimStates::Attack:
-		UpdateAttack(dt);
-		break;
-	case AnimStates::Skill:
-		UpdateSkill(dt);
-		break;
-	}
-	animator.Update(dt);
-	effectAnimator.Update(dt);
-
+	//if (InputMgr::GetKeyDown(Keyboard::Z))
+	//{
+	//	SetState(AnimStates::Skill);
+	//}
+	//
+	//switch (currState)
+	//{
+	//case AnimStates::Idle:
+	//	UpdateIdle(dt);
+	//	break;
+	//case AnimStates::MoveToIdle:
+	//	UpdateMoveToIdle(dt);
+	//	break;
+	//case AnimStates::Move:
+	//	UpdateMove(dt);
+	//	break;
+	//case AnimStates::Attack:
+	//	UpdateAttack(dt);
+	//	break;
+	//case AnimStates::Skill:
+	//	UpdateSkill(dt);
+	//	break;
+	//}
+	//animator.Update(dt);
+	//effectAnimator.Update(dt);
+	//
 	//for (int i = 0; i < 25; ++i)
 	//{
 	//	skillEffect[i]->Update(dt);
 	//}
-
-	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-	{
-		lastDirection = direction;
-	}
+	//
+	//if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
+	//{
+	//	lastDirection = direction;
+	//}
 }
 
 void Pria::Draw(RenderWindow& window)
@@ -243,68 +154,68 @@ void Pria::SetPos(const Vector2f& pos)
 	Character::SetPos(pos);
 }
 
-void Pria::SetState(AnimStates newState)
-{
-	Character::SetState(newState);
-
-	switch (currState)
-	{
-	case AnimStates::Idle:
-		animator.Play("Pria_Idle");
-		break;
-	case AnimStates::MoveToIdle:
-		if (lastDirection.x)
-		{
-			animator.Play((lastDirection.x > 0.f) ? "Pria_RightIdle" : "Pria_LeftIdle");
-		}
-		if (lastDirection.y)
-		{
-			animator.Play((lastDirection.y > 0.f) ? "Pria_DownIdle" : "Pria_UpIdle");
-		}
-		break;
-	case AnimStates::Move:
-		if (direction.y)
-		{
-			animator.Play((direction.y > 0.f) ? "Pria_DownMove" : "Pria_UpMove");
-		}
-		if (direction.x)
-		{
-			animator.Play((direction.x > 0.f) ? "Pria_RightMove" : "Pria_LeftMove");
-		}
-		break;
-	case AnimStates::Attack:
-		if (lastDirection.x)
-		{
-			SOUND_MGR->Play("sounds/Pria_atk.wav", 20.f, false);
-			animator.Play((lastDirection.x > 0.f) ? "Pria_RightAttack" : "Pria_LeftAttack");
-			effectAnimator.Play((lastDirection.x > 0.f) ? "Pria_RightAttack_Effect" : "Pria_LeftAttack_Effect");
-
-			Vector2f vec = m_target->GetPos();
-			vec.y += 15.f;
-			effectSprite.setPosition(vec);
-		}
-		if (lastDirection.y)
-		{
-			SOUND_MGR->Play("sounds/Pria_atk.wav", 20.f, false);
-			animator.Play((lastDirection.y > 0.f) ? "Pria_DownAttack" : "Pria_UpAttack");
-			effectAnimator.Play((lastDirection.y > 0.f) ? "Pria_DownAttack_Effect" : "Pria_UpAttack_Effect");
-
-			Vector2f vec = m_target->GetPos();
-			vec.y += 15.f;
-			effectSprite.setPosition(vec);
-		}
-		break;
-	case AnimStates::Skill:
-		if (lastDirection.x)
-		{
-			animator.Play((lastDirection.x > 0.f) ? "Pria_RightSkill" : "Pria_LeftSkill");
-			//effectAnimator.Play("Pria_Skill_Effect");
-		}
-		if (lastDirection.y)
-		{
-			animator.Play((lastDirection.y > 0.f) ? "Pria_DownSkill" : "Pria_UpSkill");
-			//effectAnimator.Play("Pria_Skill_Effect");
-		}
+//void Pria::SetState(AnimStates newState)
+//{
+//	Character::SetState(newState);
+//
+//	switch (currState)
+//	{
+//	case AnimStates::Idle:
+//		animator.Play("Pria_Idle");
+//		break;
+//	case AnimStates::MoveToIdle:
+//		if (lastDirection.x)
+//		{
+//			animator.Play((lastDirection.x > 0.f) ? "Pria_RightIdle" : "Pria_LeftIdle");
+//		}
+//		else if (lastDirection.y)
+//		{
+//			animator.Play((lastDirection.y > 0.f) ? "Pria_DownIdle" : "Pria_UpIdle");
+//		}
+//		break;
+//	case AnimStates::Move:
+//		if (direction.y)
+//		{
+//			animator.Play((direction.y > 0.f) ? "Pria_DownMove" : "Pria_UpMove");
+//		}
+//		else if (direction.x)
+//		{
+//			animator.Play((direction.x > 0.f) ? "Pria_RightMove" : "Pria_LeftMove");
+//		}
+//		break;
+//	case AnimStates::Attack:
+//		if (lastDirection.x)
+//		{
+//			SOUND_MGR->Play("sounds/Pria_atk.wav", 20.f, false);
+//			animator.Play((lastDirection.x > 0.f) ? "Pria_RightAttack" : "Pria_LeftAttack");
+//			effectAnimator.Play((lastDirection.x > 0.f) ? "Pria_RightAttack_Effect" : "Pria_LeftAttack_Effect");
+//
+//			Vector2f vec = m_target->GetPos();
+//			vec.y += 15.f;
+//			effectSprite.setPosition(vec);
+//		}
+//		else if (lastDirection.y)
+//		{
+//			SOUND_MGR->Play("sounds/Pria_atk.wav", 20.f, false);
+//			animator.Play((lastDirection.y > 0.f) ? "Pria_DownAttack" : "Pria_UpAttack");
+//			effectAnimator.Play((lastDirection.y > 0.f) ? "Pria_DownAttack_Effect" : "Pria_UpAttack_Effect");
+//
+//			Vector2f vec = m_target->GetPos();
+//			vec.y += 15.f;
+//			effectSprite.setPosition(vec);
+//		}
+//		break;
+//	case AnimStates::Skill:
+//		if (lastDirection.x)
+//		{
+//			animator.Play((lastDirection.x > 0.f) ? "Pria_RightSkill" : "Pria_LeftSkill");
+//			//effectAnimator.Play("Pria_Skill_Effect");
+//		}
+//		else if (lastDirection.y)
+//		{
+//			animator.Play((lastDirection.y > 0.f) ? "Pria_DownSkill" : "Pria_UpSkill");
+//			//effectAnimator.Play("Pria_Skill_Effect");
+//		}
 		//Vector2f vec = GetTarget()->GetPos();
 		//vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 		//Vector2i targetPos = GAME_MGR->PosToIdx(vec);
@@ -343,67 +254,95 @@ void Pria::SetState(AnimStates newState)
 		//	skillSprite[3]->setPosition(pos);
 		//	skillEffect[3]->Play("Pria_SkillHit_Effect");
 		//}
-		break;
-	}
-}
-
-void Pria::OnCompleteAttack()
-{
-	SetState(AnimStates::MoveToIdle);
-}
-
-void Pria::OnCompleteSkill()
-{
-	SetState(AnimStates::MoveToIdle);
-}
-
-void Pria::UpdateIdle(float dt)
-{
-	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-	{
-		SetState(AnimStates::Move);
-		return;
-	}
-}
-
-void Pria::UpdateMoveToIdle(float dt)
-{
-	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-	{
-		SetState(AnimStates::Move);
-		return;
-	}
-}
-
-void Pria::UpdateMove(float dt)
-{
-	if (Utils::EqualFloat(direction.x, 0.f) && Utils::EqualFloat(direction.y, 0.f))
-	{
-		SetState(AnimStates::MoveToIdle);
-		return;
-	}
-	if (!Utils::EqualFloat(direction.x, lastDirection.x))
-	{
-		animator.Play((direction.x > 0.f) ? "Pria_RightMove" : "Pria_LeftMove");
-	}
-	if (!Utils::EqualFloat(direction.y, lastDirection.y))
-	{
-		animator.Play((direction.y > 0.f) ? "Pria_DownMove" : "Pria_UpMove");
-	}
-}
-
-void Pria::UpdateAttack(float dt)
-{
-	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
-	{
-		SetState(AnimStates::MoveToIdle);
-	}
-}
-
-void Pria::UpdateSkill(float dt)
-{
-	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
-	{
-		SetState(AnimStates::MoveToIdle);
-	}
-}
+//		break;
+//	}
+//}
+//
+//void Pria::AnimationInit()
+//{
+//}
+//
+//void Pria::Idle()
+//{
+//}
+//
+//void Pria::MoveToIdle()
+//{
+//}
+//
+//void Pria::Move()
+//{
+//}
+//
+//void Pria::Attack(Vector2f delta)
+//{
+//}
+//
+//void Pria::Skill(Vector2f delta)
+//{
+//}
+//
+//void Pria::OnCompleteAttack()
+//{
+//	SetState(AnimStates::MoveToIdle);
+//}
+//
+//void Pria::OnCompleteSkill()
+//{
+//	SetState(AnimStates::MoveToIdle);
+//}
+//
+//void Pria::UpdateIdle(float dt)
+//{
+//	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
+//	{
+//		SetState(AnimStates::Move);
+//		return;
+//	}
+//}
+//
+//void Pria::UpdateMoveToIdle(float dt)
+//{
+//	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
+//	{
+//		SetState(AnimStates::Move);
+//		return;
+//	}
+//}
+//
+//void Pria::UpdateMove(float dt)
+//{
+//	if (Utils::EqualFloat(direction.x, 0.f) && Utils::EqualFloat(direction.y, 0.f))
+//	{
+//		SetState(AnimStates::MoveToIdle);
+//		return;
+//	}
+//	if (move)
+//		return;
+//	if (!Utils::EqualFloat(direction.x, lastDirection.x))
+//	{
+//		animator.Play((direction.x > 0.f) ? "Pria_RightMove" : "Pria_LeftMove");
+//		move = true;
+//	}
+//	else if (!Utils::EqualFloat(direction.y, lastDirection.y))
+//	{
+//		animator.Play((direction.y > 0.f) ? "Pria_DownMove" : "Pria_UpMove");
+//		move = true;
+//	}
+//}
+//
+//void Pria::UpdateAttack(float dt)
+//{
+//	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
+//	{
+//		SetState(AnimStates::MoveToIdle);
+//	}
+//}
+//
+//void Pria::UpdateSkill(float dt)
+//{
+//	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
+//	{
+//		SetState(AnimStates::MoveToIdle);
+//	}
+//}

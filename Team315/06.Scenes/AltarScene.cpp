@@ -249,4 +249,3 @@ void AltarScene::SetBrazier()
 	BrazierList.push_back(m_Brazier);
 
 }
-

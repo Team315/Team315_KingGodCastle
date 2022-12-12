@@ -5,21 +5,12 @@ class Thief03 : public Character
 {
 protected:
 public:
-	Thief03(int skillTier = 0);
+	Thief03(bool mode = false, bool useExtraUpgrade = false, int skillTier = 0);
 	virtual ~Thief03();
 
 	virtual void Init() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
-
-	virtual void SetState(AnimStates newState) override;
-
-	void OnCompleteAttack();
-
-	void UpdateIdle(float dt);
-	void UpdateMoveToIdle(float dt);
-	void UpdateMove(float dt);
-	void UpdateAttack(float dt);
 };
 

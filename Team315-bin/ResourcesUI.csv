@@ -5,9 +5,6 @@ graphics/titleScene/titleBackground.png,0
 graphics/battleScene/Button_01.png,0
 graphics/battleScene/Button_02.png,0
 graphics/battleScene/Button_03.png,0
-graphics/battleScene/coin_01.png,0
-graphics/battleScene/coin_02.png,0
-graphics/battleScene/coin_03.png,0
 graphics/battleScene/paper.png,0
 graphics/battleScene/Start.png,0
 graphics/battleScene/Table.png,0
@@ -20,10 +17,10 @@ graphics/commonUI/Level_Star_4.png,0
 graphics/commonUI/Level_Star_5.png,0
 graphics/commonUI/Level_Star_6.png,0
 graphics/commonUI/Level_Star_7.png,0
-graphics/commonUI/Level_Frame_01.png,0
-graphics/commonUI/Level_Frame_02.png,0
-graphics/commonUI/Level_Frame_03.png,0
-graphics/commonUI/Level_Frame_04.png,0
+graphics/commonUI/Level_Frame_0.png,0
+graphics/commonUI/Level_Frame_1.png,0
+graphics/commonUI/Level_Frame_2.png,0
+graphics/commonUI/Level_Frame_3.png,0
 graphics/battleScene/Item_Armor0.png,0
 graphics/battleScene/Item_Armor1.png,0
 graphics/battleScene/Item_Armor2.png,0
@@ -40,6 +37,12 @@ graphics/battleScene/Item_Sword0.png,0
 graphics/battleScene/Item_Sword1.png,0
 graphics/battleScene/Item_Sword2.png,0
 graphics/battleScene/Item_Sword3.png,0
+graphics/battleScene/Item_Book0.png,0
+graphics/battleScene/Item_Book1.png,0
+graphics/battleScene/Item_Book2.png,0
+graphics/battleScene/Item_Coin0.png,0
+graphics/battleScene/Item_Coin1.png,0
+graphics/battleScene/Item_Coin2.png,0
 graphics/battleScene/castleBackground.png,0
 graphics/battleScene/Item_Frame_0.png,0
 graphics/battleScene/Item_Frame_1.png,0
