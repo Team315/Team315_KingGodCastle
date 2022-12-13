@@ -104,11 +104,8 @@
     <ClCompile Include="97.DataTable\DataTableMgr.cpp" />
     <ClCompile Include="97.DataTable\StringTable.cpp" />
     <ClCompile Include="04.UiObject\Brazier.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="03.GameObject\PanelSkill\PanelButton.cpp" />
-=======
     <ClCompile Include="04.UiObject\EventPanel.cpp" />
->>>>>>> main
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -224,11 +221,8 @@
     <ClInclude Include="97.DataTable\DataTable.h" />
     <ClInclude Include="97.DataTable\DataTableMgr.h" />
     <ClInclude Include="04.UiObject\Brazier.h" />
-<<<<<<< HEAD
     <ClInclude Include="03.GameObject\PanelSkill\PanelButton.h" />
-=======
     <ClInclude Include="04.UiObject\EventPanel.h" />
->>>>>>> main
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
