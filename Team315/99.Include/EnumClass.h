@@ -68,6 +68,15 @@ enum class ItemType
 	Count,
 };
 
+enum class EventType
+{
+	None = -1,
+	Forge,
+	Power,
+	GameOver,
+	GameClear,
+};
+
 enum class Dir
 {
 	None = -1,

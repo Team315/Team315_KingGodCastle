@@ -14,9 +14,9 @@ void SpriteObj::Draw(RenderWindow& window)
 	Object::Draw(window);
 }
 
-void SpriteObj::SetTexture(Texture& tex)
+void SpriteObj::SetTexture(Texture& tex, bool resetRect)
 {
-    sprite.setTexture(tex);
+    sprite.setTexture(tex, resetRect);
 }
 
 void SpriteObj::SetOrigin(Origins origin)

@@ -10,6 +10,8 @@
 #include "Map/Tile.h"
 #include "Map/FloodFill.h"
 #include "RectangleObj.h"
+#include "EventPanel.h"
+#include <iostream>
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f), gameOverTimer(0.f),
@@ -218,6 +220,12 @@ void BattleScene::Update(float dt)
 		{
 			cout << "create New Item" << endl;
 			GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem(2));
+		}
+		
+		if (InputMgr::GetKeyDown(Keyboard::Key::F2))
+		{
+			eventWindow = !eventWindow;
+			ui->SetEventPanel(eventWindow, (EventType)(Utils::RandomRange(0, 4)));
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F3))
@@ -439,9 +447,264 @@ void BattleScene::Update(float dt)
 
 	// Game Input start
 
+	// main grid update
+
+	// prepare grid & battle grid - gameObj pick up
+	for (auto& gameObj : prepareGrid)
+	{
+		if (gameObj == nullptr)
+			continue;
+
+		gameObj->Update(dt);
+
+		if (eventWindow)
+			continue;
+
+		if (gameObj->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				if (pick == nullptr)
+				{
+					PickUpGameObj(gameObj);
+					break;
+				}
+			}
+			else if (InputMgr::GetMouseDown(Mouse::Right))
+			{
+				if (pick == nullptr)
+				{
+					SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
+					GameObj*& temp = gameObj;
+					if (IsCharacter(temp))
+					{
+						Character* tempCharacter = dynamic_cast<Character*>(temp);
+						vector<Item*> tempItems = tempCharacter->GetItems();
+						for (auto item : tempItems)
+							GAME_MGR->waitQueue.push(item);
+
+						float delta =
+							pow(2, tempCharacter->GetStarNumber() - 1) *
+							GAME_MGR->characterCost * 2 / 3;
+						cout << "sell character, +" << to_string((int)delta) << endl;
+						TranslateCoinState(delta);
+						gameObj = nullptr;
+						delete temp;
+						break;
+					}
+					else
+					{
+						float delta =
+							pow(2, dynamic_cast<Item*>(temp)->GetGrade()) *
+							GAME_MGR->itemCost * 3 / 5;
+						cout << "sell item, +" << to_string((int)delta) << endl;
+						TranslateCoinState(delta);
+						gameObj = nullptr;
+						delete temp;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	if (!GAME_MGR->GetPlayingBattle())
+	{
+		for (auto& gameObj : battleGrid)
+		{
+			if (gameObj == nullptr)
+				continue;
+
+			if (IsCharacter(gameObj))
+				gameObj->Update(dt);
+
+			if (eventWindow)
+				continue;
+
+			if (gameObj->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
+			{
+				if (InputMgr::GetMouseDown(Mouse::Left))
+				{
+					if (pick == nullptr)
+					{
+						PickUpGameObj(gameObj);
+						if (InBattleGrid(GAME_MGR->PosToIdx(pick->GetPos())))
+						{
+							dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(true);
+							pickAttackRangeRect = dynamic_cast<Character*>(gameObj)->GetAreas();
+						}
+						break;
+					}
+				}
+				else if (InputMgr::GetMouseDown(Mouse::Right))
+				{
+					if (pick == nullptr)
+					{
+						SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
+						GameObj*& temp = gameObj;
+						if (IsCharacter(temp))
+						{
+							Character* tempCharacter = dynamic_cast<Character*>(temp);
+							vector<Item*> tempItems = tempCharacter->GetItems();
+							for (auto item : tempItems)
+								GAME_MGR->waitQueue.push(item);
+
+							float delta =
+								pow(2, tempCharacter->GetStarNumber() - 1) *
+								GAME_MGR->characterCost * 2 / 3;
+							cout << "sell character, +" << to_string((int)delta) << endl;
+							TranslateCoinState(delta);
+							gameObj = nullptr;
+							delete temp;
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	int playerCount = 0;
+	int aiCount = 0;
+	for (auto& gameObj : mgref)
+	{
+		if (gameObj != nullptr && !gameObj->GetType().compare("Player"))
+		{
+			gameObj->Update(dt);
+			playerCount++;
+		}
+		else if (gameObj != nullptr && !gameObj->GetType().compare("Monster"))
+		{
+			gameObj->Update(dt);
+			aiCount++;
+		}
+	}
+
+	if (gameEndTimer > 0.f)
+	{
+		gameEndTimer -= dt;
+
+		if (gameEndTimer < 0.f)
+		{
+			gameEndTimer = 0.f;
+			stageEnd = false;
+			ui->SetStageEndWindow(false);
+			ui->GetTracker()->ShowWindow(false);
+			ui->GetTracker()->ProfilesReturn();
+
+			GAME_MGR->SetPlayingBattle(false);
+
+			int len = battleGrid.size();
+			for (int idx = 0; idx < len; idx++)
+			{
+				if (battleGrid[idx] == nullptr)
+					continue;
+
+				battleGrid[idx]->Reset();
+				battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
+			}
+			b_centerPos = false;
+			ZoomOut();
+
+			ui->SetStatPopup(false, currentView.getCenter());
+			ui->SetItemPopup(false, currentView.getCenter());
+
+			for (auto& gameObj : battleGrid)
+			{
+				if (gameObj != nullptr && IsCharacter(gameObj))
+				{
+					dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(false);
+					pickAttackRangeRect = nullptr;
+				}
+			}
+
+			// when stage clear
+			if (stageResult)
+			{
+				WaveReward wr = GAME_MGR->GetWaveRewardMapElem();
+				cout << "wave reward: " << wr.exp << wr.forge << wr.power << endl;
+				if (wr.forge)
+				{
+					cout << "forge" << endl;
+					//ui->GetEventPanel()->SetEventPanelType(EventType::Forge);
+					//eventWindow = true;
+				}
+				else if (wr.power)
+				{
+					cout << "power" << endl;
+					//ui->GetEventPanel()->SetEventPanelType(EventType::Power);
+					//eventWindow = true;
+				}
+				GAME_MGR->cumulativeExp += wr.exp;
+				cout << "현재 누적 경험치: " << GAME_MGR->cumulativeExp << endl;
+
+				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
+					GAME_MGR->curStageIdx++;
+			}
+			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
+			//GAME_MGR->GetBattleTracker()->PrintAllData();
+		}
+		return;
+	}
+
+	if (GAME_MGR->GetPlayingBattle())
+	{
+		if (playerCount == 0)
+		{
+			gameEndTimer = 3.5f;
+			stageEnd = true;
+			stageResult = false;
+			LoseFlag();
+		}
+		else if (aiCount == 0)
+		{
+			gameEndTimer = 3.5f;
+			stageEnd = true;
+			stageResult = true;
+			for (auto& character : battleGrid)
+			{
+				if (character != nullptr)
+				{
+					dynamic_cast<Character*>(character)->SetIsBattle(false);
+				}
+			}
+		}
+
+		if (stageEnd)
+		{
+			ui->SetStageEndWindow(true, stageResult);
+			TranslateCoinState(GAME_MGR->GetClearCoin());
+			ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+		}
+	}
+
 	// when eventWindow opens, block other inputs
 	if (eventWindow)
 		return ;
+
+	// wheel control
+	float wheel = InputMgr::GetMouseWheel();
+	if (wheel != 0)
+	{
+		b_centerPos = wheel == 1 ? true : false;
+		b_centerPos ? ZoomIn() : ZoomOut();
+	}
+	if (b_centerPos)
+	{
+		if (screenCenterPos.y >= gameScreenTopLimit)
+		{
+			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenTopLimit) * 5.f;
+			gameView.setCenter(screenCenterPos);
+		}
+	}
+	else
+	{
+		if (screenCenterPos.y <= gameScreenBottomLimit)
+		{
+			screenCenterPos.y += dt * (gameScreenBottomLimit - screenCenterPos.y) * 5.f;
+			gameView.setCenter(screenCenterPos);
+		}
+	}
 
 	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons();
 	for (auto& button : trackerButtons)
@@ -466,30 +729,6 @@ void BattleScene::Update(float dt)
 					return;
 				}
 			}
-		}
-	}
-
-	// wheel control
-	float wheel = InputMgr::GetMouseWheel();
-	if (wheel != 0)
-	{
-		b_centerPos = wheel == 1 ? true : false;
-		b_centerPos ? ZoomIn() : ZoomOut();
-	}
-	if (b_centerPos)
-	{
-		if (screenCenterPos.y >= gameScreenTopLimit)
-		{
-			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenTopLimit) * 5.f;
-			gameView.setCenter(screenCenterPos);
-		}
-	}
-	else
-	{
-		if (screenCenterPos.y <= gameScreenBottomLimit)
-		{
-			screenCenterPos.y += dt * (gameScreenBottomLimit - screenCenterPos.y) * 5.f;
-			gameView.setCenter(screenCenterPos);
 		}
 	}
 
@@ -612,156 +851,8 @@ void BattleScene::Update(float dt)
 						cout << "not enough coin" << endl;
 						break;
 					}
-
-					/*int idx = GetZeroElem(prepareGrid);
-					if (idx == -1)
-					{
-						CLOG::Print3String("can not create item");
-						return;
-					}
-
-					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->itemCost)
-					{
-						TranslateCoinState(-GAME_MGR->itemCost);
-
-						Item* item = GAME_MGR->SpawnItem();
-						item->SetPos(prepareGridRect[idx]->GetPos());
-						prepareGrid[idx] = item;
-					}
-					else
-					{
-						cout << "not enough coin" << endl;
-						break;
-					}
-					break;*/
 				}
 			}
-		}
-	}
-
-	// prepare grid & battle grid - gameObj pick up
-	for (auto& gameObj : prepareGrid)
-	{
-		if (gameObj == nullptr)
-			continue;
-
-		gameObj->Update(dt);
-
-		if (gameObj->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
-			if (InputMgr::GetMouseDown(Mouse::Left))
-			{
-				if (pick == nullptr)
-				{
-					PickUpGameObj(gameObj);
-					break;
-				}
-			}
-			else if (InputMgr::GetMouseDown(Mouse::Right))
-			{
-				if (pick == nullptr)
-				{
-					SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
-					GameObj*& temp = gameObj;
-					if (IsCharacter(temp))
-					{
-						Character* tempCharacter = dynamic_cast<Character*>(temp);
-						vector<Item*> tempItems = tempCharacter->GetItems();
-						for (auto item : tempItems)
-							GAME_MGR->waitQueue.push(item);
-
-						float delta =
-							pow(2, tempCharacter->GetStarNumber() - 1) *
-							GAME_MGR->characterCost * 2 / 3;
-						cout << "sell character, +" << to_string((int)delta) << endl;
-						TranslateCoinState(delta);
-						gameObj = nullptr;
-						delete temp;
-						break;
-					}
-					else
-					{
-						float delta =
-							pow(2, dynamic_cast<Item*>(temp)->GetGrade()) *
-							GAME_MGR->itemCost * 3 / 5;
-						cout << "sell item, +" << to_string((int)delta) << endl;
-						TranslateCoinState(delta);
-						gameObj = nullptr;
-						delete temp;
-						break;
-					}
-				}
-			}
-		}
-	}
-
-	if (!GAME_MGR->GetPlayingBattle())
-	{
-		for (auto& gameObj : battleGrid)
-		{
-			if (gameObj == nullptr)
-				continue;
-
-			if (IsCharacter(gameObj))
-				gameObj->Update(dt);
-
-			if (gameObj->CollideTest(ScreenToWorldPos(InputMgr::GetMousePosI())))
-			{
-				if (InputMgr::GetMouseDown(Mouse::Left))
-				{
-					if (pick == nullptr)
-					{
-						PickUpGameObj(gameObj);
-						if (InBattleGrid(GAME_MGR->PosToIdx(pick->GetPos())))
-						{
-							dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(true);
-							pickAttackRangeRect = dynamic_cast<Character*>(gameObj)->GetAreas();
-						}
-						break;
-					}
-				}
-				else if (InputMgr::GetMouseDown(Mouse::Right))
-				{
-					if (pick == nullptr)
-					{
-						SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
-						GameObj*& temp = gameObj;
-						if (IsCharacter(temp))
-						{
-							Character* tempCharacter = dynamic_cast<Character*>(temp);
-							vector<Item*> tempItems = tempCharacter->GetItems();
-							for (auto item : tempItems)
-								GAME_MGR->waitQueue.push(item);
-
-							float delta =
-								pow(2, tempCharacter->GetStarNumber() - 1) *
-								GAME_MGR->characterCost * 2 / 3;
-							cout << "sell character, +" << to_string((int)delta) << endl;
-							TranslateCoinState(delta);
-							gameObj = nullptr;
-							delete temp;
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	// main grid update
-	int playerCount = 0;
-	int aiCount = 0;
-	for (auto& gameObj : mgref)
-	{
-		if (gameObj != nullptr && !gameObj->GetType().compare("Player"))
-		{
-			gameObj->Update(dt);
-			playerCount++;
-		}
-		else if (gameObj != nullptr && !gameObj->GetType().compare("Monster"))
-		{
-			gameObj->Update(dt);
-			aiCount++;
 		}
 	}
 
@@ -824,96 +915,6 @@ void BattleScene::Update(float dt)
 		}
 		return;
 	}
-
-	if (gameEndTimer > 0.f)
-	{
-		gameEndTimer -= dt;
-
-		if (gameEndTimer < 0.f)
-		{
-			gameEndTimer = 0.f;
-			stageEnd = false;
-			ui->SetStageEndWindow(false);
-			ui->GetTracker()->ShowWindow(false);
-			ui->GetTracker()->ProfilesReturn();
-
-			GAME_MGR->SetPlayingBattle(false);
-
-			int len = battleGrid.size();
-			for (int idx = 0; idx < len; idx++)
-			{
-				if (battleGrid[idx] == nullptr)
-					continue;
-
-				battleGrid[idx]->Reset();
-				battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
-			}
-			b_centerPos = false;
-			ZoomOut();
-
-			// when stage clear
-			if (stageResult)
-			{
-				WaveReward wr = GAME_MGR->GetWaveRewardMapElem();
-				cout << "wave reward: " << wr.exp << wr.forge << wr.power << endl;
-				if (wr.forge)
-					cout << "reward is forge" << endl;
-				else if (wr.power)
-					cout << "reward is power" << endl;
-				GAME_MGR->cumulativeExp += wr.exp;
-				cout << "현재 누적 경험치: " << GAME_MGR->cumulativeExp << endl;
-
-				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
-					GAME_MGR->curStageIdx++;
-			}
-			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
-			ui->SetStatPopup(false, currentView.getCenter());
-			ui->SetItemPopup(false, currentView.getCenter());
-
-			for (auto& gameObj : battleGrid)
-			{
-				if (gameObj != nullptr && IsCharacter(gameObj))
-				{
-					dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(false);
-					pickAttackRangeRect = nullptr;
-				}
-			}
-			//GAME_MGR->GetBattleTracker()->PrintAllData();
-		}
-		return;
-	}
-
-	if (GAME_MGR->GetPlayingBattle())
-	{
-		if (playerCount == 0)
-		{
-			gameEndTimer = 3.5f;
-			stageEnd = true;
-			stageResult = false;
-			LoseFlag();
-		}
-		else if (aiCount == 0)
-		{
-			gameEndTimer = 3.5f;
-			stageEnd = true;
-			stageResult = true;
-			for (auto& cha : battleGrid)
-			{
-				if (cha != nullptr)
-				{ 
-					dynamic_cast<Character*>(cha)->SetIsBattle(false);
-				}
-			}
-		}
-
-		if (stageEnd)
-		{
-			ui->SetStageEndWindow(true, stageResult);
-			TranslateCoinState(GAME_MGR->GetClearCoin());
-			ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
-		}
-	}
-
 	// Game Input end
 }
 
