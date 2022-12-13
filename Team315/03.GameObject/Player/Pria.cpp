@@ -32,10 +32,10 @@ Pria::Pria(bool mode, bool useExtraUpgrade, int skillTier)
 	resStringTypes.insert({ ResStringType::RightAttackEffect,"Pria_RightAttack_Effect" });
 	resStringTypes.insert({ ResStringType::UpAttackEffect,"Pria_UpAttack_Effect" });
 
-	resStringTypes.insert({ ResStringType::DownSkillEfect,"Pria_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::LeftSkillEfect,"Pria_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::RightSkillEfect,"Pria_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::UpSkillEfect,"Pria_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::DownSkillEffect,"Pria_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::LeftSkillEffect,"Pria_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::RightSkillEffect,"Pria_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::UpSkillEffect,"Pria_Skill_Effect" });
 
 	attackPos.insert({ Dir::Right, { 0.f, 0.f } });
 	attackPos.insert({ Dir::Left, { 0.f, 0.f } });
@@ -75,41 +75,7 @@ void Pria::Update(float dt)
 {
 	Character::Update(dt);
 
-	//if (InputMgr::GetKeyDown(Keyboard::Z))
-	//{
-	//	SetState(AnimStates::Skill);
-	//}
-	//
-	//switch (currState)
-	//{
-	//case AnimStates::Idle:
-	//	UpdateIdle(dt);
-	//	break;
-	//case AnimStates::MoveToIdle:
-	//	UpdateMoveToIdle(dt);
-	//	break;
-	//case AnimStates::Move:
-	//	UpdateMove(dt);
-	//	break;
-	//case AnimStates::Attack:
-	//	UpdateAttack(dt);
-	//	break;
-	//case AnimStates::Skill:
-	//	UpdateSkill(dt);
-	//	break;
-	//}
-	//animator.Update(dt);
-	//effectAnimator.Update(dt);
-	//
-	//for (int i = 0; i < 25; ++i)
-	//{
-	//	skillEffect[i]->Update(dt);
-	//}
-	//
-	//if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-	//{
-	//	lastDirection = direction;
-	//}
+	skill->GetAnimator()->Update(dt);
 }
 
 void Pria::Draw(RenderWindow& window)
@@ -118,35 +84,37 @@ void Pria::Draw(RenderWindow& window)
 		return;
 
 	Character::Draw(window);
-	window.draw(effectSprite);
+	//window.draw(effectSprite);
+	if (isBattle)
+		skill->Draw(window);
 
-	/*if (!isBattle)
-	{
-		m_floodFill.Draw(window);
-	}
+	//if (!isBattle)
+	//{
+	//	m_floodFill.Draw(window);
+	//}
 
-	if (GetState() == AnimStates::Skill)
-	{
-		window.draw(effectSprite);
-		SpriteObj::Draw(window);
-	}
-	else
-	{
-		SpriteObj::Draw(window);
-		window.draw(effectSprite);
-	}
+	//if (GetState() == AnimStates::Skill)
+	//{
+	//	window.draw(effectSprite);
+	//	SpriteObj::Draw(window);
+	//}
+	//else
+	//{
+	//	SpriteObj::Draw(window);
+	//	window.draw(effectSprite);
+	//}
 	//for (auto skills : skillSprite)
 	//{
 	//	window.draw(*skills);
 	//}
-	hpBar->Draw(window);
-	star->Draw(window);
+	//hpBar->Draw(window);
+	//star->Draw(window);
 
-	for (auto& grid : itemGrid)
-	{
-		if (grid->GetActive())
-			grid->Draw(window);
-	}*/
+	//for (auto& grid : itemGrid)
+	//{
+	//	if (grid->GetActive())
+	//		grid->Draw(window);
+	//}
 }
 
 void Pria::SetPos(const Vector2f& pos)

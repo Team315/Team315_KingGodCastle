@@ -2,7 +2,7 @@
 #include "Character.h"
 
 EvanSkill::EvanSkill(int skillTier)
-	: Skill(skillTier)
+	: Skill(skillTier), skillSpeed(1500.f)
 {
 	baseDamage = { 20, 35, 50, 65 };
 	range.resize(TIER_MAX);
@@ -100,6 +100,7 @@ void EvanSkill::CastSkill(Character* caster)
 {
 	SetDir(caster->GetTarget()->GetPos() - caster->GetPos());
 	SetSkillRange(caster->GetPos());
+
 	sprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/Effect/player/evan_SkillEffect.png"));
 	SetOrigin(Origins::MC);
 	if(dir == Dir::Up || dir == Dir::Down)
@@ -150,3 +151,4 @@ void EvanSkill::SetDir(Vector2f direction)
 		sprite.setRotation(0.f);
 	}
 }
+

@@ -449,30 +449,6 @@ void BattleScene::Update(float dt)
 
 	// main grid update
 
-	// wheel control
-	float wheel = InputMgr::GetMouseWheel();
-	if (wheel != 0)
-	{
-		b_centerPos = wheel == 1 ? true : false;
-		b_centerPos ? ZoomIn() : ZoomOut();
-	}
-	if (b_centerPos)
-	{
-		if (screenCenterPos.y >= gameScreenTopLimit)
-		{
-			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenTopLimit) * 5.f;
-			gameView.setCenter(screenCenterPos);
-		}
-	}
-	else
-	{
-		if (screenCenterPos.y <= gameScreenBottomLimit)
-		{
-			screenCenterPos.y += dt * (gameScreenBottomLimit - screenCenterPos.y) * 5.f;
-			gameView.setCenter(screenCenterPos);
-		}
-	}
-
 	// prepare grid & battle grid - gameObj pick up
 	for (auto& gameObj : prepareGrid)
 	{
@@ -705,6 +681,30 @@ void BattleScene::Update(float dt)
 	// when eventWindow opens, block other inputs
 	if (eventWindow)
 		return ;
+
+	// wheel control
+	float wheel = InputMgr::GetMouseWheel();
+	if (wheel != 0)
+	{
+		b_centerPos = wheel == 1 ? true : false;
+		b_centerPos ? ZoomIn() : ZoomOut();
+	}
+	if (b_centerPos)
+	{
+		if (screenCenterPos.y >= gameScreenTopLimit)
+		{
+			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenTopLimit) * 5.f;
+			gameView.setCenter(screenCenterPos);
+		}
+	}
+	else
+	{
+		if (screenCenterPos.y <= gameScreenBottomLimit)
+		{
+			screenCenterPos.y += dt * (gameScreenBottomLimit - screenCenterPos.y) * 5.f;
+			gameView.setCenter(screenCenterPos);
+		}
+	}
 
 	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons();
 	for (auto& button : trackerButtons)

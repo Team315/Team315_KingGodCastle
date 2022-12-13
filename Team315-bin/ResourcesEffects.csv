@@ -23,6 +23,7 @@ graphics/Effect/player/shelda_HUSkillEffect.png,0
 graphics/Effect/monster/goblin00_Effect.png,0
 graphics/Effect/monster/thief00_Effect_00.png,0
 graphics/Effect/monster/thief00_Effect_01.png,0
+graphics/Effect/player/player_levelupEffect.png,0
 animations/Effect/Attack/Sword_DownAttack_Effect.csv,3
 animations/Effect/Attack/Sword_LeftAttack_Effect.csv,3
 animations/Effect/Attack/Sword_RightAttack_Effect.csv,3
@@ -70,3 +71,4 @@ animations/Effect/MonsterSkill/thief00_DownSkill_Effect.csv,3
 animations/Effect/MonsterSkill/thief00_LeftSkill_Effect.csv,3
 animations/Effect/MonsterSkill/thief00_RightSkill_Effect.csv,3
 animations/Effect/MonsterSkill/thief00_UpSkill_Effect.csv,3
+animations/Effect/LevelUp/LevelUp_Effect.csv,3
