@@ -91,7 +91,7 @@ EnemyInfo AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enP
 			}
 		}
 	}
-	enemyInfo.leng = -1;
+	enemyInfo.leng = 99999;
 	return enemyInfo;
 }
 
