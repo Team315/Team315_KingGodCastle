@@ -46,6 +46,7 @@ protected:
 
 	bool stageEnd;
 	bool stageResult;
+	bool eventWindow;
 
 public:
 	BattleScene();
