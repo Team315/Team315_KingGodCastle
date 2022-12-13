@@ -219,6 +219,11 @@ void BattleScene::Update(float dt)
 			cout << "create New Item" << endl;
 			GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem(2));
 		}
+		
+		if (InputMgr::GetKeyDown(Keyboard::Key::F2))
+		{
+			eventWindow = !eventWindow;
+		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F3))
 		{

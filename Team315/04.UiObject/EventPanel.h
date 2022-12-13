@@ -17,4 +17,7 @@ public:
 	virtual void Reset() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
+
+	virtual void SetOrigin(Origins origin) override;
+	virtual void SetPos(const Vector2f& pos) override;
 };

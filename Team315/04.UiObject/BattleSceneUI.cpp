@@ -40,7 +40,7 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	dmgTrackerUI->SetPos(Vector2f(500.f, 200.f));
 
 	eventPanel = new EventPanel();
-	eventPanel->SetActive(false);
+	//eventPanel->SetActive(false);
 }
 
 BattleSceneUI::~BattleSceneUI()
