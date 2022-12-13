@@ -2,6 +2,7 @@
 #include "RectangleObj.h"
 
 class BackgroundText;
+class BackrectText;
 class Scene;
 class SpriteObj;
 
@@ -14,6 +15,11 @@ protected:
 	Sprite head;
 	Vector2f headLocalPos;
 	BackgroundText* title;
+	vector<SpriteObj*> frames;
+	vector<SpriteObj*> sprites;
+	EventType eventType;
+	BackrectText* rerollButton;
+	BackrectText* selectButton;
 
 public:
 	EventPanel(Scene* scene);
@@ -29,4 +35,6 @@ public:
 	virtual void SetPos(const Vector2f& pos) override;
 
 	void SetEventPanelType(EventType eType);
+	EventType GetEventType() { return eventType; }
+	void SetEventType(EventType eType) { eventType = eType; }
 };

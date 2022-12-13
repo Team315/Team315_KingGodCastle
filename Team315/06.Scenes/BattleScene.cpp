@@ -97,7 +97,7 @@ void BattleScene::Enter()
 	GAME_MGR->curChapIdx = 0;
 	GAME_MGR->curStageIdx = 0;
 	SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
-
+	
 	b_centerPos = false;
 	ZoomOut();
 	GAME_MGR->damageUI.Reset();
@@ -146,7 +146,6 @@ void BattleScene::Update(float dt)
 		return;
 	}
 
-	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 	GAME_MGR->damageUI.Update(dt);
 	GAME_MGR->rangePreview.Update(dt);
 	if (!GAME_MGR->waitQueue.empty())
@@ -188,6 +187,7 @@ void BattleScene::Update(float dt)
 
 	Scene::Update(dt);
 
+	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 	// Dev Input start
 	{
 		if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
@@ -224,8 +224,12 @@ void BattleScene::Update(float dt)
 		
 		if (InputMgr::GetKeyDown(Keyboard::Key::F2))
 		{
-			eventWindow = !eventWindow;
-			ui->SetEventPanel(eventWindow, (EventType)(Utils::RandomRange(0, 4)));
+			b_centerPos = true;
+			ZoomIn();
+			eventWindow = false;
+			ui->SetEventPanel(false);
+			/*eventWindow = !eventWindow;
+			ui->SetEventPanel(eventWindow, (EventType)(Utils::RandomRange(0, 4)));*/
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F3))
@@ -247,7 +251,6 @@ void BattleScene::Update(float dt)
 				battleGrid[idx]->Reset();
 				battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
 			}
-
 			b_centerPos = false;
 			ZoomOut();
 
@@ -447,8 +450,6 @@ void BattleScene::Update(float dt)
 
 	// Game Input start
 
-	// main grid update
-
 	// prepare grid & battle grid - gameObj pick up
 	for (auto& gameObj : prepareGrid)
 	{
@@ -556,6 +557,8 @@ void BattleScene::Update(float dt)
 							TranslateCoinState(delta);
 							gameObj = nullptr;
 							delete temp;
+							ui->GetPanel()->SetExpansionStateText(
+								GetCurCharacterCount(), GAME_MGR->GetCharacterCount());
 							break;
 						}
 					}
@@ -564,6 +567,7 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	// main grid update
 	int playerCount = 0;
 	int aiCount = 0;
 	for (auto& gameObj : mgref)
@@ -624,17 +628,11 @@ void BattleScene::Update(float dt)
 				WaveReward wr = GAME_MGR->GetWaveRewardMapElem();
 				cout << "wave reward: " << wr.exp << wr.forge << wr.power << endl;
 				if (wr.forge)
-				{
-					cout << "forge" << endl;
-					//ui->GetEventPanel()->SetEventPanelType(EventType::Forge);
-					//eventWindow = true;
-				}
+					ui->GetEventPanel()->SetEventType(EventType::Forge);
 				else if (wr.power)
-				{
-					cout << "power" << endl;
-					//ui->GetEventPanel()->SetEventPanelType(EventType::Power);
-					//eventWindow = true;
-				}
+					ui->GetEventPanel()->SetEventType(EventType::Power);
+				else
+					ui->GetEventPanel()->SetEventType(EventType::None);
 				GAME_MGR->cumulativeExp += wr.exp;
 				cout << "현재 누적 경험치: " << GAME_MGR->cumulativeExp << endl;
 
@@ -680,7 +678,7 @@ void BattleScene::Update(float dt)
 
 	// when eventWindow opens, block other inputs
 	if (eventWindow)
-		return ;
+		return;
 
 	// wheel control
 	float wheel = InputMgr::GetMouseWheel();
@@ -691,7 +689,7 @@ void BattleScene::Update(float dt)
 	}
 	if (b_centerPos)
 	{
-		if (screenCenterPos.y >= gameScreenTopLimit)
+		if (screenCenterPos.y > gameScreenTopLimit)
 		{
 			screenCenterPos.y -= dt * (screenCenterPos.y - gameScreenTopLimit) * 5.f;
 			gameView.setCenter(screenCenterPos);
@@ -699,10 +697,21 @@ void BattleScene::Update(float dt)
 	}
 	else
 	{
-		if (screenCenterPos.y <= gameScreenBottomLimit)
+		if (screenCenterPos.y < gameScreenBottomLimit)
 		{
 			screenCenterPos.y += dt * (gameScreenBottomLimit - screenCenterPos.y) * 5.f;
 			gameView.setCenter(screenCenterPos);
+			
+			if (Utils::EqualFloat(screenCenterPos.y, gameScreenBottomLimit, dt * 5))
+			{
+				EventType eType = ui->GetEventPanel()->GetEventType();
+				if (eType != EventType::None)
+				{
+					ui->SetEventPanel(true, eType);
+					eventWindow = true;
+					ui->GetEventPanel()->SetEventType(EventType::None);
+				}
+			}
 		}
 	}
 
@@ -1182,6 +1191,22 @@ int BattleScene::GetCurCharacterCount()
 		count++;
 	}
 	return count;
+}
+
+void BattleScene::ZoomControl(bool b_switch)
+{
+	if (b_switch)
+	{
+		b_centerPos = true;
+		ZoomIn();
+		eventWindow = false;
+	}
+	else
+	{
+		b_centerPos = false;
+		ZoomOut();
+		eventWindow = true;
+	}
 }
 
 void BattleScene::SetCurrentStage(int chap, int stage)

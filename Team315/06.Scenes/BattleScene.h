@@ -74,6 +74,7 @@ public:
 	void TranslateCoinState(float delta);
 	int GetCurCharacterCount();
 	void SetEventWindow(bool active) { eventWindow = active; }
+	void ZoomControl(bool b_switch);
 };
 
 int GetIdxFromCoord(Vector2i coord);
