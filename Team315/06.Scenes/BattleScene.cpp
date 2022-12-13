@@ -13,7 +13,7 @@
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f), gameOverTimer(0.f),
-	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false)
+	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false), eventWindow(false)
 {
 	CLOG::Print3String("battle create");
 
@@ -103,8 +103,14 @@ void BattleScene::Enter()
 	SOUND_MGR->Play("sounds/Battle.wav", 20.f, true);
 	stageResult = false;
 	stageEnd = false;
+	isGameOver = false;
 
 	ui->GetPanel()->SetExpansionStateText(0, GAME_MGR->GetCharacterCount());
+	remainLife = 3;
+	for (auto& flag : flags)
+	{
+		flag->SetActive(true);
+	}
 }
 
 void BattleScene::Exit()
@@ -433,7 +439,10 @@ void BattleScene::Update(float dt)
 
 	// Game Input start
 
-	// wheel control
+	// when eventWindow opens, block other inputs
+	if (eventWindow)
+		return ;
+
 	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons();
 	for (auto& button : trackerButtons)
 	{
@@ -460,6 +469,7 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	// wheel control
 	float wheel = InputMgr::GetMouseWheel();
 	if (wheel != 0)
 	{

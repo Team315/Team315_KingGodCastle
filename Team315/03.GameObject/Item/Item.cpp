@@ -13,6 +13,8 @@ Item::Item(int grade, bool useExtraChance, ItemType iType)
 	}
 	else */
 	this->grade = grade;
+	if (iType == ItemType::Book && this->grade >= TIER_MAX - 1)
+		this->grade = 2;
 
 	SetType("Item");
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(MakePath()), true);

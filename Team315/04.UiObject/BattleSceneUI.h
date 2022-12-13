@@ -5,6 +5,7 @@ class BattlePanel;
 class BackrectText;
 class Character;
 class DamageTrackerUI;
+class EventPanel;
 class Item;
 class ItemInfoWindow;
 class StatPopupWindow;
@@ -21,6 +22,7 @@ protected:
 	Sprite stageEndWindowSprite;
 	bool b_stageEndPopup;
 	DamageTrackerUI* dmgTrackerUI;
+	EventPanel* eventPanel;
 
 public:
 	BattleSceneUI(Scene* scene);
