@@ -36,4 +36,5 @@ public:
     void SetOutlineColor(const Color& color);
     void SetAlhpa(int Alhpa);
     void SetLetterSpacing(float spacingFactor);
+    void SetNewline();
 };

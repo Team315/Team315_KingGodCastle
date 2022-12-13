@@ -1,10 +1,10 @@
 #pragma once
 #include "SpriteObj.h"
+#include "rapidcsv.h"
 #include "Include.h"
 
 enum class PanelTypes
 {
-	None = 0,
 	ManaBless,
 	Meteor,
 	PingerSnap,
@@ -33,8 +33,8 @@ protected:
 	TextObj m_SkillName;
 	TextObj m_SkillInfo;
 
-	wstring m_SkillNameStr;
-	wstring m_SkillInfoStr;
+	string m_SkillNameStr;
+	string m_SkillInfoStr;
 
 	Vector2f m_NamePos;
 	Vector2f m_InfoPos;
@@ -61,5 +61,6 @@ public:
 	void SetSkillBackGround();
 	void SetSkillInfo();
 	void SetWstring();
+	void SetDataTable();
 };
 

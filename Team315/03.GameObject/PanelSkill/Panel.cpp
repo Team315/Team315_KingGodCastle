@@ -58,6 +58,7 @@ void Panel::Enter()
 	m_resetButton.SetPos({ GAME_SCREEN_WIDTH * 0.92f,GAME_SCREEN_HEIGHT * 1.1f });
 	m_resetButton.SetOrigin(Origins::MC);
 	m_resetButton.SetScale(0.8f, 0.8f);
+	m_resetCooldown = 2;
 
 	ResetSkill();
 	SetSkillCooldown();
@@ -110,6 +111,9 @@ void Panel::ResetSkill()
 	SetPos({ GAME_SCREEN_WIDTH * 0.92f,GAME_SCREEN_HEIGHT * 1.f });
 	SetOrigin(Origins::MC);
 	SetScale(0.8f, 0.8f);
+
+	SetDataTable();
+	SetSkillInfo();
 
 	string skillNum = "graphics/PanelSkill/BottomNumber_" + to_string(m_resetCooldown) + ".png";
 	Vector2f vec = m_resetButton.GetPos();
@@ -190,10 +194,9 @@ void Panel::SetSkillBackGround()
 
 void Panel::SetSkillInfo()
 {
-	SetWstring();
-
 	m_SkillName.SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	m_SkillName.SetString(m_SkillNameStr);
+	m_SkillName.SetNewline();
 	m_SkillName.SetColor(Color::White);
 	m_SkillName.SetCharacterSize(25);
 	m_SkillName.SetPos(m_NamePos);
@@ -201,6 +204,7 @@ void Panel::SetSkillInfo()
 
 	m_SkillInfo.SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	m_SkillInfo.SetString(m_SkillInfoStr);
+	m_SkillInfo.SetNewline();
 	m_SkillInfo.SetColor(Color::White);
 	m_SkillInfo.SetCharacterSize(25);
 	m_SkillInfo.SetPos(m_InfoPos);
@@ -209,6 +213,22 @@ void Panel::SetSkillInfo()
 
 void Panel::SetWstring()
 {
-	m_SkillNameStr = L"스킬 이름 입니다.";
-	m_SkillInfoStr = L"스킬 설명 입니다.\n스킬 설명 입니다.\n스킬 설명 입니다.";
+
+	m_SkillNameStr = "스킬 이름 입니다.";
+	m_SkillInfoStr = "스킬 설명 입니다.\n스킬 설명 입니다.\n스킬 설명 입니다.";
+
+}
+
+void Panel::SetDataTable()
+{
+	string panelDataPath = "data/PenalSkillTable.csv";
+
+	rapidcsv::Document PanelDataDoc(panelDataPath, rapidcsv::LabelParams(0, -1));
+	vector<string> panel_name = PanelDataDoc.GetColumn<string>(1);
+	vector<string> panel_info = PanelDataDoc.GetColumn<string>(2);
+	vector<int> cooldown = PanelDataDoc.GetColumn<int>(8);
+
+	m_SkillNameStr = panel_name[(int)m_PanelTypes];
+	m_SkillInfoStr = panel_info[(int)m_PanelTypes];
+	m_skillCost = cooldown[(int)m_PanelTypes];
 }

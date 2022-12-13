@@ -1,5 +1,5 @@
 #include "Altar.h"
-#include <sstream>
+//#include <sstream>
 
 Altar::Altar(Vector2f mainPos, int index, wstring AltarName, Color color, int loadGrade)
 	:m_Index(index), m_grade(loadGrade)
