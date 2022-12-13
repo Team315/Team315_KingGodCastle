@@ -1,6 +1,7 @@
 #include "AltarScene.h"
 #include "Altar.h"
 #include "Brazier.h"
+#include "RssProgressWindow.h"
 
 AltarScene::AltarScene()
 	: Scene(Scenes::Battle), testPos({0.f,0.f})
@@ -12,7 +13,17 @@ AltarScene::AltarScene()
 	m_backGround->SetPos({ 0.f,0.f });
 	m_backGround->SetOrigin(Origins::TL);
 
+	levelBar = new RssProgressWindow();
+	levelBar->SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/Icon_Level.png"));
+	IntRect texRect = levelBar->GetTextureRect();
+	levelBar->SetSize(Vector2f(120, texRect.height * 0.5f));
+	levelBar->SetColor(Color(0, 0, 0, 100), Color::Green, Color::Black, 2.f);
+	levelBar->SetProgressLocalPos(Vector2f(texRect.width * 0.5f, texRect.height * 0.25f));
+	levelBar->SetLevelTextLocalPos(Vector2f(texRect.width * 0.5f + 4, texRect.height * 0.5f + 6));
+	levelBar->SetPos(Vector2f(10, 10));
+
 	objList.push_back(m_backGround);
+	objList.push_back(levelBar);
 
 	SetAltar();
 	SetBrazier();
@@ -35,6 +46,12 @@ void AltarScene::Release()
 void AltarScene::Enter()
 {
 	CLOG::Print3String("AltarScene enter");
+	// level
+	levelBar->SetLevel(GAME_MGR->accountInfo.level);
+	// exp
+	float value = (float)GAME_MGR->accountInfo.exp / (float)GAME_MGR->accountExpLimit;
+	levelBar->GetProgressBar().SetProgressValue(value);
+
 	for (auto Altar : AltarList)
 	{
 		Altar->Enter();
@@ -54,6 +71,8 @@ void AltarScene::Exit()
 
 void AltarScene::Update(float dt)
 {
+	Scene::Update(dt);
+
 	if (InputMgr::GetKeyDown(Keyboard::Key::Up))
 	{
 		testPos.y -= 1.f;
@@ -220,10 +239,8 @@ void AltarScene::Update(float dt)
 
 void AltarScene::Draw(RenderWindow& window)
 {
-	for (auto obj : objList)
-	{
-		obj->Draw(window);
-	}
+	Scene::Draw(window);
+
 	for (auto obj : AltarList)
 	{
 		obj->Draw(window);

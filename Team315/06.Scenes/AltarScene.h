@@ -5,6 +5,8 @@
 class Brazier;
 class Altar;
 class RectangleObj;
+class RssProgressWindow;
+
 class AltarScene : public Scene
 {
 protected:
@@ -13,6 +15,7 @@ protected:
 	Vector2f testPos;
 	vector<Altar*>  AltarList;
 	vector<Brazier*>  BrazierList;
+	RssProgressWindow* levelBar;
 
 public:
 	AltarScene();
