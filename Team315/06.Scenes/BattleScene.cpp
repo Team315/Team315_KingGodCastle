@@ -111,6 +111,8 @@ void BattleScene::Enter()
 	{
 		flag->SetActive(true);
 	}
+	//ÆÇ³Ú½ºÅ³
+	m_panel.Enter();
 }
 
 void BattleScene::Exit()
@@ -914,6 +916,16 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	//Panel Skill 
+	if (m_panel.CallResetButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+
+	}
+
+	if (m_panel.CallSkillButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+
+	} 
 	// Game Input end
 }
 
@@ -995,6 +1007,8 @@ void BattleScene::Draw(RenderWindow& window)
 	{
 		dmgUI->Draw(window);
 	}
+
+	m_panel.Draw(window);
 }
 
 void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)

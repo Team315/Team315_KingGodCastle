@@ -178,8 +178,6 @@ void Altar::SetAltarString()
 	{
 		AltarStringData.insert({ key[j], AltarStr(Utils::s2w(altar1[j]), Utils::s2w(altar2[j]), Utils::s2w(altar3[j]))});
 	}
-
-	//split();
 }
 
 void Altar::SetRomaNumber(Vector2f mainPos, int index)
