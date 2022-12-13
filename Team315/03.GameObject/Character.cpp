@@ -766,6 +766,45 @@ void Character::AnimationInit()
 			}
 		}
 	}
+	else if (!name.compare("Goblin00") || !name.compare("Thief00"))
+	{
+		effectAnimator.AddClip(
+			*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpSkillEffect]));
+		effectAnimator.AddClip(
+			*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::DownSkillEffect]));
+		effectAnimator.AddClip(
+			*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftSkillEffect]));
+		effectAnimator.AddClip(
+			*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::RightSkillEffect]));
+		{
+			AnimationEvent ev;
+			ev.clipId = resStringTypes[ResStringType::UpSkillEffect];
+			ev.frame = 3;
+			ev.onEvent = bind(&Character::OnCompleteAttack, this);
+			effectAnimator.AddEvent(ev);
+		}
+		{
+			AnimationEvent ev;
+			ev.clipId = resStringTypes[ResStringType::DownSkillEffect];
+			ev.frame = 3;
+			ev.onEvent = bind(&Character::OnCompleteAttack, this);
+			effectAnimator.AddEvent(ev);
+		}
+		{
+			AnimationEvent ev;
+			ev.clipId = resStringTypes[ResStringType::LeftSkillEffect];
+			ev.frame = 3;
+			ev.onEvent = bind(&Character::OnCompleteAttack, this);
+			effectAnimator.AddEvent(ev);
+		}
+		{
+			AnimationEvent ev;
+			ev.clipId = resStringTypes[ResStringType::RightSkillEffect];
+			ev.frame = 3;
+			ev.onEvent = bind(&Character::OnCompleteAttack, this);
+			effectAnimator.AddEvent(ev);
+		}
+	}
 
 	SetState(AnimStates::Idle);
 }

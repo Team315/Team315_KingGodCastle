@@ -27,10 +27,10 @@ Goblin00::Goblin00(bool mode, bool useExtraUpgrade, int skillTier)
 	resStringTypes.insert({ ResStringType::RightSkill,"goblin00_RightSkill" });
 	resStringTypes.insert({ ResStringType::UpSkill,"goblin00_UpSkill" });
 
-	//resStringTypes.insert({ ResStringType::DownSkillEfect,"goblin00_Skill_Effect" });
-	//resStringTypes.insert({ ResStringType::LeftSkillEfect,"goblin00_Skill_Effect" });
-	//resStringTypes.insert({ ResStringType::RightSkillEfect,"goblin00_Skill_Effect" });
-	//resStringTypes.insert({ ResStringType::UpSkillEfect,"goblin00_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::DownSkillEffect,"goblin00_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::LeftSkillEffect,"goblin00_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::RightSkillEffect,"goblin00_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::UpSkillEffect,"goblin00_Skill_Effect" });
 
 	resStringTypes.insert({ ResStringType::atkSound, "sounds/monster_bash.wav" });
 }
@@ -66,6 +66,8 @@ void Goblin00::Update(float dt)
 {
 	Character::Update(dt);
 
+	skill->GetAnimator()->Update(dt);
+
 	//switch (currState)
 	//{
 	//case AnimStates::Idle:
@@ -99,6 +101,9 @@ void Goblin00::Update(float dt)
 void Goblin00::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
+
+	//if (isBattle)
+	//	skill->Draw(window);
 	//for (auto skills : skillSprite)
 	//{
 	//	window.draw(*skills);
