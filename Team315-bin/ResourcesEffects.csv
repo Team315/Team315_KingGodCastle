@@ -20,6 +20,7 @@ graphics/Effect/player/pria_SkillEffect.png,0
 graphics/Effect/player/pria_HitEffect.png,0
 graphics/Effect/player/shelda_SkillEffect.png,0
 graphics/Effect/player/shelda_HUSkillEffect.png,0
+graphics/Effect/player/crowd_Effect.png,0
 graphics/Effect/monster/goblin00_Effect.png,0
 graphics/Effect/monster/thief00_Effect_00.png,0
 graphics/Effect/monster/thief00_Effect_01.png,0
@@ -72,3 +73,4 @@ animations/Effect/MonsterSkill/thief00_LeftSkill_Effect.csv,3
 animations/Effect/MonsterSkill/thief00_RightSkill_Effect.csv,3
 animations/Effect/MonsterSkill/thief00_UpSkill_Effect.csv,3
 animations/Effect/LevelUp/LevelUp_Effect.csv,3
+animations/Effect/Crowd/Crowd_Effect.csv,3
