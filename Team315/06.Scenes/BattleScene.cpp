@@ -225,7 +225,7 @@ void BattleScene::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Key::F2))
 		{
 			eventWindow = !eventWindow;
-			ui->SetEventPanel(eventWindow);
+			ui->SetEventPanel(eventWindow, (EventType)(Utils::RandomRange(0, 4)));
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::F3))

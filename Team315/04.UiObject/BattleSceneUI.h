@@ -44,5 +44,5 @@ public:
 	void SetItemPopup(bool active, Vector2f viewCenter,
 		Item* item = nullptr, Vector2f pos = { 0, 0 });
 	void SetStageEndWindow(bool active, bool result = false);
-	void SetEventPanel(bool active);
+	void SetEventPanel(bool active, EventType eType);
 };

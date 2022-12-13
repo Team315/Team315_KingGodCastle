@@ -12,7 +12,7 @@ public:
     virtual void Draw(RenderWindow& window) override;
     virtual void SetOrigin(Origins origin) override;
 
-    void SetTexture(Texture& tex);
+    void SetTexture(Texture& tex, bool resetRect = false);
 	void SetScale(float x, float y);
 	void SetColor(Color color);
 	void SetAlhpa(int num);

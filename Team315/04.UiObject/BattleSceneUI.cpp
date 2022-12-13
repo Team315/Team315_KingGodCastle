@@ -187,7 +187,8 @@ void BattleSceneUI::SetStageEndWindow(bool active, bool result)
 	stageEndWindow->SetOrigin(Origins::MC);
 }
 
-void BattleSceneUI::SetEventPanel(bool active)
+void BattleSceneUI::SetEventPanel(bool active, EventType eType)
 {
 	eventPanel->SetActive(active);
+	eventPanel->SetEventPanelType(eType);
 }

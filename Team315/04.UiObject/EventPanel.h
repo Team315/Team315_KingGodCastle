@@ -12,6 +12,7 @@ protected:
 	Scene* parentScene;
 	bool previewOn;
 	Sprite head;
+	Vector2f headLocalPos;
 	BackgroundText* title;
 
 public:
