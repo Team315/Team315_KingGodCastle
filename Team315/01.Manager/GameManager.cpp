@@ -86,6 +86,9 @@ void GameManager::GMInit()
 	//extraGradeUpChance = gameSetting["ExtraGradeUpChance"];
 	startCoin = gameSetting["StartCoin"];
 	stageClearCoin = gameSetting["StageClearCoin"];
+	clearCoinIncrease = gameSetting["ClearCoinIncrease"];
+	clearCoinIncreaseTerm = gameSetting["ClearCoinIncreaseTerm"];
+	bossStageClearBonus = gameSetting["BossStageClearBonus"];
 	characterCost = gameSetting["CharacterCost"];
 	expansionCost = gameSetting["ExpansionCost"];
 	itemCost = gameSetting["ItemCost"];
@@ -192,7 +195,10 @@ void GameManager::PrintDevInfo()
 	cout << "합성시 2업 확률(%): " << extraLevelUpCombinate << endl;
 	//cout << "아이템 2업 확률(X): " << extraGradeUpChance << endl;
 	cout << "게임 시작시 코인: " << startCoin << endl;
-	cout << "스테이지 클리어시 보상 코인: " << stageClearCoin << endl;
+	cout << "스테이지 보상 코인: " << stageClearCoin << endl;
+	cout << "스테이지 보상 코인 증가량: " << clearCoinIncrease << endl;
+	cout << "스테이지 보상 코인 증가 간격(턴): " << clearCoinIncreaseTerm << endl;
+	cout << "보스 스테이지 보너스 코인: " << bossStageClearBonus << endl;
 	cout << "캐릭터 뽑기 가격: " << characterCost << endl;
 	cout << "부대 확장 초기 가격: " << expansionCost << endl;
 	cout << "1티어 아이템 가격: " << itemCost << endl;
@@ -450,6 +456,18 @@ void GameManager::RemoveFromMainGrid(GameObj* gameObj)
 			return;
 		}
 	}
+}
+
+int GameManager::GetClearCoin()
+{
+	int clearCoin = stageClearCoin + altarData.startCoin +
+		(curStageIdx / clearCoinIncreaseTerm) * clearCoinIncrease;
+	// boss stage
+	if (curStageIdx == STAGE_MAX_COUNT - 1)
+		clearCoin += bossStageClearBonus;
+
+	cout << curStageIdx << "클리어! " << clearCoin << "획득" << endl;
+	return clearCoin;
 }
 
 float GameManager::GetItemStatMapElem(StatType statType, int grade)

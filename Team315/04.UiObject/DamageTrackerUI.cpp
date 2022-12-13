@@ -2,6 +2,8 @@
 #include "BackrectText.h"
 #include "Include.h"
 #include "TrackerProfile.h"
+#include "DataTableMgr.h"
+#include "StringTable.h"
 
 DamageTrackerUI::DamageTrackerUI(float x, float y)
 	: RectangleObj(x, y), show(false)
@@ -21,7 +23,7 @@ DamageTrackerUI::DamageTrackerUI(float x, float y)
 	selectGiven->SetFillColor(Color(0x0f, 0x0f, 0x0f, 150.f));
 	selectGiven->SetName("Given");
 	selectGiven->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	selectGiven->SetString(L"가한 피해량");
+	selectGiven->SetString(STRING_TABLE->Get("GetDamage"));
 	selectGiven->SetTextStyle(Color::White, 10.f, Color::Black, 1.f);
 	selectGiven->SetTextLocalPos(Vector2f(10.f, 10.f));
 
@@ -29,7 +31,7 @@ DamageTrackerUI::DamageTrackerUI(float x, float y)
 	selectTaken->SetFillColor(Color(0x0a, 0x0a, 0x0a, 100.f));
 	selectTaken->SetName("Taken");
 	selectTaken->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	selectTaken->SetString(L"받은 피해량");
+	selectTaken->SetString(STRING_TABLE->Get("TakeDamage"));
 	selectTaken->SetTextStyle(Color::White, 10.f, Color::Black, 1.f);
 	selectTaken->SetTextLocalPos(Vector2f(10.f, 10.f));
 

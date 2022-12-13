@@ -1,7 +1,7 @@
 #include "StringTable.h"
 #include "rapidcsv.h"
 #include <SFML/Graphics.hpp>
-
+#include "Utils.h"
 Languages StringTable::currentLang(Languages::KOR);
 StringTable::StringTable()
 	: DataTable(Types::String)
@@ -29,7 +29,7 @@ void StringTable::SetLanguage(Languages lang)
 		{
 			return;
 		}
-		table.insert({ keys[j], s2w(values[j]) });
+		table.insert({ keys[j], Utils::s2w(values[j]) });
 	}
 }
 
@@ -53,9 +53,3 @@ bool StringTable::Load()
 	return true;
 }
 
-std::wstring StringTable::s2w(const std::string& var)
-{
-	static std::locale loc("");
-	auto& facet = std::use_facet<std::codecvt<wchar_t, char, std::mbstate_t>>(loc);
-	return std::wstring_convert<std::remove_reference<decltype(facet)>::type, wchar_t>(&facet).from_bytes(var);
-}

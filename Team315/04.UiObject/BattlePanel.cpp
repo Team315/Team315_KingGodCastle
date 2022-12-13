@@ -3,6 +3,8 @@
 #include "TextObj.h"
 #include "BackrectText.h"
 #include "Include.h"
+#include "DataTableMgr.h"
+#include "StringTable.h"
 
 BattlePanel::BattlePanel()
 {
@@ -22,7 +24,7 @@ BattlePanel::BattlePanel()
 	Vector2f textLocalPos(15.f, 30.f); 
 	summon = new Button();
 	summon->SetButton(*RESOURCE_MGR->GetTexture("graphics/battleScene/Button_01.png"),
-		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), L"영웅소환",
+		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), STRING_TABLE->Get("SummonHero"),
 		textLocalPos.x, textLocalPos.y);
 	summon->SetTextStyle(Color::White, 20, Color::Black, 1.f);
 	summonLocalPos = Vector2f(GAME_SCREEN_WIDTH * 0.05f, 200.f);
@@ -30,7 +32,7 @@ BattlePanel::BattlePanel()
 
 	begin = new Button();
 	begin->SetButton(*RESOURCE_MGR->GetTexture("graphics/battleScene/Start.png"),
-		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), L"전투개시",
+		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), STRING_TABLE->Get("BeginBattle"),
 		textLocalPos.x + 20.f, textLocalPos.y + 30.f);
 	begin->SetTextStyle(Color::White, 20, Color::Black, 1.f);
 	beginLocalPos = Vector2f((GAME_SCREEN_WIDTH - begin->GetSize().x) * 0.5f, 180.f);
@@ -38,14 +40,14 @@ BattlePanel::BattlePanel()
 
 	expansion = new Button();
 	expansion->SetButton(*RESOURCE_MGR->GetTexture("graphics/battleScene/Button_02.png"),
-		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), L"진영확장",
+		*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), STRING_TABLE->Get("Expansion"),
 		textLocalPos.x, textLocalPos.y);
 	expansion->SetTextStyle(Color::White, 20, Color::Black, 1.f);
 	expansionLocalPos = Vector2f(GAME_SCREEN_WIDTH * 0.75f, 200.f);
 	expansion->SetName("expansion");
 
 	titleText = new TextObj(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"),
-		L"고블린 습격!     번째 침략",
+		STRING_TABLE->Get("GoblinAttack"),
 		titlebgLocalPos.x, titlebgLocalPos.y, Color(153.f, 136.f, 126.f), 20.f);
 	titleText->SetOutlineColor(Color::Black);
 	titleText->SetOutlineThickness(1.f);
@@ -73,7 +75,7 @@ BattlePanel::BattlePanel()
 	coinState->SetFillColor(Color(0x1B, 0x1B, 0x1B, 180.f));
 	coinState->SetTextLocalPos(Vector2f(25.f, 4.f));
 	coinState->SetOutline(Color::Black, 1.f);
-	coinLocalPos = Vector2f((GAME_SCREEN_WIDTH - coinState->GetSize().x) * 0.5f, 150.f);
+	coinLocalPos = Vector2f((GAME_SCREEN_WIDTH - coinState->GetSize().x) * 0.1f, 150.f);
 
 	characterCostSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Item_Coin0.png")); ;
 	characterCostText = new BackrectText();
@@ -81,8 +83,6 @@ BattlePanel::BattlePanel()
 	characterCostText->SetString(to_string(GAME_MGR->characterCost));
 	characterCostText->SetTextStyle(Color::White, 15, Color::Black, 1.f);
 	characterCostText->SetTextLocalPos(Vector2f(20.f, 2.f));
-	//characterCostText->SetFillColor(Color(0x1B, 0x1B, 0x1B, 180.f));
-	//characterCostText->SetOutline(Color::Black, 1.f);
 
 	expansionCostSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Item_Coin0.png")); ;
 	expansionCostText = new BackrectText();
@@ -90,8 +90,17 @@ BattlePanel::BattlePanel()
 	expansionCostText->SetString(to_string(GAME_MGR->GetCurrentExpansionCost()));
 	expansionCostText->SetTextStyle(Color::White, 15, Color::Black, 1.f);
 	expansionCostText->SetTextLocalPos(Vector2f(20.f, 2.f));
-	//expansionCostText->SetFillColor(Color(0x1B, 0x1B, 0x1B, 180.f));
-	//expansionCostText->SetOutline(Color::Black, 1.f);
+
+	expansionObjectSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/ExpansionObject.png"));
+	expansionObjectSprite.setScale(0.6f, 0.6f);
+
+	expansionText = new BackrectText(70.f, 30.f);
+	expansionText->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	expansionText->SetString(to_string(GAME_MGR->GetCurrentCoin()));
+	expansionText->SetTextStyle(Color::White, 20, Color::Black, 2.f);
+	expansionText->SetFillColor(Color(0x1B, 0x1B, 0x1B, 180.f));
+	expansionText->SetTextLocalPos(Vector2f(25.f, 4.f));
+	expansionText->SetOutline(Color::Black, 1.f);
 
 	buttons.push_back(summon);
 	buttons.push_back(begin);
@@ -122,6 +131,9 @@ void BattlePanel::Draw(RenderWindow& window)
 	window.draw(coinSprite);
 	window.draw(characterCostSprite);
 	window.draw(expansionCostSprite);
+
+	expansionText->Draw(window);
+	window.draw(expansionObjectSprite);
 }
 
 void BattlePanel::SetPos(const Vector2f& pos)
@@ -148,13 +160,15 @@ void BattlePanel::SetPos(const Vector2f& pos)
 	expansionCostText->SetPos(position + expansionLocalPos + Vector2f(30.f, 65.f));
 	expansionCostSprite.setPosition(
 		position + expansionLocalPos + Vector2f(30.f, 70.f));
+
+	expansionObjectSprite.setPosition(position + Vector2f(400.f, 150.f));
+	expansionText->SetPos(position + Vector2f(400.f, 150.f));
 }
 
 void BattlePanel::ChangeTitleTextString(int chapIdx)
 {
-	wstring chaps[CHAPTER_MAX_COUNT] = { L"고블린", L"도적단", L"슬라임" };
-	wstring wstr = chaps[chapIdx] + L" 습격!     번째 침략";
-	titleText->SetString(wstr);
+	string keys[CHAPTER_MAX_COUNT] = { "GoblinAttack", "ThiefAttack", "SlimeAttack" };
+	titleText->SetString(STRING_TABLE->Get(keys[chapIdx]));
 }
 
 void BattlePanel::SetStageNumber(int num)
@@ -171,4 +185,10 @@ void BattlePanel::SetCurrentCoin(int num)
 void BattlePanel::SetExpansionCostText(int num)
 {
 	expansionCostText->SetString(to_string(num));
+}
+
+void BattlePanel::SetExpansionStateText(int num, int limit)
+{
+	string str = to_string(num) + "/" + to_string(limit);
+	expansionText->SetString(str);
 }

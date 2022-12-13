@@ -52,4 +52,6 @@ public:
 	static bool EqualFloat(float a, float b, float epsilon = numeric_limits<float>::epsilon());
 
 	static int ManhattanDistance(Vector2i vec1, Vector2i vec2);
+	static wstring s2w(const std::string& var);
+
 };

@@ -92,3 +92,8 @@ void TextObj::SetAlhpa(int Alhpa)
     color.a = Alhpa;
     SetColor(color);
 }
+
+void TextObj::SetLetterSpacing(float spacingFactor)
+{
+    text.setLetterSpacing(spacingFactor);
+}

@@ -3,6 +3,19 @@
 #include "TextObj.h"
 #include "Include.h"
 #include "Animator.h"
+#include "rapidcsv.h"
+//#include "StringTable.h"
+
+struct AltarStr
+{
+	wstring altar1;
+	wstring altar2;
+	wstring altar3;
+	AltarStr() {}
+	AltarStr(wstring str1, wstring str2, wstring str3)
+		: altar1(str1), altar2(str2), altar3(str3)
+	{}
+};
 
 class Altar :  public SpriteObj
 {
@@ -49,6 +62,8 @@ protected:
 
 
 
+	map<string, AltarStr> AltarStringData;
+
 public:
 	Altar(Vector2f mainPos, int index, wstring AltarName, Color color, int loadGrade);
 	~Altar();
@@ -64,6 +79,7 @@ public:
 	int GetIndex() { return m_Index; };
 	int GetGrade() { return m_grade; };
 
+	void SetAltarString();
 	void SetRomaNumber(Vector2f mainPos, int index);
 	void SetDot(Vector2f mainPos, int index);
 	void SetBuffString(Vector2f mainpos);

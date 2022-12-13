@@ -13,7 +13,7 @@
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f), gameOverTimer(0.f),
-	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false)
+	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false), eventWindow(false)
 {
 	CLOG::Print3String("battle create");
 
@@ -47,7 +47,7 @@ BattleScene::BattleScene()
 	ui = new BattleSceneUI(this);
 
 	flags.resize(3);
-	Vector2f flagPos(GAME_SCREEN_WIDTH * 0.5f - 70.f, GAME_SCREEN_HEIGHT + TILE_SIZE_HALF);
+	Vector2f flagPos(GAME_SCREEN_WIDTH * 0.5f - 70.f, GAME_SCREEN_HEIGHT + TILE_SIZE);
 	for (auto& flag : flags)
 	{
 		flag = new SpriteObj();
@@ -103,6 +103,14 @@ void BattleScene::Enter()
 	SOUND_MGR->Play("sounds/Battle.wav", 20.f, true);
 	stageResult = false;
 	stageEnd = false;
+	isGameOver = false;
+
+	ui->GetPanel()->SetExpansionStateText(0, GAME_MGR->GetCharacterCount());
+	remainLife = 3;
+	for (auto& flag : flags)
+	{
+		flag->SetActive(true);
+	}
 }
 
 void BattleScene::Exit()
@@ -431,7 +439,10 @@ void BattleScene::Update(float dt)
 
 	// Game Input start
 
-	// wheel control
+	// when eventWindow opens, block other inputs
+	if (eventWindow)
+		return ;
+
 	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons();
 	for (auto& button : trackerButtons)
 	{
@@ -458,6 +469,7 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	// wheel control
 	float wheel = InputMgr::GetMouseWheel();
 	if (wheel != 0)
 	{
@@ -591,6 +603,8 @@ void BattleScene::Update(float dt)
 						TranslateCoinState(-cost);
 						GAME_MGR->TranslateExpansionCount(1);
 						ui->GetPanel()->SetExpansionCostText(GAME_MGR->GetCurrentExpansionCost());
+						ui->GetPanel()->SetExpansionStateText(
+							GetCurCharacterCount(), GAME_MGR->GetCharacterCount());
 						break;
 					}
 					else
@@ -883,12 +897,20 @@ void BattleScene::Update(float dt)
 			gameEndTimer = 3.5f;
 			stageEnd = true;
 			stageResult = true;
+			for (auto& cha : battleGrid)
+			{
+				if (cha != nullptr)
+				{ 
+					dynamic_cast<Character*>(cha)->SetIsBattle(false);
+				}
+			}
 		}
 
 		if (stageEnd)
 		{
 			ui->SetStageEndWindow(true, stageResult);
 			TranslateCoinState(GAME_MGR->GetClearCoin());
+			ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 		}
 	}
 
@@ -1062,6 +1084,9 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 		(*start)[startIdx] = temp;
 	}
 	pick->SetPos(GAME_MGR->IdxToPos(canMove ? destCoord : startCoord));
+
+	ui->GetPanel()->SetExpansionStateText(
+		GetCurCharacterCount(), GAME_MGR->GetCharacterCount());
 }
 
 void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)
@@ -1142,6 +1167,20 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 	}
 	if (!combine)
 		pick->SetPos(GAME_MGR->IdxToPos(canMove ? destCoord : startCoord));
+}
+
+int BattleScene::GetCurCharacterCount()
+{
+	int count = 0;
+
+	for (auto& gameObj : battleGrid)
+	{
+		if (gameObj == nullptr)
+			continue;
+
+		count++;
+	}
+	return count;
 }
 
 void BattleScene::SetCurrentStage(int chap, int stage)

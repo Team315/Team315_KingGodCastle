@@ -1,11 +1,12 @@
 #include "Altar.h"
+#include <sstream>
 
 Altar::Altar(Vector2f mainPos, int index, wstring AltarName, Color color, int loadGrade)
 	:m_Index(index), m_grade(loadGrade)
 {
 	Color acolor = color;
 	acolor.a = 100;
-
+	
 	string background = "graphics/Altar/Altar_0" + to_string(index) + ".png";
 	SetTexture(*RESOURCE_MGR->GetTexture(background));
 	SetScale(0.5f, 0.5f);
@@ -149,6 +150,38 @@ void Altar::MoveSetPos(Vector2f movepos)
 	m_sFlame.setPosition(movepos);
 }
 
+//vector<string> split(string input, char delimiter)
+//{
+//	vector<string> answer;
+//	stringstream ss(input);
+//	string temp;
+//
+//	while (getline(ss, temp, delimiter)) 
+//	{
+//		answer.push_back(temp);
+//	}
+//
+//	return answer;
+//}
+
+void Altar::SetAltarString()
+{
+	string altarDataPath = "data/AltarStringData.csv";
+
+	rapidcsv::Document altarDataDoc(altarDataPath, rapidcsv::LabelParams(0, -1));
+	auto key = altarDataDoc.GetColumn<string>(0);
+	vector<string> altar1 = altarDataDoc.GetColumn<string>(1);
+	vector<string> altar2 = altarDataDoc.GetColumn<string>(2);
+	vector<string> altar3 = altarDataDoc.GetColumn<string>(3);
+	
+	for (int j = 0; j < altarDataDoc.GetRowCount(); ++j)
+	{
+		AltarStringData.insert({ key[j], AltarStr(Utils::s2w(altar1[j]), Utils::s2w(altar2[j]), Utils::s2w(altar3[j]))});
+	}
+
+	//split();
+}
+
 void Altar::SetRomaNumber(Vector2f mainPos, int index)
 {
 	Vector2f romaNum01Pos = { 7.f,128.f };
@@ -279,30 +312,38 @@ void Altar::SetDot(Vector2f mainPos, int index)
 
 void Altar::SetBuffString(Vector2f mainpos)
 {
+	SetAltarString();
+
+	string key = "Altar_0" + to_string(m_Index) + "_" + to_string(m_grade/10)  + to_string(m_grade % 10);
+	AltarStringData[key];
+
 	Vector2f buff1 = { 57.f,183.f };
 	m_buff1.SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	m_buff1.SetString("m_buff1");
+	m_buff1.SetString(AltarStringData[key].altar1);
+	m_buff1.SetLetterSpacing(0.1f);
 	m_buff1.SetColor(Color::White);
 	m_buff1.SetAlhpa(60);
-	m_buff1.SetCharacterSize(9);
+	m_buff1.SetCharacterSize(10);
 	m_buff1.SetPos(mainpos + buff1);
 	m_buff1.SetOrigin(Origins::MC);
 
 	Vector2f buff2 = { 57.f,203.f };
 	m_buff2.SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	m_buff2.SetString("m_buff2");
+	m_buff2.SetString(AltarStringData[key].altar2);
+	m_buff2.SetLetterSpacing(0.1f);
 	m_buff2.SetColor(Color::White);
 	m_buff2.SetAlhpa(60);
-	m_buff2.SetCharacterSize(9);
+	m_buff2.SetCharacterSize(10);
 	m_buff2.SetPos(mainpos + buff2);
 	m_buff2.SetOrigin(Origins::MC);
 
 	Vector2f buff3 = { 57.f, 223.f };
 	m_buff3.SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	m_buff3.SetString("m_buff3");
+	m_buff3.SetString(AltarStringData[key].altar3);
+	m_buff3.SetLetterSpacing(0.1f);
 	m_buff3.SetColor(Color::White);
 	m_buff3.SetAlhpa(60);
-	m_buff3.SetCharacterSize(9);
+	m_buff3.SetCharacterSize(10);
 	m_buff3.SetPos(mainpos + buff3);
 	m_buff3.SetOrigin(Origins::MC);
 }
@@ -387,6 +428,20 @@ void Altar::ChangeAltarNum(int Num)
 
 void Altar::ChangeObjAlhpa(int num)
 {
+	string key = "Altar_0" + to_string(m_Index + 1) + "_" + to_string(m_grade / 10) + to_string(m_grade % 10);
+	AltarStringData[key];
+	m_buff1.SetString(AltarStringData[key].altar1);
+	m_buff2.SetString(AltarStringData[key].altar2);
+	m_buff3.SetString(AltarStringData[key].altar3);
+
+	/*m_buff1.SetLetterSpacing(0.1f);
+	m_buff2.SetLetterSpacing(0.1f);
+	m_buff3.SetLetterSpacing(0.1f);*/
+
+	m_buff1.SetOrigin(Origins::MC);
+	m_buff2.SetOrigin(Origins::MC);
+	m_buff3.SetOrigin(Origins::MC);
+
 	if (num == 0)
 	{
 		m_altarEffect.SetAlhpa(0);
@@ -394,6 +449,8 @@ void Altar::ChangeObjAlhpa(int num)
 		m_buff1.SetAlhpa(60);
 		m_buff2.SetAlhpa(60);
 		m_buff3.SetAlhpa(60);
+		
+
 		//m_Flame.Stop();
 		return;
 	}

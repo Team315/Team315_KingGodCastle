@@ -3,6 +3,7 @@
 #include "BackrectText.h"
 #include "Character.h"
 #include "DamageTrackerUI.h"
+#include "EventPanel.h"
 #include "Include.h"
 #include "ItemInfoWindow.h"
 #include "Item/Item.h"
@@ -37,6 +38,9 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 
 	dmgTrackerUI = new DamageTrackerUI();
 	dmgTrackerUI->SetPos(Vector2f(500.f, 200.f));
+
+	eventPanel = new EventPanel();
+	eventPanel->SetActive(false);
 }
 
 BattleSceneUI::~BattleSceneUI()
@@ -52,6 +56,7 @@ void BattleSceneUI::Init()
 		uiObjList.push_back(popup);
 	uiObjList.push_back(stageEndWindow);
 	uiObjList.push_back(dmgTrackerUI);
+	uiObjList.push_back(eventPanel);
 	UIMgr::Init();
 }
 

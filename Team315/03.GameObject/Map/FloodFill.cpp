@@ -307,12 +307,12 @@ void FloodFill::SetAttackAreas(int count)
 
 	for (int i = 0; i < count; ++i)
 	{
-		Areas[i].SetSize(TILE_SIZE, TILE_SIZE);
-		Areas[i].SetFillColor(Color::Red);
+		Areas[i].SetSize(TILE_SIZE-2, TILE_SIZE-2);
+		Areas[i].SetFillColor(Color::Red); 
 		Areas[i].SetFillColorAlpha(100);
 		Areas[i].SetOutline(Color::Red, -1.f);
 		Areas[i].SetOrigin(Origins::BC);
-		Areas[i].SetActive(false);
+		Areas[i].SetActive(false); 
 	}
 
 	for (int i = 0, y = -(m_Height / 2); i < m_Height; ++i, ++y)

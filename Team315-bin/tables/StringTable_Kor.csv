@@ -25,3 +25,11 @@ Slime02,슬라임
 Slime03,기사라임
 Slime04,총사라임
 Slime05,장군라임
+SummonHero,영웅소환
+BeginBattle,전투개시
+Expansion,진영확장
+GoblinAttack,고블린 습격!     번째 침략
+ThiefAttack,도적단 습격!     번째 침략
+SlimeAttack,슬라임 습격!     번째 침략
+GetDamage,가한 피해량
+TakeDamage,받은 피해량

@@ -1,9 +1,12 @@
 #pragma once
-#include "SpriteObj.h"
+#include "RectangleObj.h"
 
-class EventPanel : public SpriteObj
+class SpriteObj;
+
+class EventPanel : public RectangleObj
 {
 protected:
+	SpriteObj* previewButton;
 
 public:
 	EventPanel();
