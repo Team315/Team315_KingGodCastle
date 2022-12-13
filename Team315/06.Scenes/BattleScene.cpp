@@ -566,6 +566,10 @@ void BattleScene::Update(float dt)
 					newPick->Init();
 					prepareGrid[idx] = newPick;
 
+					newPick->TakeBuff(StatType::AD, GAME_MGR->altarData.passiveADUp);
+					newPick->TakeBuff(StatType::AP, GAME_MGR->altarData.passiveAPUp);
+					newPick->TakeBuff(StatType::AS, GAME_MGR->altarData.passiveASUp);
+
 					int extraBookChance = GAME_MGR->altarData.summonBookPercent;
 					bool summonBook = Utils::RandomRange(0, 100) < extraBookChance;
 

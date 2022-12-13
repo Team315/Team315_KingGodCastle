@@ -224,6 +224,13 @@ void GameManager::PrintDevInfo()
 	cout << "I - 적 모두 칼 1성 주기" << endl;
 	cout << "O - 적 모두 스태프 1성 주기" << endl;
 	cout << "P - 적 모두 활 1성 주기" << endl;
+
+	cout << "계정 레벨: " << accountInfo.level << endl;
+	cout << "계정 expr: " << accountInfo.exp << endl;
+	cout << "마나 제단 point: " << altarData.mana << endl;
+	cout << "은화 제단 point: " << altarData.silver << endl;
+	cout << "신체 제단 point: " << altarData.physical << endl;
+	cout << "강화 제단 point: " << altarData.enforce << endl;
 }
 
 Vector2i GameManager::PosToIdx(Vector2f pos)
