@@ -321,6 +321,7 @@ void Character::SetStatsInit(json data)
 
 	stat[StatType::AS].SetUpgradeMode(true);
 	stat[StatType::AD].SetDeltaMode(true);
+	stat[StatType::AR].SetDeltaMode(true);
 	if (stat[StatType::MP].GetBase() > 0.f)
 		noSkill = false;
 
