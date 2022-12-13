@@ -104,6 +104,7 @@
     <ClCompile Include="97.DataTable\DataTableMgr.cpp" />
     <ClCompile Include="97.DataTable\StringTable.cpp" />
     <ClCompile Include="04.UiObject\Brazier.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\PanelButton.cpp" />
     <ClCompile Include="04.UiObject\EventPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +221,7 @@
     <ClInclude Include="97.DataTable\DataTable.h" />
     <ClInclude Include="97.DataTable\DataTableMgr.h" />
     <ClInclude Include="04.UiObject\Brazier.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\PanelButton.h" />
     <ClInclude Include="04.UiObject\EventPanel.h" />
   </ItemGroup>
   <ItemGroup>

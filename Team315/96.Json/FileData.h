@@ -91,18 +91,18 @@ namespace ns {
 	void from_json(const json& j, BackGroundData& b);
 }
 
-namespace ns {
-	struct AltarStringData
-	{
-		string mana;
-		string silver;
-		string physical;
-		string enforce;
-	};
-
-	void to_json(json& j, const AltarStringData& b);
-	void from_json(const json& j, AltarStringData& b);
-}
+//namespace ns {
+//	struct AltarStringData
+//	{
+//		string mana;
+//		string silver;
+//		string physical;
+//		string enforce;
+//	};
+//
+//	void to_json(json& j, const AltarStringData& b);
+//	void from_json(const json& j, AltarStringData& b);
+//}
 
 struct Chapters
 {

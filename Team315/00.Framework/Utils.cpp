@@ -144,3 +144,10 @@ int Utils::ManhattanDistance(Vector2i vec1, Vector2i vec2)
 {
 	return abs(vec1.x - vec2.x) + abs(vec1.y - vec2.y);
 }
+
+std::wstring Utils::s2w(const std::string& var)
+{
+	static std::locale loc("");
+	auto& facet = std::use_facet<std::codecvt<wchar_t, char, std::mbstate_t>>(loc);
+	return std::wstring_convert<std::remove_reference<decltype(facet)>::type, wchar_t>(&facet).from_bytes(var);
+}

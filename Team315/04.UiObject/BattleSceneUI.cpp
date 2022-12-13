@@ -39,8 +39,8 @@ BattleSceneUI::BattleSceneUI(Scene* scene)
 	dmgTrackerUI = new DamageTrackerUI();
 	dmgTrackerUI->SetPos(Vector2f(500.f, 200.f));
 
-	eventPanel = new EventPanel();
-	//eventPanel->SetActive(false);
+	eventPanel = new EventPanel(parentScene);
+	eventPanel->SetActive(false);
 }
 
 BattleSceneUI::~BattleSceneUI()
@@ -185,4 +185,9 @@ void BattleSceneUI::SetStageEndWindow(bool active, bool result)
 
 	stageEndWindow->SetString(result ? L"전투 승리!" : L"전투 패배!");
 	stageEndWindow->SetOrigin(Origins::MC);
+}
+
+void BattleSceneUI::SetEventPanel(bool active)
+{
+	eventPanel->SetActive(active);
 }

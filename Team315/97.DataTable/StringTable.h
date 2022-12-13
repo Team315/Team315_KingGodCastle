@@ -33,7 +33,6 @@ public:
 	virtual void Release();
 	virtual bool Load();
 
-	wstring s2w(const std::string& var);
 
 	vector<string> fileNames;
 };

@@ -1,15 +1,21 @@
 #pragma once
 #include "RectangleObj.h"
 
+class BackgroundText;
+class Scene;
 class SpriteObj;
 
 class EventPanel : public RectangleObj
 {
 protected:
 	SpriteObj* previewButton;
+	Scene* parentScene;
+	bool previewOn;
+	Sprite head;
+	BackgroundText* title;
 
 public:
-	EventPanel();
+	EventPanel(Scene* scene);
 	virtual ~EventPanel();
 
 	virtual void Init() override;
@@ -20,4 +26,6 @@ public:
 
 	virtual void SetOrigin(Origins origin) override;
 	virtual void SetPos(const Vector2f& pos) override;
+
+	void SetEventPanelType(EventType eType);
 };

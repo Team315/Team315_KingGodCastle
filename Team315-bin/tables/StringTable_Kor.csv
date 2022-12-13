@@ -33,3 +33,7 @@ ThiefAttack,도적단 습격!     번째 침략
 SlimeAttack,슬라임 습격!     번째 침략
 GetDamage,가한 피해량
 TakeDamage,받은 피해량
+ForgeTitle,장비 제련
+PowerTitle,증강체 선택
+GameOverTitle,패배!
+GameClearTitle,승리!

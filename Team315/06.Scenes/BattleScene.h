@@ -73,6 +73,7 @@ public:
 	void PickUpGameObj(GameObj* gameObj);
 	void TranslateCoinState(float delta);
 	int GetCurCharacterCount();
+	void SetEventWindow(bool active) { eventWindow = active; }
 };
 
 int GetIdxFromCoord(Vector2i coord);
