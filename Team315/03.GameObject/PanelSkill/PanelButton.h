@@ -2,6 +2,15 @@
 #include "SpriteObj.h"
 #include "Include.h"
 
+enum class PanelTypes
+{
+	None = 0,
+	ManaBless,
+	Meteor,
+	PingerSnap,
+	Quagmire,
+	Shield,
+};
 class PanelButton : public SpriteObj
 {
 protected:
@@ -13,6 +22,7 @@ protected:
 	int m_skillCooldown;
 	int m_resetCooldown;
 
+	PanelTypes m_PanelTypes;
 public:
 	PanelButton();
 	~PanelButton();
@@ -26,6 +36,7 @@ public:
 	bool CallResetButton(Vector2f pos);
 	bool CallSkillButton(Vector2f pos);
 	void ResetSkill();
+	string GetRandomSkill();
 	//virtual void Enter();
 };
 
