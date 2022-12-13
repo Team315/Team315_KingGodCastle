@@ -897,6 +897,13 @@ void BattleScene::Update(float dt)
 			gameEndTimer = 3.5f;
 			stageEnd = true;
 			stageResult = true;
+			for (auto& cha : battleGrid)
+			{
+				if (cha != nullptr)
+				{ 
+					dynamic_cast<Character*>(cha)->SetIsBattle(false);
+				}
+			}
 		}
 
 		if (stageEnd)
