@@ -26,7 +26,6 @@ Slime00Skill::~Slime00Skill()
 
 void Slime00Skill::SetSkillRange(Vector2f startPos)
 {
-	applyArea.clear();
 	applyArea.resize(0);
 	Vector2i startCoord(GAME_MGR->PosToIdx(startPos));
 
@@ -47,8 +46,8 @@ void Slime00Skill::SetSkillRange(Vector2f startPos)
 
 void Slime00Skill::CastSkill(Character* caster)
 {
-	//if (caster->GetTarget() == nullptr)
-	//	return;
+	if (caster->GetTarget() == nullptr)
+		return;
 	SetSkillRange(caster->GetTarget()->GetPos());
 
 	for (auto& cell : applyArea)
