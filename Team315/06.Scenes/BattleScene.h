@@ -71,6 +71,7 @@ public:
 	void ZoomOut();
 	void PickUpGameObj(GameObj* gameObj);
 	void TranslateCoinState(float delta);
+	int GetCurCharacterCount();
 };
 
 int GetIdxFromCoord(Vector2i coord);

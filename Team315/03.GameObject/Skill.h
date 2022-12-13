@@ -13,11 +13,19 @@ protected:
 	int skillTier;						// starNumber
 	vector<Vector2i> applyArea;
 
+	unordered_map<ResStringType, string> resStringTypes;
+	unordered_map<Dir, Vector2f> skillPos;
+	Vector2f direction;
+	Dir dir;
+
 public:
 	Skill(int starNumber);
 	virtual ~Skill();
 
+	virtual void Init() override;
 	virtual void Update(float dt) override;
+	virtual void Reset() override;
+	virtual void Draw(RenderWindow& window) override;
 	//virtual void SetRotation(Vector2f dir);
 
 	virtual void SetState(AnimStates newState);

@@ -28,11 +28,11 @@ GameManager::GameManager()
 	characterCost(3), itemCost(5), expansionCost(5), expansionCount(0),
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
 	apIncreaseRate(1.6f), asIncrease(0.1f),
-	manaPerAttack(15.f), manaPerHit(5.f), itemDropProbability(10),
+	manaPerAttack(15.f), manaPerDamage(5.f), itemDropProbability(10),
 	accountExpLimit(6), cumulativeExp(0)
 {
 	CLOG::Print3String("GameManager Create");
-	
+
 	m_tiles.assign(
 		CHAPTER_MAX_COUNT,
 		vector<vector<vector<Tile*>>>(STAGE_MAX_COUNT,
@@ -45,7 +45,7 @@ GameManager::GameManager()
 	rangePreview.OnCreate = RangePreviewOnCreate;
 	rangePreview.Init(200);
 	GMInit();
-	PrintDevKey();
+	PrintDevInfo();
 }
 
 GameManager::~GameManager()
@@ -86,27 +86,16 @@ void GameManager::GMInit()
 	//extraGradeUpChance = gameSetting["ExtraGradeUpChance"];
 	startCoin = gameSetting["StartCoin"];
 	stageClearCoin = gameSetting["StageClearCoin"];
+	clearCoinIncrease = gameSetting["ClearCoinIncrease"];
+	clearCoinIncreaseTerm = gameSetting["ClearCoinIncreaseTerm"];
+	bossStageClearBonus = gameSetting["BossStageClearBonus"];
 	characterCost = gameSetting["CharacterCost"];
 	expansionCost = gameSetting["ExpansionCost"];
 	itemCost = gameSetting["ItemCost"];
 	manaPerAttack = gameSetting["ManaPerAttack"];
-	manaPerHit = gameSetting["ManaPerHit"];
+	manaPerDamage = gameSetting["ManaPerHit"];
 	itemDropProbability = gameSetting["ItemDropProbability"];
 	accountExpLimit = gameSetting["AccountExpLimit"];
-
-	cout << "부대 배치 제한: " << battleCharacterCount << endl;
-	cout << "소환시 2업 확률(%): " << extraLevelUpSummon << endl;
-	cout << "합성시 2업 확률(%): " << extraLevelUpCombinate << endl;
-	//cout << "아이템 2업 확률(X): " << extraGradeUpChance << endl;
-	cout << "게임 시작시 코인: " << startCoin << endl;
-	cout << "스테이지 클리어시 보상 코인: " << stageClearCoin << endl;
-	cout << "캐릭터 뽑기 가격: " << characterCost << endl;
-	cout << "부대 확장 초기 가격: " << expansionCost << endl;
-	cout << "1티어 아이템 가격: " << itemCost << endl;
-	cout << "공격시 마나 획득: " << manaPerAttack << endl;
-	cout << "피격시 마나 획득: " << manaPerHit << endl;
-	cout << "아이템 드랍 확률(%): " << itemDropProbability << endl;
-	cout << "레벨당 필요 경험치량: " << accountExpLimit << endl;
 
 	json statIncreaseRate = initSetting["LevelUpStatIncreaseRate"];
 	adIncreaseRate = statIncreaseRate["AdIncreaseRate"];
@@ -117,58 +106,58 @@ void GameManager::GMInit()
 	adIncreaseRate += 1.f;
 	apIncreaseRate += 1.f;
 
-	cout << "캐릭터 강화 시 체력 상승률: " << hpIncreaseRate << endl;
-	cout << "캐릭터 강화 시 공격 상승률: " << adIncreaseRate << endl;
-	cout << "캐릭터 강화 시 주문 상승률: " << apIncreaseRate << endl;
-	cout << "캐릭터 강화 시 공속 상승치: " << asIncrease << endl;
-
 	json ItemStats = initSetting["ItemStat"];
 	itemStatMap.insert({ StatType::HP, ItemStats["Armor"] });
 	itemStatMap.insert({ StatType::AP, ItemStats["Staff"] });
-	itemStatMap.insert({ StatType::AS, ItemStats["Bow"]});
+	itemStatMap.insert({ StatType::AS, ItemStats["Bow"] });
 	itemStatMap.insert({ StatType::AD, ItemStats["Sword"] });
 
-	string accInfoPath = "data/accInfo.csv";
-
-	rapidcsv::Document infoDoc(accInfoPath, rapidcsv::LabelParams(0, -1));
-	auto level = infoDoc.GetColumn<int>(0);
-	auto exp = infoDoc.GetColumn<int>(1);
-	accountInfo.Load(level[0], exp[0]);
-	infoDoc.Clear();
-
-	string altarDataPath = "data/altarData.csv";
-
-	rapidcsv::Document altarDoc(altarDataPath, rapidcsv::LabelParams(0, -1));
-	auto mana = altarDoc.GetColumn<int>(0);
-	auto silver = altarDoc.GetColumn<int>(1);
-	auto physical = altarDoc.GetColumn<int>(2);
-	auto enforce = altarDoc.GetColumn<int>(3);
-	altarData.Init(mana[0], silver[0], physical[0], enforce[0]);
-	altarDoc.Clear();
-
-	string rewardPath = "data/WaveRewardTable.csv";
-	int pathSize = rewardPath.size();
-	for (int i = 0; i < pathSize; i++)
 	{
-		rapidcsv::Document doc(rewardPath, rapidcsv::LabelParams(0, -1));
+		string accInfoPath = "data/accInfo.csv";
 
-		auto wave = doc.GetColumn<string>(0);
-		auto exp = doc.GetColumn<int>(1);
-		auto forge = doc.GetColumn<int>(2);
-		auto power = doc.GetColumn<int>(3);
+		rapidcsv::Document infoDoc(accInfoPath, rapidcsv::LabelParams(0, -1));
+		auto level = infoDoc.GetColumn<int>(0);
+		auto exp = infoDoc.GetColumn<int>(1);
+		accountInfo.Load(level[0], exp[0]);
+		accountInfo.UpdateLevel(accountExpLimit);
+		infoDoc.Clear();
+	}
 
-		for (int j = 0; j < doc.GetRowCount(); j++)
+	{
+		string altarDataPath = "data/altarPointData.csv";
+
+		rapidcsv::Document altarDoc(altarDataPath, rapidcsv::LabelParams(0, -1));
+		auto mana = altarDoc.GetColumn<int>(0);
+		auto silver = altarDoc.GetColumn<int>(1);
+		auto physical = altarDoc.GetColumn<int>(2);
+		auto enforce = altarDoc.GetColumn<int>(3);
+		altarData.Init(mana[0], silver[0], physical[0], enforce[0]);
+		altarDoc.Clear();
+	}
+
+	{
+		string rewardPath = "data/WaveRewardTable.csv";
+
+		rapidcsv::Document rewardDoc(rewardPath, rapidcsv::LabelParams(0, -1));
+		auto wave = rewardDoc.GetColumn<string>(0);
+		auto exp = rewardDoc.GetColumn<int>(1);
+		auto forge = rewardDoc.GetColumn<int>(2);
+		auto power = rewardDoc.GetColumn<int>(3);
+
+		for (int j = 0; j < rewardDoc.GetRowCount(); j++)
 		{
 			waveRewardMap.insert({ wave[j], WaveReward(exp[j], forge[j], power[j]) });
 		}
+		rewardDoc.Clear();
 	}
+	LoadAltarEffectFromTable();
 }
 
 void GameManager::GMReset()
 {
 	GMInit();
 	playingBattle = false;
-	currentCoin = startCoin;
+	currentCoin = startCoin + altarData.startCoin;
 	expansionCount = 0;
 	cumulativeExp = 0;
 
@@ -178,7 +167,7 @@ void GameManager::GMReset()
 void GameManager::GameEnd()
 {
 	string accInfoPath = "data/accInfo.csv";
-	
+
 	CSVWriter csv(",");
 	csv.newRow() << "level" << "exp";
 	csv.newRow() << accountInfo.level << accountInfo.exp;
@@ -188,7 +177,8 @@ void GameManager::GameEnd()
 
 void GameManager::SaveAltarData(int mana, int silver, int physical, int enforce)
 {
-	string accInfoPath = "data/altarData.csv";
+	// altar point save
+	string accInfoPath = "data/altarPointData.csv";
 
 	CSVWriter csv(",");
 	csv.newRow() << "mana" << "silver" << "physical" << "enforce";
@@ -198,8 +188,29 @@ void GameManager::SaveAltarData(int mana, int silver, int physical, int enforce)
 	csv.writeToFile(accInfoPath);
 }
 
-void GameManager::PrintDevKey()
+void GameManager::PrintDevInfo()
 {
+	cout << "부대 배치 제한: " << battleCharacterCount << endl;
+	cout << "소환시 2업 확률(%): " << extraLevelUpSummon << endl;
+	cout << "합성시 2업 확률(%): " << extraLevelUpCombinate << endl;
+	//cout << "아이템 2업 확률(X): " << extraGradeUpChance << endl;
+	cout << "게임 시작시 코인: " << startCoin << endl;
+	cout << "스테이지 보상 코인: " << stageClearCoin << endl;
+	cout << "스테이지 보상 코인 증가량: " << clearCoinIncrease << endl;
+	cout << "스테이지 보상 코인 증가 간격(턴): " << clearCoinIncreaseTerm << endl;
+	cout << "보스 스테이지 보너스 코인: " << bossStageClearBonus << endl;
+	cout << "캐릭터 뽑기 가격: " << characterCost << endl;
+	cout << "부대 확장 초기 가격: " << expansionCost << endl;
+	cout << "1티어 아이템 가격: " << itemCost << endl;
+	cout << "공격시 마나 획득: " << manaPerAttack << endl;
+	cout << "피격시 마나 획득: " << manaPerDamage << endl;
+	cout << "아이템 드랍 확률(%): " << itemDropProbability << endl;
+	cout << "레벨당 필요 경험치량: " << accountExpLimit << endl;
+	cout << "캐릭터 강화 시 체력 상승률: " << hpIncreaseRate << endl;
+	cout << "캐릭터 강화 시 공격 상승률: " << adIncreaseRate << endl;
+	cout << "캐릭터 강화 시 주문 상승률: " << apIncreaseRate << endl;
+	cout << "캐릭터 강화 시 공속 상승치: " << asIncrease << endl;
+
 	cout << "--- 개발용 치트 키 현황 ---" << endl;
 	cout << "ESC - 타이틀 씬으로" << endl;
 	cout << "숫자1 - 돈 +100" << endl;
@@ -219,6 +230,13 @@ void GameManager::PrintDevKey()
 	cout << "I - 적 모두 칼 1성 주기" << endl;
 	cout << "O - 적 모두 스태프 1성 주기" << endl;
 	cout << "P - 적 모두 활 1성 주기" << endl;
+
+	cout << "계정 레벨: " << accountInfo.level << endl;
+	cout << "계정 expr: " << accountInfo.exp << endl;
+	cout << "마나 제단 point: " << altarData.mana << endl;
+	cout << "은화 제단 point: " << altarData.silver << endl;
+	cout << "신체 제단 point: " << altarData.physical << endl;
+	cout << "강화 제단 point: " << altarData.enforce << endl;
 }
 
 Vector2i GameManager::PosToIdx(Vector2f pos)
@@ -304,7 +322,7 @@ void GameManager::CreatedBackGround()
 			}
 		}
 	}
-	
+
 }
 
 Character* GameManager::SpawnMonster(string name, int grade)
@@ -381,8 +399,8 @@ Item* GameManager::SpawnItem(int tier, int typeIdx)
 	Item* item = nullptr;
 	// 0 ~ 4, 1/5 armor, bow, staff, sword, book
 	ItemType type = typeIdx == -1 ?
-		(ItemType) (Utils::RandomRange(0, ITEM_COUNT)) :
-		(ItemType) (typeIdx);
+		(ItemType)(Utils::RandomRange(0, ITEM_COUNT)) :
+		(ItemType)(typeIdx);
 
 	switch (type)
 	{
@@ -440,6 +458,18 @@ void GameManager::RemoveFromMainGrid(GameObj* gameObj)
 	}
 }
 
+int GameManager::GetClearCoin()
+{
+	int clearCoin = stageClearCoin + altarData.startCoin +
+		(curStageIdx / clearCoinIncreaseTerm) * clearCoinIncrease;
+	// boss stage
+	if (curStageIdx == STAGE_MAX_COUNT - 1)
+		clearCoin += bossStageClearBonus;
+
+	cout << curStageIdx << "클리어! " << clearCoin << "획득" << endl;
+	return clearCoin;
+}
+
 float GameManager::GetItemStatMapElem(StatType statType, int grade)
 {
 	if (statType == StatType::None)
@@ -450,8 +480,8 @@ float GameManager::GetItemStatMapElem(StatType statType, int grade)
 const WaveReward& GameManager::GetWaveRewardMapElem()
 {
 	string key =
-		(curChapIdx > 10 ? "0" : "") + to_string(curChapIdx) +
-		(curStageIdx > 10 ? "0" : "") + to_string(curStageIdx);
+		(curChapIdx + 1 > 9 ? "" : "0") + to_string(curChapIdx + 1) +
+		(curStageIdx + 1 > 9 ? "" : "0") + to_string(curStageIdx + 1);
 	return waveRewardMap[key];
 }
 
@@ -465,7 +495,7 @@ Item* GameManager::CombineItem(Item* obj1, Item* obj2)
 	}
 
 	Item* newItem = nullptr;
-	if (obj1->GetGrade() != TIER_MAX - 1 && 
+	if (obj1->GetGrade() != TIER_MAX - 1 &&
 		!obj1->GetName().compare(obj2->GetName()) &&
 		obj1->GetGrade() == obj2->GetGrade())
 	{
@@ -507,6 +537,42 @@ Item* GameManager::DropItem(Character* monster)
 		drops.push_back(drop);
 	}
 	return drop;
+}
+
+void GameManager::LoadAltarEffectFromTable()
+{
+	string altarEffectTablePath = "data/altarEffectTable.csv";
+	rapidcsv::Document doc(altarEffectTablePath, rapidcsv::LabelParams(0, 0));
+
+	vector<string> colNames = doc.GetColumnNames();
+
+	string manaId = altarData.GetManaKey();
+	altarData.SetManaAltarEffect(
+		doc.GetCell<int>(colNames[0], manaId),
+		doc.GetCell<int>(colNames[1], manaId),
+		doc.GetCell<int>(colNames[2], manaId)
+	);
+
+	string silverId = altarData.GetSilverKey();
+	altarData.SetSilverAltarEffect(
+		doc.GetCell<int>(colNames[3], silverId),
+		doc.GetCell<int>(colNames[4], silverId),
+		doc.GetCell<int>(colNames[5], silverId)
+	);
+
+	string physicalId = altarData.GetPhysicalKey();
+	altarData.SetPhysicalAltarEffect(
+		doc.GetCell<int>(colNames[6], physicalId),
+		doc.GetCell<int>(colNames[7], physicalId),
+		doc.GetCell<int>(colNames[8], physicalId)
+	);
+
+	string enforceId = altarData.GetEnforceKey();
+	altarData.SetEnforceAltarEffect(
+		doc.GetCell<int>(colNames[9], enforceId),
+		doc.GetCell<int>(colNames[10], enforceId),
+		doc.GetCell<int>(colNames[11], enforceId)
+	);
 }
 
 // Battle Tracker
@@ -558,7 +624,7 @@ void BattleTracker::UpdateData(Character* character, float damage,
 			}
 			else
 			{
-				(dmgType) ? 
+				(dmgType) ?
 					data.takenAD += damage :
 					data.takenAP += damage;
 			}

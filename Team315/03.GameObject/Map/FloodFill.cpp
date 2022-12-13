@@ -94,7 +94,7 @@ void FloodFill::SetArrSize(int height, int width, bool attackType)
 
 	if (attackType == true)
 	{
-		m_areaArr.resize(Height, vector<bool>(Width, true));
+		m_areaArr.assign(Height, vector<bool>(Width, true));
 		m_count = Height * Width;
 		/*for (int i = 0; i < Height; ++i)
 		{
@@ -112,7 +112,7 @@ void FloodFill::SetArrSize(int height, int width, bool attackType)
 		int end = 0;
 		int center = height;
 		int max = Height;
-		m_areaArr.resize(Height, vector<bool>(Width, false));
+		m_areaArr.assign(Height, vector<bool>(Width, false));
 
 		for (int i = 0; i < Height; ++i)
 		{
@@ -301,6 +301,8 @@ GameObj* FloodFill::GetNearEnemy(vector<GameObj*>& map, Vector2i myPos, string t
 
 void FloodFill::SetAttackAreas(int count)
 {
+	m_arr.clear();
+	Areas.clear();
 	Areas.resize(count);
 
 	for (int i = 0; i < count; ++i)

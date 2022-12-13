@@ -93,6 +93,7 @@ void ItemInfoWindow::SetItem(Item* item)
 		SetSize(200.f, 100.f);
 		wstring temp = STRING_TABLE->Get("book_explain" + to_string(grade + 1));
 		temp[9] = '\n';
+		//temp.insert(it, '\n');
 		additional->SetString(temp);
 	}
 	else

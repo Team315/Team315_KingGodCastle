@@ -47,7 +47,7 @@ BattleScene::BattleScene()
 	ui = new BattleSceneUI(this);
 
 	flags.resize(3);
-	Vector2f flagPos(GAME_SCREEN_WIDTH * 0.5f - 70.f, GAME_SCREEN_HEIGHT + TILE_SIZE_HALF);
+	Vector2f flagPos(GAME_SCREEN_WIDTH * 0.5f - 70.f, GAME_SCREEN_HEIGHT + TILE_SIZE);
 	for (auto& flag : flags)
 	{
 		flag = new SpriteObj();
@@ -103,6 +103,8 @@ void BattleScene::Enter()
 	SOUND_MGR->Play("sounds/Battle.wav", 20.f, true);
 	stageResult = false;
 	stageEnd = false;
+
+	ui->GetPanel()->SetExpansionStateText(0, GAME_MGR->GetCharacterCount());
 }
 
 void BattleScene::Exit()
@@ -348,6 +350,23 @@ void BattleScene::Update(float dt)
 			cout << endl;
 		}
 
+		if (InputMgr::GetKeyDown(Keyboard::Key::T))
+		{
+			for (auto& gameObj : mgref)
+			{
+				if (gameObj == nullptr)
+					continue;
+
+				if (!gameObj->GetType().compare("Monster"))
+				{
+					/*dynamic_cast<Character*>(gameObj)->TakeBuff(StatType::AD, 20);
+					dynamic_cast<Character*>(gameObj)->TakeBuff(StatType::AP, 20);
+					dynamic_cast<Character*>(gameObj)->TakeBuff(StatType::AS, 20);*/
+					dynamic_cast<Character*>(gameObj)->TakeBuff(StatType::AR, 1);
+				}
+			}
+		}
+
 		if (InputMgr::GetKeyDown(Keyboard::Key::Y))
 		{
 			for (auto& gameObj : mgref)
@@ -356,7 +375,9 @@ void BattleScene::Update(float dt)
 					continue;
 
 				if (!gameObj->GetType().compare("Monster"))
+				{
 					dynamic_cast<Character*>(gameObj)->UpgradeStar(false, false);
+				}
 			}
 		}
 
@@ -546,6 +567,19 @@ void BattleScene::Update(float dt)
 					newPick->SetPos(prepareGridRect[idx]->GetPos());
 					newPick->Init();
 					prepareGrid[idx] = newPick;
+
+					newPick->TakeBuff(StatType::AD, GAME_MGR->altarData.passiveADUp);
+					newPick->TakeBuff(StatType::AP, GAME_MGR->altarData.passiveAPUp);
+					newPick->TakeBuff(StatType::AS, GAME_MGR->altarData.passiveASUp);
+
+					int extraBookChance = GAME_MGR->altarData.summonBookPercent;
+					bool summonBook = Utils::RandomRange(0, 100) < extraBookChance;
+
+					if (summonBook)
+					{
+						cout << "extra book!" << endl;
+						GAME_MGR->waitQueue.push(GAME_MGR->SpawnItem(0, 4));
+					}
 					break;
 				}
 				// Expansion
@@ -559,6 +593,8 @@ void BattleScene::Update(float dt)
 						TranslateCoinState(-cost);
 						GAME_MGR->TranslateExpansionCount(1);
 						ui->GetPanel()->SetExpansionCostText(GAME_MGR->GetCurrentExpansionCost());
+						ui->GetPanel()->SetExpansionStateText(
+							GetCurCharacterCount(), GAME_MGR->GetCharacterCount());
 						break;
 					}
 					else
@@ -809,13 +845,13 @@ void BattleScene::Update(float dt)
 			if (stageResult)
 			{
 				WaveReward wr = GAME_MGR->GetWaveRewardMapElem();
-				cout << wr.exp << wr.forge << wr.power << endl;
+				cout << "wave reward: " << wr.exp << wr.forge << wr.power << endl;
 				if (wr.forge)
 					cout << "reward is forge" << endl;
 				else if (wr.power)
 					cout << "reward is power" << endl;
 				GAME_MGR->cumulativeExp += wr.exp;
-				cout << "현재 누적 경험치: " << wr.exp << endl;
+				cout << "현재 누적 경험치: " << GAME_MGR->cumulativeExp << endl;
 
 				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
 					GAME_MGR->curStageIdx++;
@@ -857,6 +893,7 @@ void BattleScene::Update(float dt)
 		{
 			ui->SetStageEndWindow(true, stageResult);
 			TranslateCoinState(GAME_MGR->GetClearCoin());
+			ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 		}
 	}
 
@@ -1030,6 +1067,9 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 		(*start)[startIdx] = temp;
 	}
 	pick->SetPos(GAME_MGR->IdxToPos(canMove ? destCoord : startCoord));
+
+	ui->GetPanel()->SetExpansionStateText(
+		GetCurCharacterCount(), GAME_MGR->GetCharacterCount());
 }
 
 void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)
@@ -1074,7 +1114,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 				Item* pickItem = dynamic_cast<Item*>(pick);
 				if (pickItem->GetItemType() == ItemType::Book)
 				{
-					if (pickItem->GetGrade() == (destCharacter->GetStarNumber() - 1) / 2)
+					if (pickItem->GetGrade() >= (destCharacter->GetStarNumber() - 1) / 2)
 					{
 						destCharacter->UpgradeStar(false, false);
 						(*start)[startIdx] = nullptr;
@@ -1110,6 +1150,20 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 	}
 	if (!combine)
 		pick->SetPos(GAME_MGR->IdxToPos(canMove ? destCoord : startCoord));
+}
+
+int BattleScene::GetCurCharacterCount()
+{
+	int count = 0;
+
+	for (auto& gameObj : battleGrid)
+	{
+		if (gameObj == nullptr)
+			continue;
+
+		count++;
+	}
+	return count;
 }
 
 void BattleScene::SetCurrentStage(int chap, int stage)

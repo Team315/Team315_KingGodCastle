@@ -168,7 +168,9 @@ void Character::Update(float dt)
 
 					if (!noSkill)
 					{
-						stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
+						float gain = (!type.compare("Player")) ?
+							GAME_MGR->GetManaPerAttack() : GAME_MGR->manaPerAttack;
+						stat[StatType::MP].TranslateCurrent(gain);
 						mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
 					}
 
@@ -319,6 +321,7 @@ void Character::SetStatsInit(json data)
 
 	stat[StatType::AS].SetUpgradeMode(true);
 	stat[StatType::AD].SetDeltaMode(true);
+	stat[StatType::AR].SetDeltaMode(true);
 	if (stat[StatType::MP].GetBase() > 0.f)
 		noSkill = false;
 
@@ -364,7 +367,9 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 
 	if (!noSkill)
 	{
-		stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
+		float gain = (!type.compare("Player")) ?
+			GAME_MGR->GetManaPerDamage() : GAME_MGR->manaPerDamage;
+		stat[StatType::MP].TranslateCurrent(gain);
 		mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
 	}
 
@@ -372,6 +377,13 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	{
 		// death
 		isAlive = false;
+		if (!attackerCharacter->GetNoSkill() && !attackerCharacter->GetType().compare("Player"))
+		{
+			Stat attackerMp = attackerCharacter->GetStat(StatType::MP);
+			float killReward = attackerMp.GetBase() * (0.01f * GAME_MGR->altarData.gainManaWhenKill);
+			attackerMp.TranslateCurrent(killReward);
+			attackerCharacter->GetMpBar()->SetProgressValue(stat[StatType::MP].GetCurRatio());
+		}
 		Item* drop = GAME_MGR->DropItem(this);
 		GAME_MGR->RemoveFromMainGrid(this);
 	}
@@ -389,6 +401,51 @@ void Character::TakeCare(GameObj* caster, bool careType)
 		shieldAmount += careAmount;
 
 	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+}
+
+void Character::TakeBuff(StatType sType, float potential, bool mode, Character* caster)
+{
+	float tempPtt = 0.f;
+	switch (sType)
+	{
+	case StatType::AD:
+		if (mode)
+			stat[StatType::AD].AddDelta(potential);
+		else
+			stat[StatType::AD].AddDelta(-potential);
+		break;
+	case StatType::AP:
+		tempPtt = potential * 0.01f;
+		if (mode)
+			stat[StatType::AP].AddDelta(tempPtt);
+		else
+			stat[StatType::AP].AddDelta(-tempPtt);
+		break;
+	case StatType::AS:
+		tempPtt = potential * 0.01f;
+		if (mode)
+			stat[StatType::AS].AddDelta(tempPtt);
+		else
+			stat[StatType::AS].AddDelta(-tempPtt);
+		break;
+	case StatType::AR:
+		if (mode)
+			stat[StatType::AR].AddDelta(potential);
+		else
+			stat[StatType::AR].AddDelta(-potential);
+
+		m_floodFill.SetArrSize(
+			stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
+		break;
+	case StatType::MS:
+		if (mode)
+			stat[StatType::MS].AddDelta(potential);
+		else
+			stat[StatType::MS].AddDelta(-potential);
+		break;
+	default:
+		break;
+	}
 }
 
 void Character::UpgradeStar(bool mode, bool useExtraUpgrade)

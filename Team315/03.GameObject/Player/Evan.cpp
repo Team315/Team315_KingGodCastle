@@ -2,7 +2,7 @@
 #include "Skill/EvanSkill.h"
 
 Evan::Evan(bool mode, bool useExtraUpgrade, int skillTier)
-	: Character(mode, useExtraUpgrade, skillTier), skillSpeed(1500.f)
+	: Character(mode, useExtraUpgrade, skillTier), skillSpeed(800.f)
 {
 	SetType("Player");
 	SetName("Evan");
@@ -37,8 +37,8 @@ Evan::Evan(bool mode, bool useExtraUpgrade, int skillTier)
 	resStringTypes.insert({ ResStringType::RightSkillEfect,"Evan_RightSkill_Effect" });
 	resStringTypes.insert({ ResStringType::UpSkillEfect,"Evan_UpSkill_Effect" });
 
-	attackPos.insert({ Dir::Right, { 21.f, 15.f } });
-	attackPos.insert({ Dir::Left, { -10.f, 0.f } });
+	attackPos.insert({ Dir::Right, { 10.f, 5.f } });
+	attackPos.insert({ Dir::Left, { -10.f, 5.f } });
 	attackPos.insert({ Dir::Down, { -11.f, 12.f } });
 	attackPos.insert({ Dir::Up, { -10.f, 0.f } });
 
@@ -63,7 +63,7 @@ void Evan::Init()
 void Evan::Update(float dt)
 {
 	Character::Update(dt);
-	//skill->Translate(lastDirection * skillSpeed * dt);
+	skill->Translate(lastDirection * skillSpeed * dt);
 	//
 	//if (InputMgr::GetKeyDown(Keyboard::Z))
 	//{
@@ -100,7 +100,7 @@ void Evan::Update(float dt)
 void Evan::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
-	//skill->Draw(window);
+	skill->Draw(window);
 }
 
 void Evan::SetPos(const Vector2f& pos)

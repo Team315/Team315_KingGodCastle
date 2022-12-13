@@ -37,10 +37,10 @@ Shelda::Shelda(bool mode, bool useExtraUpgrade, int skillTier)
 	resStringTypes.insert({ ResStringType::RightSkillEfect,"Shelda_Skill_Effect" });
 	resStringTypes.insert({ ResStringType::UpSkillEfect,"Shelda_Skill_Effect" });
 
-	attackPos.insert({ Dir::Right, { 21.f, 15.f } });
-	attackPos.insert({ Dir::Left, {-21.f, 15.f} });
+	attackPos.insert({ Dir::Right, { 10.f, 5.f } });
+	attackPos.insert({ Dir::Left, { -10.f, 5.f} });
 	attackPos.insert({ Dir::Down, {-11.f,12.f} });
-	attackPos.insert({ Dir::Up, {5.f,0.f} });
+	attackPos.insert({ Dir::Up, { -10.f,0.f} });
 
 	resStringTypes.insert({ ResStringType::atkSound, "sounds/Shelda_atk.wav" });
 }

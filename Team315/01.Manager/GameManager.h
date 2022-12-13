@@ -47,6 +47,10 @@ protected:
 	int startCoin;
 	int currentCoin;
 	int stageClearCoin;
+	int clearCoinIncrease;
+	int clearCoinIncreaseTerm;
+	int bossStageClearBonus;
+
 	int expansionCost;
 	int expansionCount;
 	int itemDropProbability;
@@ -61,12 +65,12 @@ public:
 	void GMReset();
 	void GameEnd();
 	void SaveAltarData(int mana, int silver, int physical, int enforce);
-	void PrintDevKey();
+	void PrintDevInfo();
 
 	const int GetCharacterCount() { return battleCharacterCount; }
 	void SetCharacterCount(int newCharacterCount) { battleCharacterCount = newCharacterCount; }
-	const int GetExtraLevelUpSummon() { return extraLevelUpSummon; }
-	const int GetExtraLevelUpCombinate() { return extraLevelUpCombinate; }
+	const int GetExtraLevelUpSummon() { return extraLevelUpSummon + altarData.twiceUpWhenSummon; }
+	const int GetExtraLevelUpCombinate() { return extraLevelUpCombinate + altarData.twiceUpWhenCombine; }
 	//const int GetExtraGradeUpChance() { return extraGradeUpChance; }
 
 	Vector2i PosToIdx(Vector2f pos);
@@ -102,7 +106,7 @@ public:
 	void RemoveFromMainGrid(GameObj* gameObj);
 
 	int GetCurrentCoin() { return currentCoin; }
-	int GetClearCoin() { return stageClearCoin; }
+	int GetClearCoin();
 	void TranslateCoin(int coin) { currentCoin += coin; }
 	int GetCurrentExpansionCost() { return expansionCost * pow(2, expansionCount); }
 	void TranslateExpansionCount(int val) { expansionCount += val; }
@@ -117,8 +121,6 @@ public:
 	float adIncreaseRate;
 	float apIncreaseRate;
 	float asIncrease;
-	float manaPerAttack;
-	float manaPerHit;
 
 	int accountExpLimit;
 	int cumulativeExp;
@@ -130,11 +132,25 @@ public:
 	AltarData altarData;
 	AccountInfo accountInfo;
 
+	float manaPerAttack;
+	float manaPerDamage;
+
+	float GetManaPerAttack()
+	{
+		return manaPerAttack * (1.f + (0.01f * altarData.gainManaWhenAttack));
+	}
+
+	float GetManaPerDamage()
+	{
+		return manaPerDamage * (1.f + (0.01f * altarData.gainManaWhenDamage));
+	}
+
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
 	const WaveReward& GetWaveRewardMapElem();
 	Item* CombineItem(Item* obj1, Item* obj2);
 	Item* DropItem(Character* monster);
+	void LoadAltarEffectFromTable();
 };
 
 #define GAME_MGR (GameManager::GetInstance())

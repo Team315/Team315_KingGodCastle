@@ -2,6 +2,22 @@
 
 struct AltarData
 {
+	float gainManaWhenAttack;
+	float gainManaWhenDamage;
+	float gainManaWhenKill;
+
+	int startCoin;
+	int clearCoin;
+	int rerollCount;
+
+	int passiveADUp;
+	float passiveAPUp;
+	float passiveASUp;
+
+	int twiceUpWhenSummon;
+	int twiceUpWhenCombine;
+	int summonBookPercent;
+
 	int mana;
 	int silver;
 	int physical;
@@ -15,6 +31,62 @@ struct AltarData
 		this->silver = silver;
 		this->physical = physical;
 		this->enforce = enforce;
+	}
+
+	string GetManaKey()
+	{
+		string key = "mana_";
+		key += (mana > 9 ? "" : "0");
+		return key + to_string(mana);
+	}
+
+	string GetSilverKey()
+	{
+		string key = "silver_";
+		key += (silver > 9 ? "" : "0");
+		return key + to_string(silver);
+	}
+
+	string GetPhysicalKey()
+	{
+		string key = "physical_";
+		key += (physical > 9 ? "" : "0");
+		return key + to_string(physical);
+	}
+
+	string GetEnforceKey()
+	{
+		string key = "enforce_";
+		key += (enforce > 9 ? "" : "0");
+		return key + to_string(enforce);
+	}
+
+	void SetManaAltarEffect(int gmwa, int gmwd, int gmwk)
+	{
+		gainManaWhenAttack = gmwa;
+		gainManaWhenDamage = gmwd;
+		gainManaWhenKill = gmwk;
+	}
+
+	void SetSilverAltarEffect(int sc, int cc, int rc)
+	{
+		startCoin = sc;
+		clearCoin = cc;
+		rerollCount = rc;
+	}
+
+	void SetPhysicalAltarEffect(int ad, float ap, float as)
+	{
+		passiveADUp = ad;
+		passiveAPUp = ap;
+		passiveASUp = as;
+	}
+
+	void SetEnforceAltarEffect(int tuws, float tuwc, float sbp)
+	{
+		twiceUpWhenSummon = tuws;
+		twiceUpWhenCombine = tuwc;
+		summonBookPercent = sbp;
 	}
 };
 
@@ -38,6 +110,8 @@ struct AccountInfo
 	void UpdateLevel(int expLimit)
 	{
 		level += (exp / expLimit);
+		if (level >= 10)
+			level = 10;
 		exp %= expLimit;
 	}
 };

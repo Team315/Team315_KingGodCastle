@@ -73,7 +73,7 @@ BattlePanel::BattlePanel()
 	coinState->SetFillColor(Color(0x1B, 0x1B, 0x1B, 180.f));
 	coinState->SetTextLocalPos(Vector2f(25.f, 4.f));
 	coinState->SetOutline(Color::Black, 1.f);
-	coinLocalPos = Vector2f((GAME_SCREEN_WIDTH - coinState->GetSize().x) * 0.5f, 150.f);
+	coinLocalPos = Vector2f((GAME_SCREEN_WIDTH - coinState->GetSize().x) * 0.1f, 150.f);
 
 	characterCostSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Item_Coin0.png")); ;
 	characterCostText = new BackrectText();
@@ -81,8 +81,6 @@ BattlePanel::BattlePanel()
 	characterCostText->SetString(to_string(GAME_MGR->characterCost));
 	characterCostText->SetTextStyle(Color::White, 15, Color::Black, 1.f);
 	characterCostText->SetTextLocalPos(Vector2f(20.f, 2.f));
-	//characterCostText->SetFillColor(Color(0x1B, 0x1B, 0x1B, 180.f));
-	//characterCostText->SetOutline(Color::Black, 1.f);
 
 	expansionCostSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Item_Coin0.png")); ;
 	expansionCostText = new BackrectText();
@@ -90,8 +88,17 @@ BattlePanel::BattlePanel()
 	expansionCostText->SetString(to_string(GAME_MGR->GetCurrentExpansionCost()));
 	expansionCostText->SetTextStyle(Color::White, 15, Color::Black, 1.f);
 	expansionCostText->SetTextLocalPos(Vector2f(20.f, 2.f));
-	//expansionCostText->SetFillColor(Color(0x1B, 0x1B, 0x1B, 180.f));
-	//expansionCostText->SetOutline(Color::Black, 1.f);
+
+	expansionObjectSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/ExpansionObject.png"));
+	expansionObjectSprite.setScale(0.6f, 0.6f);
+
+	expansionText = new BackrectText(70.f, 30.f);
+	expansionText->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	expansionText->SetString(to_string(GAME_MGR->GetCurrentCoin()));
+	expansionText->SetTextStyle(Color::White, 20, Color::Black, 2.f);
+	expansionText->SetFillColor(Color(0x1B, 0x1B, 0x1B, 180.f));
+	expansionText->SetTextLocalPos(Vector2f(25.f, 4.f));
+	expansionText->SetOutline(Color::Black, 1.f);
 
 	buttons.push_back(summon);
 	buttons.push_back(begin);
@@ -122,6 +129,9 @@ void BattlePanel::Draw(RenderWindow& window)
 	window.draw(coinSprite);
 	window.draw(characterCostSprite);
 	window.draw(expansionCostSprite);
+
+	expansionText->Draw(window);
+	window.draw(expansionObjectSprite);
 }
 
 void BattlePanel::SetPos(const Vector2f& pos)
@@ -148,6 +158,9 @@ void BattlePanel::SetPos(const Vector2f& pos)
 	expansionCostText->SetPos(position + expansionLocalPos + Vector2f(30.f, 65.f));
 	expansionCostSprite.setPosition(
 		position + expansionLocalPos + Vector2f(30.f, 70.f));
+
+	expansionObjectSprite.setPosition(position + Vector2f(400.f, 150.f));
+	expansionText->SetPos(position + Vector2f(400.f, 150.f));
 }
 
 void BattlePanel::ChangeTitleTextString(int chapIdx)
@@ -171,4 +184,10 @@ void BattlePanel::SetCurrentCoin(int num)
 void BattlePanel::SetExpansionCostText(int num)
 {
 	expansionCostText->SetString(to_string(num));
+}
+
+void BattlePanel::SetExpansionStateText(int num, int limit)
+{
+	string str = to_string(num) + "/" + to_string(limit);
+	expansionText->SetString(str);
 }
