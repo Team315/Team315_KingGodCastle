@@ -893,6 +893,7 @@ void BattleScene::Update(float dt)
 		{
 			ui->SetStageEndWindow(true, stageResult);
 			TranslateCoinState(GAME_MGR->GetClearCoin());
+			ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 		}
 	}
 

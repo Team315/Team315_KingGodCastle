@@ -47,6 +47,10 @@ protected:
 	int startCoin;
 	int currentCoin;
 	int stageClearCoin;
+	int clearCoinIncrease;
+	int clearCoinIncreaseTerm;
+	int bossStageClearBonus;
+
 	int expansionCost;
 	int expansionCount;
 	int itemDropProbability;
@@ -102,7 +106,7 @@ public:
 	void RemoveFromMainGrid(GameObj* gameObj);
 
 	int GetCurrentCoin() { return currentCoin; }
-	int GetClearCoin() { return stageClearCoin + altarData.startCoin; }
+	int GetClearCoin();
 	void TranslateCoin(int coin) { currentCoin += coin; }
 	int GetCurrentExpansionCost() { return expansionCost * pow(2, expansionCount); }
 	void TranslateExpansionCount(int val) { expansionCount += val; }
