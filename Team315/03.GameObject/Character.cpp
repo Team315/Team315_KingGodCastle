@@ -107,6 +107,7 @@ void Character::Reset()
 		mpBar->SetProgressValue(0.f);
 	}
 	SetState(AnimStates::Idle);
+	sprite.setColor(Color::White);
 }
 
 void Character::Update(float dt)
@@ -662,7 +663,7 @@ bool Character::SetTargetDistance()
 		}
 	}
 
-	if (enemyInfo.leng == -1)
+	if (enemyInfo.leng == 99999)
 	{
 		return false;
 	}
