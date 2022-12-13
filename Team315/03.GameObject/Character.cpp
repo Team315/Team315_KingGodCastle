@@ -659,10 +659,10 @@ bool Character::SetTargetDistance()
 		if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
 		{
 			enemyInfo = nowEnemyInfo;
-		}
+		} 
 	}
 
-	if (enemyInfo.leng == -1)
+	if (enemyInfo.leng == 99999)
 	{
 		return false;
 	}
