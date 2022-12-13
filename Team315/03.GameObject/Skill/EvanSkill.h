@@ -8,6 +8,7 @@ class EvanSkill : public Skill
 {
 protected:
 	vector<Sprite*> evanSkill;
+	float skillSpeed;
 public:
 	EvanSkill(int skillTier);
 	virtual ~EvanSkill();

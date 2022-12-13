@@ -117,7 +117,15 @@ void Character::Update(float dt)
 
 	if (isBattle)
 	{
-
+		if(hit)
+		{
+			hitDelta -= dt;
+			if (hitDelta <= 0.f)
+			{
+				sprite.setColor(Color::White);
+				hit = false;
+			}
+		}
 		if (ccTimer > 0.f)
 		{
 			ccTimer -= dt;
@@ -328,6 +336,11 @@ void Character::SetStatsInit(json data)
 
 void Character::TakeDamage(GameObj* attacker, bool attackType)
 {
+	//공격받을때 이펙트
+	sprite.setColor({ 255,0,0,120 });
+	hit = true;
+	hitDelta = 0.2f;
+
 	Stat& hp = stat[StatType::HP];
 	float damage = 0.f;
 	Character* attackerCharacter = dynamic_cast<Character*>(attacker);
@@ -726,7 +739,7 @@ void Character::AnimationInit()
 			ev.onEvent = bind(&Character::OnCompleteAttack, this);
 			effectAnimator.AddEvent(ev);
 		}
-		if(name.compare("Arveron") || name.compare("Daniel"))
+		if(name.compare("Arveron") || name.compare("Daniel") || name.compare("Shelda"))
 		{
 			effectAnimator.AddClip(
 				*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpSkillEffect]));
@@ -812,7 +825,6 @@ void Character::AnimationInit()
 void Character::IdleAnimation()
 {
 	animator.Play(resStringTypes[ResStringType::Idle]);
-	attack = false;
 }
 
 void Character::MoveToIdleAnimation()
@@ -825,7 +837,6 @@ void Character::MoveToIdleAnimation()
 	{
 		animator.Play((lastDirection.x > 0.f) ? resStringTypes[ResStringType::RightIdle] : resStringTypes[ResStringType::LeftIdle]);
 	}
-	attack = false;
 }
 
 void Character::MoveAnimation()
@@ -838,7 +849,6 @@ void Character::MoveAnimation()
 	{
 		animator.Play((direction.x > 0.f) ? resStringTypes[ResStringType::RightMove] : resStringTypes[ResStringType::LeftMove]);
 	}
-	attack = false;
 }
 
 void Character::AttackAnimation(Vector2f attackPos)
@@ -929,17 +939,14 @@ void Character::AttackAnimation(Vector2f attackPos)
 	}
 	direction = temp;
 
-	attack = true;
-	move = false;
 }
 
 void Character::SkillAnimation(Vector2f skillPos)
 {
-	attack = false;
 	if (lastDirection.y)
 	{
 		animator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkill] : resStringTypes[ResStringType::UpSkill]);
-		if(name.compare("Arveron") || name.compare("Daniel"))
+		if(name.compare("Arveron") || name.compare("Daniel") || name.compare("Shelda"))
 		{
 			effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
 			effectSprite.setPosition(position + skillPos);
@@ -960,7 +967,7 @@ void Character::SkillAnimation(Vector2f skillPos)
 	else if (lastDirection.x)
 	{
 		animator.Play(lastDirection.x > 0.f ? resStringTypes[ResStringType::RightSkill] : resStringTypes[ResStringType::LeftSkill]);
-		if (name.compare("Arveron") || name.compare("Daniel"))
+		if (name.compare("Arveron") || name.compare("Daniel") || name.compare("Shelda"))
 		{
 			effectAnimator.Play(lastDirection.x > 0.f ? resStringTypes[ResStringType::RightSkillEffect] : resStringTypes[ResStringType::LeftSkillEffect]);
 			effectSprite.setPosition(position + skillPos);
@@ -970,7 +977,6 @@ void Character::SkillAnimation(Vector2f skillPos)
 	{
 		animator.Play(resStringTypes[ResStringType::DownSkill]);
 	}
-	move = false;
 }
 
 void Character::OnCompleteAttack()
@@ -1024,13 +1030,13 @@ void Character::UpdateMove(float dt)
 	}
 	if (!Utils::EqualFloat(direction.y, lastDirection.y))
 	{
-		move = true;
 		animator.Play((direction.y > 0.f) ? resStringTypes[ResStringType::DownMove] : resStringTypes[ResStringType::UpMove]);
+		move = false;
 	}
 	else if (!Utils::EqualFloat(direction.x, lastDirection.x))
 	{
-		move = true;
 		animator.Play((direction.x > 0.f) ? resStringTypes[ResStringType::RightMove] : resStringTypes[ResStringType::LeftMove]);
+		move = false;
 	}
 	if (move)
 		return;
@@ -1047,7 +1053,6 @@ void Character::UpdateAttack(float dt)
 
 void Character::UpdateSkill(float dt)
 {
-	attack = false;
 	if (!name.compare("Slime00"))
 	{
 		if (!Utils::EqualFloat(direction.y, 0.f) && !Utils::EqualFloat(direction.x, 0.f))
@@ -1065,29 +1070,7 @@ void Character::UpdateSkill(float dt)
 }
 
 void Character::SetDir(Vector2f direction)
-{/*
-	float angle = Utils::Angle(direction, { 1, 0 }) * 2.f;
-
-	if (!name.compare("Evan"))
-		cout << angle << endl;
-
-	if (angle >= 45.f && angle < 135.f)
-	{
-		dirType = Dir::Up;
-	}
-	else if (angle >= 135.f && angle < 225.f)
-	{
-		dirType = Dir::Right;
-	}
-	else if (angle >= 225.f && angle < 315.f)
-	{
-		dirType = Dir::Down;
-	}
-	else
-	{
-		dirType = Dir::Left;
-	}*/
-
+{
 	if (abs(direction.x) < abs(direction.y)|| abs(direction.x) == abs(direction.y))
 	{
 		if (direction.y > 0.f)
@@ -1109,21 +1092,14 @@ void Character::SetDir(Vector2f direction)
 		{
 			dirType = Dir::Left;
 		}
-	}/*
-	if (direction.y > 0.f)
-	{
-		dirType = Dir::Down;
 	}
-	else if (direction.y < 0.f)
-	{
-		dirType = Dir::Up;
-	}
-	else if (direction.x > 0.f)
-	{
-		dirType = Dir::Right;
-	}
-	else if (direction.x < 0.f)
-	{
-		dirType = Dir::Left;
-	}*/
+
+	//if (dirType == Dir::Down)
+	//	direction = { 0,1 };
+	//else if (dirType == Dir::Up)
+	//	direction = { 0,-1 };
+	//else if (dirType == Dir::Left)
+	//	direction = { -1,0 };
+	//else if (dirType == Dir::Right)
+	//	direction = { 1,0 };
 }

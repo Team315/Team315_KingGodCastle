@@ -1,0 +1,15 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+LevelUp_Effect,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Effect/player/player_levelupEffect.png,0,0,110,110,55,110,0,0
+graphics/Effect/player/player_levelupEffect.png,110,0,110,110,55,110,0,0
+graphics/Effect/player/player_levelupEffect.png,220,0,110,110,55,110,0,0
+graphics/Effect/player/player_levelupEffect.png,330,0,110,110,55,110,0,0
+graphics/Effect/player/player_levelupEffect.png,440,0,110,110,55,110,0,0
+graphics/Effect/player/player_levelupEffect.png,550,0,110,110,55,110,0,0
+graphics/Effect/player/player_levelupEffect.png,0,110,110,110,55,110,0,0
+graphics/Effect/player/player_levelupEffect.png,110,110,110,110,55,110,0,0
+graphics/Effect/player/player_levelupEffect.png,220,110,110,110,55,110,0,0
+graphics/Effect/player/player_levelupEffect.png,330,110,110,110,55,110,0,0
+graphics/Effect/player/player_levelupEffect.png,440,110,110,110,55,110,0,0
+graphics/Effect/player/player_levelupEffect.png,550,110,110,110,55,110,0,0

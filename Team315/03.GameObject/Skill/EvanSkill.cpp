@@ -2,7 +2,7 @@
 #include "Character.h"
 
 EvanSkill::EvanSkill(int skillTier)
-	: Skill(skillTier)
+	: Skill(skillTier), skillSpeed(1500.f)
 {
 	baseDamage = { 20, 35, 50, 65 };
 	range.resize(TIER_MAX);
@@ -133,25 +133,21 @@ void EvanSkill::SetDir(Vector2f direction)
 	if (direction.y < 0.f)
 	{
 		dir = Dir::Up;
-		direction.x = 0.f;
 		sprite.setRotation(90.f);
 	}
 	else if (direction.y > 0.f)
 	{
 		dir = Dir::Down;
-		direction.x = 0.f;
 		sprite.setRotation(270.f);
 	}
 	else if (direction.x > 0.f)
 	{
 		dir = Dir::Right;
-		direction.y = 0.f;
 		sprite.setRotation(180.f);
 	}
 	else if (direction.x < 0.f)
 	{
 		dir = Dir::Left;
-		direction.y = 0.f;
 		sprite.setRotation(0.f);
 	}
 }

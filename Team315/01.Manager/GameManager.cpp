@@ -19,7 +19,7 @@ void RangePreviewOnCreate(RangePreview* rangePreview)
 
 GameManager::GameManager()
 	: m_PlayTileList(nullptr), playingBattle(false),
-	battleCharacterCount(8), extraLevelUpSummon(20),
+	battleCharacterCount(3), extraLevelUpSummon(20),
 	extraLevelUpCombinate(100),
 	extraGradeUpChance(20), startCoin(50),
 	characterCost(3), itemCost(5), stageClearCoin(6),
@@ -285,8 +285,8 @@ Character* GameManager::SpawnMonster(string name, int grade)
 Character* GameManager::SpawnPlayer(string name, bool random)
 {
 	Character* character = nullptr;
-	//int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
-	int num = 2;
+	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
+	//int num = 3;
 
 	if (!name.compare("Aramis") || num == 0)
 		character = new Aramis(false, true);
