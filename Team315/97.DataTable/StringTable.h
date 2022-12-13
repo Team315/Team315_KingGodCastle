@@ -10,16 +10,14 @@ using namespace std;
 enum class Languages
 {
 	KOR,
-	ENG,
+	//ENG,
 	COUNT,
 };
 
 class StringTable : public DataTable
 {
 private:
-	//map<Languages, map<string, string>*> tables;
-
-	map<string, wstring> table;	// 
+	map<string, wstring> table;
 	static Languages currentLang;
 
 public:
@@ -31,7 +29,6 @@ public:
 	void SetLanguage(Languages lang);
 
 	const wstring& Get(const string& id);
-	//const string& Get(Languages lang, const string& id);
 
 	virtual void Release();
 	virtual bool Load();

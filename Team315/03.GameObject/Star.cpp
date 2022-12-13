@@ -29,22 +29,18 @@ bool Star::CalculateRandomChance(bool mode, bool useExtraUpgrade)
 	if (!useExtraUpgrade)
 		return false;
 
-	float probabilty = 0.f;
+	float percent = 0.f;
 	if (mode)
-		probabilty = GAME_MGR->GetExtraLevelUpCombinate();
+		percent = GAME_MGR->GetExtraLevelUpCombinate();
 	else
-		probabilty = GAME_MGR->GetExtraLevelUpSummon();
+		percent = GAME_MGR->GetExtraLevelUpSummon();
 
 	bool ret = false;
 	if (starNumber < STAR_MAX - 1)
 	{
-		ret = Utils::RandomRange(0, 100) < probabilty ? true : false;
+		ret = Utils::RandomRange(0, 100) < percent;
 		if (starNumber < STAR_MAX)
-		{
 			starNumber = ret ? starNumber + 1 : starNumber;
-			if (ret)
-				cout << "2 upgrade" << endl;
-		}
 	}
 	return ret;
 }

@@ -8,23 +8,12 @@
 #include "DamageText.h"
 #include "RangePreview.h"
 
-struct AltarData
-{
-	// 강화, 신체, 은화, 마나 제단 순
-	AltarData(int enhance = 0, int physical = 0, int wealth = 0, int mana = 0)
-	{
-
-	}
-
-
-};
-
-struct AltarData;
 class BattleTracker;
 class Character;
 class DamageText;
 class GameObj;
 class Item;
+class Skill;
 class Tile;
 class TileBackground;
 
@@ -37,26 +26,30 @@ protected:
 	json backGroundDatas;
 	json characterDatas;
 
-	AltarData altarData;
-
 	// Set monster character locate before battle with data imported from GameManager
 	// When the game starts, the characters on the battleGrid are also taken.
 	vector<GameObj*>* mainGrid;
 
 	unordered_map<StatType, vector<float>> itemStatMap;
+	map<string, WaveReward> waveRewardMap;
 
 	BattleTracker* battleTracker;
+
+	Skill* panelSkill;
 
 	// Additional level up probability when summon (Character)
 	int extraLevelUpSummon;
 	// Additional level up probability when combinate (Character)
 	int extraLevelUpCombinate;
 	// Additional grade up probability (Item)
-	int extraGradeUpChance;
+	// int extraGradeUpChance;
 	int battleCharacterCount;
 	int startCoin;
 	int currentCoin;
 	int stageClearCoin;
+	int expansionCost;
+	int expansionCount;
+	int itemDropProbability;
 
 	bool playingBattle;
 
@@ -64,14 +57,17 @@ public:
 	GameManager();
 	virtual ~GameManager();
 
-	void Init();
-	void Reset();
+	void GMInit();
+	void GMReset();
+	void GameEnd();
+	void SaveAltarData(int mana, int silver, int physical, int enforce);
+	void PrintDevInfo();
 
 	const int GetCharacterCount() { return battleCharacterCount; }
 	void SetCharacterCount(int newCharacterCount) { battleCharacterCount = newCharacterCount; }
-	const int GetExtraLevelUpSummon() { return extraLevelUpSummon; }
-	const int GetExtraLevelUpCombinate() { return extraLevelUpCombinate; }
-	const int GetExtraGradeUpChance() { return extraGradeUpChance; }
+	const int GetExtraLevelUpSummon() { return extraLevelUpSummon + altarData.twiceUpWhenSummon; }
+	const int GetExtraLevelUpCombinate() { return extraLevelUpCombinate + altarData.twiceUpWhenCombine; }
+	//const int GetExtraGradeUpChance() { return extraGradeUpChance; }
 
 	Vector2i PosToIdx(Vector2f pos);
 	Vector2f IdxToPos(Vector2i idx);
@@ -91,7 +87,7 @@ public:
 	Character* SpawnPlayer(string name, bool random);
 	Character* SpawnPlayer(bool random);
 	
-	Item* SpawnItem(int typeIdx = -1);
+	Item* SpawnItem(int tier = 0, int typeIdx = -1);
 
 	void MainGridReset();
 
@@ -106,8 +102,13 @@ public:
 	void RemoveFromMainGrid(GameObj* gameObj);
 
 	int GetCurrentCoin() { return currentCoin; }
-	int GetClearCoin() { return stageClearCoin; }
+	int GetClearCoin() { return stageClearCoin + altarData.startCoin; }
 	void TranslateCoin(int coin) { currentCoin += coin; }
+	int GetCurrentExpansionCost() { return expansionCost * pow(2, expansionCount); }
+	void TranslateExpansionCount(int val) { expansionCount += val; }
+
+	int curChapIdx;
+	int curStageIdx;
 
 	int characterCost;
 	int itemCost;
@@ -116,16 +117,36 @@ public:
 	float adIncreaseRate;
 	float apIncreaseRate;
 	float asIncrease;
-	float manaPerAttack;
-	float manaPerHit;
+
+	int accountExpLimit;
+	int cumulativeExp;
 
 	ObjectPool<DamageText> damageUI;
 	ObjectPool<RangePreview> rangePreview;
 	queue<Item*> waitQueue;
+	vector<Item*> drops;
+	AltarData altarData;
+	AccountInfo accountInfo;
+
+	float manaPerAttack;
+	float manaPerDamage;
+
+	float GetManaPerAttack()
+	{
+		return manaPerAttack * (1.f + (0.01f * altarData.gainManaWhenAttack));
+	}
+
+	float GetManaPerDamage()
+	{
+		return manaPerDamage * (1.f + (0.01f * altarData.gainManaWhenDamage));
+	}
 
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
+	const WaveReward& GetWaveRewardMapElem();
 	Item* CombineItem(Item* obj1, Item* obj2);
+	Item* DropItem(Character* monster);
+	void LoadAltarEffectFromTable();
 };
 
 #define GAME_MGR (GameManager::GetInstance())
@@ -160,6 +181,7 @@ public:
 		bool givenOrTaken, bool dmgType);
 	void PrintAllData();
 	void SetTrackerMode(bool val) { trackerMode = val; }
+	bool GetTrackerMode() { return trackerMode; }
 	vector<DamageData>* GetDatas() { return &datas; }
 	void DataSort();
 };

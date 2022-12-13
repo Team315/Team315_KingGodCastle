@@ -24,6 +24,9 @@ Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 		grid->SetOrigin(Origins::BC);
 		grid->SetActive(false);
 	}
+
+	shadow.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Shadow.png"));
+	shadow.setScale(0.4f, 0.4f);
 }
 
 Character::~Character()
@@ -81,6 +84,8 @@ void Character::Init()
 	hpBarLocalPos = { -hpBar->GetSize().x * 0.5f, -(float)GetTextureRect().height + 10.f };
 	hpBar->SetProgressValue(1.0f);
 	starLocalPos = { 0.f, hpBarLocalPos.y };
+
+	Utils::SetOrigin(shadow, Origins::BC);
 	SetPos(position);
 }
 
@@ -172,7 +177,9 @@ void Character::Update(float dt)
 
 					if (!noSkill)
 					{
-						stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
+						float gain = (!type.compare("Player")) ?
+							GAME_MGR->GetManaPerAttack() : GAME_MGR->manaPerAttack;
+						stat[StatType::MP].TranslateCurrent(gain);
 						mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
 					}
 
@@ -230,6 +237,7 @@ void Character::Update(float dt)
 		{
 			SetState(AnimStates::Skill);
 			stat[StatType::MP].SetCurrent(0.f);
+			mpBar->SetProgressValue(0.f);
 			if (skill != nullptr)
 				skill->CastSkill(this);
 		}
@@ -246,6 +254,7 @@ void Character::Draw(RenderWindow& window)
 	if (!isAlive)
 		return;
 
+	window.draw(shadow);
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
 	hpBar->Draw(window);
@@ -262,6 +271,7 @@ void Character::Draw(RenderWindow& window)
 void Character::SetPos(const Vector2f& pos)
 {
 	SpriteObj::SetPos(pos);
+	shadow.setPosition(pos);
 	effectSprite.setPosition(pos);
 	hpBar->SetPos(pos + hpBarLocalPos);
 	star->SetPos(pos + starLocalPos);
@@ -320,6 +330,7 @@ void Character::SetStatsInit(json data)
 
 	stat[StatType::AS].SetUpgradeMode(true);
 	stat[StatType::AD].SetDeltaMode(true);
+	stat[StatType::AR].SetDeltaMode(true);
 	if (stat[StatType::MP].GetBase() > 0.f)
 		noSkill = false;
 
@@ -370,7 +381,9 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 
 	if (!noSkill)
 	{
-		stat[StatType::MP].TranslateCurrent(GAME_MGR->manaPerAttack);
+		float gain = (!type.compare("Player")) ?
+			GAME_MGR->GetManaPerDamage() : GAME_MGR->manaPerDamage;
+		stat[StatType::MP].TranslateCurrent(gain);
 		mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
 	}
 
@@ -378,6 +391,14 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	{
 		// death
 		isAlive = false;
+		if (!attackerCharacter->GetNoSkill() && !attackerCharacter->GetType().compare("Player"))
+		{
+			Stat attackerMp = attackerCharacter->GetStat(StatType::MP);
+			float killReward = attackerMp.GetBase() * (0.01f * GAME_MGR->altarData.gainManaWhenKill);
+			attackerMp.TranslateCurrent(killReward);
+			attackerCharacter->GetMpBar()->SetProgressValue(stat[StatType::MP].GetCurRatio());
+		}
+		Item* drop = GAME_MGR->DropItem(this);
 		GAME_MGR->RemoveFromMainGrid(this);
 	}
 }
@@ -396,15 +417,60 @@ void Character::TakeCare(GameObj* caster, bool careType)
 	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
 }
 
-void Character::UpgradeStar(bool useExtraUpgrade)
+void Character::TakeBuff(StatType sType, float potential, bool mode, Character* caster)
+{
+	float tempPtt = 0.f;
+	switch (sType)
+	{
+	case StatType::AD:
+		if (mode)
+			stat[StatType::AD].AddDelta(potential);
+		else
+			stat[StatType::AD].AddDelta(-potential);
+		break;
+	case StatType::AP:
+		tempPtt = potential * 0.01f;
+		if (mode)
+			stat[StatType::AP].AddDelta(tempPtt);
+		else
+			stat[StatType::AP].AddDelta(-tempPtt);
+		break;
+	case StatType::AS:
+		tempPtt = potential * 0.01f;
+		if (mode)
+			stat[StatType::AS].AddDelta(tempPtt);
+		else
+			stat[StatType::AS].AddDelta(-tempPtt);
+		break;
+	case StatType::AR:
+		if (mode)
+			stat[StatType::AR].AddDelta(potential);
+		else
+			stat[StatType::AR].AddDelta(-potential);
+
+		m_floodFill.SetArrSize(
+			stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
+		break;
+	case StatType::MS:
+		if (mode)
+			stat[StatType::MS].AddDelta(potential);
+		else
+			stat[StatType::MS].AddDelta(-potential);
+		break;
+	default:
+		break;
+	}
+}
+
+void Character::UpgradeStar(bool mode, bool useExtraUpgrade)
 {
 	if (GetStarNumber() == STAR_MAX)
 		return;
 
 	bool upgradeTwice = false;
-	if (star->CalculateRandomChance(useExtraUpgrade))
+	if (star->CalculateRandomChance(mode, useExtraUpgrade))
 	{
-		CLOG::Print3String("upgrade 2");
+		CLOG::Print3String("upgrade 2 level");
 		upgradeTwice = true;
 	}
 	star->UpdateTexture();
@@ -460,6 +526,7 @@ bool Character::SetItem(Item* newItem)
 		if (items.size() == ITEM_LIMIT)
 			return false;
 		
+		newItem->SetActive(false);
 		items.push_back(newItem);
 	}
 
@@ -516,6 +583,13 @@ void Character::UpdateItems()
 	{
 		if (i >= curSize)
 			itemGrid[i]->SetActive(false);
+		else
+		{
+			itemGrid[i]->SetSpriteTexture(
+				*RESOURCE_MGR->GetTexture(items[i]->MakePath()), true);
+			itemGrid[i]->SetSpriteScale(ITEM_SPRITE_SIZE, ITEM_SPRITE_SIZE);
+			itemGrid[i]->SetOrigin(Origins::BC);
+		}
 	}
 }
 

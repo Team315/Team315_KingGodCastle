@@ -77,6 +77,14 @@ enum class Dir
 	Right,
 };
 
+enum class AltarOrder
+{
+	Mana,
+	Silver,
+	Physical,
+	Enforce,
+};
+
 enum class ResStringType
 {
 	Idle,

@@ -25,9 +25,6 @@ protected:
 	vector<RectangleObj>* pickAttackRangeRect;
 	vector<SpriteObj*> flags;
 
-	int curChapIdx;
-	int curStageIdx;
-
 	// bool playingBattle;
 
 	// Create player character when summon (2x7) x(0, 6) y(16, 17)
@@ -40,12 +37,12 @@ protected:
 
 	GameObj* pick;
 	Vector2f beforeDragPos;
-	int battleCharacterCount;
 
 	float gameEndTimer;
 
 	int remainLife;
 	bool isGameOver;
+	float gameOverTimer;
 
 	bool stageEnd;
 	bool stageResult;
@@ -63,10 +60,6 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	void ZoomIn();
-	void ZoomOut();
-	void PickUpGameObj(GameObj* gameObj);
-	void TranslateCoinState(float delta);
 	void PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest,
 		Vector2i startCoord, Vector2i destCoord);
 	void PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest,
@@ -74,6 +67,10 @@ public:
 
 	void SetCurrentStage(int chap, int stage);
 	void LoseFlag();
+	void ZoomIn();
+	void ZoomOut();
+	void PickUpGameObj(GameObj* gameObj);
+	void TranslateCoinState(float delta);
 };
 
 int GetIdxFromCoord(Vector2i coord);

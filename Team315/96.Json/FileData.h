@@ -4,6 +4,7 @@
 #include <string>
 #include <nlohmann/json.hpp> //아니 nlohmann 이거 설치하라고 이;거"
 #include <SFML/System/Vector2.hpp>
+#include <String>
 
 using json = nlohmann::json;
 using namespace std;	
@@ -88,6 +89,19 @@ namespace ns {
 
 	void to_json(json& j, const BackGroundData& b);
 	void from_json(const json& j, BackGroundData& b);
+}
+
+namespace ns {
+	struct AltarStringData
+	{
+		string mana;
+		string silver;
+		string physical;
+		string enforce;
+	};
+
+	void to_json(json& j, const AltarStringData& b);
+	void from_json(const json& j, AltarStringData& b);
 }
 
 struct Chapters

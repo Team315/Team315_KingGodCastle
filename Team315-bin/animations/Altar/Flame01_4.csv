@@ -1,0 +1,10 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Flame01_4,1,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/Altar/Flame_01.png,0,300,100,100,50,100,0,0
+graphics/Altar/Flame_01.png,100,300,100,100,50,100,0,0
+graphics/Altar/Flame_01.png,200,300,100,100,50,100,0,0
+graphics/Altar/Flame_01.png,300,300,100,100,50,100,0,0
+graphics/Altar/Flame_01.png,400,300,100,100,50,100,0,0
+graphics/Altar/Flame_01.png,500,300,100,100,50,100,0,0
+graphics/Altar/Flame_01.png,0,300,100,100,50,100,0,0

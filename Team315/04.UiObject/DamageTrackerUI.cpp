@@ -4,7 +4,7 @@
 #include "TrackerProfile.h"
 
 DamageTrackerUI::DamageTrackerUI(float x, float y)
-	: RectangleObj(x, y), show(false), givenOrTaken(true)
+	: RectangleObj(x, y), show(false)
 {
 	SetFillColor(Color(0x0a, 0x0a, 0x0a, 100.f));
 	SetName("TrackerBg");
@@ -13,7 +13,7 @@ DamageTrackerUI::DamageTrackerUI(float x, float y)
 	onoff->SetFillColor(Color(0x0a, 0x0a, 0x0a, 100.f));
 	onoff->SetName("OnOff");
 	onoff->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
-	onoff->SetString(">");
+	onoff->SetString("<");
 	onoff->SetTextStyle(Color::White, 20.f, Color::Black, 1.f);
 	onoff->SetTextLocalPos(Vector2f(5.f, 20.f));
 
@@ -66,7 +66,7 @@ void DamageTrackerUI::Update(float dt)
 	for (auto& profile : profileUse)
 	{
 		DamageData* data = profile->GetData();
-		if (givenOrTaken)
+		if (GAME_MGR->GetBattleTracker()->GetTrackerMode())
 		{
 			float sum = data->givenAD + data->givenAP;
 			if (maxTotal < sum)
@@ -79,7 +79,6 @@ void DamageTrackerUI::Update(float dt)
 				maxTotal = sum;
 		}
 	}
-	ProfileSetPos();
 
 	for (auto& profile : profileUse)
 	{
@@ -114,17 +113,7 @@ void DamageTrackerUI::SetPos(const Vector2f& pos)
 void DamageTrackerUI::ShowWindow()
 {
 	show = !show;
-
-	if (show)
-	{
-		SetPos(Vector2f(500.f, 200.f));
-		onoff->SetString("<");
-	}
-	else
-	{
-		SetPos(Vector2f(350.f, 200.f));
-		onoff->SetString(">");
-	}
+	ShowWindow(show);
 }
 
 void DamageTrackerUI::ShowWindow(bool value)
@@ -133,54 +122,31 @@ void DamageTrackerUI::ShowWindow(bool value)
 
 	if (show)
 	{
-		SetPos(Vector2f(500.f, 200.f));
-		onoff->SetString("<");
-	}
-	else
-	{
 		SetPos(Vector2f(350.f, 200.f));
 		onoff->SetString(">");
 	}
+	else
+	{
+		SetPos(Vector2f(500.f, 200.f));
+		onoff->SetString("<");
+	}
+	TrackerUpdate();
 }
 
 void DamageTrackerUI::ShowGiven()
 {
 	selectGiven->SetFillColor(Color(0x0f, 0x0f, 0x0f, 150.f));
 	selectTaken->SetFillColor(Color(0x0a, 0x0a, 0x0a, 100.f));
-	givenOrTaken = true;
-
-	profiles.Reset();
-	GAME_MGR->GetBattleTracker()->SetTrackerMode(givenOrTaken);
-	GAME_MGR->GetBattleTracker()->DataSort();
-	auto datas = tracker->GetDatas();
-	for (auto& data : *datas)
-	{
-		auto profile = profiles.Get();
-		profile->SetSource(&data);
-		profile->Parse();
-		profile->SetMode(givenOrTaken);
-	}
-	ProfileSetPos();
+	GAME_MGR->GetBattleTracker()->SetTrackerMode(true);
+	TrackerUpdate();
 }
 
 void DamageTrackerUI::ShowTaken()
 {
 	selectTaken->SetFillColor(Color(0x0f, 0x0f, 0x0f, 150.f));
 	selectGiven->SetFillColor(Color(0x0a, 0x0a, 0x0a, 100.f));
-	givenOrTaken = false;
-
-	profiles.Reset();
-	GAME_MGR->GetBattleTracker()->SetTrackerMode(givenOrTaken);
-	GAME_MGR->GetBattleTracker()->DataSort();
-	auto datas = tracker->GetDatas();
-	for (auto& data : *datas)
-	{
-		auto profile = profiles.Get();
-		profile->SetSource(&data);
-		profile->Parse();
-		profile->SetMode(givenOrTaken);
-	}
-	ProfileSetPos();
+	GAME_MGR->GetBattleTracker()->SetTrackerMode(false);
+	TrackerUpdate();
 }
 
 void DamageTrackerUI::ProfileSetPos()
@@ -198,4 +164,18 @@ void DamageTrackerUI::ProfileSetPos()
 void DamageTrackerUI::ProfilesReturn()
 {
 	profiles.Reset();
+}
+
+void DamageTrackerUI::TrackerUpdate()
+{
+	profiles.Reset();
+	auto datas = tracker->GetDatas();
+	for (auto& data : *datas)
+	{
+		auto profile = profiles.Get();
+		profile->SetSource(&data);
+		profile->Parse();
+		profile->SetMode(GAME_MGR->GetBattleTracker()->GetTrackerMode());
+	}
+	ProfileSetPos();
 }

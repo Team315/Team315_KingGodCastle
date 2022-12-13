@@ -85,3 +85,10 @@ void TextObj::SetOutlineColor(const Color& color)
 {
     text.setOutlineColor(color);
 }
+
+void TextObj::SetAlhpa(int Alhpa)
+{
+    Color color = text.getFillColor();
+    color.a = Alhpa;
+    SetColor(color);
+}

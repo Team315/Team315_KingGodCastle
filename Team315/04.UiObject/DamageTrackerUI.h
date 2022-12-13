@@ -14,7 +14,6 @@ protected:
 	BackrectText* selectTaken;
 	vector<BackrectText*> buttons;
 	bool show;
-	bool givenOrTaken;
 	ObjectPool<TrackerProfile> profiles;
 	BattleTracker* tracker;
 
@@ -34,4 +33,5 @@ public:
 	void ShowTaken();
 	void ProfileSetPos();
 	void ProfilesReturn();
+	void TrackerUpdate();
 };
