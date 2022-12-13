@@ -84,11 +84,9 @@ void PriaSkill::CastSkill(Character* caster)
 	SetSkillRange(caster->GetTarget()->GetPos());
 
 	animator.SetTarget(&sprite);
-
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Pria_SkillHit_Effect"));
 	animator.Play("Pria_SkillHit_Effect");
-
-	SetPos(caster->GetTarget()->GetPos());
+	//SetPos(caster->GetTarget()->GetPos());
 
 	for (auto& cell : applyArea)
 	{
@@ -96,6 +94,7 @@ void PriaSkill::CastSkill(Character* caster)
 		GameObj* target = GAME_MGR->GetGameObjInMainGrid(cell);
 		if (target != nullptr && !target->GetType().compare(caster->GetTarget()->GetType()))
 		{
+			SetPos(GAME_MGR->IdxToPos(cell));
 			//CLOG::PrintVectorState(GAME_MGR->PosToIdx(target->GetPos()), target->GetName());
 			dynamic_cast<Character*>(target)->TakeDamage(caster, false);
 			dynamic_cast<Character*>(target)->SetCrowdControl(crowdControlTimer[skillTier - 1]);

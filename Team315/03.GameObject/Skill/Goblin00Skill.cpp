@@ -55,6 +55,7 @@ void Goblin00Skill::CastSkill(Character* caster)
 		GameObj* target = GAME_MGR->GetGameObjInMainGrid(cell);
 		if (target != nullptr && !target->GetType().compare(caster->GetTarget()->GetType()))
 		{
+			SetPos(GAME_MGR->IdxToPos(cell));
 			//CLOG::PrintVectorState(GAME_MGR->PosToIdx(target->GetPos()), target->GetName());
 			dynamic_cast<Character*>(target)->TakeDamage(caster, false);
 			dynamic_cast<Character*>(target)->SetCrowdControl(crowdControlTimer[skillTier - 1]);
