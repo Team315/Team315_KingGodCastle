@@ -43,6 +43,9 @@ protected:
 	Sprite expansionCostSprite;
 	BackrectText* expansionCostText;
 
+	Sprite expansionObjectSprite;
+	BackrectText* expansionText;
+
 public:
 	BattlePanel();
 	virtual ~BattlePanel();
@@ -59,4 +62,5 @@ public:
 	void SetStageNumber(int num);
 	void SetCurrentCoin(int num);
 	void SetExpansionCostText(int num);
+	void SetExpansionStateText(int num, int limit);
 };
