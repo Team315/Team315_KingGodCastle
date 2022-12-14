@@ -57,10 +57,14 @@ void Slime00::Update(float dt)
 			{
 				m_target = m_floodFill.GetNearEnemy(
 					GAME_MGR->GetMainGridRef(), GAME_MGR->PosToIdx(position), targetType);
-				SetState(AnimStates::Skill);
-				mp.SetCurrent(0.f);
-				if (skill != nullptr)
+				
+				if (skill != nullptr && m_target != nullptr)
+				{
 					skill->CastSkill(this);
+					SetState(AnimStates::Skill);
+					stat[StatType::MP].SetCurrent(0.f);
+					mpBar->SetProgressValue(0.f);
+				}
 			}
 		}
 	}

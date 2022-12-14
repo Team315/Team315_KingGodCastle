@@ -2,12 +2,12 @@
     "InitialGameSetting":
     {
         "BattleCharacterCount":3,
-        "ExtraLevelUpSummon":15,
-        "ExtraLevelUpCombinate":30,
-        "StartCoin":500,
-        "StageClearCoin":20,
+        "ExtraLevelUpSummon":0,
+        "ExtraLevelUpCombinate":0,
+        "StartCoin":7,
+        "StageClearCoin":5,
         "ClearCoinIncrease":2,
-        "ClearCoinIncreaseTerm":2,
+        "ClearCoinIncreaseTerm":3,
         "BossStageClearBonus":10,
         "CharacterCost":3,
         "ItemCost":5,

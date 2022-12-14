@@ -156,7 +156,7 @@ void BattleScene::Update(float dt)
 
 	if (GAME_MGR->oneTimePowerUp != nullptr)
 	{
-		cout << "one time!" << endl;
+		OneTimePowerUp();
 	}
 
 	GAME_MGR->damageUI.Update(dt);
@@ -1318,6 +1318,36 @@ void BattleScene::ZoomControl(bool b_switch)
 		b_centerPos = false;
 		ZoomOut();
 	}
+}
+
+void BattleScene::OneTimePowerUp()
+{
+	PowerUp*& powerUpRef = GAME_MGR->oneTimePowerUp;
+	PowerUpTypes puType = powerUpRef->GetPowerUpType();
+
+	switch (puType)
+	{
+	case PowerUpTypes::Comrade:
+		//
+		break;
+	case PowerUpTypes::ContractWithTheDevil:
+		//
+		break;
+	case PowerUpTypes::HeroOfSalvation:
+		//
+		break;
+	case PowerUpTypes::Nobility:
+		//
+		break;
+	case PowerUpTypes::WeAreTheOne:
+		//
+		break;
+	default:
+		cout << powerUpRef->GetName() << endl;
+		break;
+	}
+	GAME_MGR->standingPowerUps.push_back(powerUpRef);
+	powerUpRef = nullptr;
 }
 
 void BattleScene::SetCurrentStage(int chap, int stage)

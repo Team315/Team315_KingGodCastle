@@ -190,11 +190,13 @@ void Character::Update(float dt)
 						m_floodFill.SetArrSize(
 							stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
 
-						SetState(AnimStates::Skill);
-						stat[StatType::MP].SetCurrent(0.f);
-						mpBar->SetProgressValue(0.f);
-						if (skill != nullptr)
+						if (skill != nullptr && m_target != nullptr)
+						{
 							skill->CastSkill(this);
+							SetState(AnimStates::Skill);
+							stat[StatType::MP].SetCurrent(0.f);
+							mpBar->SetProgressValue(0.f);
+						}
 					}
 
 					if (!noSkill)
@@ -269,11 +271,13 @@ void Character::Update(float dt)
 			}
 			else
 			{
-				SetState(AnimStates::Skill);
-				stat[StatType::MP].SetCurrent(0.f);
-				mpBar->SetProgressValue(0.f);
-				if (skill != nullptr)
+				if (skill != nullptr && m_target != nullptr)
+				{
 					skill->CastSkill(this);
+					SetState(AnimStates::Skill);
+					stat[StatType::MP].SetCurrent(0.f);
+					mpBar->SetProgressValue(0.f);
+				}
 			}			
 		}
 
