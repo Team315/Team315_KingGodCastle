@@ -6,7 +6,7 @@ Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	attackRangeType(false), isBattle(false), moveSpeed(0.f), noSkill(true),
 	ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f),
-	dirType(Dir::None)
+	dirType(Dir::None), skillSpeed(1000.f)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 3.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -357,9 +357,9 @@ void Character::SetStatsInit(json data)
 void Character::TakeDamage(GameObj* attacker, bool attackType)
 {
 	//공격받을때 이펙트
-	sprite.setColor({ 255,0,0,200 });
+	sprite.setColor({ 255,0,0,180 });
 	hit = true;
-	hitDelta = 0.1f;
+	hitDelta = 0.05f;
 
 	Stat& hp = stat[StatType::HP];
 	float damage = 0.f;
@@ -1080,7 +1080,6 @@ void Character::UpdateIdle(float dt)
 			SetState(AnimStates::Move);
 		return;
 	}
-
 }
 
 void Character::UpdateMoveToIdle(float dt)
@@ -1124,6 +1123,20 @@ void Character::UpdateAttack(float dt)
 
 void Character::UpdateSkill(float dt)
 {
+	move = false;
+	//if (!name.compare("Evan"))
+	//{
+	//	if (dirType == Dir::Down || dirType == Dir::Up)
+	//	{
+	//		direction.x = 0.f;
+	//		skill->Translate(direction * skillSpeed * dt);
+	//	}
+	//	else if (dirType == Dir::Left || dirType == Dir::Right)
+	//	{
+	//		direction.y = 0.f;
+	//		skill->Translate(direction * skillSpeed * dt);
+	//	}
+	//}
 	if (!name.compare("Slime00"))
 	{
 		if (!Utils::EqualFloat(direction.y, 0.f) && !Utils::EqualFloat(direction.x, 0.f))
