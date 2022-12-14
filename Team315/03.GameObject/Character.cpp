@@ -6,7 +6,7 @@ Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	attackRangeType(false), isBattle(false), moveSpeed(0.f), noSkill(true),
 	ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f),
-	dirType(Dir::None), skillSpeed(1000.f)
+	dirType(Dir::None)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 3.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -183,6 +183,18 @@ void Character::Update(float dt)
 					m_target = m_floodFill.GetNearEnemy(
 						GAME_MGR->GetMainGridRef(),
 						GAME_MGR->PosToIdx(position), targetType);
+					if (!name.compare("Evan") && !attackRangeType)
+					{
+						attackRangeType = true;
+						m_floodFill.SetArrSize(
+							stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
+
+						SetState(AnimStates::Skill);
+						stat[StatType::MP].SetCurrent(0.f);
+						mpBar->SetProgressValue(0.f);
+						if (skill != nullptr)
+							skill->CastSkill(this);
+					}
 
 					if (!noSkill)
 					{
@@ -244,11 +256,24 @@ void Character::Update(float dt)
 
 		if (!noSkill && Utils::EqualFloat(stat[StatType::MP].GetCurRatio(), 1.f))
 		{
-			SetState(AnimStates::Skill);
-			stat[StatType::MP].SetCurrent(0.f);
-			mpBar->SetProgressValue(0.f);
-			if (skill != nullptr)
-				skill->CastSkill(this);
+			int starGrade = GetStarNumber();
+			if (!name.compare("Evan") && starGrade <= 2)
+			{
+				if(attackRangeType)
+				{
+					m_floodFill.SetArrSize(
+						stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), false);
+					attackRangeType = false;
+				}
+			}
+			else
+			{
+				SetState(AnimStates::Skill);
+				stat[StatType::MP].SetCurrent(0.f);
+				mpBar->SetProgressValue(0.f);
+				if (skill != nullptr)
+					skill->CastSkill(this);
+			}			
 		}
 
 		if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
@@ -1124,19 +1149,6 @@ void Character::UpdateAttack(float dt)
 void Character::UpdateSkill(float dt)
 {
 	move = false;
-	//if (!name.compare("Evan"))
-	//{
-	//	if (dirType == Dir::Down || dirType == Dir::Up)
-	//	{
-	//		direction.x = 0.f;
-	//		skill->Translate(direction * skillSpeed * dt);
-	//	}
-	//	else if (dirType == Dir::Left || dirType == Dir::Right)
-	//	{
-	//		direction.y = 0.f;
-	//		skill->Translate(direction * skillSpeed * dt);
-	//	}
-	//}
 	if (!name.compare("Slime00"))
 	{
 		if (!Utils::EqualFloat(direction.y, 0.f) && !Utils::EqualFloat(direction.x, 0.f))

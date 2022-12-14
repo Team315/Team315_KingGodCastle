@@ -71,7 +71,6 @@ void EvanSkill::Update(float dt)
 		direction = { 1,0 };
 		Translate(direction * skillSpeed * dt);
 	}
-	//Translate(direction * skillSpeed * dt);
 }
 
 void EvanSkill::Draw(RenderWindow& window)

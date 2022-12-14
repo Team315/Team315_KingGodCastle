@@ -43,7 +43,6 @@ protected:
 	float shieldAmountMin;
 	bool noSkill;
 	Skill* skill;
-	float skillSpeed;
 
 	Vector2f destination;
 	bool move;
