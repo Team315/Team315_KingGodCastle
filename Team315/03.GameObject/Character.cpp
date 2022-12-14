@@ -1034,18 +1034,6 @@ void Character::SkillAnimation(Vector2f skillPos)
 			effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
 			effectSprite.setPosition(position + skillPos);
 		}
-		//if (!name.compare("Pria"))
-		//{
-		//	effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
-		//	Vector2f tPos = m_target->GetPos();
-		//	effectSprite.setPosition(position);
-		//	
-		//}
-		//else
-		//{
-		//	effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
-		//	effectSprite.setPosition(position);
-		//}
 	}
 	else if (lastDirection.x)
 	{
@@ -1108,7 +1096,7 @@ void Character::UpdateMove(float dt)
 {
 	if (Utils::EqualFloat(direction.y, 0.f) && Utils::EqualFloat(direction.x, 0.f))
 	{
-		SetState(AnimStates::Idle);
+		SetState(AnimStates::MoveToIdle);
 		return;
 	}
 	if (!Utils::EqualFloat(direction.y, lastDirection.y))
