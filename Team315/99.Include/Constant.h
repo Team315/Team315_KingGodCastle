@@ -41,3 +41,6 @@
 #define TIER_MAX (4)
 #define STAR_MAX (7)
 #define ITEM_SPRITE_SIZE (17.f)
+
+#define CHARACTER_COUNT (7)
+#define ITEM_COUNT (5)

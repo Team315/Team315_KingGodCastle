@@ -1,8 +1,8 @@
 #include "Aramis.h"
 #include "Skill/AramisSkill.h"
 
-Aramis::Aramis(bool mode, bool useExtraUpgrade, int skillTier)
-	: Character(mode, useExtraUpgrade, skillTier), bulletSpeed(2000.f)
+Aramis::Aramis(bool mode, bool useExtraUpgrade, int starGrade)
+	: Character(mode, useExtraUpgrade, starGrade), bulletSpeed(2000.f)
 {
 	SetType("Player");
 	SetName("Aramis");

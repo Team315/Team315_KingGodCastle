@@ -6,7 +6,7 @@ class Shelda : public Character
 protected:
 	float skillDelay;
 public:
-	Shelda(bool mode = false, bool useExtraUpgrade = false, int skillTier = 0);
+	Shelda(bool mode = false, bool useExtraUpgrade = false, int starGrade = 0);
 	virtual ~Shelda();
 
 	virtual void Init() override;

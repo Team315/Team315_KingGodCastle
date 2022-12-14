@@ -89,8 +89,7 @@ public:
 	void CreatedTiles();
 	void CreatedBackGround();
 	Character* SpawnMonster(string name, int grade);
-	Character* SpawnPlayer(string name, bool random);
-	Character* SpawnPlayer(bool random);
+	Character* SpawnPlayer(int grade = 0, bool random = true, int idx = 0);
 	
 	Item* SpawnItem(int tier = 0, int typeIdx = -1);
 
@@ -131,7 +130,7 @@ public:
 
 	ObjectPool<DamageText> damageUI;
 	ObjectPool<RangePreview> rangePreview;
-	queue<Item*> waitQueue;
+	queue<GameObj*> waitQueue;
 	vector<PowerUp*> standingPowerUps;
 	PowerUp* oneTimePowerUp;
 	vector<Item*> drops;
@@ -158,6 +157,10 @@ public:
 	Item* CombineItem(Item* obj1, Item* obj2);
 	Item* DropItem(Character* monster);
 	void LoadAltarEffectFromTable();
+
+	vector<int> comradeVec;
+	bool FindPowerUpByName(string name);
+	PowerUp* GetPowerUpByName(string name);
 };
 
 #define GAME_MGR (GameManager::GetInstance())

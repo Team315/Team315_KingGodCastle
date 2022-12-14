@@ -96,6 +96,7 @@ public:
 	void TakeDamage(GameObj* attacker, bool attackType = true);
 	// careType, true = heal / false = shield
 	void TakeCare(GameObj* caster, bool careType = true);
+	void TakeCare(float amount, bool careType = true);
 	// buffType, true = buff / false = debuff
 	void TakeBuff(StatType sType, float potential, bool mode = true, Character* caster = nullptr);
 	void AddShieldAmount(float amount) { shieldAmount += amount; }
@@ -145,4 +146,5 @@ public:
 	void SetDir(Vector2f direction);
 	bool GetNoSkill() { return noSkill; }
 	ProgressBar* GetMpBar() { return mpBar; }
+	void UpdateHpbar();
 };

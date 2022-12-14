@@ -161,7 +161,8 @@ void EventPanel::Update(float dt)
 					{
 						if (eventType == EventType::Forge)
 						{
-							GAME_MGR->waitQueue.push(dynamic_cast<Item*>(item));
+							//GAME_MGR->waitQueue.push(dynamic_cast<Item*>(item));
+							GAME_MGR->waitQueue.push(item);
 						}
 						else if (eventType == EventType::Power)
 						{
@@ -324,7 +325,8 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 		frameTexPath = "graphics/battleScene/Item_Frame_";
 		for (int i = 0; i < 3; i++)
 		{
-			ranNums[i] = ranNums[i] == -1 ? Utils::RandomRange(0, 7) : ranNums[i];
+			ranNums[i] = ranNums[i] == -1 ?
+				Utils::RandomRange(0, CHARACTER_COUNT) : ranNums[i];
 
 			for (int j = 0; j <= i; j++)
 			{

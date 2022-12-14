@@ -182,6 +182,11 @@ void BattlePanel::SetCurrentCoin(int num)
 	coinState->SetString(to_string(num));
 }
 
+void BattlePanel::SetSummonCostText()
+{
+	characterCostText->SetString(to_string(GAME_MGR->characterCost));
+}
+
 void BattlePanel::SetExpansionCostText(int num)
 {
 	expansionCostText->SetString(to_string(num));

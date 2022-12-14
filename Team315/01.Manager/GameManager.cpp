@@ -388,33 +388,28 @@ Character* GameManager::SpawnMonster(string name, int grade)
 	return character;
 }
 
-Character* GameManager::SpawnPlayer(string name, bool random)
+Character* GameManager::SpawnPlayer(int grade, bool random, int idx)
 {
 	Character* character = nullptr;
-	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
+	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : idx;
 	//int num = 3;
 
-	if (!name.compare("Aramis") || num == 0)
-		character = new Aramis(false, true);
-	else if (!name.compare("Arveron") || num == 1)
-		character = new Arveron(false, true);
-	else if (!name.compare("Daniel") || num == 2)
-		character = new Daniel(false, true);
-	else if (!name.compare("Evan") || num == 3)
-		character = new Evan(false, true);
-	else if (!name.compare("LeonHeart") || num == 4)
-		character = new LeonHeart(false, true);
-	else if (!name.compare("Pria") || num == 5)
-		character = new Pria(false, true);
-	else if (!name.compare("Shelda") || num == 6)
-		character = new Shelda(false, true);
+	if (num == 0)
+		character = new Aramis(false, true, grade);
+	else if (num == 1)
+		character = new Arveron(false, true, grade);
+	else if (num == 2)
+		character = new Daniel(false, true, grade);
+	else if (num == 3)
+		character = new Evan(false, true, grade);
+	else if (num == 4)
+		character = new LeonHeart(false, true, grade);
+	else if (num == 5)
+		character = new Pria(false, true, grade);
+	else if (num == 6)
+		character = new Shelda(false, true, grade);
 
 	return character;
-}
-
-Character* GameManager::SpawnPlayer(bool random)
-{
-	return SpawnPlayer("", random);
 }
 
 Item* GameManager::SpawnItem(int tier, int typeIdx)
@@ -612,9 +607,6 @@ void GameManager::RemoveFromMainGrid(GameObj* gameObj)
 		if (cell != nullptr && (cell->GetObjId() == gameObj->GetObjId()))
 		{
 			cell = nullptr;
-
-			if (!gameObj->GetType().compare("Monster"))
-				delete gameObj;
 			return;
 		}
 	}
@@ -741,6 +733,26 @@ void GameManager::LoadAltarEffectFromTable()
 		doc.GetCell<int>(colNames[10], enforceId),
 		doc.GetCell<int>(colNames[11], enforceId)
 	);
+}
+
+bool GameManager::FindPowerUpByName(string name)
+{
+	for (auto& powerUp : standingPowerUps)
+	{
+		if (!powerUp->GetName().compare(name))
+			return true;
+	}
+	return false;
+}
+
+PowerUp* GameManager::GetPowerUpByName(string name)
+{
+	for (auto& powerUp : standingPowerUps)
+	{
+		if (!powerUp->GetName().compare(name))
+			return powerUp;
+	}
+	return nullptr;
 }
 
 // Battle Tracker

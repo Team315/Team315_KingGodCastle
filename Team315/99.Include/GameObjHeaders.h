@@ -8,7 +8,6 @@
 #include "Player/Pria.h"
 #include "Player/LeonHeart.h"
 #include "Player/Shelda.h"
-#define CHARACTER_COUNT 7
 
 // Monster
 #include "Monster/Goblin00.h"
@@ -34,7 +33,6 @@
 #include "Item/Bow.h"
 #include "Item/Staff.h"
 #include "Item/Sword.h"
-#define ITEM_COUNT 5
 
 // PowerUp
 #include "PowerUp/Comrade.h"

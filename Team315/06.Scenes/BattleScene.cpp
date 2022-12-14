@@ -166,12 +166,19 @@ void BattleScene::Update(float dt)
 		int idx = GetZeroElem(prepareGrid);
 		if (idx != -1)
 		{
-			Item* item = GAME_MGR->waitQueue.front();
-			item->SetPos(prepareGridRect[idx]->GetPos());
-			item->Init();
-			item->SetActive(true);
-			prepareGrid[idx] = item;
-
+			GameObj* gameObj = GAME_MGR->waitQueue.front();
+			gameObj->SetPos(prepareGridRect[idx]->GetPos());
+			gameObj->Init();
+			gameObj->SetActive(true);
+			prepareGrid[idx] = gameObj;
+			
+			if (!gameObj->GetType().compare("Player"))
+			{
+				Character* newCharacter = dynamic_cast<Character*>(gameObj);
+				newCharacter->TakeBuff(StatType::AD, GAME_MGR->altarData.passiveADUp);
+				newCharacter->TakeBuff(StatType::AP, GAME_MGR->altarData.passiveAPUp);
+				newCharacter->TakeBuff(StatType::AS, GAME_MGR->altarData.passiveASUp);
+			}
 			GAME_MGR->waitQueue.pop();
 		}
 	}
@@ -763,22 +770,6 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	// when eventWindow opens, block other inputs
-	if (eventWindow)
-		return;
-
-	// wheel control
-	float wheel = InputMgr::GetMouseWheel();
-	if (wheel != 0)
-	{
-		if (ui->GetEventPanel()->GetEventType() != EventType::None)
-			return ;
-		if (wheel == 1)
-			ZoomControl(true);
-		else
-			ZoomControl(false);
-	}
-
 	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons();
 	for (auto& button : trackerButtons)
 	{
@@ -803,6 +794,22 @@ void BattleScene::Update(float dt)
 				}
 			}
 		}
+	}
+
+	// when eventWindow opens, block other inputs
+	if (eventWindow)
+		return;
+
+	// wheel control
+	float wheel = InputMgr::GetMouseWheel();
+	if (wheel != 0)
+	{
+		if (ui->GetEventPanel()->GetEventType() != EventType::None)
+			return ;
+		if (wheel == 1)
+			ZoomControl(true);
+		else
+			ZoomControl(false);
 	}
 
 	if (InputMgr::GetMouseDown(Mouse::Left))
@@ -887,14 +894,16 @@ void BattleScene::Update(float dt)
 						cout << "not enough coin" << endl;
 						break;
 					}
-					Character* newPick = GAME_MGR->SpawnPlayer(true);
-					newPick->SetPos(prepareGridRect[idx]->GetPos());
-					newPick->Init();
-					prepareGrid[idx] = newPick;
 
-					newPick->TakeBuff(StatType::AD, GAME_MGR->altarData.passiveADUp);
-					newPick->TakeBuff(StatType::AP, GAME_MGR->altarData.passiveAPUp);
-					newPick->TakeBuff(StatType::AS, GAME_MGR->altarData.passiveASUp);
+					Character* newPick = nullptr;
+					if (GAME_MGR->FindPowerUpByName("Comrade"))
+					{
+						newPick = GAME_MGR->SpawnPlayer(0, false,
+							GAME_MGR->comradeVec[Utils::RandomRange(0, 2)]);
+					}
+					else newPick = GAME_MGR->SpawnPlayer();
+
+					GAME_MGR->waitQueue.push(newPick);
 
 					int extraBookChance = GAME_MGR->altarData.summonBookPercent;
 					bool summonBook = Utils::RandomRange(0, 100) < extraBookChance;
@@ -909,6 +918,12 @@ void BattleScene::Update(float dt)
 				// Expansion
 				else if (!button->GetName().compare("expansion"))
 				{
+					if (GAME_MGR->FindPowerUpByName("HeroOfSalvation"))
+					{
+						cout << "±¸¿øÀÇ ¿µ¿õ" << endl;
+						break;
+					}
+
 					int cost = GAME_MGR->GetCurrentExpansionCost();
 					if (GAME_MGR->GetCurrentCoin() >= cost)
 					{
@@ -1324,24 +1339,54 @@ void BattleScene::OneTimePowerUp()
 {
 	PowerUp*& powerUpRef = GAME_MGR->oneTimePowerUp;
 	PowerUpTypes puType = powerUpRef->GetPowerUpType();
+	Character* newPick = nullptr;
+	auto& vec = GAME_MGR->comradeVec;
 
 	switch (puType)
 	{
 	case PowerUpTypes::Comrade:
-		//
+		GAME_MGR->characterCost += 2;
+		ui->GetPanel()->SetSummonCostText();
+		
+		vec.assign(2, -1);
+		for (int i = 0; i < 2; i++)
+		{
+			vec[i] = (vec[i] == -1) ? Utils::RandomRange(0, CHARACTER_COUNT) : vec[i];
+
+			for (int j = 0; j <= i; j++)
+			{
+				if (i != j && vec[i] == vec[j])
+				{
+					vec[i] = -1;
+					i--;
+				}
+			}
+		}
 		break;
+
 	case PowerUpTypes::ContractWithTheDevil:
-		//
+		GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() - 2);
+		ui->GetPanel()->SetExpansionStateText(
+			GetCurCharacterCount(), GAME_MGR->GetCharacterCount());
+		newPick = GAME_MGR->SpawnPlayer(3, true);
+		GAME_MGR->waitQueue.push(newPick);
 		break;
+
 	case PowerUpTypes::HeroOfSalvation:
-		//
+		newPick = GAME_MGR->SpawnPlayer(5, true);
+		GAME_MGR->waitQueue.push(newPick);
+		ui->GetPanel()->SetExpansionCostText(999);
 		break;
+
 	case PowerUpTypes::Nobility:
-		//
+		GAME_MGR->TranslateCoin(powerUpRef->GetGrade() * 10.f + 5.f);
+		ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 		break;
+
 	case PowerUpTypes::WeAreTheOne:
 		//
 		break;
+
 	default:
 		cout << powerUpRef->GetName() << endl;
 		break;

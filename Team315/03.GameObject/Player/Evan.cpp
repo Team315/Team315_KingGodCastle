@@ -1,8 +1,8 @@
 #include "Evan.h"
 #include "Skill/EvanSkill.h"
 
-Evan::Evan(bool mode, bool useExtraUpgrade, int skillTier)
-	: Character(mode, useExtraUpgrade, skillTier), skillSpeed(1000.f)
+Evan::Evan(bool mode, bool useExtraUpgrade, int starGrade)
+	: Character(mode, useExtraUpgrade, starGrade), skillSpeed(1000.f)
 {
 	SetType("Player");
 	SetName("Evan");

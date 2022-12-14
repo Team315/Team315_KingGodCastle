@@ -1,8 +1,8 @@
 #include "Slime00.h"
 #include "Skill/Slime00Skill.h"
 
-Slime00::Slime00(bool mode, bool useExtraUpgrade, int skillTier)
-	: Character(mode, useExtraUpgrade, skillTier), duration(1.0f), mpTimer(duration)
+Slime00::Slime00(bool mode, bool useExtraUpgrade, int starGrade)
+	: Character(mode, useExtraUpgrade, starGrade), duration(1.0f), mpTimer(duration)
 {
 	SetType("Monster");
 	SetName("Slime00");

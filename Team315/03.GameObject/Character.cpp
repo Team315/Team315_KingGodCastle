@@ -1,6 +1,7 @@
 #include "Character.h"
 #include "Item/Item.h"
 #include "Skill.h"
+#include "PowerUp/PowerUp.h"
 
 Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
@@ -107,7 +108,7 @@ void Character::Reset()
 	Stat& hp = stat[StatType::HP];
 	hp.ResetStat();
 	shieldAmount = shieldAmountMin;
-	hpBar->SetRatio(hp.GetModifier(), hp.GetCurrent(), shieldAmount);
+	UpdateHpbar();
 	if (!noSkill)
 	{
 		stat[StatType::MP].SetCurrent(0.f);
@@ -190,7 +191,7 @@ void Character::Update(float dt)
 						m_floodFill.SetArrSize(
 							stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
 
-						if (skill != nullptr && m_target != nullptr)
+						if (skill != nullptr)
 						{
 							skill->CastSkill(this);
 							SetState(AnimStates::Skill);
@@ -271,7 +272,7 @@ void Character::Update(float dt)
 			}
 			else
 			{
-				if (skill != nullptr && m_target != nullptr)
+				if (skill != nullptr)
 				{
 					skill->CastSkill(this);
 					SetState(AnimStates::Skill);
@@ -420,8 +421,8 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), attackType ? StatType::AD : StatType::AP, damage);
 
 	hp.TranslateCurrent(-damage);
-	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
-
+	UpdateHpbar();
+	
 	if (!noSkill)
 	{
 		float gain = (!type.compare("Player")) ?
@@ -440,6 +441,16 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 			float killReward = attackerMp.GetBase() * (0.01f * GAME_MGR->altarData.gainManaWhenKill);
 			attackerMp.TranslateCurrent(killReward);
 			attackerCharacter->GetMpBar()->SetProgressValue(stat[StatType::MP].GetCurRatio());
+			if (GAME_MGR->FindPowerUpByName("Vampire"))
+			{
+				PowerUp* pu = GAME_MGR->GetPowerUpByName("Vampire");
+				float healAmount =
+					attackerCharacter->GetStat(StatType::HP).GetModifier() *
+					(float)pu->GetGrade() * 0.1f;
+				
+				attackerCharacter->TakeCare(healAmount, true);
+				attackerCharacter->UpdateHpbar();
+			}
 		}
 		Item* drop = GAME_MGR->DropItem(this);
 		GAME_MGR->RemoveFromMainGrid(this);
@@ -448,16 +459,23 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 
 void Character::TakeCare(GameObj* caster, bool careType)
 {
-	Stat& hp = stat[StatType::HP];
 	Character* casterCharacter = dynamic_cast<Character*>(caster);
 	float careAmount = casterCharacter->GetSkill()->CalculatePotential(casterCharacter);
 
-	if (careType)
-		hp.TranslateCurrent(careAmount);
-	else
-		shieldAmount += careAmount;
+	TakeCare(careAmount, careType);
+}
 
-	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+void Character::TakeCare(float amount, bool careType)
+{
+	if (careType)
+		stat[StatType::HP].TranslateCurrent(amount);
+	else
+		shieldAmount += amount;
+
+	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE),
+		careType ? StatType::HP : StatType::None, amount);
+
+	UpdateHpbar();
 }
 
 void Character::TakeBuff(StatType sType, float potential, bool mode, Character* caster)
@@ -643,7 +661,7 @@ void Character::UpdateItemDelta(StatType sType, float value)
 	case StatType::HP:
 		shieldAmountMin += value;
 		shieldAmount += value;
-		hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+		UpdateHpbar();
 		break;
 	case StatType::AD:
 	case StatType::AP:
@@ -1219,4 +1237,9 @@ void Character::SetDir(Vector2f direction)
 	//	direction = { -1,0 };
 	//else if (dirType == Dir::Right)
 	//	direction = { 1,0 };
+}
+
+void Character::UpdateHpbar()
+{
+	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
 }
