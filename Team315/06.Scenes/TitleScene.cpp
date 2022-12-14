@@ -62,11 +62,11 @@ void TitleScene::Update(float dt)
 {
 
 	// Dev Input
-	/*if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
+	if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
 	{
 		SCENE_MGR->ChangeScene(Scenes::Tool);
 		return;
-	}*/
+	}
 	/*if (InputMgr::GetKeyDown(Keyboard::Key::Num2))
 	{
 		SCENE_MGR->ChangeScene(Scenes::Loby);
