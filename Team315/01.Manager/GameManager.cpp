@@ -29,7 +29,7 @@ GameManager::GameManager()
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
 	apIncreaseRate(1.6f), asIncrease(0.1f),
 	manaPerAttack(15.f), manaPerDamage(5.f), itemDropProbability(10),
-	accountExpLimit(6), cumulativeExp(0)
+	accountExpLimit(6), cumulativeExp(0), oneTimePowerUp(nullptr)
 {
 	CLOG::Print3String("GameManager Create");
 
@@ -175,6 +175,14 @@ void GameManager::GMReset()
 	currentCoin = startCoin + altarData.startCoin;
 	expansionCount = 0;
 	cumulativeExp = 0;
+	oneTimePowerUp = nullptr;
+	standingPowerUps.clear();
+	for (auto& drop : drops)
+	{
+		if (drop != nullptr)
+			delete drop;
+	}
+	drops.clear();
 
 	// panelSkill = ?
 }
@@ -604,6 +612,9 @@ void GameManager::RemoveFromMainGrid(GameObj* gameObj)
 		if (cell != nullptr && (cell->GetObjId() == gameObj->GetObjId()))
 		{
 			cell = nullptr;
+
+			if (!gameObj->GetType().compare("Monster"))
+				delete gameObj;
 			return;
 		}
 	}

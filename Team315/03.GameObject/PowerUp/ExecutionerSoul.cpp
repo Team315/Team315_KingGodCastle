@@ -1,7 +1,7 @@
 #include "ExecutionerSoul.h"
 
 ExecutionerSoul::ExecutionerSoul(int grade, PowerUpTypes puType)
-	: PowerUp(puType, grade)
+	: PowerUp(puType, grade, true, true)
 {
 	type = "PowerUp";
 	name = "ExecutionerSoul"; // 집행자 영혼

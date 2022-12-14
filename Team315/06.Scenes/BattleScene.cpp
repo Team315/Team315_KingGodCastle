@@ -148,6 +148,11 @@ void BattleScene::Update(float dt)
 		return;
 	}
 
+	if (GAME_MGR->oneTimePowerUp != nullptr)
+	{
+		cout << "one time!" << endl;
+	}
+
 	GAME_MGR->damageUI.Update(dt);
 	GAME_MGR->rangePreview.Update(dt);
 	if (!GAME_MGR->waitQueue.empty())

@@ -158,7 +158,24 @@ void EventPanel::Update(float dt)
 				if (item != nullptr)
 				{
 					if (idx == selectIdx)
-						GAME_MGR->waitQueue.push(dynamic_cast<Item*>(item));
+					{
+						if (eventType == EventType::Forge)
+						{
+							GAME_MGR->waitQueue.push(dynamic_cast<Item*>(item));
+						}
+						else if (eventType == EventType::Power)
+						{
+							PowerUp* power = dynamic_cast<PowerUp*>(item);
+							if (power->isStanding())
+								GAME_MGR->standingPowerUps.push_back(power);
+							else
+								GAME_MGR->oneTimePowerUp = power;
+						}
+						else
+						{
+							// clear or over
+						}
+					}
 					else
 						delete item;
 				}

@@ -1,7 +1,7 @@
 #include "PowerUp.h"
 
-PowerUp::PowerUp(PowerUpTypes puType, int grade, bool unique)
-	: powerUpType(puType), grade(grade), unique(unique)
+PowerUp::PowerUp(PowerUpTypes puType, int grade, bool isStanding, bool unique)
+	: powerUpType(puType), grade(grade), standing(isStanding), unique(unique)
 {
 }
 

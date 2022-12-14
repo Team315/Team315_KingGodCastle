@@ -34,7 +34,6 @@ protected:
 	unordered_map<StatType, vector<float>> itemStatMap;
 	map<string, WaveReward> waveRewardMap;
 	map<string, vector<string>> powerUpStringMap;
-
 	BattleTracker* battleTracker;
 
 	Skill* panelSkill;
@@ -133,6 +132,8 @@ public:
 	ObjectPool<DamageText> damageUI;
 	ObjectPool<RangePreview> rangePreview;
 	queue<Item*> waitQueue;
+	vector<PowerUp*> standingPowerUps;
+	PowerUp* oneTimePowerUp;
 	vector<Item*> drops;
 	AltarData altarData;
 	AccountInfo accountInfo;
