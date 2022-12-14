@@ -251,11 +251,6 @@ void Character::Update(float dt)
 				skill->CastSkill(this);
 		}
 
-		if (isCrowdcontrol)
-		{
-			
-		}
-
 		if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
 		{
 			lastDirection = direction;
