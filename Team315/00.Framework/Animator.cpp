@@ -148,3 +148,11 @@ void Animator::SetSpeed(float s)
 {
     speed = s;
 }
+
+bool Animator::GetEndFrame()
+{
+    if (totalFrame == currFrame + 1)
+        return true;
+
+    return false;
+}

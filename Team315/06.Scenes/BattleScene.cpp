@@ -115,6 +115,12 @@ void BattleScene::Enter()
 	}
 	//ÆÇ³Ú½ºÅ³
 	m_panel.Enter();
+	m_Quagmire.Enter();
+	m_FingerSnap.Enter();
+	m_BlessOfMana.Enter();
+	m_DivineShield.Enter();
+	m_FireExplosion.Enter();
+
 }
 
 void BattleScene::Exit()
@@ -1006,11 +1012,22 @@ void BattleScene::Update(float dt)
 		{
 			if (m_panel.CallSkillPlayButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
 			{
-
+				//m_Quagmire.PlayingAni();
+				//m_FingerSnap.PlayingAni();
+				//m_BlessOfMana.PlayingAni();
+				//m_DivineShield.PlayingAni();
+				m_FireExplosion.PlayingAni();
 			}
 		}
 	}
 
+	{
+		m_Quagmire.Update(dt);
+		m_FingerSnap.Update(dt);
+		m_BlessOfMana.Update(dt);
+		m_DivineShield.Update(dt);
+		m_FireExplosion.Update(dt);
+	}
 	// Game Input end
 }
 
@@ -1024,6 +1041,9 @@ void BattleScene::Draw(RenderWindow& window)
 
 	window.draw(castleBackground);
 	Scene::Draw(window);
+	
+	m_Quagmire.Draw(window);
+
 
 	// draw character on prepare area
 	for (auto& gameObj : prepareGrid)
@@ -1094,6 +1114,10 @@ void BattleScene::Draw(RenderWindow& window)
 	}
 
 	m_panel.Draw(window);
+	m_FingerSnap.Draw(window);
+	m_BlessOfMana.Draw(window);
+	m_DivineShield.Draw(window);
+	m_FireExplosion.Draw(window);
 }
 
 void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)
