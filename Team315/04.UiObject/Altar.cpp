@@ -499,6 +499,3 @@ void Altar::ChangeObjAlhpa(int num)
 		m_Flame.Play(flamestr4);
 	}
 }
-
-
-
