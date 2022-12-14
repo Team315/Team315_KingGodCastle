@@ -4,7 +4,7 @@ HeroOfSalvation::HeroOfSalvation(int grade, PowerUpTypes puType)
 	: PowerUp(grade, puType)
 {
 	type = "PowerUp";
-	name = "Comrade"; // 전우
+	name = "HeroOfSalvation"; // 구원의 영웅
 }
 
 HeroOfSalvation::~HeroOfSalvation()

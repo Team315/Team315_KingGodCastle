@@ -6,6 +6,7 @@ Meditation::Meditation(int grade, PowerUpTypes puType)
 	type = "PowerUp";
 	name = "Meditation"; // Έν»σ
 }
+
 Meditation::~Meditation()
 {
 }

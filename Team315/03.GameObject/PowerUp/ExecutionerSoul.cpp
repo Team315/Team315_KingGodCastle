@@ -7,7 +7,6 @@ ExecutionerSoul::ExecutionerSoul(int grade, PowerUpTypes puType)
 	name = "ExecutionerSoul"; // 집행자 영혼
 }
 
-
 ExecutionerSoul::~ExecutionerSoul()
 {
 }

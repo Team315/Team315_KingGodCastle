@@ -36,5 +36,18 @@
 #include "Item/Sword.h"
 #define ITEM_COUNT 5
 
+// PowerUp
+#include "PowerUp/Comrade.h"
+#include "PowerUp/ContractWithTheDevil.h"
+#include "PowerUp/CounterAttack.h"
+#include "PowerUp/Dogfight.h"
+#include "PowerUp/ExecutionerSoul.h"
+#include "PowerUp/HeroOfSalvation.h"
+#include "PowerUp/Meditation.h"
+#include "PowerUp/Nobility.h"
+#include "PowerUp/Comrade.h"
+#include "PowerUp/Comrade.h"
+#include "PowerUp/Comrade.h"
+
 // Neutral
 #include "Obstacle.h"
