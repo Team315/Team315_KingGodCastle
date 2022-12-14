@@ -28,8 +28,9 @@ Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 	shadow.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Shadow.png"));
 	shadow.setScale(0.4f, 0.4f);
 
-	effectAnimator.SetTarget(&effectSprite);
-	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Crowd_Effect"));
+	//effectAnimator.SetTarget(&effectSprite);
+
+	//effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Crowd_Effect"));
 }
 
 Character::~Character()
@@ -121,6 +122,8 @@ void Character::Update(float dt)
 	hpBar->Update(dt);
 	animator.Update(dt);
 	effectAnimator.Update(dt);
+	crowdControlAnimator.Update(dt);
+
 	if (!noSkill)
 		mpBar->Update(dt);
 
@@ -137,11 +140,6 @@ void Character::Update(float dt)
 		}
 		if (ccTimer > 0.f)
 		{
-			effectAnimator.Play("Crowd_Effect");
-			Vector2f ccPos = position;
-			ccPos.y -= 30.f;
-			effectSprite.setPosition(ccPos);
-			
 			ccTimer -= dt;
 			if (ccTimer < 0.f)
 			{
@@ -291,6 +289,10 @@ void Character::Draw(RenderWindow& window)
 	window.draw(shadow);
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
+	if (ccTimer > 0.f)
+	{
+		window.draw(crowdControlSprite);
+	}
 	hpBar->Draw(window);
 	star->Draw(window);
 	for (auto& grid : itemGrid)
@@ -642,6 +644,17 @@ void Character::UpdateItemDelta(StatType sType, float value)
 		stat[sType].AddDelta(value);
 		break;
 	}
+}
+
+void Character::SetCrowdControl(float time)
+{
+	ccTimer = time;
+	crowdControlAnimator.SetTarget(&crowdControlSprite);
+	crowdControlAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Crowd_Effect"));
+	Vector2f ccPos = position;
+	ccPos.y -= 40.f;
+	crowdControlSprite.setPosition(ccPos);
+	crowdControlAnimator.Play("Crowd_Effect");
 }
 
 void Character::IsSetState(AnimStates newState)
@@ -1004,6 +1017,7 @@ void Character::AttackAnimation(Vector2f attackPos)
 			effectSprite.setPosition(position + attackPos);
 			}
 		}
+		cout << position.x << "," << position.y << endl;
 	}
 	else if (dirType == Dir::Right)
 	{

@@ -16,6 +16,8 @@ class Character : public GameObj
 protected:
 	Animator effectAnimator;
 	Sprite effectSprite;
+	Animator crowdControlAnimator;
+	Sprite crowdControlSprite;
 	unordered_map<StatType, Stat> stat;
 	bool attackRangeType; // true square, false cross
 	vector<Item*> items;
@@ -106,7 +108,7 @@ public:
 	void UpdateItems();
 	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
-	void SetCrowdControl(float time) { ccTimer = time; }
+	void SetCrowdControl(float time);
 
 	//battle
 	void IsSetState(AnimStates newState);
