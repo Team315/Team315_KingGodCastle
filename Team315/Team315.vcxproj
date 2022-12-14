@@ -267,6 +267,20 @@
     <ClInclude Include="04.UiObject\Altar.h" />
     <ClInclude Include="04.UiObject\Brazier.h" />
     <ClInclude Include="03.GameObject\PanelSkill\Panel.h" />
+    <ClInclude Include="03.GameObject\PowerUp\PowerUp.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Comrade.h" />
+    <ClInclude Include="03.GameObject\PowerUp\ContractWithTheDevil.h" />
+    <ClInclude Include="03.GameObject\PowerUp\CounterAttack.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Dogfight.h" />
+    <ClInclude Include="03.GameObject\PowerUp\ExecutionerSoul.h" />
+    <ClInclude Include="03.GameObject\PowerUp\HeroOfSalvation.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Meditation.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Nobility.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Quick_hand.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Rune_shield.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Vampire.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Warriors_heart.h" />
+    <ClInclude Include="03.GameObject\PowerUp\WeAreTheOne.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="02.Object\FloatingObj.cpp" />
@@ -331,6 +345,12 @@
     <ClCompile Include="97.DataTable\DataTableMgr.cpp" />
     <ClCompile Include="97.DataTable\StringTable.cpp" />
     <ClCompile Include="04.UiObject\Brazier.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Comrade.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\ContractWithTheDevil.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\CounterAttack.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Dogfight.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\ExecutionerSoul.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\HeroOfSalvation.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
     <ClCompile Include="01.Manager\SceneMgr.cpp" />
@@ -375,6 +395,14 @@
     <ClCompile Include="03.GameObject\RangePreview.cpp" />
     <ClCompile Include="04.UiObject\TrackerProfile.cpp" />
     <ClCompile Include="03.GameObject\PanelSkill\Panel.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\PowerUp.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Meditation.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Nobility.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Quick_hand.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Rune_shield.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Vampire.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Warriors_heart.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\WeAreTheOne.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,0 +1,12 @@
+#include "ContractWithTheDevil.h"
+
+ContractWithTheDevil::ContractWithTheDevil(int grade, PowerUpTypes puType)
+	: PowerUp(grade, puType)
+{
+	type = "PowerUp";
+	name = "ContractWithTheDevil"; // ¾Ç¸¶ÀÇ °è¾à
+}
+
+ContractWithTheDevil::~ContractWithTheDevil()
+{
+}

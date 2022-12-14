@@ -77,6 +77,24 @@ enum class EventType
 	GameClear,
 };
 
+enum class PowerUpTypes
+{
+	None = -1,						 
+	comrade,						// 전우
+	contract_with_the_devil,		// 악마의 계약
+	counter_attack,					// 반격
+	dogfight,						// 개싸움
+	executioner_soul,				// 집행자 영혼
+	hero_of_salvation,				// 구원의 영웅
+	meditation,						// 명상
+	nobility,						// 귀족
+	quick_hand,						// 재빠른 손놀림
+	rune_shield,					// 룬 방패
+	vampire,						// 흡혈귀
+	warriors_heart,					// 전사의 심장
+	we_are_the_one,					// 우리는 하나
+};
+
 enum class Dir
 {
 	None = -1,
