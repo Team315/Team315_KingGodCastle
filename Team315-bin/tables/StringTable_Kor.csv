@@ -1,7 +1,7 @@
 ID,KOR
-book_explain1,2성 이하 영웅의 성급을 1 올려줍니다
-book_explain2,4성 이하 영웅의 성급을 1 올려줍니다
-book_explain3,6성 이하 영웅의 성급을 1 올려줍니다
+book_explain1,2성 이하 영웅의\n성급을 1 올려줍니다
+book_explain2,4성 이하 영웅의\n성급을 1 올려줍니다
+book_explain3,6성 이하 영웅의\n성급을 1 올려줍니다
 Aramis,아라미스
 Arveron,알베론
 Daniel,다니엘
@@ -54,7 +54,7 @@ WeAreTheOne,우리는 하나!
 QuickHand,재빠른 손놀림
 CounterAttack,반격
 HeroOfSalvation,구원의 영웅
-Dogfight,개싸움
+DogFight,개싸움
 Sword0,롱소드
 Sword1,킹소드
 Sword2,갓소드
@@ -71,6 +71,30 @@ Staff0,스태프
 Staff1,킹스태프
 Staff2,갓스태프
 Staff3,킹갓스태프
-Book0,힘의 서1
-Book1,힘의 서2
-Book2,힘의 서3
+Book0,초급 힘의서
+Book1,중급 힘의서
+Book2,고급 힘의서
+Tier,티어
+SpecialItem,특별 도구
+PowerUp,증강체
+Nobility1Explain,은화 15개 추가
+Nobility2Explain,은화 25개 추가
+Nobility3Explain,은화 35개 추가
+Vampire1Explain,적 처치시\n총 체력의 10% 회복
+Vampire2Explain,적 처치시\n총 체력의 20% 회복
+Vampire3Explain,적 처치시\n총 체력의 30% 회복
+WarriorsHeart1Explain,셸다와 레온하트의 양 옆\n영웅들의 공격속도가 0.3 증가
+WarriorsHeart2Explain,셸다와 레온하트의 양 옆\n영웅들의 공격속도가 0.4 증가
+WarriorsHeart3Explain,셸다와 레온하트의 양 옆\n영웅들의 공격속도가 0.5 증가
+Meditation1Explain,전투 시작시 아군이\n15의 마나를 얻음
+Meditation2Explain,전투 시작시 아군이\n25의 마나를 얻음
+Meditation3Explain,전투 시작시 아군이\n35의 마나를 얻음
+ContractWithTheDevilExplain,무작위 3성 영웅 소환\n부대 규모가 2 감소
+ExecutionerSoulExplain,라이프가 1 감소하고\n부대 규모가 2 증가
+ComradeExplain,무작위 2가지 영웅만 소환\n영웅 소환 비용이 5로 증가
+RuneShieldExplain,프리야가 HP 100%\n방어막을 얻음\nAP 20 사거리 2로 감소
+WeAreTheOneExplain,스테이지의 모든 캐릭터의\n등급이 1단계 상승
+QuickHandExplain,준비 화면에서 10초마다\n강제로 전투를 시작\n스테이지 종료마다 은화 +10
+CounterAttackExplain,기본 공격 피해를 받을 때\n30% 확률로 최대 체력의\n15% 피해를 입힘
+HeroOfSalvationExplain,부대 규모를 확장할 수 없고\n무작위 5성 영웅을 얻음
+DogFightExplain,전투 시작 시 캐릭터의 위치가\n랜덤으로 바뀜

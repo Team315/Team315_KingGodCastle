@@ -24,7 +24,7 @@ ItemInfoWindow::ItemInfoWindow(float x, float y)
 	status->SetTextStyle(Color::White, 18, Color::Black, -1.0f);
 	status->SetTextLocalPos(Vector2f(10.f, 0.f));
 
-	additional = new BackrectText(130.f, 35.f);
+	additional = new BackrectText(190.f, 35.f);
 	additional->SetFillColor(Color(0x08, 0x08, 0x08, 150.f));
 	additional->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	additional->SetTextStyle(Color::White, 13, Color::Black, -1.0f);
@@ -61,7 +61,7 @@ void ItemInfoWindow::SetPos(const Vector2f& pos)
 	name->SetOrigin(Origins::TC);
 	status->SetPos(pos + Vector2f(65.f, 31.f));
 	if (needAdditional)
-		additional->SetPos(pos + Vector2f(65.f, 62.f));
+		additional->SetPos(pos + Vector2f(5.f, 62.f));
 	else
 		statSprite.setPosition(pos + Vector2f(120.f, 30.f));
 }
@@ -78,12 +78,12 @@ void ItemInfoWindow::SetItem(Item* item)
 
 	StatType sType = item->GetStatType();
 	wstring statusText =
-		to_wstring(grade + 1) + L"티어 ";
+		to_wstring(grade + 1) + STRING_TABLE->Get("Tier");
 	
 	if (sType == StatType::AP || sType == StatType::AS)
 		statusText += ("    " + to_wstring((int)(poten * 100)) + "%");
 	else if (sType == StatType::None)
-		statusText += L"특별 도구";
+		statusText += STRING_TABLE->Get("SpecialItem");
 	else
 		statusText += ("    " + to_wstring((int)poten));
 	status->SetString(statusText);
@@ -93,9 +93,8 @@ void ItemInfoWindow::SetItem(Item* item)
 		needAdditional = true;
 		SetSize(200.f, 100.f);
 		wstring temp = STRING_TABLE->Get("book_explain" + to_string(grade + 1));
-		temp[9] = '\n';
-		//temp.insert(it, '\n');
-		additional->SetString(temp);
+		additional->SetSize(190.f, 35.f);
+		additional->SetString(Utils::ReplaceNewLine(temp));
 	}
 	else
 	{
@@ -132,4 +131,13 @@ void ItemInfoWindow::SetPowerUp(PowerUp* power)
 	string framePath = "graphics/battleScene/Item_Frame_" + to_string(grade) + ".png";
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(framePath), true);
 	name->SetString(STRING_TABLE->Get( power->GetName() ));
+
+	wstring statusText = to_string(grade) + STRING_TABLE->Get("Tier") + " " + STRING_TABLE->Get("PowerUp");
+	status->SetString(statusText);
+	
+	needAdditional = true;
+	SetSize(200.f, 125.f);
+	wstring temp = STRING_TABLE->Get(power->GetName() + (power->isUnique() ? "" : to_string(power->GetGrade())) + "Explain");
+	additional->SetString(Utils::ReplaceNewLine(temp));
+	additional->SetSize(190.f, 55.f);
 }

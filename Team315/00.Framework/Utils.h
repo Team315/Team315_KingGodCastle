@@ -56,5 +56,5 @@ public:
 	static float GetMinScaleRatioFromFloatRect(float sizeX, float sizeY, FloatRect fr);
 
 	//Use Korean Set
-	static void StringNewline(Text& text);
+	static wstring ReplaceNewLine(wstring str);
 };

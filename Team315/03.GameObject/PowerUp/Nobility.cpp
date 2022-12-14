@@ -1,7 +1,7 @@
 #include "Nobility.h"
 
 Nobility::Nobility(int grade, PowerUpTypes puType)
-	: PowerUp(puType, grade)
+	: PowerUp(puType, grade, false)
 {
 	type = "PowerUp";
 	name = "Nobility"; // ±Õ¡∑

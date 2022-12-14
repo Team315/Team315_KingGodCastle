@@ -323,8 +323,7 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 		for (int i = 0; i < 3; i++)
 		{
 			items[i] = GAME_MGR->GeneratePowerUpbyMap(ranNums[i], tier);
-			//cout << "event panel: " << items[i]->GetType() << items[i]->GetName() << endl;
-			
+
 			string tierNumber = to_string(dynamic_cast<PowerUp*>(items[i])->GetGrade());
 			frames[i]->SetTexture(*RESOURCE_MGR->GetTexture(
 				frameTexPath + tierNumber + ".png"), true);
