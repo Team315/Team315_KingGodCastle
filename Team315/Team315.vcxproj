@@ -267,6 +267,11 @@
     <ClInclude Include="04.UiObject\Altar.h" />
     <ClInclude Include="04.UiObject\Brazier.h" />
     <ClInclude Include="03.GameObject\PanelSkill\Panel.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\BlessOfMana.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\DivineShield.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\FingerSnap.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\FireExplosion.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\Quagmire.h" />
     <ClInclude Include="03.GameObject\PowerUp\PowerUp.h" />
     <ClInclude Include="03.GameObject\PowerUp\Comrade.h" />
     <ClInclude Include="03.GameObject\PowerUp\ContractWithTheDevil.h" />
@@ -292,7 +297,6 @@
     <ClCompile Include="03.GameObject\Monster\Slime03.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime04.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime05.cpp" />
-    <ClCompile Include="04.UiObject\EventPanel.cpp" />
     <ClCompile Include="04.UiObject\RssProgressWindow.cpp" />
     <ClCompile Include="04.UiObject\StatPopupWindow.cpp" />
     <ClCompile Include="04.UiObject\TwoFactorProgress.cpp" />
@@ -345,6 +349,11 @@
     <ClCompile Include="97.DataTable\DataTableMgr.cpp" />
     <ClCompile Include="97.DataTable\StringTable.cpp" />
     <ClCompile Include="04.UiObject\Brazier.cpp" />
+    <ClCompile Include="04.UiObject\EventPanel.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\BlessOfMana.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\DivineShield.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\FingerSnap.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\FireExplosion.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\Comrade.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\ContractWithTheDevil.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\CounterAttack.cpp" />
@@ -395,6 +404,7 @@
     <ClCompile Include="03.GameObject\RangePreview.cpp" />
     <ClCompile Include="04.UiObject\TrackerProfile.cpp" />
     <ClCompile Include="03.GameObject\PanelSkill\Panel.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\Quagmire.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\PowerUp.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\Meditation.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\Nobility.cpp" />

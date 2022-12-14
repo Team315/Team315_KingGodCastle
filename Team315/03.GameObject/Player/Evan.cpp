@@ -2,7 +2,7 @@
 #include "Skill/EvanSkill.h"
 
 Evan::Evan(bool mode, bool useExtraUpgrade, int skillTier)
-	: Character(mode, useExtraUpgrade, skillTier), skillSpeed(2000.f)
+	: Character(mode, useExtraUpgrade, skillTier), skillSpeed(1000.f)
 {
 	SetType("Player");
 	SetName("Evan");
@@ -63,17 +63,8 @@ void Evan::Init()
 void Evan::Update(float dt)
 {
 	Character::Update(dt);
+	skill->Update(dt);
 	SetDir(direction);
-	if(dirType == Dir::Down || dirType == Dir::Up)
-	{
-		direction.x = 0.f;
-		skill->Translate(direction * skillSpeed * dt);
-	}
-	else if (dirType == Dir::Left || dirType == Dir::Right)
-	{
-		direction.y = 0.f;
-		skill->Translate(direction * skillSpeed * dt);
-	}
 }
 
 void Evan::Draw(RenderWindow& window)

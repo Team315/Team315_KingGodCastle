@@ -15,4 +15,14 @@ graphics/PanelSkill/ManaBlessButton.png,0
 graphics/PanelSkill/MeteorButton.png,0
 graphics/PanelSkill/PingerSnapButton.png,0
 graphics/PanelSkill/QuagmireButton.png,0
-graphics/PanelSkill/ShieldButton.png,0
+graphics/PanelSkill/Fx_BlessOfMana.png,0
+graphics/PanelSkill/Fx_DivineShield.png,0
+graphics/PanelSkill/Fx_FingerSnap.png,0
+graphics/PanelSkill/Fx_FireExplosion.png,0
+graphics/PanelSkill/Fx_FireExplosion_a.png,0
+graphics/PanelSkill/Fx_Quagmire.png,0
+animations/Panel/BlessOfMana.csv,3
+animations/Panel/DivineShield.csv,3
+animations/Panel/FingerSnap.csv,3
+animations/Panel/FireExplosion.csv,3
+animations/Panel/Quagmire.csv,3

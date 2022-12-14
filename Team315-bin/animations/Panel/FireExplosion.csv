@@ -1,0 +1,12 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Fx_FireExplosion,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/PanelSkill/Fx_FireExplosion.png,0,0,211,240,105.5,240,0,0
+graphics/PanelSkill/Fx_FireExplosion.png,211,0,211,240,105.5,240,0,0
+graphics/PanelSkill/Fx_FireExplosion.png,422,0,211,240,105.5,240,0,0
+graphics/PanelSkill/Fx_FireExplosion.png,633,0,211,240,105.5,240,0,0
+graphics/PanelSkill/Fx_FireExplosion.png,0,240,211,240,105.5,240,0,0
+graphics/PanelSkill/Fx_FireExplosion.png,211,240,211,240,105.5,240,0,0
+graphics/PanelSkill/Fx_FireExplosion.png,422,240,211,240,105.5,240,0,0
+graphics/PanelSkill/Fx_FireExplosion.png,633,240,211,240,105.5,240,0,0
+graphics/PanelSkill/Fx_FireExplosion.png,0,0,0,150,105.5,240,0,0

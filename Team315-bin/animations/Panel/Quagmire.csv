@@ -1,0 +1,10 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Fx_Quagmire,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/PanelSkill/Fx_Quagmire.png,0,0,120,150,60,150,0,0
+graphics/PanelSkill/Fx_Quagmire.png,120,0,120,150,60,150,0,0
+graphics/PanelSkill/Fx_Quagmire.png,240,0,120,150,60,150,0,0
+graphics/PanelSkill/Fx_Quagmire.png,0,150,120,150,60,150,0,0
+graphics/PanelSkill/Fx_Quagmire.png,120,150,120,150,60,150,0,0
+graphics/PanelSkill/Fx_Quagmire.png,240,150,120,150,60,150,0,0
+graphics/PanelSkill/Fx_Quagmire.png,0,0,120,150,60,150,0,0

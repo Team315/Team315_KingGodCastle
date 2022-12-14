@@ -5,11 +5,11 @@
 
 enum class PanelTypes
 {
-	ManaBless,
-	Meteor,
-	PingerSnap,
+	BlessOfMana,
+	FireExplosion,
+	FingerSnap,
 	Quagmire,
-	Shield,
+	DivineShield,
 };
 class Panel : public SpriteObj
 {

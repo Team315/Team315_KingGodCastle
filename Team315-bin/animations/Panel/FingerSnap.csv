@@ -1,0 +1,10 @@
+ID,LOOPTYPE (0: Single 1: Move),FPS,,,,,,
+Fx_FingerSnap,0,10,,,,,,
+TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
+graphics/PanelSkill/Fx_FingerSnap.png,0,0,320,260,160,130,0,0
+graphics/PanelSkill/Fx_FingerSnap.png,320,0,320,260,160,130,0,0
+graphics/PanelSkill/Fx_FingerSnap.png,640,0,320,260,160,130,0,0
+graphics/PanelSkill/Fx_FingerSnap.png,0,260,320,260,160,130,0,0
+graphics/PanelSkill/Fx_FingerSnap.png,320,260,320,260,160,130,0,0
+graphics/PanelSkill/Fx_FingerSnap.png,640,260,320,260,160,130,0,0
+graphics/PanelSkill/Fx_FingerSnap.png,0,0,320,260,160,130,0,0
