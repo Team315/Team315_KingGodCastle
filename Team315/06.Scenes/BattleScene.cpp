@@ -113,6 +113,8 @@ void BattleScene::Enter()
 	{
 		flag->SetActive(true);
 	}
+	//판넬스킬
+	m_panel.Enter();
 }
 
 void BattleScene::Exit()
@@ -924,6 +926,106 @@ void BattleScene::Update(float dt)
 		}
 		return;
 	}
+
+	//if (gameEndTimer > 0.f)
+	//{
+	//	gameEndTimer -= dt;
+
+	//	if (gameEndTimer < 0.f)
+	//	{
+	//		gameEndTimer = 0.f;
+	//		stageEnd = false;
+	//		ui->SetStageEndWindow(false);
+	//		ui->GetTracker()->ShowWindow(false);
+	//		ui->GetTracker()->ProfilesReturn();
+
+	//		GAME_MGR->SetPlayingBattle(false);
+
+	//		int len = battleGrid.size();
+	//		for (int idx = 0; idx < len; idx++)
+	//		{
+	//			if (battleGrid[idx] == nullptr)
+	//				continue;
+
+	//			battleGrid[idx]->Reset();
+	//			battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
+	//		}
+	//		b_centerPos = false;
+	//		ZoomOut();
+
+	//		when stage clear
+	//			if (stageResult)
+	//			{
+	//				WaveReward wr = GAME_MGR->GetWaveRewardMapElem();
+	//				cout << "wave reward: " << wr.exp << wr.forge << wr.power << endl;
+	//				if (wr.forge)
+	//					cout << "reward is forge" << endl;
+	//				else if (wr.power)
+	//					cout << "reward is power" << endl;
+	//				GAME_MGR->cumulativeExp += wr.exp;
+	//				cout << "현재 누적 경험치: " << GAME_MGR->cumulativeExp << endl;
+
+	//				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
+	//					GAME_MGR->curStageIdx++;
+	//			}
+	//		SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
+	//		ui->SetStatPopup(false, currentView.getCenter());
+	//		ui->SetItemPopup(false, currentView.getCenter());
+
+	//		for (auto& gameObj : battleGrid)
+	//		{
+	//			if (gameObj != nullptr && IsCharacter(gameObj))
+	//			{
+	//				dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(false);
+	//				pickAttackRangeRect = nullptr;
+	//			}
+	//		}
+	//		GAME_MGR->GetBattleTracker()->PrintAllData();
+	//	}
+	//	return;
+	//}
+
+	//if (GAME_MGR->GetPlayingBattle())
+	//{
+	//	if (playerCount == 0)
+	//	{
+	//		gameEndTimer = 3.5f;
+	//		stageEnd = true;
+	//		stageResult = false;
+	//		LoseFlag();
+	//	}
+	//	else if (aiCount == 0)
+	//	{
+	//		gameEndTimer = 3.5f;
+	//		stageEnd = true;
+	//		stageResult = true;
+	//		for (auto& cha : battleGrid)
+	//		{
+	//			if (cha != nullptr)
+	//			{
+	//				dynamic_cast<Character*>(cha)->SetIsBattle(false);
+	//			}
+	//		}
+	//	}
+
+	//	if (stageEnd)
+	//	{
+	//		ui->SetStageEndWindow(true, stageResult);
+	//		TranslateCoinState(GAME_MGR->GetClearCoin());
+	//		ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+	//	}
+	//}
+
+	//Panel Skill 
+	if (m_panel.CallResetButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+
+	}
+
+	if (m_panel.CallSkillButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+
+	} 
 	// Game Input end
 }
 
@@ -1005,6 +1107,8 @@ void BattleScene::Draw(RenderWindow& window)
 	{
 		dmgUI->Draw(window);
 	}
+
+	m_panel.Draw(window);
 }
 
 void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)

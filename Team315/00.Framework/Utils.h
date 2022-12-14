@@ -53,5 +53,6 @@ public:
 
 	static int ManhattanDistance(Vector2i vec1, Vector2i vec2);
 	static wstring s2w(const std::string& var);
-
+	//Use Korean Set
+	static void StringNewline(Text& text);
 };
