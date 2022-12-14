@@ -267,7 +267,6 @@
     <ClInclude Include="04.UiObject\Altar.h" />
     <ClInclude Include="04.UiObject\Brazier.h" />
     <ClInclude Include="03.GameObject\PanelSkill\Panel.h" />
-    <ClInclude Include="04.UiObject\EventPanel.h" />
     <ClInclude Include="03.GameObject\PanelSkill\BlessOfMana.h" />
     <ClInclude Include="03.GameObject\PanelSkill\DivineShield.h" />
     <ClInclude Include="03.GameObject\PanelSkill\FingerSnap.h" />
@@ -298,7 +297,6 @@
     <ClCompile Include="03.GameObject\Monster\Slime03.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime04.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime05.cpp" />
-    <ClCompile Include="04.UiObject\EventPanel.cpp" />
     <ClCompile Include="04.UiObject\RssProgressWindow.cpp" />
     <ClCompile Include="04.UiObject\StatPopupWindow.cpp" />
     <ClCompile Include="04.UiObject\TwoFactorProgress.cpp" />
