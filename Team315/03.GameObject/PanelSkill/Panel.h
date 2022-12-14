@@ -41,6 +41,10 @@ protected:
 
 	bool isMouseOn;
 
+	bool isPlaying;
+	bool isCurrPlaying;
+
+
 public:
 	Panel();
 	~Panel();
@@ -55,12 +59,15 @@ public:
 
 	bool CallResetButton(Vector2f pos);
 	bool CallSkillButton(Vector2f pos);
+	bool CallSkillPlayButton(Vector2f pos);
+
 	void ResetSkill();
+	void SetSkillButtonPos();
 	void SetSkillCooldown();
 	string GetRandomSkill();
 	void SetSkillBackGround();
 	void SetSkillInfo();
-	void SetWstring();
 	void SetDataTable();
+	void SetIsPlay(bool isplay);
 };
 

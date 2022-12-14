@@ -917,15 +917,31 @@ void BattleScene::Update(float dt)
 	}
 
 	//Panel Skill 
-	if (m_panel.CallResetButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	if (!GAME_MGR->GetPlayingBattle())
 	{
+		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
+		if (m_panel.CallResetButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
 
+		}
+		if (m_panel.CallSkillButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+
+		}
+	}
+	else
+	{
+		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
+
+		if (InputMgr::GetMouseUp(Mouse::Left))
+		{
+			if (m_panel.CallSkillPlayButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+			{
+
+			}
+		}
 	}
 
-	if (m_panel.CallSkillButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
-	{
-
-	} 
 	// Game Input end
 }
 

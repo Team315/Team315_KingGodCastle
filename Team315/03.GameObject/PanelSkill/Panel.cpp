@@ -1,7 +1,8 @@
 #include "Panel.h"
 
 Panel::Panel()
-	:m_skillCooldown(0), m_resetCooldown(2), m_skillCost(5), isMouseOn(false)
+	:m_skillCooldown(0), m_resetCooldown(2), m_skillCost(5), isMouseOn(false), 
+	isPlaying(false), isCurrPlaying(false)
 {
 }
 
@@ -34,10 +35,12 @@ void Panel::Update(float dt)
 void Panel::Draw(RenderWindow& window)
 {
 	window.draw(sprite);
-	m_resetButton.Draw(window);
+	if (!isPlaying)
+	{
+		m_resetButton.Draw(window);
+		m_resetCount.Draw(window);
+	}
 	m_skillCount.Draw(window);
-	m_resetCount.Draw(window);
-
 
 	if (isMouseOn)
 	{
@@ -49,7 +52,6 @@ void Panel::Draw(RenderWindow& window)
 		m_SkillInfo.Draw(window);
 	}
 	
-
 }
 
 void Panel::Enter()
@@ -84,11 +86,25 @@ bool Panel::CallResetButton(Vector2f pos)
 
 bool Panel::CallSkillButton(Vector2f pos)
 {
-	if (sprite.getGlobalBounds().contains(pos)/* && m_resetCooldown == 0*/)
+	if (sprite.getGlobalBounds().contains(pos))
 	{
 		isMouseOn = true;
 
-		if (InputMgr::GetMouseUp(Mouse::Left))
+		return true;
+	}
+	else
+	{
+		isMouseOn = false;
+	}
+
+	return false;
+}
+
+bool Panel::CallSkillPlayButton(Vector2f pos)
+{
+	if (sprite.getGlobalBounds().contains(pos))
+	{
+		if (isPlaying && m_skillCooldown == 0)
 		{
 			m_skillCooldown += m_skillCost;
 			SetSkillCooldown();
@@ -96,11 +112,6 @@ bool Panel::CallSkillButton(Vector2f pos)
 			return true;
 		}
 	}
-	else 
-	{
-		isMouseOn = false;
-	}
-
 
 	return false;
 }
@@ -108,7 +119,7 @@ bool Panel::CallSkillButton(Vector2f pos)
 void Panel::ResetSkill()
 {
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(GetRandomSkill()), true);
-	SetPos({ GAME_SCREEN_WIDTH * 0.92f,GAME_SCREEN_HEIGHT * 1.f });
+	SetSkillButtonPos();
 	SetOrigin(Origins::MC);
 	SetScale(0.8f, 0.8f);
 
@@ -121,7 +132,18 @@ void Panel::ResetSkill()
 	m_resetCount.SetTexture(*RESOURCE_MGR->GetTexture(skillNum));
 	m_resetCount.SetPos(vec);
 	m_resetCount.SetOrigin(Origins::MC);
+}
 
+void Panel::SetSkillButtonPos()
+{
+	if (!isPlaying)
+	{
+		SetPos({ GAME_SCREEN_WIDTH * 0.92f,GAME_SCREEN_HEIGHT * 1.f });
+	}
+	else
+	{
+		SetPos({ GAME_SCREEN_WIDTH * 0.88f,GAME_SCREEN_HEIGHT * 0.85f });
+	}
 }
 
 void Panel::SetSkillCooldown()
@@ -136,8 +158,8 @@ void Panel::SetSkillCooldown()
 
 string Panel::GetRandomSkill()
 {
-
 	int num = Utils::RandomRange(1, 5);
+
 	if (num == 1)
 	{
 		m_PanelTypes = PanelTypes::ManaBless;
@@ -175,8 +197,9 @@ void Panel::SetSkillBackGround()
 
 	Vector2f vec = m_BackGround.GetPos();
 	vec.y -= 45.f;
-	m_NamePos = vec;
 
+	m_NamePos = vec;
+	m_NamePos.y -= 5.f;
 	m_NameBackGround.SetSize(220.f, 40.f);;
 	m_NameBackGround.SetFillColor(Color::Black);
 	m_NameBackGround.SetFillColorAlpha(200);
@@ -184,7 +207,9 @@ void Panel::SetSkillBackGround()
 	m_NameBackGround.SetPos(vec);
 
 	vec.y += 70.f;
+
 	m_InfoPos = vec;
+	m_InfoPos.y -= 5;
 	m_InfoBackGround.SetSize(220.f, 80.f);;
 	m_InfoBackGround.SetFillColor(Color::Black);
 	m_InfoBackGround.SetFillColorAlpha(200);
@@ -206,17 +231,9 @@ void Panel::SetSkillInfo()
 	m_SkillInfo.SetString(m_SkillInfoStr);
 	m_SkillInfo.SetNewline();
 	m_SkillInfo.SetColor(Color::White);
-	m_SkillInfo.SetCharacterSize(25);
+	m_SkillInfo.SetCharacterSize(18);
 	m_SkillInfo.SetPos(m_InfoPos);
 	m_SkillInfo.SetOrigin(Origins::MC);
-}
-
-void Panel::SetWstring()
-{
-
-	m_SkillNameStr = "스킬 이름 입니다.";
-	m_SkillInfoStr = "스킬 설명 입니다.\n스킬 설명 입니다.\n스킬 설명 입니다.";
-
 }
 
 void Panel::SetDataTable()
@@ -231,4 +248,16 @@ void Panel::SetDataTable()
 	m_SkillNameStr = panel_name[(int)m_PanelTypes];
 	m_SkillInfoStr = panel_info[(int)m_PanelTypes];
 	m_skillCost = cooldown[(int)m_PanelTypes];
+}
+
+void Panel::SetIsPlay(bool isplay)
+{
+	isCurrPlaying = isplay;
+
+	if (isPlaying != isCurrPlaying)
+	{
+		isPlaying = isCurrPlaying;
+		SetSkillButtonPos();
+		SetSkillCooldown();
+	}
 }

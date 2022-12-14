@@ -50,6 +50,7 @@ protected:
 
 	Panel m_panel;
 
+
 public:
 	BattleScene();
 	virtual ~BattleScene();
