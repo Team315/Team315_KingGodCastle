@@ -160,6 +160,8 @@ string Panel::GetRandomSkill()
 {
 	int num = Utils::RandomRange(1, 5);
 
+	num = 2;
+
 	if (num == 1)
 	{
 		m_PanelTypes = PanelTypes::BlessOfMana;
@@ -257,6 +259,10 @@ void Panel::SetIsPlay(bool isplay)
 	if (isPlaying != isCurrPlaying)
 	{
 		isPlaying = isCurrPlaying;
+
+		if (!isPlaying && m_skillCooldown > 0)
+			--m_skillCooldown;
+
 		SetSkillButtonPos();
 		SetSkillCooldown();
 	}

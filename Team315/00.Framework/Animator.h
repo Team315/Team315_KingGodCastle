@@ -47,4 +47,6 @@ public:
 
 	float GetSpeed() const;
 	void SetSpeed(float s);
+
+	bool GetEndFrame();
 };

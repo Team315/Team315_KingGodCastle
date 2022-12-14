@@ -4,7 +4,7 @@ TEXTURE ID,L,T,W,H,X,Y,FLIPX,FLIPY
 graphics/PanelSkill/Fx_BlessOfMana.png,0,0,70,70,35,70,0,0
 graphics/PanelSkill/Fx_BlessOfMana.png,70,0,70,70,35,70,0,0
 graphics/PanelSkill/Fx_BlessOfMana.png,140,0,70,70,35,70,0,0
-graphics/PanelSkill/Fx_BlessOfMana.png,0,150,70,70,50,35,70,0,0
-graphics/PanelSkill/Fx_BlessOfMana.png,70,150,70,70,35,70,0,0
-graphics/PanelSkill/Fx_BlessOfMana.png,140,150,70,70,35,70,0,0
+graphics/PanelSkill/Fx_BlessOfMana.png,0,70,70,70,35,70,0,0
+graphics/PanelSkill/Fx_BlessOfMana.png,70,70,70,70,35,70,0,0
+graphics/PanelSkill/Fx_BlessOfMana.png,140,70,70,70,35,70,0,0
 graphics/PanelSkill/Fx_BlessOfMana.png,0,0,70,70,35,70,0,0
