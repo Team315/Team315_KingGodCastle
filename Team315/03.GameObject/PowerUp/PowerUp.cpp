@@ -14,45 +14,43 @@ string PowerUp::MakePath()
 
 	switch (powerUpType)
 	{
-	case PowerUpTypes::None:
-		return nullptr;
-	case PowerUpTypes::comrade:
+	case PowerUpTypes::Comrade:
 		path += "comrade.png";
 		break;
-	case PowerUpTypes::contract_with_the_devil:
+	case PowerUpTypes::ContractWithTheDevil:
 		path += "contract_with_the_devil.png";
 		break;
-	case PowerUpTypes::counter_attack:
+	case PowerUpTypes::CounterAttack:
 		path += "counter_attack.png";
 		break;
-	case PowerUpTypes::dogfight:
+	case PowerUpTypes::DogFight:
 		path += "dogfight.png";
 		break;
-	case PowerUpTypes::executioner_soul:
+	case PowerUpTypes::ExecutionerSoul:
 		path += "executioner_soul.png";
 		break;
-	case PowerUpTypes::hero_of_salvation:
+	case PowerUpTypes::HeroOfSalvation:
 		path += "hero_of_salvation.png";
 		break;
-	case PowerUpTypes::meditation:
+	case PowerUpTypes::Meditation:
 		path += "meditation.png";
 		break;
-	case PowerUpTypes::nobility:
+	case PowerUpTypes::Nobility:
 		path += "nobility.png";
 		break;
-	case PowerUpTypes::quick_hand:
+	case PowerUpTypes::QuickHand:
 		path += "quick_hand.png";
 		break;
-	case PowerUpTypes::rune_shield:
+	case PowerUpTypes::RuneShield:
 		path += "rune_shield.png";
 		break;
-	case PowerUpTypes::vampire:
+	case PowerUpTypes::Vampire:
 		path += "vampire.png";
 		break;
-	case PowerUpTypes::warriors_heart:
+	case PowerUpTypes::WarriorsHeart:
 		path += "warriors_heart.png";
 		break;
-	case PowerUpTypes::we_are_the_one:
+	case PowerUpTypes::WeAreTheOne:
 		path += "we_are_the_one.png";
 		break;
 	default:

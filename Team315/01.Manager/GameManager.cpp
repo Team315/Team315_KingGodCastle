@@ -424,6 +424,45 @@ Item* GameManager::SpawnItem(int tier, int typeIdx)
 	return item;
 }
 
+PowerUp* GameManager::GeneratePowerUp(int tier, PowerUpTypes puType)
+{
+	PowerUp* power = nullptr;
+
+	switch (puType)
+	{
+	case PowerUpTypes::Comrade:
+		break;
+	case PowerUpTypes::ContractWithTheDevil:
+		break;
+	case PowerUpTypes::CounterAttack:
+		break;
+	case PowerUpTypes::DogFight:
+		break;
+	case PowerUpTypes::ExecutionerSoul:
+		break;
+	case PowerUpTypes::HeroOfSalvation:
+		break;
+	case PowerUpTypes::Meditation:
+		break;
+	case PowerUpTypes::Nobility:
+		break;
+	case PowerUpTypes::QuickHand:
+		break;
+	case PowerUpTypes::RuneShield:
+		break;
+	case PowerUpTypes::Vampire:
+		break;
+	case PowerUpTypes::WarriorsHeart:
+		break;
+	case PowerUpTypes::WeAreTheOne:
+		break;
+	default:
+		break;
+	}
+
+	return nullptr;
+}
+
 void GameManager::MainGridReset()
 {
 	mainGrid->assign(GAME_TILE_HEIGHT * GAME_TILE_WIDTH, nullptr);

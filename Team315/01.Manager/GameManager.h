@@ -14,6 +14,7 @@ class DamageText;
 class GameObj;
 class Item;
 class Skill;
+class PowerUp;
 class Tile;
 class TileBackground;
 
@@ -92,6 +93,8 @@ public:
 	Character* SpawnPlayer(bool random);
 	
 	Item* SpawnItem(int tier = 0, int typeIdx = -1);
+
+	PowerUp* GeneratePowerUp(int tier, PowerUpTypes puType);
 
 	void MainGridReset();
 

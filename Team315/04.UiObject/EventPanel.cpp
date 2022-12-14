@@ -33,7 +33,7 @@ EventPanel::EventPanel(Scene* scene)
 	title->SetOrigin(Origins::TC);
 
 	headLocalPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, 250.f);
-	
+
 	infoWindow = new ItemInfoWindow(200.f, 100.f);
 
 	rerollButton = new BackrectText(150.f, 50.f);
@@ -43,7 +43,7 @@ EventPanel::EventPanel(Scene* scene)
 	rerollButton->SetTextStyle(Color::White, 25.f, Color::Black, 2.f);
 	rerollButton->SetTextLocalPos(Vector2f(0.f, -17.f));
 	rerollButton->SetHitbox(FloatRect(0, 0, 150, 50), Origins::BC);
-	
+
 	selectButton = new BackrectText(150.f, 50.f);
 	selectButton->SetFillColor(Color(0x58, 0x82, 0xfa));
 	selectButton->SetOutline(Color(0xa0, 0xa0, 0xa0), -5.0f);
@@ -51,7 +51,7 @@ EventPanel::EventPanel(Scene* scene)
 	selectButton->SetTextStyle(Color::White, 25.f, Color::Black, 2.f);
 	selectButton->SetTextLocalPos(Vector2f(0.f, -17.f));
 	selectButton->SetHitbox(FloatRect(0, 0, 150, 50), Origins::BC);
-	
+
 	frames.resize(3);
 	sprites.resize(3);
 
@@ -89,7 +89,7 @@ void EventPanel::Update(float dt)
 			previewOn = true;
 		}
 	}
-	
+
 	if (previewOn)
 	{
 		if (InputMgr::GetMouseUp(Mouse::Left))
@@ -113,7 +113,7 @@ void EventPanel::Update(float dt)
 
 				frames[idx]->SetScale(1.2f, 1.2f);
 				frames[idx]->SetOrigin(Origins::MC);
-				
+
 				infoWindow->SetItem(dynamic_cast<Item*>(items[idx]));
 				SetPos(position);
 			}
@@ -143,23 +143,20 @@ void EventPanel::Update(float dt)
 	{
 		if (InputMgr::GetMouseDown(Mouse::Left))
 		{
-			cout << "select" << endl;
-			 items[selectItem];
-
-			 int idx = 0;
-			 for (auto& item : items)
-			 {
-				 if (item != nullptr)
-				 {
-					 if (idx == selectIdx)
-						 GAME_MGR->waitQueue.push(dynamic_cast<Item*>(item));
-					 else
-						 delete item;
-				 }
-				 idx++;
-			 }
-			 items.clear();
-			 items.resize(3);
+			int idx = 0;
+			for (auto& item : items)
+			{
+				if (item != nullptr)
+				{
+					if (idx == selectIdx)
+						GAME_MGR->waitQueue.push(dynamic_cast<Item*>(item));
+					else
+						delete item;
+				}
+				idx++;
+			}
+			items.clear();
+			items.resize(3);
 
 			eventType = EventType::None;
 			curTier = 0;
@@ -208,7 +205,7 @@ void EventPanel::SetPos(const Vector2f& pos)
 			GAME_SCREEN_HEIGHT * 1.5f + TILE_SIZE * 1.5f
 			- previewButton->GetSize().y));
 	head.setPosition(pos + headLocalPos);
-	title->SetPos(pos + Vector2f(GAME_SCREEN_WIDTH * 0.5f, 
+	title->SetPos(pos + Vector2f(GAME_SCREEN_WIDTH * 0.5f,
 		GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.f + 200.f));
 
 	infoWindow->SetPos(pos + Vector2f(GAME_SCREEN_WIDTH * 0.5f - 100.f,
@@ -281,7 +278,7 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 		for (int i = 0; i < 3; i++)
 		{
 			frames[i]->SetTexture(*RESOURCE_MGR->GetTexture(frameTexPath), true);
-			frames[i]->SetOrigin(Origins::MC); 
+			frames[i]->SetOrigin(Origins::MC);
 			items[i] = GAME_MGR->SpawnItem(tier - 1, ranNums[i]);
 			sprites[i]->SetSpriteTexture(*RESOURCE_MGR->GetTexture(dynamic_cast<Item*>(items[i])->MakePath()), true);
 			sprites[i]->SetOrigin(Origins::MC);
@@ -297,6 +294,9 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 		selectButton->SetString(STRING_TABLE->Get("EventPowerButtonText"));
 		rerollButton->SetOrigin(Origins::BC);
 		selectButton->SetOrigin(Origins::BC);
+
+
+
 		break;
 	case EventType::GameOver:
 		key = "GameOverTitle";

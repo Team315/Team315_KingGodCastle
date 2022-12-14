@@ -231,6 +231,7 @@ void BattleScene::Update(float dt)
 			ZoomIn();*/
 			eventWindow = false;
 			ui->SetEventPanel(false);
+			ui->GetEventPanel()->SetEventType(EventType::None);
 			/*eventWindow = !eventWindow;
 			ui->SetEventPanel(eventWindow, (EventType)(Utils::RandomRange(0, 4)));*/
 		}
