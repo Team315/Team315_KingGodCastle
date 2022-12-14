@@ -38,11 +38,14 @@ Character::~Character()
 	star->Release();
 	if (skill != nullptr)
 		skill->Release();
-	for (auto& item : items)
-	{
-		item->Release();
-		delete item;
-	}
+	//for (auto& item : items)
+	//{
+	//	if (item != nullptr)
+	//	{
+	//		//item->Release();
+	//		delete item;
+	//	}
+	//}
 
 	if (mpBar != nullptr)
 	{
