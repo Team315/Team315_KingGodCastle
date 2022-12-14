@@ -862,14 +862,32 @@ void BattleScene::Update(float dt)
 					{
 						if (gameObj != nullptr && IsCharacter(gameObj))
 						{
-							dynamic_cast<Character*>(gameObj)->SetIsBattle(true);
-							if (!gameObj->GetType().compare("Player") && GAME_MGR->FindPowerUpByName("Meditation"))
+							Character* character = dynamic_cast<Character*>(gameObj);
+							character->SetIsBattle(true);
+
+							// 15, 25, 35
+							if (!gameObj->GetType().compare("Player"))
 							{
-								PowerUp* meditation = GAME_MGR->GetPowerUpByName("Meditation");
-								// 15, 25, 35
-								dynamic_cast<Character*>(gameObj)->
-									SetInitManaPoint(meditation->GetGrade() * 10.f + 5.f);
+								if (GAME_MGR->FindPowerUpByName("Meditation"))
+								{
+									PowerUp* meditation = GAME_MGR->GetPowerUpByName("Meditation");
+									character->SetInitManaPoint(meditation->GetGrade() * 10.f + 5.f);
+								}
+
+								if (!gameObj->GetName().compare("Pria") &&
+									GAME_MGR->FindPowerUpByName("RuneShield"))
+								{
+									PowerUp* runeShield = GAME_MGR->GetPowerUpByName("RuneShield");
+									character->AddShieldAmount(character->GetStat(StatType::HP).GetModifier());
+									
+									character->TakeBuff(StatType::AR, 1, false);
+									character->GetStat(StatType::AP).SetBase(
+										20 * pow(GAME_MGR->apIncreaseRate, character->GetStarNumber() - 1));
+									character->UpdateHpbar();
+								}
+
 							}
+
 						}
 					}
 					GAME_MGR->GetBattleTracker()->SetDatas();
