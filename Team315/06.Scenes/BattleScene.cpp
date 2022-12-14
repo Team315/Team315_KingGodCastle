@@ -879,8 +879,8 @@ void BattleScene::Update(float dt)
 								{
 									PowerUp* runeShield = GAME_MGR->GetPowerUpByName("RuneShield");
 									character->AddShieldAmount(character->GetStat(StatType::HP).GetModifier());
-									
-									character->TakeBuff(StatType::AR, 1, false);
+									character->GetStat(StatType::AR).SetBase(2);
+									character->TakeBuff(StatType::AR, 0, false);
 									character->GetStat(StatType::AP).SetBase(
 										20 * pow(GAME_MGR->apIncreaseRate, character->GetStarNumber() - 1));
 									character->UpdateHpbar();
