@@ -2,6 +2,8 @@ id,type
 graphics/commonUI/Background.png,0
 graphics/commonUI/BotGradiant.png,0
 graphics/titleScene/titleBackground.png,0
+graphics/titleScene/startButton.png,0
+graphics/titleScene/altarButton.png,0
 graphics/battleScene/Button_01.png,0
 graphics/battleScene/Button_02.png,0
 graphics/battleScene/Button_03.png,0
