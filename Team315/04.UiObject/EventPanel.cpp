@@ -6,9 +6,10 @@
 #include "SpriteObj.h"
 #include "DataTableMgr.h"
 #include "StringTable.h"
+#include "BackrectText.h"
 
 EventPanel::EventPanel(Scene* scene)
-	: parentScene(scene), previewOn(false)
+	: parentScene(scene), previewOn(false), eventType(EventType::None)
 {
 	SetSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	SetFillColor(Color(0x0f, 0x0f, 0x0f, 60.f));
@@ -16,8 +17,8 @@ EventPanel::EventPanel(Scene* scene)
 	previewButton = new SpriteObj();
 	previewButton->SetTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Pagedown.png"));
 	Vector2f textureSize(
-		previewButton->GetTextureRect().width * 0.8f,
-		previewButton->GetTextureRect().height * 0.8f);
+		previewButton->GetTextureRect().width,
+		previewButton->GetTextureRect().height);
 	previewButton->SetHitbox(FloatRect(0, 0, textureSize.x, textureSize.y), Origins::TL);
 	previewButton->SetScale(0.8f, 0.8f);
 	previewButton->Init();
@@ -29,7 +30,24 @@ EventPanel::EventPanel(Scene* scene)
 	title->SetOrigin(Origins::TC);
 
 	headLocalPos = Vector2f(GAME_SCREEN_WIDTH * 0.5f, 250.f);
-
+	
+	rerollButton = new BackrectText(100.f, 50.f);
+	rerollButton->SetFillColor(Color(0xf7, 0xd3, 0x58));
+	rerollButton->SetOutline(Color(0xa0, 0xa0, 0xa0), -4.0f);
+	rerollButton->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	rerollButton->SetTextStyle(Color::White, 25.f, Color::Black, 2.f);
+	rerollButton->SetTextLocalPos(Vector2f(0.f, -20.f));
+	rerollButton->SetString("test");
+	rerollButton->SetOrigin(Origins::BC);
+	
+	selectButton = new BackrectText(100.f, 50.f);
+	selectButton->SetFillColor(Color(0x58, 0x82, 0xfa));
+	selectButton->SetOutline(Color(0xa0, 0xa0, 0xa0), -4.0f);
+	selectButton->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	selectButton->SetTextStyle(Color::White, 25.f, Color::Black, 2.f);
+	selectButton->SetTextLocalPos(Vector2f(0.f, -20.f));
+	selectButton->SetString("test");
+	selectButton->SetOrigin(Origins::BC);
 	SetPos(Vector2f(0, GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.5f));
 }
 
@@ -77,6 +95,8 @@ void EventPanel::Draw(RenderWindow& window)
 		RectangleObj::Draw(window);
 		window.draw(head);
 		title->Draw(window);
+		rerollButton->Draw(window);
+		selectButton->Draw(window);
 	}
 
 	previewButton->Draw(window);
@@ -93,12 +113,18 @@ void EventPanel::SetPos(const Vector2f& pos)
 		Vector2f(GAME_SCREEN_WIDTH - previewButton->GetSize().x,
 			GAME_SCREEN_HEIGHT - previewButton->GetSize().y));
 	head.setPosition(pos + headLocalPos);
+	rerollButton->SetPos(pos +
+		Vector2f(GAME_SCREEN_WIDTH * 0.5f, 640.f));
+	selectButton->SetPos(pos +
+		Vector2f(GAME_SCREEN_WIDTH * 0.5f, 700.f));
 	title->SetPos(pos + Vector2f(GAME_SCREEN_WIDTH * 0.5f, 200.f));
 }
 
 void EventPanel::SetEventPanelType(EventType eType)
 {
 	string key = "";
+	
+	eventType = eType;
 
 	switch (eType)
 	{
