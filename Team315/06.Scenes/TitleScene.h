@@ -10,9 +10,9 @@ protected:
 	TextObj* titleText;
 	//sel mode
 	SpriteObj* m_pick;
-	TextObj* m_gameStart;
-	TextObj* m_altarStart;
-	TextObj* m_tool;
+	SpriteObj* m_gameStart;
+	SpriteObj* m_altarStart;
+	//TextObj* m_tool;
 	bool isMode;
 	int m_pickNum;
 	vector<Object*> buttonList;
@@ -32,7 +32,6 @@ public:
 
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
-	void SetModePick(Vector2f pos);
 	void CreatButton();
 	void IsPick(int picNum);
 };

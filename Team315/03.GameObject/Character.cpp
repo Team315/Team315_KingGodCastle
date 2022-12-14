@@ -27,6 +27,9 @@ Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 
 	shadow.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Shadow.png"));
 	shadow.setScale(0.4f, 0.4f);
+
+	effectAnimator.SetTarget(&effectSprite);
+	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Crowd_Effect"));
 }
 
 Character::~Character()
@@ -134,6 +137,11 @@ void Character::Update(float dt)
 		}
 		if (ccTimer > 0.f)
 		{
+			effectAnimator.Play("Crowd_Effect");
+			Vector2f ccPos = position;
+			ccPos.y -= 30.f;
+			effectSprite.setPosition(ccPos);
+			
 			ccTimer -= dt;
 			if (ccTimer < 0.f)
 			{
@@ -349,9 +357,9 @@ void Character::SetStatsInit(json data)
 void Character::TakeDamage(GameObj* attacker, bool attackType)
 {
 	//공격받을때 이펙트
-	sprite.setColor({ 255,0,0,120 });
+	sprite.setColor({ 255,0,0,200 });
 	hit = true;
-	hitDelta = 0.2f;
+	hitDelta = 0.1f;
 
 	Stat& hp = stat[StatType::HP];
 	float damage = 0.f;
@@ -1026,18 +1034,6 @@ void Character::SkillAnimation(Vector2f skillPos)
 			effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
 			effectSprite.setPosition(position + skillPos);
 		}
-		//if (!name.compare("Pria"))
-		//{
-		//	effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
-		//	Vector2f tPos = m_target->GetPos();
-		//	effectSprite.setPosition(position);
-		//	
-		//}
-		//else
-		//{
-		//	effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
-		//	effectSprite.setPosition(position);
-		//}
 	}
 	else if (lastDirection.x)
 	{
@@ -1100,7 +1096,7 @@ void Character::UpdateMove(float dt)
 {
 	if (Utils::EqualFloat(direction.y, 0.f) && Utils::EqualFloat(direction.x, 0.f))
 	{
-		SetState(AnimStates::Idle);
+		SetState(AnimStates::MoveToIdle);
 		return;
 	}
 	if (!Utils::EqualFloat(direction.y, lastDirection.y))

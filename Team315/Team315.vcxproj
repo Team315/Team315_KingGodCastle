@@ -159,6 +159,7 @@
     <ClInclude Include="03.GameObject\Monster\Slime03.h" />
     <ClInclude Include="03.GameObject\Monster\Slime04.h" />
     <ClInclude Include="03.GameObject\Monster\Slime05.h" />
+    <ClInclude Include="04.UiObject\EventPanel.h" />
     <ClInclude Include="04.UiObject\RssProgressWindow.h" />
     <ClInclude Include="04.UiObject\StatPopupWindow.h" />
     <ClInclude Include="04.UiObject\TwoFactorProgress.h" />
@@ -265,8 +266,7 @@
     <ClInclude Include="06.Scenes\AltarScene.h" />
     <ClInclude Include="04.UiObject\Altar.h" />
     <ClInclude Include="04.UiObject\Brazier.h" />
-    <ClInclude Include="03.GameObject\PanelSkill\PanelButton.h" />
-    <ClInclude Include="04.UiObject\EventPanel.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\Panel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="02.Object\FloatingObj.cpp" />
@@ -278,6 +278,7 @@
     <ClCompile Include="03.GameObject\Monster\Slime03.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime04.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime05.cpp" />
+    <ClCompile Include="04.UiObject\EventPanel.cpp" />
     <ClCompile Include="04.UiObject\RssProgressWindow.cpp" />
     <ClCompile Include="04.UiObject\StatPopupWindow.cpp" />
     <ClCompile Include="04.UiObject\TwoFactorProgress.cpp" />
@@ -330,7 +331,6 @@
     <ClCompile Include="97.DataTable\DataTableMgr.cpp" />
     <ClCompile Include="97.DataTable\StringTable.cpp" />
     <ClCompile Include="04.UiObject\Brazier.cpp" />
-    <ClCompile Include="04.UiObject\EventPanel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
     <ClCompile Include="01.Manager\SceneMgr.cpp" />
@@ -374,7 +374,7 @@
     <ClCompile Include="03.GameObject\Item\Staff.cpp" />
     <ClCompile Include="03.GameObject\RangePreview.cpp" />
     <ClCompile Include="04.UiObject\TrackerProfile.cpp" />
-    <ClCompile Include="03.GameObject\PanelSkill\PanelButton.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\Panel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

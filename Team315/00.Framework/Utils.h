@@ -54,4 +54,7 @@ public:
 	static int ManhattanDistance(Vector2i vec1, Vector2i vec2);
 	static wstring s2w(const std::string& var);
 	static float GetMinScaleRatioFromFloatRect(float sizeX, float sizeY, FloatRect fr);
+
+	//Use Korean Set
+	static void StringNewline(Text& text);
 };

@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include "Include.h"
 #include "TileBackground.h"
-
+#include "PanelSkill/Panel.h"
 class BattleSceneUI;
 class GameObj;
 class RectangleObj;
@@ -49,6 +49,8 @@ protected:
 	bool eventWindow;
 	bool eventPreviewOn;
 	int curEventTier;
+
+	Panel m_panel;
 
 public:
 	BattleScene();
