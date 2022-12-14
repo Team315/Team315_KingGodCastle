@@ -13,6 +13,7 @@ public:
     virtual void SetOrigin(Origins origin) override;
 
     void SetTexture(Texture& tex);
+	//void SetTexture(Texture& tex,bool as);
 	void SetScale(float x, float y);
 	void SetColor(Color color);
 	void SetAlhpa(int num);

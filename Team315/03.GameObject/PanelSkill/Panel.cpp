@@ -162,17 +162,17 @@ string Panel::GetRandomSkill()
 
 	if (num == 1)
 	{
-		m_PanelTypes = PanelTypes::ManaBless;
+		m_PanelTypes = PanelTypes::BlessOfMana;
 		return"graphics/PanelSkill/ManaBlessButton.png";
 	}
 	else if (num == 2)
 	{
-		m_PanelTypes = PanelTypes::Meteor;
+		m_PanelTypes = PanelTypes::FireExplosion;
 		return"graphics/PanelSkill/MeteorButton.png";
 	}
 	else if (num == 3)
 	{
-		m_PanelTypes = PanelTypes::PingerSnap;
+		m_PanelTypes = PanelTypes::FingerSnap;
 		return"graphics/PanelSkill/PingerSnapButton.png";
 	}
 	else if (num == 4)
@@ -182,7 +182,7 @@ string Panel::GetRandomSkill()
 	}
 	else if (num == 5)
 	{
-		m_PanelTypes = PanelTypes::Shield;
+		m_PanelTypes = PanelTypes::DivineShield;
 		return"graphics/PanelSkill/ShieldButton.png";
 	}
 }

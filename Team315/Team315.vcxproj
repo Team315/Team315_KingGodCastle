@@ -266,6 +266,11 @@
     <ClInclude Include="04.UiObject\Brazier.h" />
     <ClInclude Include="03.GameObject\PanelSkill\Panel.h" />
     <ClInclude Include="04.UiObject\EventPanel.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\BlessOfMana.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\DivineShield.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\FingerSnap.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\FireExplosion.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\Quagmire.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="02.Object\FloatingObj.cpp" />
@@ -329,6 +334,10 @@
     <ClCompile Include="97.DataTable\StringTable.cpp" />
     <ClCompile Include="04.UiObject\Brazier.cpp" />
     <ClCompile Include="04.UiObject\EventPanel.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\BlessOfMana.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\DivineShield.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\FingerSnap.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\FireExplosion.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="06.Scenes\Scene.cpp" />
     <ClCompile Include="01.Manager\SceneMgr.cpp" />
@@ -373,6 +382,7 @@
     <ClCompile Include="03.GameObject\RangePreview.cpp" />
     <ClCompile Include="04.UiObject\TrackerProfile.cpp" />
     <ClCompile Include="03.GameObject\PanelSkill\Panel.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\Quagmire.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
