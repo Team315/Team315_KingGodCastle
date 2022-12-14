@@ -46,6 +46,8 @@ void Slime00Skill::SetSkillRange(Vector2f startPos)
 
 void Slime00Skill::CastSkill(Character* caster)
 {
+	if (caster->GetTarget() == nullptr)
+		return;
 	SetSkillRange(caster->GetTarget()->GetPos());
 
 	for (auto& cell : applyArea)

@@ -86,10 +86,8 @@ void TrackerProfile::Parse()
 	starPath += (to_string(data->character->GetStarNumber()) + ext);
 
 	portrait.setTexture(*RESOURCE_MGR->GetTexture(portraitPath), true);
-	FloatRect fr = (FloatRect)portrait.getTextureRect();
-	float width = 40 / fr.width;
-	float height = 40 / fr.height;
-	float min = width > height ? height : width;
+	float min = Utils::GetMinScaleRatioFromFloatRect(
+		40.f, 40.f, (FloatRect)portrait.getTextureRect());
 	portrait.setScale(min, min);
 	Utils::SetOrigin(portrait, Origins::BC);
 

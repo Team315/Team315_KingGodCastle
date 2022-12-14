@@ -27,17 +27,10 @@ Thief00::Thief00(bool mode, bool useExtraUpgrade, int skillTier)
 	resStringTypes.insert({ ResStringType::RightSkill,"thief00_RightSkill" });
 	resStringTypes.insert({ ResStringType::UpSkill,"thief00_UpSkill" });
 
-	//resStringTypes.insert({ ResStringType::DownSkillEfect,"thief00_Skill_Effect" });
-	//resStringTypes.insert({ ResStringType::LeftSkillEfect,"thief00_Skill_Effect" });
-	//resStringTypes.insert({ ResStringType::RightSkillEfect,"thief00_Skill_Effect" });
-	//resStringTypes.insert({ ResStringType::UpSkillEfect,"thief00_Skill_Effect" });
-
-	//Vector2f targetPos = GetTarget()->GetPos();
-
-	//attackPos.insert({ Dir::Right, targetPos });
-	//attackPos.insert({ Dir::Left, targetPos });
-	//attackPos.insert({ Dir::Down, targetPos });
-	//attackPos.insert({ Dir::Up, targetPos });
+	resStringTypes.insert({ ResStringType::DownSkillEffect,"thief00_DownSkill_Effect" });
+	resStringTypes.insert({ ResStringType::LeftSkillEffect,"thief00_LeftSkill_Effect" });
+	resStringTypes.insert({ ResStringType::RightSkillEffect,"thief00_RightSkill_Effect" });
+	resStringTypes.insert({ ResStringType::UpSkillEffect,"thief00_UpSkill_Effect" });
 
 	resStringTypes.insert({ ResStringType::atkSound, "sounds/monster_claw.wav" });
 }

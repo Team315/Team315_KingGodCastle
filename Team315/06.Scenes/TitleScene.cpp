@@ -1,5 +1,6 @@
 #include "TitleScene.h"
 #include "Include.h"
+#include "Button.h"
 
 TitleScene::TitleScene()
 	: Scene(Scenes::Title), duration(0.5f), timer(duration), isMode(false), m_pickNum(0)
@@ -12,8 +13,8 @@ TitleScene::TitleScene()
 	Vector2u wSize = FRAMEWORK->GetWindowSize();
 	titleText = new TextObj(
 		*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
-		"Press Space bar to start!",
-		wSize.x * 0.2f, wSize.y * 0.72f, Color::White, 30.f);
+		"Press Click to start!",
+		wSize.x * 0.2f, wSize.y * 0.5f, Color::White, 35.f);
 	titleText->SetOutlineColor(Color::Black);
 	titleText->SetOutlineThickness(2.f);
 	titleText->SetOrigin(Origins::MC);
@@ -21,8 +22,6 @@ TitleScene::TitleScene()
 
 
 	CreatButton();
-
-	SetModePick({ 160.f,365.f });
 	
 	GAME_MGR->SetTilesData();
 	GAME_MGR->CreatedTiles();
@@ -63,11 +62,11 @@ void TitleScene::Update(float dt)
 {
 
 	// Dev Input
-	/*if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
+	if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
 	{
 		SCENE_MGR->ChangeScene(Scenes::Tool);
 		return;
-	}*/
+	}
 	/*if (InputMgr::GetKeyDown(Keyboard::Key::Num2))
 	{
 		SCENE_MGR->ChangeScene(Scenes::Loby);
@@ -90,52 +89,39 @@ void TitleScene::Update(float dt)
 			timer = duration;
 		}
 
-		if (InputMgr::GetKeyUp(Keyboard::Key::Space))
+		if (InputMgr::GetMouseUp(Mouse::Button::Left))
 		{
 			isMode = true;
-			//SCENE_MGR->ChangeScene(Scenes::Loby);
-			//SCENE_MGR->ChangeScene(Scenes::Battle);
-			//return;
 		}
 	}
 
 	if (isMode)
 	{
-
-		if (InputMgr::GetKeyDown(Keyboard::Key::Up))
+		if (m_gameStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
-			if (m_pickNum != 0)
-			{
-				--m_pickNum;
-				IsPick(m_pickNum);
-			}
-		}
-		else if (InputMgr::GetKeyDown(Keyboard::Key::Down))
-		{
-			if (m_pickNum != 2)
-			{
-				++m_pickNum;
-				IsPick(m_pickNum);
-			}
-
-		}
-	
-		
-
-		if (InputMgr::GetKeyDown(Keyboard::Key::Space) || InputMgr::GetKeyDown(Keyboard::Key::Enter))
-		{
-			if (m_pickNum == 0)
+			m_gameStart->SetScale(0.8f,0.8f);
+			if (InputMgr::GetMouseDown(Mouse::Button::Left))
 			{
 				SCENE_MGR->ChangeScene(Scenes::Battle);
 			}
-			else if (m_pickNum == 1)
+		}
+		else if (!m_gameStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			m_gameStart->SetScale(0.75f, 0.75f);
+		}
+		
+
+		if (m_altarStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			m_altarStart->SetScale(0.8f, 0.8f);
+			if (InputMgr::GetMouseDown(Mouse::Button::Left))
 			{
 				SCENE_MGR->ChangeScene(Scenes::Altar);
 			}
-			else if (m_pickNum == 2)
-			{
-				SCENE_MGR->ChangeScene(Scenes::Tool);
-			}
+		}
+		else if (!m_altarStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			m_altarStart->SetScale(0.75f, 0.75f);
 		}
 	}
 
@@ -163,65 +149,55 @@ void TitleScene::Draw(RenderWindow& window)
 	}
 }
 
-void TitleScene::SetModePick(Vector2f pos)
-{
-	m_pick = new SpriteObj();
-	m_pick->SetTexture(*RESOURCE_MGR->GetTexture("graphics/titleScene/pick.png"));
-	m_pick->SetPos(pos);
-	m_pick->SetOrigin(Origins::MR);
-	buttonList.push_back(m_pick);
-
-}
-
 void TitleScene::CreatButton()
 {
-	m_gameStart = new TextObj(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
-		"Game Start", 160.f, 360.f, Color::White, 45.f);
-	m_gameStart->SetOutlineColor(Color::Black);
-	m_gameStart->SetOutlineThickness(2.f);
-	m_gameStart->SetOrigin(Origins::ML);
+	m_gameStart = new SpriteObj;
+	m_gameStart->SetTexture(*RESOURCE_MGR->GetTexture("graphics/titleScene/startButton.png"));
+	m_gameStart->SetScale(0.75f, 0.75f);
+	m_gameStart->SetPos({ GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT * 0.45f });
+	m_gameStart->SetOrigin(Origins::MC);
 	buttonList.push_back(m_gameStart);
 
-	m_altarStart = new TextObj(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
-		"Altar Start", 160.f, 440.f, Color::White, 35.f);
-	m_altarStart->SetOutlineColor(Color::Black);
-	m_altarStart->SetOutlineThickness(2.f);
-	m_altarStart->SetOrigin(Origins::ML);
+	m_altarStart = new SpriteObj;
+	m_altarStart->SetTexture(*RESOURCE_MGR->GetTexture("graphics/titleScene/altarButton.png"));
+	m_altarStart->SetScale(0.75f, 0.75f);
+	m_altarStart->SetPos({ GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT * 0.63f });
+	m_altarStart->SetOrigin(Origins::MC);
 	buttonList.push_back(m_altarStart);
 
-	m_tool = new TextObj(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
-		"Tool Start", 160.f, 520.f, Color::White, 35.f);
-	m_tool->SetOutlineColor(Color::Black);
-	m_tool->SetOutlineThickness(2.f);
-	m_tool->SetOrigin(Origins::ML);
-	buttonList.push_back(m_tool);
+	//m_tool = new TextObj(*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
+	//	"Tool Start", 160.f, 720.f, Color::White, 35.f);
+	//m_tool->SetOutlineColor(Color::Black);
+	//m_tool->SetOutlineThickness(2.f);
+	//m_tool->SetOrigin(Origins::ML);
+	//buttonList.push_back(m_tool);
 
 }
 
-void TitleScene::IsPick(int picNum)
-{
-	//isPick = !isPick;
-
-	if (picNum == 0)
-	{
-		m_pick->SetPos({ 160.f,365.f });
-		m_gameStart->SetCharacterSize(45);
-		m_tool->SetCharacterSize(35);
-		m_altarStart->SetCharacterSize(35);
-	}
-	else if(picNum == 1)
-	{
-		m_pick->SetPos({ 160.f,445.f });
-		m_gameStart->SetCharacterSize(35);
-		m_altarStart->SetCharacterSize(45);
-		m_tool->SetCharacterSize(35);
-	}
-
-	else if (picNum == 2)
-	{
-		m_pick->SetPos({ 160.f,525.f });
-		m_gameStart->SetCharacterSize(35);
-		m_altarStart->SetCharacterSize(35);
-		m_tool->SetCharacterSize(45);
-	}
-}
+//void TitleScene::IsPick(int picNum)
+//{
+//	//isPick = !isPick;
+//
+//	if (picNum == 0)
+//	{
+//		m_pick->SetPos({ 160.f,365.f });
+//		m_gameStart->SetScale(1.1f, 1.1f);
+//		//m_gameStart->SetCharacterSize(45);
+//		m_tool->SetCharacterSize(35);
+//		//m_altarStart->SetCharacterSize(35);
+//	}
+//	else if(picNum == 1)
+//	{
+//		m_pick->SetPos({ 160.f,445.f });
+//		//m_gameStart->SetCharacterSize(35);
+//		//m_altarStart->SetCharacterSize(45);
+//		m_tool->SetCharacterSize(35);
+//	}
+//
+//	else if (picNum == 2)
+//	{
+//		m_pick->SetPos({ 160.f,525.f });
+//
+//		m_tool->SetCharacterSize(45);
+//	}
+//}

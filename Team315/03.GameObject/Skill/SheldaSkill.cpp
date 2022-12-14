@@ -34,4 +34,7 @@ void SheldaSkill::SetPos(const Vector2f& pos)
 void SheldaSkill::CastSkill(Character* caster)
 {
 	caster->TakeCare(caster, false);
+	animator.SetTarget(&sprite);
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Shelda_Skill_Effect"));
+	animator.Play("Shelda_Skill_Effect");
 }

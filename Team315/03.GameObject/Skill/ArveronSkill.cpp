@@ -91,6 +91,13 @@ void ArveronSkill::CastSkill(Character* caster)
 
 	SetSkillRange(startTarget->GetPos());
 
+	animator.SetTarget(&sprite);
+
+	animator.AddClip(*RESOURCE_MGR->GetAnimationClip("Arveron_Skill_Effect"));
+	animator.Play("Arveron_Skill_Effect");
+
+	SetPos(caster->GetPos());
+
 	for (auto& cell : applyArea)
 	{
 		GAME_MGR->rangePreview.Get()->Fire(GAME_MGR->IdxToPos(cell));

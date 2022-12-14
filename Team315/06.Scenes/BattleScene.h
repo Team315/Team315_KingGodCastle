@@ -47,6 +47,8 @@ protected:
 	bool stageEnd;
 	bool stageResult;
 	bool eventWindow;
+	bool eventPreviewOn;
+	int curEventTier;
 
 	Panel m_panel;
 
@@ -76,6 +78,8 @@ public:
 	void PickUpGameObj(GameObj* gameObj);
 	void TranslateCoinState(float delta);
 	int GetCurCharacterCount();
+	void SetEventWindow(bool active) { eventWindow = active; }
+	void ZoomControl(bool b_switch);
 };
 
 int GetIdxFromCoord(Vector2i coord);

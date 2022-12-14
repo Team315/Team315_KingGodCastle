@@ -2,7 +2,7 @@
 #include "Skill/EvanSkill.h"
 
 Evan::Evan(bool mode, bool useExtraUpgrade, int skillTier)
-	: Character(mode, useExtraUpgrade, skillTier), skillSpeed(800.f)
+	: Character(mode, useExtraUpgrade, skillTier), skillSpeed(2000.f)
 {
 	SetType("Player");
 	SetName("Evan");
@@ -32,10 +32,10 @@ Evan::Evan(bool mode, bool useExtraUpgrade, int skillTier)
 	resStringTypes.insert({ ResStringType::RightAttackEffect,"Sword_RightAttack_Effect" });
 	resStringTypes.insert({ ResStringType::UpAttackEffect,"Sword_UpAttack_Effect" });
 
-	resStringTypes.insert({ ResStringType::DownSkillEfect,"Evan_DownSkill_Effect" });
-	resStringTypes.insert({ ResStringType::LeftSkillEfect,"Evan_LeftSkill_Effect" });
-	resStringTypes.insert({ ResStringType::RightSkillEfect,"Evan_RightSkill_Effect" });
-	resStringTypes.insert({ ResStringType::UpSkillEfect,"Evan_UpSkill_Effect" });
+	resStringTypes.insert({ ResStringType::DownSkillEffect,"Evan_DownSkill_Effect" });
+	resStringTypes.insert({ ResStringType::LeftSkillEffect,"Evan_LeftSkill_Effect" });
+	resStringTypes.insert({ ResStringType::RightSkillEffect,"Evan_RightSkill_Effect" });
+	resStringTypes.insert({ ResStringType::UpSkillEffect,"Evan_UpSkill_Effect" });
 
 	attackPos.insert({ Dir::Right, { 10.f, 5.f } });
 	attackPos.insert({ Dir::Left, { -10.f, 5.f } });
@@ -63,126 +63,27 @@ void Evan::Init()
 void Evan::Update(float dt)
 {
 	Character::Update(dt);
-	skill->Translate(lastDirection * skillSpeed * dt);
-	//
-	//if (InputMgr::GetKeyDown(Keyboard::Z))
-	//{
-	//	SetState(AnimStates::Attack);
-	//}
-	//
-	//switch (currState)
-	//{
-	//case AnimStates::Idle:
-	//	UpdateIdle(dt);
-	//	break;
-	//case AnimStates::MoveToIdle:
-	//	UpdateMoveToIdle(dt);
-	//	break;
-	//case AnimStates::Move:
-	//	UpdateMove(dt);
-	//	break;
-	//case AnimStates::Attack:
-	//	UpdateAttack(dt);
-	//	break;
-	//case AnimStates::Skill:
-	//	UpdateSkill(dt);
-	//	break;
-	//}
-	//animator.Update(dt);
-	//effectAnimator.Update(dt);
-	//
-	//if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-	//{
-	//	lastDirection = direction;
-	//}
+	SetDir(direction);
+	if(dirType == Dir::Down || dirType == Dir::Up)
+	{
+		direction.x = 0.f;
+		skill->Translate(direction * skillSpeed * dt);
+	}
+	else if (dirType == Dir::Left || dirType == Dir::Right)
+	{
+		direction.y = 0.f;
+		skill->Translate(direction * skillSpeed * dt);
+	}
 }
 
 void Evan::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
-	skill->Draw(window);
+	if(isBattle)
+		skill->Draw(window);
 }
 
 void Evan::SetPos(const Vector2f& pos)
 {
 	Character::SetPos(pos);
 }
-
-//void Evan::UpdateIdle(float dt)
-//{
-//	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-//	{
-//		SetState(AnimStates::Move);
-//		return;
-//	}
-//}
-//
-//void Evan::UpdateMoveToIdle(float dt)
-//{
-//	if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
-//	{
-//		SetState(AnimStates::Move);
-//		return;
-//	}
-//}
-//
-//void Evan::UpdateMove(float dt)
-//{
-//	if (Utils::EqualFloat(direction.x, 0.f) && Utils::EqualFloat(direction.y, 0.f))
-//	{
-//		SetState(AnimStates::Idle);
-//		return;
-//	}
-//	if (move)
-//		return;
-//	if (!Utils::EqualFloat(direction.x, lastDirection.x))
-//	{
-//		animator.Play((direction.x > 0.f) ? "Evan_RightMove" : "Evan_LeftMove");
-//		move = true;
-//	}
-//	else if (!Utils::EqualFloat(direction.y, lastDirection.y))
-//	{
-//		animator.Play((direction.y > 0.f) ? "Evan_DownMove" : "Evan_UpMove");
-//		move = true;
-//	}
-//}
-//
-//void Evan::UpdateAttack(float dt)
-//{
-//	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
-//	{
-//		SetState(AnimStates::MoveToIdle);
-//	}
-//}
-//
-//void Evan::UpdateSkill(float dt)
-//{
-//	//skill->SetRotation(lastDirection);
-//	//Vector2f vec = position;
-//	//if(lastDirection.y < 0.f)
-//	//{
-//	//	vec.x += 90.f;
-//	//	vec.y -= 100.f;
-//	//}
-//	//else if (lastDirection.y > 0.f)
-//	//{
-//	//	vec.x -= 90.f;
-//	//	vec.y += 30.f;
-//	//}
-//	//else if (lastDirection.x < 0.f)
-//	//{
-//	//	vec.x -= 80.f;
-//	//	vec.y -= 120.f;
-//	//}
-//	//else if (lastDirection.x > 0.f)
-//	//{
-//	//	vec.x += 80.f;
-//	//	vec.y += 65.f;
-//	//}
-//	//skill->SetPos(vec);
-//	
-//	if (!Utils::EqualFloat(direction.x, 0.f) && !Utils::EqualFloat(direction.y, 0.f))
-//	{
-//		SetState(AnimStates::MoveToIdle);
-//	}
-//}

@@ -152,6 +152,14 @@ std::wstring Utils::s2w(const std::string& var)
 	return std::wstring_convert<std::remove_reference<decltype(facet)>::type, wchar_t>(&facet).from_bytes(var);
 }
 
+float Utils::GetMinScaleRatioFromFloatRect(float sizeX, float sizeY, FloatRect fr)
+{
+	float width = sizeX / fr.width;
+	float height = sizeY / fr.height;
+	float min = width > height ? height : width;
+	return min;
+}
+
 void Utils::StringNewline(Text& text)
 {
 	string str = text.getString();

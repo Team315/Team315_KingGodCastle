@@ -20,8 +20,9 @@ protected:
 	bool attackRangeType; // true square, false cross
 	vector<Item*> items;
 	vector<SpriteGrid*> itemGrid;
+	bool hit;
+	float hitDelta;
 	Sprite shadow;
-
 	//Resource
 	unordered_map<ResStringType, string> resStringTypes;
 	unordered_map<Dir, Vector2f> attackPos;

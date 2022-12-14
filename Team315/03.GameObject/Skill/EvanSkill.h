@@ -1,11 +1,14 @@
 #pragma once
 #include "Skill.h"
+#include "Bullet.h"
 
 class Character;
 
 class EvanSkill : public Skill
 {
 protected:
+	vector<Sprite*> evanSkill;
+	float skillSpeed;
 public:
 	EvanSkill(int skillTier);
 	virtual ~EvanSkill();

@@ -36,6 +36,7 @@ public:
 
 	BattlePanel* GetPanel() { return panel; }
 	DamageTrackerUI* GetTracker() { return dmgTrackerUI; }
+	EventPanel* GetEventPanel() { return eventPanel; }
 	void CreateBackground(VertexArrayObj* vao, int rows, int cols, float quadWidth, float quadHeight);
 
 	void SetStatPopup(bool active, Vector2f viewCenter,
@@ -43,4 +44,5 @@ public:
 	void SetItemPopup(bool active, Vector2f viewCenter,
 		Item* item = nullptr, Vector2f pos = { 0, 0 });
 	void SetStageEndWindow(bool active, bool result = false);
+	void SetEventPanel(bool active, int tier = 0, EventType eType = EventType::None);
 };

@@ -14,6 +14,7 @@ public:
 
     void SetTexture(Texture& tex);
 	//void SetTexture(Texture& tex,bool as);
+    void SetTexture(Texture& tex, bool resetRect = false);
 	void SetScale(float x, float y);
 	void SetColor(Color color);
 	void SetAlhpa(int num);

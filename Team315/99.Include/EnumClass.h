@@ -68,6 +68,33 @@ enum class ItemType
 	Count,
 };
 
+enum class EventType
+{
+	None = -1,
+	Forge,
+	Power,
+	GameOver,
+	GameClear,
+};
+
+enum class PowerUpTypes
+{
+	None = -1,						 
+	Comrade,					// 전우
+	ContractWithTheDevil,		// 악마의 계약
+	CounterAttack,				// 반격
+	DogFight,					// 개싸움
+	ExecutionerSoul,			// 집행자 영혼
+	HeroOfSalvation,			// 구원의 영웅
+	Meditation,					// 명상
+	Nobility,					// 귀족
+	QuickHand,					// 재빠른 손놀림
+	RuneShield,					// 룬 방패
+	Vampire,					// 흡혈귀
+	WarriorsHeart,				// 전사의 심장
+	WeAreTheOne,				// 우리는 하나
+};
+
 enum class Dir
 {
 	None = -1,
@@ -108,9 +135,9 @@ enum class ResStringType
 	LeftAttackEffect,
 	RightAttackEffect,
 	UpAttackEffect,
-	DownSkillEfect,
-	LeftSkillEfect,
-	RightSkillEfect,
-	UpSkillEfect,
+	DownSkillEffect,
+	LeftSkillEffect,
+	RightSkillEffect,
+	UpSkillEffect,
 	atkSound,
 };

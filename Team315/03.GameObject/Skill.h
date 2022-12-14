@@ -13,10 +13,10 @@ protected:
 	int skillTier;						// starNumber
 	vector<Vector2i> applyArea;
 
-	unordered_map<ResStringType, string> resStringTypes;
-	unordered_map<Dir, Vector2f> skillPos;
 	Vector2f direction;
 	Dir dir;
+	vector<Animator*> mulSkillAnimator;
+	vector<Sprite*> mulSkillSprite;
 
 public:
 	Skill(int starNumber);

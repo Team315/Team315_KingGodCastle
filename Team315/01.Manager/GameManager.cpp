@@ -369,7 +369,7 @@ Character* GameManager::SpawnPlayer(string name, bool random)
 {
 	Character* character = nullptr;
 	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
-	//int num = 0;
+	//int num = 5;
 
 	if (!name.compare("Aramis") || num == 0)
 		character = new Aramis(false, true);
@@ -422,6 +422,45 @@ Item* GameManager::SpawnItem(int tier, int typeIdx)
 		break;
 	}
 	return item;
+}
+
+PowerUp* GameManager::GeneratePowerUp(int tier, PowerUpTypes puType)
+{
+	PowerUp* power = nullptr;
+
+	switch (puType)
+	{
+	case PowerUpTypes::Comrade:
+		break;
+	case PowerUpTypes::ContractWithTheDevil:
+		break;
+	case PowerUpTypes::CounterAttack:
+		break;
+	case PowerUpTypes::DogFight:
+		break;
+	case PowerUpTypes::ExecutionerSoul:
+		break;
+	case PowerUpTypes::HeroOfSalvation:
+		break;
+	case PowerUpTypes::Meditation:
+		break;
+	case PowerUpTypes::Nobility:
+		break;
+	case PowerUpTypes::QuickHand:
+		break;
+	case PowerUpTypes::RuneShield:
+		break;
+	case PowerUpTypes::Vampire:
+		break;
+	case PowerUpTypes::WarriorsHeart:
+		break;
+	case PowerUpTypes::WeAreTheOne:
+		break;
+	default:
+		break;
+	}
+
+	return nullptr;
 }
 
 void GameManager::MainGridReset()

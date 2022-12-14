@@ -60,7 +60,7 @@ void Panel::Enter()
 	m_resetButton.SetPos({ GAME_SCREEN_WIDTH * 0.92f,GAME_SCREEN_HEIGHT * 1.1f });
 	m_resetButton.SetOrigin(Origins::MC);
 	m_resetButton.SetScale(0.8f, 0.8f);
-	m_resetCooldown = 2;
+	m_resetCooldown = 2 + GAME_MGR->altarData.rerollCount;
 
 	ResetSkill();
 	SetSkillCooldown();

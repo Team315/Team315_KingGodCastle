@@ -13,6 +13,8 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetOrigin(Origins origin) override;
 	virtual void SetPos(const Vector2f& pos) override;
+
+	void SetScale(float x, float y);
 	
 	void SetSpriteScale(float x, float y);
 	void SetSpriteTexture(Texture& tex, bool resetRect = false);

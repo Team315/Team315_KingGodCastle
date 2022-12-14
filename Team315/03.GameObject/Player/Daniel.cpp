@@ -32,10 +32,10 @@ Daniel::Daniel(bool mode, bool useExtraUpgrade, int starNumber)
 	resStringTypes.insert({ ResStringType::RightAttackEffect,"Daniel_RightAttack_Effect" });
 	resStringTypes.insert({ ResStringType::UpAttackEffect,"Daniel_UpAttack_Effect" });
 
-	resStringTypes.insert({ ResStringType::DownSkillEfect,"Daniel_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::LeftSkillEfect,"Daniel_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::RightSkillEfect,"Daniel_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::UpSkillEfect,"Daniel_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::DownSkillEffect,"Daniel_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::LeftSkillEffect,"Daniel_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::RightSkillEffect,"Daniel_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::UpSkillEffect,"Daniel_Skill_Effect" });
 
 	attackPos.insert({ Dir::Right, { 40.f, 0.f } });
 	attackPos.insert({ Dir::Left, { -40.f, 0.f} });
@@ -74,12 +74,14 @@ void Daniel::Init()
 void Daniel::Update(float dt)
 {
 	Character::Update(dt);
+	skill->GetAnimator()->Update(dt);
 }
 
 void Daniel::Draw(RenderWindow& window)
 {
 	Character::Draw(window);
-	skill->Draw(window);
+	if (isBattle)
+		skill->Draw(window);
 }
 
 void Daniel::SetPos(const Vector2f& pos)

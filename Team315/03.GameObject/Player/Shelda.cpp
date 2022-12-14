@@ -32,10 +32,10 @@ Shelda::Shelda(bool mode, bool useExtraUpgrade, int skillTier)
 	resStringTypes.insert({ ResStringType::RightAttackEffect,"Sword_RightAttack_Effect" });
 	resStringTypes.insert({ ResStringType::UpAttackEffect,"Sword_UpAttack_Effect" });
 
-	resStringTypes.insert({ ResStringType::DownSkillEfect,"Shelda_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::LeftSkillEfect,"Shelda_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::RightSkillEfect,"Shelda_Skill_Effect" });
-	resStringTypes.insert({ ResStringType::UpSkillEfect,"Shelda_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::DownSkillEffect,"Shelda_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::LeftSkillEffect,"Shelda_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::RightSkillEffect,"Shelda_Skill_Effect" });
+	resStringTypes.insert({ ResStringType::UpSkillEffect,"Shelda_Skill_Effect" });
 
 	attackPos.insert({ Dir::Right, { 10.f, 5.f } });
 	attackPos.insert({ Dir::Left, { -10.f, 5.f} });
