@@ -43,6 +43,7 @@ protected:
 	float ccTimer; // Crowd control timer
 	float shieldAmount;
 	float shieldAmountMin;
+	float initManaPoint;
 	bool noSkill;
 	Skill* skill;
 
@@ -145,6 +146,7 @@ public:
 
 	void SetDir(Vector2f direction);
 	bool GetNoSkill() { return noSkill; }
-	ProgressBar* GetMpBar() { return mpBar; }
 	void UpdateHpbar();
+	void UpdateMpbar();
+	void SetInitManaPoint(float value);
 };

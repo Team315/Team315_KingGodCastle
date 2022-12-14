@@ -863,6 +863,13 @@ void BattleScene::Update(float dt)
 						if (gameObj != nullptr && IsCharacter(gameObj))
 						{
 							dynamic_cast<Character*>(gameObj)->SetIsBattle(true);
+							if (!gameObj->GetType().compare("Player") && GAME_MGR->FindPowerUpByName("Meditation"))
+							{
+								PowerUp* meditation = GAME_MGR->GetPowerUpByName("Meditation");
+								// 15, 25, 35
+								dynamic_cast<Character*>(gameObj)->
+									SetInitManaPoint(meditation->GetGrade() * 10.f + 5.f);
+							}
 						}
 					}
 					GAME_MGR->GetBattleTracker()->SetDatas();

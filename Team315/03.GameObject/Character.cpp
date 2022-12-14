@@ -7,7 +7,7 @@ Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	attackRangeType(false), isBattle(false), moveSpeed(0.f), noSkill(true),
 	ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f),
-	dirType(Dir::None)
+	dirType(Dir::None), initManaPoint(0.f)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 3.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -111,8 +111,8 @@ void Character::Reset()
 	UpdateHpbar();
 	if (!noSkill)
 	{
-		stat[StatType::MP].SetCurrent(0.f);
-		mpBar->SetProgressValue(0.f);
+		stat[StatType::MP].SetCurrent(initManaPoint);
+		UpdateMpbar();
 	}
 	SetState(AnimStates::Idle);
 	sprite.setColor(Color::White);
@@ -205,7 +205,7 @@ void Character::Update(float dt)
 						float gain = (!type.compare("Player")) ?
 							GAME_MGR->GetManaPerAttack() : GAME_MGR->manaPerAttack;
 						stat[StatType::MP].TranslateCurrent(gain);
-						mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
+						UpdateMpbar();
 					}
 
 					//타겟의 포지션
@@ -428,7 +428,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		float gain = (!type.compare("Player")) ?
 			GAME_MGR->GetManaPerDamage() : GAME_MGR->manaPerDamage;
 		stat[StatType::MP].TranslateCurrent(gain);
-		mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
+		UpdateMpbar();
 	}
 
 	if (stat[StatType::HP].GetCurrent() <= 0.f)
@@ -440,7 +440,7 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 			Stat attackerMp = attackerCharacter->GetStat(StatType::MP);
 			float killReward = attackerMp.GetBase() * (0.01f * GAME_MGR->altarData.gainManaWhenKill);
 			attackerMp.TranslateCurrent(killReward);
-			attackerCharacter->GetMpBar()->SetProgressValue(stat[StatType::MP].GetCurRatio());
+			attackerCharacter->UpdateMpbar();
 			if (GAME_MGR->FindPowerUpByName("Vampire"))
 			{
 				PowerUp* pu = GAME_MGR->GetPowerUpByName("Vampire");
@@ -1242,4 +1242,16 @@ void Character::SetDir(Vector2f direction)
 void Character::UpdateHpbar()
 {
 	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+}
+
+void Character::UpdateMpbar()
+{
+	mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
+}
+
+void Character::SetInitManaPoint(float value)
+{ 
+	initManaPoint = value;
+	stat[StatType::MP].SetCurrent(initManaPoint);
+	UpdateMpbar();
 }
