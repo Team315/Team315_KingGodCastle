@@ -39,7 +39,7 @@ LeonHeart::LeonHeart(bool mode, bool useExtraUpgrade, int skillTier)
 
 	attackPos.insert({ Dir::Right, { 40.f, 21.f } });
 	attackPos.insert({ Dir::Left, {-40.f, 21.f} });
-	attackPos.insert({ Dir::Down, { 0.f, 81.f} });
+	attackPos.insert({ Dir::Down, { 0.f, -81.f} });
 	attackPos.insert({ Dir::Up, { 0.f, 0.f} });
 
 	skillPos.insert({ Dir::Right, { 40.f, 51.f } });
