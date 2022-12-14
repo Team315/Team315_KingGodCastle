@@ -63,14 +63,18 @@ void Evan::Init()
 void Evan::Update(float dt)
 {
 	Character::Update(dt);
-	SetDir(direction);
+	skill->Update(dt);
+	//skill->SetSkillDir(direction);
+	//SetDir(direction);
 	if(dirType == Dir::Down || dirType == Dir::Up)
 	{
+		SetDir(direction);
 		direction.x = 0.f;
 		skill->Translate(direction * skillSpeed * dt);
 	}
 	else if (dirType == Dir::Left || dirType == Dir::Right)
 	{
+		SetDir(direction);
 		direction.y = 0.f;
 		skill->Translate(direction * skillSpeed * dt);
 	}

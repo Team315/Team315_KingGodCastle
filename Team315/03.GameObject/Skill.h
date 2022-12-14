@@ -27,6 +27,7 @@ public:
 	virtual void Reset() override;
 	virtual void Draw(RenderWindow& window) override;
 	//virtual void SetRotation(Vector2f dir);
+	void SetSkillDir(Vector2f dir);
 
 	virtual void SetState(AnimStates newState);
 	AnimStates GetState() { return currState; }
