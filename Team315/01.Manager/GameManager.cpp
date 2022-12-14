@@ -151,6 +151,21 @@ void GameManager::GMInit()
 		rewardDoc.Clear();
 	}
 	LoadAltarEffectFromTable();
+
+	{
+		string powerUpPath = "data/PowerUpData.csv";
+
+		rapidcsv::Document powerUpDoc(powerUpPath, rapidcsv::LabelParams(-1, 0));
+		auto tier1 = powerUpDoc.GetRow<string>(0);
+		auto tier2 = powerUpDoc.GetRow<string>(1);
+		auto tier3 = powerUpDoc.GetRow<string>(2);
+		auto rows = powerUpDoc.GetRowNames();
+		powerUpStringMap.insert({ rows[0], tier1 });
+		powerUpStringMap.insert({ rows[1], tier2 });
+		powerUpStringMap.insert({ rows[2], tier3 });
+
+		powerUpDoc.Clear();
+	}
 }
 
 void GameManager::GMReset()
@@ -424,43 +439,140 @@ Item* GameManager::SpawnItem(int tier, int typeIdx)
 	return item;
 }
 
-PowerUp* GameManager::GeneratePowerUp(int tier, PowerUpTypes puType)
+GameObj* GameManager::GeneratePowerUp(PowerUpTypes puType, int tier)
 {
-	PowerUp* power = nullptr;
+	GameObj* power = nullptr;
 
 	switch (puType)
 	{
 	case PowerUpTypes::Comrade:
+		power = new Comrade(tier, puType);
 		break;
 	case PowerUpTypes::ContractWithTheDevil:
+		power = new ContractWithTheDevil(tier, puType);
 		break;
 	case PowerUpTypes::CounterAttack:
+		power = new CounterAttack(tier, puType);
 		break;
 	case PowerUpTypes::DogFight:
+		power = new DogFight(tier, puType);
 		break;
 	case PowerUpTypes::ExecutionerSoul:
+		power = new ExecutionerSoul(tier, puType);
 		break;
 	case PowerUpTypes::HeroOfSalvation:
+		power = new HeroOfSalvation(tier, puType);
 		break;
 	case PowerUpTypes::Meditation:
+		power = new Meditation(tier, puType);
 		break;
 	case PowerUpTypes::Nobility:
+		power = new Nobility(tier, puType);
 		break;
 	case PowerUpTypes::QuickHand:
+		power = new QuickHand(tier, puType);
 		break;
 	case PowerUpTypes::RuneShield:
+		power = new RuneShield(tier, puType);
 		break;
 	case PowerUpTypes::Vampire:
+		power = new Vampire(tier, puType);
 		break;
 	case PowerUpTypes::WarriorsHeart:
+		power = new WarriorsHeart(tier, puType);
 		break;
 	case PowerUpTypes::WeAreTheOne:
+		power = new WeAreTheOne(tier, puType);
 		break;
 	default:
 		break;
 	}
 
-	return nullptr;
+	return power;
+}
+
+GameObj* GameManager::GeneratePowerUpbyMap(int idx, int tier)
+{
+	auto strVec = GetPowerUpStrings(tier);
+	string value = strVec[idx];
+	int newTier = -1;
+	if (isdigit(value.back()))
+	{
+		newTier = value.back() - '0';
+		value.pop_back();
+	}
+	else newTier = tier;
+	//cout << strVec[idx] << " / " << value << " / " << newTier << endl;
+
+	PowerUpTypes puType = PowerUpTypes::None;
+	// temp..
+	if (!value.compare("Comrade"))
+	{
+		puType = PowerUpTypes::Comrade;
+		cout << "Comrade type" << endl;
+	}
+	else if (!value.compare("ContractWithTheDevil"))
+	{
+		puType = PowerUpTypes::ContractWithTheDevil;
+		cout << "ContractWithTheDevil type" << endl;
+	}
+	else if (!value.compare("CounterAttack"))
+	{
+		puType = PowerUpTypes::CounterAttack;
+		cout << "CounterAttack type" << endl;
+	}
+	else if (!value.compare("DogFight"))
+	{
+		puType = PowerUpTypes::DogFight;
+		cout << "DogFight type" << endl;
+	}
+	else if (!value.compare("ExecutionerSoul"))
+	{
+		puType = PowerUpTypes::ExecutionerSoul;
+		cout << "ExecutionerSoul type" << endl;
+	}
+	else if (!value.compare("HeroOfSalvation"))
+	{
+		puType = PowerUpTypes::HeroOfSalvation;
+		cout << "HeroOfSalvation type" << endl;
+	}
+	else if (!value.compare("Meditation"))
+	{
+		puType = PowerUpTypes::Meditation;
+		cout << "Meditation type" << endl;
+	}
+	else if (!value.compare("Nobility"))
+	{
+		puType = PowerUpTypes::Nobility;
+		cout << "Nobility type" << endl;
+	}
+	else if (!value.compare("QuickHand"))
+	{
+		puType = PowerUpTypes::QuickHand;
+		cout << "QuickHand type" << endl;
+	}
+	else if (!value.compare("RuneShield"))
+	{
+		puType = PowerUpTypes::RuneShield;
+		cout << "RuneShield type" << endl;
+	}
+	else if (!value.compare("Vampire"))
+	{
+		puType = PowerUpTypes::Vampire;
+		cout << "Vampire type" << endl;
+	}
+	else if (!value.compare("WarriorsHeart"))
+	{
+		puType = PowerUpTypes::WarriorsHeart;
+		cout << "WarriorsHeart type" << endl;
+	}
+	else if (!value.compare("WeAreTheOne"))
+	{
+		puType = PowerUpTypes::WeAreTheOne;
+		cout << "WeAreTheOne type" << endl;
+	}
+
+	return GeneratePowerUp(puType, newTier);
 }
 
 void GameManager::MainGridReset()
@@ -514,6 +626,12 @@ float GameManager::GetItemStatMapElem(StatType statType, int grade)
 	if (statType == StatType::None)
 		return -1.f;
 	return (itemStatMap[statType])[grade];
+}
+
+const vector<string>& GameManager::GetPowerUpStrings(int tier)
+{
+	string key = "Tier"	+ to_string(tier);
+	return powerUpStringMap[key];
 }
 
 const WaveReward& GameManager::GetWaveRewardMapElem()

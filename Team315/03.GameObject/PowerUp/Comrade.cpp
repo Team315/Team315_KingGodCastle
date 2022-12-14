@@ -1,7 +1,7 @@
 #include "Comrade.h"
 
 Comrade::Comrade(int grade, PowerUpTypes puType)
-	: PowerUp(grade, puType)
+	: PowerUp(puType, grade)
 {
 	type = "PowerUp";
 	name = "Comrade"; // Àü¿ì

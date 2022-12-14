@@ -9,7 +9,7 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	PowerUp(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	PowerUp(PowerUpTypes puType = PowerUpTypes::None, int grade = 0);
 	virtual ~PowerUp();
 	
 	string MakePath();

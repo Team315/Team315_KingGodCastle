@@ -33,6 +33,7 @@ protected:
 
 	unordered_map<StatType, vector<float>> itemStatMap;
 	map<string, WaveReward> waveRewardMap;
+	map<string, vector<string>> powerUpStringMap;
 
 	BattleTracker* battleTracker;
 
@@ -94,7 +95,8 @@ public:
 	
 	Item* SpawnItem(int tier = 0, int typeIdx = -1);
 
-	PowerUp* GeneratePowerUp(int tier, PowerUpTypes puType);
+	GameObj* GeneratePowerUp(PowerUpTypes puType, int tier = 0);
+	GameObj* GeneratePowerUpbyMap(int idx, int tier);
 
 	void MainGridReset();
 
@@ -150,6 +152,7 @@ public:
 
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
+	const vector<string>& GetPowerUpStrings(int tier);
 	const WaveReward& GetWaveRewardMapElem();
 	Item* CombineItem(Item* obj1, Item* obj2);
 	Item* DropItem(Character* monster);

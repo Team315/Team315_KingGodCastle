@@ -1,6 +1,7 @@
 #include "PowerUp.h"
 
-PowerUp::PowerUp(int grade, PowerUpTypes puType)
+PowerUp::PowerUp(PowerUpTypes puType, int grade)
+	: powerUpType(puType), grade(grade)
 {
 }
 

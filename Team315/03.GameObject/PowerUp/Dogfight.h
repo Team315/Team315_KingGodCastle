@@ -1,13 +1,13 @@
 #pragma once
 #include "PowerUp.h"
 
-class Dogfight : public PowerUp
+class DogFight : public PowerUp
 {
 protected:
 	int grade;
 	PowerUpTypes powerUpType;
 
 public:
-	Dogfight(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
-	virtual ~Dogfight();
+	DogFight(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	virtual ~DogFight();
 };

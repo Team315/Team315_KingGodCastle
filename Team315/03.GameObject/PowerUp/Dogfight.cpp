@@ -1,12 +1,12 @@
-#include "Dogfight.h"
+#include "DogFight.h"
 
-Dogfight::Dogfight(int grade, PowerUpTypes puType)
-	: PowerUp(grade, puType)
+DogFight::DogFight(int grade, PowerUpTypes puType)
+	: PowerUp(puType, grade)
 {
 	type = "PowerUp";
-	name = "Dogfight"; // °³½Î¿ò
+	name = "DogFight"; // °³½Î¿ò
 }
 
-Dogfight::~Dogfight()
+DogFight::~DogFight()
 {
 }

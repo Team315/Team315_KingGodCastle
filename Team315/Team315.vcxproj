@@ -271,7 +271,7 @@
     <ClInclude Include="03.GameObject\PowerUp\Comrade.h" />
     <ClInclude Include="03.GameObject\PowerUp\ContractWithTheDevil.h" />
     <ClInclude Include="03.GameObject\PowerUp\CounterAttack.h" />
-    <ClInclude Include="03.GameObject\PowerUp\Dogfight.h" />
+    <ClInclude Include="03.GameObject\PowerUp\DogFight.h" />
     <ClInclude Include="03.GameObject\PowerUp\ExecutionerSoul.h" />
     <ClInclude Include="03.GameObject\PowerUp\HeroOfSalvation.h" />
     <ClInclude Include="03.GameObject\PowerUp\Meditation.h" />
@@ -348,7 +348,7 @@
     <ClCompile Include="03.GameObject\PowerUp\Comrade.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\ContractWithTheDevil.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\CounterAttack.cpp" />
-    <ClCompile Include="03.GameObject\PowerUp\Dogfight.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\DogFight.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\ExecutionerSoul.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\HeroOfSalvation.cpp" />
     <ClCompile Include="main.cpp" />

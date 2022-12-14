@@ -7,6 +7,7 @@
 #include "SpriteGrid.h"
 #include "BackrectText.h"
 #include "Item/Item.h"
+#include "PowerUp/PowerUp.h"
 #include "DataTableMgr.h"
 #include "StringTable.h"
 
@@ -294,6 +295,36 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 		selectButton->SetString(STRING_TABLE->Get("EventPowerButtonText"));
 		rerollButton->SetOrigin(Origins::BC);
 		selectButton->SetOrigin(Origins::BC);
+
+		frameTexPath = "graphics/battleScene/Item_Frame_";
+		for (int i = 0; i < 3; i++)
+		{
+			ranNums[i] = ranNums[i] == -1 ? Utils::RandomRange(0, 7) : ranNums[i];
+
+			for (int j = 0; j <= i; j++)
+			{
+				if (i != j && ranNums[i] == ranNums[j])
+				{
+					ranNums[i] = -1;
+					i--;
+				}
+			}
+		}
+
+		items.resize(3);
+		for (int i = 0; i < 3; i++)
+		{
+			items[i] = GAME_MGR->GeneratePowerUpbyMap(ranNums[i], tier);
+			//cout << "event panel: " << items[i]->GetType() << items[i]->GetName() << endl;
+			
+			string tierNumber = to_string(dynamic_cast<PowerUp*>(items[i])->GetGrade());
+			frames[i]->SetTexture(*RESOURCE_MGR->GetTexture(
+				frameTexPath + tierNumber + ".png"), true);
+			frames[i]->SetOrigin(Origins::MC);
+			
+			sprites[i]->SetSpriteTexture(*RESOURCE_MGR->GetTexture(dynamic_cast<PowerUp*>(items[i])->MakePath()), true);
+			sprites[i]->SetOrigin(Origins::MC);
+		}
 
 
 
