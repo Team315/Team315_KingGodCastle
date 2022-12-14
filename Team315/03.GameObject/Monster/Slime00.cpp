@@ -51,7 +51,7 @@ void Slime00::Update(float dt)
 		{
 			mpTimer = duration;
 			Stat& mp = stat[StatType::MP];
-			mp.TranslateCurrent(15.f);
+			mp.TranslateCurrent(GAME_MGR->manaPerAttack);
 			
 			if (!noSkill && Utils::EqualFloat(mp.GetCurRatio(), 1.f))
 			{

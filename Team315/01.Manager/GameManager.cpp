@@ -509,67 +509,67 @@ GameObj* GameManager::GeneratePowerUpbyMap(int idx, int tier)
 	if (!value.compare("Comrade"))
 	{
 		puType = PowerUpTypes::Comrade;
-		cout << "Comrade type" << endl;
+		//cout << "Comrade type" << endl;
 	}
 	else if (!value.compare("ContractWithTheDevil"))
 	{
 		puType = PowerUpTypes::ContractWithTheDevil;
-		cout << "ContractWithTheDevil type" << endl;
+		//cout << "ContractWithTheDevil type" << endl;
 	}
 	else if (!value.compare("CounterAttack"))
 	{
 		puType = PowerUpTypes::CounterAttack;
-		cout << "CounterAttack type" << endl;
+		//cout << "CounterAttack type" << endl;
 	}
 	else if (!value.compare("DogFight"))
 	{
 		puType = PowerUpTypes::DogFight;
-		cout << "DogFight type" << endl;
+		//cout << "DogFight type" << endl;
 	}
 	else if (!value.compare("ExecutionerSoul"))
 	{
 		puType = PowerUpTypes::ExecutionerSoul;
-		cout << "ExecutionerSoul type" << endl;
+		//cout << "ExecutionerSoul type" << endl;
 	}
 	else if (!value.compare("HeroOfSalvation"))
 	{
 		puType = PowerUpTypes::HeroOfSalvation;
-		cout << "HeroOfSalvation type" << endl;
+		//cout << "HeroOfSalvation type" << endl;
 	}
 	else if (!value.compare("Meditation"))
 	{
 		puType = PowerUpTypes::Meditation;
-		cout << "Meditation type" << endl;
+		//cout << "Meditation type" << endl;
 	}
 	else if (!value.compare("Nobility"))
 	{
 		puType = PowerUpTypes::Nobility;
-		cout << "Nobility type" << endl;
+		//cout << "Nobility type" << endl;
 	}
 	else if (!value.compare("QuickHand"))
 	{
 		puType = PowerUpTypes::QuickHand;
-		cout << "QuickHand type" << endl;
+		//cout << "QuickHand type" << endl;
 	}
 	else if (!value.compare("RuneShield"))
 	{
 		puType = PowerUpTypes::RuneShield;
-		cout << "RuneShield type" << endl;
+		//cout << "RuneShield type" << endl;
 	}
 	else if (!value.compare("Vampire"))
 	{
 		puType = PowerUpTypes::Vampire;
-		cout << "Vampire type" << endl;
+		//cout << "Vampire type" << endl;
 	}
 	else if (!value.compare("WarriorsHeart"))
 	{
 		puType = PowerUpTypes::WarriorsHeart;
-		cout << "WarriorsHeart type" << endl;
+		//cout << "WarriorsHeart type" << endl;
 	}
 	else if (!value.compare("WeAreTheOne"))
 	{
 		puType = PowerUpTypes::WeAreTheOne;
-		cout << "WeAreTheOne type" << endl;
+		//cout << "WeAreTheOne type" << endl;
 	}
 
 	return GeneratePowerUp(puType, newTier);

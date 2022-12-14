@@ -3,6 +3,7 @@
 
 class BackrectText;
 class Item;
+class PowerUp;
 
 class ItemInfoWindow : public SpriteGrid
 {
@@ -22,4 +23,5 @@ public:
 	virtual void SetOrigin(Origins origin) override;
 	virtual void SetPos(const Vector2f& pos) override;
 	void SetItem(Item* item);
+	void SetPowerUp(PowerUp* power);
 };

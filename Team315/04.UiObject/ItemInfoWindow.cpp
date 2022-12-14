@@ -2,6 +2,7 @@
 #include "Include.h"
 #include "BackrectText.h"
 #include "Item/Item.h"
+#include "PowerUp/PowerUp.h"
 #include "DataTableMgr.h"
 #include "StringTable.h"
 
@@ -72,7 +73,7 @@ void ItemInfoWindow::SetItem(Item* item)
 	int grade = item->GetGrade();
 	string framePath = "graphics/battleScene/Item_Frame_" + to_string(grade) + ".png";
 	sprite.setTexture(*RESOURCE_MGR->GetTexture(framePath), true);
-	name->SetString(item->GetName());
+	name->SetString(STRING_TABLE->Get( item->GetName() + to_string(grade) ) );
 	float poten = item->GetPotential();
 
 	StatType sType = item->GetStatType();
@@ -121,4 +122,14 @@ void ItemInfoWindow::SetItem(Item* item)
 		statSprite.setTexture(*RESOURCE_MGR->GetTexture(sTypeSpritePath), true);
 		statSprite.setScale(0.5f, 0.5f);
 	}
+}
+
+void ItemInfoWindow::SetPowerUp(PowerUp* power)
+{
+	itemSprite.setTexture(*RESOURCE_MGR->GetTexture(power->MakePath()), true);
+	
+	int grade = power->GetGrade();
+	string framePath = "graphics/battleScene/Item_Frame_" + to_string(grade) + ".png";
+	sprite.setTexture(*RESOURCE_MGR->GetTexture(framePath), true);
+	name->SetString(STRING_TABLE->Get( power->GetName() ));
 }
