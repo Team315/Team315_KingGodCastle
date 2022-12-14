@@ -24,6 +24,7 @@ void FingerSnap::Release()
 
 void FingerSnap::Update(float dt)
 {
+	if (isPlaying)
 	m_FingerSnap.Update(dt);
 }
 
@@ -43,7 +44,13 @@ void FingerSnap::SetAni()
 	SetScale(3.f, 3.f);
 }
 
+void FingerSnap::SetIsPlaying(bool is)
+{
+	isPlaying = is;
+}
+
 void FingerSnap::PlayingAni()
 {
+	isPlaying = true;
 	m_FingerSnap.Play("Fx_FingerSnap");
 }

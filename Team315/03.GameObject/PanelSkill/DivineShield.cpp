@@ -24,6 +24,7 @@ void DivineShield::Release()
 
 void DivineShield::Update(float dt)
 {
+	if (isPlaying)
 	m_DivineShield.Update(dt);
 }
 
@@ -43,7 +44,13 @@ void DivineShield::SetAni()
 	SetScale(5.f, 5.f);
 }
 
+void DivineShield::SetIsPlaying(bool is)
+{
+	isPlaying = is;
+}
+
 void DivineShield::PlayingAni()
 {
+	isPlaying = true;
 	m_DivineShield.Play("Fx_DivineShield");
 }

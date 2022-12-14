@@ -2,8 +2,9 @@
 #include "SpriteObj.h"
 #include "Animator.h"
 #include "Include.h"
+#include "GameObj.h"
 
-class Quagmire : public SpriteObj
+class Quagmire : public GameObj
 {
 protected:
 	Animator m_Quagmire;
@@ -21,8 +22,9 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	void SetAni();
-
+	void SetIsPlaying(bool is);
 
 	void PlayingAni();
+	void ActionSkill();
 };
 

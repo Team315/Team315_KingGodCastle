@@ -25,6 +25,7 @@ void Quagmire::Release()
 
 void Quagmire::Update(float dt)
 {
+	if (isPlaying)
 	m_Quagmire.Update(dt);
 }
 
@@ -45,7 +46,30 @@ void Quagmire::SetAni()
 	SetScale(3.f, 3.f);
 }
 
+void Quagmire::SetIsPlaying(bool is)
+{
+	isPlaying = is;
+}
+
 void Quagmire::PlayingAni()
 {
+	isPlaying = true;
 	m_Quagmire.Play("Fx_Quagmire");
+	ActionSkill();
+}
+
+void Quagmire::ActionSkill()
+{
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	
+	for (auto monster : mainGrid)
+	{
+		if (!monster->GetType().compare("Monster"))
+		{
+			//GAME_MGR->GetBattleTracker()->UpdateData(dynamic_cast<Character*>(monster), 999999.f, false, 0);
+
+		}
+
+	}
+
 }
