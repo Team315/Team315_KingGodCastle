@@ -151,3 +151,11 @@ std::wstring Utils::s2w(const std::string& var)
 	auto& facet = std::use_facet<std::codecvt<wchar_t, char, std::mbstate_t>>(loc);
 	return std::wstring_convert<std::remove_reference<decltype(facet)>::type, wchar_t>(&facet).from_bytes(var);
 }
+
+float Utils::GetMinScaleRatioFromFloatRect(float sizeX, float sizeY, FloatRect fr)
+{
+	float width = sizeX / fr.width;
+	float height = sizeY / fr.height;
+	float min = width > height ? height : width;
+	return min;
+}

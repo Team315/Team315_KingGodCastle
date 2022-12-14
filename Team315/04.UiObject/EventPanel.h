@@ -5,6 +5,8 @@ class BackgroundText;
 class BackrectText;
 class Scene;
 class SpriteObj;
+class SpriteGrid;
+class ItemInfoWindow;
 
 class EventPanel : public RectangleObj
 {
@@ -16,10 +18,15 @@ protected:
 	Vector2f headLocalPos;
 	BackgroundText* title;
 	vector<SpriteObj*> frames;
-	vector<SpriteObj*> sprites;
+	vector<SpriteGrid*> sprites;
+	vector<GameObj*> items;
+	ItemInfoWindow* infoWindow;
 	EventType eventType;
+	int curTier;
 	BackrectText* rerollButton;
 	BackrectText* selectButton;
+	bool selectItem;
+	int selectIdx;
 
 public:
 	EventPanel(Scene* scene);
@@ -34,7 +41,9 @@ public:
 	virtual void SetOrigin(Origins origin) override;
 	virtual void SetPos(const Vector2f& pos) override;
 
-	void SetEventPanelType(EventType eType);
+	void SetEventPanelType(EventType eType, int tier = 0);
 	EventType GetEventType() { return eventType; }
 	void SetEventType(EventType eType) { eventType = eType; }
+	SpriteObj* GetPreviewButton() { return previewButton; }
+	BackrectText* GetSelectButton() { return selectButton; }
 };

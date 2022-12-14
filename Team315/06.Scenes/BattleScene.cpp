@@ -15,7 +15,8 @@
 
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f), gameOverTimer(0.f),
-	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false), eventWindow(false)
+	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false),
+	eventWindow(false), eventPreviewOn(false), curEventTier(0)
 {
 	CLOG::Print3String("battle create");
 
@@ -98,8 +99,7 @@ void BattleScene::Enter()
 	GAME_MGR->curStageIdx = 0;
 	SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 	
-	b_centerPos = false;
-	ZoomOut();
+	ZoomControl(false);
 	GAME_MGR->damageUI.Reset();
 
 	SOUND_MGR->Play("sounds/Battle.wav", 20.f, true);
@@ -224,8 +224,9 @@ void BattleScene::Update(float dt)
 		
 		if (InputMgr::GetKeyDown(Keyboard::Key::F2))
 		{
-			b_centerPos = true;
-			ZoomIn();
+			cout << "event window force exit" << endl;
+			/*b_centerPos = true;
+			ZoomIn();*/
 			eventWindow = false;
 			ui->SetEventPanel(false);
 			/*eventWindow = !eventWindow;
@@ -251,8 +252,8 @@ void BattleScene::Update(float dt)
 				battleGrid[idx]->Reset();
 				battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
 			}
-			b_centerPos = false;
-			ZoomOut();
+			
+			ZoomControl(false);
 
 			if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
 				GAME_MGR->curStageIdx++;
@@ -607,8 +608,8 @@ void BattleScene::Update(float dt)
 				battleGrid[idx]->Reset();
 				battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
 			}
-			b_centerPos = false;
-			ZoomOut();
+			
+			ZoomControl(false);
 
 			ui->SetStatPopup(false, currentView.getCenter());
 			ui->SetItemPopup(false, currentView.getCenter());
@@ -628,16 +629,31 @@ void BattleScene::Update(float dt)
 				WaveReward wr = GAME_MGR->GetWaveRewardMapElem();
 				cout << "wave reward: " << wr.exp << wr.forge << wr.power << endl;
 				if (wr.forge)
+				{
 					ui->GetEventPanel()->SetEventType(EventType::Forge);
+					curEventTier = wr.forge;
+				}
 				else if (wr.power)
+				{
 					ui->GetEventPanel()->SetEventType(EventType::Power);
+					curEventTier = wr.power;
+				}
 				else
+				{
 					ui->GetEventPanel()->SetEventType(EventType::None);
+					curEventTier = 0;
+				}
 				GAME_MGR->cumulativeExp += wr.exp;
 				cout << "현재 누적 경험치: " << GAME_MGR->cumulativeExp << endl;
 
 				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
 					GAME_MGR->curStageIdx++;
+				else if (GAME_MGR->curChapIdx == CHAPTER_MAX_COUNT - 1)
+				{
+					ui->GetEventPanel()->SetEventType(EventType::GameClear);
+					ZoomControl(false);
+					return;
+				}
 			}
 			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 			//GAME_MGR->GetBattleTracker()->PrintAllData();
@@ -676,17 +692,6 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	// when eventWindow opens, block other inputs
-	if (eventWindow)
-		return;
-
-	// wheel control
-	float wheel = InputMgr::GetMouseWheel();
-	if (wheel != 0)
-	{
-		b_centerPos = wheel == 1 ? true : false;
-		b_centerPos ? ZoomIn() : ZoomOut();
-	}
 	if (b_centerPos)
 	{
 		if (screenCenterPos.y > gameScreenTopLimit)
@@ -705,14 +710,54 @@ void BattleScene::Update(float dt)
 			if (Utils::EqualFloat(screenCenterPos.y, gameScreenBottomLimit, dt * 5))
 			{
 				EventType eType = ui->GetEventPanel()->GetEventType();
-				if (eType != EventType::None)
+				if (!eventWindow && eType != EventType::None)
 				{
-					ui->SetEventPanel(true, eType);
+					ui->SetEventPanel(true, curEventTier, eType);
 					eventWindow = true;
-					ui->GetEventPanel()->SetEventType(EventType::None);
+					//ui->GetEventPanel()->SetEventType(EventType::None);
 				}
 			}
 		}
+	}
+
+	SpriteObj* previewButton = ui->GetEventPanel()->GetPreviewButton();
+	if (previewButton->CollideTest((ScreenToWorldPos(InputMgr::GetMousePosI()))))
+	{
+		if (InputMgr::GetMouseDown(Mouse::Left))
+		{
+			ZoomControl(true);
+			eventPreviewOn = true;
+		}
+	}
+	if (eventPreviewOn && InputMgr::GetMouseUp(Mouse::Left))
+	{
+		ZoomControl(false);
+		eventPreviewOn = false;
+	}
+
+	BackrectText* selectButton = ui->GetEventPanel()->GetSelectButton();
+	if (selectButton->CollideTest((ScreenToWorldPos(InputMgr::GetMousePosI()))))
+	{
+		if (InputMgr::GetMouseDown(Mouse::Left))
+		{
+			cout << "event window close" << endl;
+			ui->SetEventPanel(false);
+			eventWindow = false;
+		}
+	}
+
+	// when eventWindow opens, block other inputs
+	if (eventWindow)
+		return;
+
+	// wheel control
+	float wheel = InputMgr::GetMouseWheel();
+	if (wheel != 0)
+	{
+		if (wheel == 1)
+			ZoomControl(true);
+		else
+			ZoomControl(false);
 	}
 
 	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons();
@@ -792,9 +837,8 @@ void BattleScene::Update(float dt)
 						}
 					}
 					GAME_MGR->GetBattleTracker()->SetDatas();
-
-					b_centerPos = true;
-					ZoomIn();
+					
+					ZoomControl(true);
 
 					GAME_MGR->SetPlayingBattle(true);
 
@@ -1199,13 +1243,11 @@ void BattleScene::ZoomControl(bool b_switch)
 	{
 		b_centerPos = true;
 		ZoomIn();
-		eventWindow = false;
 	}
 	else
 	{
 		b_centerPos = false;
 		ZoomOut();
-		eventWindow = true;
 	}
 }
 
@@ -1255,13 +1297,16 @@ void BattleScene::LoseFlag()
 	flags[remainLife]->SetActive(false);
 	if (!remainLife)
 	{
-		isGameOver = true;
-		gameOverTimer = 5.f;
+		//isGameOver = true;
+		//gameOverTimer = 5.f;
 
 		cout << "Game Over !!" << endl;
 		GAME_MGR->accountInfo.AddExp(GAME_MGR->cumulativeExp);
 		GAME_MGR->accountInfo.UpdateLevel(GAME_MGR->accountExpLimit);
 		GAME_MGR->GameEnd();
+		ZoomControl(false);
+		ui->GetEventPanel()->SetEventType(EventType::GameOver);
+		//ui->SetEventPanel(true, EventType::GameOver);
 	}
 }
 

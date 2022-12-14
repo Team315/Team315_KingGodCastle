@@ -47,6 +47,8 @@ protected:
 	bool stageEnd;
 	bool stageResult;
 	bool eventWindow;
+	bool eventPreviewOn;
+	int curEventTier;
 
 public:
 	BattleScene();

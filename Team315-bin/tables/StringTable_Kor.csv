@@ -37,3 +37,8 @@ ForgeTitle,장비 제련
 PowerTitle,증강체 선택
 GameOverTitle,패배!
 GameClearTitle,승리!
+EventForgeRerollText,재감정
+EventForgeButtonText,제련하기
+EventPowerRerollText,재선택
+EventPowerButtonText,선택하기
+EventGameEndButtonText,확인 후 귀환
