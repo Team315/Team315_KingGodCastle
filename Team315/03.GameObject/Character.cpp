@@ -183,6 +183,18 @@ void Character::Update(float dt)
 					m_target = m_floodFill.GetNearEnemy(
 						GAME_MGR->GetMainGridRef(),
 						GAME_MGR->PosToIdx(position), targetType);
+					if (!name.compare("Evan") && !attackRangeType)
+					{
+						attackRangeType = true;
+						m_floodFill.SetArrSize(
+							stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
+
+						SetState(AnimStates::Skill);
+						stat[StatType::MP].SetCurrent(0.f);
+						mpBar->SetProgressValue(0.f);
+						if (skill != nullptr)
+							skill->CastSkill(this);
+					}
 
 					if (!noSkill)
 					{
@@ -244,11 +256,24 @@ void Character::Update(float dt)
 
 		if (!noSkill && Utils::EqualFloat(stat[StatType::MP].GetCurRatio(), 1.f))
 		{
-			SetState(AnimStates::Skill);
-			stat[StatType::MP].SetCurrent(0.f);
-			mpBar->SetProgressValue(0.f);
-			if (skill != nullptr)
-				skill->CastSkill(this);
+			int starGrade = GetStarNumber();
+			if (!name.compare("Evan") && starGrade <= 2)
+			{
+				if(attackRangeType)
+				{
+					m_floodFill.SetArrSize(
+						stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), false);
+					attackRangeType = false;
+				}
+			}
+			else
+			{
+				SetState(AnimStates::Skill);
+				stat[StatType::MP].SetCurrent(0.f);
+				mpBar->SetProgressValue(0.f);
+				if (skill != nullptr)
+					skill->CastSkill(this);
+			}			
 		}
 
 		if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
@@ -357,9 +382,9 @@ void Character::SetStatsInit(json data)
 void Character::TakeDamage(GameObj* attacker, bool attackType)
 {
 	//공격받을때 이펙트
-	sprite.setColor({ 255,0,0,200 });
+	sprite.setColor({ 255,0,0,180 });
 	hit = true;
-	hitDelta = 0.1f;
+	hitDelta = 0.05f;
 
 	Stat& hp = stat[StatType::HP];
 	float damage = 0.f;
@@ -1080,7 +1105,6 @@ void Character::UpdateIdle(float dt)
 			SetState(AnimStates::Move);
 		return;
 	}
-
 }
 
 void Character::UpdateMoveToIdle(float dt)
@@ -1124,6 +1148,7 @@ void Character::UpdateAttack(float dt)
 
 void Character::UpdateSkill(float dt)
 {
+	move = false;
 	if (!name.compare("Slime00"))
 	{
 		if (!Utils::EqualFloat(direction.y, 0.f) && !Utils::EqualFloat(direction.x, 0.f))

@@ -35,6 +35,32 @@ void Skill::Draw(RenderWindow& window)
 	SpriteObj::Draw(window);
 }
 
+void Skill::SetSkillDir(Vector2f dir)
+{
+	if (abs(dir.x) < abs(dir.y) || abs(dir.x) == abs(dir.y))
+	{
+		if (dir.y > 0.f)
+		{
+			this->dir = Dir::Down;
+		}
+		else if (dir.y < 0.f)
+		{
+			this->dir = Dir::Up;
+		}
+	}
+	else
+	{
+		if (dir.x > 0.f)
+		{
+			this->dir = Dir::Right;
+		}
+		else if (dir.x < 0.f)
+		{
+			this->dir = Dir::Left;
+		}
+	}
+}
+
 //void Skill::SetRotation(Vector2f dir)
 //{
 //	if (dir.y < 0.f)
