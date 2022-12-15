@@ -55,7 +55,6 @@ void TitleScene::Enter()
 void TitleScene::Exit()
 {
 	CLOG::Print3String("title exit");
-	SOUND_MGR->StopAll();
 }
 
 void TitleScene::Update(float dt)
@@ -102,6 +101,8 @@ void TitleScene::Update(float dt)
 			m_gameStart->SetScale(0.8f,0.8f);
 			if (InputMgr::GetMouseDown(Mouse::Button::Left))
 			{
+				SOUND_MGR->StopAll();
+				SOUND_MGR->Play("sounds/LobbySelect.ogg", 40.f, false);
 				SCENE_MGR->ChangeScene(Scenes::Battle);
 			}
 		}
@@ -116,6 +117,8 @@ void TitleScene::Update(float dt)
 			m_altarStart->SetScale(0.8f, 0.8f);
 			if (InputMgr::GetMouseDown(Mouse::Button::Left))
 			{
+				SOUND_MGR->StopAll();
+				SOUND_MGR->Play("sounds/LobbySelect.ogg", 40.f, false);
 				SCENE_MGR->ChangeScene(Scenes::Altar);
 			}
 		}

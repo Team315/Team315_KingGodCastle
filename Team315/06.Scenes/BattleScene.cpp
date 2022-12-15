@@ -837,6 +837,7 @@ void BattleScene::Update(float dt)
 				// Start battle
 				if (!button->GetName().compare("begin") && !GAME_MGR->GetPlayingBattle())
 				{
+					SOUND_MGR->Play("sounds/BattleStart.ogg", 30.f, false);
 					if (ui->GetEventPanel()->GetEventType() != EventType::None)
 						break;
 
@@ -913,6 +914,7 @@ void BattleScene::Update(float dt)
 					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->characterCost)
 					{
 						TranslateCoinState(-GAME_MGR->characterCost);
+						SOUND_MGR->Play("sounds/HeroSummon.ogg", 40.f, false);
 					}
 					else
 					{
@@ -952,6 +954,7 @@ void BattleScene::Update(float dt)
 					int cost = GAME_MGR->GetCurrentExpansionCost();
 					if (GAME_MGR->GetCurrentCoin() >= cost)
 					{
+						SOUND_MGR->Play("sounds/CampExpansion.ogg", 40.f, false);
 						cout << "expansion troops" << endl;
 						GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() + 1);
 						TranslateCoinState(-cost);
@@ -1275,6 +1278,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 			Item* newItem = GAME_MGR->CombineItem(destItem, pickItem);
 			if (newItem != nullptr) // item + item combinate
 			{
+				SOUND_MGR->Play("sounds/EquipUpgrade.ogg", 40.f, false);
 				CLOG::Print3String("item combinate");
 				pick = newItem;
 				(*start)[startIdx] = nullptr;

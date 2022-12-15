@@ -353,6 +353,7 @@ int Altar::GetButtonCall(Vector2f nowMousePos, int count)
 
 	if (m_button1.GetGlobalBounds().contains(nowMousePos))
 	{
+		SOUND_MGR->Play("sounds/AltarUpgrade.ogg", 20.f, false);
 		++m_grade;
 		if (m_grade > 15)
 		{
@@ -372,6 +373,7 @@ int Altar::GetButtonCall(Vector2f nowMousePos, int count)
 	}
 	else if (m_button5.GetGlobalBounds().contains(nowMousePos))
 	{
+		SOUND_MGR->Play("sounds/AltarUpgrade.ogg", 20.f, false);
 		if (count < 5)
 			return 0;
 
@@ -411,6 +413,7 @@ void Altar::AddCount(int count)
 
 void Altar::ResetCount()
 {
+	SOUND_MGR->Play("sounds/AltarReset.ogg", 20.f, false);
 	m_grade = 0;
 	ChangeAltarNum(m_grade);
 	ChangeObjAlhpa(m_grade);

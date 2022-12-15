@@ -111,7 +111,8 @@ void Character::Reset()
 		UpdateMpbar();
 	}
 	SetState(AnimStates::Idle);
-	sprite.setColor(Color::White);
+	if (currState == AnimStates::Idle || currState == AnimStates::MoveToIdle)
+		sprite.setColor(Color::White);
 }
 
 void Character::Update(float dt)
@@ -246,7 +247,6 @@ void Character::Update(float dt)
 			Translate(Utils::Normalize(direction) * dt * moveSpeed);
 			if (currState != AnimStates::Move)
 				SetState(AnimStates::Move);
-			//ºÒ¸´ ÈùÆ®
 			if (Utils::EqualFloat(Utils::Distance(destination, position), 0.f, dt * moveSpeed))
 			{
 				SetPos(destination);
@@ -692,6 +692,7 @@ void Character::LevelUpAnimation()
 	levUpSpr.setPosition(levPos);
 
 	levUpAni.Play("LevelUp_Effect");
+	SOUND_MGR->Play("sounds/HeroUpgrade.ogg", 40.f, false);
 }
 
 void Character::IsSetState(AnimStates newState)
@@ -1054,7 +1055,6 @@ void Character::AttackAnimation(Vector2f attackPos)
 			effectSprite.setPosition(position + attackPos);
 			}
 		}
-		cout << position.x << "," << position.y << endl;
 	}
 	else if (dirType == Dir::Right)
 	{
