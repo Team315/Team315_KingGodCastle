@@ -1,4 +1,6 @@
 #include "DivineShield.h"
+#include "Character.h"
+#include "rapidcsv.h"
 
 DivineShield::DivineShield()
 	:isPlaying(false)

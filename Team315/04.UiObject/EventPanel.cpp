@@ -79,6 +79,11 @@ void EventPanel::Release()
 
 void EventPanel::Reset()
 {
+	previewOn = false;
+	eventType = EventType::None;
+	selectItem = false;
+	selectIdx = 0;
+	curTier = 0;
 }
 
 void EventPanel::Update(float dt)
@@ -138,11 +143,18 @@ void EventPanel::Update(float dt)
 	{
 		if (InputMgr::GetMouseDown(Mouse::Left))
 		{
-			SOUND_MGR->Play("sounds/PowerUpChange.ogg", 40.f, false);
 			selectItem = false;
 			selectIdx = -1;
 			previewOn = false;
 			SetEventPanelType(eventType, curTier);
+			if (eventType == EventType::Forge)
+			{
+				SOUND_MGR->Play("sounds/EquipReassessment.ogg", 40.f, false);
+			}
+			else if (eventType == EventType::Power)
+			{
+				SOUND_MGR->Play("sounds/PowerUpChange.ogg", 40.f, false);
+			}
 		}
 	}
 
@@ -153,7 +165,6 @@ void EventPanel::Update(float dt)
 
 		if (InputMgr::GetMouseDown(Mouse::Left))
 		{
-			SOUND_MGR->Play("sounds/PowerUpSelect.ogg", 40.f, false);
 			int idx = 0;
 			for (auto& item : items)
 			{
@@ -163,11 +174,13 @@ void EventPanel::Update(float dt)
 					{
 						if (eventType == EventType::Forge)
 						{
+							SOUND_MGR->Play("sounds/EquipMake.ogg", 40.f, false);
 							//GAME_MGR->waitQueue.push(dynamic_cast<Item*>(item));
 							GAME_MGR->waitQueue.push(item);
 						}
 						else if (eventType == EventType::Power)
 						{
+							SOUND_MGR->Play("sounds/PowerUpSelect.ogg", 40.f, false);
 							PowerUp* power = dynamic_cast<PowerUp*>(item);
 							if (power->isStanding())
 								GAME_MGR->standingPowerUps.push_back(power);

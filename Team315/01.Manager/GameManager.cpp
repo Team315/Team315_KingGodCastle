@@ -622,6 +622,10 @@ int GameManager::GetClearCoin()
 
 	if (GetPowerUpByName("DogFight") != nullptr)
 		clearCoin += 5;
+
+	if (GetPowerUpByName("QuickHand") != nullptr)
+		clearCoin += 10;
+
 	cout << "½ºÅ×ÀÌÁö " << curStageIdx << " Å¬¸®¾î! " << clearCoin << "È¹µæ" << endl;
 	return clearCoin;
 }
