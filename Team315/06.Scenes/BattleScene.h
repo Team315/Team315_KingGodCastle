@@ -52,11 +52,7 @@ protected:
 
 	//Panel Skill
 	Panel m_panel;
-	Quagmire m_Quagmire;
-	FingerSnap m_FingerSnap;
-	BlessOfMana m_BlessOfMana;
-	DivineShield m_DivineShield;
-	FireExplosion m_FireExplosion;
+
 	TextObj* quickHandTimerText;
 	float quickHandTimer;
 	float quickHandDuration;

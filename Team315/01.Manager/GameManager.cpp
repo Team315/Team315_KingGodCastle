@@ -29,7 +29,8 @@ GameManager::GameManager()
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
 	apIncreaseRate(1.6f), asIncrease(0.1f),
 	manaPerAttack(15.f), manaPerDamage(5.f), itemDropProbability(10),
-	accountExpLimit(6), cumulativeExp(0), oneTimePowerUp(nullptr)
+	accountExpLimit(6), cumulativeExp(0), oneTimePowerUp(nullptr),
+	powerUprerollCount(2)
 {
 	CLOG::Print3String("GameManager Create");
 
@@ -186,6 +187,7 @@ void GameManager::GMReset()
 	}
 	drops.clear();
 	damageUI.Reset();
+	powerUprerollCount = 2;
 }
 
 void GameManager::GameEnd()

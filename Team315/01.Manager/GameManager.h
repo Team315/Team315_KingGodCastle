@@ -138,6 +138,8 @@ public:
 	float manaPerAttack;
 	float manaPerDamage;
 
+	int powerUprerollCount;
+
 	float GetManaPerAttack()
 	{
 		return manaPerAttack * (1.f + (0.01f * altarData.gainManaWhenAttack));
