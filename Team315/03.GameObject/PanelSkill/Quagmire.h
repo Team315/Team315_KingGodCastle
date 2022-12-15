@@ -9,6 +9,9 @@ class Quagmire : public GameObj
 protected:
 	Animator m_Quagmire;
 
+	float m_time;
+	float m_attackSpeed;
+	
 	bool isPlaying;
 
 public:
@@ -21,10 +24,12 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
+	void SetAttackSpeed();
 	void SetAni();
 	void SetIsPlaying(bool is);
 
 	void PlayingAni();
 	void ActionSkill();
+	void EndSkill();
 };
 

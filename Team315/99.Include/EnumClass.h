@@ -142,6 +142,15 @@ enum class ResStringType
 	atkSound,
 };
 
+enum class PanelTypes
+{
+	BlessOfMana,
+	FireExplosion,
+	FingerSnap,
+	Quagmire,
+	DivineShield,
+};
+
 enum class AttackTypes
 {
 	Normal,
