@@ -72,8 +72,6 @@ void FireExplosion::ActionSkill()
 {
 	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
-	
-
 	for (auto monster : mainGrid)
 	{
 		if (monster != nullptr && !monster->GetType().compare("Monster"))
@@ -81,4 +79,6 @@ void FireExplosion::ActionSkill()
 			dynamic_cast<Character*>(monster)->TakeDamege((float)m_damege);
 		}
 	}
+
+	SOUND_MGR->Play("sounds/panel_Explosion.ogg", 30.f, false);
 }
