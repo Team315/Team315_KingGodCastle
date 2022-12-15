@@ -6,12 +6,16 @@
 AltarScene::AltarScene()
 	: Scene(Scenes::Battle), testPos({0.f,0.f})
 {
-	m_backGround = new RectangleObj();
-	m_backGround->SetSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
-	m_backGround->SetFillColor(Color::White);
-	m_backGround->SetFillColorAlpha(150);
+	m_backGround = new SpriteObj();
+	m_backGround->SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/AltarBackGround.png"));
 	m_backGround->SetPos({ 0.f,0.f });
 	m_backGround->SetOrigin(Origins::TL);
+
+	
+	m_backButton.SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/BackButton.png"));
+	m_backButton.SetPos({ GAME_SCREEN_WIDTH,0.f });
+	m_backButton.SetOrigin(Origins::TR);
+
 
 	levelBar = new RssProgressWindow();
 	levelBar->SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/Icon_Level.png"));
@@ -22,6 +26,7 @@ AltarScene::AltarScene()
 	levelBar->SetLevelTextLocalPos(Vector2f(texRect.width * 0.5f + 4, texRect.height * 0.5f + 6));
 	levelBar->SetPos(Vector2f(10, 10));
 
+	objList.push_back(m_backGround);
 	objList.push_back(m_backGround);
 	objList.push_back(levelBar);
 
@@ -70,7 +75,7 @@ void AltarScene::Exit()
 }
 
 void AltarScene::Update(float dt)
-{
+{ 
 	Scene::Update(dt);
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Up))
@@ -224,6 +229,8 @@ void AltarScene::Update(float dt)
 		}
 	}
 
+	CallButton();
+
 	for (auto Altar : AltarList)
 	{
 		Altar->Update(dt);
@@ -240,7 +247,7 @@ void AltarScene::Update(float dt)
 void AltarScene::Draw(RenderWindow& window)
 {
 	Scene::Draw(window);
-
+	m_backButton.Draw(window);
 	for (auto obj : AltarList)
 	{
 		obj->Draw(window);
@@ -252,29 +259,68 @@ void AltarScene::Draw(RenderWindow& window)
 	}
 }
 
+void AltarScene::CallButton()
+{
+	if (m_backButton.GetGlobalBounds().contains(
+		ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+		if (InputMgr::GetMouseUp(Mouse::Left))
+		{
+			SaveData();
+			SCENE_MGR->ChangeScene(Scenes::Title);
+		}
+
+		IsSize(true);
+	}
+	else
+	{
+		IsSize(false);
+	}
+	
+}
+
+void AltarScene::IsSize(bool is)
+{
+	if (is)
+	{
+		m_backButton.SetPos({ GAME_SCREEN_WIDTH,0.f });
+		m_backButton.SetOrigin(Origins::TR);
+		m_backButton.SetScale( 1.2f,1.2f );
+	}
+	else
+	{
+		m_backButton.SetPos({ GAME_SCREEN_WIDTH,0.f });
+		m_backButton.SetOrigin(Origins::TR);
+		m_backButton.SetScale( 1.0f,1.0f );
+	}
+}
+
 void AltarScene::SetAltar()
 {
 	AltarData& data = GAME_MGR->altarData;
 
-	Altar* mana = new Altar({ GAME_SCREEN_WIDTH * 0.15f,GAME_SCREEN_HEIGHT * 0.05f }, 0, L"마나의 제단", { 254,113,235,255 }, data.mana);
+	Altar* mana = new Altar({ GAME_SCREEN_WIDTH * 0.15f,GAME_SCREEN_HEIGHT * 0.1f }, 0, L"마나의 제단", { 254,113,235,255 }, data.mana);
 	AltarList.push_back(mana);
 
-	Altar* silver = new Altar({ GAME_SCREEN_WIDTH * 0.62f,GAME_SCREEN_HEIGHT * 0.05f }, 1, L"은화의 제단", { 255,230,98,255 }, data.silver);
+	Altar* silver = new Altar({ GAME_SCREEN_WIDTH * 0.62f,GAME_SCREEN_HEIGHT * 0.1f }, 1, L"은화의 제단", { 255,230,98,255 }, data.silver);
 	AltarList.push_back(silver);
 
-	Altar* physical = new Altar({ GAME_SCREEN_WIDTH * 0.15f,GAME_SCREEN_HEIGHT * 0.45f }, 2, L"신체의 제단", { 255,2,2,255 }, data.physical);
+	Altar* physical = new Altar({ GAME_SCREEN_WIDTH * 0.15f,GAME_SCREEN_HEIGHT * 0.50f }, 2, L"신체의 제단", { 255,2,2,255 }, data.physical);
 	AltarList.push_back(physical);
 
-	Altar* enforce = new Altar({ GAME_SCREEN_WIDTH * 0.62f,GAME_SCREEN_HEIGHT * 0.45f }, 3, L"강화의 제단", { 0,203,255,255 }, data.enforce);
+	Altar* enforce = new Altar({ GAME_SCREEN_WIDTH * 0.62f,GAME_SCREEN_HEIGHT * 0.50f }, 3, L"강화의 제단", { 0,203,255,255 }, data.enforce);
 	AltarList.push_back(enforce);
 }
 
 void AltarScene::SetBrazier()
 {
-	Brazier* m_Brazier = new Brazier(20);
+	GAME_MGR->altarData.mana;
+	int temp = 0;
+	temp = GAME_MGR->altarData.mana + GAME_MGR->altarData.silver + GAME_MGR->altarData.silver + GAME_MGR->altarData.enforce;
+	int level = GAME_MGR->accountInfo.level * 2;
+	Brazier* m_Brazier = new Brazier(level-temp);
 	m_Brazier->Init();
 	BrazierList.push_back(m_Brazier);
-
 }
 
 void AltarScene::SaveData()
