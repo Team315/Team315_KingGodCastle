@@ -521,10 +521,7 @@ void Character::TakeDamege(float panelDamege, bool attackType)
 	}
 }
 
-void Character::ChangeStats(PanelTypes panelTypes)
-{
 
-}
 
 void Character::TakeCare(GameObj* caster, bool careType)
 {
@@ -1336,4 +1333,22 @@ void Character::SetInitManaPoint(float value)
 	initManaPoint = value;
 	stat[StatType::MP].SetCurrent(initManaPoint);
 	UpdateMpbar();
+}
+
+void Character::ChangeStats(PanelTypes m_PanelTypes, float value)
+{
+	switch (m_PanelTypes)
+	{
+	case PanelTypes::BlessOfMana:
+		break;
+	case PanelTypes::FireExplosion:
+		break;
+	case PanelTypes::FingerSnap:
+		break;
+	case PanelTypes::Quagmire:
+		stat[StatType::AS];
+		break;
+	case PanelTypes::DivineShield:
+		break;
+	}
 }

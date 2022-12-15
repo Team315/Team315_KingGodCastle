@@ -30,5 +30,6 @@ public:
 
 	void PlayingAni();
 	void ActionSkill();
+	void EndSkill();
 };
 

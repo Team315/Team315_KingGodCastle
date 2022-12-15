@@ -101,8 +101,6 @@ public:
 	Stat& GetStat(StatType statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
 	void TakeDamage(GameObj* attacker, AttackTypes attackType = AttackTypes::Normal);
-	void TakeDamege(float paneldamege , bool attackType = true);
-	void ChangeStats(PanelTypes panelTypes);
 	// careType, true = heal / false = shield
 	void TakeCare(GameObj* caster, bool careType = true);
 	void TakeCare(float amount, bool careType = true);
@@ -158,4 +156,8 @@ public:
 	void UpdateHpbar();
 	void UpdateMpbar();
 	void SetInitManaPoint(float value);
+
+	//panel
+	void TakeDamege(float paneldamege, bool attackType = true);
+	void ChangeStats(PanelTypes panelTypes, float value);
 };
