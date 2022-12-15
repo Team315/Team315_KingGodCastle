@@ -16,8 +16,6 @@ class Character : public GameObj
 protected:
 	Animator effectAnimator;
 	Sprite effectSprite;
-	Animator crowdControlAnimator;
-	Sprite crowdControlSprite;
 	unordered_map<StatType, Stat> stat;
 	bool attackRangeType; // true square, false cross
 	vector<Item*> items;
@@ -71,7 +69,15 @@ protected:
 	string targetType;
 	bool isBattle;
 	float astarDelay;
+	
+	//Level Up
+	Animator levUpAni;
+	Sprite levUpSpr;
 
+	//Crowd Control
+
+	Animator crowdControlAnimator;
+	Sprite crowdControlSprite;
 public:
 	// mode false - summon, true - combine
 	Character(bool mode = false, bool useExtraUpgrade = false, int starNumber = 0);
@@ -112,6 +118,7 @@ public:
 	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
 	void SetCrowdControl(float time);
+	void LevelUpAnimation();
 
 	//battle
 	void IsSetState(AnimStates newState);
