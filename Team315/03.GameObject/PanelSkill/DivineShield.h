@@ -9,7 +9,7 @@ class DivineShield : public GameObj
 protected:
 	Animator m_DivineShield;
 
-
+	float m_time;
 
 	bool isPlaying;
 
@@ -27,5 +27,7 @@ public:
 	void SetIsPlaying(bool is);
 
 	void PlayingAni();
+	void ActionSkill();
+	void EndSkill();
 };
 

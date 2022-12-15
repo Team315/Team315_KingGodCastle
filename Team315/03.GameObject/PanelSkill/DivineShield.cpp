@@ -27,7 +27,16 @@ void DivineShield::Release()
 void DivineShield::Update(float dt)
 {
 	if (isPlaying)
-	m_DivineShield.Update(dt);
+	{
+		m_time -= dt;
+		if (m_time < 0.f)
+		{
+			EndSkill();
+			isPlaying = false;
+		}
+		m_DivineShield.Update(dt);
+	}
+
 }
 
 void DivineShield::Draw(RenderWindow& window)
@@ -55,4 +64,35 @@ void DivineShield::PlayingAni()
 {
 	isPlaying = true;
 	m_DivineShield.Play("Fx_DivineShield");
+	ActionSkill();
+}
+
+void DivineShield::ActionSkill()
+{
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+
+	m_time = 4.f;
+
+	for (auto Player : mainGrid)
+	{
+		if (Player != nullptr && !Player->GetType().compare("Player"))
+		{
+			dynamic_cast<Character*>(Player)->SetInvincible(true);
+		}
+	}
+}
+
+void DivineShield::EndSkill()
+{
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+
+	m_time = 4.f;
+
+	for (auto Player : mainGrid)
+	{
+		if (Player != nullptr && !Player->GetType().compare("Player"))
+		{
+			dynamic_cast<Character*>(Player)->SetInvincible(false);
+		}
+	}
 }

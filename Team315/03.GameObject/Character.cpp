@@ -113,6 +113,7 @@ void Character::Reset()
 	SetState(AnimStates::Idle);
 	if (currState == AnimStates::Idle || currState == AnimStates::MoveToIdle)
 		sprite.setColor(Color::White);
+	m_invincible = false;
 }
 
 void Character::Update(float dt)
@@ -428,12 +429,15 @@ void Character::TakeDamage(GameObj* attacker, AttackTypes attackType)
 	}
 
 	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), trackerModeType ? StatType::AD : StatType::AP, damage);
-	/*if (untouchable)
-		return;*/
+	
+	if(m_invincible)
+	{
+		return;
+	}
+		Stat& hp = stat[StatType::HP];
+		hp.TranslateCurrent(-damage);
+		UpdateHpbar();
 
-	Stat& hp = stat[StatType::HP];
-	hp.TranslateCurrent(-damage);
-	UpdateHpbar();
 
 	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, trackerModeType);
 	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, trackerModeType);
