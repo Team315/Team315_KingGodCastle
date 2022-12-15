@@ -151,28 +151,13 @@ void BattleScene::Exit()
 
 void BattleScene::Update(float dt)
 {
-	if (!isSumAndCampInstruction)
+	if (!isSumAndCampInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) && sumandcampInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
 	{
-		if (sumandcampInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
-			if (InputMgr::GetMouseDown(Mouse::Button::Left))
-			{
-				isSumAndCampInstruction = true;
-			}
-		}
+		isSumAndCampInstruction = true;
 	}
-	else
+	else if (!isUpgradeInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) &&  upgradeInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
 	{
-		if (!isUpgradeInstruction)
-		{
-			if (upgradeInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
-			{
-				if (InputMgr::GetMouseDown(Mouse::Button::Left))
-				{
-					isUpgradeInstruction = true;
-				}
-			}
-		}
+		isUpgradeInstruction = true;
 	}
 
 	if (GAME_MGR->oneTimePowerUp != nullptr)
