@@ -78,6 +78,7 @@ public:
 	void MoveSetPos(Vector2f movepos);
 	int GetIndex() { return m_Index; };
 	int GetGrade() { return m_grade; };
+	void SetGrade(int grade) {m_grade = grade;};
 
 	void SetAltarString();
 	void SetRomaNumber(Vector2f mainPos, int index);

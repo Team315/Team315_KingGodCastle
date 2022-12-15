@@ -125,6 +125,7 @@
     <ClCompile Include="03.GameObject\PowerUp\RuneShield.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\Vampire.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\WarriorsHeart.cpp" />
+    <ClCompile Include="04.UiObject\InfoWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -261,6 +262,7 @@
     <ClInclude Include="03.GameObject\PowerUp\RuneShield.h" />
     <ClInclude Include="03.GameObject\PowerUp\Vampire.h" />
     <ClInclude Include="03.GameObject\PowerUp\WarriorsHeart.h" />
+    <ClInclude Include="04.UiObject\InfoWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

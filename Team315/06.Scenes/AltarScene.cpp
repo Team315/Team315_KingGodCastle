@@ -40,7 +40,6 @@ AltarScene::AltarScene()
 	levelBar->SetPos(Vector2f(10, 10));
 
 	objList.push_back(m_backGround);
-	objList.push_back(m_backGround);
 	objList.push_back(levelBar);
 
 	SetAltar();
@@ -363,8 +362,18 @@ void AltarScene::SetBrazier()
 {
 	GAME_MGR->altarData.mana;
 	int temp = 0;
-	temp = GAME_MGR->altarData.mana + GAME_MGR->altarData.silver + GAME_MGR->altarData.silver + GAME_MGR->altarData.enforce;
+	temp = GAME_MGR->altarData.mana + GAME_MGR->altarData.silver + GAME_MGR->altarData.physical + GAME_MGR->altarData.enforce;
 	int level = GAME_MGR->accountInfo.level * 2;
+	
+	if (temp > level)
+	{
+		for (auto init : AltarList)
+		{
+			init->SetGrade(0);
+			init->Enter();
+		}
+	}
+
 	Brazier* m_Brazier = new Brazier(level-temp);
 	m_Brazier->Init();
 	BrazierList.push_back(m_Brazier);
