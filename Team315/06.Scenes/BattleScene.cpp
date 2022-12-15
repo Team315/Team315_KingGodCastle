@@ -14,8 +14,8 @@
 #include <iostream>
 
 BattleScene::BattleScene()
-	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f), gameOverTimer(0.f),
-	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false),
+	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f),
+	remainLife(3), stageEnd(false), stageResult(false),
 	eventWindow(false), eventPreviewOn(false), curEventTier(0), quickHandTimer(0.f), quickHandDuration(10.f), isSumAndCampInstruction(false), isUpgradeInstruction(false)
 {																
 	CLOG::Print3String("battle create");
@@ -151,8 +151,6 @@ void BattleScene::Exit()
 
 void BattleScene::Update(float dt)
 {
-<<<<<<< HEAD
-=======
 	if (!isSumAndCampInstruction)
 	{
 		if (sumandcampInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
@@ -177,17 +175,6 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	if (isGameOver)
-	{
-		gameOverTimer -= dt;
-		if (gameOverTimer < 0.f)
-		{
-			SCENE_MGR->ChangeScene(Scenes::Title);
-		}
-		return;
-	}
-
->>>>>>> Character
 	if (GAME_MGR->oneTimePowerUp != nullptr)
 	{
 		OneTimePowerUp();
