@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	HeroOfSalvation(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	HeroOfSalvation(int grade = 0, PowerUpTypes puType = PowerUpTypes::HeroOfSalvation);
 	virtual ~HeroOfSalvation();
 };

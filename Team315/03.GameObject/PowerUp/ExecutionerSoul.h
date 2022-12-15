@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	ExecutionerSoul(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	ExecutionerSoul(int grade = 0, PowerUpTypes puType = PowerUpTypes::ExecutionerSoul);
 	virtual ~ExecutionerSoul();
 };

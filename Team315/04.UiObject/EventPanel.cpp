@@ -138,6 +138,7 @@ void EventPanel::Update(float dt)
 	{
 		if (InputMgr::GetMouseDown(Mouse::Left))
 		{
+			SOUND_MGR->Play("sounds/PowerUpChange.ogg", 40.f, false);
 			selectItem = false;
 			selectIdx = -1;
 			previewOn = false;
@@ -152,6 +153,7 @@ void EventPanel::Update(float dt)
 
 		if (InputMgr::GetMouseDown(Mouse::Left))
 		{
+			SOUND_MGR->Play("sounds/PowerUpSelect.ogg", 40.f, false);
 			int idx = 0;
 			for (auto& item : items)
 			{

@@ -484,9 +484,9 @@ GameObj* GameManager::GeneratePowerUp(PowerUpTypes puType, int tier)
 	case PowerUpTypes::WarriorsHeart:
 		power = new WarriorsHeart(tier, puType);
 		break;
-	case PowerUpTypes::WeAreTheOne:
+	/*case PowerUpTypes::WeAreTheOne:
 		power = new WeAreTheOne(tier, puType);
-		break;
+		break;*/
 	default:
 		break;
 	}
@@ -569,11 +569,11 @@ GameObj* GameManager::GeneratePowerUpbyMap(int idx, int tier)
 		puType = PowerUpTypes::WarriorsHeart;
 		//cout << "WarriorsHeart type" << endl;
 	}
-	else if (!value.compare("WeAreTheOne"))
-	{
-		puType = PowerUpTypes::WeAreTheOne;
-		//cout << "WeAreTheOne type" << endl;
-	}
+	//else if (!value.compare("WeAreTheOne"))
+	//{
+	//	puType = PowerUpTypes::WeAreTheOne;
+	//	//cout << "WeAreTheOne type" << endl;
+	//}
 
 	return GeneratePowerUp(puType, newTier);
 }
@@ -620,7 +620,9 @@ int GameManager::GetClearCoin()
 	if (curStageIdx == STAGE_MAX_COUNT - 1)
 		clearCoin += bossStageClearBonus;
 
-	cout << curStageIdx << "Å¬¸®¾î! " << clearCoin << "È¹µæ" << endl;
+	if (GetPowerUpByName("DogFight") != nullptr)
+		clearCoin += 5;
+	cout << "½ºÅ×ÀÌÁö " << curStageIdx << " Å¬¸®¾î! " << clearCoin << "È¹µæ" << endl;
 	return clearCoin;
 }
 
@@ -733,16 +735,6 @@ void GameManager::LoadAltarEffectFromTable()
 		doc.GetCell<int>(colNames[10], enforceId),
 		doc.GetCell<int>(colNames[11], enforceId)
 	);
-}
-
-bool GameManager::FindPowerUpByName(string name)
-{
-	for (auto& powerUp : standingPowerUps)
-	{
-		if (!powerUp->GetName().compare(name))
-			return true;
-	}
-	return false;
 }
 
 PowerUp* GameManager::GetPowerUpByName(string name)

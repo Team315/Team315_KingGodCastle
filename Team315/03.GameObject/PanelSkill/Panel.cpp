@@ -118,6 +118,7 @@ bool Panel::CallResetButton(Vector2f pos)
 
 		if (InputMgr::GetMouseUp(Mouse::Left))
 		{
+			SOUND_MGR->Play("sounds/PanelSkillChange.ogg", 40.f, false);
 			--m_resetCooldown;
 			ResetSkill();
 		}

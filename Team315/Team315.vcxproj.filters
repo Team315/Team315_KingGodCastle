@@ -106,6 +106,25 @@
     <ClCompile Include="04.UiObject\Brazier.cpp" />
     <ClCompile Include="03.GameObject\PanelSkill\Panel.cpp" />
     <ClCompile Include="04.UiObject\EventPanel.cpp" />
+    <ClCompile Include="04.UiObject\RssProgressWindow.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\BlessOfMana.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\DivineShield.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\FingerSnap.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\FireExplosion.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Comrade.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\ContractWithTheDevil.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\CounterAttack.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\DogFight.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\ExecutionerSoul.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\HeroOfSalvation.cpp" />
+    <ClCompile Include="03.GameObject\PanelSkill\Quagmire.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\PowerUp.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Meditation.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Nobility.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\QuickHand.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\RuneShield.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\Vampire.cpp" />
+    <ClCompile Include="03.GameObject\PowerUp\WarriorsHeart.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="96.Json\FileData.h" />
@@ -223,6 +242,25 @@
     <ClInclude Include="04.UiObject\Brazier.h" />
     <ClInclude Include="03.GameObject\PanelSkill\Panel.h" />
     <ClInclude Include="04.UiObject\EventPanel.h" />
+    <ClInclude Include="04.UiObject\RssProgressWindow.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\BlessOfMana.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\DivineShield.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\FingerSnap.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\FireExplosion.h" />
+    <ClInclude Include="03.GameObject\PanelSkill\Quagmire.h" />
+    <ClInclude Include="03.GameObject\PowerUp\PowerUp.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Comrade.h" />
+    <ClInclude Include="03.GameObject\PowerUp\ContractWithTheDevil.h" />
+    <ClInclude Include="03.GameObject\PowerUp\CounterAttack.h" />
+    <ClInclude Include="03.GameObject\PowerUp\DogFight.h" />
+    <ClInclude Include="03.GameObject\PowerUp\ExecutionerSoul.h" />
+    <ClInclude Include="03.GameObject\PowerUp\HeroOfSalvation.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Meditation.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Nobility.h" />
+    <ClInclude Include="03.GameObject\PowerUp\QuickHand.h" />
+    <ClInclude Include="03.GameObject\PowerUp\RuneShield.h" />
+    <ClInclude Include="03.GameObject\PowerUp\Vampire.h" />
+    <ClInclude Include="03.GameObject\PowerUp\WarriorsHeart.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

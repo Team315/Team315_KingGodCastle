@@ -862,25 +862,43 @@ void BattleScene::Update(float dt)
 				// Start battle
 				if (!button->GetName().compare("begin") && !GAME_MGR->GetPlayingBattle())
 				{
+					SOUND_MGR->Play("sounds/BattleStart.ogg", 30.f, false);
 					if (ui->GetEventPanel()->GetEventType() != EventType::None)
 						break;
 
+					int curCharacterCount = GetCurCharacterCount();
+					if (curCharacterCount != GAME_MGR->GetCharacterCount())
+					{
+						CLOG::Print3String("need more battle character");
+						if (curCharacterCount == 0)
+							break;
+					}
+
 					int monsterGridCoordC = 0;
-					int curBattleCharacterCount = 0;
+					if (GAME_MGR->GetPowerUpByName("DogFight"))
+					{
+						int dest = 0, sour = 0;
+
+						for (int i = 0; i < 77; i++)
+						{
+							dest = Utils::RandomRange(0, battleGrid.size());
+							sour = Utils::RandomRange(0, battleGrid.size());
+							
+							GameObj* temp = battleGrid[dest];
+							battleGrid[dest] = battleGrid[sour];
+							battleGrid[sour] = temp;
+
+							if (battleGrid[sour] != nullptr)
+								battleGrid[sour]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(sour, true)));
+							if (battleGrid[dest] != nullptr)
+								battleGrid[dest]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(dest, true)));
+						}
+					}
 
 					for (auto& character : battleGrid)
 					{
-						if (character != nullptr)
-							curBattleCharacterCount++;
-
 						mgref[monsterGridCoordC + 70] = character;
 						monsterGridCoordC++;
-					}
-					if (curBattleCharacterCount != GAME_MGR->GetCharacterCount())
-					{
-						CLOG::Print3String("need more battle character");
-						if (curBattleCharacterCount == 0)
-							break;
 					}
 
 					for (auto& gameObj : mgref)
@@ -893,16 +911,13 @@ void BattleScene::Update(float dt)
 							// 15, 25, 35
 							if (!gameObj->GetType().compare("Player"))
 							{
-								if (GAME_MGR->FindPowerUpByName("Meditation"))
-								{
-									PowerUp* meditation = GAME_MGR->GetPowerUpByName("Meditation");
-									character->SetInitManaPoint(meditation->GetGrade() * 10.f + 5.f);
-								}
+								PowerUp* pu = GAME_MGR->GetPowerUpByName("Meditation");
+								if (pu != nullptr)
+									character->SetInitManaPoint(pu->GetGrade() * 10.f + 5.f);
 
-								if (!gameObj->GetName().compare("Pria") &&
-									GAME_MGR->FindPowerUpByName("RuneShield"))
+								pu = GAME_MGR->GetPowerUpByName("RuneShield");
+								if (!gameObj->GetName().compare("Pria") && pu != nullptr)
 								{
-									PowerUp* runeShield = GAME_MGR->GetPowerUpByName("RuneShield");
 									character->AddShieldAmount(character->GetStat(StatType::HP).GetModifier());
 									character->GetStat(StatType::AR).SetBase(2);
 									character->TakeBuff(StatType::AR, 0, false);
@@ -910,7 +925,6 @@ void BattleScene::Update(float dt)
 										20 * pow(GAME_MGR->apIncreaseRate, character->GetStarNumber() - 1));
 									character->UpdateHpbar();
 								}
-
 							}
 
 						}
@@ -938,6 +952,7 @@ void BattleScene::Update(float dt)
 					if (GAME_MGR->GetCurrentCoin() >= GAME_MGR->characterCost)
 					{
 						TranslateCoinState(-GAME_MGR->characterCost);
+						SOUND_MGR->Play("sounds/HeroSummon.ogg", 40.f, false);
 					}
 					else
 					{
@@ -946,7 +961,7 @@ void BattleScene::Update(float dt)
 					}
 
 					Character* newPick = nullptr;
-					if (GAME_MGR->FindPowerUpByName("Comrade"))
+					if (GAME_MGR->GetPowerUpByName("Comrade") != nullptr)
 					{
 						newPick = GAME_MGR->SpawnPlayer(0, false,
 							GAME_MGR->comradeVec[Utils::RandomRange(0, 2)]);
@@ -968,7 +983,7 @@ void BattleScene::Update(float dt)
 				// Expansion
 				else if (!button->GetName().compare("expansion"))
 				{
-					if (GAME_MGR->FindPowerUpByName("HeroOfSalvation"))
+					if (GAME_MGR->GetPowerUpByName("HeroOfSalvation") != nullptr)
 					{
 						cout << "±¸¿øÀÇ ¿µ¿õ" << endl;
 						break;
@@ -977,6 +992,7 @@ void BattleScene::Update(float dt)
 					int cost = GAME_MGR->GetCurrentExpansionCost();
 					if (GAME_MGR->GetCurrentCoin() >= cost)
 					{
+						SOUND_MGR->Play("sounds/CampExpansion.ogg", 40.f, false);
 						cout << "expansion troops" << endl;
 						GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() + 1);
 						TranslateCoinState(-cost);
@@ -1262,6 +1278,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 			Item* newItem = GAME_MGR->CombineItem(destItem, pickItem);
 			if (newItem != nullptr) // item + item combinate
 			{
+				SOUND_MGR->Play("sounds/EquipUpgrade.ogg", 40.f, false);
 				CLOG::Print3String("item combinate");
 				pick = newItem;
 				(*start)[startIdx] = nullptr;
@@ -1395,8 +1412,14 @@ void BattleScene::OneTimePowerUp()
 		ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 		break;
 
-	case PowerUpTypes::WeAreTheOne:
-		//
+	case PowerUpTypes::ExecutionerSoul:
+		if (remainLife > 1)
+		{
+			LoseFlag();
+			GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() + 2);
+			ui->GetPanel()->SetExpansionStateText(
+				GetCurCharacterCount(), GAME_MGR->GetCharacterCount());
+		}
 		break;
 
 	default:

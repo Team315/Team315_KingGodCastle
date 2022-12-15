@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	WarriorsHeart(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	WarriorsHeart(int grade = 0, PowerUpTypes puType = PowerUpTypes::WarriorsHeart);
 	virtual ~WarriorsHeart();
 };

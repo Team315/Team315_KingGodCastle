@@ -159,7 +159,6 @@ public:
 	void LoadAltarEffectFromTable();
 
 	vector<int> comradeVec;
-	bool FindPowerUpByName(string name);
 	PowerUp* GetPowerUpByName(string name);
 };
 

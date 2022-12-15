@@ -16,8 +16,6 @@ class Character : public GameObj
 protected:
 	Animator effectAnimator;
 	Sprite effectSprite;
-	Animator crowdControlAnimator;
-	Sprite crowdControlSprite;
 	unordered_map<StatType, Stat> stat;
 	bool attackRangeType; // true square, false cross
 	vector<Item*> items;
@@ -25,6 +23,7 @@ protected:
 	bool hit;
 	float hitDelta;
 	Sprite shadow;
+
 	//Resource
 	unordered_map<ResStringType, string> resStringTypes;
 	unordered_map<Dir, Vector2f> attackPos;
@@ -70,7 +69,15 @@ protected:
 	string targetType;
 	bool isBattle;
 	float astarDelay;
+	
+	//Level Up
+	Animator levUpAni;
+	Sprite levUpSpr;
 
+	//Crowd Control
+
+	Animator crowdControlAnimator;
+	Sprite crowdControlSprite;
 public:
 	// mode false - summon, true - combine
 	Character(bool mode = false, bool useExtraUpgrade = false, int starNumber = 0);
@@ -93,9 +100,7 @@ public:
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(StatType statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
-	// attackType, true = ad / false = ap(skill)
-	void TakeDamage(GameObj* attacker, bool attackType = true);
-	//panel useonly
+	void TakeDamage(GameObj* attacker, AttackTypes attackType = AttackTypes::Normal);
 	void TakeDamege(float paneldamege , bool attackType = true);
 	void ChangeStats(PanelTypes panelTypes);
 	// careType, true = heal / false = shield
@@ -114,6 +119,7 @@ public:
 	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
 	void SetCrowdControl(float time);
+	void LevelUpAnimation();
 
 	//battle
 	void IsSetState(AnimStates newState);

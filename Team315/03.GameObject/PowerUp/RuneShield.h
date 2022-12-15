@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	RuneShield(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	RuneShield(int grade = 0, PowerUpTypes puType = PowerUpTypes::RuneShield);
 	virtual ~RuneShield();
 };

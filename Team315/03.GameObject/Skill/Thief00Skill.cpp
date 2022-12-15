@@ -77,5 +77,5 @@ void Thief00Skill::CastSkill(Character* caster)
 	}
 
 	GAME_MGR->rangePreview.Get()->Fire(targetCharacter->GetPos());
-	dynamic_cast<Character*>(targetCharacter)->TakeDamage(caster, false);
+	dynamic_cast<Character*>(targetCharacter)->TakeDamage(caster, AttackTypes::Skill);
 }

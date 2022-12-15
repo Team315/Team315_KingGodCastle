@@ -28,10 +28,6 @@ Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 
 	shadow.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Shadow.png"));
 	shadow.setScale(0.4f, 0.4f);
-
-	//effectAnimator.SetTarget(&effectSprite);
-
-	//effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Crowd_Effect"));
 }
 
 Character::~Character()
@@ -115,7 +111,8 @@ void Character::Reset()
 		UpdateMpbar();
 	}
 	SetState(AnimStates::Idle);
-	sprite.setColor(Color::White);
+	if (currState == AnimStates::Idle || currState == AnimStates::MoveToIdle)
+		sprite.setColor(Color::White);
 }
 
 void Character::Update(float dt)
@@ -127,6 +124,7 @@ void Character::Update(float dt)
 	animator.Update(dt);
 	effectAnimator.Update(dt);
 	crowdControlAnimator.Update(dt);
+	levUpAni.Update(dt);
 
 	if (!noSkill)
 		mpBar->Update(dt);
@@ -249,7 +247,6 @@ void Character::Update(float dt)
 			Translate(Utils::Normalize(direction) * dt * moveSpeed);
 			if (currState != AnimStates::Move)
 				SetState(AnimStates::Move);
-
 			if (Utils::EqualFloat(Utils::Distance(destination, position), 0.f, dt * moveSpeed))
 			{
 				SetPos(destination);
@@ -310,6 +307,8 @@ void Character::Draw(RenderWindow& window)
 	}
 	if (!noSkill)
 		mpBar->Draw(window);
+
+	window.draw(levUpSpr);
 }
 
 void Character::SetPos(const Vector2f& pos)
@@ -389,23 +388,36 @@ void Character::SetStatsInit(json data)
 		skill->SetSkillTier(GetStarNumber());
 }
 
-void Character::TakeDamage(GameObj* attacker, bool attackType)
+void Character::TakeDamage(GameObj* attacker, AttackTypes attackType)
 {
 	//공격받을때 이펙트
-	sprite.setColor({ 255,0,0,180 });
+	sprite.setColor({ 255, 0, 0, 180 });
 	hit = true;
 	hitDelta = 0.05f;
 
-	Stat& hp = stat[StatType::HP];
 	float damage = 0.f;
+	bool trackerModeType = false;
 	Character* attackerCharacter = dynamic_cast<Character*>(attacker);
-	if (attackType)
+	switch (attackType)
+	{
+	case AttackTypes::Normal:
 		damage = attackerCharacter->GetStat(StatType::AD).GetModifier();
-	else
+		trackerModeType = true;
+		break;
+	case AttackTypes::Skill:
 		damage = attackerCharacter->GetSkill()->CalculatePotential(attackerCharacter);
+		break;
+	case AttackTypes::CounterAttack:
+		damage = attackerCharacter->GetStat(StatType::HP).GetModifier() * 0.15f;
+		break;
+	default:
+		break;
+	}
+		
+	Stat& hp = stat[StatType::HP];
 
-	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, attackType);
-	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, attackType);
+	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, trackerModeType);
+	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, trackerModeType);
 
 	if (shieldAmount > 0.f)
 	{
@@ -418,11 +430,11 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		if (damage < 0.f)
 			damage = 0.f;
 	}
-	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), attackType ? StatType::AD : StatType::AP, damage);
+	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), trackerModeType ? StatType::AD : StatType::AP, damage);
 
 	hp.TranslateCurrent(-damage);
 	UpdateHpbar();
-	
+
 	if (!noSkill)
 	{
 		float gain = (!type.compare("Player")) ?
@@ -441,13 +453,13 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 			float killReward = attackerMp.GetBase() * (0.01f * GAME_MGR->altarData.gainManaWhenKill);
 			attackerMp.TranslateCurrent(killReward);
 			attackerCharacter->UpdateMpbar();
-			if (GAME_MGR->FindPowerUpByName("Vampire"))
+			if (GAME_MGR->GetPowerUpByName("Vampire") != nullptr)
 			{
 				PowerUp* pu = GAME_MGR->GetPowerUpByName("Vampire");
 				float healAmount =
 					attackerCharacter->GetStat(StatType::HP).GetModifier() *
 					(float)pu->GetGrade() * 0.1f;
-				
+
 				attackerCharacter->TakeCare(healAmount, true);
 				attackerCharacter->UpdateHpbar();
 			}
@@ -455,6 +467,9 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		Item* drop = GAME_MGR->DropItem(this);
 		GAME_MGR->RemoveFromMainGrid(this);
 	}
+
+	if (!type.compare("Player") && GAME_MGR->GetPowerUpByName("CounterAttack") != nullptr)
+		attackerCharacter->TakeDamage(this, AttackTypes::CounterAttack);
 }
 
 void Character::TakeDamege(float panelDamege, bool attackType)
@@ -472,7 +487,6 @@ void Character::TakeDamege(float panelDamege, bool attackType)
 		damage = panelDamege;
 
 	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, attackType);
-	//GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, attackType);
 
 	if (shieldAmount > 0.f)
 	{
@@ -502,23 +516,6 @@ void Character::TakeDamege(float panelDamege, bool attackType)
 	{
 		// death
 		isAlive = false;
-		/*if (!attackerCharacter->GetNoSkill() && !attackerCharacter->GetType().compare("Player"))
-		{
-			Stat attackerMp = attackerCharacter->GetStat(StatType::MP);
-			float killReward = attackerMp.GetBase() * (0.01f * GAME_MGR->altarData.gainManaWhenKill);
-			attackerMp.TranslateCurrent(killReward);
-			attackerCharacter->UpdateMpbar();
-			if (GAME_MGR->FindPowerUpByName("Vampire"))
-			{
-				PowerUp* pu = GAME_MGR->GetPowerUpByName("Vampire");
-				float healAmount =
-					attackerCharacter->GetStat(StatType::HP).GetModifier() *
-					(float)pu->GetGrade() * 0.1f;
-
-				attackerCharacter->TakeCare(healAmount, true);
-				attackerCharacter->UpdateHpbar();
-			}
-		}*/
 		Item* drop = GAME_MGR->DropItem(this);
 		GAME_MGR->RemoveFromMainGrid(this);
 	}
@@ -618,6 +615,7 @@ void Character::UpgradeStar(bool mode, bool useExtraUpgrade)
 	if (skill != nullptr)
 		skill->SetSkillTier(GetStarNumber());
 
+	LevelUpAnimation();
 	//m_attackDelay = 1.f / stat[StatType::AS].GetModifier();
 }
 
@@ -752,6 +750,19 @@ void Character::SetCrowdControl(float time)
 	ccPos.y -= 40.f;
 	crowdControlSprite.setPosition(ccPos);
 	crowdControlAnimator.Play("Crowd_Effect");
+}
+
+void Character::LevelUpAnimation()
+{
+	levUpAni.SetTarget(&levUpSpr);
+	levUpAni.AddClip(*RESOURCE_MGR->GetAnimationClip("LevelUp_Effect"));
+
+	Vector2f levPos = position;
+	levPos.y += 10.f;
+	levUpSpr.setPosition(levPos);
+
+	levUpAni.Play("LevelUp_Effect");
+	SOUND_MGR->Play("sounds/HeroUpgrade.ogg", 40.f, false);
 }
 
 void Character::IsSetState(AnimStates newState)
@@ -1114,7 +1125,6 @@ void Character::AttackAnimation(Vector2f attackPos)
 			effectSprite.setPosition(position + attackPos);
 			}
 		}
-		cout << position.x << "," << position.y << endl;
 	}
 	else if (dirType == Dir::Right)
 	{
