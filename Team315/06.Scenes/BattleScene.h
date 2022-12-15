@@ -3,6 +3,7 @@
 #include "Include.h"
 #include "TileBackground.h"
 #include "PanelSkill/Panel.h"
+#include "InfoWindow.h"
 
 class BattleSceneUI;
 class GameObj;
@@ -57,6 +58,9 @@ protected:
 	float quickHandTimer;
 	float quickHandDuration;
 
+	//InforWindow
+	InfoWindow m_InfoWindow;
+	bool isInfo;
 
 public:
 	BattleScene();

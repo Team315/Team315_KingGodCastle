@@ -27,7 +27,6 @@ AltarScene::AltarScene()
 	levelBar->SetPos(Vector2f(10, 10));
 
 	objList.push_back(m_backGround);
-	objList.push_back(m_backGround);
 	objList.push_back(levelBar);
 
 	SetAltar();

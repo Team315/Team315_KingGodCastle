@@ -1,10 +1,14 @@
 #pragma once
 #include "Object.h"
+#include "Include.h"
 
 class RectangleObj : public Object
 {
 protected:
 	RectangleShape shape;
+
+
+
 
 public:
     RectangleObj(float x = 0, float y = 0);

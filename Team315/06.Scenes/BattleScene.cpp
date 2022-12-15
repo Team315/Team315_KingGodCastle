@@ -78,6 +78,9 @@ void BattleScene::Init()
 
 	objList.push_back(ui);
 	Scene::Init();
+
+	//InforWindow
+	m_InfoWindow.Init();
 }
 
 void BattleScene::Release()
@@ -114,7 +117,8 @@ void BattleScene::Enter()
 	}
 	//ÆÇ³Ú½ºÅ³
 	m_panel.Enter();
-
+	//InfoWindow
+	m_InfoWindow.Enter();
 	eventWindow = false;
 	eventPreviewOn = false;
 	curEventTier = 0;
@@ -144,10 +148,20 @@ void BattleScene::Update(float dt)
 {
 
 
-	if (InputMgr::GetKey(Keyboard::Key::V))
+	if (!isInfo)
 	{
-
-
+		 if (m_InfoWindow.CollCall(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			 isInfo = true;
+			 return;
+		}
+	}
+	else if (isInfo)
+	{
+		if (m_InfoWindow.CollBackButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+			isInfo = false;
+		}
 		return;
 	}
 
@@ -1047,9 +1061,12 @@ void BattleScene::Draw(RenderWindow& window)
 		int num = ((GAME_MGR->curChapIdx) * 150) + j;
 		GAME_MGR->GetTileBackgroundList()[num]->Draw(window);
 	}
+	
 
 	window.draw(castleBackground);
 	Scene::Draw(window);
+
+	
 	//panel skill 
 	m_panel.DrawUp(window);
 
@@ -1130,6 +1147,9 @@ void BattleScene::Draw(RenderWindow& window)
 	//panel skill 
 	m_panel.DrawDown(window);
 	m_panel.Draw(window);
+
+	//infowindow
+	m_InfoWindow.Draw(window);
 }
 
 void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)
