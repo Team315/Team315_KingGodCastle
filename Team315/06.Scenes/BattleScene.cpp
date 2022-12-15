@@ -721,13 +721,6 @@ void BattleScene::Update(float dt)
 			gameEndTimer = 3.5f;
 			stageEnd = true;
 			stageResult = true;
-			for (auto& character : battleGrid)
-			{
-				if (character != nullptr)
-				{
-					dynamic_cast<Character*>(character)->SetIsBattle(false);
-				}
-			}
 		}
 
 		if (stageEnd)
@@ -735,6 +728,22 @@ void BattleScene::Update(float dt)
 			ui->SetStageEndWindow(true, stageResult);
 			TranslateCoinState(GAME_MGR->GetClearCoin());
 			ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+
+			for (auto& character : battleGrid)
+			{
+				if (character != nullptr)
+				{
+					dynamic_cast<Character*>(character)->SetIsBattle(false);
+				}
+			}
+
+			vector<GameObj*>& warriorHeart = GAME_MGR->warriorsHeartVec;
+			for (auto& character : warriorHeart)
+			{
+				dynamic_cast<Character*>(character)->TakeBuff(StatType::AS,
+					(GAME_MGR->GetPowerUpByName("WarriorsHeart")->GetGrade() * 10.f) + 20.f, false);
+			}
+			warriorHeart.clear();
 		}
 	}
 
@@ -901,6 +910,10 @@ void BattleScene::Update(float dt)
 						monsterGridCoordC++;
 					}
 
+					PowerUp* med = GAME_MGR->GetPowerUpByName("Meditation");
+					PowerUp* rune = GAME_MGR->GetPowerUpByName("RuneShield");
+					PowerUp* wrh = GAME_MGR->GetPowerUpByName("WarriorsHeart");
+
 					for (auto& gameObj : mgref)
 					{
 						if (gameObj != nullptr && IsCharacter(gameObj))
@@ -909,14 +922,14 @@ void BattleScene::Update(float dt)
 							character->SetIsBattle(true);
 
 							// 15, 25, 35
-							if (!gameObj->GetType().compare("Player"))
+							if (!character->GetType().compare("Player"))
 							{
-								PowerUp* pu = GAME_MGR->GetPowerUpByName("Meditation");
-								if (pu != nullptr)
-									character->SetInitManaPoint(pu->GetGrade() * 10.f + 5.f);
+								// meditation
+								if (med != nullptr)
+									character->SetInitManaPoint(med->GetGrade() * 10.f + 5.f);
 
-								pu = GAME_MGR->GetPowerUpByName("RuneShield");
-								if (!gameObj->GetName().compare("Pria") && pu != nullptr)
+								// rune shield
+								if (rune != nullptr && !character->GetName().compare("Pria"))
 								{
 									character->AddShieldAmount(character->GetStat(StatType::HP).GetModifier());
 									character->GetStat(StatType::AR).SetBase(2);
@@ -925,10 +938,42 @@ void BattleScene::Update(float dt)
 										20 * pow(GAME_MGR->apIncreaseRate, character->GetStarNumber() - 1));
 									character->UpdateHpbar();
 								}
-							}
 
+								// warriors heart
+								if (wrh != nullptr &&
+									(!character->GetName().compare("Shelda") ||
+										!character->GetName().compare("LeonHeart")))
+								{
+									int idx = GetIdxFromCoord(GAME_MGR->PosToIdx(character->GetPos()));
+									if (idx % 7 == 0)
+									{
+										if (battleGrid[idx + 1] != nullptr)
+											GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx + 1]);
+									}
+									else if (idx % 7 == 6)
+									{
+										if (battleGrid[idx - 1] != nullptr)
+											GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx - 1]);
+									}
+									else
+									{
+										if (battleGrid[idx + 1] != nullptr)
+											GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx + 1]);
+										if (battleGrid[idx - 1] != nullptr)
+											GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx - 1]);
+									}
+								}
+							}
 						}
 					}
+
+					vector<GameObj*>& warriorHeart = GAME_MGR->warriorsHeartVec;
+					for (auto& character : warriorHeart)
+					{
+						dynamic_cast<Character*>(character)->TakeBuff(StatType::AS,
+							GAME_MGR->GetPowerUpByName("WarriorsHeart")->GetGrade() * 10.f + 20.f, true);
+					}
+
 					GAME_MGR->GetBattleTracker()->SetDatas();
 					
 					ZoomControl(true);
