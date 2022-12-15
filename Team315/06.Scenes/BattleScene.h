@@ -8,6 +8,7 @@ class BattleSceneUI;
 class GameObj;
 class RectangleObj;
 class VertexArrayObj;
+class TextObj;
 
 class BattleScene : public Scene
 {
@@ -58,6 +59,7 @@ protected:
 	BlessOfMana m_BlessOfMana;
 	DivineShield m_DivineShield;
 	FireExplosion m_FireExplosion;
+	TextObj* quickHandTimer;
 
 public:
 	BattleScene();

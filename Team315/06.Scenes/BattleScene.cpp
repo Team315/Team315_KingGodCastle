@@ -61,6 +61,9 @@ BattleScene::BattleScene()
 		flagPos.x += 70.f;
 		objList.push_back(flag);
 	}
+
+	quickHandTimer = new TextObj(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), "", GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT + TILE_SIZE, Color(240.f, 0.f, 0.f), 50.f);
+	quickHandTimer->SetOrigin(Origins::BC);
 }
 
 BattleScene::~BattleScene()
@@ -833,6 +836,8 @@ void BattleScene::Update(float dt)
 	// when eventWindow opens, block other inputs
 	if (eventWindow)
 		return;
+
+	quickHandTimer->Update(dt);
 
 	// wheel control
 	float wheel = InputMgr::GetMouseWheel();

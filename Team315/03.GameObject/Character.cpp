@@ -414,10 +414,6 @@ void Character::TakeDamage(GameObj* attacker, AttackTypes attackType)
 		break;
 	}
 		
-	Stat& hp = stat[StatType::HP];
-
-	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, trackerModeType);
-	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, trackerModeType);
 
 	if (shieldAmount > 0.f)
 	{
@@ -430,10 +426,17 @@ void Character::TakeDamage(GameObj* attacker, AttackTypes attackType)
 		if (damage < 0.f)
 			damage = 0.f;
 	}
-	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), trackerModeType ? StatType::AD : StatType::AP, damage);
 
+	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), trackerModeType ? StatType::AD : StatType::AP, damage);
+	/*if (untouchable)
+		return;*/
+
+	Stat& hp = stat[StatType::HP];
 	hp.TranslateCurrent(-damage);
 	UpdateHpbar();
+
+	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, trackerModeType);
+	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, trackerModeType);
 
 	if (!noSkill)
 	{
