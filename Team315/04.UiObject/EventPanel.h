@@ -27,6 +27,7 @@ protected:
 	BackrectText* selectButton;
 	bool selectItem;
 	int selectIdx;
+	Sprite rerollCountSprite;
 
 public:
 	EventPanel(Scene* scene);
@@ -46,4 +47,5 @@ public:
 	void SetEventType(EventType eType) { eventType = eType; }
 	SpriteObj* GetPreviewButton() { return previewButton; }
 	BackrectText* GetSelectButton() { return selectButton; }
+	void SetRerollText(int num);
 };

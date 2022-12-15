@@ -63,6 +63,7 @@ EventPanel::EventPanel(Scene* scene)
 		sprites[i]->SetFillColor(Color(0xf, 0x0f, 0x0f, 150.f));
 		sprites[i]->SetHitbox(FloatRect(0, 0, TILE_SIZE, TILE_SIZE), Origins::MC);
 	}
+	Utils::SetOrigin(rerollCountSprite, Origins::BC);
 }
 
 EventPanel::~EventPanel()
@@ -84,6 +85,9 @@ void EventPanel::Reset()
 	selectItem = false;
 	selectIdx = 0;
 	curTier = 0;
+	SetRerollText(2);
+	rerollButton->SetFillColor(Color(0xf7, 0xd3, 0x58));
+	rerollButton->SetHitBoxActive(true);
 }
 
 void EventPanel::Update(float dt)
@@ -143,6 +147,15 @@ void EventPanel::Update(float dt)
 	{
 		if (InputMgr::GetMouseDown(Mouse::Left))
 		{
+			if (eventType != EventType::Power)
+				return;
+
+			if (GAME_MGR->powerUprerollCount-- <= 0)
+			{
+				return;
+			}
+
+			SetRerollText(GAME_MGR->powerUprerollCount);
 			selectItem = false;
 			selectIdx = -1;
 			previewOn = false;
@@ -211,9 +224,11 @@ void EventPanel::Draw(RenderWindow& window)
 		RectangleObj::Draw(window);
 		window.draw(head);
 		title->Draw(window);
-		if (eventType != EventType::GameOver &&
-			eventType != EventType::GameClear)
+		if (eventType == EventType::Power)
+		{
 			rerollButton->Draw(window);
+			window.draw(rerollCountSprite);
+		}
 
 		selectButton->Draw(window);
 
@@ -266,6 +281,8 @@ void EventPanel::SetPos(const Vector2f& pos)
 	rerollButton->SetPos(pos +
 		Vector2f(GAME_SCREEN_WIDTH * 0.5f,
 			GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.f + 570.f));
+	rerollCountSprite.setPosition(pos + Vector2f(GAME_SCREEN_WIDTH * 0.5f + 60,
+		GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.f + 540.f));
 	selectButton->SetPos(pos +
 		Vector2f(GAME_SCREEN_WIDTH * 0.5f,
 			GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.f + 630.f));
@@ -295,10 +312,11 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 		headLocalPos.y = GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.5f + 250.f;
 		head.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Icon_Forge.png"), true);
 		title->SetTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/BlueRibbon.png"), true);
-		rerollButton->SetString(STRING_TABLE->Get("EventForgeRerollText"));
+		//rerollButton->SetString(STRING_TABLE->Get("EventForgeRerollText"));
 		selectButton->SetString(STRING_TABLE->Get("EventForgeButtonText"));
-		rerollButton->SetOrigin(Origins::BC);
+		//rerollButton->SetOrigin(Origins::BC);
 		selectButton->SetOrigin(Origins::BC);
+		rerollButton->SetActive(false);
 
 		frameTexPath = "graphics/battleScene/Item_Frame_";
 		frameTexPath += (to_string(tier - 1) + ".png");
@@ -332,6 +350,7 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 		headLocalPos.y = GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.5f + 250.f;
 		head.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/Icon_Power.png"), true);
 		title->SetTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/RedRibbon.png"), true);
+		rerollButton->SetActive(true);
 		rerollButton->SetString(STRING_TABLE->Get("EventPowerRerollText"));
 		selectButton->SetString(STRING_TABLE->Get("EventPowerButtonText"));
 		rerollButton->SetOrigin(Origins::BC);
@@ -375,6 +394,7 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 		title->SetTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/RedRibbon.png"), true);
 		selectButton->SetString(STRING_TABLE->Get("EventGameEndButtonText"));
 		selectButton->SetOrigin(Origins::BC);
+		rerollButton->SetActive(false);
 		break;
 
 	case EventType::GameClear:
@@ -384,6 +404,7 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 		title->SetTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/BlueRibbon.png"), true);
 		selectButton->SetString(STRING_TABLE->Get("EventGameEndButtonText"));
 		selectButton->SetOrigin(Origins::BC);
+		rerollButton->SetActive(false);
 		break;
 	}
 
@@ -395,4 +416,15 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 	title->SetString(STRING_TABLE->Get(key));
 	title->SetOrigin(Origins::TC);
 	SetPos(position);
+}
+
+void EventPanel::SetRerollText(int num)
+{
+	string path = "graphics/PanelSkill/BottomNumber_";
+	rerollCountSprite.setTexture(*RESOURCE_MGR->GetTexture(path + to_string(num) + ".png"));
+
+	if (num != 0)
+		return;
+	rerollButton->SetFillColor(Color(0xf0, 0xf0, 0xf0, 150.f));
+	rerollButton->SetHitBoxActive(false);
 }

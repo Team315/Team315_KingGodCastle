@@ -29,7 +29,8 @@ GameManager::GameManager()
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
 	apIncreaseRate(1.6f), asIncrease(0.1f),
 	manaPerAttack(15.f), manaPerDamage(5.f), itemDropProbability(10),
-	accountExpLimit(6), cumulativeExp(0), oneTimePowerUp(nullptr)
+	accountExpLimit(6), cumulativeExp(0), oneTimePowerUp(nullptr),
+	powerUprerollCount(2)
 {
 	CLOG::Print3String("GameManager Create");
 
@@ -186,6 +187,7 @@ void GameManager::GMReset()
 	}
 	drops.clear();
 	damageUI.Reset();
+	powerUprerollCount = 2;
 }
 
 void GameManager::GameEnd()
@@ -241,7 +243,7 @@ void GameManager::PrintDevInfo()
 	cout << "숫자2 - 랜덤 1티어 아이템" << endl;
 	cout << "숫자3 - 랜덤 2티어 아이템" << endl;
 	cout << "숫자4 - 랜덤 3티어 아이템" << endl;
-	cout << "F4 - 전투 강제 종료-> 다음 스테이지" << endl;
+	cout << "F4 - 전투 강제 종료" << endl;
 	cout << "F5 - 다음 스테이지" << endl;
 	cout << "F6 - 이전 스테이지" << endl;
 	cout << "F7 - Hitbox 스위치" << endl;

@@ -23,6 +23,9 @@ protected:
 
 	RssProgressWindow* levelBar;
 
+	vector<Sprite> powerUpSprites;
+	vector<RectangleShape> rectangleShapes;
+
 	bool isOnOff;
 public:
 	InfoWindow();

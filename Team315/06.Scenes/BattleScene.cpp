@@ -163,8 +163,6 @@ void BattleScene::Exit()
 
 void BattleScene::Update(float dt)
 {
-
-
 	if (!isInfo)
 	{
 		 if (m_InfoWindow.CollCall(ScreenToWorldPos(InputMgr::GetMousePosI())))
@@ -1482,17 +1480,20 @@ void BattleScene::BeginBattle()
 {
 	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 
-	SOUND_MGR->Play("sounds/BattleStart.ogg", 30.f, false);
 	if (ui->GetEventPanel()->GetEventType() != EventType::None)
 		return;
 
 	int curCharacterCount = GetCurCharacterCount();
 	if (curCharacterCount != GAME_MGR->GetCharacterCount())
 	{
-		CLOG::Print3String("need more battle character");
 		if (curCharacterCount == 0)
 		{
-			LoseFlag();
+			CLOG::Print3String("need more battle character");
+			if (GAME_MGR->GetPowerUpByName("QuickHand") != nullptr)
+			{
+				LoseFlag();
+				SOUND_MGR->Play("sounds/BattleStart.ogg", 30.f, false);
+			}
 			return;
 		}
 	}

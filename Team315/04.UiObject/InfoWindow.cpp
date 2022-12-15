@@ -1,7 +1,7 @@
 #include "InfoWindow.h"
 #include "RectangleObj.h"
 #include "RssProgressWindow.h"
-
+#include "PowerUp/PowerUp.h"
 
 InfoWindow::InfoWindow()
 	:isOnOff(false)
@@ -70,6 +70,29 @@ void InfoWindow::Enter()
 	// exp
 	float value = GAME_MGR->accountInfo.level != 10 ? (float)GAME_MGR->accountInfo.exp / (float)GAME_MGR->accountExpLimit : 1.f;
 	levelBar->GetProgressBar().SetProgressValue(value);
+
+	rectangleShapes.resize(3);
+	Vector2f spritePos(GAME_SCREEN_WIDTH * 0.3f, GAME_SCREEN_HEIGHT * 0.80f);
+	for (auto& rectangleShape : rectangleShapes)
+	{
+		rectangleShape.setPosition(spritePos);
+		rectangleShape.setSize(Vector2f(TILE_SIZE, TILE_SIZE));
+		Utils::SetOrigin(rectangleShape, Origins::MC);
+		rectangleShape.setFillColor(Color(0x0f, 0x0f, 0x0f, 100.f));
+		rectangleShape.setOutlineColor(Color(0xf0, 0xf0, 0xf0));
+		rectangleShape.setOutlineThickness(2.0f);
+		spritePos.x += GAME_SCREEN_WIDTH * 0.2f;
+	}
+
+	powerUpSprites.resize(3);
+	spritePos = Vector2f(GAME_SCREEN_WIDTH * 0.3f, GAME_SCREEN_HEIGHT * 0.80f);
+	for (auto& powerUpSprite : powerUpSprites)
+	{
+		powerUpSprite.setPosition(spritePos);
+		Utils::SetOrigin(powerUpSprite, Origins::MC);
+		powerUpSprite.setTexture(*RESOURCE_MGR->GetTexture("graphics/battleScene/PowerUp/dogfight.png"));
+		spritePos.x += GAME_SCREEN_WIDTH * 0.2f;
+	}
 }
 
 void InfoWindow::Init()
@@ -147,6 +170,15 @@ void InfoWindow::Draw(RenderWindow& window)
 		m_backButton.Draw(window);
 
 		levelBar->Draw(window);
+
+		for (auto& rectangleShape : rectangleShapes)
+			window.draw(rectangleShape);
+
+		for (int i = 0; i < GAME_MGR->standingPowerUps.size(); i++)
+			window.draw(powerUpSprites[i]);
+
+	/*	for (auto& powerUpSprite : powerUpSprites)
+			window.draw(powerUpSprite);*/
 	}
 }
 
@@ -156,6 +188,12 @@ bool InfoWindow::CollCall(Vector2f mousepos)
 	{
 		Enter();
 		isOnOff = true;
+		vector<PowerUp*>& powerups = GAME_MGR->standingPowerUps;
+
+		for (int i = 0; i < GAME_MGR->standingPowerUps.size(); i++)
+		{
+			powerUpSprites[i].setTexture(*RESOURCE_MGR->GetTexture(powerups[i]->MakePath()));
+		}
 		return true;
 	}
 	return false;
