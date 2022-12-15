@@ -620,7 +620,9 @@ int GameManager::GetClearCoin()
 	if (curStageIdx == STAGE_MAX_COUNT - 1)
 		clearCoin += bossStageClearBonus;
 
-	cout << curStageIdx << "Å¬¸®¾î! " << clearCoin << "È¹µæ" << endl;
+	if (GetPowerUpByName("DogFight") != nullptr)
+		clearCoin += 5;
+	cout << "½ºÅ×ÀÌÁö " << curStageIdx << " Å¬¸®¾î! " << clearCoin << "È¹µæ" << endl;
 	return clearCoin;
 }
 
@@ -733,16 +735,6 @@ void GameManager::LoadAltarEffectFromTable()
 		doc.GetCell<int>(colNames[10], enforceId),
 		doc.GetCell<int>(colNames[11], enforceId)
 	);
-}
-
-bool GameManager::FindPowerUpByName(string name)
-{
-	for (auto& powerUp : standingPowerUps)
-	{
-		if (!powerUp->GetName().compare(name))
-			return true;
-	}
-	return false;
 }
 
 PowerUp* GameManager::GetPowerUpByName(string name)

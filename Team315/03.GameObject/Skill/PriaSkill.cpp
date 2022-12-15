@@ -96,7 +96,7 @@ void PriaSkill::CastSkill(Character* caster)
 		{
 			SetPos(GAME_MGR->IdxToPos(cell));
 			//CLOG::PrintVectorState(GAME_MGR->PosToIdx(target->GetPos()), target->GetName());
-			dynamic_cast<Character*>(target)->TakeDamage(caster, false);
+			dynamic_cast<Character*>(target)->TakeDamage(caster, AttackTypes::Skill);
 			dynamic_cast<Character*>(target)->SetCrowdControl(crowdControlTimer[skillTier - 1]);
 		}
 	}

@@ -389,23 +389,36 @@ void Character::SetStatsInit(json data)
 		skill->SetSkillTier(GetStarNumber());
 }
 
-void Character::TakeDamage(GameObj* attacker, bool attackType)
+void Character::TakeDamage(GameObj* attacker, AttackTypes attackType)
 {
 	//공격받을때 이펙트
-	sprite.setColor({ 255,0,0,180 });
+	sprite.setColor({ 255, 0, 0, 180 });
 	hit = true;
 	hitDelta = 0.05f;
 
-	Stat& hp = stat[StatType::HP];
 	float damage = 0.f;
+	bool trackerModeType = false;
 	Character* attackerCharacter = dynamic_cast<Character*>(attacker);
-	if (attackType)
+	switch (attackType)
+	{
+	case AttackTypes::Normal:
 		damage = attackerCharacter->GetStat(StatType::AD).GetModifier();
-	else
+		trackerModeType = true;
+		break;
+	case AttackTypes::Skill:
 		damage = attackerCharacter->GetSkill()->CalculatePotential(attackerCharacter);
+		break;
+	case AttackTypes::CounterAttack:
+		damage = attackerCharacter->GetStat(StatType::HP).GetModifier() * 0.15f;
+		break;
+	default:
+		break;
+	}
+		
+	Stat& hp = stat[StatType::HP];
 
-	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, attackType);
-	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, attackType);
+	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, trackerModeType);
+	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, trackerModeType);
 
 	if (shieldAmount > 0.f)
 	{
@@ -418,11 +431,11 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		if (damage < 0.f)
 			damage = 0.f;
 	}
-	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), attackType ? StatType::AD : StatType::AP, damage);
+	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), trackerModeType ? StatType::AD : StatType::AP, damage);
 
 	hp.TranslateCurrent(-damage);
 	UpdateHpbar();
-	
+
 	if (!noSkill)
 	{
 		float gain = (!type.compare("Player")) ?
@@ -441,13 +454,13 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 			float killReward = attackerMp.GetBase() * (0.01f * GAME_MGR->altarData.gainManaWhenKill);
 			attackerMp.TranslateCurrent(killReward);
 			attackerCharacter->UpdateMpbar();
-			if (GAME_MGR->FindPowerUpByName("Vampire"))
+			if (GAME_MGR->GetPowerUpByName("Vampire") != nullptr)
 			{
 				PowerUp* pu = GAME_MGR->GetPowerUpByName("Vampire");
 				float healAmount =
 					attackerCharacter->GetStat(StatType::HP).GetModifier() *
 					(float)pu->GetGrade() * 0.1f;
-				
+
 				attackerCharacter->TakeCare(healAmount, true);
 				attackerCharacter->UpdateHpbar();
 			}
@@ -455,6 +468,9 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 		Item* drop = GAME_MGR->DropItem(this);
 		GAME_MGR->RemoveFromMainGrid(this);
 	}
+
+	if (!type.compare("Player") && GAME_MGR->GetPowerUpByName("CounterAttack") != nullptr)
+		attackerCharacter->TakeDamage(this, AttackTypes::CounterAttack);
 }
 
 void Character::TakeCare(GameObj* caster, bool careType)
