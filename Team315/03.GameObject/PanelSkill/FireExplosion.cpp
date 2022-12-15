@@ -24,6 +24,7 @@ void FireExplosion::Release()
 
 void FireExplosion::Update(float dt)
 {
+	if (isPlaying)
 	m_FireExplosion.Update(dt);
 }
 
@@ -43,7 +44,13 @@ void FireExplosion::SetAni()
 	SetScale(3.f, 3.f);
 }
 
+void FireExplosion::SetIsPlaying(bool is)
+{
+	isPlaying = is;
+}
+
 void FireExplosion::PlayingAni()
 {
+	isPlaying = true;
 	m_FireExplosion.Play("Fx_FireExplosion");
 }

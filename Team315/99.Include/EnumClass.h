@@ -141,3 +141,10 @@ enum class ResStringType
 	UpSkillEffect,
 	atkSound,
 };
+
+enum class AttackTypes
+{
+	Normal,
+	Skill,
+	CounterAttack,
+};

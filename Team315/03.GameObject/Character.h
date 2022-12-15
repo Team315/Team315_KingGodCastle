@@ -23,6 +23,7 @@ protected:
 	bool hit;
 	float hitDelta;
 	Sprite shadow;
+
 	//Resource
 	unordered_map<ResStringType, string> resStringTypes;
 	unordered_map<Dir, Vector2f> attackPos;
@@ -99,8 +100,8 @@ public:
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(StatType statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
-	// attackType, true = ad / false = ap(skill)
-	void TakeDamage(GameObj* attacker, bool attackType = true);
+	void TakeDamage(GameObj* attacker, AttackTypes attackType = AttackTypes::Normal);
+	void TakeDamege(float paneldamege , bool attackType = true);
 	// careType, true = heal / false = shield
 	void TakeCare(GameObj* caster, bool careType = true);
 	void TakeCare(float amount, bool careType = true);

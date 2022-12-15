@@ -3,11 +3,6 @@
 #include "Include.h"
 #include "TileBackground.h"
 #include "PanelSkill/Panel.h"
-#include "PanelSkill/Quagmire.h"
-#include "PanelSkill/FingerSnap.h"
-#include "PanelSkill/BlessOfMana.h"
-#include "PanelSkill/DivineShield.h"
-#include "PanelSkill/FireExplosion.h"
 
 class BattleSceneUI;
 class GameObj;
@@ -63,6 +58,7 @@ protected:
 	BlessOfMana m_BlessOfMana;
 	DivineShield m_DivineShield;
 	FireExplosion m_FireExplosion;
+
 public:
 	BattleScene();
 	virtual ~BattleScene();

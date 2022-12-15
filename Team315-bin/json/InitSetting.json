@@ -14,7 +14,7 @@
         "ExpansionCost":5,
         "ManaPerAttack":15,
         "ManaPerHit":5,
-        "ItemDropProbability":10,
+        "ItemDropProbability":5,
         "AccountExpLimit":6
     },
     "LevelUpStatIncreaseRate":

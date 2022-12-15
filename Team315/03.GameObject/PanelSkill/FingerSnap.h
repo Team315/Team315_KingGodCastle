@@ -2,8 +2,9 @@
 #include "SpriteObj.h"
 #include "Animator.h"
 #include "Include.h"
+#include "GameObj.h"
 
-class FingerSnap : public SpriteObj
+class FingerSnap : public GameObj
 {
 protected:
 	Animator m_FingerSnap;
@@ -21,8 +22,9 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	void SetAni();
-
+	void SetIsPlaying(bool is);
 
 	void PlayingAni();
+	void ActionSkill();
 };
 

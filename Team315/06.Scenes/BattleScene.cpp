@@ -115,12 +115,6 @@ void BattleScene::Enter()
 	}
 	//ÆÇ³Ú½ºÅ³
 	m_panel.Enter();
-	m_Quagmire.Enter();
-	m_FingerSnap.Enter();
-	m_BlessOfMana.Enter();
-	m_DivineShield.Enter();
-	m_FireExplosion.Enter();
-
 }
 
 void BattleScene::Exit()
@@ -206,6 +200,37 @@ void BattleScene::Update(float dt)
 	}
 
 	Scene::Update(dt);
+
+	//Panel Skill 
+	if (!GAME_MGR->GetPlayingBattle())
+	{
+		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
+		if (m_panel.CallResetButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+
+		}
+		if (m_panel.CallSkillButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+
+		}
+
+		m_panel.SetIsSkillPlaying(false);
+	}
+	else
+	{
+		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
+
+		if (InputMgr::GetMouseUp(Mouse::Left))
+		{
+			if (m_panel.CallSkillPlayButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+			{
+				m_panel.PlayingAni();
+			}
+		}
+	}
+	m_panel.Update(dt);
+
+	//Panel Skill end
 
 	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 	// Dev Input start
@@ -841,22 +866,39 @@ void BattleScene::Update(float dt)
 					if (ui->GetEventPanel()->GetEventType() != EventType::None)
 						break;
 
+					int curCharacterCount = GetCurCharacterCount();
+					if (curCharacterCount != GAME_MGR->GetCharacterCount())
+					{
+						CLOG::Print3String("need more battle character");
+						if (curCharacterCount == 0)
+							break;
+					}
+
 					int monsterGridCoordC = 0;
-					int curBattleCharacterCount = 0;
+					if (GAME_MGR->GetPowerUpByName("DogFight"))
+					{
+						int dest = 0, sour = 0;
+
+						for (int i = 0; i < 77; i++)
+						{
+							dest = Utils::RandomRange(0, battleGrid.size());
+							sour = Utils::RandomRange(0, battleGrid.size());
+							
+							GameObj* temp = battleGrid[dest];
+							battleGrid[dest] = battleGrid[sour];
+							battleGrid[sour] = temp;
+
+							if (battleGrid[sour] != nullptr)
+								battleGrid[sour]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(sour, true)));
+							if (battleGrid[dest] != nullptr)
+								battleGrid[dest]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(dest, true)));
+						}
+					}
 
 					for (auto& character : battleGrid)
 					{
-						if (character != nullptr)
-							curBattleCharacterCount++;
-
 						mgref[monsterGridCoordC + 70] = character;
 						monsterGridCoordC++;
-					}
-					if (curBattleCharacterCount != GAME_MGR->GetCharacterCount())
-					{
-						CLOG::Print3String("need more battle character");
-						if (curBattleCharacterCount == 0)
-							break;
 					}
 
 					for (auto& gameObj : mgref)
@@ -869,16 +911,13 @@ void BattleScene::Update(float dt)
 							// 15, 25, 35
 							if (!gameObj->GetType().compare("Player"))
 							{
-								if (GAME_MGR->FindPowerUpByName("Meditation"))
-								{
-									PowerUp* meditation = GAME_MGR->GetPowerUpByName("Meditation");
-									character->SetInitManaPoint(meditation->GetGrade() * 10.f + 5.f);
-								}
+								PowerUp* pu = GAME_MGR->GetPowerUpByName("Meditation");
+								if (pu != nullptr)
+									character->SetInitManaPoint(pu->GetGrade() * 10.f + 5.f);
 
-								if (!gameObj->GetName().compare("Pria") &&
-									GAME_MGR->FindPowerUpByName("RuneShield"))
+								pu = GAME_MGR->GetPowerUpByName("RuneShield");
+								if (!gameObj->GetName().compare("Pria") && pu != nullptr)
 								{
-									PowerUp* runeShield = GAME_MGR->GetPowerUpByName("RuneShield");
 									character->AddShieldAmount(character->GetStat(StatType::HP).GetModifier());
 									character->GetStat(StatType::AR).SetBase(2);
 									character->TakeBuff(StatType::AR, 0, false);
@@ -886,7 +925,6 @@ void BattleScene::Update(float dt)
 										20 * pow(GAME_MGR->apIncreaseRate, character->GetStarNumber() - 1));
 									character->UpdateHpbar();
 								}
-
 							}
 
 						}
@@ -923,7 +961,7 @@ void BattleScene::Update(float dt)
 					}
 
 					Character* newPick = nullptr;
-					if (GAME_MGR->FindPowerUpByName("Comrade"))
+					if (GAME_MGR->GetPowerUpByName("Comrade") != nullptr)
 					{
 						newPick = GAME_MGR->SpawnPlayer(0, false,
 							GAME_MGR->comradeVec[Utils::RandomRange(0, 2)]);
@@ -945,7 +983,7 @@ void BattleScene::Update(float dt)
 				// Expansion
 				else if (!button->GetName().compare("expansion"))
 				{
-					if (GAME_MGR->FindPowerUpByName("HeroOfSalvation"))
+					if (GAME_MGR->GetPowerUpByName("HeroOfSalvation") != nullptr)
 					{
 						cout << "±¸¿øÀÇ ¿µ¿õ" << endl;
 						break;
@@ -1034,43 +1072,8 @@ void BattleScene::Update(float dt)
 		return;
 	}
 
-	//Panel Skill 
-	if (!GAME_MGR->GetPlayingBattle())
-	{
-		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
-		if (m_panel.CallResetButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
+	
 
-		}
-		if (m_panel.CallSkillButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
-
-		}
-	}
-	else
-	{
-		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
-
-		if (InputMgr::GetMouseUp(Mouse::Left))
-		{
-			if (m_panel.CallSkillPlayButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
-			{
-				//m_Quagmire.PlayingAni();
-				//m_FingerSnap.PlayingAni();
-				//m_BlessOfMana.PlayingAni();
-				//m_DivineShield.PlayingAni();
-				m_FireExplosion.PlayingAni();
-			}
-		}
-	}
-
-	{
-		m_Quagmire.Update(dt);
-		m_FingerSnap.Update(dt);
-		m_BlessOfMana.Update(dt);
-		m_DivineShield.Update(dt);
-		m_FireExplosion.Update(dt);
-	}
 	// Game Input end
 }
 
@@ -1084,9 +1087,8 @@ void BattleScene::Draw(RenderWindow& window)
 
 	window.draw(castleBackground);
 	Scene::Draw(window);
-	
-	m_Quagmire.Draw(window);
-
+	//panel skill 
+	m_panel.DrawUp(window);
 
 	// draw character on prepare area
 	for (auto& gameObj : prepareGrid)
@@ -1155,12 +1157,10 @@ void BattleScene::Draw(RenderWindow& window)
 	{
 		dmgUI->Draw(window);
 	}
-
+	
+	//panel skill 
+	m_panel.DrawDown(window);
 	m_panel.Draw(window);
-	m_FingerSnap.Draw(window);
-	m_BlessOfMana.Draw(window);
-	m_DivineShield.Draw(window);
-	m_FireExplosion.Draw(window);
 }
 
 void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)

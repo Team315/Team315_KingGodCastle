@@ -33,5 +33,5 @@ void AramisSkill::SetPos(const Vector2f& pos)
 void AramisSkill::CastSkill(Character* caster)
 {
 	Character* target = dynamic_cast<Character*>(caster->GetTarget());
-	target->TakeDamage(caster, false);
+	target->TakeDamage(caster, AttackTypes::Skill);
 }

@@ -77,7 +77,7 @@ void LeonHeartSkill::CastSkill(Character* caster)
 		{
 			//CLOG::PrintVectorState(GAME_MGR->PosToIdx(target->GetPos()), target->GetName());
 			dynamic_cast<Character*>(target)->SetCrowdControl(crowdControlTimer[skillTier - 1]);
-			dynamic_cast<Character*>(target)->TakeDamage(caster, false);
+			dynamic_cast<Character*>(target)->TakeDamage(caster, AttackTypes::Skill);
 		}
 	}
 }
