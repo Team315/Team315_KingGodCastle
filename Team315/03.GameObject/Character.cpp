@@ -249,7 +249,7 @@ void Character::Update(float dt)
 			Translate(Utils::Normalize(direction) * dt * moveSpeed);
 			if (currState != AnimStates::Move)
 				SetState(AnimStates::Move);
-			//ºÒ¸´ ÈùÆ®
+
 			if (Utils::EqualFloat(Utils::Distance(destination, position), 0.f, dt * moveSpeed))
 			{
 				SetPos(destination);
@@ -471,6 +471,55 @@ void Character::TakeDamage(GameObj* attacker, AttackTypes attackType)
 
 	if (!type.compare("Player") && GAME_MGR->GetPowerUpByName("CounterAttack") != nullptr)
 		attackerCharacter->TakeDamage(this, AttackTypes::CounterAttack);
+}
+
+void Character::TakeDamege(float panelDamege, bool attackType)
+{
+	//°ø°Ý¹ÞÀ»¶§ ÀÌÆåÆ®
+	sprite.setColor({ 255,0,0,180 });
+	hit = true;
+	hitDelta = 0.05f;
+
+	Stat& hp = stat[StatType::HP];
+	float damage = 0.f;
+	if (attackType)
+		damage = panelDamege;
+	else
+		damage = panelDamege;
+
+	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, attackType);
+
+	if (shieldAmount > 0.f)
+	{
+		float damageTemp = damage;
+		damage -= shieldAmount;
+		shieldAmount -= damageTemp;
+
+		if (shieldAmount < 0.f)
+			shieldAmount = 0.f;
+		if (damage < 0.f)
+			damage = 0.f;
+	}
+	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), attackType ? StatType::AD : StatType::AP, damage);
+
+	hp.TranslateCurrent(-damage);
+	UpdateHpbar();
+
+	if (!noSkill)
+	{
+		float gain = (!type.compare("Player")) ?
+			GAME_MGR->GetManaPerDamage() : GAME_MGR->manaPerDamage;
+		stat[StatType::MP].TranslateCurrent(gain);
+		UpdateMpbar();
+	}
+
+	if (stat[StatType::HP].GetCurrent() <= 0.f)
+	{
+		// death
+		isAlive = false;
+		Item* drop = GAME_MGR->DropItem(this);
+		GAME_MGR->RemoveFromMainGrid(this);
+	}
 }
 
 void Character::TakeCare(GameObj* caster, bool careType)

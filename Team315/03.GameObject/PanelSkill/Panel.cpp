@@ -29,7 +29,32 @@ void Panel::Release()
 
 void Panel::Update(float dt)
 {
+	if (InputMgr::GetKeyDown(Keyboard::Key::M))
+	{
+		m_skillCooldown = 0;
+		m_resetCooldown = 9;
+		SetSkillCooldown();
+		ResetSkill();
+	}
 
+	switch (m_PanelTypes)
+	{
+	case PanelTypes::BlessOfMana:
+		m_BlessOfMana.Update(dt);
+		break;
+	case PanelTypes::FireExplosion:
+		m_FireExplosion.Update(dt);
+		break;
+	case PanelTypes::FingerSnap:
+		m_FingerSnap.Update(dt);
+		break;
+	case PanelTypes::Quagmire:
+		m_Quagmire.Update(dt);
+		break;
+	case PanelTypes::DivineShield:
+		m_DivineShield.Update(dt);
+		break;
+	}
 }
 
 void Panel::Draw(RenderWindow& window)
@@ -51,7 +76,19 @@ void Panel::Draw(RenderWindow& window)
 		m_SkillName.Draw(window);
 		m_SkillInfo.Draw(window);
 	}
-	
+}
+
+void Panel::DrawUp(RenderWindow& window)
+{
+	m_Quagmire.Draw(window);
+}
+
+void Panel::DrawDown(RenderWindow& window)
+{
+	m_FingerSnap.Draw(window);
+	m_BlessOfMana.Draw(window);
+	m_DivineShield.Draw(window);
+	m_FireExplosion.Draw(window);
 }
 
 void Panel::Enter()
@@ -66,6 +103,12 @@ void Panel::Enter()
 	SetSkillCooldown();
 	SetSkillBackGround();
 	SetSkillInfo();
+
+	m_Quagmire.Enter();
+	m_FingerSnap.Enter();
+	m_BlessOfMana.Enter();
+	m_DivineShield.Enter();
+	m_FireExplosion.Enter();
 }
 
 bool Panel::CallResetButton(Vector2f pos)
@@ -112,7 +155,6 @@ bool Panel::CallSkillPlayButton(Vector2f pos)
 			return true;
 		}
 	}
-
 	return false;
 }
 
@@ -160,7 +202,7 @@ string Panel::GetRandomSkill()
 {
 	int num = Utils::RandomRange(1, 5);
 
-	num = 2;
+	num = 3;
 
 	if (num == 1)
 	{
@@ -265,5 +307,49 @@ void Panel::SetIsPlay(bool isplay)
 
 		SetSkillButtonPos();
 		SetSkillCooldown();
+	}
+}
+
+void Panel::SetIsSkillPlaying(bool isplay)
+{
+	switch (m_PanelTypes)
+	{
+	case PanelTypes::BlessOfMana:
+		m_BlessOfMana.SetIsPlaying(isplay);
+		break;
+	case PanelTypes::FireExplosion:
+		m_FireExplosion.SetIsPlaying(isplay);
+		break;
+	case PanelTypes::FingerSnap:
+		m_FingerSnap.SetIsPlaying(isplay);
+		break;
+	case PanelTypes::Quagmire:
+		m_Quagmire.SetIsPlaying(isplay);
+		break;
+	case PanelTypes::DivineShield:
+		m_DivineShield.SetIsPlaying(isplay);
+		break;
+	}
+}
+
+void Panel::PlayingAni()
+{
+	switch (m_PanelTypes)
+	{
+	case PanelTypes::BlessOfMana:
+		m_BlessOfMana.PlayingAni();
+		break;
+	case PanelTypes::FireExplosion:
+		m_FireExplosion.PlayingAni();
+		break;
+	case PanelTypes::FingerSnap:
+		m_FingerSnap.PlayingAni();
+		break;
+	case PanelTypes::Quagmire:
+		m_Quagmire.PlayingAni();
+		break;
+	case PanelTypes::DivineShield:
+		m_DivineShield.PlayingAni();
+		break;
 	}
 }

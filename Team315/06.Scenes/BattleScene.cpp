@@ -115,12 +115,6 @@ void BattleScene::Enter()
 	}
 	//ÆÇ³Ú½ºÅ³
 	m_panel.Enter();
-	m_Quagmire.Enter();
-	m_FingerSnap.Enter();
-	m_BlessOfMana.Enter();
-	m_DivineShield.Enter();
-	m_FireExplosion.Enter();
-
 }
 
 void BattleScene::Exit()
@@ -206,6 +200,37 @@ void BattleScene::Update(float dt)
 	}
 
 	Scene::Update(dt);
+
+	//Panel Skill 
+	if (!GAME_MGR->GetPlayingBattle())
+	{
+		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
+		if (m_panel.CallResetButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+
+		}
+		if (m_panel.CallSkillButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+
+		}
+
+		m_panel.SetIsSkillPlaying(false);
+	}
+	else
+	{
+		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
+
+		if (InputMgr::GetMouseUp(Mouse::Left))
+		{
+			if (m_panel.CallSkillPlayButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+			{
+				m_panel.PlayingAni();
+			}
+		}
+	}
+	m_panel.Update(dt);
+
+	//Panel Skill end
 
 	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 	// Dev Input start
@@ -1044,43 +1069,8 @@ void BattleScene::Update(float dt)
 		return;
 	}
 
-	//Panel Skill 
-	if (!GAME_MGR->GetPlayingBattle())
-	{
-		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
-		if (m_panel.CallResetButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
+	
 
-		}
-		if (m_panel.CallSkillButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
-
-		}
-	}
-	else
-	{
-		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
-
-		if (InputMgr::GetMouseUp(Mouse::Left))
-		{
-			if (m_panel.CallSkillPlayButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
-			{
-				//m_Quagmire.PlayingAni();
-				//m_FingerSnap.PlayingAni();
-				//m_BlessOfMana.PlayingAni();
-				//m_DivineShield.PlayingAni();
-				m_FireExplosion.PlayingAni();
-			}
-		}
-	}
-
-	{
-		m_Quagmire.Update(dt);
-		m_FingerSnap.Update(dt);
-		m_BlessOfMana.Update(dt);
-		m_DivineShield.Update(dt);
-		m_FireExplosion.Update(dt);
-	}
 	// Game Input end
 }
 
@@ -1094,9 +1084,8 @@ void BattleScene::Draw(RenderWindow& window)
 
 	window.draw(castleBackground);
 	Scene::Draw(window);
-	
-	m_Quagmire.Draw(window);
-
+	//panel skill 
+	m_panel.DrawUp(window);
 
 	// draw character on prepare area
 	for (auto& gameObj : prepareGrid)
@@ -1165,12 +1154,10 @@ void BattleScene::Draw(RenderWindow& window)
 	{
 		dmgUI->Draw(window);
 	}
-
+	
+	//panel skill 
+	m_panel.DrawDown(window);
 	m_panel.Draw(window);
-	m_FingerSnap.Draw(window);
-	m_BlessOfMana.Draw(window);
-	m_DivineShield.Draw(window);
-	m_FireExplosion.Draw(window);
 }
 
 void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)

@@ -24,7 +24,8 @@ void BlessOfMana::Release()
 
 void BlessOfMana::Update(float dt)
 {
-	m_BlessOfMana.Update(dt);
+	if (isPlaying)
+		m_BlessOfMana.Update(dt);
 }
 
 void BlessOfMana::Draw(RenderWindow& window)
@@ -43,7 +44,13 @@ void BlessOfMana::SetAni()
 	SetScale(12.f, 12.f);
 }
 
+void BlessOfMana::SetIsPlaying(bool is)
+{
+	isPlaying = is;
+}
+
 void BlessOfMana::PlayingAni()
 {
+	isPlaying = true;
 	m_BlessOfMana.Play("Fx_BlessOfMana");
 }

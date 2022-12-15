@@ -2,6 +2,11 @@
 #include "SpriteObj.h"
 #include "rapidcsv.h"
 #include "Include.h"
+#include "PanelSkill/Quagmire.h"
+#include "PanelSkill/FingerSnap.h"
+#include "PanelSkill/BlessOfMana.h"
+#include "PanelSkill/DivineShield.h"
+#include "PanelSkill/FireExplosion.h"
 
 enum class PanelTypes
 {
@@ -44,6 +49,12 @@ protected:
 	bool isPlaying;
 	bool isCurrPlaying;
 
+	//Skills
+	Quagmire m_Quagmire;
+	FingerSnap m_FingerSnap;
+	BlessOfMana m_BlessOfMana;
+	DivineShield m_DivineShield;
+	FireExplosion m_FireExplosion;
 
 public:
 	Panel();
@@ -53,6 +64,9 @@ public:
 	virtual void Release() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
+	void DrawUp(RenderWindow& window);
+	void DrawDown(RenderWindow& window);
+
 
 	virtual void Enter();
 
@@ -69,5 +83,8 @@ public:
 	void SetSkillInfo();
 	void SetDataTable();
 	void SetIsPlay(bool isplay);
+	void SetIsSkillPlaying(bool isplay);
+
+	void PlayingAni();
 };
 

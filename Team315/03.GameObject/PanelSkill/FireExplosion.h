@@ -21,7 +21,7 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	void SetAni();
-
+	void SetIsPlaying(bool is);
 	void PlayingAni();
 };
 
