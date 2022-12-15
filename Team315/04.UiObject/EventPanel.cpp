@@ -79,6 +79,11 @@ void EventPanel::Release()
 
 void EventPanel::Reset()
 {
+	previewOn = false;
+	eventType = EventType::None;
+	selectItem = false;
+	selectIdx = 0;
+	curTier = 0;
 }
 
 void EventPanel::Update(float dt)

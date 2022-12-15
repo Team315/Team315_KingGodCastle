@@ -67,6 +67,8 @@ void BattleSceneUI::Release()
 
 void BattleSceneUI::Reset()
 {
+	UIMgr::Reset();
+	
 	panel->SetPos(Vector2f(0, GAME_SCREEN_HEIGHT * 1.2f));
 	statPopup->SetActive(false);
 	for (auto& popup : itemPopups)
