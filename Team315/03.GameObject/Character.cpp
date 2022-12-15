@@ -687,7 +687,9 @@ void Character::LevelUpAnimation()
 	levUpAni.SetTarget(&levUpSpr);
 	levUpAni.AddClip(*RESOURCE_MGR->GetAnimationClip("LevelUp_Effect"));
 
-	levUpSpr.setPosition(position);
+	Vector2f levPos = position;
+	levPos.y += 10.f;
+	levUpSpr.setPosition(levPos);
 
 	levUpAni.Play("LevelUp_Effect");
 }
