@@ -64,7 +64,7 @@ void Quagmire::ActionSkill()
 	
 	for (auto monster : mainGrid)
 	{
-		if (!monster->GetType().compare("Monster"))
+		if (monster != nullptr && !monster->GetType().compare("Monster"))
 		{
 			//GAME_MGR->GetBattleTracker()->UpdateData(dynamic_cast<Character*>(monster), 999999.f, false, 0);
 
