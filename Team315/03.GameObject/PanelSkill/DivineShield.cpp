@@ -14,6 +14,8 @@ DivineShield::~DivineShield()
 void DivineShield::Enter()
 {
 	SetAni();
+	SetTime();
+	
 }
 
 void DivineShield::Init()
@@ -36,7 +38,6 @@ void DivineShield::Update(float dt)
 		}
 		m_DivineShield.Update(dt);
 	}
-
 }
 
 void DivineShield::Draw(RenderWindow& window)
@@ -45,6 +46,15 @@ void DivineShield::Draw(RenderWindow& window)
 	{
 		SpriteObj::Draw(window);
 	}
+}
+
+void DivineShield::SetTime()
+{
+	string panelDataPath = "data/PenalSkillTable.csv";
+
+	rapidcsv::Document PanelDataDoc(panelDataPath, rapidcsv::LabelParams(0, -1));
+	vector<float> time = PanelDataDoc.GetColumn<float>(7);
+	m_Settime = time[4];
 }
 
 void DivineShield::SetAni()
@@ -71,7 +81,7 @@ void DivineShield::ActionSkill()
 {
 	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
-	m_time = 4.f;
+	m_time = m_Settime;
 
 	for (auto Player : mainGrid)
 	{

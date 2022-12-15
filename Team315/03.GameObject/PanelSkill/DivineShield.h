@@ -10,6 +10,7 @@ protected:
 	Animator m_DivineShield;
 
 	float m_time;
+	float m_Settime;
 	bool isPlaying;
 
 public:
@@ -22,6 +23,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
+	void SetTime();
 	void SetAni();
 	void SetIsPlaying(bool is);
 
