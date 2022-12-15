@@ -142,6 +142,15 @@ void BattleScene::Exit()
 
 void BattleScene::Update(float dt)
 {
+
+
+	if (InputMgr::GetKey(Keyboard::Key::V))
+	{
+
+
+		return;
+	}
+
 	if (GAME_MGR->oneTimePowerUp != nullptr)
 	{
 		OneTimePowerUp();
