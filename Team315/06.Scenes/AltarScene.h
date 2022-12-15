@@ -18,6 +18,13 @@ protected:
 	vector<Brazier*>  BrazierList;
 	RssProgressWindow* levelBar;
 
+	// instruction
+	Sprite altarInstruction;
+	bool isAltarInstruction;
+	Sprite altarExpInstruction;
+	bool isAltarExpInstruction;
+	Sprite altarResetInstruction;
+	bool isAltarResetInstruction;
 public:
 	AltarScene();
 	~AltarScene();

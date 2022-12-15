@@ -93,6 +93,8 @@ void BlessOfMana::ActionSkill()
 		}
 	}
 	++m_count;
+
+	SOUND_MGR->Play("sounds/panel_BlessMana.ogg", 20.f, false);
 }
 
 void BlessOfMana::EndSkill()

@@ -6,27 +6,27 @@ TitleScene::TitleScene()
 	: Scene(Scenes::Title), duration(0.5f), timer(duration), isMode(false), m_pickNum(0),
 	isInstruction(false)
 {
+	instruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_Title.png"));
+	instruction.setScale(0.7f, 0.8f);
+	instruction.setPosition(5.f, 50.f);
+
 	CLOG::Print3String("title create");
 	background = new SpriteObj();
 	background->SetTexture(*RESOURCE_MGR->GetTexture("graphics/titleScene/titleBackground.png"));
 	objList.push_back(background);
 
-	if(!isInstruction)
-	{
-		Vector2u wSize = FRAMEWORK->GetWindowSize();
-		titleText = new TextObj(
-			*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
-			"Press Click to start!",
-			wSize.x * 0.2f, wSize.y * 0.5f, Color::White, 35.f);
-		titleText->SetOutlineColor(Color::Black);
-		titleText->SetOutlineThickness(2.f);
-		titleText->SetOrigin(Origins::MC);
-	}
+
+	Vector2u wSize = FRAMEWORK->GetWindowSize();
+	titleText = new TextObj(
+		*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
+		"Press Click to start!",
+		wSize.x * 0.2f, wSize.y * 0.5f, Color::White, 35.f);
+	titleText->SetOutlineColor(Color::Black);
+	titleText->SetOutlineThickness(2.f);
+	titleText->SetOrigin(Origins::MC);
+
 	//objList.push_back(titleText);
 
-	instruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_Title.png"));
-	instruction.setScale(0.7f, 0.8f);
-	instruction.setPosition(5.f, 50.f);
 
 
 	CreatButton();
@@ -86,7 +86,7 @@ void TitleScene::Update(float dt)
 	}*/
 
 	// Game Input
-	if(!isInstruction)
+	if(isInstruction)
 	{
 		if (!isMode)
 		{
@@ -157,11 +157,11 @@ void TitleScene::Draw(RenderWindow& window)
 {
 	Scene::Draw(window);
 
-	if(isInstruction)
+	if(!isInstruction)
 	{
 		window.draw(instruction);
 	}
-	else
+	else if (isInstruction)
 	{
 		if (!isMode && titleText->GetActive())
 		{
