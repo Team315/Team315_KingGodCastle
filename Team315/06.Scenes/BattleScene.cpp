@@ -14,8 +14,8 @@
 #include <iostream>
 
 BattleScene::BattleScene()
-	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f), gameOverTimer(0.f),
-	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false),
+	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f),
+	remainLife(3), stageEnd(false), stageResult(false),
 	eventWindow(false), eventPreviewOn(false), curEventTier(0), quickHandTimer(0.f), quickHandDuration(10.f)
 {																
 	CLOG::Print3String("battle create");
@@ -99,20 +99,14 @@ void BattleScene::Enter()
 
 	GAME_MGR->GMReset();
 	ui->Reset();
-
-	GAME_MGR->curChapIdx = 0;
-	GAME_MGR->curStageIdx = 0;
 	SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 	
 	ZoomControl(false);
-	GAME_MGR->damageUI.Reset();
 
 	SOUND_MGR->Play("sounds/Battle.wav", 10.f, true);
 	stageResult = false;
 	stageEnd = false;
-	isGameOver = false;
 
-	ui->GetPanel()->SetExpansionStateText(0, GAME_MGR->GetCharacterCount());
 	remainLife = 3;
 	for (auto& flag : flags)
 	{
@@ -120,6 +114,11 @@ void BattleScene::Enter()
 	}
 	//ÆÇ³Ú½ºÅ³
 	m_panel.Enter();
+
+	eventWindow = false;
+	eventPreviewOn = false;
+	curEventTier = 0;
+	quickHandTimer = 0.f;
 }
 
 void BattleScene::Exit()
@@ -143,16 +142,6 @@ void BattleScene::Exit()
 
 void BattleScene::Update(float dt)
 {
-	if (isGameOver)
-	{
-		gameOverTimer -= dt;
-		if (gameOverTimer < 0.f)
-		{
-			SCENE_MGR->ChangeScene(Scenes::Title);
-		}
-		return;
-	}
-
 	if (GAME_MGR->oneTimePowerUp != nullptr)
 	{
 		OneTimePowerUp();
@@ -306,8 +295,6 @@ void BattleScene::Update(float dt)
 			
 			ZoomControl(false);
 
-			if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
-				GAME_MGR->curStageIdx++;
 			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
 		}
 
@@ -699,11 +686,13 @@ void BattleScene::Update(float dt)
 
 				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
 					GAME_MGR->curStageIdx++;
-				else if (GAME_MGR->curChapIdx == CHAPTER_MAX_COUNT - 1)
+				else
 				{
-					ui->GetEventPanel()->SetEventType(EventType::GameClear);
-					ZoomControl(false);
-					return;
+					if (GAME_MGR->curStageIdx == STAGE_MAX_COUNT - 1 && GAME_MGR->curChapIdx == CHAPTER_MAX_COUNT - 1)
+						ui->GetEventPanel()->SetEventType(EventType::GameClear);
+					else if (GAME_MGR->curChapIdx != 2)
+						ui->GetPanel()->ChangeTitleTextString(++GAME_MGR->curChapIdx);
+					GAME_MGR->curStageIdx = 0;
 				}
 			}
 			SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
@@ -774,7 +763,6 @@ void BattleScene::Update(float dt)
 				{
 					ui->SetEventPanel(true, curEventTier, eType);
 					eventWindow = true;
-					//ui->GetEventPanel()->SetEventType(EventType::None);
 				}
 			}
 		}
@@ -805,9 +793,18 @@ void BattleScene::Update(float dt)
 		{
 			if (InputMgr::GetMouseDown(Mouse::Left))
 			{
-				cout << "event window close" << endl;
-				ui->SetEventPanel(false);
+				// clear or over
+				if (ui->GetEventPanel()->GetEventType() == EventType::GameOver ||
+					ui->GetEventPanel()->GetEventType() == EventType::GameClear)
+				{
+					cout << "event window close" << endl;
+					SCENE_MGR->ChangeScene(Scenes::Title);
+					return;
+				}
+
 				eventWindow = false;
+				ui->SetEventPanel(false);
+				//ui->GetEventPanel()->SetEventType(EventType::None);
 			}
 		}
 	}
@@ -857,7 +854,6 @@ void BattleScene::Update(float dt)
 			}
 		}
 	}
-
 
 	// wheel control
 	float wheel = InputMgr::GetMouseWheel();
@@ -1032,8 +1028,6 @@ void BattleScene::Update(float dt)
 		return;
 	}
 
-	
-
 	// Game Input end
 }
 
@@ -1066,6 +1060,12 @@ void BattleScene::Draw(RenderWindow& window)
 		{
 			tile->Draw(window);
 		}
+	}
+
+	if (!GAME_MGR->GetPlayingBattle())
+	{
+		if (GAME_MGR->GetPowerUpByName("QuickHand") != nullptr)
+			quickHandTimerText->Draw(window);
 	}
 
 	if (pickAttackRangeRect != nullptr)
@@ -1116,12 +1116,6 @@ void BattleScene::Draw(RenderWindow& window)
 	for (auto& dmgUI : dmgUIlist)
 	{
 		dmgUI->Draw(window);
-	}
-
-	if (!GAME_MGR->GetPlayingBattle())
-	{
-		if (GAME_MGR->GetPowerUpByName("QuickHand") != nullptr)
-			quickHandTimerText->Draw(window);
 	}
 
 	//panel skill 
@@ -1566,16 +1560,11 @@ void BattleScene::LoseFlag()
 	flags[remainLife]->SetActive(false);
 	if (!remainLife)
 	{
-		//isGameOver = true;
-		//gameOverTimer = 5.f;
-
 		cout << "Game Over !!" << endl;
 		GAME_MGR->accountInfo.AddExp(GAME_MGR->cumulativeExp);
 		GAME_MGR->accountInfo.UpdateLevel(GAME_MGR->accountExpLimit);
 		GAME_MGR->GameEnd();
-		ZoomControl(false);
 		ui->GetEventPanel()->SetEventType(EventType::GameOver);
-		//ui->SetEventPanel(true, EventType::GameOver);
 	}
 }
 

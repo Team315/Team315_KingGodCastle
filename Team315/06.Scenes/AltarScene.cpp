@@ -49,7 +49,7 @@ void AltarScene::Enter()
 	// level
 	levelBar->SetLevel(GAME_MGR->accountInfo.level);
 	// exp
-	float value = (float)GAME_MGR->accountInfo.exp / (float)GAME_MGR->accountExpLimit;
+	float value = GAME_MGR->accountInfo.level != 10 ? (float)GAME_MGR->accountInfo.exp / (float)GAME_MGR->accountExpLimit : 1.f;
 	levelBar->GetProgressBar().SetProgressValue(value);
 
 	for (auto Altar : AltarList)

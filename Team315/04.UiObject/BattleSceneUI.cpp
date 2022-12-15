@@ -75,6 +75,8 @@ void BattleSceneUI::Reset()
 		popup->SetActive(false);
 	stageEndWindow->SetActive(false);
 	panel->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+	panel->SetExpansionStateText(0, GAME_MGR->GetCharacterCount());
+	SetEventPanel(false);
 }
 
 void BattleSceneUI::Update(float dt)
