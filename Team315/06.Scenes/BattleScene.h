@@ -66,6 +66,10 @@ protected:
 	bool isSumAndCampInstruction;
 	Sprite upgradeInstruction;
 	bool isUpgradeInstruction;
+	Sprite panelInstruction;
+	bool isPanelInstruction;
+	Sprite powerUpinstruction;
+	bool isPowerUpInstruction;
 
 public:
 	BattleScene();

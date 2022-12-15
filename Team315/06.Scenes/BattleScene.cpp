@@ -16,7 +16,7 @@
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f),
 	remainLife(3), stageEnd(false), stageResult(false),
-	eventWindow(false), eventPreviewOn(false), curEventTier(0), quickHandTimer(0.f), quickHandDuration(10.f), isSumAndCampInstruction(false), isUpgradeInstruction(false)
+	eventWindow(false), eventPreviewOn(false), curEventTier(0), quickHandTimer(0.f), quickHandDuration(10.f), isSumAndCampInstruction(false), isUpgradeInstruction(false), isPanelInstruction(false)
 {																
 	CLOG::Print3String("battle create");
 
@@ -27,6 +27,14 @@ BattleScene::BattleScene()
 	upgradeInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_Upgrade.png"));
 	upgradeInstruction.setScale(0.7f, 0.8f);
 	upgradeInstruction.setPosition(5.f, GAME_SCREEN_HEIGHT * 0.5f + 100.f);
+
+	panelInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_Panel.png"));
+	panelInstruction.setScale(0.7f, 0.8f);
+	panelInstruction.setPosition(5.f, GAME_SCREEN_HEIGHT * 0.5f + 100.f);
+
+	powerUpinstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_PowerUp.png"));
+	powerUpinstruction.setScale(0.7f, 0.8f);
+	powerUpinstruction.setPosition(5.f, GAME_SCREEN_HEIGHT * 0.5f + 100.f);
 
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f - TILE_SIZE_HALF;
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.1f;
@@ -158,6 +166,14 @@ void BattleScene::Update(float dt)
 	else if (!isUpgradeInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) &&  upgradeInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
 	{
 		isUpgradeInstruction = true;
+	}
+	else if (!isPanelInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) && panelInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+		isPanelInstruction = true;
+	}
+	else if (!isPowerUpInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) && powerUpinstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+		isPowerUpInstruction = true;
 	}
 
 	if (GAME_MGR->oneTimePowerUp != nullptr)
@@ -1144,10 +1160,20 @@ void BattleScene::Draw(RenderWindow& window)
 	{
 		window.draw(sumandcampInstruction);
 	}
-	else if(isSumAndCampInstruction)
+	if(isSumAndCampInstruction)
 	{
 		if (!isUpgradeInstruction)
 			window.draw(upgradeInstruction);
+	}
+	if (isUpgradeInstruction)
+	{
+		if (!isPanelInstruction)
+			window.draw(panelInstruction);
+	}
+	if (isPanelInstruction)
+	{
+		if (!isPowerUpInstruction)
+			window.draw(powerUpinstruction);
 	}
 }
 
