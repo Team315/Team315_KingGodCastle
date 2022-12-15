@@ -78,6 +78,10 @@ protected:
 
 	Animator crowdControlAnimator;
 	Sprite crowdControlSprite;
+
+	//panel
+	bool m_invincible;
+
 public:
 	// mode false - summon, true - combine
 	Character(bool mode = false, bool useExtraUpgrade = false, int starNumber = 0);
@@ -159,5 +163,7 @@ public:
 
 	//panel
 	void TakeDamege(float paneldamege, bool attackType = true);
+	void SetInvincible(bool invincible) { m_invincible = invincible; };
+	void AddBlessOfMana(float addmana);
 	void ChangeStats(PanelTypes panelTypes, float value);
 };

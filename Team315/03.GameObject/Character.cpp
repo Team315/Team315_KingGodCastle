@@ -113,6 +113,7 @@ void Character::Reset()
 	SetState(AnimStates::Idle);
 	if (currState == AnimStates::Idle || currState == AnimStates::MoveToIdle)
 		sprite.setColor(Color::White);
+	m_invincible = false;
 }
 
 void Character::Update(float dt)
@@ -294,7 +295,7 @@ void Character::Draw(RenderWindow& window)
 	window.draw(shadow);
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
-	if (ccTimer > 0.f)
+	if (ccTimer > 0.f && !isBattle)
 	{
 		window.draw(crowdControlSprite);
 	}
@@ -428,12 +429,15 @@ void Character::TakeDamage(GameObj* attacker, AttackTypes attackType)
 	}
 
 	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), trackerModeType ? StatType::AD : StatType::AP, damage);
-	/*if (untouchable)
-		return;*/
+	
+	if(m_invincible)
+	{
+		return;
+	}
+		Stat& hp = stat[StatType::HP];
+		hp.TranslateCurrent(-damage);
+		UpdateHpbar();
 
-	Stat& hp = stat[StatType::HP];
-	hp.TranslateCurrent(-damage);
-	UpdateHpbar();
 
 	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, trackerModeType);
 	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, trackerModeType);
@@ -1178,7 +1182,13 @@ void Character::SkillAnimation(Vector2f skillPos)
 		if(name.compare("Arveron") || name.compare("Daniel") || name.compare("Shelda"))
 		{
 			effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
-			effectSprite.setPosition(position + skillPos);
+			if (name.compare("Goblin00"))
+				effectSprite.setPosition(position + skillPos);
+			else
+			{
+				Vector2f skillPos = GetTarget()->GetPos();
+				effectSprite.setPosition(skillPos);
+			}
 		}
 	}
 	else if (lastDirection.x)
@@ -1187,7 +1197,13 @@ void Character::SkillAnimation(Vector2f skillPos)
 		if (name.compare("Arveron") || name.compare("Daniel") || name.compare("Shelda"))
 		{
 			effectAnimator.Play(lastDirection.x > 0.f ? resStringTypes[ResStringType::RightSkillEffect] : resStringTypes[ResStringType::LeftSkillEffect]);
-			effectSprite.setPosition(position + skillPos);
+			if (name.compare("Goblin00"))
+				effectSprite.setPosition(position + skillPos);
+			else
+			{
+				Vector2f skillPos = GetTarget()->GetPos();
+				effectSprite.setPosition(skillPos);
+			}
 		}
 	}
 	else
@@ -1336,6 +1352,11 @@ void Character::SetInitManaPoint(float value)
 	initManaPoint = value;
 	stat[StatType::MP].SetCurrent(initManaPoint);
 	UpdateMpbar();
+}
+
+void Character::AddBlessOfMana(float addmana)
+{
+	stat[StatType::MP].TranslateCurrent(addmana);
 }
 
 void Character::ChangeStats(PanelTypes m_PanelTypes, float value)
