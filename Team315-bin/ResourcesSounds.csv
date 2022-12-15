@@ -1,10 +1,10 @@
 id,type
-sounds/Battel_enter.wav,2
+sounds/Battle_enter.wav,2
 sounds/Battle.wav,2
 sounds/Lobby.wav,2
 sounds/Lobby_enterBT.wav,2
 sounds/Lobby_bottomBT.wav,2
-sounds/Battel_getmoney.wav,2
+sounds/Battle_getmoney.wav,2
 sounds/Aramis_atk.wav,2
 sounds/Arveron_atk.wav,2
 sounds/Daniel_atk.wav,2

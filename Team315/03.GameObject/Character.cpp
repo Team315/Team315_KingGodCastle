@@ -1173,7 +1173,13 @@ void Character::SkillAnimation(Vector2f skillPos)
 		if(name.compare("Arveron") || name.compare("Daniel") || name.compare("Shelda"))
 		{
 			effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
-			effectSprite.setPosition(position + skillPos);
+			if (name.compare("Goblin00"))
+				effectSprite.setPosition(position + skillPos);
+			else
+			{
+				Vector2f skillPos = GetTarget()->GetPos();
+				effectSprite.setPosition(skillPos);
+			}
 		}
 	}
 	else if (lastDirection.x)
@@ -1182,7 +1188,13 @@ void Character::SkillAnimation(Vector2f skillPos)
 		if (name.compare("Arveron") || name.compare("Daniel") || name.compare("Shelda"))
 		{
 			effectAnimator.Play(lastDirection.x > 0.f ? resStringTypes[ResStringType::RightSkillEffect] : resStringTypes[ResStringType::LeftSkillEffect]);
-			effectSprite.setPosition(position + skillPos);
+			if (name.compare("Goblin00"))
+				effectSprite.setPosition(position + skillPos);
+			else
+			{
+				Vector2f skillPos = GetTarget()->GetPos();
+				effectSprite.setPosition(skillPos);
+			}
 		}
 	}
 	else
