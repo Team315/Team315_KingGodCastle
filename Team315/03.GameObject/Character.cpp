@@ -294,7 +294,7 @@ void Character::Draw(RenderWindow& window)
 	window.draw(shadow);
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
-	if (ccTimer > 0.f)
+	if (ccTimer > 0.f && !isBattle)
 	{
 		window.draw(crowdControlSprite);
 	}
