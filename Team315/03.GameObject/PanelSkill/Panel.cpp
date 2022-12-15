@@ -201,9 +201,9 @@ void Panel::SetSkillCooldown()
 
 string Panel::GetRandomSkill()
 {
-	int num = Utils::RandomRange(1, 5);
+	int num = Utils::RandomRange(1, 6);
 
-	num = 5;
+	//num = 1;
 
 	if (num == 1)
 	{

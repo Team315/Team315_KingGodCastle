@@ -10,7 +10,6 @@ protected:
 	Animator m_DivineShield;
 
 	float m_time;
-
 	bool isPlaying;
 
 public:

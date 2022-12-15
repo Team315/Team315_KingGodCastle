@@ -164,5 +164,6 @@ public:
 	//panel
 	void TakeDamege(float paneldamege, bool attackType = true);
 	void SetInvincible(bool invincible) { m_invincible = invincible; };
+	void AddBlessOfMana(float addmana);
 	void ChangeStats(PanelTypes panelTypes, float value);
 };

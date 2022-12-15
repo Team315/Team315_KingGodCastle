@@ -1342,6 +1342,11 @@ void Character::SetInitManaPoint(float value)
 	UpdateMpbar();
 }
 
+void Character::AddBlessOfMana(float addmana)
+{
+	stat[StatType::MP].TranslateCurrent(addmana);
+}
+
 void Character::ChangeStats(PanelTypes m_PanelTypes, float value)
 {
 	switch (m_PanelTypes)

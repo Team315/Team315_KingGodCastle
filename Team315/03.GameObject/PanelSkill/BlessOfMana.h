@@ -7,6 +7,9 @@ class BlessOfMana : public SpriteObj
 {
 	Animator m_BlessOfMana;
 
+	int m_count;
+	float m_addMana;
+	float m_time;
 	bool isPlaying;
 
 public:
@@ -19,9 +22,12 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
+	void SetMana();
 	void SetAni();
 	void SetIsPlaying(bool is);
 
 	void PlayingAni();
+	void ActionSkill();
+	void EndSkill();
 };
 

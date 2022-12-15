@@ -86,8 +86,6 @@ void DivineShield::EndSkill()
 {
 	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
-	m_time = 4.f;
-
 	for (auto Player : mainGrid)
 	{
 		if (Player != nullptr && !Player->GetType().compare("Player"))
