@@ -102,7 +102,7 @@ void BattleScene::Enter()
 	ZoomControl(false);
 	GAME_MGR->damageUI.Reset();
 
-	SOUND_MGR->Play("sounds/Battle.wav", 20.f, true);
+	SOUND_MGR->Play("sounds/Battle.wav", 10.f, true);
 	stageResult = false;
 	stageEnd = false;
 	isGameOver = false;
@@ -1312,6 +1312,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 				{
 					if (destCharacter->SetItem(pickItem))
 					{
+						SOUND_MGR->Play("sounds/EquipPutIn.ogg", 40.f, false);
 						(*start)[startIdx] = nullptr;
 						combine = true;
 						destCharacter->UpdateItems();
