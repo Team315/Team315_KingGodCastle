@@ -59,7 +59,9 @@ protected:
 	BlessOfMana m_BlessOfMana;
 	DivineShield m_DivineShield;
 	FireExplosion m_FireExplosion;
-	TextObj* quickHandTimer;
+	TextObj* quickHandTimerText;
+	float quickHandTimer;
+	float quickHandDuration;
 
 public:
 	BattleScene();
@@ -89,6 +91,7 @@ public:
 	void SetEventWindow(bool active) { eventWindow = active; }
 	void ZoomControl(bool b_switch);
 	void OneTimePowerUp();
+	void BeginBattle();
 };
 
 int GetIdxFromCoord(Vector2i coord);

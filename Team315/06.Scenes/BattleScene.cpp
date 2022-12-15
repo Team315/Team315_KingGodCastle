@@ -16,8 +16,8 @@
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f), gameOverTimer(0.f),
 	remainLife(3), isGameOver(false), stageEnd(false), stageResult(false),
-	eventWindow(false), eventPreviewOn(false), curEventTier(0)
-{
+	eventWindow(false), eventPreviewOn(false), curEventTier(0), quickHandTimer(0.f), quickHandDuration(10.f)
+{																
 	CLOG::Print3String("battle create");
 
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f - TILE_SIZE_HALF;
@@ -62,8 +62,10 @@ BattleScene::BattleScene()
 		objList.push_back(flag);
 	}
 
-	quickHandTimer = new TextObj(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), "", GAME_SCREEN_WIDTH * 0.5f, GAME_SCREEN_HEIGHT + TILE_SIZE, Color(240.f, 0.f, 0.f), 50.f);
-	quickHandTimer->SetOrigin(Origins::BC);
+	quickHandTimerText = new TextObj(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"), "10", GAME_SCREEN_WIDTH * 0.1f, GAME_SCREEN_HEIGHT * 0.75f, Color(240.f, 0.f, 0.f), 30.f);
+	quickHandTimerText->SetOrigin(Origins::BC);
+	quickHandTimerText->SetOutlineColor(Color::Black);
+	quickHandTimerText->SetOutlineThickness(3.0f);
 }
 
 BattleScene::~BattleScene()
@@ -105,7 +107,7 @@ void BattleScene::Enter()
 	ZoomControl(false);
 	GAME_MGR->damageUI.Reset();
 
-	SOUND_MGR->Play("sounds/Battle.wav", 20.f, true);
+	SOUND_MGR->Play("sounds/Battle.wav", 10.f, true);
 	stageResult = false;
 	stageEnd = false;
 	isGameOver = false;
@@ -796,14 +798,17 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	BackrectText* selectButton = ui->GetEventPanel()->GetSelectButton();
-	if (selectButton->CollideTest((ScreenToWorldPos(InputMgr::GetMousePosI()))))
+	if (eventWindow)
 	{
-		if (InputMgr::GetMouseDown(Mouse::Left))
+		BackrectText* selectButton = ui->GetEventPanel()->GetSelectButton();
+		if (selectButton->CollideTest((ScreenToWorldPos(InputMgr::GetMousePosI()))))
 		{
-			cout << "event window close" << endl;
-			ui->SetEventPanel(false);
-			eventWindow = false;
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				cout << "event window close" << endl;
+				ui->SetEventPanel(false);
+				eventWindow = false;
+			}
 		}
 	}
 
@@ -837,7 +842,22 @@ void BattleScene::Update(float dt)
 	if (eventWindow)
 		return;
 
-	quickHandTimer->Update(dt);
+	if (!GAME_MGR->GetPlayingBattle())
+	{
+		if (quickHandTimer > 0.f)
+		{
+			quickHandTimer -= dt;
+
+			quickHandTimerText->SetString(to_string(quickHandTimer).substr(0, 4));
+			if (quickHandTimer < 0.f)
+			{
+				cout << "start!!!!" << endl;
+				quickHandTimer = quickHandDuration;
+				BeginBattle();
+			}
+		}
+	}
+
 
 	// wheel control
 	float wheel = InputMgr::GetMouseWheel();
@@ -876,117 +896,7 @@ void BattleScene::Update(float dt)
 				// Start battle
 				if (!button->GetName().compare("begin") && !GAME_MGR->GetPlayingBattle())
 				{
-					SOUND_MGR->Play("sounds/BattleStart.ogg", 30.f, false);
-					if (ui->GetEventPanel()->GetEventType() != EventType::None)
-						break;
-
-					int curCharacterCount = GetCurCharacterCount();
-					if (curCharacterCount != GAME_MGR->GetCharacterCount())
-					{
-						CLOG::Print3String("need more battle character");
-						if (curCharacterCount == 0)
-							break;
-					}
-
-					int monsterGridCoordC = 0;
-					if (GAME_MGR->GetPowerUpByName("DogFight"))
-					{
-						int dest = 0, sour = 0;
-
-						for (int i = 0; i < 77; i++)
-						{
-							dest = Utils::RandomRange(0, battleGrid.size());
-							sour = Utils::RandomRange(0, battleGrid.size());
-							
-							GameObj* temp = battleGrid[dest];
-							battleGrid[dest] = battleGrid[sour];
-							battleGrid[sour] = temp;
-
-							if (battleGrid[sour] != nullptr)
-								battleGrid[sour]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(sour, true)));
-							if (battleGrid[dest] != nullptr)
-								battleGrid[dest]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(dest, true)));
-						}
-					}
-
-					for (auto& character : battleGrid)
-					{
-						mgref[monsterGridCoordC + 70] = character;
-						monsterGridCoordC++;
-					}
-
-					PowerUp* med = GAME_MGR->GetPowerUpByName("Meditation");
-					PowerUp* rune = GAME_MGR->GetPowerUpByName("RuneShield");
-					PowerUp* wrh = GAME_MGR->GetPowerUpByName("WarriorsHeart");
-
-					for (auto& gameObj : mgref)
-					{
-						if (gameObj != nullptr && IsCharacter(gameObj))
-						{
-							Character* character = dynamic_cast<Character*>(gameObj);
-							character->SetIsBattle(true);
-
-							// 15, 25, 35
-							if (!character->GetType().compare("Player"))
-							{
-								// meditation
-								if (med != nullptr)
-									character->SetInitManaPoint(med->GetGrade() * 10.f + 5.f);
-
-								// rune shield
-								if (rune != nullptr && !character->GetName().compare("Pria"))
-								{
-									character->AddShieldAmount(character->GetStat(StatType::HP).GetModifier());
-									character->GetStat(StatType::AR).SetBase(2);
-									character->TakeBuff(StatType::AR, 0, false);
-									character->GetStat(StatType::AP).SetBase(
-										20 * pow(GAME_MGR->apIncreaseRate, character->GetStarNumber() - 1));
-									character->UpdateHpbar();
-								}
-
-								// warriors heart
-								if (wrh != nullptr &&
-									(!character->GetName().compare("Shelda") ||
-										!character->GetName().compare("LeonHeart")))
-								{
-									int idx = GetIdxFromCoord(GAME_MGR->PosToIdx(character->GetPos()));
-									if (idx % 7 == 0)
-									{
-										if (battleGrid[idx + 1] != nullptr)
-											GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx + 1]);
-									}
-									else if (idx % 7 == 6)
-									{
-										if (battleGrid[idx - 1] != nullptr)
-											GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx - 1]);
-									}
-									else
-									{
-										if (battleGrid[idx + 1] != nullptr)
-											GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx + 1]);
-										if (battleGrid[idx - 1] != nullptr)
-											GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx - 1]);
-									}
-								}
-							}
-						}
-					}
-
-					vector<GameObj*>& warriorHeart = GAME_MGR->warriorsHeartVec;
-					for (auto& character : warriorHeart)
-					{
-						dynamic_cast<Character*>(character)->TakeBuff(StatType::AS,
-							GAME_MGR->GetPowerUpByName("WarriorsHeart")->GetGrade() * 10.f + 20.f, true);
-					}
-
-					GAME_MGR->GetBattleTracker()->SetDatas();
-					
-					ZoomControl(true);
-
-					GAME_MGR->SetPlayingBattle(true);
-
-					ui->GetTracker()->ShowGiven();
-					ui->GetTracker()->ShowWindow(false);
+					BeginBattle();
 					break;
 				}
 				// Summon character
@@ -1207,7 +1117,13 @@ void BattleScene::Draw(RenderWindow& window)
 	{
 		dmgUI->Draw(window);
 	}
-	
+
+	if (!GAME_MGR->GetPlayingBattle())
+	{
+		if (GAME_MGR->GetPowerUpByName("QuickHand") != nullptr)
+			quickHandTimerText->Draw(window);
+	}
+
 	//panel skill 
 	m_panel.DrawDown(window);
 	m_panel.Draw(window);
@@ -1362,6 +1278,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 				{
 					if (destCharacter->SetItem(pickItem))
 					{
+						SOUND_MGR->Play("sounds/EquipPutIn.ogg", 40.f, false);
 						(*start)[startIdx] = nullptr;
 						combine = true;
 						destCharacter->UpdateItems();
@@ -1472,12 +1389,135 @@ void BattleScene::OneTimePowerUp()
 		}
 		break;
 
+	case PowerUpTypes::QuickHand:
+		quickHandTimer = quickHandDuration;
+
 	default:
 		cout << powerUpRef->GetName() << endl;
 		break;
 	}
 	GAME_MGR->standingPowerUps.push_back(powerUpRef);
 	powerUpRef = nullptr;
+}
+
+void BattleScene::BeginBattle()
+{
+	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
+
+	SOUND_MGR->Play("sounds/BattleStart.ogg", 30.f, false);
+	if (ui->GetEventPanel()->GetEventType() != EventType::None)
+		return;
+
+	int curCharacterCount = GetCurCharacterCount();
+	if (curCharacterCount != GAME_MGR->GetCharacterCount())
+	{
+		CLOG::Print3String("need more battle character");
+		if (curCharacterCount == 0)
+		{
+			LoseFlag();
+			return;
+		}
+	}
+
+	int monsterGridCoordC = 0;
+	if (GAME_MGR->GetPowerUpByName("DogFight"))
+	{
+		int dest = 0, sour = 0;
+
+		for (int i = 0; i < 77; i++)
+		{
+			dest = Utils::RandomRange(0, battleGrid.size());
+			sour = Utils::RandomRange(0, battleGrid.size());
+
+			GameObj* temp = battleGrid[dest];
+			battleGrid[dest] = battleGrid[sour];
+			battleGrid[sour] = temp;
+
+			if (battleGrid[sour] != nullptr)
+				battleGrid[sour]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(sour, true)));
+			if (battleGrid[dest] != nullptr)
+				battleGrid[dest]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(dest, true)));
+		}
+	}
+
+	for (auto& character : battleGrid)
+	{
+		mgref[monsterGridCoordC + 70] = character;
+		monsterGridCoordC++;
+	}
+
+	PowerUp* med = GAME_MGR->GetPowerUpByName("Meditation");
+	PowerUp* rune = GAME_MGR->GetPowerUpByName("RuneShield");
+	PowerUp* wrh = GAME_MGR->GetPowerUpByName("WarriorsHeart");
+
+	for (auto& gameObj : mgref)
+	{
+		if (gameObj != nullptr && IsCharacter(gameObj))
+		{
+			Character* character = dynamic_cast<Character*>(gameObj);
+			character->SetIsBattle(true);
+
+			// 15, 25, 35
+			if (!character->GetType().compare("Player"))
+			{
+				// meditation
+				if (med != nullptr)
+					character->SetInitManaPoint(med->GetGrade() * 10.f + 5.f);
+
+				// rune shield
+				if (rune != nullptr && !character->GetName().compare("Pria"))
+				{
+					character->AddShieldAmount(character->GetStat(StatType::HP).GetModifier());
+					character->GetStat(StatType::AR).SetBase(2);
+					character->TakeBuff(StatType::AR, 0, false);
+					character->GetStat(StatType::AP).SetBase(
+						20 * pow(GAME_MGR->apIncreaseRate, character->GetStarNumber() - 1));
+					character->UpdateHpbar();
+				}
+
+				// warriors heart
+				if (wrh != nullptr &&
+					(!character->GetName().compare("Shelda") ||
+						!character->GetName().compare("LeonHeart")))
+				{
+					int idx = GetIdxFromCoord(GAME_MGR->PosToIdx(character->GetPos()));
+					if (idx % 7 == 0)
+					{
+						if (battleGrid[idx + 1] != nullptr)
+							GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx + 1]);
+					}
+					else if (idx % 7 == 6)
+					{
+						if (battleGrid[idx - 1] != nullptr)
+							GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx - 1]);
+					}
+					else
+					{
+						if (battleGrid[idx + 1] != nullptr)
+							GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx + 1]);
+						if (battleGrid[idx - 1] != nullptr)
+							GAME_MGR->warriorsHeartVec.push_back(battleGrid[idx - 1]);
+					}
+				}
+			}
+		}
+	}
+
+	vector<GameObj*>& warriorHeart = GAME_MGR->warriorsHeartVec;
+	for (auto& character : warriorHeart)
+	{
+		dynamic_cast<Character*>(character)->TakeBuff(StatType::AS,
+			GAME_MGR->GetPowerUpByName("WarriorsHeart")->GetGrade() * 10.f + 20.f, true);
+	}
+
+	GAME_MGR->GetBattleTracker()->SetDatas();
+
+	ZoomControl(true);
+
+	GAME_MGR->SetPlayingBattle(true);
+
+	ui->GetTracker()->ShowGiven();
+	ui->GetTracker()->ShowWindow(false);
 }
 
 void BattleScene::SetCurrentStage(int chap, int stage)
