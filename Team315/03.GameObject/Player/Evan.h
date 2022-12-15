@@ -5,8 +5,9 @@ class Evan : public Character
 {
 protected:
 	float skillSpeed;
+	Vector2f skillDir;
 public:
-	Evan(bool mode = false, bool useExtraUpgrade = false, int skillTier = 0);
+	Evan(bool mode = false, bool useExtraUpgrade = false, int starGrade = 0);
 	virtual ~Evan();
 
 	virtual void Init() override;

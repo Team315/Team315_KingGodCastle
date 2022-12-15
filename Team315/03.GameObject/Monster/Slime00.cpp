@@ -1,8 +1,8 @@
 #include "Slime00.h"
 #include "Skill/Slime00Skill.h"
 
-Slime00::Slime00(bool mode, bool useExtraUpgrade, int skillTier)
-	: Character(mode, useExtraUpgrade, skillTier), duration(1.0f), mpTimer(duration)
+Slime00::Slime00(bool mode, bool useExtraUpgrade, int starGrade)
+	: Character(mode, useExtraUpgrade, starGrade), duration(1.0f), mpTimer(duration)
 {
 	SetType("Monster");
 	SetName("Slime00");
@@ -51,16 +51,20 @@ void Slime00::Update(float dt)
 		{
 			mpTimer = duration;
 			Stat& mp = stat[StatType::MP];
-			mp.TranslateCurrent(15.f);
+			mp.TranslateCurrent(GAME_MGR->manaPerAttack);
 			
 			if (!noSkill && Utils::EqualFloat(mp.GetCurRatio(), 1.f))
 			{
 				m_target = m_floodFill.GetNearEnemy(
 					GAME_MGR->GetMainGridRef(), GAME_MGR->PosToIdx(position), targetType);
-				SetState(AnimStates::Skill);
-				mp.SetCurrent(0.f);
-				if (skill != nullptr)
+				
+				if (skill != nullptr && m_target != nullptr)
+				{
 					skill->CastSkill(this);
+					SetState(AnimStates::Skill);
+					stat[StatType::MP].SetCurrent(0.f);
+					mpBar->SetProgressValue(0.f);
+				}
 			}
 		}
 	}

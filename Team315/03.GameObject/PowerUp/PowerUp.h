@@ -7,12 +7,17 @@ class PowerUp : public GameObj
 protected:
 	int grade;
 	PowerUpTypes powerUpType;
+	bool unique;
+	bool standing;
 
 public:
-	PowerUp(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	PowerUp(PowerUpTypes puType = PowerUpTypes::None, int grade = 0,
+		bool isStanding = true, bool unique = true);
 	virtual ~PowerUp();
 	
 	string MakePath();
 	PowerUpTypes GetPowerUpType() { return powerUpType; }
 	int GetGrade() { return grade; }
+	bool isUnique() { return unique; }
+	bool isStanding() { return standing; }
 };

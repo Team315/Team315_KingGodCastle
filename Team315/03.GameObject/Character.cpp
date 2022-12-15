@@ -1,12 +1,13 @@
 #include "Character.h"
 #include "Item/Item.h"
 #include "Skill.h"
+#include "PowerUp/PowerUp.h"
 
 Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 	: destination(0, 0), move(false), attack(false), isAlive(true),
 	attackRangeType(false), isBattle(false), moveSpeed(0.f), noSkill(true),
 	ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f),
-	dirType(Dir::None)
+	dirType(Dir::None), initManaPoint(0.f)
 {
 	hpBar = new TwoFactorProgress(TILE_SIZE * 0.8f, 3.f);
 	hpBar->SetProgressColor(Color::Green);
@@ -28,8 +29,9 @@ Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 	shadow.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Shadow.png"));
 	shadow.setScale(0.4f, 0.4f);
 
-	effectAnimator.SetTarget(&effectSprite);
-	effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Crowd_Effect"));
+	//effectAnimator.SetTarget(&effectSprite);
+
+	//effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Crowd_Effect"));
 }
 
 Character::~Character()
@@ -38,11 +40,14 @@ Character::~Character()
 	star->Release();
 	if (skill != nullptr)
 		skill->Release();
-	for (auto& item : items)
-	{
-		item->Release();
-		delete item;
-	}
+	//for (auto& item : items)
+	//{
+	//	if (item != nullptr)
+	//	{
+	//		//item->Release();
+	//		delete item;
+	//	}
+	//}
 
 	if (mpBar != nullptr)
 	{
@@ -103,11 +108,11 @@ void Character::Reset()
 	Stat& hp = stat[StatType::HP];
 	hp.ResetStat();
 	shieldAmount = shieldAmountMin;
-	hpBar->SetRatio(hp.GetModifier(), hp.GetCurrent(), shieldAmount);
+	UpdateHpbar();
 	if (!noSkill)
 	{
-		stat[StatType::MP].SetCurrent(0.f);
-		mpBar->SetProgressValue(0.f);
+		stat[StatType::MP].SetCurrent(initManaPoint);
+		UpdateMpbar();
 	}
 	SetState(AnimStates::Idle);
 	sprite.setColor(Color::White);
@@ -121,6 +126,8 @@ void Character::Update(float dt)
 	hpBar->Update(dt);
 	animator.Update(dt);
 	effectAnimator.Update(dt);
+	crowdControlAnimator.Update(dt);
+
 	if (!noSkill)
 		mpBar->Update(dt);
 
@@ -137,11 +144,6 @@ void Character::Update(float dt)
 		}
 		if (ccTimer > 0.f)
 		{
-			effectAnimator.Play("Crowd_Effect");
-			Vector2f ccPos = position;
-			ccPos.y -= 30.f;
-			effectSprite.setPosition(ccPos);
-			
 			ccTimer -= dt;
 			if (ccTimer < 0.f)
 			{
@@ -183,13 +185,27 @@ void Character::Update(float dt)
 					m_target = m_floodFill.GetNearEnemy(
 						GAME_MGR->GetMainGridRef(),
 						GAME_MGR->PosToIdx(position), targetType);
+					if (!name.compare("Evan") && !attackRangeType)
+					{
+						attackRangeType = true;
+						m_floodFill.SetArrSize(
+							stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), attackRangeType);
+
+						if (skill != nullptr)
+						{
+							skill->CastSkill(this);
+							SetState(AnimStates::Skill);
+							stat[StatType::MP].SetCurrent(0.f);
+							mpBar->SetProgressValue(0.f);
+						}
+					}
 
 					if (!noSkill)
 					{
 						float gain = (!type.compare("Player")) ?
 							GAME_MGR->GetManaPerAttack() : GAME_MGR->manaPerAttack;
 						stat[StatType::MP].TranslateCurrent(gain);
-						mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
+						UpdateMpbar();
 					}
 
 					//타겟의 포지션
@@ -244,11 +260,26 @@ void Character::Update(float dt)
 
 		if (!noSkill && Utils::EqualFloat(stat[StatType::MP].GetCurRatio(), 1.f))
 		{
-			SetState(AnimStates::Skill);
-			stat[StatType::MP].SetCurrent(0.f);
-			mpBar->SetProgressValue(0.f);
-			if (skill != nullptr)
-				skill->CastSkill(this);
+			int starGrade = GetStarNumber();
+			if (!name.compare("Evan") && starGrade <= 2)
+			{
+				if(attackRangeType)
+				{
+					m_floodFill.SetArrSize(
+						stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), false);
+					attackRangeType = false;
+				}
+			}
+			else
+			{
+				if (skill != nullptr)
+				{
+					skill->CastSkill(this);
+					SetState(AnimStates::Skill);
+					stat[StatType::MP].SetCurrent(0.f);
+					mpBar->SetProgressValue(0.f);
+				}
+			}			
 		}
 
 		if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
@@ -266,6 +297,10 @@ void Character::Draw(RenderWindow& window)
 	window.draw(shadow);
 	SpriteObj::Draw(window);
 	window.draw(effectSprite);
+	if (ccTimer > 0.f)
+	{
+		window.draw(crowdControlSprite);
+	}
 	hpBar->Draw(window);
 	star->Draw(window);
 	for (auto& grid : itemGrid)
@@ -357,9 +392,9 @@ void Character::SetStatsInit(json data)
 void Character::TakeDamage(GameObj* attacker, bool attackType)
 {
 	//공격받을때 이펙트
-	sprite.setColor({ 255,0,0,200 });
+	sprite.setColor({ 255,0,0,180 });
 	hit = true;
-	hitDelta = 0.1f;
+	hitDelta = 0.05f;
 
 	Stat& hp = stat[StatType::HP];
 	float damage = 0.f;
@@ -386,14 +421,14 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), attackType ? StatType::AD : StatType::AP, damage);
 
 	hp.TranslateCurrent(-damage);
-	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
-
+	UpdateHpbar();
+	
 	if (!noSkill)
 	{
 		float gain = (!type.compare("Player")) ?
 			GAME_MGR->GetManaPerDamage() : GAME_MGR->manaPerDamage;
 		stat[StatType::MP].TranslateCurrent(gain);
-		mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
+		UpdateMpbar();
 	}
 
 	if (stat[StatType::HP].GetCurrent() <= 0.f)
@@ -405,7 +440,17 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 			Stat attackerMp = attackerCharacter->GetStat(StatType::MP);
 			float killReward = attackerMp.GetBase() * (0.01f * GAME_MGR->altarData.gainManaWhenKill);
 			attackerMp.TranslateCurrent(killReward);
-			attackerCharacter->GetMpBar()->SetProgressValue(stat[StatType::MP].GetCurRatio());
+			attackerCharacter->UpdateMpbar();
+			if (GAME_MGR->FindPowerUpByName("Vampire"))
+			{
+				PowerUp* pu = GAME_MGR->GetPowerUpByName("Vampire");
+				float healAmount =
+					attackerCharacter->GetStat(StatType::HP).GetModifier() *
+					(float)pu->GetGrade() * 0.1f;
+				
+				attackerCharacter->TakeCare(healAmount, true);
+				attackerCharacter->UpdateHpbar();
+			}
 		}
 		Item* drop = GAME_MGR->DropItem(this);
 		GAME_MGR->RemoveFromMainGrid(this);
@@ -414,16 +459,23 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 
 void Character::TakeCare(GameObj* caster, bool careType)
 {
-	Stat& hp = stat[StatType::HP];
 	Character* casterCharacter = dynamic_cast<Character*>(caster);
 	float careAmount = casterCharacter->GetSkill()->CalculatePotential(casterCharacter);
 
-	if (careType)
-		hp.TranslateCurrent(careAmount);
-	else
-		shieldAmount += careAmount;
+	TakeCare(careAmount, careType);
+}
 
-	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+void Character::TakeCare(float amount, bool careType)
+{
+	if (careType)
+		stat[StatType::HP].TranslateCurrent(amount);
+	else
+		shieldAmount += amount;
+
+	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE),
+		careType ? StatType::HP : StatType::None, amount);
+
+	UpdateHpbar();
 }
 
 void Character::TakeBuff(StatType sType, float potential, bool mode, Character* caster)
@@ -609,7 +661,7 @@ void Character::UpdateItemDelta(StatType sType, float value)
 	case StatType::HP:
 		shieldAmountMin += value;
 		shieldAmount += value;
-		hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+		UpdateHpbar();
 		break;
 	case StatType::AD:
 	case StatType::AP:
@@ -617,6 +669,17 @@ void Character::UpdateItemDelta(StatType sType, float value)
 		stat[sType].AddDelta(value);
 		break;
 	}
+}
+
+void Character::SetCrowdControl(float time)
+{
+	ccTimer = time;
+	crowdControlAnimator.SetTarget(&crowdControlSprite);
+	crowdControlAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Crowd_Effect"));
+	Vector2f ccPos = position;
+	ccPos.y -= 40.f;
+	crowdControlSprite.setPosition(ccPos);
+	crowdControlAnimator.Play("Crowd_Effect");
 }
 
 void Character::IsSetState(AnimStates newState)
@@ -979,6 +1042,7 @@ void Character::AttackAnimation(Vector2f attackPos)
 			effectSprite.setPosition(position + attackPos);
 			}
 		}
+		cout << position.x << "," << position.y << endl;
 	}
 	else if (dirType == Dir::Right)
 	{
@@ -1080,7 +1144,6 @@ void Character::UpdateIdle(float dt)
 			SetState(AnimStates::Move);
 		return;
 	}
-
 }
 
 void Character::UpdateMoveToIdle(float dt)
@@ -1124,6 +1187,7 @@ void Character::UpdateAttack(float dt)
 
 void Character::UpdateSkill(float dt)
 {
+	move = false;
 	if (!name.compare("Slime00"))
 	{
 		if (!Utils::EqualFloat(direction.y, 0.f) && !Utils::EqualFloat(direction.x, 0.f))
@@ -1173,4 +1237,21 @@ void Character::SetDir(Vector2f direction)
 	//	direction = { -1,0 };
 	//else if (dirType == Dir::Right)
 	//	direction = { 1,0 };
+}
+
+void Character::UpdateHpbar()
+{
+	hpBar->SetRatio(stat[StatType::HP].GetModifier(), stat[StatType::HP].current, shieldAmount);
+}
+
+void Character::UpdateMpbar()
+{
+	mpBar->SetProgressValue(stat[StatType::MP].GetCurRatio());
+}
+
+void Character::SetInitManaPoint(float value)
+{ 
+	initManaPoint = value;
+	stat[StatType::MP].SetCurrent(initManaPoint);
+	UpdateMpbar();
 }

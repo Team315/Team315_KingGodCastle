@@ -18,6 +18,12 @@ void DamageText::SetDamageUI(Vector2f pos, StatType sType, float damage)
 	case StatType::AP:
 		SetColor(Color::Blue);
 		break;
+	case StatType::HP:
+		SetColor(Color::Green);
+		break;
+	case StatType::None: // shield
+		SetColor(Color::White);
+		break;
 	}
 	float cSize = 14 + sqrt(damage) * 0.15f;
 

@@ -148,6 +148,11 @@ void BattleScene::Update(float dt)
 		return;
 	}
 
+	if (GAME_MGR->oneTimePowerUp != nullptr)
+	{
+		OneTimePowerUp();
+	}
+
 	GAME_MGR->damageUI.Update(dt);
 	GAME_MGR->rangePreview.Update(dt);
 	if (!GAME_MGR->waitQueue.empty())
@@ -155,12 +160,19 @@ void BattleScene::Update(float dt)
 		int idx = GetZeroElem(prepareGrid);
 		if (idx != -1)
 		{
-			Item* item = GAME_MGR->waitQueue.front();
-			item->SetPos(prepareGridRect[idx]->GetPos());
-			item->Init();
-			item->SetActive(true);
-			prepareGrid[idx] = item;
-
+			GameObj* gameObj = GAME_MGR->waitQueue.front();
+			gameObj->SetPos(prepareGridRect[idx]->GetPos());
+			gameObj->Init();
+			gameObj->SetActive(true);
+			prepareGrid[idx] = gameObj;
+			
+			if (!gameObj->GetType().compare("Player"))
+			{
+				Character* newCharacter = dynamic_cast<Character*>(gameObj);
+				newCharacter->TakeBuff(StatType::AD, GAME_MGR->altarData.passiveADUp);
+				newCharacter->TakeBuff(StatType::AP, GAME_MGR->altarData.passiveAPUp);
+				newCharacter->TakeBuff(StatType::AS, GAME_MGR->altarData.passiveASUp);
+			}
 			GAME_MGR->waitQueue.pop();
 		}
 	}
@@ -723,19 +735,22 @@ void BattleScene::Update(float dt)
 		}
 	}
 
-	SpriteObj* previewButton = ui->GetEventPanel()->GetPreviewButton();
-	if (previewButton->CollideTest((ScreenToWorldPos(InputMgr::GetMousePosI()))))
+	if (eventWindow)
 	{
-		if (InputMgr::GetMouseDown(Mouse::Left))
+		SpriteObj* previewButton = ui->GetEventPanel()->GetPreviewButton();
+		if (previewButton->CollideTest((ScreenToWorldPos(InputMgr::GetMousePosI()))))
 		{
-			ZoomControl(true);
-			eventPreviewOn = true;
+			if (InputMgr::GetMouseDown(Mouse::Left))
+			{
+				ZoomControl(true);
+				eventPreviewOn = true;
+			}
 		}
-	}
-	if (eventPreviewOn && InputMgr::GetMouseUp(Mouse::Left))
-	{
-		ZoomControl(false);
-		eventPreviewOn = false;
+		if (eventPreviewOn && InputMgr::GetMouseUp(Mouse::Left))
+		{
+			ZoomControl(false);
+			eventPreviewOn = false;
+		}
 	}
 
 	BackrectText* selectButton = ui->GetEventPanel()->GetSelectButton();
@@ -747,20 +762,6 @@ void BattleScene::Update(float dt)
 			ui->SetEventPanel(false);
 			eventWindow = false;
 		}
-	}
-
-	// when eventWindow opens, block other inputs
-	if (eventWindow)
-		return;
-
-	// wheel control
-	float wheel = InputMgr::GetMouseWheel();
-	if (wheel != 0)
-	{
-		if (wheel == 1)
-			ZoomControl(true);
-		else
-			ZoomControl(false);
 	}
 
 	vector<BackrectText*>& trackerButtons = ui->GetTracker()->GetButtons();
@@ -789,6 +790,22 @@ void BattleScene::Update(float dt)
 		}
 	}
 
+	// when eventWindow opens, block other inputs
+	if (eventWindow)
+		return;
+
+	// wheel control
+	float wheel = InputMgr::GetMouseWheel();
+	if (wheel != 0)
+	{
+		if (ui->GetEventPanel()->GetEventType() != EventType::None)
+			return ;
+		if (wheel == 1)
+			ZoomControl(true);
+		else
+			ZoomControl(false);
+	}
+
 	if (InputMgr::GetMouseDown(Mouse::Left))
 	{
 		ui->SetStatPopup(false, currentView.getCenter());
@@ -814,6 +831,9 @@ void BattleScene::Update(float dt)
 				// Start battle
 				if (!button->GetName().compare("begin") && !GAME_MGR->GetPlayingBattle())
 				{
+					if (ui->GetEventPanel()->GetEventType() != EventType::None)
+						break;
+
 					int monsterGridCoordC = 0;
 					int curBattleCharacterCount = 0;
 
@@ -836,7 +856,32 @@ void BattleScene::Update(float dt)
 					{
 						if (gameObj != nullptr && IsCharacter(gameObj))
 						{
-							dynamic_cast<Character*>(gameObj)->SetIsBattle(true);
+							Character* character = dynamic_cast<Character*>(gameObj);
+							character->SetIsBattle(true);
+
+							// 15, 25, 35
+							if (!gameObj->GetType().compare("Player"))
+							{
+								if (GAME_MGR->FindPowerUpByName("Meditation"))
+								{
+									PowerUp* meditation = GAME_MGR->GetPowerUpByName("Meditation");
+									character->SetInitManaPoint(meditation->GetGrade() * 10.f + 5.f);
+								}
+
+								if (!gameObj->GetName().compare("Pria") &&
+									GAME_MGR->FindPowerUpByName("RuneShield"))
+								{
+									PowerUp* runeShield = GAME_MGR->GetPowerUpByName("RuneShield");
+									character->AddShieldAmount(character->GetStat(StatType::HP).GetModifier());
+									character->GetStat(StatType::AR).SetBase(2);
+									character->TakeBuff(StatType::AR, 0, false);
+									character->GetStat(StatType::AP).SetBase(
+										20 * pow(GAME_MGR->apIncreaseRate, character->GetStarNumber() - 1));
+									character->UpdateHpbar();
+								}
+
+							}
+
 						}
 					}
 					GAME_MGR->GetBattleTracker()->SetDatas();
@@ -868,14 +913,16 @@ void BattleScene::Update(float dt)
 						cout << "not enough coin" << endl;
 						break;
 					}
-					Character* newPick = GAME_MGR->SpawnPlayer(true);
-					newPick->SetPos(prepareGridRect[idx]->GetPos());
-					newPick->Init();
-					prepareGrid[idx] = newPick;
 
-					newPick->TakeBuff(StatType::AD, GAME_MGR->altarData.passiveADUp);
-					newPick->TakeBuff(StatType::AP, GAME_MGR->altarData.passiveAPUp);
-					newPick->TakeBuff(StatType::AS, GAME_MGR->altarData.passiveASUp);
+					Character* newPick = nullptr;
+					if (GAME_MGR->FindPowerUpByName("Comrade"))
+					{
+						newPick = GAME_MGR->SpawnPlayer(0, false,
+							GAME_MGR->comradeVec[Utils::RandomRange(0, 2)]);
+					}
+					else newPick = GAME_MGR->SpawnPlayer();
+
+					GAME_MGR->waitQueue.push(newPick);
 
 					int extraBookChance = GAME_MGR->altarData.summonBookPercent;
 					bool summonBook = Utils::RandomRange(0, 100) < extraBookChance;
@@ -890,6 +937,12 @@ void BattleScene::Update(float dt)
 				// Expansion
 				else if (!button->GetName().compare("expansion"))
 				{
+					if (GAME_MGR->FindPowerUpByName("HeroOfSalvation"))
+					{
+						cout << "구원의 영웅" << endl;
+						break;
+					}
+
 					int cost = GAME_MGR->GetCurrentExpansionCost();
 					if (GAME_MGR->GetCurrentCoin() >= cost)
 					{
@@ -971,95 +1024,6 @@ void BattleScene::Update(float dt)
 		}
 		return;
 	}
-
-	//if (gameEndTimer > 0.f)
-	//{
-	//	gameEndTimer -= dt;
-
-	//	if (gameEndTimer < 0.f)
-	//	{
-	//		gameEndTimer = 0.f;
-	//		stageEnd = false;
-	//		ui->SetStageEndWindow(false);
-	//		ui->GetTracker()->ShowWindow(false);
-	//		ui->GetTracker()->ProfilesReturn();
-
-	//		GAME_MGR->SetPlayingBattle(false);
-
-	//		int len = battleGrid.size();
-	//		for (int idx = 0; idx < len; idx++)
-	//		{
-	//			if (battleGrid[idx] == nullptr)
-	//				continue;
-
-	//			battleGrid[idx]->Reset();
-	//			battleGrid[idx]->SetPos(GAME_MGR->IdxToPos(GetCoordFromIdx(idx, true)));
-	//		}
-	//		b_centerPos = false;
-	//		ZoomOut();
-
-	//		when stage clear
-	//			if (stageResult)
-	//			{
-	//				WaveReward wr = GAME_MGR->GetWaveRewardMapElem();
-	//				cout << "wave reward: " << wr.exp << wr.forge << wr.power << endl;
-	//				if (wr.forge)
-	//					cout << "reward is forge" << endl;
-	//				else if (wr.power)
-	//					cout << "reward is power" << endl;
-	//				GAME_MGR->cumulativeExp += wr.exp;
-	//				cout << "현재 누적 경험치: " << GAME_MGR->cumulativeExp << endl;
-
-	//				if (GAME_MGR->curStageIdx < STAGE_MAX_COUNT - 1)
-	//					GAME_MGR->curStageIdx++;
-	//			}
-	//		SetCurrentStage(GAME_MGR->curChapIdx, GAME_MGR->curStageIdx);
-	//		ui->SetStatPopup(false, currentView.getCenter());
-	//		ui->SetItemPopup(false, currentView.getCenter());
-
-	//		for (auto& gameObj : battleGrid)
-	//		{
-	//			if (gameObj != nullptr && IsCharacter(gameObj))
-	//			{
-	//				dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(false);
-	//				pickAttackRangeRect = nullptr;
-	//			}
-	//		}
-	//		GAME_MGR->GetBattleTracker()->PrintAllData();
-	//	}
-	//	return;
-	//}
-
-	//if (GAME_MGR->GetPlayingBattle())
-	//{
-	//	if (playerCount == 0)
-	//	{
-	//		gameEndTimer = 3.5f;
-	//		stageEnd = true;
-	//		stageResult = false;
-	//		LoseFlag();
-	//	}
-	//	else if (aiCount == 0)
-	//	{
-	//		gameEndTimer = 3.5f;
-	//		stageEnd = true;
-	//		stageResult = true;
-	//		for (auto& cha : battleGrid)
-	//		{
-	//			if (cha != nullptr)
-	//			{
-	//				dynamic_cast<Character*>(cha)->SetIsBattle(false);
-	//			}
-	//		}
-	//	}
-
-	//	if (stageEnd)
-	//	{
-	//		ui->SetStageEndWindow(true, stageResult);
-	//		TranslateCoinState(GAME_MGR->GetClearCoin());
-	//		ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
-	//	}
-	//}
 
 	//Panel Skill 
 	if (!GAME_MGR->GetPlayingBattle())
@@ -1378,6 +1342,66 @@ void BattleScene::ZoomControl(bool b_switch)
 		b_centerPos = false;
 		ZoomOut();
 	}
+}
+
+void BattleScene::OneTimePowerUp()
+{
+	PowerUp*& powerUpRef = GAME_MGR->oneTimePowerUp;
+	PowerUpTypes puType = powerUpRef->GetPowerUpType();
+	Character* newPick = nullptr;
+	auto& vec = GAME_MGR->comradeVec;
+
+	switch (puType)
+	{
+	case PowerUpTypes::Comrade:
+		GAME_MGR->characterCost += 2;
+		ui->GetPanel()->SetSummonCostText();
+		
+		vec.assign(2, -1);
+		for (int i = 0; i < 2; i++)
+		{
+			vec[i] = (vec[i] == -1) ? Utils::RandomRange(0, CHARACTER_COUNT) : vec[i];
+
+			for (int j = 0; j <= i; j++)
+			{
+				if (i != j && vec[i] == vec[j])
+				{
+					vec[i] = -1;
+					i--;
+				}
+			}
+		}
+		break;
+
+	case PowerUpTypes::ContractWithTheDevil:
+		GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() - 2);
+		ui->GetPanel()->SetExpansionStateText(
+			GetCurCharacterCount(), GAME_MGR->GetCharacterCount());
+		newPick = GAME_MGR->SpawnPlayer(3, true);
+		GAME_MGR->waitQueue.push(newPick);
+		break;
+
+	case PowerUpTypes::HeroOfSalvation:
+		newPick = GAME_MGR->SpawnPlayer(5, true);
+		GAME_MGR->waitQueue.push(newPick);
+		ui->GetPanel()->SetExpansionCostText(999);
+		break;
+
+	case PowerUpTypes::Nobility:
+		GAME_MGR->TranslateCoin(powerUpRef->GetGrade() * 10.f + 5.f);
+		ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
+		break;
+
+	case PowerUpTypes::WeAreTheOne:
+		//
+		break;
+
+	default:
+		cout << powerUpRef->GetName() << endl;
+		break;
+	}
+	GAME_MGR->standingPowerUps.push_back(powerUpRef);
+	powerUpRef = nullptr;
 }
 
 void BattleScene::SetCurrentStage(int chap, int stage)

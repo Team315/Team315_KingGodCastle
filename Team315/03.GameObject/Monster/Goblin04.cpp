@@ -1,7 +1,7 @@
 #include "Goblin04.h"
 
-Goblin04::Goblin04(bool mode, bool useExtraUpgrade, int skillTier)
-	: Character(mode, useExtraUpgrade, skillTier)
+Goblin04::Goblin04(bool mode, bool useExtraUpgrade, int starGrade)
+	: Character(mode, useExtraUpgrade, starGrade)
 {
 	SetType("Monster");
 	SetName("Goblin04");

@@ -7,6 +7,7 @@
 #include "SpriteGrid.h"
 #include "BackrectText.h"
 #include "Item/Item.h"
+#include "PowerUp/PowerUp.h"
 #include "DataTableMgr.h"
 #include "StringTable.h"
 
@@ -114,11 +115,16 @@ void EventPanel::Update(float dt)
 				frames[idx]->SetScale(1.2f, 1.2f);
 				frames[idx]->SetOrigin(Origins::MC);
 
-				infoWindow->SetItem(dynamic_cast<Item*>(items[idx]));
+				if (eventType == EventType::Forge)
+					infoWindow->SetItem(dynamic_cast<Item*>(items[idx]));
+				else if (eventType == EventType::Power)
+					infoWindow->SetPowerUp(dynamic_cast<PowerUp*>(items[idx]));
+
 				SetPos(position);
 			}
 		}
-		if (selectItem && idx != selectIdx)
+
+		if (idx != selectIdx)
 		{
 			item->SetScale(1.f, 1.f);
 			item->SetOrigin(Origins::MC);
@@ -133,7 +139,7 @@ void EventPanel::Update(float dt)
 		if (InputMgr::GetMouseDown(Mouse::Left))
 		{
 			selectItem = false;
-			selectIdx = 0;
+			selectIdx = -1;
 			previewOn = false;
 			SetEventPanelType(eventType, curTier);
 		}
@@ -141,6 +147,9 @@ void EventPanel::Update(float dt)
 
 	if (selectButton->CollideTest(parentScene->ScreenToWorldPos(InputMgr::GetMousePosI())))
 	{
+		if (!selectItem)
+			return;
+
 		if (InputMgr::GetMouseDown(Mouse::Left))
 		{
 			int idx = 0;
@@ -149,7 +158,25 @@ void EventPanel::Update(float dt)
 				if (item != nullptr)
 				{
 					if (idx == selectIdx)
-						GAME_MGR->waitQueue.push(dynamic_cast<Item*>(item));
+					{
+						if (eventType == EventType::Forge)
+						{
+							//GAME_MGR->waitQueue.push(dynamic_cast<Item*>(item));
+							GAME_MGR->waitQueue.push(item);
+						}
+						else if (eventType == EventType::Power)
+						{
+							PowerUp* power = dynamic_cast<PowerUp*>(item);
+							if (power->isStanding())
+								GAME_MGR->standingPowerUps.push_back(power);
+							else
+								GAME_MGR->oneTimePowerUp = power;
+						}
+						else
+						{
+							// clear or over
+						}
+					}
 					else
 						delete item;
 				}
@@ -211,14 +238,14 @@ void EventPanel::SetPos(const Vector2f& pos)
 	infoWindow->SetPos(pos + Vector2f(GAME_SCREEN_WIDTH * 0.5f - 100.f,
 		GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.f + 300.f));
 
-	int posX = GAME_SCREEN_WIDTH * 0.2f;
+	int posX = GAME_SCREEN_WIDTH * 0.25f;
 	for (int i = 0; i < 3; i++)
 	{
 		frames[i]->SetPos(pos + Vector2f(posX,
 			GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.f + 480.f));
 		sprites[i]->SetPos(pos + Vector2f(posX,
 			GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.f + 480.f));
-		posX += GAME_SCREEN_WIDTH * 0.3f;
+		posX += GAME_SCREEN_WIDTH * 0.25f;
 	}
 
 	rerollButton->SetPos(pos +
@@ -283,8 +310,8 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 			sprites[i]->SetSpriteTexture(*RESOURCE_MGR->GetTexture(dynamic_cast<Item*>(items[i])->MakePath()), true);
 			sprites[i]->SetOrigin(Origins::MC);
 		}
-
 		break;
+
 	case EventType::Power:
 		key = "PowerTitle";
 		headLocalPos.y = GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.5f + 250.f;
@@ -295,9 +322,37 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 		rerollButton->SetOrigin(Origins::BC);
 		selectButton->SetOrigin(Origins::BC);
 
+		frameTexPath = "graphics/battleScene/Item_Frame_";
+		for (int i = 0; i < 3; i++)
+		{
+			ranNums[i] = ranNums[i] == -1 ?
+				Utils::RandomRange(0, CHARACTER_COUNT) : ranNums[i];
 
+			for (int j = 0; j <= i; j++)
+			{
+				if (i != j && ranNums[i] == ranNums[j])
+				{
+					ranNums[i] = -1;
+					i--;
+				}
+			}
+		}
 
+		items.resize(3);
+		for (int i = 0; i < 3; i++)
+		{
+			items[i] = GAME_MGR->GeneratePowerUpbyMap(ranNums[i], tier);
+
+			string tierNumber = to_string(dynamic_cast<PowerUp*>(items[i])->GetGrade());
+			frames[i]->SetTexture(*RESOURCE_MGR->GetTexture(
+				frameTexPath + tierNumber + ".png"), true);
+			frames[i]->SetOrigin(Origins::MC);
+			
+			sprites[i]->SetSpriteTexture(*RESOURCE_MGR->GetTexture(dynamic_cast<PowerUp*>(items[i])->MakePath()), true);
+			sprites[i]->SetOrigin(Origins::MC);
+		}
 		break;
+
 	case EventType::GameOver:
 		key = "GameOverTitle";
 		headLocalPos.y = GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.5f + 200.f;
@@ -306,6 +361,7 @@ void EventPanel::SetEventPanelType(EventType eType, int tier)
 		selectButton->SetString(STRING_TABLE->Get("EventGameEndButtonText"));
 		selectButton->SetOrigin(Origins::BC);
 		break;
+
 	case EventType::GameClear:
 		key = "GameClearTitle";
 		headLocalPos.y = GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.5f + 200.f;

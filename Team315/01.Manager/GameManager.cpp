@@ -29,7 +29,7 @@ GameManager::GameManager()
 	hpIncreaseRate(1.6f), adIncreaseRate(1.5f),
 	apIncreaseRate(1.6f), asIncrease(0.1f),
 	manaPerAttack(15.f), manaPerDamage(5.f), itemDropProbability(10),
-	accountExpLimit(6), cumulativeExp(0)
+	accountExpLimit(6), cumulativeExp(0), oneTimePowerUp(nullptr)
 {
 	CLOG::Print3String("GameManager Create");
 
@@ -151,6 +151,21 @@ void GameManager::GMInit()
 		rewardDoc.Clear();
 	}
 	LoadAltarEffectFromTable();
+
+	{
+		string powerUpPath = "data/PowerUpData.csv";
+
+		rapidcsv::Document powerUpDoc(powerUpPath, rapidcsv::LabelParams(-1, 0));
+		auto tier1 = powerUpDoc.GetRow<string>(0);
+		auto tier2 = powerUpDoc.GetRow<string>(1);
+		auto tier3 = powerUpDoc.GetRow<string>(2);
+		auto rows = powerUpDoc.GetRowNames();
+		powerUpStringMap.insert({ rows[0], tier1 });
+		powerUpStringMap.insert({ rows[1], tier2 });
+		powerUpStringMap.insert({ rows[2], tier3 });
+
+		powerUpDoc.Clear();
+	}
 }
 
 void GameManager::GMReset()
@@ -160,6 +175,14 @@ void GameManager::GMReset()
 	currentCoin = startCoin + altarData.startCoin;
 	expansionCount = 0;
 	cumulativeExp = 0;
+	oneTimePowerUp = nullptr;
+	standingPowerUps.clear();
+	for (auto& drop : drops)
+	{
+		if (drop != nullptr)
+			delete drop;
+	}
+	drops.clear();
 
 	// panelSkill = ?
 }
@@ -365,33 +388,28 @@ Character* GameManager::SpawnMonster(string name, int grade)
 	return character;
 }
 
-Character* GameManager::SpawnPlayer(string name, bool random)
+Character* GameManager::SpawnPlayer(int grade, bool random, int idx)
 {
 	Character* character = nullptr;
-	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : -1;
-	//int num = 5;
+	int num = random ? Utils::RandomRange(0, CHARACTER_COUNT) : idx;
+	//int num = 3;
 
-	if (!name.compare("Aramis") || num == 0)
-		character = new Aramis(false, true);
-	else if (!name.compare("Arveron") || num == 1)
-		character = new Arveron(false, true);
-	else if (!name.compare("Daniel") || num == 2)
-		character = new Daniel(false, true);
-	else if (!name.compare("Evan") || num == 3)
-		character = new Evan(false, true);
-	else if (!name.compare("LeonHeart") || num == 4)
-		character = new LeonHeart(false, true);
-	else if (!name.compare("Pria") || num == 5)
-		character = new Pria(false, true);
-	else if (!name.compare("Shelda") || num == 6)
-		character = new Shelda(false, true);
+	if (num == 0)
+		character = new Aramis(false, true, grade);
+	else if (num == 1)
+		character = new Arveron(false, true, grade);
+	else if (num == 2)
+		character = new Daniel(false, true, grade);
+	else if (num == 3)
+		character = new Evan(false, true, grade);
+	else if (num == 4)
+		character = new LeonHeart(false, true, grade);
+	else if (num == 5)
+		character = new Pria(false, true, grade);
+	else if (num == 6)
+		character = new Shelda(false, true, grade);
 
 	return character;
-}
-
-Character* GameManager::SpawnPlayer(bool random)
-{
-	return SpawnPlayer("", random);
 }
 
 Item* GameManager::SpawnItem(int tier, int typeIdx)
@@ -424,43 +442,140 @@ Item* GameManager::SpawnItem(int tier, int typeIdx)
 	return item;
 }
 
-PowerUp* GameManager::GeneratePowerUp(int tier, PowerUpTypes puType)
+GameObj* GameManager::GeneratePowerUp(PowerUpTypes puType, int tier)
 {
-	PowerUp* power = nullptr;
+	GameObj* power = nullptr;
 
 	switch (puType)
 	{
 	case PowerUpTypes::Comrade:
+		power = new Comrade(tier, puType);
 		break;
 	case PowerUpTypes::ContractWithTheDevil:
+		power = new ContractWithTheDevil(tier, puType);
 		break;
 	case PowerUpTypes::CounterAttack:
+		power = new CounterAttack(tier, puType);
 		break;
 	case PowerUpTypes::DogFight:
+		power = new DogFight(tier, puType);
 		break;
 	case PowerUpTypes::ExecutionerSoul:
+		power = new ExecutionerSoul(tier, puType);
 		break;
 	case PowerUpTypes::HeroOfSalvation:
+		power = new HeroOfSalvation(tier, puType);
 		break;
 	case PowerUpTypes::Meditation:
+		power = new Meditation(tier, puType);
 		break;
 	case PowerUpTypes::Nobility:
+		power = new Nobility(tier, puType);
 		break;
 	case PowerUpTypes::QuickHand:
+		power = new QuickHand(tier, puType);
 		break;
 	case PowerUpTypes::RuneShield:
+		power = new RuneShield(tier, puType);
 		break;
 	case PowerUpTypes::Vampire:
+		power = new Vampire(tier, puType);
 		break;
 	case PowerUpTypes::WarriorsHeart:
+		power = new WarriorsHeart(tier, puType);
 		break;
 	case PowerUpTypes::WeAreTheOne:
+		power = new WeAreTheOne(tier, puType);
 		break;
 	default:
 		break;
 	}
 
-	return nullptr;
+	return power;
+}
+
+GameObj* GameManager::GeneratePowerUpbyMap(int idx, int tier)
+{
+	auto strVec = GetPowerUpStrings(tier);
+	string value = strVec[idx];
+	int newTier = -1;
+	if (isdigit(value.back()))
+	{
+		newTier = value.back() - '0';
+		value.pop_back();
+	}
+	else newTier = tier;
+	//cout << strVec[idx] << " / " << value << " / " << newTier << endl;
+
+	PowerUpTypes puType = PowerUpTypes::None;
+	// temp..
+	if (!value.compare("Comrade"))
+	{
+		puType = PowerUpTypes::Comrade;
+		//cout << "Comrade type" << endl;
+	}
+	else if (!value.compare("ContractWithTheDevil"))
+	{
+		puType = PowerUpTypes::ContractWithTheDevil;
+		//cout << "ContractWithTheDevil type" << endl;
+	}
+	else if (!value.compare("CounterAttack"))
+	{
+		puType = PowerUpTypes::CounterAttack;
+		//cout << "CounterAttack type" << endl;
+	}
+	else if (!value.compare("DogFight"))
+	{
+		puType = PowerUpTypes::DogFight;
+		//cout << "DogFight type" << endl;
+	}
+	else if (!value.compare("ExecutionerSoul"))
+	{
+		puType = PowerUpTypes::ExecutionerSoul;
+		//cout << "ExecutionerSoul type" << endl;
+	}
+	else if (!value.compare("HeroOfSalvation"))
+	{
+		puType = PowerUpTypes::HeroOfSalvation;
+		//cout << "HeroOfSalvation type" << endl;
+	}
+	else if (!value.compare("Meditation"))
+	{
+		puType = PowerUpTypes::Meditation;
+		//cout << "Meditation type" << endl;
+	}
+	else if (!value.compare("Nobility"))
+	{
+		puType = PowerUpTypes::Nobility;
+		//cout << "Nobility type" << endl;
+	}
+	else if (!value.compare("QuickHand"))
+	{
+		puType = PowerUpTypes::QuickHand;
+		//cout << "QuickHand type" << endl;
+	}
+	else if (!value.compare("RuneShield"))
+	{
+		puType = PowerUpTypes::RuneShield;
+		//cout << "RuneShield type" << endl;
+	}
+	else if (!value.compare("Vampire"))
+	{
+		puType = PowerUpTypes::Vampire;
+		//cout << "Vampire type" << endl;
+	}
+	else if (!value.compare("WarriorsHeart"))
+	{
+		puType = PowerUpTypes::WarriorsHeart;
+		//cout << "WarriorsHeart type" << endl;
+	}
+	else if (!value.compare("WeAreTheOne"))
+	{
+		puType = PowerUpTypes::WeAreTheOne;
+		//cout << "WeAreTheOne type" << endl;
+	}
+
+	return GeneratePowerUp(puType, newTier);
 }
 
 void GameManager::MainGridReset()
@@ -514,6 +629,12 @@ float GameManager::GetItemStatMapElem(StatType statType, int grade)
 	if (statType == StatType::None)
 		return -1.f;
 	return (itemStatMap[statType])[grade];
+}
+
+const vector<string>& GameManager::GetPowerUpStrings(int tier)
+{
+	string key = "Tier"	+ to_string(tier);
+	return powerUpStringMap[key];
 }
 
 const WaveReward& GameManager::GetWaveRewardMapElem()
@@ -612,6 +733,26 @@ void GameManager::LoadAltarEffectFromTable()
 		doc.GetCell<int>(colNames[10], enforceId),
 		doc.GetCell<int>(colNames[11], enforceId)
 	);
+}
+
+bool GameManager::FindPowerUpByName(string name)
+{
+	for (auto& powerUp : standingPowerUps)
+	{
+		if (!powerUp->GetName().compare(name))
+			return true;
+	}
+	return false;
+}
+
+PowerUp* GameManager::GetPowerUpByName(string name)
+{
+	for (auto& powerUp : standingPowerUps)
+	{
+		if (!powerUp->GetName().compare(name))
+			return powerUp;
+	}
+	return nullptr;
 }
 
 // Battle Tracker

@@ -5,7 +5,7 @@ class LeonHeart : public Character
 {
 protected:
 public:
-	LeonHeart(bool mode = false, bool useExtraUpgrade = false, int skillTier = 0);
+	LeonHeart(bool mode = false, bool useExtraUpgrade = false, int starGrade = 0);
 	virtual ~LeonHeart();
 
 	virtual void Init() override;

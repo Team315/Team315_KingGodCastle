@@ -1,7 +1,7 @@
 #include "Slime02.h"
 
-Slime02::Slime02(bool mode, bool useExtraUpgrade, int skillTier)
-	: Character(mode, useExtraUpgrade, skillTier)
+Slime02::Slime02(bool mode, bool useExtraUpgrade, int starGrade)
+	: Character(mode, useExtraUpgrade, starGrade)
 {
 	SetType("Monster");
 	SetName("Slime02");

@@ -8,7 +8,6 @@
 #include "Player/Pria.h"
 #include "Player/LeonHeart.h"
 #include "Player/Shelda.h"
-#define CHARACTER_COUNT 7
 
 // Monster
 #include "Monster/Goblin00.h"
@@ -34,20 +33,21 @@
 #include "Item/Bow.h"
 #include "Item/Staff.h"
 #include "Item/Sword.h"
-#define ITEM_COUNT 5
 
 // PowerUp
 #include "PowerUp/Comrade.h"
 #include "PowerUp/ContractWithTheDevil.h"
 #include "PowerUp/CounterAttack.h"
-#include "PowerUp/Dogfight.h"
+#include "PowerUp/DogFight.h"
 #include "PowerUp/ExecutionerSoul.h"
 #include "PowerUp/HeroOfSalvation.h"
 #include "PowerUp/Meditation.h"
 #include "PowerUp/Nobility.h"
-#include "PowerUp/Comrade.h"
-#include "PowerUp/Comrade.h"
-#include "PowerUp/Comrade.h"
+#include "PowerUp/QuickHand.h"
+#include "PowerUp/RuneShield.h"
+#include "PowerUp/Vampire.h"
+#include "PowerUp/WarriorsHeart.h"
+#include "PowerUp/WeAreTheOne.h"
 
 // Neutral
 #include "Obstacle.h"

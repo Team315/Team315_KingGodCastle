@@ -160,17 +160,14 @@ float Utils::GetMinScaleRatioFromFloatRect(float sizeX, float sizeY, FloatRect f
 	return min;
 }
 
-void Utils::StringNewline(Text& text)
+wstring Utils::ReplaceNewLine(wstring str)
 {
-	string str = text.getString();
-	string toFind = "\\n";
-	string toChange = "\u000A";
-	while (str.find(toFind) != string::npos)
+	wstring toFind = s2w("\\n");
+	wstring toChange = s2w("\u000A");
+
+	while (str.find(toFind) != wstring::npos)
 	{
 		str.replace(str.find(toFind), toFind.length(), toChange);
 	}
-	text.setString(str);
-	static locale loc("");
-	auto& facet = use_facet<std::codecvt<wchar_t, char, mbstate_t>>(loc);
-	text.setString(wstring_convert<remove_reference<decltype(facet)>::type, wchar_t>(&facet).from_bytes(text.getString()));
+	return str;
 }

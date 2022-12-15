@@ -33,7 +33,7 @@ protected:
 
 	unordered_map<StatType, vector<float>> itemStatMap;
 	map<string, WaveReward> waveRewardMap;
-
+	map<string, vector<string>> powerUpStringMap;
 	BattleTracker* battleTracker;
 
 	Skill* panelSkill;
@@ -89,12 +89,12 @@ public:
 	void CreatedTiles();
 	void CreatedBackGround();
 	Character* SpawnMonster(string name, int grade);
-	Character* SpawnPlayer(string name, bool random);
-	Character* SpawnPlayer(bool random);
+	Character* SpawnPlayer(int grade = 0, bool random = true, int idx = 0);
 	
 	Item* SpawnItem(int tier = 0, int typeIdx = -1);
 
-	PowerUp* GeneratePowerUp(int tier, PowerUpTypes puType);
+	GameObj* GeneratePowerUp(PowerUpTypes puType, int tier = 0);
+	GameObj* GeneratePowerUpbyMap(int idx, int tier);
 
 	void MainGridReset();
 
@@ -130,7 +130,9 @@ public:
 
 	ObjectPool<DamageText> damageUI;
 	ObjectPool<RangePreview> rangePreview;
-	queue<Item*> waitQueue;
+	queue<GameObj*> waitQueue;
+	vector<PowerUp*> standingPowerUps;
+	PowerUp* oneTimePowerUp;
 	vector<Item*> drops;
 	AltarData altarData;
 	AccountInfo accountInfo;
@@ -150,10 +152,15 @@ public:
 
 	BattleTracker*& GetBattleTracker() { return battleTracker; }
 	float GetItemStatMapElem(StatType statType, int grade);
+	const vector<string>& GetPowerUpStrings(int tier);
 	const WaveReward& GetWaveRewardMapElem();
 	Item* CombineItem(Item* obj1, Item* obj2);
 	Item* DropItem(Character* monster);
 	void LoadAltarEffectFromTable();
+
+	vector<int> comradeVec;
+	bool FindPowerUpByName(string name);
+	PowerUp* GetPowerUpByName(string name);
 };
 
 #define GAME_MGR (GameManager::GetInstance())

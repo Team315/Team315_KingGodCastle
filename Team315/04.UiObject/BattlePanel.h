@@ -61,6 +61,7 @@ public:
 	void ChangeTitleTextString(int chapIdx);
 	void SetStageNumber(int num);
 	void SetCurrentCoin(int num);
+	void SetSummonCostText();
 	void SetExpansionCostText(int num);
 	void SetExpansionStateText(int num, int limit);
 };

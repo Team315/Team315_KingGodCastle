@@ -16,6 +16,8 @@ class Character : public GameObj
 protected:
 	Animator effectAnimator;
 	Sprite effectSprite;
+	Animator crowdControlAnimator;
+	Sprite crowdControlSprite;
 	unordered_map<StatType, Stat> stat;
 	bool attackRangeType; // true square, false cross
 	vector<Item*> items;
@@ -41,6 +43,7 @@ protected:
 	float ccTimer; // Crowd control timer
 	float shieldAmount;
 	float shieldAmountMin;
+	float initManaPoint;
 	bool noSkill;
 	Skill* skill;
 
@@ -94,6 +97,7 @@ public:
 	void TakeDamage(GameObj* attacker, bool attackType = true);
 	// careType, true = heal / false = shield
 	void TakeCare(GameObj* caster, bool careType = true);
+	void TakeCare(float amount, bool careType = true);
 	// buffType, true = buff / false = debuff
 	void TakeBuff(StatType sType, float potential, bool mode = true, Character* caster = nullptr);
 	void AddShieldAmount(float amount) { shieldAmount += amount; }
@@ -106,7 +110,7 @@ public:
 	void UpdateItems();
 	void UpdateItemDelta(StatType sType, float value);
 	vector<Item*>& GetItems() { return items; }
-	void SetCrowdControl(float time) { ccTimer = time; }
+	void SetCrowdControl(float time);
 
 	//battle
 	void IsSetState(AnimStates newState);
@@ -142,5 +146,7 @@ public:
 
 	void SetDir(Vector2f direction);
 	bool GetNoSkill() { return noSkill; }
-	ProgressBar* GetMpBar() { return mpBar; }
+	void UpdateHpbar();
+	void UpdateMpbar();
+	void SetInitManaPoint(float value);
 };

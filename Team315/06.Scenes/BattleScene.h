@@ -81,6 +81,7 @@ public:
 	int GetCurCharacterCount();
 	void SetEventWindow(bool active) { eventWindow = active; }
 	void ZoomControl(bool b_switch);
+	void OneTimePowerUp();
 };
 
 int GetIdxFromCoord(Vector2i coord);
