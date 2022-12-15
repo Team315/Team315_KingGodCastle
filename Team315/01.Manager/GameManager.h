@@ -159,6 +159,7 @@ public:
 	void LoadAltarEffectFromTable();
 
 	vector<int> comradeVec;
+	vector<GameObj*> warriorsHeartVec;
 	PowerUp* GetPowerUpByName(string name);
 };
 

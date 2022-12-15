@@ -414,10 +414,6 @@ void Character::TakeDamage(GameObj* attacker, AttackTypes attackType)
 		break;
 	}
 		
-	Stat& hp = stat[StatType::HP];
-
-	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, trackerModeType);
-	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, trackerModeType);
 
 	if (shieldAmount > 0.f)
 	{
@@ -430,10 +426,17 @@ void Character::TakeDamage(GameObj* attacker, AttackTypes attackType)
 		if (damage < 0.f)
 			damage = 0.f;
 	}
-	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), trackerModeType ? StatType::AD : StatType::AP, damage);
 
+	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), trackerModeType ? StatType::AD : StatType::AP, damage);
+	/*if (untouchable)
+		return;*/
+
+	Stat& hp = stat[StatType::HP];
 	hp.TranslateCurrent(-damage);
 	UpdateHpbar();
+
+	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, trackerModeType);
+	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, trackerModeType);
 
 	if (!noSkill)
 	{
@@ -520,6 +523,8 @@ void Character::TakeDamege(float panelDamege, bool attackType)
 		GAME_MGR->RemoveFromMainGrid(this);
 	}
 }
+
+
 
 void Character::TakeCare(GameObj* caster, bool careType)
 {
@@ -1331,4 +1336,22 @@ void Character::SetInitManaPoint(float value)
 	initManaPoint = value;
 	stat[StatType::MP].SetCurrent(initManaPoint);
 	UpdateMpbar();
+}
+
+void Character::ChangeStats(PanelTypes m_PanelTypes, float value)
+{
+	switch (m_PanelTypes)
+	{
+	case PanelTypes::BlessOfMana:
+		break;
+	case PanelTypes::FireExplosion:
+		break;
+	case PanelTypes::FingerSnap:
+		break;
+	case PanelTypes::Quagmire:
+		stat[StatType::AS];
+		break;
+	case PanelTypes::DivineShield:
+		break;
+	}
 }
