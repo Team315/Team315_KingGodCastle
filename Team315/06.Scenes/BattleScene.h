@@ -63,7 +63,6 @@ protected:
 	BlessOfMana m_BlessOfMana;
 	DivineShield m_DivineShield;
 	FireExplosion m_FireExplosion;
-
 public:
 	BattleScene();
 	virtual ~BattleScene();

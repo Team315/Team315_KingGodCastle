@@ -28,10 +28,6 @@ Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
 
 	shadow.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Shadow.png"));
 	shadow.setScale(0.4f, 0.4f);
-
-	//effectAnimator.SetTarget(&effectSprite);
-
-	//effectAnimator.AddClip(*RESOURCE_MGR->GetAnimationClip("Crowd_Effect"));
 }
 
 Character::~Character()
@@ -127,6 +123,7 @@ void Character::Update(float dt)
 	animator.Update(dt);
 	effectAnimator.Update(dt);
 	crowdControlAnimator.Update(dt);
+	levUpAni.Update(dt);
 
 	if (!noSkill)
 		mpBar->Update(dt);
@@ -310,6 +307,8 @@ void Character::Draw(RenderWindow& window)
 	}
 	if (!noSkill)
 		mpBar->Draw(window);
+
+	window.draw(levUpSpr);
 }
 
 void Character::SetPos(const Vector2f& pos)
@@ -546,6 +545,7 @@ void Character::UpgradeStar(bool mode, bool useExtraUpgrade)
 	if (skill != nullptr)
 		skill->SetSkillTier(GetStarNumber());
 
+	LevelUpAnimation();
 	//m_attackDelay = 1.f / stat[StatType::AS].GetModifier();
 }
 
@@ -680,6 +680,18 @@ void Character::SetCrowdControl(float time)
 	ccPos.y -= 40.f;
 	crowdControlSprite.setPosition(ccPos);
 	crowdControlAnimator.Play("Crowd_Effect");
+}
+
+void Character::LevelUpAnimation()
+{
+	levUpAni.SetTarget(&levUpSpr);
+	levUpAni.AddClip(*RESOURCE_MGR->GetAnimationClip("LevelUp_Effect"));
+
+	Vector2f levPos = position;
+	levPos.y += 10.f;
+	levUpSpr.setPosition(levPos);
+
+	levUpAni.Play("LevelUp_Effect");
 }
 
 void Character::IsSetState(AnimStates newState)
