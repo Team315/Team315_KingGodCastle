@@ -2,12 +2,14 @@
 #include "SpriteObj.h"
 #include "Animator.h"
 #include "Include.h"
+#include "GameObj.h"
 
-class FireExplosion : public SpriteObj
+class FireExplosion : public GameObj
 {
 protected:
 	Animator m_FireExplosion;
 
+	int m_damege;
 	bool isPlaying;
 
 public:
@@ -20,8 +22,10 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
+	void SetDamege();
 	void SetAni();
 	void SetIsPlaying(bool is);
 	void PlayingAni();
+	void ActionSkill();
 };
 

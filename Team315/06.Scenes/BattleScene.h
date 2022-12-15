@@ -8,6 +8,7 @@ class BattleSceneUI;
 class GameObj;
 class RectangleObj;
 class VertexArrayObj;
+class TextObj;
 
 class BattleScene : public Scene
 {
@@ -58,6 +59,9 @@ protected:
 	BlessOfMana m_BlessOfMana;
 	DivineShield m_DivineShield;
 	FireExplosion m_FireExplosion;
+	TextObj* quickHandTimerText;
+	float quickHandTimer;
+	float quickHandDuration;
 
 public:
 	BattleScene();
@@ -87,6 +91,7 @@ public:
 	void SetEventWindow(bool active) { eventWindow = active; }
 	void ZoomControl(bool b_switch);
 	void OneTimePowerUp();
+	void BeginBattle();
 };
 
 int GetIdxFromCoord(Vector2i coord);
