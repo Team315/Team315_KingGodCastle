@@ -1,4 +1,5 @@
 #include "FingerSnap.h"
+#include "Character.h"
 
 FingerSnap::FingerSnap()
 	:isPlaying(false)
@@ -53,4 +54,54 @@ void FingerSnap::PlayingAni()
 {
 	isPlaying = true;
 	m_FingerSnap.Play("Fx_FingerSnap");
+	ActionSkill();
+}
+
+void FingerSnap::ActionSkill()
+{
+	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<GameObj*> target;
+
+	int count = 0;
+	for (auto monster : mainGrid)
+	{
+		if (monster != nullptr && monster->GetType().compare("Obstacle"))
+		{
+			target.push_back(monster);
+			++count;
+		}
+	}
+	int deadCount;
+
+	if (count % 2 != 0)
+	{
+		deadCount = count / 2 + 1;
+	}
+	else
+	{
+		deadCount = count / 2;
+	}
+
+	int arr[100];
+	int num = target.size();
+
+	int n = 0;
+
+	while (n < num)
+	{
+		int i = 0;
+
+		int r = Utils::RandomRange(0, num);
+
+		for (i = 0; i < n; i++)
+			if (arr[i] == r) break;
+
+		if (n == i) arr[n++] = r;
+	}
+
+	for (int i = 0; i < deadCount; i++)
+	{
+		dynamic_cast<Character*>(target[arr[i]])->TakeDamege(99999.f);
+		cout << dynamic_cast<Character*>(target[i])->GetName() << endl;
+	}
 }

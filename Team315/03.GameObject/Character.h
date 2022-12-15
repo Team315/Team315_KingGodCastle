@@ -95,6 +95,7 @@ public:
 	void SetStatsInit(json data);
 	// attackType, true = ad / false = ap(skill)
 	void TakeDamage(GameObj* attacker, bool attackType = true);
+	void TakeDamege(float paneldamege , bool attackType = true);
 	// careType, true = heal / false = shield
 	void TakeCare(GameObj* caster, bool careType = true);
 	void TakeCare(float amount, bool careType = true);

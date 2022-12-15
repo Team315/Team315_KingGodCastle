@@ -1,5 +1,5 @@
 #include "Quagmire.h"
-
+#include "Character.h"
 Quagmire::Quagmire()
 	:isPlaying(false)
 {
@@ -66,10 +66,10 @@ void Quagmire::ActionSkill()
 	{
 		if (monster != nullptr && !monster->GetType().compare("Monster"))
 		{
+			dynamic_cast<Character*>(monster)->TakeDamege(99999.f);
 			//GAME_MGR->GetBattleTracker()->UpdateData(dynamic_cast<Character*>(monster), 999999.f, false, 0);
 
 		}
-
 	}
 
 }

@@ -249,7 +249,7 @@ void Character::Update(float dt)
 			Translate(Utils::Normalize(direction) * dt * moveSpeed);
 			if (currState != AnimStates::Move)
 				SetState(AnimStates::Move);
-			//ºÒ¸´ ÈùÆ®
+
 			if (Utils::EqualFloat(Utils::Distance(destination, position), 0.f, dt * moveSpeed))
 			{
 				SetPos(destination);
@@ -452,6 +452,73 @@ void Character::TakeDamage(GameObj* attacker, bool attackType)
 				attackerCharacter->UpdateHpbar();
 			}
 		}
+		Item* drop = GAME_MGR->DropItem(this);
+		GAME_MGR->RemoveFromMainGrid(this);
+	}
+}
+
+void Character::TakeDamege(float panelDamege, bool attackType)
+{
+	//°ø°Ý¹ÞÀ»¶§ ÀÌÆåÆ®
+	sprite.setColor({ 255,0,0,180 });
+	hit = true;
+	hitDelta = 0.05f;
+
+	Stat& hp = stat[StatType::HP];
+	float damage = 0.f;
+	if (attackType)
+		damage = panelDamege;
+	else
+		damage = panelDamege;
+
+	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, attackType);
+	//GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, attackType);
+
+	if (shieldAmount > 0.f)
+	{
+		float damageTemp = damage;
+		damage -= shieldAmount;
+		shieldAmount -= damageTemp;
+
+		if (shieldAmount < 0.f)
+			shieldAmount = 0.f;
+		if (damage < 0.f)
+			damage = 0.f;
+	}
+	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), attackType ? StatType::AD : StatType::AP, damage);
+
+	hp.TranslateCurrent(-damage);
+	UpdateHpbar();
+
+	if (!noSkill)
+	{
+		float gain = (!type.compare("Player")) ?
+			GAME_MGR->GetManaPerDamage() : GAME_MGR->manaPerDamage;
+		stat[StatType::MP].TranslateCurrent(gain);
+		UpdateMpbar();
+	}
+
+	if (stat[StatType::HP].GetCurrent() <= 0.f)
+	{
+		// death
+		isAlive = false;
+		/*if (!attackerCharacter->GetNoSkill() && !attackerCharacter->GetType().compare("Player"))
+		{
+			Stat attackerMp = attackerCharacter->GetStat(StatType::MP);
+			float killReward = attackerMp.GetBase() * (0.01f * GAME_MGR->altarData.gainManaWhenKill);
+			attackerMp.TranslateCurrent(killReward);
+			attackerCharacter->UpdateMpbar();
+			if (GAME_MGR->FindPowerUpByName("Vampire"))
+			{
+				PowerUp* pu = GAME_MGR->GetPowerUpByName("Vampire");
+				float healAmount =
+					attackerCharacter->GetStat(StatType::HP).GetModifier() *
+					(float)pu->GetGrade() * 0.1f;
+
+				attackerCharacter->TakeCare(healAmount, true);
+				attackerCharacter->UpdateHpbar();
+			}
+		}*/
 		Item* drop = GAME_MGR->DropItem(this);
 		GAME_MGR->RemoveFromMainGrid(this);
 	}

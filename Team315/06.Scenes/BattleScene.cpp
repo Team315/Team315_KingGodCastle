@@ -201,6 +201,37 @@ void BattleScene::Update(float dt)
 
 	Scene::Update(dt);
 
+	//Panel Skill 
+	if (!GAME_MGR->GetPlayingBattle())
+	{
+		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
+		if (m_panel.CallResetButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+
+		}
+		if (m_panel.CallSkillButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		{
+
+		}
+
+		m_panel.SetIsSkillPlaying(false);
+	}
+	else
+	{
+		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
+
+		if (InputMgr::GetMouseUp(Mouse::Left))
+		{
+			if (m_panel.CallSkillPlayButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+			{
+				m_panel.PlayingAni();
+			}
+		}
+	}
+	m_panel.Update(dt);
+
+	//Panel Skill end
+
 	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
 	// Dev Input start
 	{
@@ -1025,35 +1056,7 @@ void BattleScene::Update(float dt)
 		return;
 	}
 
-	//Panel Skill 
-	if (!GAME_MGR->GetPlayingBattle())
-	{
-		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
-		if (m_panel.CallResetButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
-
-		}
-		if (m_panel.CallSkillButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
-
-		}
-
-		m_panel.SetIsSkillPlaying(false);
-	}
-	else
-	{
-		m_panel.SetIsPlay(GAME_MGR->GetPlayingBattle());
-
-		if (InputMgr::GetMouseUp(Mouse::Left))
-		{
-			if (m_panel.CallSkillPlayButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
-			{
-				m_panel.PlayingAni();
-			}
-		}
-	}
-
-	m_panel.Update(dt);
+	
 
 	// Game Input end
 }
