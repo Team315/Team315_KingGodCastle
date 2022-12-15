@@ -1408,8 +1408,14 @@ void BattleScene::OneTimePowerUp()
 		ui->GetPanel()->SetCurrentCoin(GAME_MGR->GetCurrentCoin());
 		break;
 
-	case PowerUpTypes::WeAreTheOne:
-		//
+	case PowerUpTypes::ExecutionerSoul:
+		if (remainLife > 1)
+		{
+			LoseFlag();
+			GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() + 2);
+			ui->GetPanel()->SetExpansionStateText(
+				GetCurCharacterCount(), GAME_MGR->GetCharacterCount());
+		}
 		break;
 
 	default:

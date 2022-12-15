@@ -92,7 +92,7 @@ enum class PowerUpTypes
 	RuneShield,					// 룬 방패
 	Vampire,					// 흡혈귀
 	WarriorsHeart,				// 전사의 심장
-	WeAreTheOne,				// 우리는 하나
+	// WeAreTheOne,				// 우리는 하나
 };
 
 enum class Dir

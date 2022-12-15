@@ -484,9 +484,9 @@ GameObj* GameManager::GeneratePowerUp(PowerUpTypes puType, int tier)
 	case PowerUpTypes::WarriorsHeart:
 		power = new WarriorsHeart(tier, puType);
 		break;
-	case PowerUpTypes::WeAreTheOne:
+	/*case PowerUpTypes::WeAreTheOne:
 		power = new WeAreTheOne(tier, puType);
-		break;
+		break;*/
 	default:
 		break;
 	}
@@ -569,11 +569,11 @@ GameObj* GameManager::GeneratePowerUpbyMap(int idx, int tier)
 		puType = PowerUpTypes::WarriorsHeart;
 		//cout << "WarriorsHeart type" << endl;
 	}
-	else if (!value.compare("WeAreTheOne"))
-	{
-		puType = PowerUpTypes::WeAreTheOne;
-		//cout << "WeAreTheOne type" << endl;
-	}
+	//else if (!value.compare("WeAreTheOne"))
+	//{
+	//	puType = PowerUpTypes::WeAreTheOne;
+	//	//cout << "WeAreTheOne type" << endl;
+	//}
 
 	return GeneratePowerUp(puType, newTier);
 }

@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	CounterAttack(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	CounterAttack(int grade = 0, PowerUpTypes puType = PowerUpTypes::CounterAttack);
 	virtual ~CounterAttack();
 };

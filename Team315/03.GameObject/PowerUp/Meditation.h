@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	Meditation(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	Meditation(int grade = 0, PowerUpTypes puType = PowerUpTypes::Meditation);
 	virtual ~Meditation();
 };

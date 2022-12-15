@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	Nobility(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	Nobility(int grade = 0, PowerUpTypes puType = PowerUpTypes::Nobility);
 	virtual ~Nobility();
 };

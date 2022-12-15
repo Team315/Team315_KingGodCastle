@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	QuickHand(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	QuickHand(int grade = 0, PowerUpTypes puType = PowerUpTypes::QuickHand);
 	virtual ~QuickHand();
 };

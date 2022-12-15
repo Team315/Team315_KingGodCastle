@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	Comrade(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	Comrade(int grade = 0, PowerUpTypes puType = PowerUpTypes::Comrade);
 	virtual ~Comrade();
 };

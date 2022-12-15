@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	ContractWithTheDevil(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	ContractWithTheDevil(int grade = 0, PowerUpTypes puType = PowerUpTypes::ContractWithTheDevil);
 	virtual ~ContractWithTheDevil();
 };

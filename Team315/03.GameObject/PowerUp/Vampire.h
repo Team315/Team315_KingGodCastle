@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	Vampire(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	Vampire(int grade = 0, PowerUpTypes puType = PowerUpTypes::Vampire);
 	virtual ~Vampire();
 };

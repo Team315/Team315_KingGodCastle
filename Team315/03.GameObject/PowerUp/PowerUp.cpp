@@ -51,9 +51,9 @@ string PowerUp::MakePath()
 	case PowerUpTypes::WarriorsHeart:
 		path += "warriors_heart.png";
 		break;
-	case PowerUpTypes::WeAreTheOne:
+	/*case PowerUpTypes::WeAreTheOne:
 		path += "we_are_the_one.png";
-		break;
+		break;*/
 	default:
 		break;
 	}

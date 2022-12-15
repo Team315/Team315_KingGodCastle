@@ -285,7 +285,6 @@
     <ClInclude Include="03.GameObject\PowerUp\RuneShield.h" />
     <ClInclude Include="03.GameObject\PowerUp\Vampire.h" />
     <ClInclude Include="03.GameObject\PowerUp\WarriorsHeart.h" />
-    <ClInclude Include="03.GameObject\PowerUp\WeAreTheOne.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="02.Object\FloatingObj.cpp" />
@@ -412,7 +411,6 @@
     <ClCompile Include="03.GameObject\PowerUp\RuneShield.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\Vampire.cpp" />
     <ClCompile Include="03.GameObject\PowerUp\WarriorsHeart.cpp" />
-    <ClCompile Include="03.GameObject\PowerUp\WeAreTheOne.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

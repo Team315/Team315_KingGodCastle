@@ -8,6 +8,6 @@ protected:
 	PowerUpTypes powerUpType;
 
 public:
-	DogFight(int grade = 0, PowerUpTypes puType = PowerUpTypes::None);
+	DogFight(int grade = 0, PowerUpTypes puType = PowerUpTypes::DogFight);
 	virtual ~DogFight();
 };
