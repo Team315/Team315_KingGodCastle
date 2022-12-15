@@ -32,7 +32,6 @@ protected:
 	View uiView;
 	View toolView;
 	View& currentView;
-
 public:
 	Scene(Scenes type);
 	virtual ~Scene();

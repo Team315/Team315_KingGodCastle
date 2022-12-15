@@ -251,7 +251,7 @@ void BattleScene::Update(float dt)
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num1))
 		{
 			TranslateCoinState(100.f);
-			SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
+			SOUND_MGR->Play("sounds/Battle_getmoney.wav", 20.f, false);
 		}
 
 		if (InputMgr::GetKeyDown(Keyboard::Key::Num2))
@@ -527,7 +527,7 @@ void BattleScene::Update(float dt)
 			{
 				if (pick == nullptr)
 				{
-					SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
+					SOUND_MGR->Play("sounds/Battle_getmoney.wav", 20.f, false);
 					GameObj*& temp = gameObj;
 					if (IsCharacter(temp))
 					{
@@ -593,7 +593,7 @@ void BattleScene::Update(float dt)
 				{
 					if (pick == nullptr)
 					{
-						SOUND_MGR->Play("sounds/Battel_getmoney.wav", 20.f, false);
+						SOUND_MGR->Play("sounds/Battle_getmoney.wav", 20.f, false);
 						GameObj*& temp = gameObj;
 						if (IsCharacter(temp))
 						{
