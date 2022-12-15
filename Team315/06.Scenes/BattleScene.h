@@ -62,6 +62,12 @@ protected:
 	InfoWindow m_InfoWindow;
 	bool isInfo;
 
+	// instruction
+	Sprite sumandcampInstruction;
+	bool isSumAndCampInstruction;
+	Sprite upgradeInstruction;
+	bool isUpgradeInstruction;
+
 public:
 	BattleScene();
 	virtual ~BattleScene();

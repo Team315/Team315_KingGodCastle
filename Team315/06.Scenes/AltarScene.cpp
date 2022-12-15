@@ -4,8 +4,21 @@
 #include "RssProgressWindow.h"
 
 AltarScene::AltarScene()
-	: Scene(Scenes::Battle), testPos({0.f,0.f})
+	: Scene(Scenes::Battle), testPos({0.f,0.f}), isAltarInstruction(false), isAltarExpInstruction(false),
+	isAltarResetInstruction(false)
 {
+	altarInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_Altar.png"));
+	altarInstruction.setScale(0.7f, 0.8f);
+	altarInstruction.setPosition(5.f, 50.f);
+
+	altarExpInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_AltarExp.png"));
+	altarExpInstruction.setScale(0.7f, 0.8f);
+	altarExpInstruction.setPosition(5.f, 50.f);
+
+	altarResetInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_AltarReset.png"));
+	altarResetInstruction.setScale(0.7f, 0.8f);
+	altarResetInstruction.setPosition(5.f, 50.f);
+
 	m_backGround = new SpriteObj();
 	m_backGround->SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/AltarBackGround.png"));
 	m_backGround->SetPos({ 0.f,0.f });
@@ -75,7 +88,23 @@ void AltarScene::Exit()
 
 void AltarScene::Update(float dt)
 { 
+
+	if (!isAltarInstruction && InputMgr::GetMouseDown(Mouse::Button::Left)&& altarInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+		isAltarInstruction = true;
+	}
+	else if (!isAltarExpInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) && altarExpInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+		isAltarExpInstruction = true;
+
+	}
+	else if (!isAltarResetInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) && altarResetInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+		isAltarResetInstruction = true;
+	}
+
 	Scene::Update(dt);
+
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Up))
 	{
@@ -204,31 +233,34 @@ void AltarScene::Update(float dt)
 		SCENE_MGR->ChangeScene(Scenes::Title);
 	}
 
-	if (InputMgr::GetMouseUp(Mouse::Left))
+	if (isAltarInstruction && isAltarExpInstruction && isAltarResetInstruction)
 	{
-		for (auto Altar : AltarList)
+		if (InputMgr::GetMouseUp(Mouse::Left))
 		{
-			for (auto Brazier : BrazierList)
+			for (auto Altar : AltarList)
 			{
-				Brazier->PlayAni(Altar->GetButtonCall(ScreenToWorldPos(InputMgr::GetMousePosI()), Brazier->GetGrade()));
-			}
-		}
-	}
-	if (InputMgr::GetMouseUp(Mouse::Left))
-	{
-		for (auto Brazier : BrazierList)
-		{
-			if (Brazier->ClickButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
-			{
-				for (auto Altar : AltarList)
+				for (auto Brazier : BrazierList)
 				{
-					Altar->ResetCount();
+					Brazier->PlayAni(Altar->GetButtonCall(ScreenToWorldPos(InputMgr::GetMousePosI()), Brazier->GetGrade()));
 				}
 			}
 		}
-	}
+		if (InputMgr::GetMouseUp(Mouse::Left))
+		{
+			for (auto Brazier : BrazierList)
+			{
+				if (Brazier->ClickButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+				{
+					for (auto Altar : AltarList)
+					{
+						Altar->ResetCount();
+					}
+				}
+			}
+		}
 
-	CallButton();
+		CallButton();
+	}
 
 	for (auto Altar : AltarList)
 	{
@@ -255,6 +287,21 @@ void AltarScene::Draw(RenderWindow& window)
 	for (auto obj : BrazierList)
 	{
 		obj->Draw(window);
+	}
+
+	if (!isAltarInstruction)
+	{
+		window.draw(altarInstruction);
+	}
+	if (isAltarInstruction)
+	{
+		if(!isAltarExpInstruction)
+			window.draw(altarExpInstruction);
+	}
+	if (isAltarExpInstruction)
+	{
+		if(!isAltarResetInstruction)
+			window.draw(altarResetInstruction);
 	}
 }
 

@@ -16,9 +16,17 @@
 BattleScene::BattleScene()
 	: Scene(Scenes::Battle), pick(nullptr), gameEndTimer(0.f),
 	remainLife(3), stageEnd(false), stageResult(false),
-	eventWindow(false), eventPreviewOn(false), curEventTier(0), quickHandTimer(0.f), quickHandDuration(10.f)
+	eventWindow(false), eventPreviewOn(false), curEventTier(0), quickHandTimer(0.f), quickHandDuration(10.f), isSumAndCampInstruction(false), isUpgradeInstruction(false)
 {																
 	CLOG::Print3String("battle create");
+
+	sumandcampInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_Summon.png"));
+	sumandcampInstruction.setScale(0.7f, 0.8f);
+	sumandcampInstruction.setPosition(5.f, GAME_SCREEN_HEIGHT * 0.5f + 100.f);
+
+	upgradeInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_Upgrade.png"));
+	upgradeInstruction.setScale(0.7f, 0.8f);
+	upgradeInstruction.setPosition(5.f, GAME_SCREEN_HEIGHT * 0.5f + 100.f);
 
 	gameScreenTopLimit = GAME_SCREEN_HEIGHT * 0.5f - TILE_SIZE_HALF;
 	gameScreenBottomLimit = GAME_SCREEN_HEIGHT * 1.1f;
@@ -66,6 +74,7 @@ BattleScene::BattleScene()
 	quickHandTimerText->SetOrigin(Origins::BC);
 	quickHandTimerText->SetOutlineColor(Color::Black);
 	quickHandTimerText->SetOutlineThickness(3.0f);
+
 }
 
 BattleScene::~BattleScene()
@@ -163,6 +172,15 @@ void BattleScene::Update(float dt)
 			isInfo = false;
 		}
 		return;
+	}
+
+	if (!isSumAndCampInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) && sumandcampInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+		isSumAndCampInstruction = true;
+	}
+	else if (!isUpgradeInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) &&  upgradeInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+	{
+		isUpgradeInstruction = true;
 	}
 
 	if (GAME_MGR->oneTimePowerUp != nullptr)
@@ -1070,6 +1088,7 @@ void BattleScene::Draw(RenderWindow& window)
 	//panel skill 
 	m_panel.DrawUp(window);
 
+
 	// draw character on prepare area
 	for (auto& gameObj : prepareGrid)
 	{
@@ -1150,6 +1169,16 @@ void BattleScene::Draw(RenderWindow& window)
 
 	//infowindow
 	m_InfoWindow.Draw(window);
+
+	if (!isSumAndCampInstruction)
+	{
+		window.draw(sumandcampInstruction);
+	}
+	else if(isSumAndCampInstruction)
+	{
+		if (!isUpgradeInstruction)
+			window.draw(upgradeInstruction);
+	}
 }
 
 void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)

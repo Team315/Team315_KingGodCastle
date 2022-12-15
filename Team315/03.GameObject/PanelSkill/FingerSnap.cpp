@@ -103,4 +103,6 @@ void FingerSnap::ActionSkill()
 		dynamic_cast<Character*>(target[arr[i]])->TakeDamege(99999.f);
 		cout << dynamic_cast<Character*>(target[arr[i]])->GetName() <<" die" << endl;
 	}
+
+	SOUND_MGR->Play("sounds/panel_FingerSnap.ogg", 30.f, false);
 }

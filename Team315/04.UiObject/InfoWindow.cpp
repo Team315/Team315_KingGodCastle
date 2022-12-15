@@ -130,9 +130,6 @@ void InfoWindow::Draw(RenderWindow& window)
 	if(!isOnOff)
 		SpriteObj::Draw(window);
 
-		
-
-
 	if (isOnOff)
 	{
 		m_Background.Draw(window);

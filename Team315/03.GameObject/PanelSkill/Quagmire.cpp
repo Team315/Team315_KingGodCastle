@@ -91,6 +91,7 @@ void Quagmire::ActionSkill()
 			dynamic_cast<Character*>(monster)->TakeBuff(StatType::AS, m_attackSpeed,false);
 		}
 	}
+	SOUND_MGR->Play("sounds/panel_Quagmire.ogg", 30.f, false);
 }
 
 void Quagmire::EndSkill()

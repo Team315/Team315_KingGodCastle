@@ -90,6 +90,8 @@ void DivineShield::ActionSkill()
 			dynamic_cast<Character*>(Player)->SetInvincible(true);
 		}
 	}
+
+	SOUND_MGR->Play("sounds/panel_Divine.ogg", 30.f, false);
 }
 
 void DivineShield::EndSkill()
