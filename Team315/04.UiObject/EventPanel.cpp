@@ -175,7 +175,6 @@ void EventPanel::Update(float dt)
 						if (eventType == EventType::Forge)
 						{
 							SOUND_MGR->Play("sounds/EquipMake.ogg", 40.f, false);
-							//GAME_MGR->waitQueue.push(dynamic_cast<Item*>(item));
 							GAME_MGR->waitQueue.push(item);
 						}
 						else if (eventType == EventType::Power)
@@ -186,10 +185,6 @@ void EventPanel::Update(float dt)
 								GAME_MGR->standingPowerUps.push_back(power);
 							else
 								GAME_MGR->oneTimePowerUp = power;
-						}
-						else
-						{
-							// clear or over
 						}
 					}
 					else
@@ -225,14 +220,19 @@ void EventPanel::Draw(RenderWindow& window)
 		if (selectItem)
 			infoWindow->Draw(window);
 
-		for (auto& itemSprite : sprites)
-			itemSprite->Draw(window);
+		if (eventType != EventType::GameOver &&
+			eventType != EventType::GameClear)
+		{
+			for (auto& itemSprite : sprites)
+				itemSprite->Draw(window);
 
-		for (auto& frame : frames)
-			frame->Draw(window);
+			for (auto& frame : frames)
+				frame->Draw(window);
+		}
 	}
-
-	previewButton->Draw(window);
+	if (eventType != EventType::GameOver &&
+		eventType != EventType::GameClear)
+		previewButton->Draw(window);
 }
 
 void EventPanel::SetOrigin(Origins origin)

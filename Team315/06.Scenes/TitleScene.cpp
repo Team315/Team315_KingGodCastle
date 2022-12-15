@@ -3,22 +3,30 @@
 #include "Button.h"
 
 TitleScene::TitleScene()
-	: Scene(Scenes::Title), duration(0.5f), timer(duration), isMode(false), m_pickNum(0)
+	: Scene(Scenes::Title), duration(0.5f), timer(duration), isMode(false), m_pickNum(0),
+	isInstruction(false)
 {
 	CLOG::Print3String("title create");
 	background = new SpriteObj();
 	background->SetTexture(*RESOURCE_MGR->GetTexture("graphics/titleScene/titleBackground.png"));
 	objList.push_back(background);
 
-	Vector2u wSize = FRAMEWORK->GetWindowSize();
-	titleText = new TextObj(
-		*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
-		"Press Click to start!",
-		wSize.x * 0.2f, wSize.y * 0.5f, Color::White, 35.f);
-	titleText->SetOutlineColor(Color::Black);
-	titleText->SetOutlineThickness(2.f);
-	titleText->SetOrigin(Origins::MC);
+	if(!isInstruction)
+	{
+		Vector2u wSize = FRAMEWORK->GetWindowSize();
+		titleText = new TextObj(
+			*RESOURCE_MGR->GetFont("fonts/NotoSans-Bold.ttf"),
+			"Press Click to start!",
+			wSize.x * 0.2f, wSize.y * 0.5f, Color::White, 35.f);
+		titleText->SetOutlineColor(Color::Black);
+		titleText->SetOutlineThickness(2.f);
+		titleText->SetOrigin(Origins::MC);
+	}
 	//objList.push_back(titleText);
+
+	instruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_Title.png"));
+	instruction.setScale(0.7f, 0.8f);
+	instruction.setPosition(5.f, 50.f);
 
 
 	CreatButton();
@@ -78,53 +86,64 @@ void TitleScene::Update(float dt)
 	}*/
 
 	// Game Input
-	if (!isMode)
+	if(!isInstruction)
 	{
-		timer -= dt;
-
-		if (timer <= 0.f)
+		if (!isMode)
 		{
-			titleText->SetActive(!titleText->GetActive());
-			timer = duration;
+			timer -= dt;
+
+			if (timer <= 0.f)
+			{
+				titleText->SetActive(!titleText->GetActive());
+				timer = duration;
+			}
+
+			if (InputMgr::GetMouseUp(Mouse::Button::Left))
+			{
+				isMode = true;
+			}
 		}
 
-		if (InputMgr::GetMouseUp(Mouse::Button::Left))
+		if (isMode)
 		{
-			isMode = true;
+			if (m_gameStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+			{
+				m_gameStart->SetScale(0.8f, 0.8f);
+				if (InputMgr::GetMouseDown(Mouse::Button::Left))
+				{
+					SOUND_MGR->StopAll();
+					SOUND_MGR->Play("sounds/LobbySelect.ogg", 40.f, false);
+					SCENE_MGR->ChangeScene(Scenes::Battle);
+				}
+			}
+			else if (!m_gameStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+			{
+				m_gameStart->SetScale(0.75f, 0.75f);
+			}
+
+
+			if (m_altarStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+			{
+				m_altarStart->SetScale(0.8f, 0.8f);
+				if (InputMgr::GetMouseDown(Mouse::Button::Left))
+				{
+					SOUND_MGR->StopAll();
+					SOUND_MGR->Play("sounds/LobbySelect.ogg", 40.f, false);
+					SCENE_MGR->ChangeScene(Scenes::Altar);
+				}
+			}
+			else if (!m_altarStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+			{
+				m_altarStart->SetScale(0.75f, 0.75f);
+			}
 		}
 	}
-
-	if (isMode)
+	else
 	{
-		if (m_gameStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+		if(instruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
-			m_gameStart->SetScale(0.8f,0.8f);
-			if (InputMgr::GetMouseDown(Mouse::Button::Left))
-			{
-				SOUND_MGR->StopAll();
-				SOUND_MGR->Play("sounds/LobbySelect.ogg", 40.f, false);
-				SCENE_MGR->ChangeScene(Scenes::Battle);
-			}
-		}
-		else if (!m_gameStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
-			m_gameStart->SetScale(0.75f, 0.75f);
-		}
-		
-
-		if (m_altarStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
-			m_altarStart->SetScale(0.8f, 0.8f);
-			if (InputMgr::GetMouseDown(Mouse::Button::Left))
-			{
-				SOUND_MGR->StopAll();
-				SOUND_MGR->Play("sounds/LobbySelect.ogg", 40.f, false);
-				SCENE_MGR->ChangeScene(Scenes::Altar);
-			}
-		}
-		else if (!m_altarStart->GetGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
-		{
-			m_altarStart->SetScale(0.75f, 0.75f);
+			if (InputMgr::GetMouseUp(Mouse::Button::Left))
+				isInstruction = true;
 		}
 	}
 
@@ -138,16 +157,23 @@ void TitleScene::Draw(RenderWindow& window)
 {
 	Scene::Draw(window);
 
-	if (!isMode&& titleText->GetActive())
+	if(isInstruction)
 	{
-		titleText->Draw(window);
+		window.draw(instruction);
 	}
-
-	if (isMode)
+	else
 	{
-		for (auto button : buttonList)
+		if (!isMode && titleText->GetActive())
 		{
-			button->Draw(window);
+			titleText->Draw(window);
+		}
+
+		if (isMode)
+		{
+			for (auto button : buttonList)
+			{
+				button->Draw(window);
+			}
 		}
 	}
 }

@@ -177,14 +177,15 @@ void GameManager::GMReset()
 	cumulativeExp = 0;
 	oneTimePowerUp = nullptr;
 	standingPowerUps.clear();
+	curChapIdx = 0;
+	curStageIdx = 0;
 	for (auto& drop : drops)
 	{
 		if (drop != nullptr)
 			delete drop;
 	}
 	drops.clear();
-
-	// panelSkill = ?
+	damageUI.Reset();
 }
 
 void GameManager::GameEnd()

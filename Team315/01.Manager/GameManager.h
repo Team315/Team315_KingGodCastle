@@ -36,8 +36,6 @@ protected:
 	map<string, vector<string>> powerUpStringMap;
 	BattleTracker* battleTracker;
 
-	Skill* panelSkill;
-
 	// Additional level up probability when summon (Character)
 	int extraLevelUpSummon;
 	// Additional level up probability when combinate (Character)

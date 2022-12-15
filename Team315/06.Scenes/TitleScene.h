@@ -20,6 +20,9 @@ protected:
 	float duration;
 	float timer;
 
+	// instruction
+	Sprite instruction;
+	bool isInstruction;
 public:
 	TitleScene();
 	virtual ~TitleScene();
