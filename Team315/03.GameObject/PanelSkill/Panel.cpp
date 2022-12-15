@@ -202,7 +202,7 @@ string Panel::GetRandomSkill()
 {
 	int num = Utils::RandomRange(1, 5);
 
-	num = 3;
+	num = 5;
 
 	if (num == 1)
 	{

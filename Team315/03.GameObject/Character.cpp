@@ -524,6 +524,11 @@ void Character::TakeDamege(float panelDamege, bool attackType)
 	}
 }
 
+void Character::ChangeStats(PanelTypes panelTypes)
+{
+
+}
+
 void Character::TakeCare(GameObj* caster, bool careType)
 {
 	Character* casterCharacter = dynamic_cast<Character*>(caster);

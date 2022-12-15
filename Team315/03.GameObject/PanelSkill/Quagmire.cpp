@@ -1,5 +1,7 @@
 #include "Quagmire.h"
 #include "Character.h"
+#include "rapidcsv.h"
+
 Quagmire::Quagmire()
 	:isPlaying(false)
 {
@@ -12,6 +14,7 @@ Quagmire::~Quagmire()
 void Quagmire::Enter()
 {
 	SetAni();
+	SetAttackSpeed();
 }
 
 void Quagmire::Init()
@@ -36,6 +39,15 @@ void Quagmire::Draw(RenderWindow& window)
 	{
 		SpriteObj::Draw(window);
 	}
+}
+
+void Quagmire::SetAttackSpeed()
+{
+	string panelDataPath = "data/PenalSkillTable.csv";
+
+	rapidcsv::Document PanelDataDoc(panelDataPath, rapidcsv::LabelParams(0, -1));
+	vector<float> attackSpeed = PanelDataDoc.GetColumn<float>(7);
+	m_attackSpeed = attackSpeed[3];
 }
 
 void Quagmire::SetAni()

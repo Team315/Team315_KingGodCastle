@@ -84,7 +84,6 @@ void FingerSnap::ActionSkill()
 
 	int arr[100];
 	int num = target.size();
-
 	int n = 0;
 
 	while (n < num)
@@ -102,6 +101,6 @@ void FingerSnap::ActionSkill()
 	for (int i = 0; i < deadCount; i++)
 	{
 		dynamic_cast<Character*>(target[arr[i]])->TakeDamege(99999.f);
-		cout << dynamic_cast<Character*>(target[i])->GetName() << endl;
+		cout << dynamic_cast<Character*>(target[arr[i]])->GetName() <<" die" << endl;
 	}
 }

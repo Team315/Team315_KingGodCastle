@@ -7,15 +7,15 @@
 #include "PanelSkill/BlessOfMana.h"
 #include "PanelSkill/DivineShield.h"
 #include "PanelSkill/FireExplosion.h"
-
-enum class PanelTypes
-{
-	BlessOfMana,
-	FireExplosion,
-	FingerSnap,
-	Quagmire,
-	DivineShield,
-};
+//
+//enum class PanelTypes
+//{
+//	BlessOfMana,
+//	FireExplosion,
+//	FingerSnap,
+//	Quagmire,
+//	DivineShield,
+//};
 class Panel : public SpriteObj
 {
 protected:
@@ -28,8 +28,6 @@ protected:
 	int m_resetCooldown;
 	int m_skillCost;
 	PanelTypes m_PanelTypes;
-
-
 
 	RectangleObj m_BackGround;
 	RectangleObj m_NameBackGround;

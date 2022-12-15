@@ -141,3 +141,12 @@ enum class ResStringType
 	UpSkillEffect,
 	atkSound,
 };
+
+enum class PanelTypes
+{
+	BlessOfMana,
+	FireExplosion,
+	FingerSnap,
+	Quagmire,
+	DivineShield,
+};
