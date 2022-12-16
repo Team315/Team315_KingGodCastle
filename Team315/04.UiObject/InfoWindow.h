@@ -3,7 +3,8 @@
 
 class RssProgressWindow;
 class TextObj;
-class RectangleObj;
+class SpriteGrid;
+
 class InfoWindow : public SpriteObj
 {
 protected:
@@ -24,7 +25,7 @@ protected:
 	RssProgressWindow* levelBar;
 
 	vector<Sprite> powerUpSprites;
-	vector<RectangleShape> rectangleShapes;
+	vector<SpriteGrid> powerUpFrames;
 
 	bool isOnOff;
 public:
@@ -39,4 +40,3 @@ public:
 	bool CollCall(Vector2f mousepos);
 	bool CollBackButton(Vector2f mousepos);
 };
-

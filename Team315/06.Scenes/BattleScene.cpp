@@ -173,6 +173,7 @@ void BattleScene::Update(float dt)
 	}
 	else if (isInfo)
 	{
+		m_InfoWindow.Update(dt);
 		if (m_InfoWindow.CollBackButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
 		{
 			isInfo = false;
@@ -1650,6 +1651,7 @@ void BattleScene::LoseFlag()
 		GAME_MGR->accountInfo.UpdateLevel(GAME_MGR->accountExpLimit);
 		GAME_MGR->GameEnd();
 		ui->GetEventPanel()->SetEventType(EventType::GameOver);
+		ui->GetEventPanel()->SetExpResultString(GAME_MGR->cumulativeExp);
 	}
 }
 

@@ -2,6 +2,7 @@
 #include "RectangleObj.h"
 #include "RssProgressWindow.h"
 #include "PowerUp/PowerUp.h"
+#include "SpriteGrid.h"
 
 InfoWindow::InfoWindow()
 	:isOnOff(false)
@@ -71,16 +72,14 @@ void InfoWindow::Enter()
 	float value = GAME_MGR->accountInfo.level != 10 ? (float)GAME_MGR->accountInfo.exp / (float)GAME_MGR->accountExpLimit : 1.f;
 	levelBar->GetProgressBar().SetProgressValue(value);
 
-	rectangleShapes.resize(3);
+	powerUpFrames.resize(3);
 	Vector2f spritePos(GAME_SCREEN_WIDTH * 0.3f, GAME_SCREEN_HEIGHT * 0.80f);
-	for (auto& rectangleShape : rectangleShapes)
+	for (auto& powerUpFrame : powerUpFrames)
 	{
-		rectangleShape.setPosition(spritePos);
-		rectangleShape.setSize(Vector2f(TILE_SIZE, TILE_SIZE));
-		Utils::SetOrigin(rectangleShape, Origins::MC);
-		rectangleShape.setFillColor(Color(0x0f, 0x0f, 0x0f, 100.f));
-		rectangleShape.setOutlineColor(Color(0xf0, 0xf0, 0xf0));
-		rectangleShape.setOutlineThickness(2.0f);
+		powerUpFrame.SetPos(spritePos);
+		powerUpFrame.SetSize(TILE_SIZE, TILE_SIZE);
+		powerUpFrame.SetOrigin(Origins::MC);
+		powerUpFrame.SetFillColor(Color(0x0f, 0x0f, 0x0f, 100.f));
 		spritePos.x += GAME_SCREEN_WIDTH * 0.2f;
 	}
 
@@ -111,7 +110,6 @@ void InfoWindow::Init()
 	m_backButton.SetTexture(*RESOURCE_MGR->GetTexture("graphics/InfoWindow/InfoBackButton.png"));
 	m_backButton.SetOrigin(Origins::TR);
 	m_backButton.SetPos({ GAME_SCREEN_WIDTH - 20.f ,10.f });
-
 
 	m_altar0.SetTexture(*RESOURCE_MGR->GetTexture("graphics/InfoWindow/Info_Altar_00.png"));
 	m_altar0.SetOrigin(Origins::MC);
@@ -145,7 +143,7 @@ void InfoWindow::Release()
 
 void InfoWindow::Update(float dt)
 {
-	
+	levelBar->Update(dt);
 }
 
 void InfoWindow::Draw(RenderWindow& window)
@@ -171,14 +169,11 @@ void InfoWindow::Draw(RenderWindow& window)
 
 		levelBar->Draw(window);
 
-		for (auto& rectangleShape : rectangleShapes)
-			window.draw(rectangleShape);
+		for (auto& powerUpFrame : powerUpFrames)
+			powerUpFrame.Draw(window);
 
 		for (int i = 0; i < GAME_MGR->standingPowerUps.size(); i++)
 			window.draw(powerUpSprites[i]);
-
-	/*	for (auto& powerUpSprite : powerUpSprites)
-			window.draw(powerUpSprite);*/
 	}
 }
 
@@ -188,11 +183,14 @@ bool InfoWindow::CollCall(Vector2f mousepos)
 	{
 		Enter();
 		isOnOff = true;
-		vector<PowerUp*>& powerups = GAME_MGR->standingPowerUps;
+		vector<PowerUp*>& powerUps = GAME_MGR->standingPowerUps;
 
 		for (int i = 0; i < GAME_MGR->standingPowerUps.size(); i++)
 		{
-			powerUpSprites[i].setTexture(*RESOURCE_MGR->GetTexture(powerups[i]->MakePath()));
+			powerUpSprites[i].setTexture(*RESOURCE_MGR->GetTexture(powerUps[i]->MakePath()), true);
+			string framePath = "graphics/battleScene/Item_Frame_" + to_string(powerUps[i]->GetGrade()) + ".png";
+			powerUpFrames[i].SetSpriteTexture(*RESOURCE_MGR->GetTexture(framePath), true);
+			powerUpFrames[i].SetOrigin(Origins::MC);
 		}
 		return true;
 	}

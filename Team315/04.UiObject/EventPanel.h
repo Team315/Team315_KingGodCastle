@@ -28,6 +28,7 @@ protected:
 	bool selectItem;
 	int selectIdx;
 	Sprite rerollCountSprite;
+	BackrectText* expResultWindow;
 
 public:
 	EventPanel(Scene* scene);
@@ -48,4 +49,5 @@ public:
 	SpriteObj* GetPreviewButton() { return previewButton; }
 	BackrectText* GetSelectButton() { return selectButton; }
 	void SetRerollText(int num);
+	void SetExpResultString(int num);
 };

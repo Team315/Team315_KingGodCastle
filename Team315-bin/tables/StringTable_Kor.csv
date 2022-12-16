@@ -98,3 +98,4 @@ QuickHandExplain,준비 화면에서 10초마다\n강제로 전투를 시작\n스테이지 종료마다 �
 CounterAttackExplain,기본 공격 피해를 받을 때\n30% 확률로 최대 체력의\n15% 피해를 입힘
 HeroOfSalvationExplain,부대 규모를 확장할 수 없고\n무작위 5성 영웅을 얻음
 DogFightExplain,전투 시작 시 캐릭터의 위치가\n랜덤으로 바뀜
+ExpText,경험치

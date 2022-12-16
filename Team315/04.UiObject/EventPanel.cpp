@@ -64,6 +64,14 @@ EventPanel::EventPanel(Scene* scene)
 		sprites[i]->SetHitbox(FloatRect(0, 0, TILE_SIZE, TILE_SIZE), Origins::MC);
 	}
 	Utils::SetOrigin(rerollCountSprite, Origins::BC);
+
+	expResultWindow = new BackrectText(100.f, 50.f);
+	expResultWindow->SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
+	expResultWindow->SetTextLocalPos(Vector2f(0.f, -25.f));
+	expResultWindow->SetTextStyle(Color::White, 25.f, Color::Black, 2.f);
+	expResultWindow->SetOutline(Color(0x0f, 0x0f, 0x0f), 2.f);
+	expResultWindow->SetFillColor(Color(0x0f, 0x0f, 0x0f, 150.f));
+	expResultWindow->SetOrigin(Origins::BC);
 }
 
 EventPanel::~EventPanel()
@@ -244,6 +252,8 @@ void EventPanel::Draw(RenderWindow& window)
 			for (auto& frame : frames)
 				frame->Draw(window);
 		}
+		else
+			expResultWindow->Draw(window);
 	}
 	if (eventType != EventType::GameOver &&
 		eventType != EventType::GameClear)
@@ -267,6 +277,9 @@ void EventPanel::SetPos(const Vector2f& pos)
 
 	infoWindow->SetPos(pos + Vector2f(GAME_SCREEN_WIDTH * 0.5f - 100.f,
 		GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.f + 300.f));
+
+	expResultWindow->SetPos(pos + Vector2f(GAME_SCREEN_WIDTH * 0.5f,
+		GAME_SCREEN_HEIGHT * 0.5f + TILE_SIZE * 1.f + 400.f));
 
 	int posX = GAME_SCREEN_WIDTH * 0.25f;
 	for (int i = 0; i < 3; i++)
@@ -427,4 +440,11 @@ void EventPanel::SetRerollText(int num)
 		return;
 	rerollButton->SetFillColor(Color(0xf0, 0xf0, 0xf0, 150.f));
 	rerollButton->SetHitBoxActive(false);
+}
+
+void EventPanel::SetExpResultString(int num)
+{
+	wstring str = STRING_TABLE->Get("ExpText") + "+" + to_string(num);
+	expResultWindow->SetString(str);
+	expResultWindow->SetOrigin(Origins::BC);
 }
