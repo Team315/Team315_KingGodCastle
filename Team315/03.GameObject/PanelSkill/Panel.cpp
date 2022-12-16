@@ -85,10 +85,14 @@ void Panel::DrawUp(RenderWindow& window)
 
 void Panel::DrawDown(RenderWindow& window)
 {
-	m_FingerSnap.Draw(window);
-	m_BlessOfMana.Draw(window);
-	m_DivineShield.Draw(window);
-	m_FireExplosion.Draw(window);
+	if (isPlaying)
+	{
+		m_FingerSnap.Draw(window);
+		m_BlessOfMana.Draw(window);
+		m_DivineShield.Draw(window);
+		m_FireExplosion.Draw(window);
+	}
+
 }
 
 void Panel::Enter()
