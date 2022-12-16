@@ -1278,7 +1278,14 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 					delete temp;
 					dynamic_cast<Character*>(pick)->UpgradeStar(true, true);
 				}
-				else (*dest)[destIdx]->SetPos(beforeDragPos);
+				else 
+				{
+					
+					if (GetCurCharacterCount() > GAME_MGR->GetCharacterCount())
+						canMove = false;
+					else
+						(*dest)[destIdx]->SetPos(beforeDragPos);
+				}
 			}
 			else canMove = false;
 		}
