@@ -8,16 +8,16 @@ AltarScene::AltarScene()
 	isAltarResetInstruction(false)
 {
 	altarInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_Altar.png"));
-	altarInstruction.setScale(0.7f, 0.8f);
-	altarInstruction.setPosition(5.f, 50.f);
+	altarInstruction.setScale(0.7f, 0.7f);
+	altarInstruction.setPosition(5.f, 0.f);
 
 	altarExpInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_AltarExp.png"));
-	altarExpInstruction.setScale(0.7f, 0.8f);
-	altarExpInstruction.setPosition(5.f, 50.f);
+	altarExpInstruction.setScale(0.7f, 0.7f);
+	altarExpInstruction.setPosition(5.f, 0.f);
 
 	altarResetInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_AltarReset.png"));
-	altarResetInstruction.setScale(0.7f, 0.8f);
-	altarResetInstruction.setPosition(5.f, 50.f);
+	altarResetInstruction.setScale(0.7f, 0.7f);
+	altarResetInstruction.setPosition(5.f, 0.f);
 
 	m_backGround = new SpriteObj();
 	m_backGround->SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/AltarBackGround.png"));
