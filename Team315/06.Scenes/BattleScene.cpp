@@ -30,7 +30,7 @@ BattleScene::BattleScene()
 
 	panelInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_Panel.png"));
 	panelInstruction.setScale(0.7f, 0.8f);
-	panelInstruction.setPosition(5.f, GAME_SCREEN_HEIGHT * 0.5f + 100.f);
+	panelInstruction.setPosition(5.f, GAME_SCREEN_HEIGHT * 0.5f);
 
 	powerUpinstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_PowerUp.png"));
 	powerUpinstruction.setScale(0.7f, 0.8f);
