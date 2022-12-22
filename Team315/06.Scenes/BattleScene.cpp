@@ -205,14 +205,15 @@ void BattleScene::Update(float dt)
 
 	GAME_MGR->damageUI.Update(dt);
 	GAME_MGR->rangePreview.Update(dt);
+	
 	if (!GAME_MGR->waitQueue.empty())
 	{
 		int idx = GetZeroElem(prepareGrid);
 		if (idx != -1)
 		{
 			GameObj* gameObj = GAME_MGR->waitQueue.front();
-			gameObj->SetPos(prepareGridRect[idx]->GetPos());
 			gameObj->Init();
+			gameObj->SetPos(prepareGridRect[idx]->GetPos());
 			gameObj->SetActive(true);
 			prepareGrid[idx] = gameObj;
 			

@@ -60,7 +60,6 @@ Character::~Character()
 void Character::Init()
 {
 	GameObj::Init();
-	UpgradeCharacterSet();
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 
 	//battle
@@ -90,7 +89,6 @@ void Character::Init()
 	starLocalPos = { 0.f, hpBarLocalPos.y };
 
 	Utils::SetOrigin(shadow, Origins::BC);
-	SetPos(position);
 }
 
 void Character::Reset()

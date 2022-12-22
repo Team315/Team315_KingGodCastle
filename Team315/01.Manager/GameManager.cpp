@@ -219,7 +219,6 @@ void GameManager::PrintDevInfo()
 	cout << "부대 배치 제한: " << battleCharacterCount << endl;
 	cout << "소환시 2업 확률(%): " << extraLevelUpSummon << endl;
 	cout << "합성시 2업 확률(%): " << extraLevelUpCombinate << endl;
-	//cout << "아이템 2업 확률(X): " << extraGradeUpChance << endl;
 	cout << "게임 시작시 코인: " << startCoin << endl;
 	cout << "스테이지 보상 코인: " << stageClearCoin << endl;
 	cout << "스테이지 보상 코인 증가량: " << clearCoinIncrease << endl;
