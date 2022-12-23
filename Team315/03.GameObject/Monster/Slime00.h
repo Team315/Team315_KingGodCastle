@@ -4,6 +4,9 @@
 class Slime00 : public Character
 {
 protected:
+	Animator animator;
+	AnimStates currState;
+
 	float mpTimer;
 	float duration;
 
@@ -17,8 +20,8 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
 
-	void OnCompleteSkill();
+	/*void OnCompleteSkill();
 
 	void UpdateIdle(float dt);
-	void UpdateSkill(float dt);
+	void UpdateSkill(float dt);*/
 };

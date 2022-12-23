@@ -54,9 +54,9 @@ public:
 	Vector2f ScreenToUiPos(Vector2i screenPos);
 	Vector2f ScreenToToolPos(Vector2i screenPos);
 
-	Object* FindGameObj(string name);
+	Object* FindSpriteObj(string name);
 
-	void AddGameObj(Object* obj)
+	void AddSpriteObj(Object* obj)
 	{
 		objList.push_back(obj);
 	}

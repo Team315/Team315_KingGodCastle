@@ -1,5 +1,6 @@
 #pragma once
-#include "GameObj.h"
+#include "SpriteObj.h"
+#include "animator.h"
 #include "TwoFactorProgress.h"
 #include "ProgressBar.h"
 #include "Star.h"
@@ -11,9 +12,12 @@
 class Item;
 class Skill;
 
-class Character : public GameObj
+class Character : public SpriteObj
 {
 protected:
+	Animator animator;
+	AnimStates currState;
+
 	Animator effectAnimator;
 	Sprite effectSprite;
 	unordered_map<StatType, Stat> stat;
@@ -56,7 +60,7 @@ protected:
 	Vector2f lastDirection;
 	float m_attackDelay;
 
-	GameObj* m_target;
+	SpriteObj* m_target;
 
 	//FloodFill
 	FloodFill m_floodFill;
@@ -92,7 +96,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 	virtual void SetPos(const Vector2f& pos) override;
-	virtual void SetState(AnimStates newState) override;
+	virtual void SetState(AnimStates newState);
 
 	AnimStates GetState() { return currState; }
 
@@ -104,9 +108,9 @@ public:
 	int GetStarNumber() { return star->GetStarNumber(); }
 	Stat& GetStat(StatType statsEnum) { return stat[statsEnum]; }
 	void SetStatsInit(json data);
-	void TakeDamage(GameObj* attacker, AttackTypes attackType = AttackTypes::Normal);
+	void TakeDamage(SpriteObj* attacker, AttackTypes attackType = AttackTypes::Normal);
 	// careType, true = heal / false = shield
-	void TakeCare(GameObj* caster, bool careType = true);
+	void TakeCare(SpriteObj* caster, bool careType = true);
 	void TakeCare(float amount, bool careType = true);
 	// buffType, true = buff / false = debuff
 	void TakeBuff(StatType sType, float potential, bool mode = true, Character* caster = nullptr);
@@ -125,7 +129,7 @@ public:
 
 	//battle
 	void IsSetState(AnimStates newState);
-	GameObj* GetTarget() { return m_target; };
+	SpriteObj* GetTarget() { return m_target; };
 	Skill* GetSkill() { return skill; }
 
 	//FloodFill
@@ -135,7 +139,7 @@ public:
 
 	//Astar
 	bool SetTargetDistance();
-	void SetMainGrid(int r, int c, GameObj* character);
+	void SetMainGrid(int r, int c, SpriteObj* character);
 	void SetIsBattle(bool battleOnOff) { isBattle = battleOnOff; }
 
 	//State

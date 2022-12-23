@@ -81,13 +81,13 @@ void DanielSkill::SetPos(const Vector2f& pos)
 	Skill::SetPos(pos);
 }
 
-//void DanielSkill::SetState(AnimStates newState, GameObj* target, String t)
+//void DanielSkill::SetState(AnimStates newState, SpriteObj* target, String t)
 //{
 //	Skill::SetState(newState);
 //
 //	/*if (currState == AnimStates::Skill)
 //	{
-//		vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+//		vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 //		Vector2i targetPos = GAME_MGR->PosToIdx(GetPos());
 //		if (mainGrid[targetPos.y * 7 + targetPos.x + 1] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 1]->GetType().compare(t))
 //		{
@@ -154,7 +154,7 @@ void DanielSkill::CastSkill(Character* caster)
 	for (auto& cell : applyArea)
 	{
 		GAME_MGR->rangePreview.Get()->Fire(GAME_MGR->IdxToPos(cell));
-		GameObj* target = GAME_MGR->GetGameObjInMainGrid(cell);
+		SpriteObj* target = GAME_MGR->GetSpriteObjInMainGrid(cell);
 		if (target != nullptr && !target->GetType().compare(caster->GetTarget()->GetType()))
 		{
 			//CLOG::PrintVectorState(GAME_MGR->PosToIdx(target->GetPos()), target->GetName());

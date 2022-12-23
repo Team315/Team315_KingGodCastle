@@ -2,9 +2,9 @@
 #include "SpriteObj.h"
 #include "Animator.h"
 #include "Include.h"
-#include "GameObj.h"
+#include "SpriteObj.h"
 
-class DivineShield : public GameObj
+class DivineShield : public SpriteObj
 {
 protected:
 	Animator m_DivineShield;

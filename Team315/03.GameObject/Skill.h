@@ -1,13 +1,16 @@
 #pragma once
-#include "GameObj.h"
+#include "SpriteObj.h"
+#include "Animator.h"
 #include "Include.h"
 #include <vector>
 
 class Character;
 
-class Skill : public GameObj
+class Skill : public SpriteObj
 {
 protected:
+	Animator animator;
+	AnimStates currState;
 	vector<float> baseDamage;			// skill base damage
 	vector<vector<Vector2i>> range;		// skill range
 	int skillTier;						// starNumber

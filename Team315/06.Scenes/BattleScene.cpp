@@ -6,7 +6,7 @@
 #include "Constant.h"
 #include "DamageTrackerUI.h"
 #include "GameManager.h"
-#include "GameObjHeaders.h"
+#include "SpriteObjHeaders.h"
 #include "Map/Tile.h"
 #include "Map/FloodFill.h"
 #include "RectangleObj.h"
@@ -212,10 +212,9 @@ void BattleScene::Update(float dt)
 		if (idx != -1)
 		{
 			SpriteObj* gameObj = GAME_MGR->waitQueue.front();
-			gameObj->Init();
 			gameObj->SetPos(prepareGridRect[idx]->GetPos());
 			gameObj->SetActive(true);
-			prepareGrid[idx] = dynamic_cast<GameObj*>(gameObj);
+			prepareGrid[idx] = dynamic_cast<SpriteObj*>(gameObj);
 			
 			if (!gameObj->GetType().compare("Player"))
 			{
@@ -283,7 +282,7 @@ void BattleScene::Update(float dt)
 
 	//Panel Skill end
 
-	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mgref = GAME_MGR->GetMainGridRef();
 	// Dev Input start
 	{
 		if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
@@ -563,7 +562,7 @@ void BattleScene::Update(float dt)
 			{
 				if (pick == nullptr)
 				{
-					PickUpGameObj(gameObj);
+					PickUpSpriteObj(gameObj);
 					break;
 				}
 			}
@@ -572,7 +571,7 @@ void BattleScene::Update(float dt)
 				if (pick == nullptr)
 				{
 					SOUND_MGR->Play("sounds/Battle_getmoney.wav", 20.f, false);
-					GameObj*& temp = gameObj;
+					SpriteObj*& temp = gameObj;
 					if (IsCharacter(temp))
 					{
 						Character* tempCharacter = dynamic_cast<Character*>(temp);
@@ -624,7 +623,7 @@ void BattleScene::Update(float dt)
 				{
 					if (pick == nullptr)
 					{
-						PickUpGameObj(gameObj);
+						PickUpSpriteObj(gameObj);
 						if (InBattleGrid(GAME_MGR->PosToIdx(pick->GetPos())))
 						{
 							dynamic_cast<Character*>(gameObj)->OnOffAttackAreas(true);
@@ -638,7 +637,7 @@ void BattleScene::Update(float dt)
 					if (pick == nullptr)
 					{
 						SOUND_MGR->Play("sounds/Battle_getmoney.wav", 20.f, false);
-						GameObj*& temp = gameObj;
+						SpriteObj*& temp = gameObj;
 						if (IsCharacter(temp))
 						{
 							Character* tempCharacter = dynamic_cast<Character*>(temp);
@@ -788,7 +787,7 @@ void BattleScene::Update(float dt)
 				}
 			}
 
-			vector<GameObj*>& warriorHeart = GAME_MGR->warriorsHeartVec;
+			vector<SpriteObj*>& warriorHeart = GAME_MGR->warriorsHeartVec;
 			for (auto& character : warriorHeart)
 			{
 				dynamic_cast<Character*>(character)->TakeBuff(StatType::AS,
@@ -1062,8 +1061,8 @@ void BattleScene::Update(float dt)
 			return;
 		}
 		Vector2i beforeCoord = GAME_MGR->PosToIdx(beforeDragPos);
-		vector<GameObj*>& beforeContainer = InBattleGrid(beforeCoord) ? battleGrid : prepareGrid;
-		vector<GameObj*>& destContainer = dest ? battleGrid : prepareGrid;
+		vector<SpriteObj*>& beforeContainer = InBattleGrid(beforeCoord) ? battleGrid : prepareGrid;
+		vector<SpriteObj*>& destContainer = dest ? battleGrid : prepareGrid;
 
 		if (IsCharacter(pick))
 		{
@@ -1145,7 +1144,7 @@ void BattleScene::Draw(RenderWindow& window)
 	}
 
 	// draw character on gmae screen area
-	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mgref = GAME_MGR->GetMainGridRef();
 	for (auto& gameObj : mgref)
 	{
 		if (gameObj != nullptr)
@@ -1207,7 +1206,7 @@ void BattleScene::Draw(RenderWindow& window)
 	}
 }
 
-void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)
+void BattleScene::PutDownCharacter(vector<SpriteObj*>* start, vector<SpriteObj*>* dest, Vector2i startCoord, Vector2i destCoord)
 {
 	int startIdx = GetIdxFromCoord(startCoord);
 	int destIdx = GetIdxFromCoord(destCoord);
@@ -1261,7 +1260,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 					dynamic_cast<Character*>(pick)->GetStarNumber())
 				{
 					(*dest)[destIdx] = nullptr;
-					GameObj* temp = pick;
+					SpriteObj* temp = pick;
 					vector<Item*>& pickCrtItems = dynamic_cast<Character*>(temp)->GetItems();
 
 					for (auto& pItem : pickCrtItems)
@@ -1296,7 +1295,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 	// swap in vector container
 	if (canMove)
 	{
-		GameObj* temp = (*dest)[destIdx];
+		SpriteObj* temp = (*dest)[destIdx];
 		(*dest)[destIdx] = pick;
 		(*start)[startIdx] = temp;
 	}
@@ -1306,7 +1305,7 @@ void BattleScene::PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* de
 		GetCurCharacterCount(), GAME_MGR->GetCharacterCount());
 }
 
-void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, Vector2i startCoord, Vector2i destCoord)
+void BattleScene::PutDownItem(vector<SpriteObj*>* start, vector<SpriteObj*>* dest, Vector2i startCoord, Vector2i destCoord)
 {
 	int startIdx = GetIdxFromCoord(startCoord);
 	int destIdx = GetIdxFromCoord(destCoord);
@@ -1380,7 +1379,7 @@ void BattleScene::PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest, V
 	// swap in vector container
 	if (canMove)
 	{
-		GameObj* temp = (*dest)[destIdx];
+		SpriteObj* temp = (*dest)[destIdx];
 		(*dest)[destIdx] = pick;
 		(*start)[startIdx] = temp;
 	}
@@ -1487,7 +1486,7 @@ void BattleScene::OneTimePowerUp()
 
 void BattleScene::BeginBattle()
 {
-	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mgref = GAME_MGR->GetMainGridRef();
 
 	if (ui->GetEventPanel()->GetEventType() != EventType::None)
 		return;
@@ -1517,7 +1516,7 @@ void BattleScene::BeginBattle()
 			dest = Utils::RandomRange(0, battleGrid.size());
 			sour = Utils::RandomRange(0, battleGrid.size());
 
-			GameObj* temp = battleGrid[dest];
+			SpriteObj* temp = battleGrid[dest];
 			battleGrid[dest] = battleGrid[sour];
 			battleGrid[sour] = temp;
 
@@ -1591,7 +1590,7 @@ void BattleScene::BeginBattle()
 		}
 	}
 
-	vector<GameObj*>& warriorHeart = GAME_MGR->warriorsHeartVec;
+	vector<SpriteObj*>& warriorHeart = GAME_MGR->warriorsHeartVec;
 	for (auto& character : warriorHeart)
 	{
 		dynamic_cast<Character*>(character)->TakeBuff(StatType::AS,
@@ -1626,7 +1625,7 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 
 			int curIdx = j + i * col;
 
-			vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
+			vector<SpriteObj*>& mgref = GAME_MGR->GetMainGridRef();
 			switch (type)
 			{
 			case (int)TileTypes::Obstacle:
@@ -1636,7 +1635,6 @@ void BattleScene::SetCurrentStage(int chap, int stage)
 			case (int)TileTypes::Monster:
 				mgref[curIdx] = GAME_MGR->SpawnMonster(tile->GetMonsterName(), tile->GetTileData().grade);
 				mgref[curIdx]->SetPos(tile->GetPos());
-				mgref[curIdx]->Init();
 				break;
 			default:
 				break;
@@ -1673,7 +1671,7 @@ void BattleScene::ZoomOut()
 	currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 }
 
-void BattleScene::PickUpGameObj(GameObj* gameObj)
+void BattleScene::PickUpSpriteObj(SpriteObj* gameObj)
 {
 	beforeDragPos = gameObj->GetPos();
 	pick = gameObj;
@@ -1701,12 +1699,12 @@ Vector2i GetCoordFromIdx(int idx, bool battle)
 	return coord;
 }
 
-bool IsItem(GameObj* gameObj)
+bool IsItem(SpriteObj* gameObj)
 {
 	return !gameObj->GetType().compare("Item");
 }
 
-bool IsCharacter(GameObj* gameObj)
+bool IsCharacter(SpriteObj* gameObj)
 {
 	return !gameObj->GetType().compare("Player") || !gameObj->GetType().compare("Monster");
 }
@@ -1721,7 +1719,7 @@ bool InBattleGrid(Vector2i pos)
 	return (pos.x >= 0 && pos.x < 7) && (pos.y >= 10 && pos.y < 14); // x(0, 6) y(10, 13)
 }
 
-int GetZeroElem(vector<GameObj*>& vec)
+int GetZeroElem(vector<SpriteObj*>& vec)
 {
 	for (int idx = 0; idx < PREPARE_SIZE; idx++)
 	{

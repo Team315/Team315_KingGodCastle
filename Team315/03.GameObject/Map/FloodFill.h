@@ -1,7 +1,7 @@
 #pragma once
 #include "RectangleObj.h"
 
-class GameObj;
+class SpriteObj;
 class FloodFill:public RectangleObj
 {
 protected:
@@ -26,22 +26,22 @@ public:
 	virtual void Draw(RenderWindow& window) override;
 
 	// 내 공격 범위 안에 적이 있는지 찾아줌
-	bool FloodFillSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos, string targetType);
+	bool FloodFillSearch(vector<SpriteObj*>& map, Vector2i myPos, Vector2i enPos, string targetType);
 	
 	// 처음에 타입과 사이즈 정해줌
 	void SetArrSize(int height, int width, bool attackType);
 
 	//그리드 받아와서 셋해줌
-	void SetFloodFill(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos, string targetType);
+	void SetFloodFill(vector<SpriteObj*>& map, Vector2i myPos, Vector2i enPos, string targetType);
 
 
 	/////////////////////////////////////////
 
 
-	void SetGeneralArr(vector<GameObj*>& map, string targetType);
-	vector<Vector2i> GetGeneralInfo(vector<GameObj*>& map, string targetType);
+	void SetGeneralArr(vector<SpriteObj*>& map, string targetType);
+	vector<Vector2i> GetGeneralInfo(vector<SpriteObj*>& map, string targetType);
 
-	GameObj* GetNearEnemy(vector<GameObj*>& map, Vector2i myPos, string targetType);
+	SpriteObj* GetNearEnemy(vector<SpriteObj*>& map, Vector2i myPos, string targetType);
 
 	void SetAttackAreas(int count);
 	void DrawingAttackAreas(bool onOff, Vector2i myPos);

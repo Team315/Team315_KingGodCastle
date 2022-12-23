@@ -4,7 +4,8 @@
 #include "PowerUp/PowerUp.h"
 
 Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
-	: destination(0, 0), move(false), attack(false), isAlive(true),
+	: currState(AnimStates::None), 
+	destination(0, 0), move(false), attack(false), isAlive(true),
 	attackRangeType(false), isBattle(false), moveSpeed(0.f), noSkill(true),
 	ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f),
 	dirType(Dir::None), initManaPoint(0.f)
@@ -51,7 +52,12 @@ Character::~Character()
 
 void Character::Init()
 {
-	GameObj::Init();
+	Vector2f hitboxSize(
+		GetTextureRect().width * 0.5f < TILE_SIZE ? TILE_SIZE : GetTextureRect().width * 0.5f,
+		GetTextureRect().height * 0.5f < TILE_SIZE ? TILE_SIZE : GetTextureRect().height * 0.5f);
+
+	SetHitbox(FloatRect(0, 0, hitboxSize.x, hitboxSize.y), Origins::BC);
+	Object::Init();
 	SetStatsInit(GAME_MGR->GetCharacterData(name));
 
 	//battle
@@ -325,7 +331,11 @@ void Character::SetPos(const Vector2f& pos)
 void Character::SetState(AnimStates newState)
 {
 	IsSetState(newState);
-	GameObj::SetState(newState);
+	if (currState == newState)
+	{
+		return;
+	}
+	currState = newState;
 
 	switch (currState)
 	{
@@ -380,7 +390,7 @@ void Character::SetStatsInit(json data)
 		skill->SetSkillTier(GetStarNumber());
 }
 
-void Character::TakeDamage(GameObj* attacker, AttackTypes attackType)
+void Character::TakeDamage(SpriteObj* attacker, AttackTypes attackType)
 {
 	//공격받을때 이펙트
 	sprite.setColor({ 255, 0, 0, 180 });
@@ -521,7 +531,7 @@ void Character::TakeDamege(float panelDamege, bool attackType)
 
 
 
-void Character::TakeCare(GameObj* caster, bool careType)
+void Character::TakeCare(SpriteObj* caster, bool careType)
 {
 	Character* casterCharacter = dynamic_cast<Character*>(caster);
 	float careAmount = casterCharacter->GetSkill()->CalculatePotential(casterCharacter);
@@ -771,7 +781,7 @@ void Character::IsSetState(AnimStates newState)
 
 bool Character::isAttack()
 {
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto& target : mainGrid)
 	{
@@ -797,7 +807,7 @@ void Character::OnOffAttackAreas(bool onOff)
 
 bool Character::SetTargetDistance()
 {
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 	Vector2i mypos = GAME_MGR->PosToIdx(position);
 
 	m_GeneralArr = m_floodFill.GetGeneralInfo(mainGrid, targetType);
@@ -826,9 +836,9 @@ bool Character::SetTargetDistance()
 	return true;
 }
 
-void Character::SetMainGrid(int r, int c, GameObj* character)
+void Character::SetMainGrid(int r, int c, SpriteObj* character)
 {
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	int idx = r * GAME_TILE_WIDTH + c;
 	mainGrid[idx] = character;

@@ -79,7 +79,7 @@ void DivineShield::PlayingAni()
 
 void DivineShield::ActionSkill()
 {
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	m_time = m_Settime;
 
@@ -96,7 +96,7 @@ void DivineShield::ActionSkill()
 
 void DivineShield::EndSkill()
 {
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto Player : mainGrid)
 	{

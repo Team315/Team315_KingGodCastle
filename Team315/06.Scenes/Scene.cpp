@@ -88,7 +88,7 @@ Vector2f Scene::ScreenToToolPos(Vector2i screenPos)
 	return window.mapPixelToCoords(screenPos, toolView);
 }
 
-Object* Scene::FindGameObj(string name)
+Object* Scene::FindSpriteObj(string name)
 {
 	for ( auto obj : objList )
 	{

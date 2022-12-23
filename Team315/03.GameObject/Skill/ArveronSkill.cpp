@@ -72,11 +72,11 @@ void ArveronSkill::SetSkillRange(Vector2f startPos)
 
 void ArveronSkill::CastSkill(Character* caster)
 {
-	GameObj* startTarget = caster;
+	SpriteObj* startTarget = caster;
 	float min = 2.f;
 	for (auto& cell : applyArea)
 	{
-		GameObj* target = GAME_MGR->GetGameObjInMainGrid(cell);
+		SpriteObj* target = GAME_MGR->GetSpriteObjInMainGrid(cell);
 		if (target != nullptr && !target->GetType().compare(caster->GetType()))
 		{
 			float curRatio = dynamic_cast<Character*>(target)->GetStat(StatType::HP).GetCurRatio();
@@ -101,7 +101,7 @@ void ArveronSkill::CastSkill(Character* caster)
 	for (auto& cell : applyArea)
 	{
 		GAME_MGR->rangePreview.Get()->Fire(GAME_MGR->IdxToPos(cell));
-		GameObj* target = GAME_MGR->GetGameObjInMainGrid(cell);
+		SpriteObj* target = GAME_MGR->GetSpriteObjInMainGrid(cell);
 		if (target != nullptr && !target->GetType().compare(caster->GetType()))
 		{
 			//CLOG::PrintVectorState(GAME_MGR->PosToIdx(target->GetPos()), target->GetName());

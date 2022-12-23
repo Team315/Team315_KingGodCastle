@@ -1,7 +1,7 @@
 #include "GameManager.h"
 #include "Map/Tile.h"
-#include "GameObj.h"
-#include "GameObjHeaders.h"
+#include "SpriteObj.h"
+#include "SpriteObjHeaders.h"
 #include "TileBackground.h"
 #include "Item/Item.h"
 #include "rapidcsv.h"
@@ -39,7 +39,7 @@ GameManager::GameManager()
 		vector<vector<vector<Tile*>>>(STAGE_MAX_COUNT,
 			vector<vector<Tile*>>(GAME_TILE_HEIGHT,
 				vector<Tile*>(GAME_TILE_WIDTH))));
-	mainGrid = new vector<GameObj*>();
+	mainGrid = new vector<SpriteObj*>();
 	battleTracker = new BattleTracker();
 	damageUI.OnCreate = DmgUIOnCreate;
 	damageUI.Init();
@@ -387,6 +387,8 @@ Character* GameManager::SpawnMonster(string name, int grade)
 		character = new Slime04(false, false, grade);
 	else if (!name.compare("Slime05"))
 		character = new Slime05(false, false, grade);
+
+	character->Init();
 	return character;
 }
 
@@ -411,6 +413,7 @@ Character* GameManager::SpawnPlayer(int grade, bool random, int idx)
 	else if (num == 6)
 		character = new Shelda(false, true, grade);
 
+	character->Init();
 	return character;
 }
 
@@ -441,6 +444,7 @@ Item* GameManager::SpawnItem(int tier, int typeIdx)
 		item = new Book(tier);
 		break;
 	}
+	item->Init();
 	return item;
 }
 
@@ -595,14 +599,14 @@ json GameManager::GetCharacterData(string name)
 	return characterDatas[name];
 }
 
-GameObj* GameManager::GetGameObjInMainGrid(Vector2i coord)
+SpriteObj* GameManager::GetSpriteObjInMainGrid(Vector2i coord)
 {
 	if (coord.x < 0 || coord.x >= GAME_TILE_WIDTH || coord.y < 0 || coord.y >= GAME_TILE_HEIGHT)
 		return nullptr;
 	return (*mainGrid)[coord.x + coord.y * GAME_TILE_WIDTH];
 }
 
-void GameManager::RemoveFromMainGrid(GameObj* gameObj)
+void GameManager::RemoveFromMainGrid(SpriteObj* gameObj)
 {
 	for (auto& cell : *mainGrid)
 	{
@@ -662,30 +666,11 @@ Item* GameManager::CombineItem(Item* obj1, Item* obj2)
 		return nullptr;
 	}
 
-	Item* newItem = nullptr;
 	if (obj1->GetGrade() != TIER_MAX - 1 &&
 		!obj1->GetName().compare(obj2->GetName()) &&
 		obj1->GetGrade() == obj2->GetGrade())
 	{
-		ItemType it = obj1->GetItemType();
-		switch (it)
-		{
-		case ItemType::Armor:
-			newItem = new Armor(obj1->GetGrade() + 1);
-			break;
-		case ItemType::Bow:
-			newItem = new Bow(obj1->GetGrade() + 1);
-			break;
-		case ItemType::Staff:
-			newItem = new Staff(obj1->GetGrade() + 1);
-			break;
-		case ItemType::Sword:
-			newItem = new Sword(obj1->GetGrade() + 1);
-			break;
-		default:
-			break;
-		}
-		return newItem;
+		return GAME_MGR->SpawnItem(obj1->GetGrade() + 1, (int)(obj1->GetItemType()));
 	}
 	return nullptr;
 }
@@ -767,7 +752,7 @@ BattleTracker::~BattleTracker()
 void BattleTracker::SetDatas()
 {
 	datas.clear();
-	vector<GameObj*>& mgref = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mgref = GAME_MGR->GetMainGridRef();
 	for (auto& character : mgref)
 	{
 		if (character != nullptr && !character->GetType().compare("Player"))

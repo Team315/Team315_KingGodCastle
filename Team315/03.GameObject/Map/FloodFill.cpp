@@ -1,6 +1,6 @@
 #include "FloodFill.h"
 #include "Include.h"
-#include "GameObj.h"
+#include "SpriteObj.h"
 #include "Character.h"
 
 FloodFill::FloodFill()
@@ -35,7 +35,7 @@ void FloodFill::Draw(RenderWindow& window)
 	}
 }
 
-bool FloodFill::FloodFillSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos, string targetType)
+bool FloodFill::FloodFillSearch(vector<SpriteObj*>& map, Vector2i myPos, Vector2i enPos, string targetType)
 {
 	SetFloodFill(map, myPos, enPos, targetType);
 
@@ -136,7 +136,7 @@ void FloodFill::SetArrSize(int height, int width, bool attackType)
 	SetAttackAreas(m_count);
 }
 
-void FloodFill::SetFloodFill(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos, string targetType)
+void FloodFill::SetFloodFill(vector<SpriteObj*>& map, Vector2i myPos, Vector2i enPos, string targetType)
 {
 	grid.resize(GAME_TILE_HEIGHT, vector<int>(GAME_TILE_WIDTH));
 
@@ -161,7 +161,7 @@ void FloodFill::SetFloodFill(vector<GameObj*>& map, Vector2i myPos, Vector2i enP
 	}
 }
 
-void FloodFill::SetGeneralArr(vector<GameObj*>& map, string targetType)
+void FloodFill::SetGeneralArr(vector<SpriteObj*>& map, string targetType)
 {
 	grid.resize(GAME_TILE_HEIGHT, vector<int>(GAME_TILE_WIDTH));
 
@@ -189,7 +189,7 @@ void FloodFill::SetGeneralArr(vector<GameObj*>& map, string targetType)
 	}
 }
 
-vector<Vector2i> FloodFill::GetGeneralInfo(vector<GameObj*>& map, string targetType)
+vector<Vector2i> FloodFill::GetGeneralInfo(vector<SpriteObj*>& map, string targetType)
 {
 	grid.assign(GAME_TILE_HEIGHT, vector<int>(GAME_TILE_WIDTH, 0));
 
@@ -275,11 +275,11 @@ vector<Vector2i> FloodFill::GetGeneralInfo(vector<GameObj*>& map, string targetT
 	return targetArrs;
 }
 
-GameObj* FloodFill::GetNearEnemy(vector<GameObj*>& map, Vector2i myPos, string targetType)
+SpriteObj* FloodFill::GetNearEnemy(vector<SpriteObj*>& map, Vector2i myPos, string targetType)
 {
 	float minDistance = 99999.f;
 	float nowDistance = 0.f;
-	auto nearGameObj = map[0];
+	auto nearSpriteObj = map[0];
 
 	for (auto& target : map)
 	{
@@ -291,12 +291,12 @@ GameObj* FloodFill::GetNearEnemy(vector<GameObj*>& map, Vector2i myPos, string t
 			if (minDistance > nowDistance)
 			{
 				minDistance = nowDistance;
-				nearGameObj = target;
+				nearSpriteObj = target;
 			}
 		}
 	}
 
-	return nearGameObj;
+	return nearSpriteObj;
 }
 
 void FloodFill::SetAttackAreas(int count)

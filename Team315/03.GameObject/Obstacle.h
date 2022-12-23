@@ -1,7 +1,7 @@
 #pragma once
-#include "GameObj.h"
+#include "SpriteObj.h"
 
-class Obstacle : public GameObj
+class Obstacle : public SpriteObj
 {
 protected:
 

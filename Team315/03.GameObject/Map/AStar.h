@@ -2,7 +2,7 @@
 #include "Include.h"
 #include <set>
 #include <stack>
-#include "GameObj.h"
+#include "SpriteObj.h"
 
 struct Cell
 {
@@ -45,8 +45,8 @@ public:
 	AStar();
 	~AStar();
 
-	EnemyInfo AstarSearch(vector<GameObj*>& map,Vector2i myPos, Vector2i enPos);
-	Vector2i AstarSearch(vector<GameObj*>& map, Vector2i myPos, vector<Vector2i> GeneralArr);
+	EnemyInfo AstarSearch(vector<SpriteObj*>& map,Vector2i myPos, Vector2i enPos);
+	Vector2i AstarSearch(vector<SpriteObj*>& map, Vector2i myPos, vector<Vector2i> GeneralArr);
 	//현재좌표가 도착지점과 일치하다면 참, 아니면 거짓을 반환하는 함수.
 	bool isDestination(int row, int col, Vector2i dst);
 	bool isDestination(int row, int col, vector<Vector2i> GeneralArr);
@@ -65,5 +65,5 @@ public:
 	void tracePath(Cell cellDetails[14][7], Vector2i enpos);
 	void tracePath(Cell cellDetails[14][7], vector<Vector2i>& GeneralArr);
 
-	void SetAstar(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos);
+	void SetAstar(vector<SpriteObj*>& map, Vector2i myPos, Vector2i enPos);
 };

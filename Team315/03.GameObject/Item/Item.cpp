@@ -1,7 +1,7 @@
 #include "Item.h"
 
 Item::Item(int grade, bool useExtraChance, ItemType iType)
-	: grade(grade), itemType(iType), potential(0.f), 
+	: grade(grade), itemType(iType), potential(0.f), move(false),
 	statType(StatType::None), delta(0.f), moveSpeed(300.f)
 {
 	/*bool extraUpgrade =
@@ -44,11 +44,20 @@ Item::Item(int grade, bool useExtraChance, ItemType iType)
 
 	shadow.setTexture(*RESOURCE_MGR->GetTexture("graphics/Character/Shadow.png"));
 	spriteLocalPos = Vector2f(0, -10.f);
-	Init();
 }
 
 Item::~Item()
 {
+}
+
+void Item::Init()
+{
+	Vector2f hitboxSize(
+		GetTextureRect().width * 0.5f < TILE_SIZE ? TILE_SIZE : GetTextureRect().width * 0.5f,
+		GetTextureRect().height * 0.5f < TILE_SIZE ? TILE_SIZE : GetTextureRect().height * 0.5f);
+
+	SetHitbox(FloatRect(0, 0, hitboxSize.x, hitboxSize.y), Origins::BC);
+	Object::Init();
 }
 
 void Item::Update(float dt)

@@ -81,7 +81,7 @@ void BlessOfMana::PlayingAni()
 
 void BlessOfMana::ActionSkill()
 {
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	m_time = 1.f;
 

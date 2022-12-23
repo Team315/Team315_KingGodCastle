@@ -2,9 +2,9 @@
 #include "SpriteObj.h"
 #include "Animator.h"
 #include "Include.h"
-#include "GameObj.h"
+#include "SpriteObj.h"
 
-class FingerSnap : public GameObj
+class FingerSnap : public SpriteObj
 {
 protected:
 	Animator m_FingerSnap;

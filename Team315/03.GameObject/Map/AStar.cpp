@@ -11,7 +11,7 @@ AStar::~AStar()
 {
 }
 
-EnemyInfo AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos)
+EnemyInfo AStar::AstarSearch(vector<SpriteObj*>& map, Vector2i myPos, Vector2i enPos)
 {
 	enemyInfo.leng = 0;
 
@@ -95,7 +95,7 @@ EnemyInfo AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, Vector2i enP
 	return enemyInfo;
 }
 
-Vector2i AStar::AstarSearch(vector<GameObj*>& map, Vector2i myPos, vector<Vector2i> GeneralArr)
+Vector2i AStar::AstarSearch(vector<SpriteObj*>& map, Vector2i myPos, vector<Vector2i> GeneralArr)
 {
 	vector<Vector2i> generalArr = GeneralArr;
 	enemyInfo.leng = 0;
@@ -308,7 +308,7 @@ void AStar::tracePath(Cell cellDetails[14][7], vector<Vector2i>& GeneralArr)
 
 }
 
-void AStar::SetAstar(vector<GameObj*>& map, Vector2i myPos, Vector2i enPos)
+void AStar::SetAstar(vector<SpriteObj*>& map, Vector2i myPos, Vector2i enPos)
 {
 	grid.assign(COL,vector<int>(ROW));
 

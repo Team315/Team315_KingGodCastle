@@ -11,7 +11,7 @@
 class BattleTracker;
 class Character;
 class DamageText;
-class GameObj;
+class SpriteObj;
 class Item;
 class Skill;
 class PowerUp;
@@ -29,7 +29,7 @@ protected:
 
 	// Set monster character locate before battle with data imported from GameManager
 	// When the game starts, the characters on the battleGrid are also taken.
-	vector<GameObj*>* mainGrid;
+	vector<SpriteObj*>* mainGrid;
 
 	unordered_map<StatType, vector<float>> itemStatMap;
 	map<string, WaveReward> waveRewardMap;
@@ -102,9 +102,9 @@ public:
 	void SetPlayingBattle(bool val) { playingBattle = val; }
 	bool GetPlayingBattle() { return playingBattle; }
 
-	vector<GameObj*>& GetMainGridRef() { return *mainGrid; }
-	GameObj* GetGameObjInMainGrid(Vector2i coord);
-	void RemoveFromMainGrid(GameObj* gameObj);
+	vector<SpriteObj*>& GetMainGridRef() { return *mainGrid; }
+	SpriteObj* GetSpriteObjInMainGrid(Vector2i coord);
+	void RemoveFromMainGrid(SpriteObj* gameObj);
 
 	int GetCurrentCoin() { return currentCoin; }
 	int GetClearCoin();
@@ -159,7 +159,7 @@ public:
 	void LoadAltarEffectFromTable();
 
 	vector<int> comradeVec;
-	vector<GameObj*> warriorsHeartVec;
+	vector<SpriteObj*> warriorsHeartVec;
 	PowerUp* GetPowerUpByName(string name);
 };
 

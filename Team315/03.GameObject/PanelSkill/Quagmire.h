@@ -2,9 +2,9 @@
 #include "SpriteObj.h"
 #include "Animator.h"
 #include "Include.h"
-#include "GameObj.h"
+#include "SpriteObj.h"
 
-class Quagmire : public GameObj
+class Quagmire : public SpriteObj
 {
 protected:
 	Animator m_Quagmire;

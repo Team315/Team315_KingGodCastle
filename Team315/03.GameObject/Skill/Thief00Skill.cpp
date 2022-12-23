@@ -46,12 +46,12 @@ void Thief00Skill::CastSkill(Character* caster)
 {
 	SetSkillRange(caster->GetPos());
 
-	GameObj* targetCharacter = caster->GetTarget();
+	SpriteObj* targetCharacter = caster->GetTarget();
 	float min = 2.f;
 
 	for (auto& cell : applyArea)
 	{
-		GameObj* target = GAME_MGR->GetGameObjInMainGrid(cell);
+		SpriteObj* target = GAME_MGR->GetSpriteObjInMainGrid(cell);
 		if (target != nullptr && !target->GetType().compare(caster->GetTarget()->GetType()))
 		{
 			float targetRatio = dynamic_cast<Character*>(target)->GetStat(StatType::HP).GetCurRatio();
@@ -69,7 +69,7 @@ void Thief00Skill::CastSkill(Character* caster)
 
 	Vector2i targetBackPos = GAME_MGR->PosToIdx(targetCharacter->GetPos()) + temp;
 
-	if (GAME_MGR->GetGameObjInMainGrid(targetBackPos) == nullptr)
+	if (GAME_MGR->GetSpriteObjInMainGrid(targetBackPos) == nullptr)
 	{
 		GAME_MGR->RemoveFromMainGrid(caster);
 		caster->SetMainGrid(targetBackPos.y, targetBackPos.x, caster);

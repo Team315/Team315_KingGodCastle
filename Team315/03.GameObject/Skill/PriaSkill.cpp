@@ -91,7 +91,7 @@ void PriaSkill::CastSkill(Character* caster)
 	for (auto& cell : applyArea)
 	{
 		GAME_MGR->rangePreview.Get()->Fire(GAME_MGR->IdxToPos(cell));
-		GameObj* target = GAME_MGR->GetGameObjInMainGrid(cell);
+		SpriteObj* target = GAME_MGR->GetSpriteObjInMainGrid(cell);
 		if (target != nullptr && !target->GetType().compare(caster->GetTarget()->GetType()))
 		{
 			SetPos(GAME_MGR->IdxToPos(cell));

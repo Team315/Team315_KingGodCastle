@@ -6,7 +6,7 @@
 #include "InfoWindow.h"
 
 class BattleSceneUI;
-class GameObj;
+class SpriteObj;
 class RectangleObj;
 class VertexArrayObj;
 class TextObj;
@@ -31,14 +31,14 @@ protected:
 	// bool playingBattle;
 
 	// Create player character when summon (2x7) x(0, 6) y(16, 17)
-	vector<GameObj*> prepareGrid;
+	vector<SpriteObj*> prepareGrid;
 	// draw rect only 2 x 7
 	vector<RectangleObj*> prepareGridRect;
 
 	// Set player character locate before battle (4x7) x(0, 6) y(10, 13)
-	vector<GameObj*> battleGrid;
+	vector<SpriteObj*> battleGrid;
 
-	GameObj* pick;
+	SpriteObj* pick;
 	Vector2f beforeDragPos;
 
 	float gameEndTimer;
@@ -85,16 +85,16 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
-	void PutDownCharacter(vector<GameObj*>* start, vector<GameObj*>* dest,
+	void PutDownCharacter(vector<SpriteObj*>* start, vector<SpriteObj*>* dest,
 		Vector2i startCoord, Vector2i destCoord);
-	void PutDownItem(vector<GameObj*>* start, vector<GameObj*>* dest,
+	void PutDownItem(vector<SpriteObj*>* start, vector<SpriteObj*>* dest,
 		Vector2i startCoord, Vector2i destCoord);
 
 	void SetCurrentStage(int chap, int stage);
 	void LoseFlag();
 	void ZoomIn();
 	void ZoomOut();
-	void PickUpGameObj(GameObj* gameObj);
+	void PickUpSpriteObj(SpriteObj* gameObj);
 	void TranslateCoinState(float delta);
 	int GetCurCharacterCount();
 	void SetEventWindow(bool active) { eventWindow = active; }
@@ -105,8 +105,8 @@ public:
 
 int GetIdxFromCoord(Vector2i coord);
 Vector2i GetCoordFromIdx(int idx, bool battle);
-bool IsItem(GameObj* gameObj);
-bool IsCharacter(GameObj* gameObj);
+bool IsItem(SpriteObj* gameObj);
+bool IsCharacter(SpriteObj* gameObj);
 bool InPrepareGrid(Vector2i pos);
 bool InBattleGrid(Vector2i pos);
-int GetZeroElem(vector<GameObj*>& vec);
+int GetZeroElem(vector<SpriteObj*>& vec);

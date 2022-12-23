@@ -185,7 +185,7 @@ void Pria::SetPos(const Vector2f& pos)
 //			//effectAnimator.Play("Pria_Skill_Effect");
 //		}
 		//Vector2f vec = GetTarget()->GetPos();
-		//vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+		//vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 		//Vector2i targetPos = GAME_MGR->PosToIdx(vec);
 		//if (mainGrid[targetPos.y * 7 + targetPos.x + 0] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 0]->GetType().compare(targetType))
 		//{

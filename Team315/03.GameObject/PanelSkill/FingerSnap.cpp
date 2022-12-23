@@ -59,8 +59,8 @@ void FingerSnap::PlayingAni()
 
 void FingerSnap::ActionSkill()
 {
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
-	vector<GameObj*> target;
+	vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*> target;
 
 	int count = 0;
 	for (auto monster : mainGrid)

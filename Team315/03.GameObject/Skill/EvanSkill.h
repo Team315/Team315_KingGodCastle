@@ -1,6 +1,5 @@
 #pragma once
 #include "Skill.h"
-#include "Bullet.h"
 
 class Character;
 

@@ -80,7 +80,7 @@ void Quagmire::PlayingAni()
 
 void Quagmire::ActionSkill()
 {
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 	
 	m_time = 10.f;
 
@@ -96,7 +96,7 @@ void Quagmire::ActionSkill()
 
 void Quagmire::EndSkill()
 {
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto monster : mainGrid)
 	{

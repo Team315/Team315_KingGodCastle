@@ -171,9 +171,8 @@
     <ClInclude Include="98.3rd\CSVWriter.h" />
     <ClInclude Include="06.Scenes\BattleScene.h" />
     <ClInclude Include="04.UiObject\Button.h" />
-    <ClInclude Include="03.GameObject\GameObj.h" />
     <ClInclude Include="98.3rd\ObjectPool.h" />
-    <ClInclude Include="99.Include\GameObjHeaders.h" />
+    <ClInclude Include="99.Include\SpriteObjHeaders.h" />
     <ClInclude Include="99.Include\Constant.h" />
     <ClInclude Include="99.Include\Define.h" />
     <ClInclude Include="99.Include\EnumClass.h" />
@@ -289,7 +288,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="02.Object\FloatingObj.cpp" />
-    <ClCompile Include="03.GameObject\GameObj.cpp" />
     <ClCompile Include="03.GameObject\Item\Book.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime00.cpp" />
     <ClCompile Include="03.GameObject\Monster\Slime01.cpp" />

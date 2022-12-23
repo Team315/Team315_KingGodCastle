@@ -70,7 +70,7 @@ void FireExplosion::PlayingAni()
 
 void FireExplosion::ActionSkill()
 {
-	vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+	vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 
 	for (auto monster : mainGrid)
 	{

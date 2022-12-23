@@ -169,7 +169,7 @@ void Daniel::SetPos(const Vector2f& pos)
 //		}
 //		//dynamic_cast<DanielSkill*>(skill)->SetState(AnimStates::Skill, GetTarget(), targetType);
 //		//Vector2f vec = GetTarget()->GetPos();
-//		//vector<GameObj*>& mainGrid = GAME_MGR->GetMainGridRef();
+//		//vector<SpriteObj*>& mainGrid = GAME_MGR->GetMainGridRef();
 //		//Vector2i targetPos = GAME_MGR->PosToIdx(GetPos());
 //		//if (mainGrid[targetPos.y * 7 + targetPos.x + 1] != nullptr && !mainGrid[targetPos.y * 7 + targetPos.x + 1]->GetType().compare(targetType))
 //		//{
