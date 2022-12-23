@@ -20,10 +20,6 @@ void Skill::Init()
 void Skill::Update(float dt)
 {
 	animator.Update(dt);
-	for (auto ms : mulSkillAnimator)
-	{
-		ms->Update(dt);
-	}
 }
 
 void Skill::Reset()

@@ -1,8 +1,8 @@
 #pragma once
-#include "GameObj.h"
+#include "SpriteObj.h"
 #include "Include.h"
 
-class PowerUp : public GameObj
+class PowerUp : public SpriteObj
 {
 protected:
 	int grade;

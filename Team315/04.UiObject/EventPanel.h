@@ -19,7 +19,7 @@ protected:
 	BackgroundText* title;
 	vector<SpriteObj*> frames;
 	vector<SpriteGrid*> sprites;
-	vector<GameObj*> items;
+	vector<SpriteObj*> items;
 	ItemInfoWindow* infoWindow;
 	EventType eventType;
 	int curTier;

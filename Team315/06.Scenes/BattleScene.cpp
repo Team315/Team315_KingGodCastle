@@ -211,11 +211,11 @@ void BattleScene::Update(float dt)
 		int idx = GetZeroElem(prepareGrid);
 		if (idx != -1)
 		{
-			GameObj* gameObj = GAME_MGR->waitQueue.front();
+			SpriteObj* gameObj = GAME_MGR->waitQueue.front();
 			gameObj->Init();
 			gameObj->SetPos(prepareGridRect[idx]->GetPos());
 			gameObj->SetActive(true);
-			prepareGrid[idx] = gameObj;
+			prepareGrid[idx] = dynamic_cast<GameObj*>(gameObj);
 			
 			if (!gameObj->GetType().compare("Player"))
 			{

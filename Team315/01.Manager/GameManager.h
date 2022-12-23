@@ -91,8 +91,8 @@ public:
 	
 	Item* SpawnItem(int tier = 0, int typeIdx = -1);
 
-	GameObj* GeneratePowerUp(PowerUpTypes puType, int tier = 0);
-	GameObj* GeneratePowerUpbyMap(int idx, int tier);
+	SpriteObj* GeneratePowerUp(PowerUpTypes puType, int tier = 0);
+	SpriteObj* GeneratePowerUpbyMap(int idx, int tier);
 
 	void MainGridReset();
 
@@ -128,7 +128,7 @@ public:
 
 	ObjectPool<DamageText> damageUI;
 	ObjectPool<RangePreview> rangePreview;
-	queue<GameObj*> waitQueue;
+	queue<SpriteObj*> waitQueue;
 	vector<PowerUp*> standingPowerUps;
 	PowerUp* oneTimePowerUp;
 	vector<Item*> drops;

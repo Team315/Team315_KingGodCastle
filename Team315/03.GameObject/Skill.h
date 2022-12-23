@@ -15,8 +15,6 @@ protected:
 
 	Vector2f direction;
 	Dir dir;
-	vector<Animator*> mulSkillAnimator;
-	vector<Sprite*> mulSkillSprite;
 
 public:
 	Skill(int starNumber);

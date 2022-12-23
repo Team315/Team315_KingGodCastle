@@ -36,14 +36,6 @@ Character::~Character()
 	star->Release();
 	if (skill != nullptr)
 		skill->Release();
-	//for (auto& item : items)
-	//{
-	//	if (item != nullptr)
-	//	{
-	//		//item->Release();
-	//		delete item;
-	//	}
-	//}
 
 	if (mpBar != nullptr)
 	{
@@ -88,6 +80,7 @@ void Character::Init()
 	hpBar->SetProgressValue(1.0f);
 	starLocalPos = { 0.f, hpBarLocalPos.y };
 
+	SetPos(position);
 	Utils::SetOrigin(shadow, Origins::BC);
 }
 

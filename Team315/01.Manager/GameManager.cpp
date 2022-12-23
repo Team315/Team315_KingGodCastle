@@ -444,9 +444,9 @@ Item* GameManager::SpawnItem(int tier, int typeIdx)
 	return item;
 }
 
-GameObj* GameManager::GeneratePowerUp(PowerUpTypes puType, int tier)
+SpriteObj* GameManager::GeneratePowerUp(PowerUpTypes puType, int tier)
 {
-	GameObj* power = nullptr;
+	SpriteObj* power = nullptr;
 
 	switch (puType)
 	{
@@ -496,7 +496,7 @@ GameObj* GameManager::GeneratePowerUp(PowerUpTypes puType, int tier)
 	return power;
 }
 
-GameObj* GameManager::GeneratePowerUpbyMap(int idx, int tier)
+SpriteObj* GameManager::GeneratePowerUpbyMap(int idx, int tier)
 {
 	auto strVec = GetPowerUpStrings(tier);
 	string value = strVec[idx];
