@@ -1,7 +1,7 @@
 #include "Brazier.h"
 
-Brazier::Brazier(int grade)
-	:m_grade(grade), m_maxGrade(grade)
+Brazier::Brazier(int max, int grade)
+	: m_maxGrade(max), m_grade(grade)
 {
 	
 }
@@ -29,13 +29,10 @@ void Brazier::Init()
 	m_collectSprite.SetScale(0.5f, 0.5f);
 	m_collectSprite.SetPos(collectvec);
 
-	
 	m_levelNumber.SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
 	m_levelNumber.SetString(to_string(m_grade));
 	m_levelNumber.SetCharacterSize(16);
 	m_levelNumber.SetColor(Color::White);
-	//m_levelNumber.SetOutlineColor(Color::White);
-	//m_levelNumber.SetOutlineThickness(2.f);
 	m_levelNumber.SetOrigin(Origins::MC);
 	m_levelNumber.SetPos(vec);
 
@@ -46,7 +43,6 @@ void Brazier::Init()
 	m_Flame.AddClip(*RESOURCE_MGR->GetAnimationClip("Flame3"));
 	m_Flame.AddClip(*RESOURCE_MGR->GetAnimationClip("Flame4"));
 	m_sFlame.setPosition(flameVec);
-	//Utils::SetOrigin(m_sFlame,Origins::BC);
 }
 
 void Brazier::Release()
@@ -70,7 +66,6 @@ void Brazier::Draw(RenderWindow& window)
 
 	if (m_grade != 0)
 		window.draw(m_sFlame);
-	
 }
 
 void Brazier::Enter()
@@ -86,7 +81,6 @@ bool Brazier::ClickButton(Vector2f nowMousePos)
 		m_Flame.Play("Flame4");
 		m_levelNumber.SetString(to_string(m_grade));
 		m_levelNumber.SetOrigin(Origins::MC);
-		//PlayAni(m_grade);
 
 		return true;
 	}
@@ -116,16 +110,4 @@ void Brazier::PlayAni(int grade)
 	{
 		m_Flame.Play("Flame4");
 	}
-}
-
-void Brazier::ReSet()
-{
-
-}
-
-void Brazier::MoveSetPos(Vector2f movepos)
-{
-	//m_sFlame.setPosition(movepos);
-	m_Flame.Play("Flame4");
-
 }

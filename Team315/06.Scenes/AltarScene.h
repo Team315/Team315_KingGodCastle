@@ -12,8 +12,6 @@ protected:
 	SpriteObj* m_backGround;
 	SpriteObj m_backButton;
 
-	//Brazier m_brazier;
-	Vector2f testPos;
 	vector<Altar*>  AltarList;
 	vector<Brazier*>  BrazierList;
 	RssProgressWindow* levelBar;
@@ -25,9 +23,10 @@ protected:
 	bool isAltarExpInstruction;
 	Sprite altarResetInstruction;
 	bool isAltarResetInstruction;
+
 public:
 	AltarScene();
-	~AltarScene();
+	virtual ~AltarScene();
 
 	virtual void Init() override;
 	virtual void Release() override;
@@ -45,4 +44,3 @@ public:
 
 	void SaveData();
 };
-

@@ -4,7 +4,7 @@
 #include "PowerUp/PowerUp.h"
 
 Character::Character(bool mode, bool useExtraUpgrade, int starNumber)
-	: currState(AnimStates::None), 
+	: currState(AnimStates::None),
 	destination(0, 0), move(false), attack(false), isAlive(true),
 	attackRangeType(false), isBattle(false), moveSpeed(0.f), noSkill(true),
 	ccTimer(0.f), shieldAmount(0.f), astarDelay(0.0f), shieldAmountMin(0.f),
@@ -129,7 +129,7 @@ void Character::Update(float dt)
 
 	if (isBattle)
 	{
-		if(hit)
+		if (hit)
 		{
 			hitDelta -= dt;
 			if (hitDelta <= 0.f)
@@ -258,7 +258,7 @@ void Character::Update(float dt)
 			int starGrade = GetStarNumber();
 			if (!name.compare("Evan") && starGrade <= 2)
 			{
-				if(attackRangeType)
+				if (attackRangeType)
 				{
 					m_floodFill.SetArrSize(
 						stat[StatType::AR].GetModifier(), stat[StatType::AR].GetModifier(), false);
@@ -274,7 +274,7 @@ void Character::Update(float dt)
 					stat[StatType::MP].SetCurrent(0.f);
 					mpBar->SetProgressValue(0.f);
 				}
-			}			
+			}
 		}
 
 		if (!Utils::EqualFloat(direction.x, 0.f) || !Utils::EqualFloat(direction.y, 0.f))
@@ -343,7 +343,7 @@ void Character::SetState(AnimStates newState)
 		IdleAnimation();
 		break;
 	case AnimStates::MoveToIdle:
-		if(name.compare("Slime00"))
+		if (name.compare("Slime00"))
 			MoveToIdleAnimation();
 		break;
 	case AnimStates::Move:
@@ -355,7 +355,7 @@ void Character::SetState(AnimStates newState)
 			AttackAnimation(attackPos[dirType]);
 		break;
 	case AnimStates::Skill:
-		if(!noSkill)
+		if (!noSkill)
 			SkillAnimation(skillPos[dirType]);
 		break;
 	}
@@ -415,7 +415,6 @@ void Character::TakeDamage(SpriteObj* attacker, AttackTypes attackType)
 	default:
 		break;
 	}
-		
 
 	if (shieldAmount > 0.f)
 	{
@@ -430,15 +429,14 @@ void Character::TakeDamage(SpriteObj* attacker, AttackTypes attackType)
 	}
 
 	GAME_MGR->damageUI.Get()->SetDamageUI(position + Vector2f(0, -TILE_SIZE), trackerModeType ? StatType::AD : StatType::AP, damage);
-	
-	if(m_invincible)
+
+	if (m_invincible)
 	{
 		return;
 	}
-		Stat& hp = stat[StatType::HP];
-		hp.TranslateCurrent(-damage);
-		UpdateHpbar();
-
+	Stat& hp = stat[StatType::HP];
+	hp.TranslateCurrent(-damage);
+	UpdateHpbar();
 
 	GAME_MGR->GetBattleTracker()->UpdateData(this, damage, false, trackerModeType);
 	GAME_MGR->GetBattleTracker()->UpdateData(attackerCharacter, damage, true, trackerModeType);
@@ -661,7 +659,7 @@ bool Character::SetItem(Item* newItem)
 	{
 		if (items.size() == ITEM_LIMIT)
 			return false;
-		
+
 		newItem->SetActive(false);
 		items.push_back(newItem);
 	}
@@ -703,7 +701,7 @@ void Character::PutItem(Item* putItem)
 		if (putItem->GetObjId() == (*it)->GetObjId())
 		{
 			UpdateItemDelta((*it)->GetStatType(), -(*it)->GetPotential());
-			delete *it;
+			delete* it;
 			it = items.erase(it);
 		}
 		else it++;
@@ -819,7 +817,7 @@ bool Character::SetTargetDistance()
 		if (enemyInfo.leng > nowEnemyInfo.leng && !(nowEnemyInfo.leng == -1))
 		{
 			enemyInfo = nowEnemyInfo;
-		} 
+		}
 	}
 
 	if (enemyInfo.leng == 99999)
@@ -850,7 +848,7 @@ void Character::AnimationInit()
 	effectAnimator.SetTarget(&effectSprite);
 
 	animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::Idle]));
-	if(name.compare("Slime00"))
+	if (name.compare("Slime00"))
 	{
 		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpIdle]));
 		animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::DownIdle]));
@@ -898,7 +896,7 @@ void Character::AnimationInit()
 
 	if (!noSkill)
 	{
-		if(name.compare("Slime00"))
+		if (name.compare("Slime00"))
 		{
 			animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpSkill]));
 			animator.AddClip(*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::LeftSkill]));
@@ -935,7 +933,7 @@ void Character::AnimationInit()
 			animator.AddEvent(ev);
 		}
 	}
-	if(!type.compare("Player"))
+	if (!type.compare("Player"))
 	{
 		effectAnimator.AddClip(
 			*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpAttackEffect]));
@@ -973,7 +971,7 @@ void Character::AnimationInit()
 			ev.onEvent = bind(&Character::OnCompleteAttack, this);
 			effectAnimator.AddEvent(ev);
 		}
-		if(name.compare("Arveron") || name.compare("Daniel") || name.compare("Shelda"))
+		if (name.compare("Arveron") || name.compare("Daniel") || name.compare("Shelda"))
 		{
 			effectAnimator.AddClip(
 				*RESOURCE_MGR->GetAnimationClip(resStringTypes[ResStringType::UpSkillEffect]));
@@ -1126,8 +1124,8 @@ void Character::AttackAnimation(Vector2f attackPos)
 			}
 			else
 			{
-			effectAnimator.Play(resStringTypes[ResStringType::DownAttackEffect]);
-			effectSprite.setPosition(position + attackPos);
+				effectAnimator.Play(resStringTypes[ResStringType::DownAttackEffect]);
+				effectSprite.setPosition(position + attackPos);
 			}
 		}
 	}
@@ -1180,7 +1178,7 @@ void Character::SkillAnimation(Vector2f skillPos)
 	if (lastDirection.y)
 	{
 		animator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkill] : resStringTypes[ResStringType::UpSkill]);
-		if(name.compare("Arveron") || name.compare("Daniel") || name.compare("Shelda"))
+		if (name.compare("Arveron") || name.compare("Daniel") || name.compare("Shelda"))
 		{
 			effectAnimator.Play(lastDirection.y > 0.f ? resStringTypes[ResStringType::DownSkillEffect] : resStringTypes[ResStringType::UpSkillEffect]);
 			if (name.compare("Goblin00"))
@@ -1305,7 +1303,7 @@ void Character::UpdateSkill(float dt)
 
 void Character::SetDir(Vector2f direction)
 {
-	if (abs(direction.x) < abs(direction.y)|| abs(direction.x) == abs(direction.y))
+	if (abs(direction.x) < abs(direction.y) || abs(direction.x) == abs(direction.y))
 	{
 		if (direction.y > 0.f)
 		{
@@ -1349,7 +1347,7 @@ void Character::UpdateMpbar()
 }
 
 void Character::SetInitManaPoint(float value)
-{ 
+{
 	initManaPoint = value;
 	stat[StatType::MP].SetCurrent(initManaPoint);
 	UpdateMpbar();

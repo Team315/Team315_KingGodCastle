@@ -141,8 +141,8 @@ struct Stat
 	float current;		// current stat, use hp/mp
 	float delta;		// sum of item, buf, debuf etc
 	float modifier;		// base + delta
-	bool upgradeMode;	// true - calc mode addition, calc mode multiplication
-	bool deltaMode;		// true - calc delta addition, calc delta multiplication
+	bool upgradeMode;	// true - calc mode addition, false - calc mode multiplication
+	bool deltaMode;		// true - calc delta addition, false - calc delta multiplication
 
 	Stat(float b = 0.f, float d = 0.f, bool currentFull = true)
 		: base(b), delta(0.f), current(0.f), upgradeMode(false), deltaMode(false)
@@ -150,7 +150,7 @@ struct Stat
 		base = b;
 		current = currentFull ? base : 0;
 		delta = d;
-		modifier = b + d;
+		modifier = deltaMode ? base + delta : base * (1.f + delta);
 	}
 
 	void ResetStat()

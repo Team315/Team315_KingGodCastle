@@ -1,5 +1,4 @@
 #include "Utils.h"
-#include "OBB.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -32,13 +31,9 @@ void Utils::SetOrigin(Transformable& obj, Origins origin, FloatRect rect)
 float Utils::Clamp(float v, float min, float max)
 {
 	if ( v < min )
-	{
 		return min;
-	}
-	if ( v > max )
-	{
+	else if ( v > max )
 		return max;
-	}
 	return v;
 }
 
@@ -119,37 +114,9 @@ float Utils::Distance(const Vector2i& vec1, const Vector2i& vec2)
 	return Magnitude(vec1 - vec2);
 }
 
-float Utils::Angle(const Vector2f& start, const Vector2f& end)
-{
-	return Angle(Normalize(end - start));
-}
-
-float Utils::Angle(const Vector2f& dir)
-{
-	return atan2(dir.y, dir.x) * (180.f / M_PI);
-}
-
-//bool Utils::OBB(const RectangleShape& obb1, const RectangleShape& obb2)
-//{
-//	Vector2f MTV;
-//	return testCollision(obb1, obb2, MTV);
-//}
-
 bool Utils::EqualFloat(float a, float b, float epsilon)
 {
 	return fabs(a - b) < epsilon;
-}
-
-int Utils::ManhattanDistance(Vector2i vec1, Vector2i vec2)
-{
-	return abs(vec1.x - vec2.x) + abs(vec1.y - vec2.y);
-}
-
-std::wstring Utils::s2w(const std::string& var)
-{
-	static std::locale loc("");
-	auto& facet = std::use_facet<std::codecvt<wchar_t, char, std::mbstate_t>>(loc);
-	return std::wstring_convert<std::remove_reference<decltype(facet)>::type, wchar_t>(&facet).from_bytes(var);
 }
 
 float Utils::GetMinScaleRatioFromFloatRect(float sizeX, float sizeY, FloatRect fr)
@@ -158,6 +125,13 @@ float Utils::GetMinScaleRatioFromFloatRect(float sizeX, float sizeY, FloatRect f
 	float height = sizeY / fr.height;
 	float min = width > height ? height : width;
 	return min;
+}
+
+std::wstring Utils::s2w(const std::string& var)
+{
+	static std::locale loc("");
+	auto& facet = std::use_facet<std::codecvt<wchar_t, char, std::mbstate_t>>(loc);
+	return std::wstring_convert<std::remove_reference<decltype(facet)>::type, wchar_t>(&facet).from_bytes(var);
 }
 
 wstring Utils::ReplaceNewLine(wstring str)

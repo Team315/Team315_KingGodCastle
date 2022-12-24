@@ -95,8 +95,6 @@ void BattleScene::Init()
 
 	objList.push_back(ui);
 	Scene::Init();
-
-	//InforWindow
 	m_InfoWindow.Init();
 }
 
@@ -1405,13 +1403,15 @@ void BattleScene::ZoomControl(bool b_switch)
 {
 	if (b_switch)
 	{
+		// Zoom In
 		b_centerPos = true;
-		ZoomIn();
+		currentView.setSize(GAME_SCREEN_ZOOM_WIDTH, GAME_SCREEN_ZOOM_HEIGHT);
 	}
 	else
 	{
+		// Zoom Out
 		b_centerPos = false;
-		ZoomOut();
+		currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 	}
 }
 
@@ -1419,7 +1419,6 @@ void BattleScene::OneTimePowerUp()
 {
 	PowerUp*& powerUpRef = GAME_MGR->oneTimePowerUp;
 	PowerUpTypes puType = powerUpRef->GetPowerUpType();
-	Character* newPick = nullptr;
 	auto& vec = GAME_MGR->comradeVec;
 
 	switch (puType)
@@ -1446,15 +1445,12 @@ void BattleScene::OneTimePowerUp()
 
 	case PowerUpTypes::ContractWithTheDevil:
 		GAME_MGR->SetCharacterCount(GAME_MGR->GetCharacterCount() - 2);
-		ui->GetPanel()->SetExpansionStateText(
-			GetCurCharacterCount(), GAME_MGR->GetCharacterCount());
-		newPick = GAME_MGR->SpawnPlayer(3, true);
-		GAME_MGR->waitQueue.push(newPick);
+		ui->GetPanel()->SetExpansionStateText( GetCurCharacterCount(), GAME_MGR->GetCharacterCount() );
+		GAME_MGR->waitQueue.push(GAME_MGR->SpawnPlayer(3, true));
 		break;
 
 	case PowerUpTypes::HeroOfSalvation:
-		newPick = GAME_MGR->SpawnPlayer(5, true);
-		GAME_MGR->waitQueue.push(newPick);
+		GAME_MGR->waitQueue.push(GAME_MGR->SpawnPlayer(5, true));
 		ui->GetPanel()->SetExpansionCostText(999);
 		break;
 
@@ -1659,16 +1655,6 @@ void BattleScene::LoseFlag()
 		ui->GetEventPanel()->SetEventType(EventType::GameOver);
 		ui->GetEventPanel()->SetExpResultString(GAME_MGR->cumulativeExp);
 	}
-}
-
-void BattleScene::ZoomIn()
-{
-	currentView.setSize(GAME_SCREEN_ZOOM_WIDTH, GAME_SCREEN_ZOOM_HEIGHT);
-}
-
-void BattleScene::ZoomOut()
-{
-	currentView.setSize(GAME_SCREEN_WIDTH, GAME_SCREEN_HEIGHT);
 }
 
 void BattleScene::PickUpSpriteObj(SpriteObj* gameObj)

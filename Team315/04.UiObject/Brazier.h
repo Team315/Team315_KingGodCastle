@@ -17,8 +17,8 @@ protected:
 	TextObj m_levelNumber;
 	
 public:
-	Brazier(int grade);
-	~Brazier();
+	Brazier(int max, int grade);
+	virtual ~Brazier();
 
 	virtual void Init() override;
 	virtual void Release() override;
@@ -28,11 +28,6 @@ public:
 
 	bool ClickButton(Vector2f nowMousePos);
 	void PlayAni(int grade);
-	void ReSet();
 
 	int GetGrade() { return m_grade; };
-
-	void MoveSetPos(Vector2f movepos);
-
 };
-

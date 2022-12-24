@@ -4,7 +4,7 @@
 #include "RssProgressWindow.h"
 
 AltarScene::AltarScene()
-	: Scene(Scenes::Battle), testPos({0.f,0.f}), isAltarInstruction(false), isAltarExpInstruction(false),
+	: Scene(Scenes::Battle), isAltarInstruction(false), isAltarExpInstruction(false),
 	isAltarResetInstruction(false)
 {
 	altarInstruction.setTexture(*RESOURCE_MGR->GetTexture("graphics/Instruction/instruction_Altar.png"));
@@ -23,12 +23,10 @@ AltarScene::AltarScene()
 	m_backGround->SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/AltarBackGround.png"));
 	m_backGround->SetPos({ 0.f,0.f });
 	m_backGround->SetOrigin(Origins::TL);
-
 	
 	m_backButton.SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/BackButton.png"));
 	m_backButton.SetPos({ GAME_SCREEN_WIDTH,0.f });
 	m_backButton.SetOrigin(Origins::TR);
-
 
 	levelBar = new RssProgressWindow();
 	levelBar->SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/Icon_Level.png"));
@@ -53,7 +51,6 @@ AltarScene::~AltarScene()
 void AltarScene::Init()
 {
 	CLOG::Print3String("AltarScene Init");
-
 }
 
 void AltarScene::Release()
@@ -83,12 +80,10 @@ void AltarScene::Enter()
 void AltarScene::Exit()
 {
 	CLOG::Print3String("AltarScene exit");
-
 }
 
 void AltarScene::Update(float dt)
 { 
-
 	if (!isAltarInstruction && InputMgr::GetMouseDown(Mouse::Button::Left)&& altarInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
 	{
 		isAltarInstruction = true;
@@ -96,7 +91,6 @@ void AltarScene::Update(float dt)
 	else if (!isAltarExpInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) && altarExpInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
 	{
 		isAltarExpInstruction = true;
-
 	}
 	else if (!isAltarResetInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) && altarResetInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
 	{
@@ -104,128 +98,6 @@ void AltarScene::Update(float dt)
 	}
 
 	Scene::Update(dt);
-
-
-	if (InputMgr::GetKeyDown(Keyboard::Key::Up))
-	{
-		testPos.y -= 1.f;
-		for (auto aa : AltarList)
-		{
-			if (aa->GetIndex() == 0)
-			{
-				aa->MoveSetPos(testPos);
-			}
-		}
-		CLOG::PrintVectorState(testPos, "now pos");
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::Down))
-	{
-		testPos.y += 1.f;
-		for (auto aa : AltarList)
-		{
-			if (aa->GetIndex() == 0)
-			{
-				aa->MoveSetPos(testPos);
-			}
-		}
-		CLOG::PrintVectorState(testPos, "now pos");
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::Left))
-	{
-		testPos.x -= 1.f;
-		for (auto aa : AltarList)
-		{
-			if (aa->GetIndex() == 0)
-			{
-				aa->MoveSetPos(testPos);
-			}
-		}
-		CLOG::PrintVectorState(testPos, "now pos");
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::Right))
-	{
-		testPos.x += 1.f;
-		for (auto aa : AltarList)
-		{
-			if (aa->GetIndex() == 0)
-			{
-				aa->MoveSetPos(testPos);
-			}
-		}
-		CLOG::PrintVectorState(testPos, "now pos");
-	}
-
-
-	if (InputMgr::GetKeyDown(Keyboard::Key::W))
-	{
-		testPos.y -= 10.f;
-		for (auto aa : AltarList)
-		{
-			if (aa->GetIndex() == 0)
-			{
-				aa->MoveSetPos(testPos);
-			}
-		}
-		CLOG::PrintVectorState(testPos, "now pos");
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::S))
-	{
-		testPos.y += 10.f;
-		for (auto aa : AltarList)
-		{
-			if (aa->GetIndex() == 0)
-			{
-				aa->MoveSetPos(testPos);
-			}
-		}
-		CLOG::PrintVectorState(testPos, "now pos");
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::A))
-	{
-		testPos.x -= 10.f;
-		for (auto aa : AltarList)
-		{
-			if (aa->GetIndex() == 0)
-			{
-				aa->MoveSetPos(testPos);
-			}
-		}
-		CLOG::PrintVectorState(testPos, "now pos");
-	}
-	if (InputMgr::GetKeyDown(Keyboard::Key::D))
-	{
-		testPos.x += 10.f;
-		for (auto aa : AltarList)
-		{
-			if (aa->GetIndex() == 0)
-			{
-				aa->MoveSetPos(testPos);
-			}
-		}
-		CLOG::PrintVectorState(testPos, "now pos");
-	}
-
-	//if (InputMgr::GetMouseUp(Mouse::Left))
-	//{
-	//	for (auto Altar : AltarList)
-	//	{
-	//		int num = Altar->GetButtonCall(ScreenToWorldPos(InputMgr::GetMousePosI()));
-	//		//Altar->AddCount(num);
-	//	}
-	//}
-	
-	if (InputMgr::GetKeyDown(Keyboard::Key::F))
-	{
-		for (auto a : BrazierList)
-		{
-			a->MoveSetPos({ 0.f,0.f });
-		}
-		for (auto aa : AltarList)
-		{
-			aa->ResetCount();;
-		}
-		cout << "reset grade" << endl;
-	}
 
 	if (InputMgr::GetKeyDown(Keyboard::Key::Escape))
 	{
@@ -237,23 +109,24 @@ void AltarScene::Update(float dt)
 	{
 		if (InputMgr::GetMouseUp(Mouse::Left))
 		{
-			for (auto Altar : AltarList)
+			for (auto altar : AltarList)
 			{
-				for (auto Brazier : BrazierList)
+				for (auto brazier : BrazierList)
 				{
-					Brazier->PlayAni(Altar->GetButtonCall(ScreenToWorldPos(InputMgr::GetMousePosI()), Brazier->GetGrade()));
+					brazier->PlayAni(altar->GetButtonCall(ScreenToWorldPos(InputMgr::GetMousePosI()), brazier->GetGrade()));
 				}
 			}
 		}
+
 		if (InputMgr::GetMouseUp(Mouse::Left))
 		{
-			for (auto Brazier : BrazierList)
+			for (auto brazier : BrazierList)
 			{
-				if (Brazier->ClickButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+				if (brazier->ClickButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
 				{
-					for (auto Altar : AltarList)
+					for (auto altar : AltarList)
 					{
-						Altar->ResetCount();
+						altar->ResetCount();
 					}
 				}
 			}
@@ -262,17 +135,15 @@ void AltarScene::Update(float dt)
 		CallButton();
 	}
 
-	for (auto Altar : AltarList)
+	for (auto altar : AltarList)
 	{
-		Altar->Update(dt);
+		altar->Update(dt);
 	}
 
-	for (auto a : BrazierList)
+	for (auto brazier : BrazierList)
 	{
-		//a->MoveSetPos({ 0.f,0.f });
-		a->Update(dt);
+		brazier->Update(dt);
 	}
-
 }
 
 void AltarScene::Draw(RenderWindow& window)
@@ -360,9 +231,7 @@ void AltarScene::SetAltar()
 
 void AltarScene::SetBrazier()
 {
-	GAME_MGR->altarData.mana;
-	int temp = 0;
-	temp = GAME_MGR->altarData.mana + GAME_MGR->altarData.silver + GAME_MGR->altarData.physical + GAME_MGR->altarData.enforce;
+	int temp = GAME_MGR->altarData.mana + GAME_MGR->altarData.silver + GAME_MGR->altarData.physical + GAME_MGR->altarData.enforce;
 	int level = GAME_MGR->accountInfo.level * 2;
 	
 	if (temp > level)
@@ -374,7 +243,7 @@ void AltarScene::SetBrazier()
 		}
 	}
 
-	Brazier* m_Brazier = new Brazier(level-temp);
+	Brazier* m_Brazier = new Brazier(level, level - temp);
 	m_Brazier->Init();
 	BrazierList.push_back(m_Brazier);
 }

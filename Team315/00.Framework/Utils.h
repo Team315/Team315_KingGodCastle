@@ -45,16 +45,10 @@ public:
 	static float Magnitude(const Vector2i& vec);
 	static float Distance(const Vector2i& vec1, const Vector2i& vec2);
 
-	static float Angle(const Vector2f& start, const Vector2f& end);
-	static float Angle(const Vector2f& dir);
-	//static bool OBB(const RectangleShape& obb1, const RectangleShape& obb2);
-
 	static bool EqualFloat(float a, float b, float epsilon = numeric_limits<float>::epsilon());
-
-	static int ManhattanDistance(Vector2i vec1, Vector2i vec2);
-	static wstring s2w(const std::string& var);
 	static float GetMinScaleRatioFromFloatRect(float sizeX, float sizeY, FloatRect fr);
 
 	//Use Korean Set
+	static wstring s2w(const std::string& var);
 	static wstring ReplaceNewLine(wstring str);
 };

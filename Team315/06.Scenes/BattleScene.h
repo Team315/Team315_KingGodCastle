@@ -58,7 +58,7 @@ protected:
 	float quickHandTimer;
 	float quickHandDuration;
 
-	//InforWindow
+	//InfoWindow
 	InfoWindow m_InfoWindow;
 	bool isInfo;
 
@@ -92,8 +92,6 @@ public:
 
 	void SetCurrentStage(int chap, int stage);
 	void LoseFlag();
-	void ZoomIn();
-	void ZoomOut();
 	void PickUpSpriteObj(SpriteObj* gameObj);
 	void TranslateCoinState(float delta);
 	int GetCurCharacterCount();
