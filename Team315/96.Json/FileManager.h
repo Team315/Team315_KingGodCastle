@@ -11,7 +11,7 @@ private:
 	map<string, HitBoxInfo> hitBoxMap; //find by path
 	map<string, map<string, CookieHitBox>> cookieInfo; //find by cookie name and cookie state. return now animation hitbox
 
-	vector<vector<vector<vector<TileData>>>> tiledata;
+	vector<vector<vector<vector<TileData>>>> tileData;
 	vector<BackGroundData> backGroundData;
 public:
 	FileManager();

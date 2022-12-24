@@ -1,8 +1,5 @@
 #include "SceneMgr.h"
-//#include "SceneDev1.h"
-//#include "SceneDev2.h"
 #include "TitleScene.h"
-#include "LobyScene.h"
 #include "BattleScene.h"
 #include "ToolScene.h"
 #include "AltarScene.h"
@@ -20,7 +17,6 @@ Scene* SceneMgr::GetScene(Scenes scene)
 bool SceneMgr::Init()
 {
 	sceneMap[Scenes::Title] = new TitleScene();
-	//sceneMap[Scenes::Loby] = new LobyScene();
 	sceneMap[Scenes::Battle] = new BattleScene();
 	sceneMap[Scenes::Altar] = new AltarScene();
 	sceneMap[Scenes::Tool] = new ToolScene();

@@ -1,9 +1,8 @@
 #include "Brazier.h"
 
 Brazier::Brazier(int max, int grade)
-	: m_maxGrade(max), m_grade(grade)
 {
-	
+	SetNumbers(max, grade);
 }
 
 Brazier::~Brazier()
@@ -53,7 +52,6 @@ void Brazier::Release()
 void Brazier::Update(float dt)
 {
 	m_Flame.Update(dt);
-	//m_Flame.Play("Flame4");
 }
 
 void Brazier::Draw(RenderWindow& window)
@@ -94,20 +92,26 @@ void Brazier::PlayAni(int grade)
 	m_levelNumber.SetString(to_string(m_grade));
 	m_levelNumber.SetOrigin(Origins::MC);
 
-	if (m_grade >= 1 && m_grade <= 5)
+	if (m_grade > 0 && m_grade <= 5)
 	{
 		m_Flame.Play("Flame1");
 	}
-	else if (m_grade >= 6 && m_grade <= 10)
+	else if (m_grade > 5 && m_grade <= 10)
 	{
 		m_Flame.Play("Flame2");
 	}
-	else if (m_grade >= 10 && m_grade <= 15)
+	else if (m_grade > 10 && m_grade < 15)
 	{
 		m_Flame.Play("Flame3");
 	}
-	else if (m_grade >= 16 && m_grade <= 20)
+	else if (m_grade > 15)
 	{
 		m_Flame.Play("Flame4");
 	}
+}
+
+void Brazier::SetNumbers(int max, int grade)
+{
+	m_maxGrade = max;
+	m_grade = grade;
 }

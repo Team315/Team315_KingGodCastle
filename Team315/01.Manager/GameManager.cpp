@@ -114,7 +114,7 @@ void GameManager::GMInit()
 	itemStatMap.insert({ StatType::AD, ItemStats["Sword"] });
 
 	{
-		string accInfoPath = "data/accInfo.csv";
+		string accInfoPath = "data/AccInfo.csv";
 
 		rapidcsv::Document infoDoc(accInfoPath, rapidcsv::LabelParams(0, -1));
 		auto level = infoDoc.GetColumn<int>(0);
@@ -125,7 +125,7 @@ void GameManager::GMInit()
 	}
 
 	{
-		string altarDataPath = "data/altarPointData.csv";
+		string altarDataPath = "data/AltarPointData.csv";
 
 		rapidcsv::Document altarDoc(altarDataPath, rapidcsv::LabelParams(0, -1));
 		auto mana = altarDoc.GetColumn<int>(0);
@@ -192,7 +192,7 @@ void GameManager::GMReset()
 
 void GameManager::GameEnd()
 {
-	string accInfoPath = "data/accInfo.csv";
+	string accInfoPath = "data/AccInfo.csv";
 
 	CSVWriter csv(",");
 	csv.newRow() << "level" << "exp";
@@ -204,7 +204,7 @@ void GameManager::GameEnd()
 void GameManager::SaveAltarData(int mana, int silver, int physical, int enforce)
 {
 	// altar point save
-	string accInfoPath = "data/altarPointData.csv";
+	string accInfoPath = "data/AltarPointData.csv";
 
 	CSVWriter csv(",");
 	csv.newRow() << "mana" << "silver" << "physical" << "enforce";

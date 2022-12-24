@@ -1,8 +1,7 @@
 #include "Altar.h"
-//#include <sstream>
 
 Altar::Altar(Vector2f mainPos, int index, wstring AltarName, Color color, int loadGrade)
-	:m_Index(index), m_grade(loadGrade)
+	: m_Index(index), m_grade(loadGrade)
 {
 	Color acolor = color;
 	acolor.a = 100;
@@ -28,7 +27,6 @@ Altar::Altar(Vector2f mainPos, int index, wstring AltarName, Color color, int lo
 	m_altarLight.SetScale(0.5f, 0.5f);
 	m_altarLight.SetPos(mainPos + altarLightPos);
 	m_altarLight.SetOrigin(Origins::TL);
-
 
 	Vector2f numberPos = { 59.f,19.f };
 	m_number.SetFont(*RESOURCE_MGR->GetFont("fonts/GodoB.ttf"));
@@ -65,7 +63,6 @@ Altar::Altar(Vector2f mainPos, int index, wstring AltarName, Color color, int lo
 	SetRomaNumber(mainPos, index);
 	SetBuffString(mainPos);
 
-
 	string flamestr1 = "Flame0"+ to_string(m_Index) + "_1";
 	string flamestr2 = "Flame0" + to_string(m_Index) + "_2";
 	string flamestr3 = "Flame0" + to_string(m_Index) + "_3";
@@ -81,21 +78,6 @@ Altar::Altar(Vector2f mainPos, int index, wstring AltarName, Color color, int lo
 	m_sFlame.setPosition(flameVec+ mainPos);
 }
 
-Altar::~Altar()
-{
-
-}
-
-void Altar::Init()
-{
-
-}
-
-void Altar::Release()
-{
-
-}
-
 void Altar::Update(float dt)
 {
 	SpriteObj::Update(dt);
@@ -108,8 +90,6 @@ void Altar::Draw(RenderWindow& window)
 	SpriteObj::Draw(window);
 	m_altarEffect.Draw(window);
 	m_altarLight.Draw(window);
-
-
 
 	if (m_grade != 0)
 	{
@@ -145,24 +125,8 @@ void Altar::Enter()
 void Altar::MoveSetPos(Vector2f movepos)
 {
 	m_Flame.Play("Flame00_4");
-	//SetPos(GetPos() + movepos);
-	//m_buff2.SetPos(movepos);
 	m_sFlame.setPosition(movepos);
 }
-
-//vector<string> split(string input, char delimiter)
-//{
-//	vector<string> answer;
-//	stringstream ss(input);
-//	string temp;
-//
-//	while (getline(ss, temp, delimiter)) 
-//	{
-//		answer.push_back(temp);
-//	}
-//
-//	return answer;
-//}
 
 void Altar::SetAltarString()
 {
@@ -301,11 +265,6 @@ void Altar::SetRomaNumber(Vector2f mainPos, int index)
 	m_romaNum15.SetPos(mainPos + romaNum15Pos);
 	m_romaNum15.SetOrigin(Origins::TL);
 	numList.push_back(m_romaNum15);
-
-}
-
-void Altar::SetDot(Vector2f mainPos, int index)
-{
 }
 
 void Altar::SetBuffString(Vector2f mainpos)
@@ -358,14 +317,10 @@ int Altar::GetButtonCall(Vector2f nowMousePos, int count)
 		if (m_grade > 15)
 		{
 			m_grade = 15;
-			cout << m_grade << endl;
-
 			ChangeAltarNum(m_grade);
 			ChangeObjAlhpa(m_grade);
 			return 0;
 		}
-		cout << m_grade << endl;
-
 		ChangeAltarNum(m_grade);
 		ChangeObjAlhpa(m_grade);
 
@@ -383,32 +338,20 @@ int Altar::GetButtonCall(Vector2f nowMousePos, int count)
 		if (m_grade > 15)
 		{
 			m_grade = 15;
-			cout << m_grade << endl;
 			ChangeAltarNum(m_grade);
 			ChangeObjAlhpa(m_grade);
 
 			return m_grade - temp;
 		}
 
-		cout << m_grade << endl;
 		ChangeAltarNum(m_grade);
 		ChangeObjAlhpa(m_grade);
 		return 5;
 	}
 	else
 	{
-		//ChangeAltarNum(m_grade);
-		//ChangeObjAlhpa(m_grade);
 		return 0;
 	}
-}
-
-void Altar::AddCount(int count)
-{
-	m_grade = count;
-
-	if (m_grade > 15)
-		m_grade = 15;
 }
 
 void Altar::ResetCount()
@@ -424,7 +367,6 @@ void Altar::ChangeAltarNum(int Num)
 	wstring str = to_wstring(Num);
 	m_number.SetString(str);
 	m_number.SetOrigin(Origins::MC);
-
 }
 
 void Altar::ChangeObjAlhpa(int num)
@@ -434,10 +376,6 @@ void Altar::ChangeObjAlhpa(int num)
 	m_buff1.SetString(AltarStringData[key].altar1);
 	m_buff2.SetString(AltarStringData[key].altar2);
 	m_buff3.SetString(AltarStringData[key].altar3);
-
-	/*m_buff1.SetLetterSpacing(0.1f);
-	m_buff2.SetLetterSpacing(0.1f);
-	m_buff3.SetLetterSpacing(0.1f);*/
 
 	m_buff1.SetOrigin(Origins::MC);
 	m_buff2.SetOrigin(Origins::MC);
@@ -450,9 +388,6 @@ void Altar::ChangeObjAlhpa(int num)
 		m_buff1.SetAlhpa(60);
 		m_buff2.SetAlhpa(60);
 		m_buff3.SetAlhpa(60);
-		
-
-		//m_Flame.Stop();
 		return;
 	}
 	if (num >= 1 && num <= 4)

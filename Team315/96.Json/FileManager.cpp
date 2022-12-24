@@ -6,7 +6,7 @@
 
 FileManager::FileManager()
 {
-	tiledata.assign(3,
+	tileData.assign(3,
 		vector<vector<vector<TileData>>>(10,
 			vector<vector<TileData>>(14,
 				vector <TileData>(7)
@@ -73,14 +73,14 @@ void FileManager::SaveDataEpisode(map<string, MapData> newData, string name)
 void FileManager::SaveTileData(ToolScene& toolScene)
 {
 	json data = toolScene.GetTilesData();
-	ofstream ofs("json/tiledata.json");
+	ofstream ofs("json/TileData.json");
 	ofs << data;
 	ofs.close();
 }
 
 void FileManager::LoadTileData(ToolScene& toolScene)
 {
-	ifstream ifs("json/tiledata.json");
+	ifstream ifs("json/TileData.json");
 	json playTile = json::parse(ifs);
 	Chapters chapters = playTile;
 	ifs.close();
@@ -90,7 +90,7 @@ void FileManager::LoadTileData(ToolScene& toolScene)
 
 void FileManager::LoadTileData(Chapters& m_PlayTileList)
 {
-	ifstream ifs("json/tiledata.json");
+	ifstream ifs("json/TileData.json");
 	json playTile = json::parse(ifs);
 	m_PlayTileList = playTile;
 	ifs.close();
@@ -107,8 +107,6 @@ void FileManager::SaveBackGroundData(vector<BackGroundData> datas)
 json FileManager::LoadByFilePath(string filePath)
 {
 	ifstream ifs(filePath);
-	/*if (ifs.fail())
-		return nullptr;*/
 	json data = json::parse(ifs);
 	ifs.close();
 	return data;

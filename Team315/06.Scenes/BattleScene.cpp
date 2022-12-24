@@ -1529,9 +1529,6 @@ void BattleScene::BeginBattle()
 		monsterGridCoordC++;
 	}
 
-	PowerUp* med = GAME_MGR->GetPowerUpByName("Meditation");
-	PowerUp* rune = GAME_MGR->GetPowerUpByName("RuneShield");
-	PowerUp* wrh = GAME_MGR->GetPowerUpByName("WarriorsHeart");
 
 	for (auto& gameObj : mgref)
 	{
@@ -1543,6 +1540,10 @@ void BattleScene::BeginBattle()
 			// 15, 25, 35
 			if (!character->GetType().compare("Player"))
 			{
+				PowerUp* med = GAME_MGR->GetPowerUpByName("Meditation");
+				PowerUp* rune = GAME_MGR->GetPowerUpByName("RuneShield");
+				PowerUp* wrh = GAME_MGR->GetPowerUpByName("WarriorsHeart");
+
 				// meditation
 				if (med != nullptr)
 					character->SetInitManaPoint(med->GetGrade() * 10.f + 5.f);

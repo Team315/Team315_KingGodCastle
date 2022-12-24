@@ -60,16 +60,12 @@ protected:
 
 	int m_Index;
 
-
-
 	map<string, AltarStr> AltarStringData;
 
 public:
 	Altar(Vector2f mainPos, int index, wstring AltarName, Color color, int loadGrade);
-	~Altar();
+	virtual ~Altar() {};
 
-	virtual void Init() override;
-	virtual void Release() override;
 	virtual void Update(float dt) override;
 	virtual void Draw(RenderWindow& window) override;
 
@@ -82,15 +78,12 @@ public:
 
 	void SetAltarString();
 	void SetRomaNumber(Vector2f mainPos, int index);
-	void SetDot(Vector2f mainPos, int index);
 	void SetBuffString(Vector2f mainpos);
 
 	int GetButtonCall(Vector2f nowMousePos, int count);
-	void AddCount(int count);
 
 	void ResetCount();
 
 	void ChangeAltarNum(int Num);
 	void ChangeObjAlhpa(int num);
 };
-

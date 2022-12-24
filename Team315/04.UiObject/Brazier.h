@@ -30,4 +30,5 @@ public:
 	void PlayAni(int grade);
 
 	int GetGrade() { return m_grade; };
+	void SetNumbers(int max, int grade);
 };

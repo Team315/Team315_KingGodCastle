@@ -23,7 +23,7 @@ AltarScene::AltarScene()
 	m_backGround->SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/AltarBackGround.png"));
 	m_backGround->SetPos({ 0.f,0.f });
 	m_backGround->SetOrigin(Origins::TL);
-	
+
 	m_backButton.SetTexture(*RESOURCE_MGR->GetTexture("graphics/Altar/BackButton.png"));
 	m_backButton.SetPos({ GAME_SCREEN_WIDTH,0.f });
 	m_backButton.SetOrigin(Origins::TR);
@@ -60,21 +60,32 @@ void AltarScene::Release()
 void AltarScene::Enter()
 {
 	CLOG::Print3String("AltarScene enter");
+
+	GAME_MGR->GMReset();
+
 	// level
 	levelBar->SetLevel(GAME_MGR->accountInfo.level);
 	// exp
 	float value = GAME_MGR->accountInfo.level != 10 ? (float)GAME_MGR->accountInfo.exp / (float)GAME_MGR->accountExpLimit : 1.f;
 	levelBar->GetProgressBar().SetProgressValue(value);
 
-	for (auto Altar : AltarList)
+	AltarData data = GAME_MGR->altarData;
+	int altarDataArray[4] = { data.mana, data.silver, data.physical, data.enforce };
+	int count = 0;
+	int sum = 0;
+	for (auto altar : AltarList)
 	{
-		Altar->Enter();
+		sum += altarDataArray[count];
+		altar->SetGrade(altarDataArray[count++]);
+		altar->Enter();
 	}
 
-	for (auto Brazier : BrazierList)
-	{
-		Brazier->Enter();
-	}
+	int temp = sum;
+	int level = GAME_MGR->accountInfo.level * 2;
+
+	brazier->SetNumbers(level, Utils::Clamp(level - temp, 0, 20));
+
+	brazier->Enter();
 }
 
 void AltarScene::Exit()
@@ -83,8 +94,8 @@ void AltarScene::Exit()
 }
 
 void AltarScene::Update(float dt)
-{ 
-	if (!isAltarInstruction && InputMgr::GetMouseDown(Mouse::Button::Left)&& altarInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
+{
+	if (!isAltarInstruction && InputMgr::GetMouseDown(Mouse::Button::Left) && altarInstruction.getGlobalBounds().contains(ScreenToWorldPos(InputMgr::GetMousePosI())))
 	{
 		isAltarInstruction = true;
 	}
@@ -111,23 +122,14 @@ void AltarScene::Update(float dt)
 		{
 			for (auto altar : AltarList)
 			{
-				for (auto brazier : BrazierList)
-				{
-					brazier->PlayAni(altar->GetButtonCall(ScreenToWorldPos(InputMgr::GetMousePosI()), brazier->GetGrade()));
-				}
+				brazier->PlayAni(altar->GetButtonCall(ScreenToWorldPos(InputMgr::GetMousePosI()), brazier->GetGrade()));
 			}
-		}
 
-		if (InputMgr::GetMouseUp(Mouse::Left))
-		{
-			for (auto brazier : BrazierList)
+			if (brazier->ClickButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
 			{
-				if (brazier->ClickButton(ScreenToWorldPos(InputMgr::GetMousePosI())))
+				for (auto altar : AltarList)
 				{
-					for (auto altar : AltarList)
-					{
-						altar->ResetCount();
-					}
+					altar->ResetCount();
 				}
 			}
 		}
@@ -140,10 +142,7 @@ void AltarScene::Update(float dt)
 		altar->Update(dt);
 	}
 
-	for (auto brazier : BrazierList)
-	{
-		brazier->Update(dt);
-	}
+	brazier->Update(dt);
 }
 
 void AltarScene::Draw(RenderWindow& window)
@@ -155,10 +154,7 @@ void AltarScene::Draw(RenderWindow& window)
 		obj->Draw(window);
 	}
 
-	for (auto obj : BrazierList)
-	{
-		obj->Draw(window);
-	}
+	brazier->Draw(window);
 
 	if (!isAltarInstruction)
 	{
@@ -166,12 +162,12 @@ void AltarScene::Draw(RenderWindow& window)
 	}
 	if (isAltarInstruction)
 	{
-		if(!isAltarExpInstruction)
+		if (!isAltarExpInstruction)
 			window.draw(altarExpInstruction);
 	}
 	if (isAltarExpInstruction)
 	{
-		if(!isAltarResetInstruction)
+		if (!isAltarResetInstruction)
 			window.draw(altarResetInstruction);
 	}
 }
@@ -193,7 +189,7 @@ void AltarScene::CallButton()
 	{
 		IsSize(false);
 	}
-	
+
 }
 
 void AltarScene::IsSize(bool is)
@@ -202,19 +198,19 @@ void AltarScene::IsSize(bool is)
 	{
 		m_backButton.SetPos({ GAME_SCREEN_WIDTH,0.f });
 		m_backButton.SetOrigin(Origins::TR);
-		m_backButton.SetScale( 1.2f,1.2f );
+		m_backButton.SetScale(1.2f, 1.2f);
 	}
 	else
 	{
 		m_backButton.SetPos({ GAME_SCREEN_WIDTH,0.f });
 		m_backButton.SetOrigin(Origins::TR);
-		m_backButton.SetScale( 1.0f,1.0f );
+		m_backButton.SetScale(1.0f, 1.0f);
 	}
 }
 
 void AltarScene::SetAltar()
 {
-	AltarData& data = GAME_MGR->altarData;
+	AltarData data = GAME_MGR->altarData;
 
 	Altar* mana = new Altar({ GAME_SCREEN_WIDTH * 0.15f,GAME_SCREEN_HEIGHT * 0.1f }, 0, L"마나의 제단", { 254,113,235,255 }, data.mana);
 	AltarList.push_back(mana);
@@ -233,7 +229,7 @@ void AltarScene::SetBrazier()
 {
 	int temp = GAME_MGR->altarData.mana + GAME_MGR->altarData.silver + GAME_MGR->altarData.physical + GAME_MGR->altarData.enforce;
 	int level = GAME_MGR->accountInfo.level * 2;
-	
+
 	if (temp > level)
 	{
 		for (auto init : AltarList)
@@ -243,9 +239,8 @@ void AltarScene::SetBrazier()
 		}
 	}
 
-	Brazier* m_Brazier = new Brazier(level, level - temp);
-	m_Brazier->Init();
-	BrazierList.push_back(m_Brazier);
+	brazier = new Brazier(level, Utils::Clamp(level - temp, 0, 20));
+	brazier->Init();
 }
 
 void AltarScene::SaveData()

@@ -13,7 +13,7 @@ protected:
 	SpriteObj m_backButton;
 
 	vector<Altar*>  AltarList;
-	vector<Brazier*>  BrazierList;
+	Brazier*  brazier;
 	RssProgressWindow* levelBar;
 
 	// instruction
